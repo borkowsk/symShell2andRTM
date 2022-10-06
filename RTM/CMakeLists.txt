@@ -19,9 +19,9 @@ add_library( wbrtm STATIC
     "${WBRTM}/BASE/wb_rand.cpp"
 #    "${WBRTM}/BASE/wb_compdate.c"
 #    "${WBRTM}/BASE/RealPath.cpp"
-#    "${WBRTM}/BASE/ViewHtmlPchar.cpp" #Do wyswietlanie helpów etc...
+#    "${WBRTM}/BASE/ViewHtmlPchar.cpp" #Do wyświetlania helpów etc...
 #    "${WBRTM}/BASE/ViewHtmlStr.cpp"
-#    "${WBRTM}/_COMPAT/stricmp.c"
+    "${WBRTM}/COMPATIBILITY/stricmp.c"
 #    "${WBRTM}/_COMPAT/autor.cpp" #TYLKO WINDOWS
     "${WBRTM}/PTRS/wb_pchario.cpp"
     "${WBRTM}/PTRS/wb_pchar_verboten.cpp"
