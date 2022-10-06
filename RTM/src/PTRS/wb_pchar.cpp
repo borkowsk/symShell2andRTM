@@ -19,7 +19,7 @@
 
 namespace wbrtm { //WOJCIECH BORKOWSKI RUN TIME LIBRARY
 
-/// Wyprowadza formatowane dane na zawartość obiektu wb_pchar.
+/// \details Wyprowadza formatowane dane na zawartość obiektu wb_pchar.
 /// \note Nie sprawdza rozmiaru!!! Trzeba wcześniej zaalokować bezpiecznie.
 /// \param format : jak dla vsprintf
 /// \param ...
@@ -33,10 +33,10 @@ wb_pchar& wb_pchar::prn(const char* format,...)
    return *this;
 }
 
-/// Dopisuje do starej zawartości obiektu wb_pchar.
-/// \note Nie sprawdza rozmiaru!!! Trzeba wcześniej zaalokować bezpiecznie.
+/// \details Dopisuje do starej zawartości obiektu wb_pchar.
+/// \note  Nie sprawdza rozmiaru!!! Trzeba wcześniej zaalokować bezpiecznie.
 /// \param format  : jak dla vsprintf
-/// \param ...
+/// \param ... : dowolne parametry zgodne z formatem
 /// \return
 wb_pchar& wb_pchar::add(const char* format,...)
 {
@@ -79,13 +79,12 @@ static char* _find(char* where,const char* forfind,bool fullwords)
 	}while(1);
 }
 
-/// Wstawia łańcuch tekstowy do bufora na określonej pozycji
-/// \note bufor jest sztafetowany! TODO CHECK?
-///
+/// \details Wstawia łańcuch tekstowy do bufora na określonej pozycji
 /// \param bufor
 /// \param pos
 /// \param whatins
 /// \return 'true' jeśli wykonał akcję, a 'false' jeśli nie znalazł
+/// \note    TODO CHECK? bufor jest sztafetowany! 
 bool insert(wb_pchar& bufor,unsigned pos,const char* whatins)
 {
     if(pos>::strlen(bufor.get()))
@@ -102,14 +101,15 @@ bool insert(wb_pchar& bufor,unsigned pos,const char* whatins)
     return true;
 }
 
-/// Zamienia wszystkie łańcuchy 'forrep' zawarte w obiekcie wb_pchar
-/// na łańcuchy 'whatins'. \note Bufor jest sztafetowany!!!
+/// \details  Zamienia wszystkie łańcuchy 'forrep' zawarte w obiekcie wb_pchar
+///           na łańcuchy 'whatins'. 
 /// \param bufor
 /// \param forrep
 /// \param whatins
 /// \param fullwords
 /// \param startpos
 /// \return 'true' jeśli wykonał akcję, a 'false' jeśli nie znalazł
+/// \note TODO CHECK? Bufor jest sztafetowany!!!
 bool replace(wb_pchar& bufor,const char* forrep,const char* whatins,bool fullwords,unsigned startpos)//,bool case_sens=1 ??? Brak funkcji w rodzaju stristr
 {
 	wb_pchar pom=bufor;//sztafeta!!!
@@ -140,14 +140,14 @@ bool replace(wb_pchar& bufor,const char* forrep,const char* whatins,bool fullwor
 
 
 } //namespace wbrtm
-/********************************************************************/
-/*              SYMSHELLLIGHT  version 2021-11-24                   */
-/********************************************************************/
-/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
-/*            W O J C I E C H   B O R K O W S K I                   */
-/*    Instytut Studiów Społecznych Uniwersytetu Warszawskiego       */
-/*    WWW: https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI  */
-/*    GITHUB: https://github.com/borkowsk                           */
-/*                                                                  */
-/*                               (Don't change or remove this note) */
-/********************************************************************/
+/* *******************************************************************/
+/*         Wzięte z SYMSHELLLIGHT  version 2021-11-24                */
+/* *******************************************************************/
+/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                  */
+/*            W O J C I E C H   B O R K O W S K I                    */
+/*    Instytut Studiów Społecznych Uniwersytetu Warszawskiego        */
+/*    WWW: https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI   */
+/*    GITHUB: https://github.com/borkowsk                            */
+/*                                                                   */
+/*                                (Don't change or remove this note) */
+/* *******************************************************************/
