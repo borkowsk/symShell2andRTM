@@ -1,0 +1,527 @@
+/* NON INLINE METHOD IMPLEMENTATION FOR ARRAYS TEMPLATES */
+///////////////////////////////////////////////////////////
+#ifndef __ARRAYS_IMP__
+#define __ARRAYS_IMP__
+
+template<class T>
+T&   array_constsize<T>::operator  () (size_t i)
+{
+if( i>=CurrSize() )
+	{
+	if(Raise( InvalidIndexExcp(i,__FILE__,__LINE__) )==1)
+		return this->tab[GetSize()-1];
+	}
+//W konstruktorze zapisany najwiekszy dopuszczalny i sie nie zmienia!
+//NewMaxIndex(i); // save index for iterators & High function
+return this->tab[i];
+}
+
+template<class T>
+T&    array_template<T>::operator  () (size_t i) // Automatic array expansion if index not in allocated block
+{
+    size_t s=int_key_container_base::GetSize();
+    if(i>=s)
+	{
+	if(Expand(i+1)==0)
+		if(vobject::Raise( InvalidIndexExcp(i,__FILE__,__LINE__) )==1)
+			return this->tab[int_key_container_base::GetSize()-1];//i not available
+	}
+
+    int_key_container_base::NewMaxIndex(i); // save index for iterators & High function
+    return this->tab[i];
+}
+
+template<class T>
+int array_template<T>::Insert(size_t pos)
+{
+	size_t c_size=int_key_container_base::CurrSize();
+	if(pos>=c_size) //Insert za tablica jest bez sensu
+	{
+		if(pos==c_size) //Chyba ze tuz za, to ostatecznie, dla zachowania zgodnosci
+		{
+			(*this)(pos);
+			return 1;
+		}
+		else
+			return 0;
+	}
+
+	size_t g_size=int_key_container_base::GetSize();
+	if(c_size==g_size)	//Jesli nie ma juz wolnej pozycji
+	{
+		if(Expand(g_size+1)==0)	//To rozszerz tablice
+			if(vobject::Raise( InvalidIndexExcp(g_size+1,__FILE__,__LINE__) )==1)
+				return 0;			//not available
+	}
+
+	size_t N=c_size-pos;                                assert(N>0);
+
+	char bufor[sizeof(T)];
+	//Przesuwa do tylu o 1. Element z za konca wstawia na pozycje insertowania
+	memcpy(bufor,&this->tab[c_size],sizeof(T));		// Pierwszy za do buforu
+	memmove(&this->tab[pos+1],&this->tab[pos],sizeof(T)*N);	// Przesuwa do tylu z uwaga na pokrywajace sie obiekty
+	memcpy(&this->tab[pos],bufor,sizeof(T));			// Z buforu na wstawiona pozycje
+	int_key_container_base::NewMaxIndex(c_size);						// Nowy maksymalny indeks dla iterator'ow & funkcji CurrSize()
+	return 1;	//OK
+}
+
+template<class T>
+int array_constsize<T>::Expand(size_t nsize)
+// Tu faktycznie nie powieksza, ale sprawdza czy jest jeszcze miejsce w ramach alokacji
+{
+size_t old_size=this->GetSize();
+if(nsize<=old_size)
+    return 0; //Blad ale nie krytyczny
+    else
+    //A jak inaczej powiedziec ze nie mozna realokowac?
+    if(Raise(OutOfMemoryExcp(nsize*sizeof(T),__FILE__,__LINE__))==1)
+		return 0;
+assert("Never reach this point of code"==NULL);
+return 1;
+}
+
+template<class T>
+int array_template<T>::Expand(size_t nsize)
+//This "Expand" working properly only for simple types
+{
+size_t old_size=this->GetSize();
+if(nsize<=old_size)
+    return 0; //Blad ale nie krytyczny
+this->registering_and_align_size(nsize);
+
+T* pom=new T[nsize];
+if(pom==NULL)
+        if(this->Raise(OutOfMemoryExcp(nsize*sizeof(T),__FILE__,__LINE__))==1)
+		return 0;
+if(old_size>0)
+	memcpy(pom,this->tab,old_size*sizeof(T));
+if(this->tab!=NULL)
+#ifdef USES_ALLOCATORS
+	delete [old_size]this->tab;
+#else
+	delete []this->tab;
+#endif
+this->tab=pom;
+this->SetSize(nsize);
+
+return 1;
+}
+
+template<class T>
+int array_of_class<T>::Expand(size_t nsize)
+// For efficiency this method handling manually construction & destruction
+{
+size_t old_size=this->GetSize();
+if(nsize<=old_size)
+    return 0; //Blad ale nie krytyczny
+this->registering_and_align_size(nsize);
+
+void* pom=new char[nsize*sizeof(T)];// Alloc new memory as byte block
+if(pom==NULL)
+         if(this->Raise(OutOfMemoryExcp(nsize*sizeof(T),__FILE__,__LINE__))==1)
+		return 0;
+if(old_size>0)
+	memcpy(pom,this->tab,old_size*sizeof(T));// Shell copy old contens
+force_init_table((((T*)pom)+old_size),nsize-old_size);
+if(this->tab!=NULL)
+	delete (char*)this->tab; // Delete tab-pointed block without calling destructors
+this->tab=(T*)pom;       // remember new position of contens
+this->SetSize(nsize);
+
+return 1;
+}
+
+template<class T>
+array_of_class<T>::array_of_class(const array_base<T>& a):array_template<T>(0)
+{
+                                                            assert(this->tab==NULL);
+if(array_of_class::Expand(a.GetSize())!=0)
+    {
+    T* pom=((array_base<T>*)(&a))->GetTabPtr();//const_cast
+    for(size_t i=0; i<a.CurrSize() ;i++)
+	    this->tab[i]=pom[i];
+    }
+}
+
+template<class T>
+array_of_class<T>::~array_of_class()
+// Special handling contens object destruction
+{
+if(this->tab!=NULL)
+	{
+        for(size_t i=0;i<this->GetSize();i++)
+		this->tab[i].finalise();// Calling destructors!
+
+	// Delete tab-pointed block without calling destructors
+	delete (char*)this->tab;
+
+	this->tab=NULL; // Prevent dealocate in parent class destructor
+	}
+
+}
+
+template<class T>
+int array_of_ptr<T>::Expand(size_t nsize)
+// assume that tab is an array of pointers
+{
+size_t old=this->GetSize();		//save old size
+if(array_template<T*>::Expand(nsize)==0) //expand memory block to nsize or more
+	return 0; //Nieudalo sie
+
+if(this->tab)				//set new cells to NULLs
+   memset(this->tab+old,0x0,(this->GetSize()-old)*sizeof(T*) );
+
+return 1;
+}
+
+template<class T>
+array_of_ptr<T>::~array_of_ptr()
+// assume that tab is an array of pointers
+{
+	if(this->tab!=NULL)
+	{
+		if(g_mem_mode==this->DYNAMIC_VAL)
+                        for(size_t i=0;i<this->GetSize();i++)//Usuwa az do konca bo "Truncate" obecnie nie zajmuje sie zwalnianiem
+			{
+				if(this->tab[i]!=NULL)
+					delete this->tab[i];
+			}
+
+			delete []this->tab;
+			this->tab=NULL; // Prevent dealocate in parent class destructor
+	}
+}
+
+template<class T>
+int array_of_ptr<T>::KickOf(size_t pos)
+{
+                                                    assert(pos<this->CurrSize());
+	if(this->tab!=NULL && this->tab[pos]!=NULL && g_mem_mode==this->DYNAMIC_VAL )
+			delete this->tab[pos];//Dealokacja jesli jest potrzebna
+
+	this->tab[pos]=NULL;		//Zamazanie wskaznika na wszelki wypadek
+	return array_template<T*>::KickOf(pos);//Faktyczne przemieszczenie danych w tablicy
+}
+
+//INPUT/OUTPUT
+template<class T>
+void array_of<T>::implement_output(ostream& o)      const
+{
+                                                    assert(o.good());
+object_size_t cs=this->CurrSize();                  assert(o.good());
+o<<this->separator()<<cs<<this->separator();        assert(o.good());
+if(this->tab!=NULL)
+  for(object_size_t i=0;i<cs;i++)
+	{
+	o<<this->tab[i];
+    o<<this->separator();                           assert(o.good());
+	if(o.fail())
+	   {
+           if(this->Raise(ExcpIO(NULL,o.tellp(),"stream fail during writing array"))==1)
+		return ;
+	   }
+	}
+if(o.bad())
+   {
+   assert("Stream bad"==0);
+   if(this->Raise(ExcpIO(NULL,o.tellp(),"stream bad after writing array"))==1)
+		return ;
+   }
+}
+
+template<class T>
+void array_of<T>::implement_input(istream& i)
+{
+//UWAGA na tellg - moze byc zaimplementowane za pomoca seek!!!
+                                        assert(i.good());
+object_size_t cs=0;
+
+i>>cs;//Size.
+if(i.bad())
+   if(this->Raise(ExcpIO(NULL,i.tellg(),"stream bad during reading array"))==1)
+		return ;
+
+if(cs>0)
+  {
+  if(this->Expand(cs)==0 || this->tab==NULL) // Force resize
+        if(this->Raise( InvalidIndexExcp(cs-1,__FILE__,__LINE__) )==1)
+			return ;//cs not available
+  this->Truncate(0); //Dla sprawdzania indeksow tablica jest pusta, choc zaalokowana
+
+  T pom;
+
+  for(object_size_t ind=0;ind<cs;ind++)
+	{
+	i>>pom;
+	if(i.fail() || i.bad())
+           if(this->Raise(ExcpIO(NULL,i.tellg(),"error during reading array"))==1)
+		return ;
+	(*this)(ind)=pom;
+	assert(i.good());
+	}
+  }
+                                                assert(!i.bad());
+}
+
+//INPUT/OUTPUT
+template<class T>
+void array_of_class<T>::implement_output(ostream& o)      const
+{                                                       assert(o.good());
+object_size_t cs=this->CurrSize();                      assert(o.good());
+o<<this->separator()<<cs<<this->separator();            assert(o.good());
+if(this->tab!=NULL)
+  for(object_size_t i=0;i<cs;i++)
+	{
+	o<<this->tab[i];
+    o<<this->separator();                               assert(o.good());
+	if(o.fail())
+	   {
+           if(this->Raise(ExcpIO(NULL,o.tellp(),"stream fail during writing array"))==1)
+		return ;
+	   }
+	}
+if(o.bad())
+   {                                        //assert("Stream bad"==NULL);
+   if(this->Raise(ExcpIO(NULL,o.tellp(),"stream bad after writing array"))==1)
+		return ;
+   }
+}
+
+template<class T>
+void array_of_class<T>::implement_input(istream& i)
+{                                           assert(i.good());
+object_size_t cs=0;                         assert(i.good());
+i>>cs;//Size.
+if(i.bad())
+   if(this->Raise(ExcpIO(NULL,i.tellg(),"stream bad during reading array"))==1)
+		return ;
+if(cs>0)
+  {
+  if(Expand(cs)==0 || this->tab==NULL) // Force resize
+        if(this->Raise( InvalidIndexExcp(cs-1,__FILE__,__LINE__) )==1)
+			return ;//cs not available
+  this->Truncate(0); //Dla sprawdzania indeksow tablica jest pusta, choc zaalokowana
+
+  for(object_size_t ind=0;ind<cs;ind++)
+	{
+	i>>(*this)(ind);
+	if(i.fail())
+           if(this->Raise(ExcpIO(NULL,i.tellg(),"stream fail during reading array"))==1)
+		return ;
+	assert(i.good());
+	}
+  }                                         assert(!i.bad());
+}
+
+//INPUT/OUTPUT
+template<class TYPEK>
+void array_of_ptr<TYPEK>::implement_output(ostream& o)      const
+{                                                       assert(o.good());
+object_size_t cs=this->CurrSize();                      assert(o.good());
+o<<this->separator()<<cs<<this->separator();            assert(o.good());
+if(this->tab!=NULL)
+  for(object_size_t i=0;i<cs;i++)
+	{
+	TYPEK* pom=this->tab[i];
+	if(pom!=NULL)
+		{
+		const vobject* vThis=this;//zamiast &IO_default_raiser; array dziedziczy po vobject
+
+                WriteDynamicVal<TYPEK> temp( o , pom , vThis );
+
+		if(temp!=0) //Nie udalo sie - jakis kod bledu
+			goto LOOP_ERROR;
+
+		if(i<cs-1)
+            o<<this->separator();
+		}
+		else
+		{
+		o<<'@';
+        o<<this->separator();
+		}
+                                            assert(o.good());
+	if(o.fail())
+	   {
+           if(this->Raise(ExcpIO(NULL,o.tellp(),"stream fail during writing array"))==1)
+		return ;
+	   }
+	}
+
+LOOP_ERROR:
+if(o.bad())
+   {                                        assert("Stream bad"==0);
+   if(this->Raise(ExcpIO(NULL,o.tellp(),"Writing of array failed."))==1)
+		return ;
+   }
+}
+
+/*
+template<class T>
+inline T* _pseudo_new_for_array(const T& p)
+{
+return new T;
+}
+*/
+
+template<class T>
+void array_of_ptr<T>::ReallocData()
+{
+object_size_t size=this->CurrSize();
+if(size>0)// Przealokowac statycznie alokowane wartosci
+   for(size_t i=0;i<size;i++)
+		{
+		T* v1=this->tab[i];//V should be a ptr!!!
+		if(v1!=NULL)
+			{
+			T* v2=clone(v1);
+			if(v2==NULL)
+                                if(this->Raise(OutOfMemoryExcp(sizeof(v2[0]),__FILE__,__LINE__))==1)
+					return;
+			this->tab[i]=v2;
+			if(g_mem_mode==this->DYNAMIC_VAL)
+				delete v1;
+			}
+		}
+g_mem_mode=this->DYNAMIC_VAL;//Zrobil z niego dynamic.
+}
+
+
+template<class T>
+void array_of_ptr<T>::implement_input(istream& i)
+{
+if(DataAreStatic())
+	ReallocData();
+                                    assert(i.good());
+object_size_t cs=0;                 assert(i.good());
+i>>cs;//Size.
+if(i.bad())
+   if(this->Raise(ExcpIO(NULL,i.tellg(),"stream bad during reading array"))==1)
+		return ;
+if(cs>0)
+  {
+  if(Expand(cs)==0 || this->tab==NULL) // Force resize
+        if(this->Raise( InvalidIndexExcp(cs-1,__FILE__,__LINE__) )==1)
+			return ;//cs not available
+
+  this->Truncate(0);//Jest zalokowane, ale tak naprawde dopiero bedzie uzyte!!!
+
+  T* pom2=NULL;// Do wczytywania nowej wartosci
+  for(object_size_t ind=0;ind<cs;ind++)
+	{
+	char zn='\0';
+	i>>zn;
+	if(zn!='@')
+	   {
+	   i.putback(zn);	//Z powrotem bo moze nie byc ' '
+
+           pom2=ReadDynamicVal< T >(i,this); //Tworzenie&wczytywanie
+
+	   if(pom2==NULL)	//Cos poszlo nie tak
+                if(this->Raise( OutOfMemoryExcp( sizeof(pom2[0]) , __FILE__ , __LINE__ ) )==1)
+				return;
+	  }
+	  else pom2=NULL;
+
+	if((*this)(ind)!=NULL)//Sprawdza index i wywoluje expand ale naprawde bez alokacji
+			delete this->tab[ind];
+	this->tab[ind]=pom2;                    assert(i.good());
+	}
+  }
+assert(!i.bad());
+}
+
+template<class T>
+void array_of_class<T>::force_init_table(void* vmem,size_t items)
+{
+#ifdef _SIMPLE_FORCING_CONSTRUCTORS_ONLY_
+// Each item in  single call of void* operator new(void*,size_t)
+//char* cmem=*(char**)&vmem;
+char* cmem=(char*)vmem;
+for(size_t i=0;i<items;i++)
+    {
+	::new((void*)cmem) T;
+	cmem = cmem+sizeof(T);
+	}
+#else
+// All items in single call of void* operator new(void*,size_t)
+::new(vmem) T[items];// Force calling constructors
+#endif
+}
+
+
+//INPUT/OUTPUT
+template<class T>
+void array_constsize<T>::implement_output(ostream& o)      const
+{
+assert(o.good());
+object_size_t cs=CurrSize();
+assert(o.good());
+o<<cs<<this->separator();
+assert(o.good());
+if(this->tab!=NULL)
+  for(object_size_t i=0;i<cs;i++)
+	{
+	o<<this->tab[i];
+    o<<this->separator();                     assert(o.good());
+	if(o.fail())
+	   {
+	   if(Raise(ExcpIO(NULL,o.tellp(),"stream fail during writing array"))==1)
+		return ;
+	   }
+	}
+if(o.bad())
+   {                                    assert("Stream bad"==0);
+   if(Raise(ExcpIO(NULL,o.tellp(),"stream bad after writing array"))==1)
+		return ;
+   }
+}
+
+template<class T>
+void array_constsize<T>::implement_input(istream& i)
+{
+assert(i.good());
+object_size_t cs,start=i.tellg();
+assert(i.good());
+i>>cs;//Size.
+if(i.bad())
+   if(Raise(ExcpIO(NULL,start,"stream bad during reading array"))==1)
+		return ;
+if(cs>0)
+  {
+  if(Expand(cs)==0 || this->tab==NULL) // Force resize
+        if(this->Raise( InvalidIndexExcp(cs-1,__FILE__,__LINE__) )==1)
+			return ;//cs not available
+
+  this->Truncate(0); //Dla sprawdzania indeksow tablica jest pusta, choc zaalokowana
+
+  for(object_size_t ind=0;ind<cs;ind++)
+	{
+	i>>(*this)(ind);	//Poprawia zakres indeksow ale juz nie alokuje
+	assert(i.good());
+	if(i.fail())
+           if(this->Raise(ExcpIO(NULL,i.tellg(),"stream fail during reading array"))==1)
+		return ;
+	}
+  }
+assert(!i.bad());
+}
+
+DEFINE_VIRTUAL_NECESSARY_FOR_TEMPLATE( <class T> , array_constsize<T> )
+DEFINE_VIRTUAL_NECESSARY_FOR_TEMPLATE( <class T> , array_of<T> )
+DEFINE_VIRTUAL_NECESSARY_FOR_TEMPLATE( <class T> , array_of_class<T> )
+DEFINE_VIRTUAL_NECESSARY_FOR_TEMPLATE( <class T> , array_of_ptr<T> )
+
+#endif
+/********************************************************************/
+/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
+/*            W O J C I E C H   B O R K O W S K I                   */
+/* Zaklad Systematyki i Geografii Roslin Uniwersytetu Warszawskiego */
+/*  & Instytut Studiow Spolecznych Uniwersytetu Warszawskiego       */
+/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk             */
+/*        MAIL: borkowsk@iss.uw.edu.pl                              */
+/*                               (Don't change or remove this note) */
+/********************************************************************/
+
+
+
