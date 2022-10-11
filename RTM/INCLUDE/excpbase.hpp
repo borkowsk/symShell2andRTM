@@ -1,16 +1,17 @@
-/*
-Base exception class, and derived simple multipurpose exception classes:
-------------------------------------------------------------------------
+/**
+* \file excpbase.hpp
+* \brief Base exception class, and derived simple multipurpose exception classes:
+*        ------------------------------------------------------------------------
 
-class WB_Exception_base;
-class 	ExcpRaisePosition;
-class		SystemExcp;
-class 		MemoryExcp;
-class 		NumericExcp;
-class 		RangCheckExcp;
-class		SearchingExcp;
-class		RunTimeErrorExcp;
-class 		TextException;
+    - class WB_Exception_base;
+    - class 	ExcpRaisePosition;
+    - class		SystemExcp;
+    - class 		MemoryExcp;
+    - class 		NumericExcp;
+    - class 		RangCheckExcp;
+    - class		RunTimeErrorExcp;
+    - class		SearchingExcp;
+    - class 	TextException;
 
 */
 
@@ -26,9 +27,8 @@ class 		TextException;
 #endif // _MSC_VER > 1000
 
 #include <iostream>
-//using namespace std;
 
-// Najwiekszy rozmiar obszaru danych dla wyjatku - mozna przedefiniowywac dalej
+/// \brief Najwiekszy rozmiar obszaru danych dla wyjątku. Można też przedefiniowywać dalej.
 #define EXCEPTION_MAX_SIZE 1024
 
 // Metody niezbedne dla ogolnego stosowania
@@ -40,18 +40,18 @@ virtual WB_Exception_base* clone() const	{ return new _P_ (*this);}\
 private:
 
 namespace wbrtm { //WOJCIECH BORKOWSKI RUN TIME LIBRARY
-    // Używane dalej aliasy do typów i rozmiarów.
-    // Dziwne czasem, z przyczyn historycznych.
-    typedef void*  pointer;
-    typedef size_t object_size_t;
-    const   auto MAXOBJECTSIZE=SIZE_MAX;
+    /// Używane dalej aliasy do typów i rozmiarów.
+    /// Istnieją z przyczyn historycznych. Dziwne to czasem.
+    typedef void*   pointer;
+    typedef size_t  object_size_t;
+    const   auto    MAXOBJECTSIZE=SIZE_MAX;
 
-// Pure base for all exceptions in WB-library
+/// \brief Pure base for all exceptions in WB libraries.
 class WB_Exception_base
 {
 // VMT - exist ! Virtual function exist.
 EXCP_NECESSARY(WB_Exception_base)
-int not_recoverable;//0 gdy program moze byc kontynuowany.
+int not_recoverable; ///< 0 gdy program może byc kontynuowany.
 protected:
 	WB_Exception_base():not_recoverable(1){}
 public:
@@ -71,18 +71,19 @@ friend
 std::ostream& operator << (std::ostream& o,const WB_Exception_base& e);
 };
 
+/// \brief Exceptions important for developers and testers.
 class ExcpRaisePosition:public WB_Exception_base
 {
 EXCP_NECESSARY(ExcpRaisePosition)
 protected:
-const char* file;
-const int   line;
+const char* file; ///< w jakim to pliku źródłowym.
+const int   line; ///< w jakiej lini pliku źródłowego.
 ExcpRaisePosition(const char* fname,const int fline):
 	file(fname),line(fline) {}
 virtual void PrintTo(std::ostream&) const;
 };
 
-// Base for all exception dependend from OS
+/// \brief Base for all exceptions depended on OS.
 class SystemExcp:public ExcpRaisePosition
 {
 EXCP_NECESSARY(SystemExcp)
@@ -98,8 +99,7 @@ void PrintTo(std::ostream&) const;
 };
 
 
-
-// Base for all memory menaging exception
+/// \brief Base for all memory managing exceptions.
 class MemoryExcp:public ExcpRaisePosition
 {
 EXCP_NECESSARY(MemoryExcp)
@@ -110,7 +110,7 @@ void PrintTo(std::ostream&) const;
 };
 
 
-// Base for all numeric & math exception
+/// \brief Base for all numeric & math exceptions.
 class NumericExcp:public ExcpRaisePosition
 {
 EXCP_NECESSARY(NumericExcp)
@@ -121,7 +121,7 @@ void PrintTo(std::ostream&) const;
 };
 
 
-// Base for all ranging & indexing exception
+/// \brief Base for all ranging & indexing exceptions.
 class RangCheckExcp:public ExcpRaisePosition
 {
 EXCP_NECESSARY(RangCheckExcp)
@@ -131,7 +131,7 @@ int  ExitCode() const    { return 1; }
 void PrintTo(std::ostream&) const;
 };
 
-// Base for all search & (not)found exception
+/// \brief Base for all search & (not)found exceptions.
 class SearchingExcp:public ExcpRaisePosition
 {
 EXCP_NECESSARY(SearchingExcp)
@@ -141,7 +141,7 @@ int  ExitCode() const    { return 1; }
 void PrintTo(std::ostream&) const;
 };
 
-// Base for old style Runtime Errors
+/// \brief Base for old style Runtime Errors.
 class RunTimeErrorExcp:public ExcpRaisePosition
 {
 EXCP_NECESSARY(RunTimeErrorExcp)
@@ -157,7 +157,7 @@ virtual void PrintTo(std::ostream&) const;
 };
 
 
-// Generic=text exception rather for code developing
+/// \brief  Text exception for users rather than for code developers.
 class TextException:public RunTimeErrorExcp
 {
 EXCP_NECESSARY(TextException)
@@ -182,16 +182,16 @@ virtual void PrintTo(std::ostream&) const;
 #define EXCEPTION( _CM_ , _cd_ ) wbrtm::TextException((_CM_),(_cd_),__FILE__,__LINE__)
 #define WARNING( _CM_ ) 	 wbrtm::TextException((_CM_),0,__FILE__,__LINE__)
 #define FATAL( _CM_ )		 wbrtm::TextException((_CM_),5,__FILE__,__LINE__)
-} //namespace
+} //namespace wbrtm
 
 /* *******************************************************************/
-/*			           WBRTM  version 2022                           */
+/*	       WBRTM  version 2006 - renovated in 2022                   */
 /* *******************************************************************/
-/*            THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
-/*             W O J C I E C H   B O R K O W S K I                   */
-/*     Instytut Studiów Społecznych Uniwersytetu Warszawskiego       */
-/*         WWW:  ...                                                 */
+/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                  */
+/*            W O J C I E C H   B O R K O W S K I                    */
+/*    Instytut Studiów Społecznych Uniwersytetu Warszawskiego        */
+/*        WWW:  htt...                                               */
 /*                                                                   */
-/*                                (Don't change or remove this note) */
+/*                               (Don't change or remove this note)  */
 /* *******************************************************************/
 #endif

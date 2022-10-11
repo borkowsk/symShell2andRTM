@@ -2,19 +2,19 @@
 /// \brief Proste szablony inteligentnych wskaźników oraz tablic dynamicznych.
 /// \author borkowsk
 // *******************************************************************************************************************
-/// ZAWARTOŚĆ:
-///	\n wb_sptr     : scalar only ptr
-///	\n wb_ptr	    : struct/class ptr
-///	\n wb_pchar    : ptr to char[]
-///	\n wb_dynarray : dynamic 1D array of something
-///	\n wb_dynmatrix: dynamic matrix of something
-///
 /// \details
+/// ZAWARTOŚĆ:
+///	    - wb_sptr     : scalar only ptr
+///	    - wb_ptr	   : struct/class ptr
+///	    - wb_pchar    : ptr to char[]
+///	    - wb_dynarray : dynamic 1D array of something
+///	    - wb_dynmatrix: dynamic matrix of something
+///
 /// Trochę na wzór wczesnego STL, ale inne i raczej mało kompatybilne.
 /// Zawartość wskazywana jest "sztefetowana" pomiędzy obiektami powyższych typów,
 /// co oznacza, że w konstruktorze kopiującym albo przypisaniu jest przenoszona,
 /// a nie kopiowana. Obiekt donor staje się PUSTY! Dlatego obiekty te do funkcji
-/// muszą być zawsze przekazywane przez referencję
+/// muszą być zawsze przekazywane przez REFERENCJE!
 ///
 /// \author Wojciech Borkowski wborkowski (_at_) uw.edu.pl
 // *******************************************************************************************************************
@@ -63,7 +63,7 @@ public:
     /// Destruktor zwalniający zawartość jeśli jest
 	~wb_sptr(){ dispose(); }
 
-    ///Metoda czyszcząca zawartość równoważna destruktorowi
+    /// Metoda czyszcząca zawartość równoważna destruktorowi
     void dispose()
 	{
 	if(ptr)
@@ -74,7 +74,7 @@ public:
 	ptr=NULL;
 	}
 
-    ///Operator przekazania surowego wskaźnika pod zarząd
+    /// Operator przekazania surowego wskaźnika pod zarząd
     wb_sptr& operator = (T* nini)
     {
     dispose();
@@ -82,14 +82,14 @@ public:
     return *this;
     }
 
-    ///Metoda jawnego przekazania surowego wskaźnika pod zarząd
+    /// Metoda jawnego przekazania surowego wskaźnika pod zarząd
     void take(T* nini)
 	{
 	dispose();
 	ptr=nini;
 	}
 
-    ///Metoda jawnego przekazania surowego wskaźnika pod zarząd
+    /// Metoda jawnego przekazania surowego wskaźnika pod zarząd
     /// \details  Pozwalająca dołączyć kolejne wywołanie dzięki zwracaniu *this
     wb_sptr& set(T* nini)
     {
@@ -791,9 +791,27 @@ template<class T>
 
 template<class T>
     istream& operator>>(istream&,wb_dynmatrix<T>&); ///< Czy to gdzieś jest zaimplementowane? TODO?
-#endif
+
+/// Implementacja zapisu łańcucha znaków na strumienie ze sprawdzaniem, czy trzeba w \"
+/// Musi być gdzieś dostarczone z biblioteki.
+void escaped_pchar_write(std::ostream& s,const char* p,char enclos='\"');
+
+inline void write(ostream& o,const char* p)
+{
+        void escaped_pchar_write(std::ostream& s,const char* p,char enclos='\"');//wbrtm:: ?
+        escaped_pchar_write(o,p);
+}
+
+#endif //HIDE_WB_PTR_IO
 
 } //namespace wbrtm
+
+/// Z przestrzeni nazw języka C
+extern "C"
+{
+extern int WB_error_enter_before_clean; ///< Sterowanie reakcją na kończące błędy
+}
+
 /* ******************************************************************/
 /*              SYMSHELLLIGHT  version 2022-07-04                   */
 /* ******************************************************************/

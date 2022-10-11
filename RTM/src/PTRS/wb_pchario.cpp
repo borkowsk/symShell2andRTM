@@ -54,18 +54,20 @@ void escaped_pchar_write(ostream& s,const char* pch,char enclos)
 		s<<'@';
 	}
 	else
-        if( *pch=='\0' || ::strchr(pch,enclos) || strpbrk(pch,wbrtm::WB_PCHAR_VERBOTEN_CHARS)!=nullptr ) //Pusty lancuch albo sa separatory itp
+        if( *pch=='\0'
+        || ::strchr(pch,enclos)
+        || strpbrk(pch,wbrtm::WB_PCHAR_VERBOTEN_CHARS)!=nullptr ) //Pusty lancuch albo sa separatory itp
 		{//Zapis bezpieczny
 
 			WriteEnclosedString(s,pch,Raiser,enclos);
 		}
 		else
-			s<<pch;//Zapis jako jedno slowo
+			s<<pch;//Zapis jako jedno słowo
 }
 
 ostream& operator<<(ostream& s,const wb_pchar& p)
 {
-	escaped_pchar_write(s,p.get());
+	escaped_pchar_write(s,p.get(),'"');
 	return s;
 }
 
@@ -100,12 +102,12 @@ istream& operator>>(istream& s,wb_pchar& p)
 } // end of namespace wbrtm
 
 /* *******************************************************************/
-/*			           WBRTM  version 2022                           */
+/*	       WBRTM  version 2006 - renovated in 2022                   */
 /* *******************************************************************/
-/*            THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
-/*             W O J C I E C H   B O R K O W S K I                   */
-/*     Instytut Studiów Społecznych Uniwersytetu Warszawskiego       */
-/*         WWW:  ...                                                 */
+/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                  */
+/*            W O J C I E C H   B O R K O W S K I                    */
+/*    Instytut Studiów Społecznych Uniwersytetu Warszawskiego        */
+/*        WWW:  htt...                                               */
 /*                                                                   */
-/*                                (Don't change or remove this note) */
+/*                               (Don't change or remove this note)  */
 /* *******************************************************************/

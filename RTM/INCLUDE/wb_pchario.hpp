@@ -18,20 +18,20 @@
 
 namespace wbrtm { //WOJCIECH BORKOWSKI RUN TIME LIBRARY
 
-//Znaki zabronione dla zwyklego zapisu. Mozna podstawic wlasna wersje przy linkowaniu, 
-//   albo nawet zmieniac w trakcie!!! 
+// Znaki zabronione dla zwykłego zapisu. Można podstawić własna wersje przy linkowaniu,
+// a nawet zmieniać w trakcie!!!
 extern const char* WB_PCHAR_VERBOTEN_CHARS;//=" \t\n\r\'\"\0\01\02\03\04\05\06\07\010";
 
 template<class Caller>
 char* ReadEnclosedString(istream& file,const Caller& user,char delimiter)
-// Czyta lancuch w cudzyslowach lub czyms zamiast,
-// zwraca NULL jesli blad-np brak pamieci lub brak zamkniecia
+// Czyta łańcuch w cudzysłowie lub czymś zamiast niego,
+// zwraca NULL, jeśli błąd - np. brak pamięci lub brak znaku zamknięcia
 {
 const int MINLEN=6;
 int  znak;
-size_t jednostek=1;// Ile jednostek alokacji juz jest
-size_t licznik=0;  // Ile znakow wczytano
-                                                                                assert(&file!=NULL);
+size_t jednostek=1; // Ile jednostek alokacji już jest
+size_t licznik=0;   // Ile znaków wczytano?
+                                                                                                    assert(&file!=NULL);
 if(!file.good())
 	{
 	if(user.Raise(ExcpIO(NULL,file.tellg(),"Invalid stream"))==1)
@@ -86,21 +86,21 @@ while((znak=file.get())!=delimiter)
 	}
 
 assert(MINLEN>=1);
-pom[licznik]='\0';//Zakonczenie lancucha
+pom[licznik]='\0'; //Zakończenie łańcucha
 
 return pom;//Juz gotowy
 
 BRAK_PAMIECI:
 if(pom!=NULL)
-	delete pom;// Zeby pamiec nie wyciekala
+	delete pom; // Zeby pamiec nie wyciekala
 user.Raise(OutOfMemoryExcp(jednostek*MINLEN+1,__FILE__,__LINE__));
 return NULL;// Moze cos byc juz wczytane, ale bufor zwolniono
 }
 
 template<class Caller>
 int WriteEnclosedString(ostream& file,const char* str,const Caller& user,char delimiter)
-// Pisze lancuch w cudzyslowach lub czyms zamiast,
-// zwraca !=0 jesli jakis blad zamaskowany przez user'a
+// Pisze łańcuch w cudzyslowach lub czymś zamiast nich,
+// a zwraca !=0, jeśli jakiś błąd zamaskowany przez użytkownika
 {
 file.put(delimiter);
 while(*str!='\0')
@@ -119,18 +119,20 @@ if(file.bad())
 			return -1;
 return 0;
 }
+
 } //namespace
 
 /* *******************************************************************/
-/*			           WBRTM  version 2022                           */
+/*	       WBRTM  version 2006 - renovated in 2022                   */
 /* *******************************************************************/
-/*            THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
-/*             W O J C I E C H   B O R K O W S K I                   */
-/*     Instytut Studiów Społecznych Uniwersytetu Warszawskiego       */
-/*         WWW:  ...                                                 */
+/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                  */
+/*            W O J C I E C H   B O R K O W S K I                    */
+/*    Instytut Studiów Społecznych Uniwersytetu Warszawskiego        */
+/*        WWW:  htt...                                               */
 /*                                                                   */
-/*                                (Don't change or remove this note) */
+/*                               (Don't change or remove this note)  */
 /* *******************************************************************/
+
 #endif
 
 

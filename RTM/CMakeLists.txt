@@ -11,26 +11,24 @@ include_directories( "." "${WBRTMINC}" ) #"${CONTRLIBS}" )
 
 if(true)# wbrtm basic
 add_library( wbrtm STATIC
-#    "${WBRTM}/BASE/cast_checker.cpp"
-#    "${WBRTM}/BASE/wb_strrnd.c"
 #    "${WBRTM}/BASE/wb_assert.c"
 #    "${WBRTM}/BASE/wb_cmdline.cpp"
+    "${WBRTM}/BASE/errorhan.cpp"
     "${WBRTM}/BASE/wb_randg.c"
     "${WBRTM}/BASE/wb_rand.cpp"
-#    "${WBRTM}/BASE/wb_compdate.c"
-#    "${WBRTM}/BASE/RealPath.cpp"
-#    "${WBRTM}/BASE/ViewHtmlPchar.cpp" #Do wyświetlania helpów etc...
-#    "${WBRTM}/BASE/ViewHtmlStr.cpp"
-    "${WBRTM}/COMPATIBILITY/stricmp.c"
-#    "${WBRTM}/_COMPAT/autor.cpp" #TYLKO WINDOWS
+#    "${WBRTM}/TOOLS/wb_strrnd.c"
+#    "${WBRTM}/TOOLS/wb_compdate.c"
+#    "${WBRTM}/TOOLS/RealPath.cpp"
+#    "${WBRTM}/TOOLS/ViewHtmlPchar.cpp" #Do wyświetlania helpów etc...
+#    "${WBRTM}/TOOLS/ViewHtmlStr.cpp"
+#    "${WBRTM}/TOOLS/cast_checker.cpp"
     "${WBRTM}/PTRS/wb_pchario.cpp"
     "${WBRTM}/PTRS/wb_pchar_verboten.cpp"
     "${WBRTM}/PTRS/wb_pchar.cpp"
-#    "${WBRTM}/EXCEPT/errorhan.cpp"
-#    "${WBRTM}/EXCEPT/boundexc.cpp"
 #    "${WBRTM}/EXCEPT/extextex.cpp"
-#    "${WBRTM}/EXCEPT/ioexcep.cpp"
-#    "${WBRTM}/EXCEPT/excpprin.cpp"
+    "${WBRTM}/EXCEPT/ioexcep.cpp"
+    "${WBRTM}/EXCEPT/excpprin.cpp"
+#    "${WBRTM}/EXCEPT/boundexc.cpp"
 #    "${WBRTM}/VIRTUALIO/iosuppor.cpp"
 #    "${WBRTM}/VIRTUALIO/iodatabase.cpp"
 #    "${WBRTM}/VIRTUALIO/iocharp.cpp"
@@ -38,8 +36,10 @@ add_library( wbrtm STATIC
 #    "${WBRTM}/MISCCLASSES/Smartlog.cpp"
 #    "${WBRTM}/MISCCLASSES/Chameleon.cpp"
 #    "${WBRTM}/MISCCLASSES/ConfigData.cpp"
-    "${WBRTM}/BASE/error_enter_before_clean.c"
 #    "${WBRTM}/MISCCLASSES/Nodemem.cpp"
+#    "${WBRTM}/_COMPAT/autor.cpp" #TYLKO WINDOWS
+        "${WBRTM}/BASE/error_enter_before_clean.c"
+        "${WBRTM}/COMPATIBILITY/stricmp.c"
     )
 endif()
 

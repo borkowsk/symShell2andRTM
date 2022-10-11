@@ -1,32 +1,33 @@
-//	Generic "out of memory" & "invalid pointer" exception.
-// //////////////////////////////////////////////////////////////////////////////////////////
-
-#ifndef _EXCP_OUT_MEMORY_HPP_
-#define _EXCP_OUT_MEMORY_HPP_
-#include "excpbase.hpp"
-#include <iostream>
+#ifndef _ERRORHANDLE_HPP_
+#define _ERRORHANDLE_HPP_
+/* C++ EXCEPTIONS AND ERROR SUPPORT */
 
 namespace wbrtm { //WOJCIECH BORKOWSKI RUN TIME LIBRARY
 
-class OutOfMemoryExcp:public MemoryExcp
+class  WB_Exception_base; ///< Base for all exceptions in wbrtm
+
+class error_handling
 {
-EXCP_NECESSARY(OutOfMemoryExcp)
-object_size_t size;
 public:
-OutOfMemoryExcp(object_size_t req_size,const char* fn=0,const int fl=0):MemoryExcp(fn,fl),size(req_size){}
-void PrintTo(std::ostream&) const;
+/// Error support driven by Exception hierarchy
+/// \return  1 if may try to cleanup
+///          0 if may try to resume
+static int Error(const WB_Exception_base&);
+
+/// \brief USABLE ENUM TYPE FOR RunTime... & Text... Exceptions.
+enum ecode { OK=0,  ///< OK must be 0
+	     NULL_USE_OBSOLETE,
+	     ALLOC_ERROR_OBSOLETE,
+	     NOT_FOUND,
+	     INVALID_KEY,
+	     INTERNAL_FAULT,
+	     RANGE_ERROR,
+	     IOERROR,
+	     OTHER_ERROR=256 ///< 256 PREDEFINED CODES. "OTHER" MUST BE LAST!
+        };
 };
 
-class InvalidPtrUseExcp:public MemoryExcp
-{
-EXCP_NECESSARY(InvalidPtrUseExcp)
-pointer ptr;
-public:
-InvalidPtrUseExcp(pointer iptr,const char* fn=0,const int fl=0):MemoryExcp(fn,fl),ptr(iptr){}
-void PrintTo(std::ostream&) const;
-};
-
-
+typedef error_handling errh;
 } //namespace
 
 /* *******************************************************************/
@@ -39,5 +40,4 @@ void PrintTo(std::ostream&) const;
 /*                                                                   */
 /*                               (Don't change or remove this note)  */
 /* *******************************************************************/
-
 #endif
