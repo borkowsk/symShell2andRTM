@@ -1,0 +1,104 @@
+warning: The selected output language "polish" has not been updated
+since release 1.8.2.  As a result some sentences may appear in English.
+
+warning: source ../../Simulations202x/WBRTM_Linux is not a readable file or directory... skipping.
+error: fixed-compilation-database: Error while opening fixed database: Nie ma takiego pliku ani katalogu
+json-compilation-database: Error while opening JSON database: Nie ma takiego pliku ani katalogu
+ using clang compilation database path of: "(null)"
+error:  using clang compilation database path of: "(null)"
+error: /data/wb/SCC/public/symShell2andRTM/RTM/src/BASE/errorhan.cpp:7:10: fatal error: 'INCLUDE/errorhan.hpp' file not found [clang]
+error:  using clang compilation database path of: "(null)"
+error: /data/wb/SCC/public/symShell2andRTM/RTM/src/BASE/virtualConstructor.cpp:13:10: fatal error: 'virtualConstructor.h' file not found [clang]
+error:  using clang compilation database path of: "(null)"
+error: /data/wb/SCC/public/symShell2andRTM/RTM/src/BASE/wb_rand.cpp:1:10: fatal error: 'wb_rand.hpp' file not found [clang]
+error:  using clang compilation database path of: "(null)"
+error: /data/wb/SCC/public/symShell2andRTM/RTM/src/BASE/wb_randg.c:11:10: fatal error: 'random.h' file not found [clang]
+error:  using clang compilation database path of: "(null)"
+error: /data/wb/SCC/public/symShell2andRTM/RTM/src/COMPATIBILITY/stricmp.c:11:10: fatal error: 'compatyb.h' file not found [clang]
+error:  using clang compilation database path of: "(null)"
+error:  using clang compilation database path of: "(null)"
+error: /data/wb/SCC/public/symShell2andRTM/RTM/src/EXCEPT/boundexc.cpp:6:10: fatal error: 'bounded.hpp' file not found [clang]
+error:  using clang compilation database path of: "(null)"
+error: /data/wb/SCC/public/symShell2andRTM/RTM/src/EXCEPT/excpprin.cpp:6:10: fatal error: 'excpbase.hpp' file not found [clang]
+error:  using clang compilation database path of: "(null)"
+error: /data/wb/SCC/public/symShell2andRTM/RTM/src/EXCEPT/extextex.cpp:1:10: fatal error: 'INCLUDE/extextex.hpp' file not found [clang]
+error:  using clang compilation database path of: "(null)"
+error: /data/wb/SCC/public/symShell2andRTM/RTM/src/EXCEPT/ioexcep.cpp:11:10: fatal error: 'ioexcep.hpp' file not found [clang]
+error:  using clang compilation database path of: "(null)"
+error: /data/wb/SCC/public/symShell2andRTM/RTM/src/PTRS/wb_pchar.cpp:21:10: fatal error: 'wb_ptr.hpp' file not found [clang]
+error:  using clang compilation database path of: "(null)"
+error: /data/wb/SCC/public/symShell2andRTM/RTM/src/PTRS/wb_pchar_verboten.cpp:9:10: fatal error: 'wb_pchario.hpp' file not found [clang]
+error:  using clang compilation database path of: "(null)"
+error: /data/wb/SCC/public/symShell2andRTM/RTM/src/PTRS/wb_pchario.cpp:9:10: fatal error: 'excpbase.hpp' file not found [clang]
+error:  using clang compilation database path of: "(null)"
+error: /data/wb/SCC/public/symShell2andRTM/RTM/src/TOOLS/TABDELIMITED/TabDelimited.cpp:14:10: fatal error: 'TabDelimited.hpp' file not found [clang]
+error:  using clang compilation database path of: "(null)"
+/data/wb/SCC/public/symShell2andRTM/RTM/src/EXCEPT/boundexc.cpp:1: warning: the name 'excbounded.cpp' supplied as the argument in the \file statement is not an input file
+/data/wb/SCC/public/symShell2andRTM/RTM/src/BASE/errorhan.cpp:67: warning: documented symbol 'int wbrtm::error_handling::Error' was not declared or defined.
+/data/wb/SCC/public/symShell2andRTM/RTM/src/BASE/errorhan.cpp:126: warning: documented symbol 'void wbrtm::RunTimeErrorExcp::PrintTo' was not declared or defined.
+/data/wb/SCC/public/symShell2andRTM/RTM/src/BASE/virtualConstructor.cpp:20: warning: documented symbol 'void wbrtm::InterfaceOfVirtualConstructor::registerThis' was not declared or defined.
+/data/wb/SCC/public/symShell2andRTM/RTM/src/BASE/virtualConstructor.cpp:35: warning: documented symbol 'wbrtm::InterfaceOfVirtualConstructor * wbrtm::InterfaceOfVirtualConstructor::getVirtualConstructorOf' was not declared or defined.
+/data/wb/SCC/public/symShell2andRTM/RTM/src/EXCEPT/boundexc.cpp:10: warning: documented symbol 'void wbrtm::BoundExcp::PrintTo' was not declared or defined.
+/data/wb/SCC/public/symShell2andRTM/RTM/src/EXCEPT/excpprin.cpp:26: warning: documented symbol 'void wbrtm::ExcpRaisePosition::PrintTo' was not declared or defined.
+/data/wb/SCC/public/symShell2andRTM/RTM/src/EXCEPT/excpprin.cpp:35: warning: documented symbol 'void wbrtm::TextException::PrintTo' was not declared or defined.
+/data/wb/SCC/public/symShell2andRTM/RTM/src/EXCEPT/excpprin.cpp:44: warning: documented symbol 'void wbrtm::SystemExcp::PrintTo' was not declared or defined.
+/data/wb/SCC/public/symShell2andRTM/RTM/src/EXCEPT/excpprin.cpp:51: warning: documented symbol 'void wbrtm::MemoryExcp::PrintTo' was not declared or defined.
+/data/wb/SCC/public/symShell2andRTM/RTM/src/EXCEPT/excpprin.cpp:58: warning: documented symbol 'void wbrtm::NumericExcp::PrintTo' was not declared or defined.
+/data/wb/SCC/public/symShell2andRTM/RTM/src/EXCEPT/excpprin.cpp:65: warning: documented symbol 'void wbrtm::RangCheckExcp::PrintTo' was not declared or defined.
+/data/wb/SCC/public/symShell2andRTM/RTM/src/EXCEPT/excpprin.cpp:72: warning: documented symbol 'void wbrtm::SearchingExcp::PrintTo' was not declared or defined.
+/data/wb/SCC/public/symShell2andRTM/RTM/src/EXCEPT/excpprin.cpp:79: warning: documented symbol 'void wbrtm::OutOfMemoryExcp::PrintTo' was not declared or defined.
+/data/wb/SCC/public/symShell2andRTM/RTM/src/EXCEPT/excpprin.cpp:86: warning: documented symbol 'void wbrtm::InvalidPtrUseExcp::PrintTo' was not declared or defined.
+/data/wb/SCC/public/symShell2andRTM/RTM/src/EXCEPT/excpprin.cpp:93: warning: documented symbol 'void wbrtm::InvalidIndexExcp::PrintTo' was not declared or defined.
+/data/wb/SCC/public/symShell2andRTM/RTM/src/EXCEPT/ioexcep.cpp:16: warning: documented symbol 'void wbrtm::ExcpIO::PrintTo' was not declared or defined.
+/data/wb/SCC/public/symShell2andRTM/RTM/src/PTRS/wb_pchar.cpp:30: warning: documented symbol 'wb_pchar & wbrtm::wb_pchar::prn' was not declared or defined.
+/data/wb/SCC/public/symShell2andRTM/RTM/src/PTRS/wb_pchar.cpp:44: warning: documented symbol 'wb_pchar & wbrtm::wb_pchar::add' was not declared or defined.
+/data/wb/SCC/public/symShell2andRTM/RTM/src/TOOLS/TABDELIMITED/TabDelimited.cpp:22: warning: documented symbol 'int wbrtm::TabelaTabDelimited::PodstawowaFunkcjaBledu' was not declared or defined.
+/data/wb/SCC/public/symShell2andRTM/RTM/src/TOOLS/TABDELIMITED/TabDelimited.cpp:33: warning: documented symbol 'TabelaTabDelimited::funkcja_bledu * wbrtm::TabelaTabDelimited::AktualnaFunkcjaBledu' was not declared or defined.
+/data/wb/SCC/public/symShell2andRTM/RTM/src/TOOLS/TABDELIMITED/TabDelimited.cpp:36: warning: documented symbol 'const char * wbrtm::TabelaTabDelimited::operator()' was not declared or defined.
+/data/wb/SCC/public/symShell2andRTM/RTM/src/TOOLS/TABDELIMITED/TabDelimited.cpp:55: warning: documented symbol 'string & wbrtm::TabelaTabDelimited::operator()' was not declared or defined.
+/data/wb/SCC/public/symShell2andRTM/RTM/src/TOOLS/TABDELIMITED/TabDelimited.cpp:78: warning: documented symbol 'string wbrtm::TabelaTabDelimited::ZmienNazwe' was not declared or defined.
+/data/wb/SCC/public/symShell2andRTM/RTM/src/TOOLS/TABDELIMITED/TabDelimited.cpp:86: warning: documented symbol 'const char * wbrtm::TabelaTabDelimited::JakaNazwa' was not declared or defined.
+/data/wb/SCC/public/symShell2andRTM/RTM/src/TOOLS/TABDELIMITED/TabDelimited.cpp:93: warning: documented symbol 'void wbrtm::TabelaTabDelimited::UstalRozmiar' was not declared or defined.
+/data/wb/SCC/public/symShell2andRTM/RTM/src/TOOLS/TABDELIMITED/TabDelimited.cpp:107: warning: documented symbol 'wbrtm::TabelaTabDelimited::~TabelaTabDelimited' was not declared or defined.
+/data/wb/SCC/public/symShell2andRTM/RTM/src/TOOLS/TABDELIMITED/TabDelimited.cpp:121: warning: documented symbol 'void wbrtm::TabelaTabDelimited::PrzekopiujZ' was not declared or defined.
+/data/wb/SCC/public/symShell2andRTM/RTM/src/TOOLS/TABDELIMITED/TabDelimited.cpp:150: warning: documented symbol 'bool wbrtm::TabelaTabDelimited::ZapiszDoPliku' was not declared or defined.
+/data/wb/SCC/public/symShell2andRTM/RTM/src/TOOLS/TABDELIMITED/TabDelimited.cpp:181: warning: documented symbol 'void wbrtm::TabelaTabDelimited::pomin_puste' was not declared or defined.
+/data/wb/SCC/public/symShell2andRTM/RTM/src/TOOLS/TABDELIMITED/TabDelimited.cpp:188: warning: documented symbol 'void wbrtm::TabelaTabDelimited::wczytaj_do_delim' was not declared or defined.
+/data/wb/SCC/public/symShell2andRTM/RTM/src/TOOLS/TABDELIMITED/TabDelimited.cpp:197: warning: documented symbol 'bool wbrtm::TabelaTabDelimited::parse_string' was not declared or defined.
+/data/wb/SCC/public/symShell2andRTM/RTM/src/TOOLS/TABDELIMITED/TabDelimited.cpp:251: warning: documented symbol 'bool wbrtm::TabelaTabDelimited::WczytajZPliku' was not declared or defined.
+/data/wb/SCC/public/symShell2andRTM/RTM/src/TOOLS/TABDELIMITED/TabDelimited.cpp:369: warning: documented symbol 'bool wbrtm::wbrtm::TabelaTabDelimited::Znajdz' was not declared or defined.
+error:  using clang compilation database path of: "(null)"
+error:  using clang compilation database path of: "(null)"
+error: /data/wb/SCC/public/symShell2andRTM/RTM/src/BASE/errorhan.cpp:7:10: fatal error: 'INCLUDE/errorhan.hpp' file not found [clang]
+error:  using clang compilation database path of: "(null)"
+error: /data/wb/SCC/public/symShell2andRTM/RTM/src/BASE/virtualConstructor.cpp:13:10: fatal error: 'virtualConstructor.h' file not found [clang]
+error:  using clang compilation database path of: "(null)"
+error: /data/wb/SCC/public/symShell2andRTM/RTM/src/BASE/wb_rand.cpp:1:10: fatal error: 'wb_rand.hpp' file not found [clang]
+error:  using clang compilation database path of: "(null)"
+error: /data/wb/SCC/public/symShell2andRTM/RTM/src/BASE/wb_randg.c:11:10: fatal error: 'random.h' file not found [clang]
+error:  using clang compilation database path of: "(null)"
+error: /data/wb/SCC/public/symShell2andRTM/RTM/src/COMPATIBILITY/stricmp.c:11:10: fatal error: 'compatyb.h' file not found [clang]
+error:  using clang compilation database path of: "(null)"
+error:  using clang compilation database path of: "(null)"
+error: /data/wb/SCC/public/symShell2andRTM/RTM/src/EXCEPT/boundexc.cpp:6:10: fatal error: 'bounded.hpp' file not found [clang]
+error:  using clang compilation database path of: "(null)"
+error: /data/wb/SCC/public/symShell2andRTM/RTM/src/EXCEPT/excpprin.cpp:6:10: fatal error: 'excpbase.hpp' file not found [clang]
+error:  using clang compilation database path of: "(null)"
+error: /data/wb/SCC/public/symShell2andRTM/RTM/src/EXCEPT/extextex.cpp:1:10: fatal error: 'INCLUDE/extextex.hpp' file not found [clang]
+error:  using clang compilation database path of: "(null)"
+error: /data/wb/SCC/public/symShell2andRTM/RTM/src/EXCEPT/ioexcep.cpp:11:10: fatal error: 'ioexcep.hpp' file not found [clang]
+error:  using clang compilation database path of: "(null)"
+error: /data/wb/SCC/public/symShell2andRTM/RTM/src/PTRS/wb_pchar.cpp:21:10: fatal error: 'wb_ptr.hpp' file not found [clang]
+/data/wb/SCC/public/symShell2andRTM/RTM/src/PTRS/wb_pchar.cpp:56: warning: Found unknown command '\NOTE'
+error:  using clang compilation database path of: "(null)"
+error: /data/wb/SCC/public/symShell2andRTM/RTM/src/PTRS/wb_pchar_verboten.cpp:9:10: fatal error: 'wb_pchario.hpp' file not found [clang]
+error:  using clang compilation database path of: "(null)"
+error: /data/wb/SCC/public/symShell2andRTM/RTM/src/PTRS/wb_pchario.cpp:9:10: fatal error: 'excpbase.hpp' file not found [clang]
+error:  using clang compilation database path of: "(null)"
+error: /data/wb/SCC/public/symShell2andRTM/RTM/src/TOOLS/TABDELIMITED/TabDelimited.cpp:14:10: fatal error: 'TabDelimited.hpp' file not found [clang]
+error:  using clang compilation database path of: "(null)"
+error: /data/wb/SCC/public/symShell2andRTM/docs/logfile.txt:1:1: error: unknown type name 'warning' [clang]
+error: /data/wb/SCC/public/symShell2andRTM/docs/logfile.txt:1:8: error: expected unqualified-id [clang]
+/data/wb/SCC/public/symShell2andRTM/RTM/src/PTRS/wb_pchar.cpp:56: warning: Found unknown command '\NOTE'
+/data/wb/SCC/public/symShell2andRTM/RTM/src/PTRS/wb_pchar.cpp:56: warning: Found unknown command '\NOTE'
+/data/wb/SCC/public/symShell2andRTM/RTM/src/PTRS/wb_pchar.cpp:56: warning: Found unknown command '\NOTE'
