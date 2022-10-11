@@ -1,5 +1,8 @@
-///	Implementation of more "sophisticated" methods for \class wb_pchar
-///////////////////////////////////////////////////////////////////////
+/** \file wb_pchar.cpp
+ *  \author borkowsk
+ *  \brief Implementation of more "sophisticated" methods for 'wbrtm::wb_pchar'
+ *  \date 2022-10-11 (last modification)
+ */
 
 #include <stdio.h>
 #include <ctype.h>
@@ -21,8 +24,8 @@ namespace wbrtm { //WOJCIECH BORKOWSKI RUN TIME LIBRARY
 
 /// \details Wyprowadza formatowane dane na zawartość obiektu wb_pchar.
 /// \note Nie sprawdza rozmiaru!!! Trzeba wcześniej zaalokować bezpiecznie.
-/// \param format : jak dla vsprintf
-/// \param ...
+/// \param format - jak dla vsprintf
+/// \param ... - otwarta lista parametrów wymaganych przez 'format'
 /// \return
 wb_pchar& wb_pchar::prn(const char* format,...)
 {
@@ -35,9 +38,9 @@ wb_pchar& wb_pchar::prn(const char* format,...)
 
 /// \details Dopisuje do starej zawartości obiektu wb_pchar.
 /// \note  Nie sprawdza rozmiaru!!! Trzeba wcześniej zaalokować bezpiecznie.
-/// \param format  : jak dla vsprintf
-/// \param ... : dowolne parametry zgodne z formatem
-/// \return
+/// \param format  - jak dla vsprintf
+/// \param ... - otwarta lista parametrów wymaganych przez 'format'
+/// \return referencja do this po dodaniu.
 wb_pchar& wb_pchar::add(const char* format,...)
 {
    va_list marker;
@@ -61,14 +64,18 @@ static char* _find(char* where,const char* forfind,bool fullwords)
 
 		if(!fullwords)
 		{
-			return poz;	//Znalazł połozony dowolnie
+			return poz;	//Znalazł położony dowolnie
 		}
 		else			//Sprawdza, czy całe słowo
 		{
-			size_t findlen=::strlen(forfind);		                        assert(findlen>0);
+			size_t findlen=::strlen(forfind);		                                              assert(findlen>0);
 			char* pozza=poz+findlen;			//Pozycja za znaleziona fragmentem
-			if(*pozza=='\0' || isspace(*pozza) || ::strchr(".,;:?!@#$%^&*()-+={}[]|\\'<>/",*pozza)!=NULL  )//Cza za jest "odstep"
-				if(poz==where || isspace(*(poz-1)) || ::strchr(".,;:?!@#$%^&*()-+={}[]|\\'<>/",*(poz-1))!=NULL )//Czy przed jest "odstep".
+			if(*pozza=='\0' || isspace(*pozza)
+            || ::strchr(".,;:?!@#$%^&*()-+={}[]|\\'<>/",*pozza)!=NULL
+            ) //Czy za jest "odstęp"?
+				if(poz==where || isspace(*(poz-1))
+                || ::strchr(".,;:?!@#$%^&*()-+={}[]|\\'<>/",*(poz-1))!=NULL
+                ) //Czy przed jest "odstęp"?
 				{
 					return poz;
 				}
@@ -80,9 +87,9 @@ static char* _find(char* where,const char* forfind,bool fullwords)
 }
 
 /// \details Wstawia łańcuch tekstowy do bufora na określonej pozycji
-/// \param bufor
-/// \param pos
-/// \param whatins
+/// \param bufor - wejście/wyjście
+/// \param pos - pozycja za którą wstawić
+/// \param whatins - co wstawić
 /// \return 'true' jeśli wykonał akcję, a 'false' jeśli nie znalazł
 /// \note    TODO CHECK? bufor jest sztafetowany! 
 bool insert(wb_pchar& bufor,unsigned pos,const char* whatins)
@@ -101,16 +108,16 @@ bool insert(wb_pchar& bufor,unsigned pos,const char* whatins)
     return true;
 }
 
-/// \details  Zamienia wszystkie łańcuchy 'forrep' zawarte w obiekcie wb_pchar
+/// \details  Zamienia wszystkie łańcuchy 'forrep' zawarte w obiekcie 'bufor'
 ///           na łańcuchy 'whatins'. 
-/// \param bufor
-/// \param forrep
-/// \param whatins
-/// \param fullwords
-/// \param startpos
+/// \param bufor - wejście/wyjście
+/// \param forrep - co ma być zamieniane
+/// \param whatins - na co ma być zamieniane
+/// \param fullwords - czy tylko całe wyrazy
+/// \param startpos - odkąd zaczynamy szukanie do zmian
 /// \return 'true' jeśli wykonał akcję, a 'false' jeśli nie znalazł
 /// \note TODO CHECK? Bufor jest sztafetowany!!!
-bool replace(wb_pchar& bufor,const char* forrep,const char* whatins,bool fullwords,unsigned startpos)//,bool case_sens=1 ??? Brak funkcji w rodzaju stristr
+bool replace(wb_pchar& bufor,const char* forrep,const char* whatins,bool fullwords,unsigned startpos)
 {
 	wb_pchar pom=bufor;//sztafeta!!!
 
@@ -131,6 +138,7 @@ bool replace(wb_pchar& bufor,const char* forrep,const char* whatins,bool fullwor
 
 		poz=bufor.get_ptr_val()+::strlen(pom.get())+::strlen(whatins);
 		poz=_find(poz,forrep,fullwords);
+
 		if(poz)
 			pom=bufor;
 	}
@@ -141,13 +149,12 @@ bool replace(wb_pchar& bufor,const char* forrep,const char* whatins,bool fullwor
 
 } //namespace wbrtm
 /* *******************************************************************/
-/*         Wzięte z SYMSHELLLIGHT  version 2021-11-24                */
+/*	       WBRTM  version 2006 - renovated in 2022                   */
 /* *******************************************************************/
 /*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                  */
 /*            W O J C I E C H   B O R K O W S K I                    */
 /*    Instytut Studiów Społecznych Uniwersytetu Warszawskiego        */
-/*    WWW: https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI   */
-/*    GITHUB: https://github.com/borkowsk                            */
+/*        WWW:  htt...                                               */
 /*                                                                   */
-/*                                (Don't change or remove this note) */
+/*                               (Don't change or remove this note)  */
 /* *******************************************************************/

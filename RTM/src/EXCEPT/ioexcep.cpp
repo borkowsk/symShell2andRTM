@@ -1,24 +1,28 @@
-//
-// Przechwytywanie błędów programowych WBRTM i inne sztuczki - stare więc  nie wiadomo czy bezpieczne
-//
-// Implemetacja metod klasy ExcpIO
-//-----------------------------------------------------------------------------
-#include "INCLUDE/platform.hpp"
+/** \file ioexcep.cpp
+ *  \author borkowsk
+ *  \brief Catching 'wbrtm' errors and other tricks.
+ *         Old so, it is not known if it is safe yet.
+ *  \date 2022-10-11 (last modification)
+ */
 
 #include <iostream>
 #include <cstring>
-//#include <cassert>
-#include "INCLUDE/ioexcep.hpp"
+
+#include "ioexcep.hpp"
 
 namespace wbrtm { //WOJCIECH BORKOWSKI RUN TIME LIBRARY
 
+/// \details Implementacja metody PrintTo klasy ExcpIO
 void ExcpIO::PrintTo(ostream& er) const
 {
 er<<"IO error";
+
 if(comm)
 	er<<": \""<<comm<<'\"';
+
 if(stream_name)
 	er<<" in stream "<<stream_name;
+
 if(position!=MAXOBJECTSIZE)
 {
 	er<<" near position "<<position;
@@ -53,13 +57,13 @@ if(my_errno!=0)
 
 } //namespace
 
-/********************************************************************/
-/*			          WBRTM  version 2006                           */
-/********************************************************************/
-/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
-/*            W O J C I E C H   B O R K O W S K I                   */
-/*    Instytut Studiow Spolecznych Uniwersytetu Warszawskiego       */
-/*        WWW:  http://wwww.iss.uw.edu.pl/~borkowsk/                */
-/*                                                                  */
-/*                               (Don't change or remove this note) */
-/********************************************************************/
+/* *******************************************************************/
+/*	       WBRTM  version 2006 - renovated in 2022                   */
+/* *******************************************************************/
+/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                  */
+/*            W O J C I E C H   B O R K O W S K I                    */
+/*    Instytut Studiów Społecznych Uniwersytetu Warszawskiego        */
+/*        WWW:  htt...                                               */
+/*                                                                   */
+/*                               (Don't change or remove this note)  */
+/* *******************************************************************/

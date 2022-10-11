@@ -1,11 +1,11 @@
-/** \file
+/** \file stricmp.c
  * \brief Implementation of stricmp
  *
  * \author Peter 'png' Hille <peter@das-system-networks.de>
  *
  * https://github.com/png85/dsncompat/blob/master/string/stricmp.c
  */
-#include <ctype.h>
+
 #include <string.h>
 #include <assert.h>
 #include "compatyb.h"
@@ -39,9 +39,8 @@
  */
 int stricmp(const char* s1, const char* s2)
 {
-  assert(s1 != NULL);//TO JEST "C"
-  assert(s2 != NULL);//Wiec nie ma nullptr
-
+                                                                                                      assert(s1 != NULL);
+                                                                                                      assert(s2 != NULL);
 #ifdef HAVE_STRCASECMP
   return strcasecmp(s1, s2);
 #else
@@ -56,39 +55,13 @@ int stricmp(const char* s1, const char* s2)
 #endif /* !HAVE_STRCASECMP */
 }
 
-const char *strlwr(char *what)
-{
-    if (what == NULL)
-        return NULL;
-
-    char *pom = what;
-    while (*pom) {
-        *pom = tolower(*pom);
-        pom++;
-    }
-    return what;
-}
-
-const char *strupr(char *what)
-{
-    if (what == NULL)
-        return NULL;
-
-    char *pom = what;
-    while (*pom) {
-        *pom = toupper(*pom);
-        pom++;
-    }
-    return what;
-}
-
 /* *******************************************************************/
-/*			           WBRTM  version 2022                           */
+/*	       WBRTM  version 2006 - renovated in 2022                   */
 /* *******************************************************************/
-/*            THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
-/*             W O J C I E C H   B O R K O W S K I                   */
-/*     Instytut Studiów Społecznych Uniwersytetu Warszawskiego       */
-/*         WWW:  ...                                                 */
+/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                  */
+/*            W O J C I E C H   B O R K O W S K I                    */
+/*    Instytut Studiów Społecznych Uniwersytetu Warszawskiego        */
+/*        WWW:  htt...                                               */
 /*                                                                   */
-/*                                (Don't change or remove this note) */
+/*                               (Don't change or remove this note)  */
 /* *******************************************************************/

@@ -1,5 +1,9 @@
-//	Special implementation of I/O for wb_sptr<char> and wb_pchar
-// /////////////////////////////////////////////////////////////////////
+/** \file wb_pchario.cpp
+ *  \author borkowsk
+ *  \brief Special implementation of I/O for 'wbrtm::wb_sptr<char>' and  'wbrtm::wb_pchar'
+ *  \date 2022-10-11 (last modification)
+ */
+
 #define		ANSI            /* Comment out for UNIX V version  (var_arg)   */
 
 #include "excpbase.hpp"
@@ -20,30 +24,31 @@
 
 namespace wbrtm { //WOJCIECH BORKOWSKI RUN TIME LIBRARY
 
-
+///  \details Pomocniczy singleton do strzelania wyjątkami.
+///           Albo, tylko drukowania komunikatów, jak nie chcemy obsługiwać wyjątków.
 class _pchar_Raiser
 {
 public:
-//#ifdef USE_WB_EXCPTIONS
+
 	int Raise(WB_Exception_base const& E) const
 	{
 		E.PrintTo(cerr);
 		cerr<<endl;
 		return 0;
 	}
-//#endif
-} Raiser;
+
+} _Raiser;
 
 
 ostream& operator<<(ostream& s,const wb_sptr<char>& p)
-{
-    assert("Not implemented"==nullptr);
+{                                                                                   assert("Not implemented"==nullptr);
+    _Raiser.Raise(ExcpIO("DONT USE operator<< for wb_sptr<char>!"));
 	return s;
 }
 
 istream& operator>>(istream& s,wb_sptr<char>& p)
-{
-    assert("Not implemented"==nullptr);
+{                                                                                   assert("Not implemented"==nullptr);
+    _Raiser.Raise(ExcpIO("DONT USE operator>> for wb_sptr<char>!"));
 	return s;
 }
  
@@ -56,13 +61,13 @@ void escaped_pchar_write(ostream& s,const char* pch,char enclos)
 	else
         if( *pch=='\0'
         || ::strchr(pch,enclos)
-        || strpbrk(pch,wbrtm::WB_PCHAR_VERBOTEN_CHARS)!=nullptr ) //Pusty lancuch albo sa separatory itp
-		{//Zapis bezpieczny
+        || strpbrk(pch,wbrtm::WB_PCHAR_VERBOTEN_CHARS)!=nullptr ) //Pusty łańcuch albo są w nim separatory itp.
+		{ //Zapis bezpieczny
 
-			WriteEnclosedString(s,pch,Raiser,enclos);
+			WriteEnclosedString(s,pch,_Raiser,enclos);
 		}
 		else
-			s<<pch;//Zapis jako jedno słowo
+			s<<pch; //Zapis uproszczony jako jedno słowo
 }
 
 ostream& operator<<(ostream& s,const wb_pchar& p)
@@ -70,7 +75,6 @@ ostream& operator<<(ostream& s,const wb_pchar& p)
 	escaped_pchar_write(s,p.get(),'"');
 	return s;
 }
-
 
 istream& operator>>(istream& s,wb_pchar& p)
 {
@@ -85,22 +89,21 @@ istream& operator>>(istream& s,wb_pchar& p)
 		if(pom=='\"')
 		{	
 			s.putback(pom);
-			p.take( ReadEnclosedString(s,Raiser,'\"') );
+			p.take( ReadEnclosedString(s,_Raiser,'\"') );
 		}
 		else
 		{		
 			char poms[1024]; //Wielki zaps
 			s.putback(pom);
-			s>>poms;
-			assert(::strlen(poms)<1024);
+			s>>poms;                                                                     assert(::strlen(poms)<1024);
 			p.take(	clone_str(poms) );//Tylko wczytane
 		}
+
 		return s;
 }
 
 
 } // end of namespace wbrtm
-
 /* *******************************************************************/
 /*	       WBRTM  version 2006 - renovated in 2022                   */
 /* *******************************************************************/

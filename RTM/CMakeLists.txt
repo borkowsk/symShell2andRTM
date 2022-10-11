@@ -28,7 +28,7 @@ add_library( wbrtm STATIC
 #    "${WBRTM}/EXCEPT/extextex.cpp"
     "${WBRTM}/EXCEPT/ioexcep.cpp"
     "${WBRTM}/EXCEPT/excpprin.cpp"
-#    "${WBRTM}/EXCEPT/boundexc.cpp"
+    "${WBRTM}/EXCEPT/boundexc.cpp"
 #    "${WBRTM}/VIRTUALIO/iosuppor.cpp"
 #    "${WBRTM}/VIRTUALIO/iodatabase.cpp"
 #    "${WBRTM}/VIRTUALIO/iocharp.cpp"
@@ -41,7 +41,8 @@ add_library( wbrtm STATIC
         "${WBRTM}/TOOLS/TABDELIMITED/TabDelimited.cpp"
         "${WBRTM}/BASE/error_enter_before_clean.c"
         "${WBRTM}/COMPATIBILITY/stricmp.c"
-    )
+        "${WBRTM}/COMPATIBILITY/struprstrlwr.c"
+        )
 endif()
 
 

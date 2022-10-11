@@ -1,7 +1,7 @@
 /** \file excpprin.cpp
  *  \author borkowsk
  *  \brief Print functions for wbrtm exceptions.
- *  \date 2022-10-10 (last modification)
+ *  \date 2022-10-11 (last modification)
  */
 #include "excpbase.hpp"
 #include "excpmem.hpp"
