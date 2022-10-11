@@ -38,6 +38,7 @@ add_library( wbrtm STATIC
 #    "${WBRTM}/MISCCLASSES/ConfigData.cpp"
 #    "${WBRTM}/MISCCLASSES/Nodemem.cpp"
 #    "${WBRTM}/_COMPAT/autor.cpp" #TYLKO WINDOWS
+        "${WBRTM}/TOOLS/TABDELIMITED/TabDelimited.cpp"
         "${WBRTM}/BASE/error_enter_before_clean.c"
         "${WBRTM}/COMPATIBILITY/stricmp.c"
     )

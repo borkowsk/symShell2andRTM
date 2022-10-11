@@ -7,11 +7,10 @@
 #include <fstream>  //Bedzie wejscie z pliku dyskowego
 
 #include "TabDelimited.hpp"
-//#include "INCLUDE/wbminmax.hpp"
-
 
 using namespace std; // Łatwe użycie nazw z przestrzeni "std"
-using wbrtm::TabelaTabDelimited;
+
+namespace wbrtm {
 
 /// \brief Dostęp do nie zmienialnej treści komórki
 const char* TabelaTabDelimited::operator ()(int w,int k) const
@@ -337,9 +336,9 @@ bool TabelaTabDelimited::WczytajZPliku(const char* _Nazwa,char _Delimiter,unsign
   return true; //Jesli dotarl tutaj do czytanie sie uda³o
 }
 
-bool TabelaTabDelimited::Znajdz(const char* Czego,unsigned& pozw,unsigned pozk) const
+bool wbrtm::TabelaTabDelimited::Znajdz(const char* Czego,unsigned& pozw,unsigned pozk) const
 {
-  while(strcmp((*this)(pozw,pozk),Czego)!=0) //Powtarzaj dopuki nie znajdziesz lub nie dojdziesz do koñca
+  while(strcmp((*this)(pozw,pozk),Czego)!=0) //Powtarzaj, dopóki nie znajdziesz lub nie dojdziesz do końca
   {
 	 if(this->IleKolumn() > pozk+1) pozk++;
 	 else
@@ -381,6 +380,7 @@ std::ostream& operator << (std::ostream &o, const TabelaTabDelimited &self)
     return o;
 }
 
+} //namespace wbrtm
 // ///////////////////////////////////////////////////////////////
 //  Wojciech Borkowski
 //  Instytut Studiów Spo³ecznych Uniwersytet Warszawski

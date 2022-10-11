@@ -528,6 +528,12 @@ public:
         return s;
     }
 
+    /// \brief Rozszerzenie wektora.
+    /// \details
+    ///     Przydatne do rozbudowy tablicy ale trochę niebezpieczne (bo używa 'memcpy')
+    ///     lub kosztowne (gdy używa for(), a T ma konstruktory i destruktory.
+    size_t expand(size_t s,const T& fillVal);
+
     ///Dealokacja wektora
     void dispose()
 	{
@@ -764,6 +770,39 @@ void fill(wb_dynmatrix<T>& Mat,const T& Val)
 {
     Mat.fill(Val);
 }
+
+    // Rozszerzenie wektora. Przydatne do rozbudowy tablicy,
+    // ale niebezpieczne (bo memcpy) lub kosztowne (bo for) jak T ma konstruktory i destruktory
+    // Powiększamy, więc s > size (od poprzedniego rozmiaru)
+    template<class T> inline
+    size_t wb_dynarray<T>::expand(size_t s,const T& fillVal)
+    {					                                                                                     assert(s>size);
+        WBPTRLOG( "wb_dynnarray::expand("<<s<<")" )
+        if(ptr==nullptr)
+            return 0;			//Bo wtedy bzdura
+
+        T* tmp=new T[s]; // Alokacja. Zadziałają konstruktory!
+
+        // Wariant ryzykowny
+        //  = new char[sizeof(T)*s];
+        //	memcpy(tmp,ptr,s*sizeof(T));
+        //	delete (void*)ptr; //?Zwalnianie bez wywoływania możliwych destruktor�w
+
+        //Bezpieczne, choć nieefektywny przepisanie zawartości komórek
+        for(unsigned i=0;i<size;i++)
+            tmp[i]=ptr[i]; //Dla klas użyty tu operator przypisania
+
+        //Jakieś wypełnienie nowych komórek
+        for(unsigned i=size;i<s;i++)
+            tmp[i]=fillVal; // Dla klas użyty tu operator przypisania
+
+        dispose();  //Kasacja starego wektora. Działają destruktory.
+
+        // Zapamiętanie nowego wskaźnika
+        ptr=tmp;
+        size=s;
+        return size;
+    }
 
 #if	HIDE_WB_PTR_IO != 1
 /// Wejście wyjście strumieniowe dla inteligentnych wskaźników.
