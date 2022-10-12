@@ -16,7 +16,7 @@
 /// a nie kopiowana. Obiekt donor staje się PUSTY! Dlatego obiekty te do funkcji
 /// muszą być zawsze przekazywane przez REFERENCJE!
 ///
-/// \author Wojciech Borkowski wborkowski (_at_) uw.edu.pl
+/// \copyright Wojciech Borkowski wborkowski (_at_) uw.edu.pl
 // *******************************************************************************************************************
 #ifndef __WB_PTR_HPP__
 #define __WB_PTR_HPP__
@@ -852,7 +852,7 @@ extern int WB_error_enter_before_clean; ///< Sterowanie reakcją na kończące b
 }
 
 /* ******************************************************************/
-/*              SYMSHELLLIGHT  version 2022-07-04                   */
+/*                WBRTM  version 2022 for GuestXR                   */
 /* ******************************************************************/
 /*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
 /*            W O J C I E C H   B O R K O W S K I                   */

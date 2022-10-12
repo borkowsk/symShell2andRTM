@@ -1,17 +1,19 @@
 /** \file wb_pchario.cpp
- *  \author borkowsk
- *  \brief Templates for input and output of wbrtm :: wb_pchar objects
+ *  \brief Templates for input and output of wbrtm::wb_pchar objects
  *  \date 2022-10-11 (last modification)
+ *  \author Wojciech Borkowski @ Institut for Social Studies, University of Warsaw
+ *  \date 2022-10-12 (last modification)
+ *  \details ...
+ * \note Like many others wbrtm files created around year 1996.
  */
 
 #ifndef _WB_PCHARIO_HPP_
 #define _WB_PCHARIO_HPP_
 
-#include "platform.hpp"
-
 #include <iostream>
 #include <cstring>
 
+#include "wb_ptr.hpp"
 #include "ioexcep.hpp"
 #include "excpmem.hpp"
 
@@ -125,17 +127,17 @@ return 0;
 
 } //namespace
 
-/* *******************************************************************/
-/*	       WBRTM  version 2006 - renovated in 2022                   */
-/* *******************************************************************/
-/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                  */
-/*            W O J C I E C H   B O R K O W S K I                    */
-/*    Instytut Studiów Społecznych Uniwersytetu Warszawskiego        */
-/*        WWW:  htt...                                               */
-/*                                                                   */
-/*                               (Don't change or remove this note)  */
-/* *******************************************************************/
-
+/* ******************************************************************/
+/*                WBRTM  version 2022 for GuestXR                   */
+/* ******************************************************************/
+/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
+/*            W O J C I E C H   B O R K O W S K I                   */
+/*    Instytut Studiów Społecznych Uniwersytetu Warszawskiego       */
+/*    WWW: https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI  */
+/*    GITHUB: https://github.com/borkowsk                           */
+/*                                                                  */
+/*                               (Don't change or remove this note) */
+/* ******************************************************************/
 #endif
 
 
