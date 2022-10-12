@@ -26,7 +26,7 @@ namespace wbrtm { //WOJCIECH BORKOWSKI RUN TIME LIBRARY
 /// \note Nie sprawdza rozmiaru!!! Trzeba wcześniej zaalokować bezpiecznie.
 /// \param format - jak dla vsprintf
 /// \param ... - otwarta lista parametrów wymaganych przez 'format'
-/// \return
+/// \return referencje do this wypełnionego nową zawartością
 wb_pchar& wb_pchar::prn(const char* format,...)
 {
    va_list marker;
@@ -53,7 +53,8 @@ wb_pchar& wb_pchar::add(const char* format,...)
    return *this;
 }
 
-/// \NOTE Used only internally
+/// \details Pomocnicza funkcja lokalna dla implementacji wbrtm::replace
+/// \note Used only internally
 static char* _find(char* where,const char* forfind,bool fullwords)
 {
 	do{

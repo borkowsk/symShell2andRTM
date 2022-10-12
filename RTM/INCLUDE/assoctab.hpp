@@ -1,27 +1,39 @@
+/** @file
+*  \brief    The simplest associative arrays.
+*====================================================================================================================
+*  \details Obsolete and not improved part of the wb_rtm library.
+*           It was established before 2000.
+*           <br>
+*         Zarzadza powiazaniami wartosci skalarnych i wskaznikow.
+*         Zarowno dla kluczy(K) jak i wartosci(V) rezerwowane jest miesjce o
+*         rozmiarze = uniontype (slowo conajmniej 32 bitowe) i typ K i V musi byc
+*         rzutowalny na unitype. A K posiadac tez wcielenie funkcji "compare".
+*         Wartosci dla K sa kopiowane w razie potrzeby, a dla V mozna je przypisywac.
+*
+*         "assoc_template" moze byc uzyta do dowolnego typu, ale nie ma operacji I/O.
+*         "assoc_table" nie powinna byc uzyta do wskaznikow ze wzgledu na
+*         implementacje I/O.
+*         "assoc_table_of_ptr" ma mozliwosc wyboru trybu pracy - wskazniki statyczne
+*         lub dynamiczne. Przy wczytywaniu jednak wszystkie dane sa realokowane na
+*         sterte poniewaz operacja ta moze alokowac nowe dane. Jesli dane sa dynamiczne
+*         to sa dealokowane w destruktorze.
+*         Dla typu char* mozna uzywac jedynie assoc_template albo typow z rodziny
+*         "dictionary*" ze wzgledu na niestandardowe traktowanie w jezyku C++
+*
+*  \copyright Wojciech T. Borkowski
+*  \date 2022-10-12 (last modification)
+*  @ingroup OBSOLETE
+*/
 #ifndef _ASSOC_TABLE_HPP_
 #define _ASSOC_TABLE_HPP_
-// Najprostrze tablice asocjacyjne.
-// Zarzadza powiazaniami wartosci skalarnych i wskaznikow.
-// Zarowno dla kluczy(K) jak i wartosci(V) rezerwowane jest miesjce o
-// rozmiarze = uniontype (slowo conajmniej 32 bitowe) i typ K i V musi byc
-// rzutowalny na unitype. A K posiadac tez wcielenie funkcji "compare".
-// Wartosci dla K sa kopiowane w razie potrzeby, a dla V mozna je przypisywac.
-//
-// "assoc_template" moze byc uzyta do dowolnego typu, ale nie ma operacji I/O.
-// "assoc_table" nie powinna byc uzyta do wskaznikow ze wzgledu na
-// implementacje I/O.
-// "assoc_table_of_ptr" ma mozliwosc wyboru trybu pracy - wskazniki statyczne
-// lub dynamiczne. Przy wczytywaniu jednak wszystkie dane sa realokowane na
-// sterte poniewaz operacja ta moze alokowac nowe dane. Jesli dane sa dynamiczne
-// to sa dealokowane w destruktorze.
-// Dla typu char* mozna uzywac jedynie assoc_template albo typow z rodziny
-// "dictionary*" ze wzgledu na niestandardowe traktowanie w jezyku C++
+
 #include "assobase.hpp"
 #include "containe.hpp"
 #include "compare.hpp"
 
 namespace wbrtm { //WOJCIECH BORKOWSKI RUN TIME LIBRARY
 
+/// \brief Obsolete class
 template<class K,class V>
 class assoc_template : public key_container<K,V> ,protected assoc_base
 // Typ K i V musi zmiescic sie w unii "unitype" !!!
@@ -76,7 +88,7 @@ assoc_template(size_t lenght,int sorted,int rev)://With prealocation
 IO_PUBLIC_DECLARE
 };
 
-
+/// \brief Obsolete class
 template<class K,class V>
 class assoc_table: public assoc_template<K,V>
 // only scalars in val and key
@@ -96,6 +108,7 @@ assoc_table(int sorted=container_base::SORTED,
 //IO_PUBLIC_DECLARE dziedziczony po bazowej
 };
 
+/// \brief Obsolete class
 template<class K,class V>
 class assoc_table_of_ptr: public assoc_template<K,V*>
 // only scalars in key & only pointers in val, rather heap allocated
@@ -132,9 +145,10 @@ lvptr<V> lv(K index)
 };
 
 // IMPLEMENTACJA METOD DLA TABLIC ASOCJACYJNYCH
-////////////////////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////////////////////////////////////
 /* GLOBAL TEMPLATES FOR CONVERSION  */
 
+/// \brief Obsolete class
 template<class T>
 inline
 unitype _to_unitype_for_assoc_table(T& key)
@@ -142,14 +156,15 @@ unitype _to_unitype_for_assoc_table(T& key)
 unitype pom;
 assert(sizeof(T)<=sizeof(unitype));
 
-//Operacja umieszczenia na obiekcie unitype
-///////////////////////////////////////////
+// Operacja umieszczenia na obiekcie unitype
+// /////////////////////////////////////////
 new (&pom)T(key);//Klasa T musi miec operacje inicjacji z obiektu tego samego typu
-///////////////////
+// /////////////////
 
 return pom;//Tu juz przepisanie binarne
 }
 
+/// \brief Obsolete class
 template<class T>
 inline
 T _from_unitype_for_assoc_table(T&,unitype u)//
@@ -158,11 +173,13 @@ return  *(T*)&(u);
 }
 
 /* ASSOC_TEMPLATE CONTAINER SEARCHING SUPPORT & DELETE SUPPORT */
+/// \brief Obsolete class
 template<class K,class V>
 inline
 int       assoc_template<K,V>::Raise(const WB_Exception_base& e) const
 	{ return tab.Raise(e); }
 
+    /// \brief Obsolete class
 template<class K,class V>
 inline  V* assoc_template<K,V>::Search(K key,int make)
 {
@@ -172,6 +189,7 @@ if(pom==NULL) return NULL;
    else return (V*)&(pom->val);
 }
 
+/// \brief Obsolete class
 template<class K,class V>
 //Porownuje dwa klucze. Zwraca 0 gdy ==, 1 gdy first>second
 int 	  assoc_template<K,V>::Compare(const unitype first,const unitype second)
@@ -181,22 +199,36 @@ K s=*(K*)&(second);// Nie mozna zwyczajnie bo K moze byc wskaznikiem do klasy
 return compare(f,s);
 }
 
+/// \brief Obsolete class
 template<class K,class V>
 inline pix 	     assoc_template<K,V>::first() const { return _first();}
+
+/// \brief Obsolete class
 template<class K,class V>
 inline pix 	     assoc_template<K,V>::next(pix p) const { return _next(p);}
+
+/// \brief Obsolete class
 template<class K,class V>
 inline void        assoc_template<K,V>::destroy(pix& p) const { _destroy(p); }
+
+/// \brief Obsolete class
 template<class K,class V>
 inline int         assoc_template<K,V>::remove(pix p)  { return _remove(p); }
+
+/// \brief Obsolete class
 template<class K,class V>
 inline V&          assoc_template<K,V>::value(pix p) { return *(V*)_value(p); }
+
+/// \brief Obsolete class
 template<class K,class V>
 inline const K&    assoc_template<K,V>::key(pix p) const { return *(K*)_key(p);}
+
+/// \brief Obsolete class
 template<class K,class V>
 inline K           assoc_template<K,V>::copyOfKey(pix p) const { return *(K*)_key(p);}
 
 /* OTHER PROPERTIES */
+/// \brief Obsolete class
 template<class K,class V>
 void	assoc_template<K,V>::RemoveAll()
 //clean assoc_table. May be calling "delete".
@@ -204,10 +236,12 @@ void	assoc_template<K,V>::RemoveAll()
 	assoc_base::Truncate();//Zapomina ze mial juz elementy, ale nie dealokuje
 }
 
+/// \brief Obsolete class
 template<class K,class V>	// usuwa item.
 inline void	     assoc_template<K,V>::Remove(K key)
 				{assoc_base::_Remove(_to_unitype_for_assoc_table(key));}
 
+/// \brief Obsolete class
 template<class K,class V>
 inline
 V& 	  assoc_template<K,V>::operator [] (K key)
@@ -218,6 +252,7 @@ if(pom==NULL)
 return *pom;
 }
 
+/// \brief Obsolete class
 template<class K,class V>
 inline
 V&        assoc_template<K,V>::operator () (K key)
@@ -229,12 +264,14 @@ return *pom;
 }
 
 /* I/O SUPPORT */
+/// \brief Obsolete class
 template<class K,class V>
 void assoc_template<K,V>::implement_input(istream& inp)
 {
 assoc_base::implement_input(inp);
 }
 
+/// \brief Obsolete class
 template<class K,class V>
 void assoc_template<K,V>::implement_output(ostream& o)      const
 {
@@ -242,6 +279,7 @@ assoc_base::implement_output(o);
 }
 
 /* ASSOC_TABLE I/O IMPLEMENTATION */
+/// \brief Obsolete class
 template<class K,class V>
 int   assoc_table<K,V>::AssoOutput(ostream& o,const assoitem& what) const
 //Uzywany do wyprowadzania
@@ -251,6 +289,7 @@ o<<*(V*)&(what.val);
 return !o.fail();
 }
 
+/// \brief Obsolete class
 template<class K,class V>
 int   assoc_table<K,V>::AssoInput(istream& inp,assoitem& what)
 //Uzywany do wprowadzania
@@ -267,6 +306,7 @@ return 1;
 
 
 /* ASSOC TABLE OF PTR IMPLEMENTATION */
+/// \brief Obsolete class
 template<class K,class V>
 void assoc_table_of_ptr<K,V>::ReallocData()
 {
@@ -289,6 +329,7 @@ if(size>0)// Przealokowac statycznie alokowane wartosci
 v_mem_mode=container_base::DYNAMIC_VAL;//Zrobil z niego dynamic.
 }
 
+/// \brief Obsolete class
 template<class K,class V>
 int   assoc_table_of_ptr<K,V>::AssoOutput(ostream& o,const assoitem& what) const
 //Uzywany do wyprowadzania
@@ -302,6 +343,7 @@ if(pom==NULL || pom==FULL)
 return !o.fail();
 }
 
+/// \brief Obsolete class
 template<class K,class V>
 void      assoc_table_of_ptr<K,V>::BeforeDeletion( assoitem& a )
 //Wywolywana zawsze przed usunieciem i-temu z tab.
@@ -315,7 +357,7 @@ if(!DataAreStatic() && a.val.ptr!=NULL && a.val.ptr!=FULL)
 	}
 }
 
-
+/// \brief Obsolete class
 template<class K,class V>
 int   assoc_table_of_ptr<K,V>::AssoInput(istream& inp,assoitem& what)
 //Uzywany do wprowadzania
@@ -339,6 +381,7 @@ what.val=_to_unitype_for_assoc_table(v);
 return 1;
 }
 
+/// \brief Obsolete class
 template<class K,class V>
 void assoc_table_of_ptr<K,V>::implement_input(istream& inp)
 {
@@ -347,12 +390,14 @@ if(v_mem_mode!=container_base::DYNAMIC_VAL)
 assoc_template<K,V*>::implement_input(inp);
 }
 
+/// \brief Obsolete class
 template<class K,class V>
 void assoc_table_of_ptr<K,V>::implement_output(ostream& o)      const
 {
 assoc_template<K,V*>::implement_output(o);
 }
 
+/// \brief Obsolete class
 template<class K,class V>
 assoc_table_of_ptr<K,V>::~assoc_table_of_ptr() //call BeforeDeletion for all items
 {
@@ -362,6 +407,7 @@ if(!DataAreStatic())
 	BeforeDeletion(this->tab[i]);
 }
 
+/// \brief Obsolete class
 template<class K,class V>
 void	assoc_table_of_ptr<K,V>::RemoveAll()
 //clean assoc_table. May be calling "delete".
@@ -382,14 +428,14 @@ DEFINE_VIRTUAL_NECESSARY_FOR_TEMPLATE( <class K _COMA_ class V> , assoc_table_of
 
 } //namespace
 
-/********************************************************************/
-/*			          WBRTM  version 2013                           */
-/********************************************************************/
-/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
-/*            W O J C I E C H   B O R K O W S K I                   */
-/*    Instytut Studiow Spolecznych Uniwersytetu Warszawskiego       */
-/*        WWW:  http://borkowski.iss.uw.edu.pl/                     */
-/*                                                                  */
-/*                               (Don't change or remove this note) */
-/********************************************************************/
+/* *******************************************************************/
+/*			          WBRTM  version 2013                            */
+/* *******************************************************************/
+/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                  */
+/*            W O J C I E C H   B O R K O W S K I                    */
+/*    Instytut Studiow Spolecznych Uniwersytetu Warszawskiego        */
+/*        WWW:  http://wwww.iss.uw.edu.pl/~borkowsk/                 */
+/*                                                                   */
+/*                               (Don't change or remove this note)  */
+/* *******************************************************************/
 #endif

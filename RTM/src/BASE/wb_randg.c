@@ -1,7 +1,12 @@
 /********************************************************************
-**  randg generuje liczby losowe o rozkladzie prostym              **
-**  z przedzialu (0,1)                                             **
-********************************************************************/
+ * \file
+ * \brief  randg generuje liczby losowe o rozkładzie prostym z przedziału (0,1)
+ *====================================================================================================================
+ *  \details Flaga dla "wb_rtm" kończenia z zapytaniem.
+ *           Created by borkowsk before 2000.
+ *  \copyright ....
+ *  \date 2022-10-12 (last modification)
+ */
 #include <stdlib.h>
 #include <stdio.h>
 #include <assert.h>
@@ -24,23 +29,24 @@ float randexp();
 } //extern C
 #endif
 
+/// \note TODO - MUTEXOWE ZABEZPIECZENIE ::rand() na wielowątkowość ALE JAK TO ZROBIC W STD C ???
 long my_rand()
-{  //TODO - MUTEXOWE ZABEZPIECZENIE ::rand() na wielowątkowość ALE JAK TO ZROBIC W STD C ???
+{
     return rand();
 }
 
 /*INT_MAX musi byc 0x7fffffff*/
 typedef long int32; /*Wg ANSI C long ma zawsze 32bity */
 
+/// \details Parametr jest traktowany ABS i zmieniany w liczbę ujemną.
 void srandg(short int srandg_init_val)
-{
-        assert(srandg_init_val!=0);
+{                                                                                            assert(srandg_init_val!=0);
 	di=-abs(srandg_init_val);
 }
 
+/// \note TODO - MUTEXOWE ZABEZPIECZENIE ::randg() na wielowątkowość. ALE JAK TO ZROBIĆ W STD C ???
 float randg()
 {
-  //TODO - MUTEXOWE ZABEZPIECZENIE ::rand() na wielowątkowość!!!
   static short int        inext, inextp;
   static int32            ma[55];
   int32                   mj, mk, mbig = 1000000000;
@@ -125,3 +131,14 @@ float randexp()
 }
 
 
+
+/* *******************************************************************/
+/*			 WBRTM  version 2006 - renovation 2022                   */
+/* *******************************************************************/
+/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                  */
+/*            W O J C I E C H   B O R K O W S K I                    */
+/*    Instytut Studiów Społecznych Uniwersytetu Warszawskiego        */
+/*        WWW:  ...                                                  */
+/*                                                                   */
+/*                               (Don't change or remove this note)  */
+/* *******************************************************************/

@@ -1,7 +1,7 @@
-/** \file bounded.hpp
+/** \file   bounded.hpp
  *  \author borkowsk
- *  \brief wbrtm::bounded class & dedicated exception
- *  \date 2022-10-10 (last modification)
+ *  \brief  wbrtm::bounded class & dedicated exception
+ *  \date   2022-10-10 (last modification)
  */
 #ifndef _BOUNDED_HPP_
 #define _BOUNDED_HPP_
@@ -29,7 +29,7 @@ void PrintTo(std::ostream&) const;
 ///     Jest to szablon parametryzowany typem T.
 ///     Wymagane jest zdefiniowanie operatorów <= i >= dla typu T
 ///     i liczb (?)
-/// \param T - typ wartości
+/// \tparam T - typ wartości
 /// \param low - najmniejsza dopuszczalna wartość
 /// \param high - największa dopuszczalna wartość
 template<class T,T low,T high>

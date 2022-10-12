@@ -1,8 +1,21 @@
-/** INTERFACE "C" DO ROZMAITYCH GENERATOROW LICZB PSEUDOLOSOWYCH */
-/** \file random.h                                               */
-/**--------------------------------------------------------------*/
+/**
+*  \file random.h
+*  \brief   INTERFACE "C" DO ROZMAITYCH GENERATORÓW LICZB PSEUDOLOSOWYCH
+*           -------------------------------------------------------------
+*
+*  \details Wybór generatora pseudolosowego zdefiniowanego makrami preprocesora.
+ *          - USES_RANDG - z użyciem funkcji randg() z Numerical Recipies
+ *          - USES_STDC_RAND - z użyciem standardu języka C
+ *          - USES_BSD_RANDOM - random z unix-a systemu BSD
+ *          - USES_SVR4_DRAND - random z unix-a systemu V
+ *          - IRIX32 - for INDY IRIX - very obsolete
+ *
+*  \author borkowsk
+*  \date  2022-10-12 (last modification)
+*/
 #ifndef __RANDOM__H__INCLUDED__
 #define __RANDOM__H__INCLUDED__  (1)
+
 #include <time.h> //Potrzebne bo wszędzie jest time()
 
 #if   defined( USES_RANDG )
@@ -99,7 +112,7 @@ inline  double DRAND_LOOP(int W)
 #endif
 
 /* *******************************************************************/
-/*               SYMSHELLLIGHT  version 2022-01-06                   */
+/*               SYMSHELLLIGHT  version 2022                         */
 /* *******************************************************************/
 /*            THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
 /*             W O J C I E C H   B O R K O W S K I                   */

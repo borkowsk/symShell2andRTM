@@ -1,3 +1,14 @@
+/**
+* \file
+* \brief   Generic "input/output" exception.
+*        ----------------------------------------
+* \details
+*          Contents:
+*          - class wbrtm::ExcpIO;
+*
+* \date    2022-10-12 (last modification)
+* \author  borkowsk
+*/
 #ifndef __IOEXCEPTION_HPP__
 #define __IOEXCEPTION_HPP__
 
@@ -8,9 +19,9 @@
 
 namespace wbrtm { //WOJCIECH BORKOWSKI RUN TIME LIBRARY
 
+/// \brief Typ wyjątku do zastosowania w operacjach wejścia/wyjścia na strumieniach.
+/// \note  Zakładamy ze można spokojnie alokować pamięć dla łańcuchów z treścią komunikatu.
 class ExcpIO:public WB_Exception_base
-// Typ wyjatku do zastosowania w operacjach wejscia/wyjscia na strumieniach
-// Zakladamy ze mozna spokojnie alokowac pamiec dla lancuchów.
 {
 	EXCP_NECESSARY(ExcpIO)
 protected:

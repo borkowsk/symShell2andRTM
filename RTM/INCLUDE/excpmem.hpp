@@ -1,5 +1,15 @@
-//	Generic "out of memory" & "invalid pointer" exception.
-// //////////////////////////////////////////////////////////////////////////////////////////
+/**
+* \file
+* \brief   Generic "out of memory" & "invalid pointer" exception.
+*        ------------------------------------------------------------------------
+* \details
+*          Contents:
+*          - class wbrtm::OutOfMemoryExcp;
+*          - class wbrtm::InvalidPtrUseExcp;
+*
+* \date    2022-10-12 (last modification)
+* \author  borkowsk
+*/
 
 #ifndef _EXCP_OUT_MEMORY_HPP_
 #define _EXCP_OUT_MEMORY_HPP_
@@ -8,6 +18,7 @@
 
 namespace wbrtm { //WOJCIECH BORKOWSKI RUN TIME LIBRARY
 
+/// \brief Obsolete class
 class OutOfMemoryExcp:public MemoryExcp
 {
 EXCP_NECESSARY(OutOfMemoryExcp)
@@ -17,6 +28,7 @@ OutOfMemoryExcp(object_size_t req_size,const char* fn=0,const int fl=0):MemoryEx
 void PrintTo(std::ostream&) const;
 };
 
+/// \brief Obsolete class
 class InvalidPtrUseExcp:public MemoryExcp
 {
 EXCP_NECESSARY(InvalidPtrUseExcp)
@@ -25,7 +37,6 @@ public:
 InvalidPtrUseExcp(pointer iptr,const char* fn=0,const int fl=0):MemoryExcp(fn,fl),ptr(iptr){}
 void PrintTo(std::ostream&) const;
 };
-
 
 } //namespace
 
@@ -39,5 +50,4 @@ void PrintTo(std::ostream&) const;
 /*                                                                   */
 /*                               (Don't change or remove this note)  */
 /* *******************************************************************/
-
 #endif

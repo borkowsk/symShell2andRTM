@@ -19,6 +19,7 @@ namespace wbrtm { //WOJCIECH BORKOWSKI RUN TIME LIBRARY
 static int juz_bylo=0;
 static int in_error_flag=0;
 
+/// \brief Internal class
 void _high_endln_forcer()
 {
 if(cerr.bad() || cerr.fail()) //Jeśli coś nie tak
@@ -39,6 +40,7 @@ juz_bylo=1;
 }
 
 // C++ EXCEPTION MODE ERROR SUPPORT
+/// \brief Internal class
 static class _premain_force_endl
 {
 public:
@@ -53,20 +55,19 @@ if( cerr.flags() & unitbuf !=0 ) //Może go jeszcze nie być, ale to nie jest sp
 	cerr<<"WBRTM - DEBUG VERSION "<<__DATE__<<' '<<__TIME__<<'\n';
 #endif
 #endif
-//atexit(high_endln_forcer);//Nie ma sposobu sprawdzenia, ze cerr jeszcze nie wywołało destruktora!!!
+//atexit(high_endln_forcer);//Nie ma sposobu sprawdzenia, ze std::cerr jeszcze nie wywołało destruktora!!!
 }
 
 ~_premain_force_endl()
 {
-//high_endln_forcer();//Nie ma sposobu sprawdzenia, ze cerr jeszcze nie wywołało destruktora!!!
+//high_endln_forcer();//Nie ma sposobu sprawdzenia, ze std::cerr jeszcze nie wywołało destruktora!!!
 }
 
-} _preamain_forcer;
+} _preamain_forcer; ///< singleton
 
-
+/// \details Very simple version for compiler without exception support
 int error_handling::Error(const WB_Exception_base& e)
 {
-// Very simple version for compiler without exception support
 cerr<<e<<'\n';
 
 if(!e.Recoverable())
@@ -118,16 +119,17 @@ if(!e.Recoverable())
 	}
 }
 
-static const char* ecomm[]={"OK=0",
-"nullptr USE","ALLOC ERROR","NOT FOUND","INVALID KEY","INTERNAL FAULT",
-"RANGE ERROR","I/O ERROR",
-"OTHER ERROR"};
+static const char* ecomm[]={
+        "OK=0",
+        "nullptr USE","ALLOC ERROR","NOT FOUND","INVALID KEY","INTERNAL FAULT",
+        "RANGE ERROR","I/O ERROR",
+        "OTHER ERROR"};
 
 void RunTimeErrorExcp::PrintTo(ostream& o) const
 {
 if(Code>0)
    {
-      if(Code<errh::OTHER_ERROR)
+      if(Code < err_handl::OTHER_ERROR)
 		o<<"\n\""<<(Code<sizeof(ecomm)/sizeof(ecomm[0])?ecomm[Code]:ecomm[sizeof(ecomm)/sizeof(ecomm[0])-1])
 		<<"\" ";
       else

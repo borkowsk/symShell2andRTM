@@ -1,6 +1,7 @@
 /** \file wb_pchario.cpp
  *  \author borkowsk
  *  \brief Special implementation of I/O for 'wbrtm::wb_sptr<char>' and  'wbrtm::wb_pchar'
+ *         -------------------------------------------------------------------------------
  *  \date 2022-10-11 (last modification)
  */
 

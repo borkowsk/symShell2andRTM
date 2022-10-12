@@ -1,19 +1,18 @@
 /// \file wb_cpucl.hpp
-// ///////////////////
-/// \class wb_cpu_clock
-/// \brief Klasa stopera liczącego czas CPU
-/// \details liczy od momentu
-/// utworzenia lub wywołania reset() do chwili pobrania
-/// wartości za pomocą "operator double()"
+/// \brief   Klasa stopera liczącego czas CPU
+/// \details liczy od momentu utworzenia lub wywołania reset() do chwili pobrania
+///          wartości za pomocą "operator double()"
 /// \author borkowsk
-/// \warning OBSOLETE
-// ///////////////////////////////////////////////////////
+/// \date 2022-10-12 (last modification)
+/// @ingroup OBSOLETE
+
 #ifndef __CPU_CLOCK_HPP_
 #define __CPU_CLOCK_HPP_
 
 #include <time.h>
 #include <iostream>
 
+/// \brief Stoper \warning OBSOLETE!
 class wb_cpu_clock
 {
     clock_t begin_val;
@@ -93,10 +92,10 @@ friend
 #endif //defined USES_IOSTREAM
 
 
-typedef wb_cpu_clock cticker;///< ready to use timer starting before main()
+typedef wb_cpu_clock cticker; ///< ready to use timer starting before main()
 
 /* ******************************************************************/
-/*              SYMSHELLLIGHT  version 2022-01-04                   */
+/*              SYMSHELLLIGHT  version 2022                         */
 /* ******************************************************************/
 /*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
 /*            W O J C I E C H   B O R K O W S K I                   */

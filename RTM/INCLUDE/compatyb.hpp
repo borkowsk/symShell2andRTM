@@ -1,9 +1,8 @@
-/**
-*	Plik definiujacy zastepcze funkcje C++ ktorych brak w poszczegolnych
-*	kompilatorach i systemach
-***************************************************************************
+/**  \file     compatyb.hpp
+* \details  Plik definiujący zastępcze funkcje "C",
+*    	    których brak w poszczególnych kompilatorach i systemach
+* **************************************************************************
 */
-//#include "platform.hpp"
 
 #ifdef unix 
 #include <cstdio>
@@ -11,6 +10,7 @@
 #include <iostream>
 
 namespace wbrtm {
+
     /// \brief Zjada wszelkie odstępy ze strumienia.
     /// \note Zamiast istream::eatwhite (z Borlanda)
     inline
@@ -133,7 +133,7 @@ int eat_blanks(std::istream& file)
 /* end of other compilers part */
 #endif
 /* *******************************************************************/
-/*		       WBRTM  version 2022                           */
+/*		               WBRTM  version 2022                           */
 /* *******************************************************************/
 /*            THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
 /*             W O J C I E C H   B O R K O W S K I                   */

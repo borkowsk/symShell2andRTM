@@ -1,5 +1,13 @@
-// Dynamic arrays - some resizable
-////////////////////////////////////////////////////////////////////////////////////
+/** @file
+*  \brief    Dynamic arrays - some resizable
+*====================================================================================================================
+*  \details Obsolete and not improved part of the wb_rtm library.
+*           It was established before 2000.
+*  \copyright Wojciech T. Borkowski
+*  \date 2022-10-12 (last modification)
+*  @ingroup OBSOLETE
+*/
+
 #ifndef _ARRAY_HPP_
 #define _ARRAY_HPP_
 
@@ -9,12 +17,13 @@
 #include "arr_base.hpp"
 #include "excpothr.hpp"
 #include "ioexcep.hpp"
-#include "_voidnew.hpp"
 
+#include "_voidnew.hpp"
 #include "iosuppor.hpp"
 
 namespace wbrtm { //WOJCIECH BORKOWSKI RUN TIME LIBRARY
 
+/// \brief Obsolete class
 template<class T>
 class array_constsize:public array_base<T>
 	// Not RESIZEABLE. User must set size in construction.
@@ -38,6 +47,7 @@ public:
     int Expand(size_t nsize);// Tu faktycznie nie powieksza, ale sprawdza czy jest jeszcze miejsce w ramach alokacji
 };
 
+/// \brief Obsolete class
 template<class T>
 class array_template:public array_base<T>
 	// Define index operator and basic realloc
@@ -52,10 +62,9 @@ public:
 	int Insert(size_t posit);// Insert empty element at posit(ion). Move the rest of table.
 };
 
+/// \brief For no class types - construction/destruction maybe not handled properly
 template<class T>
 class array_of:public array_template<T>
-	// For no class types - construction/destruction maybe not handled
-	// properly
 {
 	VIRTUAL_NECESSARY_AND_IO( array_of<T> )
 public:
@@ -65,6 +74,7 @@ public:
 	//int Expand(size_t nsize);
 };
 
+/// \brief Obsolete class
 template<class T>
 class array_of_class:public array_template<T>
 	// For class types - with construction/destruction handling
@@ -82,9 +92,9 @@ public:
 	int Expand(size_t nsize);// Realloc with construction & destruction
 };
 
+/// \brief only for pointers, rather pointing to heap allocated blocks.
 template<class T>
 class array_of_ptr:public array_template< T* >
-// only for pointers, rather pointing to heap allocated blocks
 {
 	VIRTUAL_NECESSARY_AND_IO( array_of_ptr< T > )
 	container_base::memmode g_mem_mode;
@@ -116,14 +126,14 @@ public:
 
 } //namespace
 
-/********************************************************************/
+/* ******************************************************************/
 /*			        WBRTM  version 2013-09-26                       */
-/********************************************************************/
+/* ******************************************************************/
 /*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
 /*            W O J C I E C H   B O R K O W S K I                   */
 /*    Instytut Studiow Spolecznych Uniwersytetu Warszawskiego       */
 /*        WWW:  http://borkowski.iss.uw.edu.pl/                     */
 /*                                                                  */
 /*                               (Don't change or remove this note) */
-/********************************************************************/
+/* ******************************************************************/
 #endif

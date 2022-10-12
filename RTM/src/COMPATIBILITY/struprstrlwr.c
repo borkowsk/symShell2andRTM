@@ -6,6 +6,8 @@
 #include <ctype.h>
 #include <string.h>
 
+/// \param   what - tekst do zmiany
+/// \details Zmiany dotyczą bezpośrednio parametru \p 'what'
 const char *strlwr(char *what)
 {
     if (what == NULL) return NULL;
@@ -18,6 +20,8 @@ const char *strlwr(char *what)
     return what;
 }
 
+/// \param   what - tekst do zmiany
+/// \details Zmiany dotyczą bezpośrednio parametru \p 'what'
 const char *strupr(char *what)
 {
     if (what == NULL) return NULL;

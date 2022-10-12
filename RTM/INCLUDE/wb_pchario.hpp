@@ -1,10 +1,10 @@
 /** \file wb_pchario.cpp
  *  \brief Templates for input and output of wbrtm::wb_pchar objects
- *  \date 2022-10-11 (last modification)
+ *         ---------------------------------------------------------
  *  \author Wojciech Borkowski @ Institut for Social Studies, University of Warsaw
- *  \date 2022-10-12 (last modification)
+ *  \date   2022-10-12 (last modification)
  *  \details ...
- * \note Like many others wbrtm files created around year 1996.
+ *  \note Like many others wbrtm files created around year 1996.
  */
 
 #ifndef _WB_PCHARIO_HPP_

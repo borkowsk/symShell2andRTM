@@ -1,5 +1,13 @@
-// Base class for dynamic resizable arrays    
-////////////////////////////////////////////////////////////////////////////////
+/** @file
+*  \brief    Base class for dynamic resizable arrays
+*====================================================================================================================
+*  \details Obsolete and not improved part of the wb_rtm library.
+*           It was established before 2000.
+*  \copyright Wojciech T. Borkowski
+*  \date 2022-10-12 (last modification)
+*  @ingroup OBSOLETE
+*/
+
 #ifndef _ARRAY_BASE_HPP_
 #define _ARRAY_BASE_HPP_
 
@@ -13,6 +21,7 @@
 
 namespace wbrtm { //WOJCIECH BORKOWSKI RUN TIME LIBRARY
 
+/// \brief Obsolete class
 template<class T>
 class array_base:public key_container<size_t,T>,public int_key_container_base
 {
@@ -188,14 +197,14 @@ inline wb_pchar array_base<T>::ChangeSeparator(const char* Sep)
 
 } //namespace
 
-/********************************************************************/
-/*			          WBRTM  version 2006                           */
-/********************************************************************/
-/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
-/*            W O J C I E C H   B O R K O W S K I                   */
-/*    Instytut Studiow Spolecznych Uniwersytetu Warszawskiego       */
-/*        WWW:  http://wwww.iss.uw.edu.pl/~borkowsk/                */
-/*                                                                  */
-/*                               (Don't change or remove this note) */
-/********************************************************************/
+/* *******************************************************************/
+/*			          WBRTM  version 2006                            */
+/* *******************************************************************/
+/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                  */
+/*            W O J C I E C H   B O R K O W S K I                    */
+/*    Instytut Studiow Spolecznych Uniwersytetu Warszawskiego        */
+/*        WWW:  http://wwww.iss.uw.edu.pl/~borkowsk/                 */
+/*                                                                   */
+/*                               (Don't change or remove this note)  */
+/* *******************************************************************/
 #endif

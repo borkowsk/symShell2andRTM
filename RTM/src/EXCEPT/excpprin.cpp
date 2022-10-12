@@ -1,6 +1,7 @@
 /** \file excpprin.cpp
  *  \author borkowsk
  *  \brief Print functions for wbrtm exceptions.
+ *         ------------------------------------
  *  \date 2022-10-11 (last modification)
  */
 #include "excpbase.hpp"
@@ -22,7 +23,7 @@ ostream& operator << (ostream& o,const WB_Exception_base& e)
 
 // C++ EXCEPTION MODE ERROR SUPPORT
 
-/// \details Printing useable data from  ExcpRaisePosition.
+/// \details Printing usable data from  ExcpRaisePosition.
 void ExcpRaisePosition::PrintTo(ostream& o) const
 {
 if(file!=nullptr)

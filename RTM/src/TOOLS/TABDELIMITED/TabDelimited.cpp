@@ -1,6 +1,7 @@
 /** \file TabDelimited.cpp
  *  \author borkowsk
  *  \brief Implementation of wbrtm::TabDelimited class
+ *         -------------------------------------------
  *  \date 2022-10-11 (last modification)
  */
 #include <ctype.h> //Typy znaków - http://www.cppreference.com/wiki/string/character_classes
@@ -74,7 +75,7 @@ string& TabelaTabDelimited::operator () (int w,int k)
 	   }
 
 /// \details Zmiana domyślnej nazwy pliku.
-///          Nie wpływa na realne pliki zanim nazwa nie zostanie uzyta w jakiejś innej funkcji.
+///          Nie wpływa na realne pliki zanim nazwa nie zostanie użyta w jakiejś innej funkcji.
 string   TabelaTabDelimited::ZmienNazwe(const char* nowa)
 {
 	string stara=NazwaPliku;
@@ -119,12 +120,12 @@ TabelaTabDelimited::~TabelaTabDelimited()
 
 /// \details Implementacja kopiowania tabeli lub jej fragmentu.
 void TabelaTabDelimited::PrzekopiujZ(const TabelaTabDelimited& Zrodlo,
-						unsigned startw,//=0, //Pocz¹tkowy wiersz
-						unsigned startk,//=0,  //Poczatkowa kolumna
-						unsigned endw,//=-1, //Koncowy wiersz albo do konca
-						unsigned endk,//=-1  //Koncowa kolumna albo do konca
-						unsigned celw,//=0,  //Pierwsza komorka docelowa - numer wiersza
-						unsigned celk//=0	  //Pierwsza komorka docelowa - numer kolumny
+						unsigned startw,  ///< Początkowy wiersz //=0,
+						unsigned startk,  ///< Początkowa kolumna
+						unsigned endw,    ///< Końcowy wiersz albo do konca //=-1,
+						unsigned endk,    ///< Końcowa kolumna albo do konca //=-1
+						unsigned celw,    ///< Pierwsza komórka docelowa - numer wiersza //=0,
+						unsigned celk	  ///< Pierwsza komórka docelowa - numer kolumny //=0
 						)
  {
 	 if(endw>Zrodlo.IleWierszy())
@@ -147,6 +148,8 @@ void TabelaTabDelimited::PrzekopiujZ(const TabelaTabDelimited& Zrodlo,
  }
 
 /// \details Zapisuje do pliku. Bierze domyślny delimiter, chyba że podano inny.
+/// \param _Nazwa - nazwa pliku. Jeśli pusta to użyta zostaje nazwa poprzednio ustawiona.
+/// \param Delimiter - separator pól. Jeśli -1 to to zostaje uzyty poprzednio ustawiony.
 bool TabelaTabDelimited::ZapiszDoPliku(const char* _Nazwa,char Delimiter)
 {
 	if(*_Nazwa!='\0') //Podano jakąś nazwę

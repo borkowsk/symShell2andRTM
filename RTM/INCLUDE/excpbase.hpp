@@ -1,18 +1,21 @@
 /**
-* \file excpbase.hpp
-* \brief Base exception class, and derived simple multipurpose exception classes:
-*        ------------------------------------------------------------------------
-
-    - class WB_Exception_base;
-    - class 	ExcpRaisePosition;
-    - class		SystemExcp;
-    - class 		MemoryExcp;
-    - class 		NumericExcp;
-    - class 		RangCheckExcp;
-    - class		RunTimeErrorExcp;
-    - class		SearchingExcp;
-    - class 	TextException;
-
+* \file   excpbase.hpp
+* \brief  Base exception class, and derived simple multipurpose exception classes.
+*        --------------------------------------------------------------------------
+* \details
+*        Contents:
+*        - class wbrtm::WB_Exception_base;
+*        - class 	wbrtm::ExcpRaisePosition;
+*        - class		wbrtm::SystemExcp;
+*        - class 		wbrtm::MemoryExcp;
+*        - class 		wbrtm::NumericExcp;
+*        - class 		wbrtm::RangCheckExcp;
+*        - class		wbrtm::RunTimeErrorExcp;
+*        - class		wbrtm::SearchingExcp;
+*        - class 	wbrtm::TextException;
+*
+* \date   2022-10-12 (last modification)
+* \author  borkowsk
 */
 
 #ifndef _EXCEPTION_BASE_HPP_

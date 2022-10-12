@@ -1,5 +1,13 @@
-/* NON INLINE METHOD IMPLEMENTATION FOR ARRAYS TEMPLATES */
-///////////////////////////////////////////////////////////
+/** @file    arr_base.hpp
+*  \brief    NON INLINE METHOD IMPLEMENTATION FOR ARRAYS TEMPLATES
+*====================================================================================================================
+*  \details Obsolete and not improved part of the wb_rtm library.
+*           It was established before 2000.
+*  \copyright Wojciech T. Borkowski
+*  \date 2022-10-12 (last modification)
+*  @ingroup OBSOLETE
+*/
+
 #ifndef __ARRAYS_IMP__
 #define __ARRAYS_IMP__
 

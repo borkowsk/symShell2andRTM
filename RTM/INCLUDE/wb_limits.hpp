@@ -1,105 +1,165 @@
-//      LIMITS FOR SCALAR TYPES
-//-------------------------------------------------------------------------
-///////////////////////////////////////////////////////////////////////////
+/// \file
+/// \brief    LIMITS FOR SCALAR TYPES in wbrtm::
+///          -----------------------------------
+///
+/// \details Szablon klas implementujących limity dla skalarów
+///          z możliwością dodania własnych specjalizacji.
+///          Ten jest w przestrzeni nazw 'wbrtm::'.
+///          Pomysł z czasów gdy nie było tego jeszcze w standardzie C++
+///          W przypadku konfliktu specjalizacji  zdefiniuj
+///          ADD_OWN_SPECIALISATION_TO_WB_LIMITS_H przed włączeniem
+///          tego pliku
+/// \author borkowsk
+/// \date   2022-10-12 (last modification)
+/// @ingroup OBSOLETE
+
 #ifndef _WB_LIMITS_H_
 #define _WB_LIMITS_H_
 #include <float.h>
 #include <limits.h>
 
-//Szablon klas implementujacych limity dla skalarów
-//z mozliwoscia dodania wlasnych specjalizacji
-//--------------------------------------------------
-//W przypadku konfliktu specjalizacji  zdefiniuj
-// ADD_OWN_SPECIALISATION_TO_WB_LIMITS_H przed inkludowaniem tego pliku
-//
-template<class Scalar>
-class wb_limit
-{
-public:
-    static Scalar Max();
-    static Scalar Min();
-};
+namespace wbrtm { // Przestrzeń nazw biblioteki WBRTM
 
-template<> inline double wb_limit<double>::Max() {return DBL_MAX;}
-template<> inline float wb_limit<float>::Max() {return FLT_MAX;}
+    template<class Scalar>
+    class limit {
+    public:
+        static Scalar Max();
 
-template<> inline long wb_limit<long>::Max() {return LONG_MAX;}
-template<> inline unsigned long wb_limit<unsigned long>::Max() {return ULONG_MAX;}
+        static Scalar Min();
+    };
 
-template<> inline int wb_limit<int>::Max() {return INT_MAX;}
-template<> inline unsigned int wb_limit<unsigned int>::Max() {return UINT_MAX;}
+    template<>
+    inline double limit<double>::Max() { return DBL_MAX; }
 
-template<> inline short wb_limit<short>::Max() {return SHRT_MAX;}
-template<> inline unsigned short wb_limit<unsigned short>::Max() {return USHRT_MAX;}
+    template<>
+    inline float limit<float>::Max() { return FLT_MAX; }
 
-template<> inline signed char wb_limit<signed char>::Max() {return CHAR_MAX;}
-template<> inline unsigned char wb_limit<unsigned char>::Max() {return UCHAR_MAX;}
+    template<>
+    inline long limit<long>::Max() { return LONG_MAX; }
 
-template<> inline bool wb_limit<bool>::Max() {return true;}
+    template<>
+    inline unsigned long limit<unsigned long>::Max() { return ULONG_MAX; }
+
+    template<>
+    inline int limit<int>::Max() { return INT_MAX; }
+
+    template<>
+    inline unsigned int limit<unsigned int>::Max() { return UINT_MAX; }
+
+    template<>
+    inline short limit<short>::Max() { return SHRT_MAX; }
+
+    template<>
+    inline unsigned short limit<unsigned short>::Max() { return USHRT_MAX; }
+
+    template<>
+    inline signed char limit<signed char>::Max() { return CHAR_MAX; }
+
+    template<>
+    inline unsigned char limit<unsigned char>::Max() { return UCHAR_MAX; }
+
+    template<>
+    inline bool limit<bool>::Max() { return true; }
 
 
-template<> inline double wb_limit<double>::Min() {return -DBL_MAX;}
-template<> inline float wb_limit<float>::Min() {return -FLT_MAX;}
+    template<>
+    inline double limit<double>::Min() { return -DBL_MAX; }
 
-template<> inline long wb_limit<long>::Min() {return LONG_MIN;}
-template<> inline unsigned long wb_limit<unsigned long>::Min() {return 0;}
+    template<>
+    inline float limit<float>::Min() { return -FLT_MAX; }
 
-template<> inline int wb_limit<int>::Min() {return INT_MIN;}
-template<> inline unsigned int wb_limit<unsigned int>::Min() {return 0;}
+    template<>
+    inline long limit<long>::Min() { return LONG_MIN; }
 
-template<> inline short wb_limit<short>::Min() {return SHRT_MIN;}
-template<> inline unsigned short wb_limit<unsigned short>::Min() {return 0;}
+    template<>
+    inline unsigned long limit<unsigned long>::Min() { return 0; }
 
-template<> inline signed char wb_limit<signed char>::Min() {return CHAR_MIN;}
-template<> inline unsigned char wb_limit<unsigned char>::Min() {return 0;}
+    template<>
+    inline int limit<int>::Min() { return INT_MIN; }
 
-template<> inline bool wb_limit<bool>::Min() {return false;}
+    template<>
+    inline unsigned int limit<unsigned int>::Min() { return 0; }
+
+    template<>
+    inline short limit<short>::Min() { return SHRT_MIN; }
+
+    template<>
+    inline unsigned short limit<unsigned short>::Min() { return 0; }
+
+    template<>
+    inline signed char limit<signed char>::Min() { return CHAR_MIN; }
+
+    template<>
+    inline unsigned char limit<unsigned char>::Min() { return 0; }
+
+    template<>
+    inline bool limit<bool>::Min() { return false; }
 
 #ifndef ADD_OWN_SPECIALISATION_TO_WB_LIMITS_H
-template<class Scalar>
-inline Scalar wb_limit<Scalar>::Max() {return DBL_MAX;}
-template<class Scalar>
-inline Scalar wb_limit<Scalar>::Min() {return DBL_MIN;}
+
+    template<class Scalar>
+    inline Scalar limit<Scalar>::Max() { return DBL_MAX; }
+
+    template<class Scalar>
+    inline Scalar limit<Scalar>::Min() { return DBL_MIN; }
+
 #endif
 
 //Klasa do tworzenia sensownego "missing values" oraz 
 //sprawdzania minimum i maksimum dla wszystkich typów skalarnych
-template<class Scalar>
-class default_missing
-{
-    Scalar miss;
-public:
-    default_missing();
-    
-    operator Scalar() 
+    template<class Scalar>
+    class default_missing
     {
-        return miss;
-    }
-};
+        Scalar miss;
+    public:
+        default_missing();
 
-template<> inline default_missing<double>::default_missing() {miss= DBL_MAX;}
-template<> inline default_missing<float>::default_missing() {miss= FLT_MAX;}
-template<> inline default_missing<long>::default_missing() {miss= LONG_MIN;}
-template<> inline default_missing<unsigned long>::default_missing() {miss= ULONG_MAX;}
-template<> inline default_missing<int>::default_missing() {miss= INT_MIN;}
-template<> inline default_missing<unsigned int>::default_missing() {miss= UINT_MAX;}
-template<> inline default_missing<signed char>::default_missing()  {miss= CHAR_MIN;}
-template<> inline default_missing<unsigned char>::default_missing() {miss= UCHAR_MAX;}
+        operator Scalar() {
+            return miss;
+        }
+    };
+
+    template<>
+    inline default_missing<double>::default_missing() { miss = DBL_MAX; }
+
+    template<>
+    inline default_missing<float>::default_missing() { miss = FLT_MAX; }
+
+    template<>
+    inline default_missing<long>::default_missing() { miss = LONG_MIN; }
+
+    template<>
+    inline default_missing<unsigned long>::default_missing() { miss = ULONG_MAX; }
+
+    template<>
+    inline default_missing<int>::default_missing() { miss = INT_MIN; }
+
+    template<>
+    inline default_missing<unsigned int>::default_missing() { miss = UINT_MAX; }
+
+    template<>
+    inline default_missing<signed char>::default_missing() { miss = CHAR_MIN; }
+
+    template<>
+    inline default_missing<unsigned char>::default_missing() { miss = UCHAR_MAX; }
 
 #ifndef ADD_OWN_SPECIALISATION_TO_WB_LIMITS_H
-template<class Scalar>
-inline default_missing<Scalar>::default_missing() {miss= -DBL_MAX;}
-#endif
 
-//Zeby nie zasmicac przestrzeni nazw
-#undef ADD_OWN_SPECIALISATION_TO_WB_LIMITS_H
+    template<class Scalar>
+    inline default_missing<Scalar>::default_missing() { miss = -DBL_MAX; }
 
 #endif
-/********************************************************************/
+
+} //namespaxe wbrtm
+#endif
+/* ******************************************************************/
+/*              SYMSHELLLIGHT  version 2022                         */
+/* ******************************************************************/
 /*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
 /*            W O J C I E C H   B O R K O W S K I                   */
-/*    Instytut Studiow Spolecznych Uniwersytetu Warszawskiego       */
-/*        WWW:  http://www.iss.uw.edu.pl/~borkowsk/                 */
-/*        MAIL: borkowsk@iss.uw.edu.pl                              */
+/*    Instytut Studiów Społecznych Uniwersytetu Warszawskiego       */
+/*    WWW: https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI  */
+/*    GITHUB: https://github.com/borkowsk                           */
+/*                                                                  */
 /*                               (Don't change or remove this note) */
-/********************************************************************/
+/* ******************************************************************/

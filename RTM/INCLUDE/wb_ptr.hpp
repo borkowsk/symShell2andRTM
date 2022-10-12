@@ -17,6 +17,8 @@
 /// muszą być zawsze przekazywane przez REFERENCJE!
 ///
 /// \copyright Wojciech Borkowski wborkowski (_at_) uw.edu.pl
+/// \date 2022-10-12 (last modification)
+/// \author    borkowsk
 // *******************************************************************************************************************
 #ifndef __WB_PTR_HPP__
 #define __WB_PTR_HPP__
@@ -46,7 +48,7 @@ using namespace std;
 ///\namespace wbrtm \brief WOJCIECH BORKOWSKI RUN TIME LIBRARY
 namespace wbrtm {
 
-/// Szablon inteligentnego wskaźnika dla typów skalarnych
+/// \brief Szablon inteligentnego wskaźnika dla typów skalarnych
 template<class T>
 class wb_sptr
 {
@@ -54,16 +56,16 @@ protected:
     T* ptr; ///< Właściwa zawartość inteligentnego wskaźnika
 
 public:
-    /// Konstruktor pobierający surowy wskaźnik pod zarząd
+    /// \brief Konstruktor pobierający surowy wskaźnik pod zarząd
 	explicit wb_sptr(T* ini=NULL):ptr(ini){}
 
-    /// Konstruktor sztafetujący
+    /// \brief Konstruktor sztafetujący
 	wb_sptr(wb_sptr& nini):ptr(nini.give()){}
 
-    /// Destruktor zwalniający zawartość jeśli jest
+    /// \brief Destruktor zwalniający zawartość jeśli jest
 	~wb_sptr(){ dispose(); }
 
-    /// Metoda czyszcząca zawartość równoważna destruktorowi
+    /// \brief Metoda czyszcząca zawartość równoważna destruktorowi
     void dispose()
 	{
 	if(ptr)
@@ -74,7 +76,7 @@ public:
 	ptr=NULL;
 	}
 
-    /// Operator przekazania surowego wskaźnika pod zarząd
+    /// \brief Operator przekazania surowego wskaźnika pod zarząd
     wb_sptr& operator = (T* nini)
     {
     dispose();
@@ -82,14 +84,14 @@ public:
     return *this;
     }
 
-    /// Metoda jawnego przekazania surowego wskaźnika pod zarząd
+    /// \brief Metoda jawnego przekazania surowego wskaźnika pod zarząd
     void take(T* nini)
 	{
 	dispose();
 	ptr=nini;
 	}
 
-    /// Metoda jawnego przekazania surowego wskaźnika pod zarząd
+    /// \brief Metoda jawnego przekazania surowego wskaźnika pod zarząd
     /// \details  Pozwalająca dołączyć kolejne wywołanie dzięki zwracaniu *this
     wb_sptr& set(T* nini)
     {
@@ -98,7 +100,7 @@ public:
     return *this;
     }
 
-    ///Operator przypisania inteligentnych wskaźników. \warning Jest sztafetujący. Oddaje zawartość na L-value
+    /// \brief Operator przypisania inteligentnych wskaźników. \warning Jest sztafetujący. Oddaje zawartość na L-value
     wb_sptr<T>& operator = (wb_sptr<T>& nini)
 	{
 	dispose();
@@ -106,7 +108,7 @@ public:
 	return *this;
 	}
 
-    ///Jawna metoda naśladująca sztafetujący operator przypisania
+    /// \brief    Jawna metoda naśladująca sztafetujący operator przypisania
     /// \details  Pozwalająca dołączyć kolejne wywołanie dzięki zwracaniu *this
     wb_sptr<T>& transfer_from(wb_sptr<T>& nini)
 	{
@@ -115,32 +117,32 @@ public:
 	return *this;
 	}
 
-    ///Operator dostępu do zawartości
+    /// \brief Operator dostępu do zawartości
     T& operator* () const
     {                                                                                                 assert(ptr!=NULL);
         return *ptr;
     }
 
-    ///Konwersja sprawdzająca na int - do warunków (POWINNO BYĆ bool! TODO!)
+    /// \brief Konwersja sprawdzająca na int - do warunków (POWINNO BYĆ bool! TODO!)
     operator int () const
 	{
 	return ptr!=NULL;
 	}
 
-    ///Jawne sprawdzenie czy coś zawiera (POWINNO BYĆ bool! TODO!)
+    /// \brief  Jawne sprawdzenie czy coś zawiera (POWINNO BYĆ bool! TODO!)
     int OK() const
 	{
 	return ptr!=NULL;
 	}
 
-    ///Metoda odczytu surowej zawartości - UŻYWAĆ OSTROŻNIE!
+    /// \brief  Metoda odczytu surowej zawartości - UŻYWAĆ OSTROŻNIE!
     ///\details Nie sprawdzamy czy NULL - niech sie martwi wołający metodę.
     T* get_ptr_val() const
 	{
 	return ptr;
 	}
 
-    ///Metoda zabiera surowy wskaźnik spod zarządu inteligentnego wskaźnika!
+    /// \brief  Metoda zabiera surowy wskaźnik spod zarządu inteligentnego wskaźnika!
     ///\details O dealokację musi się już martwić ktoś inny.
     T*  give()
 	{
@@ -149,22 +151,22 @@ public:
 	return pom;
 	}
 
-    ///Metoda niemal równoważna destruktorowi \warning OBSOLETE
+    /// \brief Metoda niemal równoważna destruktorowi \warning OBSOLETE
     void finalise(){ dispose(); }
 
 };
 
-///Szablon inteligentnego wskaźnika dla dla typów strukturalnych
+/// \brief Szablon inteligentnego wskaźnika dla dla typów strukturalnych
 template<class T>
 class wb_ptr:public wb_sptr<T>
 {
-    /// WYŁĄCZONY konstruktor klonujący, bo nie ma zastosowania do klas abstrakcyjnych (??? TODO TEST ???)
+    /// \brief WYŁĄCZONY konstruktor klonujący, bo nie ma zastosowania do klas abstrakcyjnych (??? TODO TEST ???)
     wb_ptr(const wb_ptr<T>& nini):wb_sptr<T>(clone(nini.get_ptr_val()))
     {
     		assert("DO NOT USE wb_ptr(const wb_ptr<T>&)"==NULL);
     }
 
-    /// WYŁĄCZONY Operator przypisania dla const. Czy można stosować z klasami abstrakcyjnymi (??? TODO TEST ???)
+    /// \brief WYŁĄCZONY Operator przypisania dla const. Czy można stosować z klasami abstrakcyjnymi (??? TODO TEST ???)
     wb_ptr& operator = (const wb_ptr<T>& nini)
     {
            assert("DO NOT USE wb_ptr& operator = (const wb_ptr<T>&)"==NULL);
@@ -172,30 +174,30 @@ class wb_ptr:public wb_sptr<T>
 public:
     //Konstruktory są dokładnie takie same jak w klasie bazowej. (Może zatem zbędne? TODO?)
 
-	/// Konstruktor kopiujący jest sztafetujący!
+	/// \brief Konstruktor kopiujący jest sztafetujący!
     wb_ptr(wb_ptr& nini);
 
-    /// Konstruowanie ze wskaźnika utworzonego na stercie!
+    /// \brief Konstruowanie ze wskaźnika utworzonego na stercie!
     explicit wb_ptr(T* ini=NULL);
 
-    /// Destruktor zwalniający zawartość jeśli jakaś jest
+    /// \brief Destruktor zwalniający zawartość jeśli jakaś jest
     ~wb_ptr(){ wb_sptr<T>::dispose(); }
 
-    /// Metoda jawnego przekazania surowego wskaźnika pod zarząd, ale pozwalająca dołączyć kolejne wywołanie
+    /// \brief Metoda jawnego przekazania surowego wskaźnika pod zarząd, ale pozwalająca dołączyć kolejne wywołanie
     wb_ptr& set(T* nini);
 
-    /// Przypisania są dokładnie takie same jak w klasie bazowej. (Może zatem zbędne? TODO TEST?)
+    /// \brief Przypisania są dokładnie takie same jak w klasie bazowej. (Może zatem zbędne? TODO TEST?)
 
-    /// Operator przypisania wskaźnika na stercie
+    /// \brief Operator przypisania wskaźnika na stercie
     wb_ptr& operator = (T* nini);
 
-    /// Sztafetujący operator przypisania
+    /// \brief Sztafetujący operator przypisania
     wb_ptr& operator = (wb_ptr<T>& nini);
 
-    ///Jawna metoda naśladująca sztafetujący operator przypisania, ale pozwalająca dołączyć kolejne wywołanie
+    /// \brief Jawna metoda naśladująca sztafetujący operator przypisania, ale pozwalająca dołączyć kolejne wywołanie
     wb_ptr& transfer_from(wb_ptr<T>& nini) ;
 
-    ///Dodadany operator -> dający dostęp do wskaźnika do klasy/struktury
+    /// \brief Dodadany operator -> dający dostęp do wskaźnika do klasy/struktury
     T* operator -> () const;
 };
 
@@ -253,44 +255,44 @@ wb_ptr<T>& wb_ptr<T>::transfer_from(wb_ptr<T>& nini) //Jawnie nazwany operator p
 
 ///\brief Inteligentny wskaźnik na tablicę znaków zakończonych \0
 ///\details Klasa z rodziny inteligentnych wskaźników przeznaczona na uchwyt do łańcucha tekstowego
-///Pomiędzy obiektami klasy wb_pchar bez atrybutu const zawartość jest, jak zwykle, "sztafetowana",
-///więc jako parametr funkcji i metod musi być przekazywany przez referencję.
-///Nie przechowuje długości łańcucha, wiec też jej nie sprawdza (zazwyczaj?)
-///Z char* const char* kopiuje oczekując ze kończą się '\0' .
+///         Pomiędzy obiektami klasy wb_pchar bez atrybutu const zawartość jest, jak zwykle, "sztafetowana",
+///         więc jako parametr funkcji i metod musi być przekazywany przez referencję.
+///         Nie przechowuje długości łańcucha, wiec też jej nie sprawdza (zazwyczaj?)
+///         Z char* const char* kopiuje oczekując ze kończą się '\0' .
 class wb_pchar:public wb_sptr<char>
 {
 public:
-    ///Konstruktor alokujący (chyba że s==0, wtedy nie)
+    /// \brief Konstruktor alokujący (chyba że s==0, wtedy nie)
     explicit wb_pchar(size_t size=0):wb_sptr<char>(NULL)
 	{
         if(size>0) ptr=new char[size];
         if(ptr!=NULL) *ptr='\0';
 	}
 
-    ///Konstruktor do inicjalizowania z const char*
-    ///Ma klonowanie danych, bo stałe łańcuchy ("") nie są alokowane na stercie!
+    /// \brief Konstruktor do inicjalizowania z const char*
+    /// \warning Ma klonowanie danych, bo stałe łańcuchowe ("") nie są alokowane na stercie!
     explicit wb_pchar(const char* nini):wb_sptr<char>(NULL)
 	{
         WBPTRLOG( "wb_pchar::FROM char* CONSTRUCTOR :"<<(ptr?ptr:"@") )
         if(nini!=NULL) ptr=clone_str(nini);
 	}
 
-    ///Konstruktor sztafetujący - głównie do niejawnego kopiowania przy wyjściu z funkcji
-    ///Inicjator traci swoje dane. Jak nie to znaczy ze zaszło niezamierzone kopiowanie
+    /// \brief Konstruktor sztafetujący - głównie do niejawnego kopiowania przy wyjściu z funkcji
+    /// \warning Inicjator traci swoje dane. Jeśli nie to znaczy ze zaszło niezamierzone kopiowanie!
     wb_pchar(wb_pchar& nini):wb_sptr<char>(nini)
 	{
 	    WBPTRLOG( "wb_pchar::TRANSFER CONSTRUCTOR :"<<(ptr?ptr:"@") )                           assert(nini.ptr==NULL);
 	}
 
-    ///Konstruktor kopiujący tej klasy ograniczony do sytuacji gdy inicjator jest stały
+    /// \brief Konstruktor kopiujący tej klasy ograniczony do sytuacji gdy inicjator jest stały
     wb_pchar(const wb_pchar& nini):wb_sptr<char>(NULL)
     {
         WBPTRLOG( "wb_pchar::COPY CONSTRUCTOR :"<<(nini.ptr?nini.ptr:"@") )
         ptr=clone_str(nini.get_ptr_val());//Kopiowanie danych
     }
 
-    ///Przypisanie stałej tablicy znaków (const char*) zmienia zawartość wb_pchar na nowy klon danych
-    ///Przypisanie NULL wymusza tylko dealokacje
+    /// \brief Przypisanie stałej tablicy znaków (const char*) zmienia zawartość wb_pchar na nowy klon danych
+    /// \note  Przypisanie NULL wymusza tylko dealokacje
     wb_pchar& operator = (const char* nini)
 	{
         WBPTRLOG( "wb_pchar::oper = (const char*) :"<<(nini?nini:"@")<<"->"<<(ptr?ptr:"@") )
@@ -300,7 +302,7 @@ public:
         return *this;
 	}
 
-    ///Sztafetujący operator przypisania
+    /// \brief Sztafetujący operator przypisania
     wb_pchar& operator = (wb_pchar& nini)
 	{
         WBPTRLOG( "wb_pchar::TRANSFER oper = :"<<(nini.ptr?nini.ptr:"@")<<"->"<<(ptr?ptr:"@") )
@@ -309,7 +311,7 @@ public:
         return *this;
 	}
 
-    ///Klonujący operator przypisania na wypadek przypisywania od stałego źródła
+    /// \brief Klonujący operator przypisania na wypadek przypisywania od stałego źródła
     wb_pchar& operator = (const wb_pchar& nini)
 	{
         WBPTRLOG( "wb_pchar::CLONE oper = :"<<(nini.ptr?nini.ptr:"@")<<"->"<<(ptr?ptr:"@") )
@@ -318,15 +320,15 @@ public:
         return *this;
 	}
 
-    ///Operator indeksowania dający dostęp do pojedynczych znaków
-    ///Pozwala na zmianę znaku na danej pozycji, ale nie wskaźnika do niego!
+    /// \brief Operator indeksowania dający dostęp do pojedynczych znaków
+    /// \note Pozwala na zmianę znaku na danej pozycji, ale nie wskaźnika do niego!
     char& operator [] (size_t index) const
-    {                                                                                               assert(ptr!=NULL);
+    {                                                                                                 assert(ptr!=NULL);
         return ptr[index];
     }
 
-    ///Metoda zmieniająca długość zaalokowanego łańcucha
-    ///Stare dane są tracone
+    /// \brief Metoda zmieniająca długość zaalokowanego łańcucha
+    /// \warning Stare dane są tracone
     void alloc(size_t s)
 	{
         dispose();
@@ -337,81 +339,81 @@ public:
         }
 	}
 
-    ///Metoda oblicza rozmiar łańcucha i go zwraca. Gdy nie ma łańcucha zwraca 0.
+    /// \brief Metoda oblicza rozmiar łańcucha i go zwraca. Gdy nie ma łańcucha zwraca 0.
     size_t get_size() const
 	{
 		return ptr?(::strlen(ptr)):(0);
 	}
 
-    ///Alias do get_ptr_val
-    ///Nie jest sprawdzane czy nie NULL - niech sie martwi wołający
+    /// \brief Alias do get_ptr_val
+    /// \note Nie jest sprawdzane czy nie NULL - niech sie martwi wołający
     const char* get() const
 	{
 	    return get_ptr_val();
 	}
 
-    ///Metoda wyprowadza formatowane dane na zawartość obiektu wb_pchar. \note  Nie sprawdza rozmiaru!!!
+    /// \brief Metoda wyprowadza formatowane dane na zawartość obiektu wb_pchar. \note  Nie sprawdza rozmiaru!!!
     wb_pchar& prn(const char* format,...);
 
-    ///Metoda dopisuje do zawartości. \note Nie sprawdza rozmiaru!!!
+    /// \brief Metoda dopisuje do zawartości. \note Nie sprawdza rozmiaru!!!
     wb_pchar& add(const char* format,...);
 
-    ///Implementacja zapisu na strumień ze sprawdzaniem czy trzeba zamknąć w cudzysłowy '\"' lub inne.
+    /// \brief Zapis na strumień ze sprawdzaniem czy trzeba zamknąć w cudzysłowy '\"' lub inne.
     static void write(ostream& s,const char* p,char enclos='\"');
 
-    /// Zamienia wszystkie łańcuchy 'forrep' zawarte w obiekcie wb_pchar
+    /// \brief Zamienia wszystkie łańcuchy 'forrep' zawarte w obiekcie wb_pchar
     /// na łańcuchy 'whatins'. \note Bufor jest sztafetowany!!!
     /// Jest "case sensitive".
     friend
     bool replace(wb_pchar& bufor,const char* forrep,const char* whatins,bool fullwords,unsigned startpos/*=0*/);
 
-    /// Wstawia łańcuch tekstowy do bufora na określonej pozycji. \note Bufor jest sztafetowany!!!
+    /// \brief Wstawia łańcuch tekstowy do bufora na określonej pozycji. \note Bufor jest sztafetowany!!!
     friend
     bool insert(wb_pchar& bufor,unsigned pos,const char* whatins);
 
-    /// wb_pchar odpowiednik 'strlen' dla wskaźników na znak
+    /// \brief wb_pchar odpowiednik 'strlen' dla wskaźników na znak
     friend
     size_t strlen(const wb_pchar& what)
     {
         return ::strlen(what.get());
     }
 
-    /// wb_pchar odpowiednik 'strcmp' dla wskaźników na znak
+    /// \brief wb_pchar odpowiednik 'strcmp' dla wskaźników na znak
     friend
     size_t strcmp(const wb_pchar& f,const wb_pchar& s)
     {
         return ::strcmp(f.get(),s.get());
     }
 
-    /// wb_pchar odpowiednik 'strcmp' dla wskaźników na znak - różne parametry
+    /// \brief wb_pchar odpowiednik 'strcmp' dla wskaźników na znak - różne parametry
     friend
     size_t strcmp(const char* f,const wb_pchar& s)
     {
         return ::strcmp(f,s.get());
     }
 
-    /// wb_pchar odpowiednik 'strcmp' dla wskaźników na znak - różne parametry i w odwrotnej kolejności
+    /// \brief wb_pchar odpowiednik 'strcmp' dla wskaźników na znak - różne parametry i w odwrotnej kolejności
     friend
     size_t strcmp(const wb_pchar& f,const char* s)
     {
         return ::strcmp(f.get(),s);
     }
 
-    /// wb_pchar odpowiednik 'strchr' dla wskaźników na znak
+    /// \brief wb_pchar odpowiednik 'strchr' dla wskaźników na znak
     friend
     const char* strchr(const wb_pchar& what,const char c)
     {
         return ::strchr(what.get(),c);
     }
 
-    /// wb_pchar odpowiednik 'strstr' dla wskaźników na znak
+    /// \brief wb_pchar odpowiednik 'strstr' dla wskaźników na znak
     friend
     const char* strstr(const wb_pchar& what,const char* s)
     {
         return ::strstr(what.get(),s);
     }
 
-    /// wb_pchar odpowiednik 'strstr' dla wskaźników na znak
+    /// \brief wb_pchar odpowiednik 'strstr' dla wskaźników na znak
     friend
     const char* strstr(const wb_pchar& what,const wb_pchar& s)
     {
@@ -420,8 +422,8 @@ public:
 
 };
 
-///Szablon bardzo prostej tablicy o rozmiarze dynamicznym
-///i możliwym testowaniu indeksów przy odwołaniach (assercja!!!)
+/// \brief Szablon bardzo prostej tablicy o rozmiarze dynamicznym
+///        i możliwym testowaniu indeksów przy odwołaniach (assercja!!!)
 template<class T>
 class wb_dynarray
 {
@@ -437,7 +439,7 @@ class wb_dynarray
     //	}
 
 public:
-	///Konstruktor alokujący \details akceptuje też 0, ale wtedy nic nie alokuje
+	/// \brief Konstruktor alokujący \details akceptuje też 0, ale wtedy nic nie alokuje
 	explicit wb_dynarray(size_t s=0):size(s)
 		{
 		WBPTRLOG( "wb_dynarray::CONSTRUCTOR("<<size<<')' )
@@ -445,7 +447,7 @@ public:
 			else ptr=NULL;
 		}
 
-	///Konstruktor "kopiujący" - musi byc forsowany z const wiec jest niebezpieczny
+	/// \brief Konstruktor "kopiujący" - musi byc forsowany z const wiec jest niebezpieczny
 	//explicit? (TODO TEST!)
 	wb_dynarray(const wb_dynarray& nini/*,bool copy=false*/):size(nini.size),ptr(nini.ptr)
 		{
@@ -454,7 +456,7 @@ public:
 		const_cast<wb_dynarray<T>&>(nini).size=0;
 		}
 
-	///Konstruktor wieloparametrowy inicjujący itemy
+	/// \brief Konstruktor wieloparametrowy inicjujący itemy
 	explicit wb_dynarray(size_t s,T /*first,second,...*/...):size(s)
     {
 		WBPTRLOG( "wb_dynarray::CONSTRUCTOR("<<size<<",T ...)" )                                        assert(size>=1);
@@ -467,26 +469,26 @@ public:
 		va_end(list);
     }
 
-	/// Destruktor zwalnia pamięć za pomocą metody dispose()
+	/// \brief Destruktor zwalnia pamięć za pomocą metody dispose()
 	~wb_dynarray()
 		{
 		WBPTRLOG( "wb_dynarray::DESTRUCTOR" )
 		dispose();
 		}
 
-    /// Metoda sprawdza czy tablica została zaalokowana
+    /// \brief Metoda sprawdza czy tablica została zaalokowana
     int OK() const
         {
         return ptr!=NULL;
         }
 
-    /// Metoda sprawdza czy tablica została zaalokowana. \warning OBSOLETE
+    /// \brief Metoda sprawdza czy tablica została zaalokowana. \warning OBSOLETE
     int IsOK() const
         {
         return ptr!=NULL;
         }
 
-    /// Transferujacy operator przypisania
+    /// \brief Transferujacy operator przypisania
     wb_dynarray<T>& operator = (wb_dynarray<T>& nini)
     {
         WBPTRLOG( "wb_dynnarray::operator = (wb_dynarray& "<<((void*)&nini)<<")" )
@@ -494,7 +496,7 @@ public:
         return *this;
     }
 
-    ///Metoda alokacji surowego wektora \warning Jak 's' ma być 0 to użyj "dispose"!
+    /// \brief Metoda alokacji surowego wektora \warning Jak 's' ma być 0 to użyj "dispose"!
     size_t alloc(size_t s)
 	{
         WBPTRLOG( "wb_dynnarray::alloc("<<s<<")" )                                                          assert(s>0);
@@ -509,7 +511,7 @@ public:
         return s;
 	}
 
-    ///Skrócenie wektora - przydatne przy czytaniu z pliku \warning Jak 's' ma być 0 to użyj "dispose"!
+    /// \brief Skrócenie wektora - przydatne przy czytaniu z pliku \warning Jak 's' ma być 0 to użyj "dispose"!
     size_t trunc(size_t s)
     {
         WBPTRLOG( "wb_dynnarray::trunc("<<s<<")" )                                                          assert(s>0);
@@ -534,7 +536,7 @@ public:
     ///     lub kosztowne (gdy używa for(), a T ma konstruktory i destruktory.
     size_t expand(size_t s,const T& fillVal);
 
-    ///Dealokacja wektora
+    /// \brief Dealokacja wektora
     void dispose()
 	{
         WBPTRLOG( "wb_dynarray::dispose() :"<<size )
@@ -547,7 +549,7 @@ public:
         size=0;
 	}
 
-    ///Operator indeksowania - dostęp do pojedynczego itemu
+    /// \brief Operator indeksowania - dostęp do pojedynczego itemu
     T& operator [] (size_t index) const
 	{
 #ifndef _NDEBUG
@@ -561,12 +563,12 @@ public:
 	return ptr[index];
 	}
 
-    ///Zwraca rozmiar wewnętrznego zaalokowanego wektora (ewentualnie 0)
+    /// \brief   Zwraca rozmiar wewnętrznego zaalokowanego wektora (ewentualnie 0)
     size_t get_size() const
 	{ return size;}
 
-    /// Wymusza umieszczenie dynamicznie alokowanego
-    /// wektora jako tablicy wewnątrz dynarray
+    ///  \brief  Wymusza umieszczenie dynamicznie alokowanego
+    ///          wektora jako tablicy wewnątrz dynarray
     void take(T* iptr,size_t isiz)
     {
         dispose();
@@ -577,7 +579,7 @@ public:
             size=0;
     }
 
-    /// Pobiera wewnętrzny wektor od donora 'nini' i umieszcza na tym obiekcie (this)
+    /// \brief Pobiera wewnętrzny wektor od donora 'nini' i umieszcza na tym obiekcie (this)
     void take(wb_dynarray& nini)
     {
         if(size>0)
@@ -588,9 +590,10 @@ public:
         nini.size=0;
     }
 
-    /// Wymusza umieszczenie dynamicznie alokowanego
-    /// wektora jako tablicy wewnątrz dynarray i pozwala wykonać na wyniku
-    /// jakąś inną operację albo od razu przekazać jako parametr funkcji
+    /// \brief Wymusza umieszczenie dynamicznie alokowanego
+    ///        wektora jako tablicy wewnątrz wb_dynarray.
+    /// \note  Pozwala wykonać na wyniku
+    ///        jakąś inną operację albo od razu przekazać jako parametr funkcji.
     wb_dynarray& set_dynamic_ptr_val(T* iptr,size_t isiz)
 	{
 	dispose();
@@ -602,9 +605,9 @@ public:
 	return *this;
 	}
 
-    ///Daje bezpośredni dostęp do wewnętrznego wektora
-    ///ale nie wolno go zdealokować!!!
-    ///Jak życzymy sobie coś poza tablicą to zwraca NULL
+    /// \brief Daje bezpośredni dostęp do wewnętrznego wektora.
+    /// \note  Jednak nie wolno go zdealokować!!!
+    /// \return Jak życzymy sobie coś poza tablicą to zwraca NULL
     T* get_ptr_val(size_t offset=0,size_t interest=0) const
     {
         if(ptr==NULL
@@ -615,8 +618,8 @@ public:
         return ptr+offset;
     }
 
-    ///Zabiera wewnętrzny raw ptr spod zarządu tablicy!!!
-    ///Pobiera też informacje o aktualnym rozmiarze
+    /// \brief Zabiera wewnętrzny raw ptr spod zarządu tablicy!!!
+    /// \note Pobiera też informacje o aktualnym rozmiarze na parametr 'outsize'
     T*  give_dynamic_ptr_val(size_t& outsize)
     {
         T* pom=ptr;
@@ -626,7 +629,7 @@ public:
         return pom;
     }
 
-    ///Wypełnia tablicę zadanym elementem/wartością
+    ///\brief Wypełnia tablicę zadanym elementem/wartością
     void fill(const T& Val)
     {
         size_t i,H=get_size();
@@ -636,7 +639,7 @@ public:
         }
     }
 
-    ///Przesuniecie pojedynczego elementu tablicy na koniec
+    /// \brief Przesuniecie pojedynczego elementu tablicy na koniec
     void shift_left(size_t index)
     {
         if(index>=size-1) return;//Wyjątkowo nic nie trzeba robić
@@ -649,15 +652,15 @@ public:
         memcpy(ptr+(size-1),bufor,sizeof(T));
     }
 
-    ///Brutalne kopiowanie z surowej tablicy.
-    ///\warning W przypadku obiektów z nietrywialnymi destruktorami nie może skończyć się dobrze
+    /// \brief   Brutalne kopiowanie z surowej tablicy.
+    /// \warning W przypadku obiektów z nietrywialnymi destruktorami nie może skończyć się dobrze
     void raw_copy_from(const T Where[],size_t how_many_elements)
     {                                                                                   assert(how_many_elements<=size);
         memcpy(ptr,Where,how_many_elements*sizeof(T));
     }
 
-    ///Brutalne kopiowanie z tablicy dynamicznej.
-    ///W przypadku obiektów z nietrywialnymi destruktorami nie może skończyć się dobrze!
+    /// \brief    Brutalne kopiowanie z tablicy dynamicznej.
+    /// \warning  W przypadku obiektów z nietrywialnymi destruktorami nie może skończyć się dobrze!
     void raw_copy_from(const wb_dynarray<T>& Where)
     {                                                                                   assert(Where.get_size()<=size);
         memcpy(ptr,Where.get_ptr_val(),Where.get_size()*sizeof(T));
@@ -665,13 +668,13 @@ public:
 
 };
 
-/// Szablon prostej tablicy dwuwymiarowej o dowolnej liczbie wierszy i dowolnej długości każdego wiersza.
+/// \brief Szablon prostej tablicy dwuwymiarowej o dowolnej liczbie wierszy i dowolnej długości każdego wiersza.
 /// \details Kontrole zakresów itp. assercje dziedziczy po klasie bazowej
 template<class T>
 class wb_dynmatrix:public wb_dynarray< wb_dynarray<T> >
 {
 public:
-    /// Konstruktor alokujący o ile nie ma żadnego zera w parametrach
+    /// \brief Konstruktor alokujący o ile nie ma żadnego zera w parametrach
 	explicit wb_dynmatrix(size_t y=0,size_t x=0):wb_dynarray< wb_dynarray<T> >(y)
     {
         WBPTRLOG( "wb_dynmatrix::CONSTRUCTOR("<<y<<','<<x<<')' );
@@ -681,7 +684,7 @@ public:
                 (*this)[Y].alloc(x);
     }
 
-    /// Konstruktor inicjujący listą wskaźników - DZIWNY I CHYBA NIE PRZETESTOWANY. TODO?
+    /// \brief Konstruktor inicjujący listą wskaźników - DZIWNY I CHYBA NIE PRZETESTOWANY. TODO?
 	explicit wb_dynmatrix(size_t s,wb_dynarray<T>* ...):wb_dynarray<wb_dynarray<T> >(s)
     {
         WBPTRLOG( "wb_dynmatrix::CONSTRUCTOR("<<get_size()<<",wb_dynarray<T>* ...)" );
@@ -695,35 +698,36 @@ public:
         va_end(list);
     }
 
-    ///KONSTRUKTOR KOPIUJĄCY - tu SZTAFETUJĄCY raczej
+    /// \brief KONSTRUKTOR KOPIUJĄCY - tu SZTAFETUJĄCY raczej
     wb_dynmatrix(wb_dynmatrix& nini):wb_dynarray< wb_dynarray<T> >(nini)
     {
         WBPTRLOG( "wb_dynmatrix::TRANSFER CONSTRUCTOR("<<((void*)&nini)<<")" );
     }
 
+    /// \brief DESTRUKTOR. Dba o dealokacje.
 	~wb_dynmatrix()
     {
         WBPTRLOG( "wb_dynmatrix::DESTRUCTOR" );
         dispose();
     }
 
-    /// Dealokacja wektora wektorów.
-    /// Metoda chyba potrzebna tylko do debugowania bo całą robotę robi metoda klasy bazowej
+    /// \brief Dealokacja wektora wektorów.
+    /// \note Metoda chyba potrzebna tylko do debugowania bo całą robotę robi metoda klasy bazowej!
     void dispose()
     {
         WBPTRLOG( "wb_dynmatrix::dispose :"<<get_size() );
         wb_dynarray< wb_dynarray<T> >::dispose();
     }
 
-    /// Rozbudowana alokacja zstępująca
+    /// \brief Rozbudowana alokacja zstępująca
     size_t alloc(size_t y,size_t x);
 
-    /// Wypełnianie zadaną wartością
+    /// \brief Wypełnianie zadaną wartością
     void fill(const T& Val);
 
 };
 
-/// Rozbudowana alokacja zstępująca
+/// \details Rozbudowana alokacja zstępująca macierzy.
 template<class T> inline
 size_t wb_dynmatrix<T>::alloc(size_t y,size_t x)
 {
@@ -744,39 +748,42 @@ size_t wb_dynmatrix<T>::alloc(size_t y,size_t x)
     return this->get_size();
 }
 
-/// Metoda wypełnianie macierzy dynamicznej zadaną wartością
+/// \details Metoda wypełnianie macierzy dynamicznej zadaną wartością.
+/// \param Val - wzorcowa wartość do skopiowania.
 template<class T> inline
 void wb_dynmatrix<T>::fill(const T& Val)
 {
     size_t i,H=this->get_size();
-    for(i=0;i<H;i++)//Po wierszach
+    for(i=0;i<H;i++) // Wiersz po wierszu
         {
         size_t L=(*this)[i].get_size();
-        for(size_t j=0;j<L;j++)//Po elementach wiersza
-            (*this)[i][j]=Val;//Wypełnij ten element!
+        for(size_t j=0;j<L;j++) // Po elementach wiersza
+            (*this)[i][j]=Val;  // Wypełnij ten element!
         }
 }
 
-/// Funkcja wypełnianie tablicy dynamicznej zadaną wartością
+/// \details Funkcja wypełnianie tablicy dynamicznej zadaną wartością. Wersja nieobiektowa.
+/// \param Val - wzorcowa wartość do skopiowania.
 template<class T> inline
 void fill(wb_dynarray<T>& Tab,const T& Val)
 {
     Tab.fill(Val);
 }
 
-/// Funkcja wypełnianie macierzy dynamicznej zadaną wartością
+/// \details Funkcja wypełnianie macierzy dynamicznej zadaną wartością. Wersja nieobiektowa.
+/// \param Val - wzorcowa wartość do skopiowania.
 template<class T> inline
 void fill(wb_dynmatrix<T>& Mat,const T& Val)
 {
     Mat.fill(Val);
 }
 
-    // Rozszerzenie wektora. Przydatne do rozbudowy tablicy,
-    // ale niebezpieczne (bo memcpy) lub kosztowne (bo for) jak T ma konstruktory i destruktory
-    // Powiększamy, więc s > size (od poprzedniego rozmiaru)
+    /// \details Rozszerzenie wektora. Przydatne do rozbudowy tablicy,
+    ///          ale albo niebezpieczne (bo memcpy) lub kosztowne (bo for) jak T ma konstruktory i destruktory.
+    ///          Powiększamy, więc s > size (od poprzedniego rozmiaru)
     template<class T> inline
     size_t wb_dynarray<T>::expand(size_t s,const T& fillVal)
-    {					                                                                                     assert(s>size);
+    {					                                                                                 assert(s>size);
         WBPTRLOG( "wb_dynnarray::expand("<<s<<")" )
         if(ptr==nullptr)
             return 0;			//Bo wtedy bzdura
@@ -805,34 +812,33 @@ void fill(wb_dynmatrix<T>& Mat,const T& Val)
     }
 
 #if	HIDE_WB_PTR_IO != 1
-/// Wejście wyjście strumieniowe dla inteligentnych wskaźników.
-/// Tutaj tylko deklaracje - implementacja musi byc w innym pliku
+// Wejście wyjście strumieniowe dla inteligentnych wskaźników.
+// Tutaj tylko deklaracje. Implementacja musi byc w innym pliku (inline-y wb_pchario.h)
 
-ostream& operator<<(ostream&,const wb_sptr<char>&); ///< Czy to gdzieś jest zaimplementowane? TODO?
-istream& operator>>(istream&,wb_sptr<char>&); ///< Czy to gdzieś jest zaimplementowane? TODO?
-ostream& operator<<(ostream&,const wb_pchar&); ///< Czy to gdzieś jest zaimplementowane? TODO?
-istream& operator>>(istream&,wb_pchar&); ///< Czy to gdzieś jest zaimplementowane? TODO?
-
-template<class T>
-    ostream& operator<<(ostream&,const wb_sptr<T>&); ///< Czy to gdzieś jest zaimplementowane? TODO?
+ostream& operator<<(ostream&,const wb_sptr<char>&); ///< Czy to gdzieś jest zaimplementowane? Tak w wb_pchario.h!
+istream& operator>>(istream&,wb_sptr<char>&);       ///< Czy to gdzieś jest zaimplementowane?
+ostream& operator<<(ostream&,const wb_pchar&);      ///< Czy to gdzieś jest zaimplementowane?
+istream& operator>>(istream&,wb_pchar&);            ///< Czy to gdzieś jest zaimplementowane?
 
 template<class T>
-    istream& operator>>(istream&,wb_sptr<T>&); ///< Czy to gdzieś jest zaimplementowane? TODO?
+    ostream& operator<<(ostream&,const wb_sptr<T>&); ///< Czy to gdzieś jest zaimplementowane?
 
 template<class T>
-    ostream& operator<<(ostream&,const wb_dynarray<T>&); ///< Czy to gdzieś jest zaimplementowane? TODO?
+    istream& operator>>(istream&,wb_sptr<T>&); ///< Czy to gdzieś jest zaimplementowane?
 
 template<class T>
-    istream& operator>>(istream&,wb_dynarray<T>&); ///< Czy to gdzieś jest zaimplementowane? TODO?
+    ostream& operator<<(ostream&,const wb_dynarray<T>&); ///< Czy to gdzieś jest zaimplementowane?
 
 template<class T>
-    ostream& operator<<(ostream&,const wb_dynmatrix<T>&); ///< Czy to gdzieś jest zaimplementowane? TODO?
+    istream& operator>>(istream&,wb_dynarray<T>&); ///< Czy to gdzieś jest zaimplementowane?
 
 template<class T>
-    istream& operator>>(istream&,wb_dynmatrix<T>&); ///< Czy to gdzieś jest zaimplementowane? TODO?
+    ostream& operator<<(ostream&,const wb_dynmatrix<T>&); ///< Czy to gdzieś jest zaimplementowane?
 
-/// Implementacja zapisu łańcucha znaków na strumienie ze sprawdzaniem, czy trzeba w \"
-/// Musi być gdzieś dostarczone z biblioteki.
+template<class T>
+    istream& operator>>(istream&,wb_dynmatrix<T>&); ///< Czy to gdzieś jest zaimplementowane?
+
+/// \brief Implementacja zapisu łańcucha znaków na strumienie ze sprawdzaniem, czy trzeba w \"
 void escaped_pchar_write(std::ostream& s,const char* p,char enclos='\"');
 
 inline void write(ostream& o,const char* p)

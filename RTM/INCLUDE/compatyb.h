@@ -1,11 +1,8 @@
-/**
-* **************************************************************************
-* \file     compatyb.h
-* \details  Plik definiujacy zastepcze funkcje "C", 
-*	    ktorych brak w poszczegolnych kompilatorach i systemach
+/**  \file     compatyb.h
+* \details  Plik definiujący zastępcze funkcje "C",
+*    	    których brak w poszczególnych kompilatorach i systemach
 * **************************************************************************
 */
-//#include "platform.hpp"
 
 #include <ctype.h>
 #include <stdlib.h>

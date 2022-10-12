@@ -1,9 +1,21 @@
+/** @file
+*  \brief    Base class for creating associative arrays.
+*====================================================================================================================
+*  \details Obsolete and not improved part of the wb_rtm library.
+*           It was established before 2000.
+*           <br>
+*           Klasa bazowa do wykonywania tablic asocjacyjnych.
+*           Zarządza tablica rekordów asocjujących dwie unie "unitype"
+*           W klasach potomnych wystarczy inteligentnie uzyc tych pol
+*           w najprostszy sposób do przechowywania skalarów i wskaźników.
+*
+*  \copyright Wojciech T. Borkowski
+*  \date 2022-10-12 (last modification)
+*  @ingroup OBSOLETE
+*/
 #ifndef _ASSOC_BASE_HPP_
 #define _ASSOC_BASE_HPP_
-// Klasa bazowa do wykonywania tablic asocjacyjnych.
-// Zarzadza tablica rekordow asocjujacych dwie unie "unitype"
-// W klasach potomnych wystarczy inteligentnie uzyc tych pol
-// w najprostrzy sposob do przechowywania skalarow i wskaznikow.
+
 #include "unitype.hpp"
 #include "arrays.hpp"
 
@@ -13,6 +25,7 @@
 
 namespace wbrtm { //WOJCIECH BORKOWSKI RUN TIME LIBRARY
 
+/// \brief Obsolete class
 class assoitem
 {
 public:
@@ -47,7 +60,7 @@ friend istream& operator >> (istream& i, assoitem& a)
 
 };
 
-
+/// \brief Obsolete class
 class AssocKeyNotFoundExcp:public SearchingExcp
 {
 EXCP_NECESSARY(AssocKeyNotFoundExcp)
@@ -59,6 +72,7 @@ void PrintTo( ostream& o ) const ;
 };
 
 /*
+/// \brief Obsolete class
 //Szablon wyjatku dla dowolnego klucza - za kosztowny
 template<class K>
 class AnyKeyNotFoundExcp:public AssocKeyNotFoundExcp
@@ -87,7 +101,7 @@ void PrintTo( ostream& o ) const
 };
 */
 
-
+/// \brief Obsolete class
 class assoc_base//:pure virtual base implementation class for assoc_tables
 {
 private:
@@ -161,14 +175,14 @@ IO_PUBLIC_DECLARE
 #define ASSO_KEY_NOT_FOUND AssocKeyNotFoundExcp(__FILE__,__LINE__)
 } //namespace
 
-/********************************************************************/
-/*			          WBRTM  version 2006                           */
-/********************************************************************/
-/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
-/*            W O J C I E C H   B O R K O W S K I                   */
-/*    Instytut Studiow Spolecznych Uniwersytetu Warszawskiego       */
-/*        WWW:  http://wwww.iss.uw.edu.pl/~borkowsk/                */
-/*                                                                  */
-/*                               (Don't change or remove this note) */
-/********************************************************************/
+/* *******************************************************************/
+/*			          WBRTM  version 2006                            */
+/* *******************************************************************/
+/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                  */
+/*            W O J C I E C H   B O R K O W S K I                    */
+/*    Instytut Studiow Spolecznych Uniwersytetu Warszawskiego        */
+/*        WWW:  http://wwww.iss.uw.edu.pl/~borkowsk/                 */
+/*                                                                   */
+/*                               (Don't change or remove this note)  */
+/* *******************************************************************/
 #endif

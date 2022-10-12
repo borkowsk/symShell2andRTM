@@ -4,7 +4,7 @@
 *  \details Obiekty wirtualnych konstruktorów rejestrowane są na standardowej mapie z kluczem typu std::string.
 *           Created by borkowsk on 12.08.22.
 *  \copyright Now, this is a part of GuestXR project.
-*  \date 2022-10-05
+*  \date 2022-10-12
 */
 
 #include <map>
@@ -39,8 +39,16 @@ wbrtm::InterfaceOfVirtualConstructor* wbrtm::InterfaceOfVirtualConstructor::getV
     return value;
 }
 
-//*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//       Uzupełnienie do pakietu "Rozumek sieciowy" wersja 2022-08-16
-//       (c) ISS UW 2010-2013-2016 Wojciech Borkowski, modyfikacja 2021/2022.01-08
-//*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/* *******************************************************************/
+/*			 WBRTM  version 2006 - renovation 2022                   */
+/* *******************************************************************/
+/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                  */
+/*            W O J C I E C H   B O R K O W S K I                    */
+/*    Instytut Studiów Społecznych Uniwersytetu Warszawskiego        */
+/*        WWW:  ...                                                  */
+/*                                                                   */
+/*                               (Don't change or remove this note)  */
+/* *******************************************************************/
+
 

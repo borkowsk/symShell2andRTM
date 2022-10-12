@@ -4,8 +4,8 @@
  *  \date 2022-10-11 (last modification)
  */
 
-//#include "wb_ptr.hpp"
-//#include "wb_ptrio.h"
+#include "wb_ptr.hpp"
+#include "wb_ptrio.h"
 #include "wb_pchario.hpp"
 
 namespace wbrtm { //WOJCIECH BORKOWSKI RUN TIME LIBRARY
