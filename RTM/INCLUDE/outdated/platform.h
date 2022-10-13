@@ -1,6 +1,11 @@
 /********************************************************************/
-/* PLATFORM CHECKING FOR LIBRARIES MADE BY Wojciech Borkowski       */
+/** @file platform.h                                                */
+/** PLATFORM CHECKING FOR LIBRARIES MADE BY Wojciech Borkowski      */
+/** ----------------------------------------------------------      */
+/** \brief C base of platform detection.
+/** @ingroup OBSOLETE                                               */
 /********************************************************************/
+
 
 #ifndef _PLATFORM_H_
 #define _PLATFORM_H_

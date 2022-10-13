@@ -1,6 +1,11 @@
-/*
-C++ CHECK PLATFORM FOR PLATFORM RELEATED DEFINITIONS
-*/
+/********************************************************************/
+/** @file platform.h                                                */
+/** PLATFORM CHECKING FOR LIBRARIES MADE BY Wojciech Borkowski      */
+/** ----------------------------------------------------------      */
+/** \brief C++ CHECK PLATFORM FOR PLATFORM RELEATED DEFINITIONS     */
+/** @ingroup OBSOLETE                                               */
+/********************************************************************/
+
 #ifndef _PLATFORM_HPP_
 #define _PLATFORM_HPP_
 
