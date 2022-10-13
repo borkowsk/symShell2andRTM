@@ -42,7 +42,7 @@ add_library( wbrtm STATIC
         "${WBRTM}/BASE/error_enter_before_clean.c"
         "${WBRTM}/COMPATIBILITY/stricmp.c"
         "${WBRTM}/COMPATIBILITY/struprstrlwr.c"
-        )
+        INCLUDE/_obsolete.h)
 endif()
 
 

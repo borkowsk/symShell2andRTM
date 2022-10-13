@@ -9,6 +9,7 @@
 * \date    2022-10-12 (last modification)
 * \author  borkowsk
 */
+
 #ifndef __IOEXCEPTION_HPP__
 #define __IOEXCEPTION_HPP__
 

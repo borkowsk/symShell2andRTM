@@ -24,6 +24,8 @@
 *  \date 2022-10-12 (last modification)
 *  @ingroup OBSOLETE
 */
+#warning  "This code is OBSOLETE and not tested in C++11 standard"
+
 #ifndef _ASSOC_TABLE_HPP_
 #define _ASSOC_TABLE_HPP_
 

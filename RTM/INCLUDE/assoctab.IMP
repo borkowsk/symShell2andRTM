@@ -1,1 +1,2 @@
-??? //INCLUDED TO Assoctab.hpp 2013-10-07
+//INCLUDED TO Assoctab.hpp 2013-10-07
+#warning  "This code is OBSOLETE and not tested in C++11 standard"

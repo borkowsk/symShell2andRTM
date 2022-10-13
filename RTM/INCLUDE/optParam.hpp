@@ -11,6 +11,7 @@
 /// \note Chyba żeby już była? TODO CHECK IT!
 /// \author borkowsk
 /// \date  2022-10-12 (last modification)
+#warning  "This code is not tested in C++11 standard"
 
 #ifndef OPTIONAL_PARAMETERS_HPP
 #define  OPTIONAL_PARAMETERS_HPP

@@ -12,6 +12,7 @@
 /// \author borkowsk
 /// \date   2022-10-12 (last modification)
 /// @ingroup OBSOLETE
+#warning  "This code is OBSOLETE and not tested in C++11 standard"
 
 #ifndef _WB_LIMITS_H_
 #define _WB_LIMITS_H_

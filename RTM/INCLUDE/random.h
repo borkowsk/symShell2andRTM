@@ -13,6 +13,7 @@
 *  \author borkowsk
 *  \date  2022-10-12 (last modification)
 */
+
 #ifndef __RANDOM__H__INCLUDED__
 #define __RANDOM__H__INCLUDED__  (1)
 

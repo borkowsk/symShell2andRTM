@@ -19,7 +19,7 @@
 /// \copyright Wojciech Borkowski wborkowski (_at_) uw.edu.pl
 /// \date 2022-10-12 (last modification)
 /// \author    borkowsk
-// *******************************************************************************************************************
+
 #ifndef __WB_PTR_HPP__
 #define __WB_PTR_HPP__
 

@@ -4,6 +4,7 @@
  *         -------------------------------------------
  *  \date 2022-10-11 (last modification)
  */
+
 #include <ctype.h> //Typy znaków - http://www.cppreference.com/wiki/string/character_classes
 #include <cassert>
 #include <cstring>

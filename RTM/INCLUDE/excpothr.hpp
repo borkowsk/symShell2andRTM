@@ -9,6 +9,8 @@
 * \date    2022-10-12 (last modification)
 * \author  borkowsk
 */
+
+
 #ifndef _EXCPOTHR_HPP_
 #define _EXCPOTHR_HPP_
 

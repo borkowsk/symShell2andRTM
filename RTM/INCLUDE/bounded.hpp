@@ -2,7 +2,10 @@
  *  \author borkowsk
  *  \brief  wbrtm::bounded class & dedicated exception
  *  \date   2022-10-10 (last modification)
+ *  @ingroup OBSOLETE
  */
+#warning  "This code is not tested in C++11 standard"
+
 #ifndef _BOUNDED_HPP_
 #define _BOUNDED_HPP_
 #include "excpbase.hpp"

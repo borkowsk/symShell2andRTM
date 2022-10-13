@@ -7,8 +7,8 @@
 *  \date 2022-10-05 (last modification)
 */
 
-#ifndef DYNEGO_VIRTUAL_CONSTRUCTOR_H
-#define DYNEGO_VIRTUAL_CONSTRUCTOR_H
+#ifndef VIRTUAL_CONSTRUCTOR_H
+#define VIRTUAL_CONSTRUCTOR_H
 
 namespace wbrtm { //WOJCIECH BORKOWSKI RUN TIME LIBRARY
 /**
@@ -104,11 +104,19 @@ namespace wbrtm { //WOJCIECH BORKOWSKI RUN TIME LIBRARY
 #define DEFINE_VIRTUAL_CONSTRUCTOR( type , shortTypeName  ) \
             const wbrtm::VirtualConstructorOf<type> type::virtualConstructor{ (const char*)( shortTypeName ) };
 
-//*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//       Uzupełnienie do pakietu "Rozumek sieciowy" wersja 2022-10
-//       (c) ISS UW 2010-2013-2016 Wojciech Borkowski, modyfikacja 2021/2022.01-08
-//*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// @}
-#endif //DYNEGO_VIRTUAL_CONSTRUCTOR_H
+/* ******************************************************************/
+/*                WBRTM  version 2022 for GuestXR                   */
+/* ******************************************************************/
+/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
+/*            W O J C I E C H   B O R K O W S K I                   */
+/*    Instytut Studiów Społecznych Uniwersytetu Warszawskiego       */
+/*    WWW: https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI  */
+/*    GITHUB: https://github.com/borkowsk                           */
+/*                                                                  */
+/*                               (Don't change or remove this note) */
+/* ******************************************************************/
+#endif //VIRTUAL_CONSTRUCTOR_H
+
 
 

@@ -3,6 +3,7 @@
  *  \brief   C++ EXCEPTIONS AND ERROR SUPPORT
  *  \date   2022-10-12 (last modification)
  */
+
 #ifndef _ERRORHANDLE_HPP_
 #define _ERRORHANDLE_HPP_
 

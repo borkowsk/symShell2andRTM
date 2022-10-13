@@ -20,6 +20,8 @@
 *
 * \date    2022-10-12 (last modification)
 */
+#warning  "This code is OBSOLETE and not tested in C++11 standard"
+
 #ifndef _DEFINED_TypeName
 #define _DEFINED_TypeName
 
