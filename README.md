@@ -33,6 +33,8 @@ Lib X11: *CentOS/RHEL?*
         sudo yum install libXpm-devel
         
 Lib X11: Apple?
+        
+        X11 or text/svg mode only.
 
 Lib X11: Windows
    
