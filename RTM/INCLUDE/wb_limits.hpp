@@ -19,6 +19,12 @@
 #include <float.h>
 #include <limits.h>
 
+/**
+ * @defgroup TypesService Informacja o typach i nazewnictwo
+ * \brief Ładne i przenośne nazwy typów itp.
+ */
+/// @{
+
 namespace wbrtm { // Przestrzeń nazw biblioteki WBRTM
 
     template<class Scalar>
@@ -152,6 +158,7 @@ namespace wbrtm { // Przestrzeń nazw biblioteki WBRTM
 #endif
 
 } //namespaxe wbrtm
+///@}
 #endif
 /* ******************************************************************/
 /*              SYMSHELLLIGHT  version 2022                         */

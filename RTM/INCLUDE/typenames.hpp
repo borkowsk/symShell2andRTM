@@ -27,6 +27,12 @@
 
 #include <typeinfo>
 
+/**
+ * @defgroup TypesService Informacja o typach i nazewnictwo
+ * \brief Ładne i przenośne nazwy typów itp.
+ */
+/// @{
+
 /// \brief default implementation.
 /// \details
 /// 	You need a specialization for each type of those you want to support
@@ -67,6 +73,7 @@ ENABLE_TYPENAME(float)        ///< \brief specialization for type 'float'.
 ENABLE_TYPENAME(double)       ///< \brief specialization for type 'double'.
 ENABLE_TYPENAME(long) 	      ///< \brief specialization for type 'long'.
 
+///@}
 /* *******************************************************************/
 /*               SYMSHELLLIGHT  version 2022                         */
 /* *******************************************************************/

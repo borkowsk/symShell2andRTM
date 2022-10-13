@@ -14,13 +14,14 @@
 *        - class		wbrtm::SearchingExcp;
 *        - class 	wbrtm::TextException;
 *
-* \date   2022-10-12 (last modification)
+* \date   2022-10-13 (last modification)
 * \author  borkowsk
+* \ingroup ERRORHANDLING
 */
 
 #ifndef _EXCEPTION_BASE_HPP_
 #define _EXCEPTION_BASE_HPP_
-//#include "tnames.h"
+
 
 #ifdef __DJGPP__
 #pragma interface
@@ -31,10 +32,16 @@
 
 #include <iostream>
 
-/// \brief Najwiekszy rozmiar obszaru danych dla wyjątku. Można też przedefiniowywać dalej.
+/**
+ * @defgroup ERRORHANDLING Błędne i wyjątkowe sytuacje
+ * @brief	 Obsługa wyjątków jako błędów czasu wykonania.
+ */
+///@{
+
+/// \brief Największy rozmiar obszaru danych dla wyjątku. Można też przedefiniowywać dalej.
 #define EXCEPTION_MAX_SIZE 1024
 
-// Metody niezbedne dla ogolnego stosowania
+/// \brief Metody niezbędne dla wyjątków biblioteki wbrtm \ingroup ERRORHANDLING
 #define EXCP_NECESSARY(_P_)   \
 public: \
 virtual const char* TypeName() const		{ return #_P_ ; } \
@@ -47,13 +54,13 @@ namespace wbrtm { //WOJCIECH BORKOWSKI RUN TIME LIBRARY
     /// Istnieją z przyczyn historycznych. Dziwne to czasem.
     typedef void*   pointer;
     typedef size_t  object_size_t;
+
     const   auto    MAXOBJECTSIZE=SIZE_MAX;
 
-/// \brief Pure base for all exceptions in WB libraries.
+/// \brief Pure base for all exceptions in WB libraries. \ingroup ERRORHANDLING
 class WB_Exception_base
 {
-// VMT - exist ! Virtual function exist.
-EXCP_NECESSARY(WB_Exception_base)
+EXCP_NECESSARY(WB_Exception_base) // VMT - exist ! Virtual function exist.
 int not_recoverable; ///< 0 gdy program może byc kontynuowany.
 protected:
 	WB_Exception_base():not_recoverable(1){}
@@ -74,19 +81,19 @@ friend
 std::ostream& operator << (std::ostream& o,const WB_Exception_base& e);
 };
 
-/// \brief Exceptions important for developers and testers.
+/// \brief Exceptions important for developers and testers. \ingroup ERRORHANDLING
 class ExcpRaisePosition:public WB_Exception_base
 {
 EXCP_NECESSARY(ExcpRaisePosition)
 protected:
 const char* file; ///< w jakim to pliku źródłowym.
-const int   line; ///< w jakiej lini pliku źródłowego.
+const int   line; ///< w jakiej linii pliku źródłowego.
 ExcpRaisePosition(const char* fname,const int fline):
 	file(fname),line(fline) {}
 virtual void PrintTo(std::ostream&) const;
 };
 
-/// \brief Base for all exceptions depended on OS.
+/// \brief Base for all exceptions depended on OS. \ingroup ERRORHANDLING
 class SystemExcp:public ExcpRaisePosition
 {
 EXCP_NECESSARY(SystemExcp)
@@ -102,7 +109,7 @@ void PrintTo(std::ostream&) const;
 };
 
 
-/// \brief Base for all memory managing exceptions.
+/// \brief Base for all memory managing exceptions. \ingroup ERRORHANDLING
 class MemoryExcp:public ExcpRaisePosition
 {
 EXCP_NECESSARY(MemoryExcp)
@@ -113,7 +120,7 @@ void PrintTo(std::ostream&) const;
 };
 
 
-/// \brief Base for all numeric & math exceptions.
+/// \brief Base for all numeric & math exceptions. \ingroup ERRORHANDLING
 class NumericExcp:public ExcpRaisePosition
 {
 EXCP_NECESSARY(NumericExcp)
@@ -124,7 +131,7 @@ void PrintTo(std::ostream&) const;
 };
 
 
-/// \brief Base for all ranging & indexing exceptions.
+/// \brief Base for all ranging & indexing exceptions. \ingroup ERRORHANDLING
 class RangCheckExcp:public ExcpRaisePosition
 {
 EXCP_NECESSARY(RangCheckExcp)
@@ -134,7 +141,7 @@ int  ExitCode() const    { return 1; }
 void PrintTo(std::ostream&) const;
 };
 
-/// \brief Base for all search & (not)found exceptions.
+/// \brief Base for all search & (not)found exceptions. \ingroup ERRORHANDLING
 class SearchingExcp:public ExcpRaisePosition
 {
 EXCP_NECESSARY(SearchingExcp)
@@ -144,7 +151,7 @@ int  ExitCode() const    { return 1; }
 void PrintTo(std::ostream&) const;
 };
 
-/// \brief Base for old style Runtime Errors.
+/// \brief Base for old style Runtime Errors. \ingroup ERRORHANDLING
 class RunTimeErrorExcp:public ExcpRaisePosition
 {
 EXCP_NECESSARY(RunTimeErrorExcp)
@@ -160,7 +167,7 @@ virtual void PrintTo(std::ostream&) const;
 };
 
 
-/// \brief  Text exception for users rather than for code developers.
+/// \brief  Text exception for users rather than for code developers. \ingroup ERRORHANDLING
 class TextException:public RunTimeErrorExcp
 {
 EXCP_NECESSARY(TextException)
@@ -183,10 +190,13 @@ virtual void PrintTo(std::ostream&) const;
 
 
 #define EXCEPTION( _CM_ , _cd_ ) wbrtm::TextException((_CM_),(_cd_),__FILE__,__LINE__)
-#define WARNING( _CM_ ) 	 wbrtm::TextException((_CM_),0,__FILE__,__LINE__)
-#define FATAL( _CM_ )		 wbrtm::TextException((_CM_),5,__FILE__,__LINE__)
-} //namespace wbrtm
 
+#define WARNING( _CM_ ) 	     wbrtm::TextException((_CM_),0,__FILE__,__LINE__)
+
+#define FATAL( _CM_ )		     wbrtm::TextException((_CM_),5,__FILE__,__LINE__)
+
+} //namespace wbrtm
+///@}
 /* *******************************************************************/
 /*	       WBRTM  version 2006 - renovated in 2022                   */
 /* *******************************************************************/

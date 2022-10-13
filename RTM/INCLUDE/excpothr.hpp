@@ -6,8 +6,9 @@
 *          Contents:
 *          - class wbrtm::InvalidIndexExcp;
 *
-* \date    2022-10-12 (last modification)
+* \date    2022-10-13 (last modification)
 * \author  borkowsk
+* @ingroup ERRORHANDLING
 */
 
 
@@ -16,9 +17,14 @@
 
 #include "excpbase.hpp"
 
+/**
+ * @ingroup ERRORHANDLING Funkcje o klasy obsługi sytuacji błędnych i wyjątkowych
+ */
+///@{
+
 namespace wbrtm { //WOJCIECH BORKOWSKI RUN TIME LIBRARY
 
-/// \brief Obsolete class
+/// \brief Obsolete class \ingroup ERRORHANDLING
 class InvalidIndexExcp:public RangCheckExcp
 {
 EXCP_NECESSARY(InvalidIndexExcp)
@@ -29,7 +35,7 @@ void PrintTo(std::ostream&) const;
 };
 
 } //namespace
-
+///@}
 /* *******************************************************************/
 /*	       WBRTM  version 2006 - renovated in 2022                   */
 /* *******************************************************************/

@@ -10,8 +10,7 @@
 ///     NIESTETY nie można używać typu 'string' bo nie ma on obsługi strumieni!
 /// \note Chyba żeby już była? TODO CHECK IT!
 /// \author borkowsk
-/// \date  2022-10-12 (last modification)
-#warning  "This code is not tested in C++11 standard"
+/// \date  2022-10-13 (last modification)
 
 #ifndef OPTIONAL_PARAMETERS_HPP
 #define  OPTIONAL_PARAMETERS_HPP
@@ -30,12 +29,18 @@
 
 #include "wb_ptr.hpp"
 
+/**
+ * @defgroup MAINandPARS Okolice funkcji main() i parametrów
+ * \brief    Obsługa parametrów wywołania programu i innych aspektów
+ */
+///@{
+
 using namespace std;
 
 ///\namespace wbrtm \brief WOJCIECH BORKOWSKI RUN TIME LIBRARY
 namespace wbrtm {
 
-/// \brief   Baza klas dla wszystkich typów parametrów wywołania.
+/// \brief   Baza klas dla wszystkich typów parametrów wywołania. \ingroup MAINandPARS
 /// \details Definiuje interfejs parametru i funkcje statyczne do obsługi całej listy możliwych parametrów
 class OptionalParameterBase
 {
@@ -89,7 +94,7 @@ static
 // Klasy potomne
 // /////////////////
 
-/// \brief  Klasa do rozdzielania parametrów w tablicy i w helpie
+/// \brief  Klasa do rozdzielania parametrów w tablicy i w helpie \ingroup MAINandPARS
 class ParameterLabel:public OptionalParameterBase
 {
 protected:
@@ -109,7 +114,7 @@ protected:
 	~ParameterLabel() = default;
 };
 
-/// \brief Szablon klasy opcjonalnego parametru.
+/// \brief Szablon klasy opcjonalnego parametru. \ingroup MAINandPARS
 template<class T>
 class OptionalParameter:public OptionalParameterBase
 {
@@ -145,7 +150,7 @@ class OptionalParameter:public OptionalParameterBase
 	virtual bool check(const T& _val);
 };
 
-/// \brief  Szablon klasy opcjonalnego parametru będącego WYLICZENIEM
+/// \brief  Szablon klasy opcjonalnego parametru będącego WYLICZENIEM \ingroup MAINandPARS
 template<class T>
 class OptEnumParametr:public OptionalParameter<T>
 {
@@ -179,7 +184,7 @@ class OptEnumParametr:public OptionalParameter<T>
 //  Funkcje sprawdzania poprawności
 // ////////////////////////////////////
 
-/// \details  Implementacja ogólna sprawdzania poprawności
+/// \details  Implementacja ogólna sprawdzania poprawności \ingroup MAINandPARS
 /// \return   Czy wartość mieści się w zadanym zakresie.
 template<class T>
 bool OptionalParameter<T>::check(const T& _val)
@@ -187,7 +192,7 @@ bool OptionalParameter<T>::check(const T& _val)
 	return (LBound<=_val) && (_val<=HBound);
 }
 
-/// \details  Implementacja sprawdzania poprawności dla typu 'string'
+/// \details  Implementacja sprawdzania poprawności dla typu 'string' \ingroup MAINandPARS
 /// \return   Czy zawartość jest zaalokowana i nie jest pustym łańcuchem.
 template<> inline
 bool OptionalParameter<string>::check(const string& val)
@@ -195,7 +200,7 @@ bool OptionalParameter<string>::check(const string& val)
 	return val.c_str()!=NULL &&  *val.c_str()!='\0';
 }
 
-/// \details Implementacja sprawdzania poprawności dla typu 'wb_pchar'
+/// \details Implementacja sprawdzania poprawności dla typu 'wb_pchar' \ingroup MAINandPARS
 /// \return   Czy zawartość jest zaalokowana i nie jest pustym łańcuchem.
 template<> inline
 bool OptionalParameter<wb_pchar>::check(const wb_pchar& val)
@@ -203,7 +208,7 @@ bool OptionalParameter<wb_pchar>::check(const wb_pchar& val)
 	return val.get()!=NULL && *val.get()!='\0';
 }
 
-/// \details Implementacja sprawdzania poprawności dla typu 'char*'
+/// \details Implementacja sprawdzania poprawności dla typu 'char*' \ingroup MAINandPARS
 /// \return  Czy zawartość nie jest NULL i nie jest pustym łańcuchem.
 template<> inline
 bool OptionalParameter<char*>::check(char* const& val)
@@ -211,7 +216,7 @@ bool OptionalParameter<char*>::check(char* const& val)
 	return (val!=NULL) && (*val!='\0');
 }
 
-/// \details Implementacja sprawdzania poprawności dla typu 'const char*'
+/// \details Implementacja sprawdzania poprawności dla typu 'const char*' \ingroup MAINandPARS
 /// \return  Czy zawartość nie jest NULL i nie jest pustym łańcuchem.
 template<> inline
 bool OptionalParameter<const char*>::check(const char* const& val)
@@ -223,14 +228,15 @@ bool OptionalParameter<const char*>::check(const char* const& val)
 // Funkcje konwersji
 // //////////////////////////////////////////////////////////////////////////////
 
-/// \details Implementacja konwersji dla typu  'char*'. \return użyteczny łańcuch alokowany na stercie.
+/// \details Implementacja konwersji dla typu  'char*'.  \ingroup MAINandPARS
+/// \return użyteczny łańcuch alokowany na stercie.
 template<> inline
 char* OptionalParameter<char*>::convert(const char* str)
 {
 	return clone_str(str);//Bez zwalniania pamięci, bo to przecież parametr wywołania!
 }
 
-/// \details Implementacja konwersji dla typu  'const char*'.
+/// \details Implementacja konwersji dla typu  'const char*'. \ingroup MAINandPARS
 /// \return  Zwraca po prostu ten sam łańcuch. To przecież kawałek parametru wywołania, więc nie może się zmienić!
 template<> inline
 const char* OptionalParameter<const char*>::convert(const char* str)
@@ -238,7 +244,7 @@ const char* OptionalParameter<const char*>::convert(const char* str)
     return str;
 }
 
-/// \details Implementacja konwersji dla typu 'wb_pchar'
+/// \details Implementacja konwersji dla typu 'wb_pchar' \ingroup MAINandPARS
 /// \return  Zapewne kopie tego, co dostanie (czyli kawałka parametru wywołania)
 template<> inline
 wb_pchar OptionalParameter<wb_pchar>::convert(const char* str)
@@ -246,35 +252,35 @@ wb_pchar OptionalParameter<wb_pchar>::convert(const char* str)
 	return wb_pchar(str);
 }
 
-/// \details Implementacja konwersji dla typu  'string'
+/// \details Implementacja konwersji dla typu  'string' \ingroup MAINandPARS
 template<> inline
 string OptionalParameter<string>::convert(const char* str)
 {
 	return string(str);
 }
 
-/// \details Implementacja konwersji dla typu  'double'
+/// \details Implementacja konwersji dla typu  'double' \ingroup MAINandPARS
 template<> inline
 double OptionalParameter<double>::convert(const char* str)
 {
 	return atof(str);
 }
 
-/// \details Implementacja konwersji dla typu  'float'
+/// \details Implementacja konwersji dla typu  'float' \ingroup MAINandPARS
 template<> inline
 float OptionalParameter<float>::convert(const char* str)
 {
 	return (float)atof(str);// conversion from 'double' to 'float', possible loss of data
 }
 
-/// \details Implementacja konwersji dla typu  'long'
+/// \details Implementacja konwersji dla typu  'long' \ingroup MAINandPARS
 template<> inline
 long OptionalParameter<long>::convert(const char* str)
 {
 	return atol(str);
 }
 
-/// \details Implementacja konwersji dla typu  'long long'
+/// \details Implementacja konwersji dla typu  'long long' \ingroup MAINandPARS
 template<> inline
 long long OptionalParameter<long long>::convert(const char* str)
 {
@@ -285,7 +291,7 @@ long long OptionalParameter<long long>::convert(const char* str)
 #endif
 }
 
-/// \details Implementacja konwersji dla typu  'unsigned long long'.
+/// \details Implementacja konwersji dla typu  'unsigned long long'. \ingroup MAINandPARS
 /// \return  Wynik działania na \p str funkcji atoll() lub atof() (w MSVC++)
 template<> inline
 unsigned long long OptionalParameter<unsigned long long>::convert(const char* str)
@@ -297,7 +303,7 @@ unsigned long long OptionalParameter<unsigned long long>::convert(const char* st
 #endif
 }
 
-/// \details Implementacja konwersji dla typu  'unsigned int'
+/// \details Implementacja konwersji dla typu  'unsigned int' \ingroup MAINandPARS
 /// \return  Wynik działania na \p str funkcji atol()
 template<> inline
 unsigned OptionalParameter<unsigned>::convert(const char* str)
@@ -305,7 +311,7 @@ unsigned OptionalParameter<unsigned>::convert(const char* str)
 	return atol(str);
 }
 
-/// \details Implementacja konwersji dla typu  'int'
+/// \details Implementacja konwersji dla typu  'int' \ingroup MAINandPARS
 /// \return  Wynik działania na \p str funkcji atoi()
 template<> inline
 int OptionalParameter<int>::convert(const char* str)
@@ -313,7 +319,7 @@ int OptionalParameter<int>::convert(const char* str)
 	return atoi(str);
 }
 
-/// \details Implementacja konwersji dla typu  'bool'
+/// \details Implementacja konwersji dla typu  'bool' \ingroup MAINandPARS
 /// \return true, jeżeli pierwszy ZNAK jest 'Y','y','T','t' albo '1'.
 template<> inline
 bool OptionalParameter<bool>::convert(const char* str)
@@ -370,7 +376,7 @@ T OptionalParameter<T>::convert(const char* str)
 //	Główne metody
 // //////////////////////////////////////////////////////////////////////////////
 
-/// \details Zapis parametrów do pliku "raportu"
+/// \details Zapis parametrów do pliku "raportu" \ingroup MAINandPARS
 /// \param Out - strumień do zapisu
 /// \param Parameters - tablica parametrów
 /// \param Len - liczba parametrów w tablicy \p Parameters
@@ -392,7 +398,7 @@ void OptionalParameterBase::report(ostream& Out,OptionalParameterBase* Parameter
   }
 }
 
-/// \brief Zapis parametrów w formie tabeli
+/// \brief Zapis parametrów w formie tabeli \ingroup MAINandPARS
 /// \param Out - strumień do zapisu
 /// \param Parameters - tablica parametrów
 /// \param Len - liczba parametrów w tablicy \p Parameters
@@ -424,7 +430,7 @@ void OptionalParameterBase::table(ostream& Out,OptionalParameterBase* Parameters
    }
 }
 
-/// \brief Główna funkcja parsująca listę parametrów wywołania
+/// \brief Główna funkcja parsująca listę parametrów wywołania \ingroup MAINandPARS
 /// \param argc - liczba argumentów programu ( z main() )
 /// \param argv - wartości argumentów programu ( z main() )
 /// \param Parameters - tabela parametrów
@@ -465,7 +471,7 @@ CONTINUE:;
     return 0;
 }
 
-/// \brief Szablon funkcji sprawdzania łańcucha parametru
+/// \brief Szablon funkcji sprawdzania łańcucha parametru \ingroup MAINandPARS
 /// \tparam T - jaki typ
 /// \param argv - wartość parametru programu
 /// \param sep - znak separatora
@@ -502,7 +508,7 @@ int OptionalParameter<T>::CheckStr(const char* argv,char sep/*arator*/)
     return 0;//Nie MOJA wartość. Szukaj dalej!
 }
 
-/// \brief  funkcji sprawdzania łańcucha parametru dla typu 'string'
+/// \brief  funkcji sprawdzania łańcucha parametru dla typu 'string' \ingroup MAINandPARS
 /// \param argv - wartość parametru programu
 /// \param sep - znak separatora
 /// \return 1 if OK, -1 on error, 0 for ignoring
@@ -541,7 +547,7 @@ int OptionalParameter<string>::CheckStr(const char* argv,char sep/*arator*/)
 // NIETYPOWE METODY DRUKOWANIA HELPU DO PARAMETRÓW TEKSTOWYCH
 // //////////////////////////////////////////////////////////////////////////////
 
-/// \brief  funkcja drukowania helpu parametru dla typu 'string'
+/// \brief  funkcja drukowania helpu parametru dla typu 'string' \ingroup MAINandPARS
 template<> inline
 void OptionalParameter<string>::HelpPrn(ostream& o)
 	{
@@ -549,7 +555,7 @@ void OptionalParameter<string>::HelpPrn(ostream& o)
          <<"\"; Default: \""<<Value.c_str()<<'"'<<endl;
 	}
 
-/// \brief  funkcja drukowania helpu parametru dla typu 'wb_pchar'
+/// \brief  funkcja drukowania helpu parametru dla typu 'wb_pchar' \ingroup MAINandPARS
 template<> inline
 void OptionalParameter<wb_pchar>::HelpPrn(ostream& o)
 	{
@@ -557,19 +563,19 @@ void OptionalParameter<wb_pchar>::HelpPrn(ostream& o)
          <<"\"; Default: \""<<Value.get()<<'"'<<endl;
 	}
 
-/// \brief  funkcja drukowania helpu parametru dla typu 'char*'
+/// \brief  funkcja drukowania helpu parametru dla typu 'char*' \ingroup MAINandPARS
 template<> inline
 void OptionalParameter<char*>::HelpPrn(ostream& o)
 	{
 	  o<<Name.get()<<": "<<Info.get()<<" f.e.:\""<<LBound<<"\" or \""<<HBound<<"\"; Default: \""<<Value<<'"'<<endl;
 	}
 
-/// \brief  funkcja drukowania helpu parametru dla typu 'bool'
+/// \brief  funkcja drukowania helpu parametru dla typu 'bool' \ingroup MAINandPARS
 template<> inline
 void OptionalParameter<bool>::HelpPrn(ostream& o)
 	{ o<<Name.get()<<": "<<Info.get()<<"; allowed are: 0,1,Yes,No,Tak,Nie; Default: "<<Value<<endl; }
 
-/// \brief  Szablon funkcji drukowania helpu parametru dla typu WYLICZENIOWEGO 'enum'
+/// \brief  Szablon funkcji drukowania helpu parametru dla typu WYLICZENIOWEGO 'enum' \ingroup MAINandPARS
 template<class T> inline
 void OptEnumParametr<T>::HelpPrn(ostream& o)
 { //G++ chciało tu kiedyś wszędzie this-> ??? TODO - MOŻE JUŻ NIEPOTRZEBNE?
@@ -586,7 +592,7 @@ void OptEnumParametr<T>::HelpPrn(ostream& o)
 }
 
 }//NAMESPACE WBRTM
-
+///@}
 /* *******************************************************************/
 /*               SYMSHELLLIGHT  version 2022                         */
 /* *******************************************************************/

@@ -5,6 +5,7 @@
  *  \date   2022-10-12 (last modification)
  *  \details ...
  *  \note Like many others wbrtm files created around year 1996.
+ *  \ingroup DYNMEMORY
  */
 
 #ifndef _WB_PCHARIO_HPP_

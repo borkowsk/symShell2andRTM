@@ -19,6 +19,7 @@
 /// \copyright Wojciech Borkowski wborkowski (_at_) uw.edu.pl
 /// \date 2022-10-12 (last modification)
 /// \author    borkowsk
+///
 
 #ifndef __WB_PTR_HPP__
 #define __WB_PTR_HPP__
@@ -41,14 +42,19 @@
 #include <assert.h>
 
 #include <iostream>
+
 using namespace std;
 
 #include "wb_clone.hpp"
 
+/// @defgroup DYNMEMORY  Zarządzanie danymi na stercie
+/// \brief Inteligentne wskaźniki i proste dynamiczne struktury danych (tablice i macierze)
+///@{
+
 ///\namespace wbrtm \brief WOJCIECH BORKOWSKI RUN TIME LIBRARY
 namespace wbrtm {
 
-/// \brief Szablon inteligentnego wskaźnika dla typów skalarnych
+/// \brief Szablon inteligentnego wskaźnika dla typów skalarnych \ingroup DYNMEMORY
 template<class T>
 class wb_sptr
 {
@@ -156,7 +162,7 @@ public:
 
 };
 
-/// \brief Szablon inteligentnego wskaźnika dla dla typów strukturalnych
+/// \brief Szablon inteligentnego wskaźnika dla dla typów strukturalnych \ingroup DYNMEMORY
 template<class T>
 class wb_ptr:public wb_sptr<T>
 {
@@ -253,7 +259,7 @@ wb_ptr<T>& wb_ptr<T>::transfer_from(wb_ptr<T>& nini) //Jawnie nazwany operator p
 	}
 
 
-///\brief Inteligentny wskaźnik na tablicę znaków zakończonych \0
+///\brief Inteligentny wskaźnik na tablicę znaków zakończonych \0  \ingroup DYNMEMORY
 ///\details Klasa z rodziny inteligentnych wskaźników przeznaczona na uchwyt do łańcucha tekstowego
 ///         Pomiędzy obiektami klasy wb_pchar bez atrybutu const zawartość jest, jak zwykle, "sztafetowana",
 ///         więc jako parametr funkcji i metod musi być przekazywany przez referencję.
@@ -422,8 +428,8 @@ public:
 
 };
 
-/// \brief Szablon bardzo prostej tablicy o rozmiarze dynamicznym
-///        i możliwym testowaniu indeksów przy odwołaniach (assercja!!!)
+/// \brief Szablon bardzo prostej tablicy o rozmiarze dynamicznym.  \ingroup DYNMEMORY
+/// \note  Z możliwym testowaniu indeksów przy odwołaniach (assercja!!!)
 template<class T>
 class wb_dynarray
 {
@@ -669,7 +675,7 @@ public:
 };
 
 /// \brief Szablon prostej tablicy dwuwymiarowej o dowolnej liczbie wierszy i dowolnej długości każdego wiersza.
-/// \details Kontrole zakresów itp. assercje dziedziczy po klasie bazowej
+/// \details Kontrole zakresów itp. assercje dziedziczy po klasie bazowej  \ingroup DYNMEMORY
 template<class T>
 class wb_dynmatrix:public wb_dynarray< wb_dynarray<T> >
 {
@@ -856,7 +862,7 @@ extern "C"
 {
 extern int WB_error_enter_before_clean; ///< Sterowanie reakcją na kończące błędy
 }
-
+///@}
 /* ******************************************************************/
 /*                WBRTM  version 2022 for GuestXR                   */
 /* ******************************************************************/

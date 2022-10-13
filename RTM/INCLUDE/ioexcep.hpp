@@ -6,8 +6,9 @@
 *          Contents:
 *          - class wbrtm::ExcpIO;
 *
-* \date    2022-10-12 (last modification)
+* \date    2022-10-13 (last modification)
 * \author  borkowsk
+* @ingroup ERRORHANDLING
 */
 
 #ifndef __IOEXCEPTION_HPP__
@@ -18,9 +19,14 @@
 #include "wb_ptr.hpp"
 #include "excpbase.hpp"
 
+/**
+ * @ingroup ERRORHANDLING Funkcje o klasy obsługi sytuacji błędnych i wyjątkowych
+ */
+///@{
+
 namespace wbrtm { //WOJCIECH BORKOWSKI RUN TIME LIBRARY
 
-/// \brief Typ wyjątku do zastosowania w operacjach wejścia/wyjścia na strumieniach.
+/// \brief Typ wyjątku do zastosowania w operacjach wejścia/wyjścia na strumieniach. \ingroup ERRORHANDLING
 /// \note  Zakładamy ze można spokojnie alokować pamięć dla łańcuchów z treścią komunikatu.
 class ExcpIO:public WB_Exception_base
 {
@@ -63,7 +69,7 @@ public:
 
 
 } //namespace
-
+///@}
 /* *******************************************************************/
 /*			           WBRTM  version 2022                           */
 /* *******************************************************************/

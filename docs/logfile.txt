@@ -6,8 +6,8 @@ error: fixed-compilation-database: Error while opening fixed database: Nie ma ta
 json-compilation-database: Error while opening JSON database: Nie ma takiego pliku ani katalogu
  using clang compilation database path of: "(null)"
 error:  using clang compilation database path of: "(null)"
-error: /data/wb/SCC/public/symShell2andRTM/docs/links/INCLUDE/wb_ptr.hpp:466:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
-error: /data/wb/SCC/public/symShell2andRTM/docs/links/INCLUDE/wb_ptr.hpp:694:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
+error: /data/wb/SCC/public/symShell2andRTM/docs/links/INCLUDE/wb_ptr.hpp:472:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
+error: /data/wb/SCC/public/symShell2andRTM/docs/links/INCLUDE/wb_ptr.hpp:700:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
 error: /data/wb/SCC/public/symShell2andRTM/RTM/src/BASE/errorhan.cpp:54:20: warning: comparison of function 'unitbuf' not equal to a null pointer is always true [-Wtautological-pointer-compare] [clang]
 error: /data/wb/SCC/public/symShell2andRTM/RTM/src/BASE/errorhan.cpp:54:18: warning: & has lower precedence than !=; != will be evaluated first [-Wparentheses] [clang]
 error:  using clang compilation database path of: "(null)"
@@ -22,30 +22,31 @@ error:  using clang compilation database path of: "(null)"
 error:  using clang compilation database path of: "(null)"
 error: /data/wb/SCC/public/symShell2andRTM/RTM/src/EXCEPT/extextex.cpp:1:10: fatal error: 'INCLUDE/extextex.hpp' file not found [clang]
 error:  using clang compilation database path of: "(null)"
-error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_ptr.hpp:466:17: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
-error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_ptr.hpp:694:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
+error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_ptr.hpp:472:17: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
+error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_ptr.hpp:700:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
 error:  using clang compilation database path of: "(null)"
-error: /data/wb/SCC/public/symShell2andRTM/docs/links/INCLUDE/wb_ptr.hpp:466:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
-error: /data/wb/SCC/public/symShell2andRTM/docs/links/INCLUDE/wb_ptr.hpp:694:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
+error: /data/wb/SCC/public/symShell2andRTM/docs/links/INCLUDE/wb_ptr.hpp:472:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
+error: /data/wb/SCC/public/symShell2andRTM/docs/links/INCLUDE/wb_ptr.hpp:700:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
 error:  using clang compilation database path of: "(null)"
-error: /data/wb/SCC/public/symShell2andRTM/docs/links/INCLUDE/wb_ptr.hpp:466:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
-error: /data/wb/SCC/public/symShell2andRTM/docs/links/INCLUDE/wb_ptr.hpp:694:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
+error: /data/wb/SCC/public/symShell2andRTM/docs/links/INCLUDE/wb_ptr.hpp:472:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
+error: /data/wb/SCC/public/symShell2andRTM/docs/links/INCLUDE/wb_ptr.hpp:700:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
 error:  using clang compilation database path of: "(null)"
-error: /data/wb/SCC/public/symShell2andRTM/docs/links/INCLUDE/wb_ptr.hpp:466:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
-error: /data/wb/SCC/public/symShell2andRTM/docs/links/INCLUDE/wb_ptr.hpp:694:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
+error: /data/wb/SCC/public/symShell2andRTM/docs/links/INCLUDE/wb_ptr.hpp:472:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
+error: /data/wb/SCC/public/symShell2andRTM/docs/links/INCLUDE/wb_ptr.hpp:700:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
+error:  using clang compilation database path of: "(null)"
 error:  using clang compilation database path of: "(null)"
 error:  using clang compilation database path of: "(null)"
 error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/_obsolete.h:12:2: warning: "This source is not fully compatible with C++11" [-W#warnings] [clang]
 error:  using clang compilation database path of: "(null)"
 error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/arr_base.hpp:10:2: warning: "This code is OBSOLETE and not tested in C++11 standard" [-W#warnings] [clang]
-error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_ptr.hpp:466:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
-error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_ptr.hpp:694:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
+error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_ptr.hpp:472:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
+error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_ptr.hpp:700:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
 error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/arr_base.hpp:20:10: fatal error: '_ikeycon.hpp' file not found [clang]
 error:  using clang compilation database path of: "(null)"
 error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/arrays.hpp:10:2: warning: "This code is OBSOLETE and not tested in C++11 standard" [-W#warnings] [clang]
 error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/arr_base.hpp:10:2: warning: "This code is OBSOLETE and not tested in C++11 standard" [-W#warnings] [clang]
-error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_ptr.hpp:466:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
-error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_ptr.hpp:694:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
+error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_ptr.hpp:472:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
+error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_ptr.hpp:700:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
 error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/arr_base.hpp:20:10: fatal error: '_ikeycon.hpp' file not found [clang]
 error:  using clang compilation database path of: "(null)"
 error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/assobase.hpp:16:2: warning: "This code is OBSOLETE and not tested in C++11 standard" [-W#warnings] [clang]
@@ -63,12 +64,11 @@ error:  using clang compilation database path of: "(null)"
 error:  using clang compilation database path of: "(null)"
 error:  using clang compilation database path of: "(null)"
 error:  using clang compilation database path of: "(null)"
-error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_ptr.hpp:466:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
-error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_ptr.hpp:694:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
+error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_ptr.hpp:472:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
+error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_ptr.hpp:700:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
 error:  using clang compilation database path of: "(null)"
-error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/optParam.hpp:14:2: warning: "This code is not tested in C++11 standard" [-W#warnings] [clang]
-error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_ptr.hpp:466:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
-error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_ptr.hpp:694:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
+error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_ptr.hpp:472:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
+error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_ptr.hpp:700:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
 /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/outdated/platform.h:162: warning: Reached end of file while still inside a (nested) comment. Nesting level 1 (probable line reference: 5)
 error:  using clang compilation database path of: "(null)"
 error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/outdated/platform.h:6:1: warning: '/*' within block comment [-Wcomment] [clang]
@@ -90,20 +90,22 @@ error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_limits.h:13:2: warning
 error:  using clang compilation database path of: "(null)"
 error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_limits.hpp:15:2: warning: "This code is OBSOLETE and not tested in C++11 standard" [-W#warnings] [clang]
 error:  using clang compilation database path of: "(null)"
-error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_ptr.hpp:466:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
-error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_ptr.hpp:694:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
+error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_ptr.hpp:472:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
+error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_ptr.hpp:700:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
 error:  using clang compilation database path of: "(null)"
-error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_ptr.hpp:466:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
-error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_ptr.hpp:694:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
+error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_ptr.hpp:472:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
+error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_ptr.hpp:700:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
 error:  using clang compilation database path of: "(null)"
-error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_ptr.hpp:466:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
-error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_ptr.hpp:694:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
+error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_ptr.hpp:472:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
+error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_ptr.hpp:700:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
 error:  using clang compilation database path of: "(null)"
 error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_rand.hpp:84:61: warning: implicit conversion from 'int' to 'float' changes value from 2147483647 to 2147483648 [-Wimplicit-int-float-conversion] [clang]
 error:  using clang compilation database path of: "(null)"
 error: /data/wb/SCC/public/symShell2andRTM/docs/logfile.txt:1:1: error: unknown type name 'warning' [clang]
 error: /data/wb/SCC/public/symShell2andRTM/docs/logfile.txt:1:8: error: expected unqualified-id [clang]
 error: /data/wb/SCC/public/symShell2andRTM/docs/logfile.txt:12:118: error: expected unqualified-id [clang]
+/data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/virtualConstructor.h:14: warning: group VirtualConstruction: ignoring title "Bazowa obsługa zapisu i odczytu obiektów heterogenicznych" that does not match old title "Wirtualne konstruktory dla obiektów heterogenicznych"
+
 /data/wb/SCC/public/symShell2andRTM/RTM/src/EXCEPT/boundexc.cpp:1: warning: the name 'excbounded.cpp' supplied as the argument in the \file statement is not an input file
 /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_ptrio.h:1: warning: the name 'wb_pchario.h' supplied as the argument in the \file statement is not an input file
 /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/outdated/platform.h:12: warning: documentation for unknown define _PLATFORM_H_ found.
@@ -116,8 +118,8 @@ error: /data/wb/SCC/public/symShell2andRTM/docs/logfile.txt:12:118: error: expec
 /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/assoctab.hpp:397: warning: documented symbol 'void wbrtm::assoc_table_of_ptr< K, V >::implement_output' was not declared or defined.
 error:  using clang compilation database path of: "(null)"
 error:  using clang compilation database path of: "(null)"
-error: /data/wb/SCC/public/symShell2andRTM/docs/links/INCLUDE/wb_ptr.hpp:466:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
-error: /data/wb/SCC/public/symShell2andRTM/docs/links/INCLUDE/wb_ptr.hpp:694:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
+error: /data/wb/SCC/public/symShell2andRTM/docs/links/INCLUDE/wb_ptr.hpp:472:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
+error: /data/wb/SCC/public/symShell2andRTM/docs/links/INCLUDE/wb_ptr.hpp:700:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
 error: /data/wb/SCC/public/symShell2andRTM/RTM/src/BASE/errorhan.cpp:54:20: warning: comparison of function 'unitbuf' not equal to a null pointer is always true [-Wtautological-pointer-compare] [clang]
 error: /data/wb/SCC/public/symShell2andRTM/RTM/src/BASE/errorhan.cpp:54:18: warning: & has lower precedence than !=; != will be evaluated first [-Wparentheses] [clang]
 error:  using clang compilation database path of: "(null)"
@@ -133,36 +135,37 @@ error:  using clang compilation database path of: "(null)"
 error:  using clang compilation database path of: "(null)"
 error: /data/wb/SCC/public/symShell2andRTM/RTM/src/EXCEPT/extextex.cpp:1:10: fatal error: 'INCLUDE/extextex.hpp' file not found [clang]
 error:  using clang compilation database path of: "(null)"
-error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_ptr.hpp:466:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
-error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_ptr.hpp:694:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
+error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_ptr.hpp:472:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
+error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_ptr.hpp:700:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
 error:  using clang compilation database path of: "(null)"
-error: /data/wb/SCC/public/symShell2andRTM/docs/links/INCLUDE/wb_ptr.hpp:466:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
-error: /data/wb/SCC/public/symShell2andRTM/docs/links/INCLUDE/wb_ptr.hpp:694:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
+error: /data/wb/SCC/public/symShell2andRTM/docs/links/INCLUDE/wb_ptr.hpp:472:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
+error: /data/wb/SCC/public/symShell2andRTM/docs/links/INCLUDE/wb_ptr.hpp:700:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
 error:  using clang compilation database path of: "(null)"
-error: /data/wb/SCC/public/symShell2andRTM/docs/links/INCLUDE/wb_ptr.hpp:466:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
-error: /data/wb/SCC/public/symShell2andRTM/docs/links/INCLUDE/wb_ptr.hpp:694:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
+error: /data/wb/SCC/public/symShell2andRTM/docs/links/INCLUDE/wb_ptr.hpp:472:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
+error: /data/wb/SCC/public/symShell2andRTM/docs/links/INCLUDE/wb_ptr.hpp:700:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
 error:  using clang compilation database path of: "(null)"
-error: /data/wb/SCC/public/symShell2andRTM/docs/links/INCLUDE/wb_ptr.hpp:466:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
-error: /data/wb/SCC/public/symShell2andRTM/docs/links/INCLUDE/wb_ptr.hpp:694:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
+error: /data/wb/SCC/public/symShell2andRTM/docs/links/INCLUDE/wb_ptr.hpp:472:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
+error: /data/wb/SCC/public/symShell2andRTM/docs/links/INCLUDE/wb_ptr.hpp:700:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
 error:  using clang compilation database path of: "(null)"
 /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/TabDelimited.hpp:34: warning: Found unknown command '\t'
 error:  using clang compilation database path of: "(null)"
 error: /data/wb/SCC/public/symShell2andRTM/docs/logfile.txt:1:1: error: unknown type name 'warning' [clang]
 error: /data/wb/SCC/public/symShell2andRTM/docs/logfile.txt:1:8: error: expected unqualified-id [clang]
 error: /data/wb/SCC/public/symShell2andRTM/docs/logfile.txt:12:118: error: expected unqualified-id [clang]
-error: /data/wb/SCC/public/symShell2andRTM/docs/logfile.txt:122:118: error: expected unqualified-id [clang]
+error: /data/wb/SCC/public/symShell2andRTM/docs/logfile.txt:124:118: error: expected unqualified-id [clang]
+error:  using clang compilation database path of: "(null)"
 error:  using clang compilation database path of: "(null)"
 error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/_obsolete.h:12:2: warning: "This source is not fully compatible with C++11" [-W#warnings] [clang]
 error:  using clang compilation database path of: "(null)"
 error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/arr_base.hpp:10:2: warning: "This code is OBSOLETE and not tested in C++11 standard" [-W#warnings] [clang]
-error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_ptr.hpp:466:17: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
-error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_ptr.hpp:694:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
+error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_ptr.hpp:472:17: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
+error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_ptr.hpp:700:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
 error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/arr_base.hpp:20:10: fatal error: '_ikeycon.hpp' file not found [clang]
 error:  using clang compilation database path of: "(null)"
 error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/arrays.hpp:10:2: warning: "This code is OBSOLETE and not tested in C++11 standard" [-W#warnings] [clang]
 error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/arr_base.hpp:10:2: warning: "This code is OBSOLETE and not tested in C++11 standard" [-W#warnings] [clang]
-error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_ptr.hpp:466:17: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
-error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_ptr.hpp:694:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
+error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_ptr.hpp:472:17: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
+error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_ptr.hpp:700:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
 error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/arr_base.hpp:20:10: fatal error: '_ikeycon.hpp' file not found [clang]
 error:  using clang compilation database path of: "(null)"
 error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/assobase.hpp:16:2: warning: "This code is OBSOLETE and not tested in C++11 standard" [-W#warnings] [clang]
@@ -176,9 +179,8 @@ error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/bounded.hpp:7:2: warning:
 error:  using clang compilation database path of: "(null)"
 error:  using clang compilation database path of: "(null)"
 error:  using clang compilation database path of: "(null)"
-error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/optParam.hpp:14:2: warning: "This code is not tested in C++11 standard" [-W#warnings] [clang]
-error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_ptr.hpp:466:17: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
-error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_ptr.hpp:694:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
+error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_ptr.hpp:472:17: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
+error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_ptr.hpp:700:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
 error:  using clang compilation database path of: "(null)"
 error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/outdated/platform.h:6:1: warning: '/*' within block comment [-Wcomment] [clang]
 error:  using clang compilation database path of: "(null)"
@@ -197,11 +199,11 @@ error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_limits.h:13:2: warning
 error:  using clang compilation database path of: "(null)"
 error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_limits.hpp:15:2: warning: "This code is OBSOLETE and not tested in C++11 standard" [-W#warnings] [clang]
 error:  using clang compilation database path of: "(null)"
-error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_ptr.hpp:466:17: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
-error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_ptr.hpp:694:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
+error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_ptr.hpp:472:17: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
+error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_ptr.hpp:700:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
 error:  using clang compilation database path of: "(null)"
-error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_ptr.hpp:466:17: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
-error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_ptr.hpp:694:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
+error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_ptr.hpp:472:17: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
+error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_ptr.hpp:700:23: warning: second argument to 'va_start' is not the last named parameter [-Wvarargs] [clang]
 error:  using clang compilation database path of: "(null)"
 error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_rand.hpp:84:61: warning: implicit conversion from 'int' to 'float' changes value from 2147483647 to 2147483648 [-Wimplicit-int-float-conversion] [clang]
 /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/typenames.hpp:8: warning: explicit link request to 'name()' could not be resolved
@@ -210,9 +212,9 @@ error: /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_rand.hpp:84:61: warnin
 /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_rand.hpp:142: warning: explicit link request to 'rand()' could not be resolved
 /data/wb/SCC/public/symShell2andRTM/RTM/src/BASE/wb_randg.c:34: warning: explicit link request to 'rand()' could not be resolved
 /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_rand.hpp:142: warning: explicit link request to 'rand()' could not be resolved
-/data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_ptr.hpp:768: warning: The following parameter of wbrtm::fill(wb_dynarray< T > &Tab, const T &Val) is not documented:
+/data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_ptr.hpp:774: warning: The following parameter of wbrtm::fill(wb_dynarray< T > &Tab, const T &Val) is not documented:
   parameter 'Tab'
-/data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_ptr.hpp:776: warning: The following parameter of wbrtm::fill(wb_dynmatrix< T > &Mat, const T &Val) is not documented:
+/data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/wb_ptr.hpp:782: warning: The following parameter of wbrtm::fill(wb_dynmatrix< T > &Mat, const T &Val) is not documented:
   parameter 'Mat'
 /data/wb/SCC/public/symShell2andRTM/RTM/INCLUDE/TabDelimited.hpp:34: warning: Found unknown command '\t'
 /data/wb/SCC/public/symShell2andRTM/RTM/src/TOOLS/TABDELIMITED/TabDelimited.cpp:34: warning: Found unknown command '\detail'

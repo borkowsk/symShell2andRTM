@@ -9,7 +9,7 @@ set(WBRTMINC "./INCLUDE" )
 include_directories( "." "${WBRTMINC}" ) #"${CONTRLIBS}" )
 
 
-if(true)# wbrtm basic
+if(true) # wbrtm basic
 add_library( wbrtm STATIC
 #    "${WBRTM}/BASE/wb_assert.c"
 #    "${WBRTM}/BASE/wb_cmdline.cpp"
@@ -51,7 +51,7 @@ endif()
 
 #KONIEC - THE END
 #********************************************************************/
-#*              z SYMSHELLLIGHT  version 2022-08-12                 */
+#*              z SYMSHELLLIGHT  version 2022-10-13                 */
 #********************************************************************/
 #*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
 #*            W O J C I E C H   B O R K O W S K I                   */

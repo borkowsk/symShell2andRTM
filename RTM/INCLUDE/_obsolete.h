@@ -2,7 +2,7 @@
 // Created by borkowsk on 13.10.22.
 //
 /**
- * @defgroup OBSOLETE Różne fragmenty biblioteki jeszcze nie w pełni przystosowane do C++11
+ * @defgroup OBSOLETE Zbyt stare fragmenty biblioteki jeszcze nie w pełni przystosowane do C++11
  * \brief    Niektóre powoli są przystosowywane
  */
 #ifndef LIBRARIESTESTS__OBSOLETE_H

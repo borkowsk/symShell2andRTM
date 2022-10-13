@@ -1,7 +1,7 @@
 /** \file   bounded.hpp
  *  \author borkowsk
  *  \brief  wbrtm::bounded class & dedicated exception
- *  \date   2022-10-10 (last modification)
+ *  \date   2022-10-13 (last modification)
  *  @ingroup OBSOLETE
  */
 #warning  "This code is not tested in C++11 standard"
@@ -31,7 +31,8 @@ void PrintTo(std::ostream&) const;
 /// \details
 ///     Jest to szablon parametryzowany typem T.
 ///     Wymagane jest zdefiniowanie operatorów <= i >= dla typu T
-///     i liczb (?)
+///     i liczb (?).
+///     Generuje wyjątek gdy wartość inicjująca lub przypisywana jest spoza zakresu.
 /// \tparam T - typ wartości
 /// \param low - najmniejsza dopuszczalna wartość
 /// \param high - największa dopuszczalna wartość
@@ -39,9 +40,10 @@ template<class T,T low,T high>
 class bounded
 {
 protected:
-    T val;
+    T val;  ///< przechowywana wartość
 public:
 
+    /// \brief konstruktor inicjujący wartość. \details Generuje wyjątek gdy wartośc spoza zakresu.
     bounded(const T ini=low)
     {
     if( low<=ini && ini<=high)
@@ -50,6 +52,7 @@ public:
         error_handling::Error(BoundExcp(low,ini,high,__FILE__,__LINE__));
     }
 
+    /// \brief operator przypisana.\details Generuje wyjątek gdy wartośc spoza zakresu.
     bounded& operator = (const T ival)
     {
         if( low<=ival && ival<=high)

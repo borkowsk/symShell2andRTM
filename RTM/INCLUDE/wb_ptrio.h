@@ -7,6 +7,7 @@
  *  \author    borkowsk
  *  \copyright Wojciech Borkowski @ Institut for Social Studies, University of Warsaw
  *  \note Like many others wbrtm files created around year 1996.
+ *  \ingroup DYNMEMORY
  */
 
 #ifndef _WB_PTRIO_H_

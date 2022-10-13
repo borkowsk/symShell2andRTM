@@ -1,22 +1,28 @@
 /** \file
  *  \author  borkowsk
  *  \brief   C++ EXCEPTIONS AND ERROR SUPPORT
- *  \date   2022-10-12 (last modification)
+ *  \date   2022-10-13 (last modification)
+ *  \ingroup ERRORHANDLING
  */
 
 #ifndef _ERRORHANDLE_HPP_
 #define _ERRORHANDLE_HPP_
 
+/**
+ * @defgroup ERRORHANDLING Błędne i wyjątkowe sytuacje
+ */
+///@{
+
 namespace wbrtm { //WOJCIECH BORKOWSKI RUN TIME LIBRARY
 
 class  WB_Exception_base; ///< Base for all exceptions in wbrtm
 
-/// \brief Obsolete class TODO renew
+/// \brief Obsolete class TODO renew @ingroup ERRORHANDLING
 class error_handling
 {
 public:
 
-/// Error support driven by Exception hierarchy
+/// \brief   Error support driven by Exception hierarchy
 /// \return  1 if may try to cleanup
 ///          0 if may try to resume
 static int Error(const WB_Exception_base&);
@@ -36,7 +42,7 @@ enum ecode { OK=0,        ///< OK must be 0
 
 typedef error_handling err_handl;
 } //namespace
-
+///@}
 /* *******************************************************************/
 /*	       WBRTM  version 2006 - renovated in 2022                   */
 /* *******************************************************************/

@@ -1,16 +1,17 @@
 /** \file excbounded.cpp
  *  \author borkowsk
  *  \brief Print functions for exceptions for wbrtm::bounded
- *  \date 2022-10-11 (last modification)
+ *  \date 2022-10-13 (last modification)
  */
 #include "bounded.hpp"
 
 namespace wbrtm { //WOJCIECH BORKOWSKI RUN TIME LIBRARY
 
+///    \ingroup ERRORHANDLING
 void BoundExcp::PrintTo(std::ostream& o) const
 {
-o<<"BOUNDS FAULT:"<< low <<"<="<< val <<"<="<< high <<" RAISED";
-ExcpRaisePosition::PrintTo(o);
+    o<<"BOUNDS FAULT:"<< low <<"<="<< val <<"<="<< high <<" RAISED";
+    ExcpRaisePosition::PrintTo(o);
 }
 
 } //namespace
