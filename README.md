@@ -14,7 +14,7 @@ a warning when compiling.
 Requirements
 ------------
 
-C++v11, cmake, or clang, x11 for SYMSHELL graphics.
+C++v11, cmake, g++ or clang & x11 or MS Windows for SYMSHELL graphics.
 
 Tools:  *DEBIAN*
 
