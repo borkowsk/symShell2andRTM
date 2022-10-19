@@ -1,5 +1,5 @@
 # symShell2andRTM
-##Currently actively developed version of Symulation Shell and RTM function &amp; classes used in my C++ simulation projects.
+## Currently actively developed version of Symulation Shell and RTM function &amp; classes used in my C++ simulation projects.
 
 The WBRTM and SYMSHELL libraries were created in the 90s of the twentieth century, when the variety of C/C++ compilers 
 made it very difficult to use the same code on DOS/Windows and different unix/linux variants.
@@ -14,7 +14,7 @@ a warning when compiling.
 Requirements
 ------------
 
-C++v11, cmake, or clang, x11 for SYMSHELL graphics.
+C++v11, cmake, g++ or clang & x11 or MS Windows for SYMSHELL graphics.
 
 Tools:  *DEBIAN*
 
@@ -33,6 +33,8 @@ Lib X11: *CentOS/RHEL?*
         sudo yum install libXpm-devel
         
 Lib X11: Apple?
+        
+        X11 or text/svg mode only.
 
 Lib X11: Windows
    
