@@ -1,6 +1,8 @@
-//
-// Created by borkowsk on 13.10.22.
-//
+/** \file
+* \bref    Historic _obsolete things
+* \details Created by borkowsk on 13.10.22.
+* \date    2022-10-19 (last modification)
+*/
 /**
  * @defgroup OBSOLETE Zbyt stare fragmenty biblioteki jeszcze nie w pełni przystosowane do C++11
  * \brief    Niektóre powoli są przystosowywane
@@ -8,8 +10,9 @@
 #ifndef LIBRARIESTESTS__OBSOLETE_H
 #define LIBRARIESTESTS__OBSOLETE_H
 ///@{
-
+#ifndef _MSC_VER //# warning still not work under Microsoft C++
 #warning "This source is not fully compatible with C++11"
+#endif
 /// Na razie nie ma tu nic, ale jest lokalnie w innych plikach
 
 ///@}

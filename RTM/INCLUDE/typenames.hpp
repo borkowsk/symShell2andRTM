@@ -18,9 +18,11 @@
 *	     - https://stackoverflow.com/questions/4484982/how-to-convert-typename-t-to-string-in-c
 *	     - https://en.cppreference.com/w/cpp/types/type_info/name
 *
-* \date    2022-10-12 (last modification)
+* \date    2022-10-19 (last modification)
 */
+#ifndef _MSC_VER //# warning still not work under Microsoft C++
 #warning  "This code is OBSOLETE and not tested in C++11 standard"
+#endif
 
 #ifndef _DEFINED_TypeName
 #define _DEFINED_TypeName

@@ -1,10 +1,12 @@
 /** \file   bounded.hpp
  *  \author borkowsk
  *  \brief  wbrtm::bounded class & dedicated exception
- *  \date   2022-10-13 (last modification)
+ *  \date   2022-10-19 (last modification)
  *  @ingroup OBSOLETE
  */
+#ifndef _MSC_VER //# warning still not work under Microsoft C++
 #warning  "This code is not tested in C++11 standard"
+#endif
 
 #ifndef _BOUNDED_HPP_
 #define _BOUNDED_HPP_

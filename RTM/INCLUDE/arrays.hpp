@@ -7,7 +7,9 @@
 *  \date 2022-10-12 (last modification)
 *  @ingroup OBSOLETE
 */
+#ifndef _MSC_VER //# warning still not work under Microsoft C++
 #warning  "This code is OBSOLETE and not tested in C++11 standard"
+#endif
 
 #ifndef _ARRAY_HPP_
 #define _ARRAY_HPP_

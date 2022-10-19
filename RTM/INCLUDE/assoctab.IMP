@@ -1,2 +1,4 @@
 //INCLUDED TO Assoctab.hpp 2013-10-07
+#ifndef _MSC_VER //# warning still not work under Microsoft C++
 #warning  "This code is OBSOLETE and not tested in C++11 standard"
+#endif

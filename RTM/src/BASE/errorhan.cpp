@@ -1,5 +1,6 @@
 //
 // Przechwytywanie błędów programowych WBRTM i inne sztuczki - stare więc  nie wiadomo czy bezpieczne
+// Zobacz: https://www.thegeekstuff.com/2010/10/linux-error-codes/
 //*///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include <sstream>
@@ -19,7 +20,7 @@ namespace wbrtm { //WOJCIECH BORKOWSKI RUN TIME LIBRARY
 static int juz_bylo=0;
 static int in_error_flag=0;
 
-/// \brief Internal class
+/// \brief Internal function
 void _high_endln_forcer()
 {
 if(cerr.bad() || cerr.fail()) //Jeśli coś nie tak
@@ -142,7 +143,7 @@ ExcpRaisePosition::PrintTo(o);
 } //namespace
 
 /* *******************************************************************/
-/*			 WBRTM  version 2006 - renovation 2022                   */
+/*            WBRTM  version 2006 - renovation 2022                  */
 /* *******************************************************************/
 /*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                  */
 /*            W O J C I E C H   B O R K O W S K I                    */
