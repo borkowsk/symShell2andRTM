@@ -35,3 +35,10 @@
 *~
 *.tmp
 
+#cmake
+CMakeFiles
+Makefile
+cmake_install.cmake
+
+#Doxygen
+doxDocs
