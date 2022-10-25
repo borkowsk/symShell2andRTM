@@ -1,6 +1,22 @@
 #!/bin/bash
 #Checking for required dependencies
 
+# SIMPLE CHECK FOR WINDOWS
+env | grep Windows_NT >> check_out.tmp
+if [[ "$?" == 0 ]]
+then #TO JEST WINDOWS
+	echo "Under MS Windows only MS VISUAL STUDIO with C++ & cmake plugins is required & tested".
+	
+      "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\devenv.exe" ./RTM/
+	if [[ "$?" == 0 ]]
+	then
+	    echo "It looks like you have MS VC++ instaled".
+	fi
+
+	exit
+fi
+
+
 EDIT=nano
 
 set -e # https://intoli.com/blog/exit-on-errors-in-bash-scripts/
