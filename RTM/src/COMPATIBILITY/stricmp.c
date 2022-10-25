@@ -9,7 +9,14 @@
 #include <string.h>
 #include <assert.h>
 #include "compatyb.h"
+
+#ifdef unix
 #define HAVE_STRCASECMP 1
+#endif
+
+/** W MSVC funkcja stricmp jest dostepna z biiblioteki */
+
+#ifndef _MSC_VER
 
 /** \brief Compare Strings without Case Sensitivity
  *
@@ -54,6 +61,8 @@ int stricmp(const char* s1, const char* s2)
     (int) tolower((unsigned char) *s2);
 #endif /* !HAVE_STRCASECMP */
 }
+
+#endif
 
 /* *******************************************************************/
 /*	       WBRTM  version 2006 - renovated in 2022                   */

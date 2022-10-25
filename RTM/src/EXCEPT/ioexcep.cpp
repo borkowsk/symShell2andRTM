@@ -32,7 +32,7 @@ namespace wbrtm { //WOJCIECH BORKOWSKI RUN TIME LIBRARY
 				int pos = 0;
 				int len = 80;
 
-				if (position - len > 0)
+				if (position - len > 0) //TODO size_t vs. int
 					pos = position - len;
 				else
 					pos = 0;

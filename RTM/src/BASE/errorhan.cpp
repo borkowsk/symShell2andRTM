@@ -1,6 +1,7 @@
-//
-// Przechwytywanie błędów programowych WBRTM i inne sztuczki - stare więc  nie wiadomo czy bezpieczne
-// Zobacz: https://www.thegeekstuff.com/2010/10/linux-error-codes/
+/// \file
+/// Przechwytywanie błędów programowych WBRTM i inne sztuczki - stare więc  nie wiadomo czy bezpieczne
+/// Zobacz też: https://www.thegeekstuff.com/2010/10/linux-error-codes/
+///  \date 2022-10-25 (last modification)
 //*///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include <sstream>
@@ -41,7 +42,7 @@ juz_bylo=1;
 }
 
 // C++ EXCEPTION MODE ERROR SUPPORT
-/// \brief Internal class
+/// \brief Internal class (PO CO BYŁA/JEST POTRZEBNA)
 static class _premain_force_endl
 {
 public:
@@ -52,7 +53,7 @@ _premain_force_endl()
    const char* msg="compilation: "__DATE__" "__TIME__;
    MessageBox(nullptr,msg,"WBRTM - DEBUG VERSION ",MB_OK);
 #else
-if( cerr.flags() & unitbuf !=0 ) //Może go jeszcze nie być, ale to nie jest sposób na sprawdzenie. :(
+//if( (cerr.flags() & unitbuf) !=0 ) //Może go jeszcze nie być, ale to nie jest sposób na sprawdzenie. :(
 	cerr<<"WBRTM - DEBUG VERSION "<<__DATE__<<' '<<__TIME__<<'\n';
 #endif
 #endif

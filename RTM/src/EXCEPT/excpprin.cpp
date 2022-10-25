@@ -44,8 +44,14 @@ if(Code!=0)
 /// \details Printing usable data from SystemExcp.
 void SystemExcp::PrintTo(ostream& o) const
 {
-o<<"SYSTEM ERROR:"<<::strerror(Errno);
-ExcpRaisePosition::PrintTo(o);
+#ifdef _MSC_VER
+	char bufor[1024];
+	auto ret = strerror_s(bufor, 1024, Errno);
+	o << "SYSTEM ERROR:" << ret << ": " << bufor;
+#else
+	o<<"SYSTEM ERROR:<<Errno<<": "<< ::strerror(Errno);
+#endif
+	ExcpRaisePosition::PrintTo(o);
 }
 
 /// \details Printing usable data from MemoryExcp.

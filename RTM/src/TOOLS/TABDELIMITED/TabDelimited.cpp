@@ -2,7 +2,7 @@
  *  \author borkowsk
  *  \brief Implementation of wbrtm::TabDelimited class
  *         -------------------------------------------
- *  \date 2022-10-11 (last modification)
+ *  \date 2022-10-25 (last modification)
  */
 
 #include <ctype.h> //Typy znaków - http://www.cppreference.com/wiki/string/character_classes
@@ -36,7 +36,8 @@ TabelaTabDelimited::funkcja_bledu* TabelaTabDelimited::AktualnaFunkcjaBledu=Tabe
 
 /// \details Dostęp do nie modyfikowalnej treści komórki.
 const char* TabelaTabDelimited::operator ()(int w,int k) const
-{  //...Jakieś sprawdzenia???
+{                                                                                        //Jeszcze jakieś sprawdzenia???
+	                                                                                           assert(w >= 0 && k >= 0);
   if(w<IleWierszy()&& k<IleKolumn())
   {
     unsigned index=(w*Wiersz)+k;
@@ -56,9 +57,9 @@ const char* TabelaTabDelimited::operator ()(int w,int k) const
 /// \details Pełny dostęp do zawartości komórki.
 string& TabelaTabDelimited::operator () (int w,int k)
        {
+	                                                                                            assert(w >= 0 && k >= 0);
 		  static string dummy("???");
 
-		  //...Jakieś sprawdzenia???
 		  if(w<IleWierszy() && k<IleKolumn())
 		  {
 			unsigned index=(w*Wiersz)+k;
@@ -200,7 +201,7 @@ void TabelaTabDelimited::wczytaj_do_delim(std::istream& str,std::string& buf)
 ///          Trzeba uważać bo string może być w/t-stringiem i mieć niewidoczne znaki!!!
 bool TabelaTabDelimited::parse_string(const string& bufek,unsigned w,unsigned& k)
 {
-	unsigned len=bufek.length();
+	size_t len=bufek.length();
 	if(len==0)
 		return false;
 
@@ -270,7 +271,7 @@ bool TabelaTabDelimited::WczytajZPliku(const char* _Nazwa,char _Delimiter,unsign
    string pom; //Na wczytanie zawartości komórki
    unsigned ilek=0;
    unsigned ilew=0;
-   char cc;
+  // char cc; // NIE UŻYWANA? TODO
 
   // Zliczanie wierszy, czyli linii pliku
   if(spW==-1 || spK==-1) //Tylko gdy nie wiadomo ile wierszy lub kolumn.
@@ -296,9 +297,9 @@ bool TabelaTabDelimited::WczytajZPliku(const char* _Nazwa,char _Delimiter,unsign
 	  if(Opisowo>3) cerr<<pom<<"|"<<endl;
 
 	  unsigned Delimiterow=ZliczZnaki(Delimiter,pom)+1; //Na końcu linii powinien być '\n'.
-                                                                   // A nawet jak jest '\t\n' to jedna kolumna więcej
-                                                                   // tak bardzo nie zaszkodzi.
-	  unsigned pomlen=pom.length();
+                                                        // A nawet jak jest '\t\n' to jedna kolumna więcej
+                                                        // tak bardzo nie zaszkodzi.
+	  size_t pomlen=pom.length();
 	  if(pom[pomlen-1]=='\t' ) //&& pom[pomlen-1]=='\n')
 	  		Delimiterow--;
 
