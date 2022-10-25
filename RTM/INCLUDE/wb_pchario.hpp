@@ -2,7 +2,7 @@
  *  \brief Templates for input and output of wbrtm::wb_pchar objects
  *         ---------------------------------------------------------
  *  \author Wojciech Borkowski @ Institut for Social Studies, University of Warsaw
- *  \date   2022-10-12 (last modification)
+ *  \date   2022-10-25 (last modification)
  *  \details ...
  *  \note Like many others wbrtm files created around year 1996.
  *  \ingroup DYNMEMORY
@@ -43,7 +43,7 @@ if(!file.good())
 		return NULL;
 }
 
-wbrtm::eat_blanks(file);
+eat_blanks(file);
 
 znak=file.get();//Powinien byc delimiter
 if(znak!=delimiter)
@@ -57,21 +57,19 @@ if(pom==NULL) goto BRAK_PAMIECI;
 
 while((znak=file.get())!=delimiter)
 {
-	if(znak==cin.eof()) //Koniec łańcucha
-	   if(caller.Raise(ExcpIO(NULL, file.tellg(),
-                              "Unexpected end of file")) == 1)
+	if(znak==EOF ) //(Niespodziewany) koniec łańcucha
+	   if(caller.Raise(ExcpIO(NULL, file.tellg(), "Unexpected end of file")) == 1)
 		{
-		delete[] pom;
-		return NULL;
+			delete[] pom;
+			return NULL;
 		}
 
-	if(znak=='\\' && (znak=file.get())==cin.eof()) //Żeby móc użyć znaku "delimitera"
-	   if(caller.Raise(ExcpIO(NULL, file.tellg(),
-                              "Syntax error or EOF")) == 1)
-		{
-		delete[] pom;
-		return NULL;
-		}
+	if(znak=='\\' && (znak=file.get())==EOF ) //Żeby móc użyć znaku "delimitera"
+	   if(caller.Raise(ExcpIO(NULL, file.tellg(), "Syntax error or EOF")) == 1)
+	   {
+			delete[] pom;
+			return NULL;
+	   }
 
 	JEST_MIEJSCE:
 	if( (licznik+1)<(jednostek*MINLEN) )

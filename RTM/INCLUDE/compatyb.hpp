@@ -1,13 +1,16 @@
 /**  \file     compatyb.hpp
-* \details  Plik definiujący zastępcze funkcje "C",
-*    	    których brak w poszczególnych kompilatorach i systemach
+* \details   Plik definiujący funkcje eat_blanks i eat_chars,
+*    	     w sposób zależny od platform kompilacji
 * **************************************************************************
+*  \date 2022-10-25 (last modification)
 */
-
-#ifdef unix 
+#include "compatyb.h"
 #include <cstdio>
 #include <cstring>
 #include <iostream>
+
+#ifdef unix 
+/* Linux & any modern unix part*/
 
 namespace wbrtm {
 
@@ -46,25 +49,42 @@ namespace wbrtm {
             return file.eof();
     }
 
-} //end of namespace wbrtm
+} //end of namespace wbrtm for unix
 
-/* end of unix part */
-
-#elif defined( __MSVC__ )   || defined(__BORLANDC__)
-/* begin of part of MSVC++ or Borland-Emabrcadero */
-
-#include <cstdio>
-#include <cstring>
-#include <iostream>
+#elif defined( __MSVC__ )
+/* begin of part of MSVC++ */ 
 
 namespace wbrtm {
 
-    int eat_chars(std::istream& file,const char* charset) //Zjada znaki jesli sa w charset
+    /// \brief Zjada wszelkie odstępy ze strumienia.
+    /// \note Zamiast istream::eatwhite (z Borlanda)
+    inline int eat_blanks(std::istream& file)
+    {
+        int znak = 0;
+
+        while (  !file.eof() // czy pierwsze sprawdzenie to potrzebne?
+            &&   (znak = file.get())!=EOF 
+            &&   isspace(znak) 
+            )//Koniec gdy pierwszy nie bialy
+            ;
+
+        if ( !file.eof() // czy pierwsze sprawdzenie to potrzebne?
+            && znak != EOF)
+        {
+            file.putback(znak);
+            return 0;
+        }
+        else
+            return file.eof();
+    }
+
+    /// \brief Zjada ze strumienia znaki, jeśli są w zadanym \p 'charset'.
+    inline int eat_chars(std::istream& file,const char* charset) //Zjada znaki jesli są w charset
     {
         int znak=0;
 
         while( (znak=file.get())!=EOF
-                && strchr(charset,znak)!=NULL 		)//Koniec gdy pierwszy nie zawarty w zbiorze
+                && ::strchr(charset,znak)!=NULL 		) //Koniec gdy pierwszy nie zawarty w zbiorze
                         ;
 
         if(znak!=EOF)
@@ -76,15 +96,19 @@ namespace wbrtm {
             return EOF;
     }
 
-} //end of namespace wbrtm
+} //end of namespace wbrtm for MSVC++
 
-#if defined( __MSVC_2000__ )  || defined(__BORLANDC__)
-int eat_blanks(std::istream& file) //nakladka na istream::eatwhite w MSVC++
+#elif defined(__BORLANDC__)
+/* begin of part for Borland - Emabrcadero */
+
+namespace wbrtm {
+
+inline int eat_blanks(std::istream& file) //nakladka na istream::eatwhite w MSVC++
 {
 	return eat_chars(file," \t\r\n");
 }
 
-int eat_blanks_2(istream& file) //nakladka na istream::eatwhite w starym MSVC++
+inline int eat_blanks_2(istream& file) //nakladka na istream::eatwhite w starym MSVC++
 {
 	file.eatwhite();
 
@@ -97,41 +121,39 @@ int eat_blanks_2(istream& file) //nakladka na istream::eatwhite w starym MSVC++
 		return EOF;
 	}
 }
-#endif
-/* end of part of MSVC++ or Borland */
 
-#else
-/* other compilers part */
-#include <cstdio>
-#include <cstring>
-#include <iostream>
+} //namespace wbrtm
 
-inline
-int eat_chars(std::istream& file,const char* charset) //Zjada znaki jesli sa w charset
-{
-int znak=0;
+#else /* end of Borland-Embarcadero part */
+/* others compilers part */
 
-while( (znak=file.get())!=EOF
-		&& strchr(charset,znak)!=NULL 		)//Koniec gdy pierwszy nie zawarty w zbiorze
-				;
+namespace wbrtm {
 
-if(znak!=EOF)
-	{
-		file.putback(znak);
-		return 0;
-	}
-	else
-	return EOF;
-}
+    inline int eat_chars(std::istream& file, const char* charset) //Zjada znaki jesli sa w charset
+    {
+        int znak = 0;
 
-LOCAL
-int eat_blanks(std::istream& file)
-{
-    return eat_chars(file," \t\r\n");
-}
+        while ((znak = file.get()) != EOF
+            && ::strchr(charset, znak) != NULL)//Koniec gdy pierwszy nie zawarty w zbiorze
+            ;
 
-/* end of other compilers part */
-#endif
+        if (znak != EOF)
+        {
+            file.putback(znak);
+            return 0;
+        }
+        else
+            return EOF;
+    }
+
+    inline int eat_blanks(std::istream& file)
+    {
+        return eat_chars(file, " \t\r\n");
+    }
+
+} //namespace wbrtm
+
+#endif /* end of other compilers part */
 /* *******************************************************************/
 /*		               WBRTM  version 2022                           */
 /* *******************************************************************/

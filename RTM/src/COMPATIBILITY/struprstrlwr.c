@@ -2,9 +2,14 @@
  * \brief Implementation of old strlwr & strupr
  * \details Splited from stricmp.c on 11.10.22.
  * \author borkowsk
+ * \date 2022-10-25 (last modification)
 */
 #include <ctype.h>
 #include <string.h>
+
+/* Te funkcje są zdefiniowane w MSVC więc ich kompilowanie jest zbędne! */
+
+#ifndef _MSC_VER 
 
 /// \param   what - tekst do zmiany
 /// \details Zmiany dotyczą bezpośrednio parametru \p 'what'
@@ -33,6 +38,9 @@ const char *strupr(char *what)
     }
     return what;
 }
+
+#endif
+
 
 /* *******************************************************************/
 /*	       WBRTM  version 2006 - renovated in 2022                   */

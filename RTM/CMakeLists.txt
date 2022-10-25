@@ -51,7 +51,7 @@ endif()
 
 #KONIEC - THE END
 #********************************************************************/
-#*              z SYMSHELLLIGHT  version 2022-10-13                 */
+#*              z SYMSHELLLIGHT  version 2022-10-25                 */
 #********************************************************************/
 #*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
 #*            W O J C I E C H   B O R K O W S K I                   */

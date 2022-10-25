@@ -1,7 +1,7 @@
 /**  \file     compatyb.h
-* \details  Plik definiujący zastępcze funkcje "C",
+* \details  Plik definiujący zastępcze funkcje "C" (strlwr,strupr,sticmp)
 *    	    których brak w poszczególnych kompilatorach i systemach
-* \date  2022-10-19 (last modification)
+* \date  2022-10-25 (last modification)
 * **************************************************************************
 */
 
@@ -9,27 +9,38 @@
 #include <stdlib.h>
 #include <string.h>
 
+#ifdef _MSC_VER
+#define __MSVC__	(true)
+#define wb_unused_attr    /*__attribute__((unused))*/
+
+/** Funkcje  stricmp, strlwr i strupr są dostępne w MSVC, 
+*   więc nie ma powodu ich tu dodawać.
+*/
+
+#else
 #define wb_unused_attr    __attribute__((unused))
 
 #ifdef _cplusplus
 extern "C" {
 #endif
-//Zdefiniowana w osobnym pliku z rozszerzeniem .c !!!
+	//Zdefiniowana w osobnym pliku z rozszerzeniem .c !!!
 
-wb_unused_attr
-/// \brief Porównanie stringów char* ignorujące wielkość liter.
-int stricmp(const char *s1, const char *s2);
+	wb_unused_attr
+		/// \brief Porównanie stringów char* ignorujące wielkość liter.
+		int stricmp(const char* s1, const char* s2);
 
-wb_unused_attr
-/// \brief Przekształcenie łańCucHa char* na wersję małoliterową "in place".
-const char *strlwr(char *what);
+	wb_unused_attr
+		/// \brief Przekształcenie łańCucHa char* na wersję małoliterową "in place".
+		const char* strlwr(char* what);
 
-wb_unused_attr
-/// \brief Przekształcenie łańCucHa char* na wersję WIELKOLITEROWĄ "in place".
-const char *strupr(char *what);
+	wb_unused_attr
+		/// \brief Przekształcenie łańCucHa char* na wersję WIELKOLITEROWĄ "in place".
+		const char* strupr(char* what);
 
 #ifdef _cplusplus
 } //extern "C"
+#endif
+
 #endif
 
 #undef wb_unused_attr

@@ -2,7 +2,7 @@
  *  \author borkowsk
  *  \brief Special implementation of I/O for 'wbrtm::wb_sptr<char>' and  'wbrtm::wb_pchar'
  *         -------------------------------------------------------------------------------
- *  \date 2022-10-11 (last modification)
+ *  \date 2022-10-25 (last modification)
  */
 
 #define		ANSI            /* Comment out for UNIX V version  (var_arg)   */
@@ -90,7 +90,8 @@ istream& operator>>(istream& s,wb_pchar& p)
 		if(pom=='\"')
 		{	
 			s.putback(pom);
-			p.take( ReadEnclosedString(s,_Raiser,'\"') );
+			auto heap_str = ReadEnclosedString(s, _Raiser, '\"');
+			p.take(heap_str);
 		}
 		else
 		{		

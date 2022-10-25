@@ -9,7 +9,7 @@
 *                     In the class pointers to char could be handled intuitively - by contents, not by pointer value.
 *
 * \author borkowsk
-* \date    2022-10-12 (last modification)
+* \date    2022-10-25 (last modification)
 */
 
 #ifndef _WB_CLONE_HPP_
@@ -29,10 +29,11 @@ namespace wbrtm {
 inline char* clone_str(const char *const p)
 {
 char* out=NULL;
+size_t size = ::strlen(p) + 1;
 if(p!=NULL)
-	out=new char[::strlen(p)+1];
+	out=new char[size];
 if(out!=NULL)	
-	::strcpy(out,p);
+	::strcpy_s(out,size,p);
 return out;
 }
 
