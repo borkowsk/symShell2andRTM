@@ -1,5 +1,6 @@
 #!/bin/bash
 #Checking for required dependencies
+echo "Running" `realpath $0`
 
 # SIMPLE CHECK FOR WINDOWS
 env | grep Windows_NT >> check_out.tmp
@@ -7,12 +8,46 @@ if [[ "$?" == 0 ]]
 then #TO JEST WINDOWS
 	echo "Under MS Windows only MS VISUAL STUDIO with C++ & cmake plugins is required & tested".
 	
-      "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\devenv.exe" ./RTM/
+	"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\devenv.exe" ./RTM/
 	if [[ "$?" == 0 ]]
 	then
-	    echo "It looks like you have MS VC++ instaled".
+		echo "It looks like you have MS VC++ instaled".
+		exit
 	fi
 
+	"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\devenv.exe" ./RTM/
+	if [[ "$?" == 0 ]]
+	then
+		echo "It looks like you have MS VC++ instaled".
+		exit
+	fi
+	
+	echo "Searching C:\Program files"
+	find "/c/Program Files/" -name devenv.exe > msvc.lst
+	CNT=`cat msvc.lst | wc -l - `
+	echo #"\"$CNT\""
+	if [[ "$CNT" == "1 -" ]]
+	then
+		head msvc.lst
+	else
+		
+		echo "Searching C:\Program files (x86)"
+		find "/c/Program Files (x86)/" -name devenv.exe > msvc.lst
+		CNT=`cat msvc.lst | wc -l - `
+		echo #"\"$CNT\""
+		if [[ "$CNT" == "1 -" ]]
+		then
+			head msvc.lst
+		fi
+	fi
+	
+	"`head msvc.lst`" ./RTM/
+	
+	if [[ "$?" == 0 ]]
+	then
+		echo "It looks like you have MS VC++ instaled".
+	fi
+	
 	exit
 fi
 
@@ -20,7 +55,6 @@ fi
 EDIT=nano
 
 set -e # https://intoli.com/blog/exit-on-errors-in-bash-scripts/
-echo "Running" `realpath $0`
 echo -e "\n\tThis script stops on any error!\n\tWhen it stop, remove source of the error & run it again!\n"
      
 echo -e "Test for required software:\n" 
