@@ -3,19 +3,16 @@
 /// \details liczy od momentu utworzenia lub wywołania reset() do chwili pobrania
 ///          wartości za pomocą "operator double()"
 /// \author borkowsk
-/// \date 2022-10-12 (last modification)
+/// \date 2022-10-27 (last modification)
 /// @ingroup OBSOLETE
-#ifndef _MSC_VER //# warning still not work under Microsoft C++
-#warning  "This code is OBSOLETE and not tested in C++11 standard"
-#endif
 
 #ifndef __CPU_CLOCK_HPP_
 #define __CPU_CLOCK_HPP_
 
-#include <time.h>
+#include <ctime>
 #include <iostream>
 
-/// \brief Stoper \warning OBSOLETE!
+/// \brief Stoper \warning NOT TESTED WELL IN NEW PLATFORMS!
 class wb_cpu_clock
 {
     clock_t begin_val;

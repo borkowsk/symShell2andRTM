@@ -49,7 +49,7 @@ void SystemExcp::PrintTo(ostream& o) const
 	auto ret = strerror_s(bufor, 1024, Errno);
 	o << "SYSTEM ERROR:" << ret << ": " << bufor;
 #else
-	o<<"SYSTEM ERROR:<<Errno<<": "<< ::strerror(Errno);
+	o<<"SYSTEM ERROR:"<<Errno<<": "<< ::strerror(Errno);
 #endif
 	ExcpRaisePosition::PrintTo(o);
 }

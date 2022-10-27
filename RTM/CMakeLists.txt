@@ -2,9 +2,9 @@ cmake_minimum_required(VERSION 3.0)
 
 project(wbrtm)
 
-set(WBRTM "./src")
-set(WBRTMINC "./INCLUDE" )
-#set(CONTRLIBS "../CONTRLIBS")
+set(WBRTM "./src/")
+set(WBRTMINC "./INCLUDE/" )
+#set(CONTRLIBS "../CONTRLIBS/")
 
 include_directories( "." "${WBRTMINC}" ) #"${CONTRLIBS}" )
 
@@ -19,8 +19,8 @@ add_library( wbrtm STATIC
 #    "${WBRTM}/TOOLS/wb_strrnd.c"
 #    "${WBRTM}/TOOLS/wb_compdate.c"
 #    "${WBRTM}/TOOLS/RealPath.cpp"
-#    "${WBRTM}/TOOLS/ViewHtmlPchar.cpp" #Do wyświetlania helpów etc...
-#    "${WBRTM}/TOOLS/ViewHtmlStr.cpp"
+    "${WBRTM}/BASE/viewHtmlPchar.cpp" #Do wyświetlania helpów etc...
+    "${WBRTM}/BASE/viewHtmlStr.cpp"
 #    "${WBRTM}/TOOLS/cast_checker.cpp"
     "${WBRTM}/PTRS/wb_pchario.cpp"
     "${WBRTM}/PTRS/wb_pchar_verboten.cpp"
@@ -33,11 +33,11 @@ add_library( wbrtm STATIC
 #    "${WBRTM}/VIRTUALIO/iodatabase.cpp"
 #    "${WBRTM}/VIRTUALIO/iocharp.cpp"
 #    "${WBRTM}/VIRTUALIO/vobject.cpp"
-#    "${WBRTM}/MISCCLASSES/Smartlog.cpp"
 #    "${WBRTM}/MISCCLASSES/Chameleon.cpp"
 #    "${WBRTM}/MISCCLASSES/ConfigData.cpp"
 #    "${WBRTM}/MISCCLASSES/Nodemem.cpp"
 #    "${WBRTM}/_COMPAT/autor.cpp" #TYLKO WINDOWS
+        "${WBRTM}/TOOLS/SMARTLOG/smartlog.cpp"
         "${WBRTM}/TOOLS/TABDELIMITED/TabDelimited.cpp"
         "${WBRTM}/BASE/error_enter_before_clean.c"
         "${WBRTM}/COMPATIBILITY/stricmp.c"

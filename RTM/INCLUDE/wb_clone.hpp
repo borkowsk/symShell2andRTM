@@ -32,8 +32,12 @@ char* out=NULL;
 size_t size = ::strlen(p) + 1;
 if(p!=NULL)
 	out=new char[size];
-if(out!=NULL)	
+if(out!=NULL)
+#ifdef _MSC_VER_
 	::strcpy_s(out,size,p);
+#else
+    ::strcpy(out,p);
+#endif
 return out;
 }
 
