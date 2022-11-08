@@ -29,8 +29,8 @@ namespace wbrtm { //WOJCIECH BORKOWSKI RUN TIME LIBRARY
 			if (stream_ptr)
 			{
 
-				int pos = 0;
-				int len = 80;
+				size_t pos = 0;
+				size_t len = 80;
 
 				if (position - len > 0) //TODO size_t vs. int
 					pos = position - len;
