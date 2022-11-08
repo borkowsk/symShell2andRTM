@@ -1,3 +1,7 @@
+# @author Wojciech Borkowski
+# @date 2022-11-07 (last update)
+######################################################
+
 cmake_minimum_required(VERSION 3.0)
 
 project(wbrtm)
@@ -13,8 +17,8 @@ IF (WIN32)
 ELSE()
   # set stuff for other systems
   message( "Linux/unix platform assumed.")
+  #set( X_ONLY_SRC  "" )
 ENDIF()
-
 
 include_directories( "." "${WBRTMINC}" ) #"${CONTRLIBS}" )
 
@@ -61,7 +65,7 @@ endif()
 
 #KONIEC - THE END
 #********************************************************************/
-#*              z SYMSHELLLIGHT  version 2022-11-07                 */
+#*           From SYMSHELLLIGHT  version 2022-11-07                 */
 #********************************************************************/
 #*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
 #*            W O J C I E C H   B O R K O W S K I                   */
@@ -78,4 +82,5 @@ endif()
 #*                                                                  */
 #*                               (Don't change or remove this note) */
 #********************************************************************/
+
 
