@@ -14,8 +14,10 @@
 #define wb_unused_attr    /*__attribute__((unused))*/
 
 /** Funkcje  stricmp, strlwr i strupr są dostępne w MSVC, 
-*   więc nie ma powodu ich tu dodawać.
+*   więc nie ma powodu ich tu dodawać, ale trzeba przedefiniować strcasecmp()
 */
+
+#define strcasecmp( A , B )    _stricmp((A),(B))
 
 #else
 #define wb_unused_attr    __attribute__((unused))
