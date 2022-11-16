@@ -9,7 +9,7 @@
 *                     In the class pointers to char could be handled intuitively - by contents, not by pointer value.
 *
 * \author borkowsk
-* \date    2022-10-25 (last modification)
+* \date    2022-11-16 (last modification)
 */
 
 #ifndef _WB_CLONE_HPP_
@@ -29,19 +29,19 @@ namespace wbrtm {
 /// \return Zwraca kopię łańcucha albo NULL, jeśli nie może jej wykonać.
 inline char* clone_str(const char *const p)
 {
-    if (p == NULL) return NULL; // FUNKCJE PONIŻEJ MOGĄ MIEĆ ZABEZPIECZENIE PRZED `NULL`!
+    if (p == NULL) return NULL; //DALSZE DZIALANIA SĄ BEZ SENSU!
 
     size_t size = ::strlen(p) + 1;
-	char* out=new char[size];
+    char*  out = new char[ size ];
 
     if(out!=NULL)
     #ifdef _MSC_VER
-	    ::strcpy_s(out,size,p);
+	  ::strcpy_s(out,size,p);
     #else
         ::strcpy(out,p);
     #endif
 
-    return out;
+    return out; //TU TEŻ MOŻE BYĆ `NULL` jeśli `new` tak zwróciło!
 }
 
 /// \brief   Klonowanie łańcucha znaków zgodne z szablonem funkcyjnym clone()
