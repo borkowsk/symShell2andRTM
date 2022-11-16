@@ -27,7 +27,7 @@ namespace wbrtm {
         /// \brief Konstruktor kopiujący - bardzo kosztowny albo niebezpieczny, więc dlatego prywatny.
         TabelaTabDelimited(const TabelaTabDelimited &); ///< Zabroniony także dla kompilatora.
 
-        std::string *Tresc;    ///< Właściwa treść w postaci wektora "zawijanego" długością wiersza
+        std::string *Tresc;     ///< Właściwa treść w postaci wektora "zawijanego" długością wiersza
 
     protected:
         std::string NazwaPliku; ///< Nazwa pliku, jak trzeba zapisać albo podać na ekran

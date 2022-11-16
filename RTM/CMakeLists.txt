@@ -19,7 +19,7 @@ IF (WIN32)
   # set stuff for windows
   message( ${PROJECT_NAME} ": MS Windows platform assumed.\n\tInside C/C++ code automatic _MSC_VER variable will be used!" )
   #set( WINDOWS_ONLY_SRC  "${WBRTM}/BASE/wb_assert.c" )
-  #add_compile_definitions( _CRT_SECURE_NO_WARNINGS )
+  add_compile_definitions( _CRT_SECURE_NO_WARNINGS )
 ELSE()
   # set stuff for other systems
   message( ${PROJECT_NAME} ": Linux/unix platform assumed." )

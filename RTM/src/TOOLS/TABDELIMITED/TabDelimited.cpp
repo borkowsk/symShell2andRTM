@@ -35,32 +35,36 @@ int TabelaTabDelimited::PodstawowaFunkcjaBledu(int kod,const TabelaTabDelimited&
 TabelaTabDelimited::funkcja_bledu* TabelaTabDelimited::AktualnaFunkcjaBledu=TabelaTabDelimited::PodstawowaFunkcjaBledu;
 
 /// \details Dostęp do nie modyfikowalnej treści komórki.
+/// \note TODO: Powód dla którego parametry sa typu `int` jest niejasny!
 const char* TabelaTabDelimited::operator ()(int w,int k) const
 {                                                                                        //Jeszcze jakieś sprawdzenia???
 	                                                                                           assert(w >= 0 && k >= 0);
-  if(w<IleWierszy()&& k<IleKolumn())
+  if( w<IleWierszy() && k<IleKolumn() )
   {
     unsigned index=(w*Wiersz)+k;
     return Tresc[index].c_str();
   }
   else
   {
-    if(Opisowo>0)
-        cerr<<"Wadliwy indeks tabeli danych (od 0!) - wiersz: "<<w<<" kolumna: "<<k<<endl;
-    if(errno=ERANGE,!AktualnaFunkcjaBledu(1,*this,cerr)) //Czy próba kontynuowania
-        return "???";
-    else
-    exit(1);
+	  if (Opisowo > 0)
+		  cerr << "Wadliwy indeks tabeli danych (od 0!) - wiersz: " << w << " kolumna: " << k << endl;
+
+	  if (errno = ERANGE, !AktualnaFunkcjaBledu(1, *this, cerr)) //Czy próba kontynuowania
+	  {
+		  return "???";
+	  }
+      else exit(1);
   }
 }
 
 /// \details Pełny dostęp do zawartości komórki.
+/// \note TODO: Powód dla którego parametry sa typu `int` jest niejasny!
 string& TabelaTabDelimited::operator () (int w,int k)
        {
 	                                                                                            assert(w >= 0 && k >= 0);
 		  static string dummy("???");
 
-		  if(w<IleWierszy() && k<IleKolumn())
+		  if( w<IleWierszy() && k<IleKolumn() )
 		  {
 			unsigned index=(w*Wiersz)+k;
 			return Tresc[index];
@@ -69,6 +73,7 @@ string& TabelaTabDelimited::operator () (int w,int k)
 		  {
 			if(Opisowo>0)
 				cerr<<"Wadliwy indeks tabeli danych (od 0!) - wiersz: "<<w<<" kolumna: "<<k<<endl;
+
 			if(errno=ERANGE,!AktualnaFunkcjaBledu(1,*this,cerr)) //Czy próba kontynuowania?
 				return dummy;
 			else
