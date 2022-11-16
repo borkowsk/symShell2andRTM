@@ -1,10 +1,15 @@
-# @author Wojciech Borkowski
-# @date 2022-11-07 (last update)
+# CMAKE configuration for WBRTM library `wbrtm`
+######################################################
+# (c)ISS UW, @author Wojciech Borkowski
+# @date 2022-11-16 (last update)
 ######################################################
 
+project(wbrtm)
 cmake_minimum_required(VERSION 3.0)
 
-project(wbrtm)
+set(CMAKE_CXX_STANDARD 11) # See: https://matgomes.com/setting-cpp-standard-cmake/
+set(CMAKE_CXX_STANDARD_REQUIRED On)
+set(CMAKE_CXX_EXTENSIONS Off)  
 
 set(WBRTM "./src/")
 set(WBRTMINC "./INCLUDE/" )
@@ -12,12 +17,14 @@ set(WBRTMINC "./INCLUDE/" )
 
 IF (WIN32)
   # set stuff for windows
-  message( "MS Windows platform assumed.\n\tInside C/C++ code automatic _MSC_VER variable will be used!" )
+  message( ${PROJECT_NAME} ": MS Windows platform assumed.\n\tInside C/C++ code automatic _MSC_VER variable will be used!" )
   #set( WINDOWS_ONLY_SRC  "${WBRTM}/BASE/wb_assert.c" )
+  #add_compile_definitions( _CRT_SECURE_NO_WARNINGS )
 ELSE()
   # set stuff for other systems
-  message( "Linux/unix platform assumed.")
+  message( ${PROJECT_NAME} ": Linux/unix platform assumed." )
   #set( X_ONLY_SRC  "" )
+  #add_compile_options( -Wall )
 ENDIF()
 
 include_directories( "." "${WBRTMINC}" ) #"${CONTRLIBS}" )
@@ -65,7 +72,7 @@ endif()
 
 #KONIEC - THE END
 #********************************************************************/
-#*           From SYMSHELLLIGHT  version 2022-11-07                 */
+#*                   WBRTM version 2022-11                          */
 #********************************************************************/
 #*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
 #*            W O J C I E C H   B O R K O W S K I                   */

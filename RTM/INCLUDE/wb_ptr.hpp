@@ -802,11 +802,11 @@ void fill(wb_dynmatrix<T>& Mat,const T& Val)
         //	delete (void*)ptr; //?Zwalnianie bez wywoływania możliwych destruktor�w
 
         //Bezpieczne, choć nieefektywny przepisanie zawartości komórek
-        for(unsigned i=0;i<size;i++)
+        for(size_t i=0;i<size;i++)
             tmp[i]=ptr[i]; //Dla klas użyty tu operator przypisania
 
         //Jakieś wypełnienie nowych komórek
-        for(unsigned i=size;i<s;i++)
+        for(size_t i=size;i<s;i++)
             tmp[i]=fillVal; // Dla klas użyty tu operator przypisania
 
         dispose();  //Kasacja starego wektora. Działają destruktory.

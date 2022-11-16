@@ -25,20 +25,23 @@
 namespace wbrtm {
 
 /// \brief Kopiuje stały łańcuch znaków na stertę
-/// \return  NULL jeśli nie może
+/// \note  Jeśli dostaje NULL zwraca NULL!
+/// \return Zwraca kopię łańcucha albo NULL, jeśli nie może jej wykonać.
 inline char* clone_str(const char *const p)
 {
-char* out=NULL;
-size_t size = ::strlen(p) + 1;
-if(p!=NULL)
-	out=new char[size];
-if(out!=NULL)
-#ifdef _MSC_VER
-	::strcpy_s(out,size,p);
-#else
-    ::strcpy(out,p);
-#endif
-return out;
+    if (p == NULL) return NULL; // FUNKCJE PONIŻEJ MOGĄ MIEĆ ZABEZPIECZENIE PRZED `NULL`!
+
+    size_t size = ::strlen(p) + 1;
+	char* out=new char[size];
+
+    if(out!=NULL)
+    #ifdef _MSC_VER
+	    ::strcpy_s(out,size,p);
+    #else
+        ::strcpy(out,p);
+    #endif
+
+    return out;
 }
 
 /// \brief   Klonowanie łańcucha znaków zgodne z szablonem funkcyjnym clone()
