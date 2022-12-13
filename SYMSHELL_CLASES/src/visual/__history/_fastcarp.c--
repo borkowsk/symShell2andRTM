@@ -1,0 +1,132 @@
+???
+
+#include "symshell.h"
+
+template<class DATA_SOURCE>
+void fast_carpet_graph<DATA_SOURCE>::_replot()// Rysuje wlasciwy wykres a pod nim ewentualnie legende
+{
+int x1=getstartx();
+int y1=getstarty();
+int x2=x1+getwidth()-1;//-1 bo width obejmuje pierwszy pixel
+int y2=y1+getheight()-1;
+
+assert(x1<=x2);//Czy aby na pewno
+assert(y1<=y2);//sensowne okno. Moze miec zerowy rozmiar ale nie ujemny
+
+double min,max;
+
+size_t num;
+read_dim(AA,BB);
+
+if(AA<=1 && BB<=1)
+	{
+	print_width(x1,(y1+y2)/2,x2-x1,t_colors.start,getbackground(),"%@CInvalid data");
+	return;
+	}
+
+data->bounds(num,min,max);
+//double missing=data->missing();
+
+//Do skalowania kolorow
+mm.set(min,max,c_range.end-c_range.start+0.999);
+	
+//R y s o w a n i e  l e g e n d y
+if(t_colors.start!=getbackground() && 
+	 char_height('X')<getheight())
+	{	
+	int x=x1;
+	int y=y2-char_height('X')+1;//+1 bo y2 ma byc zarysowane
+	int width=0;
+//----------
+	y2=y;//Zabiera dolna czesc na legende
+//----------	
+	width=print_width(x,y,(x2-x)/3*2,t_colors.start,getbackground(),
+					"%s",data->name());
+	
+	if(width==0) goto KWADRACIKI;
+		else	 x+=width+1;
+
+	width=print_width(x,y,(x2-x)/2,c_range.start,
+						  c_range.start!=getbackground()?getbackground():c_range.end,
+						  "<%g",min);
+	
+	if(width==0) goto KWADRACIKI;
+		else	x+=width+1;
+	
+	width=print_width(x,y,x2-x,c_range.end,
+						  c_range.end!=getbackground()?getbackground():c_range.start,
+						",%g>",max);
+	}
+
+//Rysowanie skali -jesli sa conajmniej dwa kolory i jest miejsce na conajmniej 2 pixele
+if( (x2-x1) >=	double((AA>BB?AA:BB)+6) && //W zasadzie dobrze, ale male szansze zeby przekroczylo zakres uint32
+	c_range.end>c_range.start	&& 
+	c_range.end-c_range.start>=2	)
+	{
+		c_range.plot(x2-6,y1,x2,y2);
+		x2-=7;
+	}
+
+//Rysowanie punktow vel "KWADRACIKOW"
+KWADRACIKI:
+assert(x2>x1);
+assert(y2>y1);
+if(AA>=1 && BB>=1 && AA<=size_t(x2-x1+1) && BB<=size_t(y2-y1+1))
+	{
+	//Tu CAST na znany dobrze typ zrodla - zeby byl szybszy dostep
+	//----------------------------------------
+	DATA_SOURCE* fast_data=(DATA_SOURCE*)data;
+	//----------------------------------------
+	assert(c_range.end-c_range.start>=1);
+
+	size_t i,j;//Indeksy po wierszach i kolumnach
+	int width=x2-x1+1;//Juz moga byc inne
+	int height=y2-y1+1;//Niz dla calego obszaru	
+	int offsetA=(AA<double(width) ?(width-AA) /2:0);
+	int offsetB=(BB<double(height)?(height-BB)/2:0);
+	offsetA+=x1;
+	offsetB+=y1;
+	
+	//Rysowanie
+	data_source_base::iteratorh  h = fast_data->reset();
+	
+	wb_color back=getbackground();//Dla sprawdzania kiedy kolor kwadratu taki jak kolor tla.
+	
+	//Pixelami panowie!!!
+	for(j=0;j<BB;j++)
+		for(i=0;i<AA;i++)
+			{
+			double test;
+			wb_color color=(wb_color)(mm.get(test=fast_data->get(h)));
+			if(data->is_missing(test))
+					continue;//Nie rysowac jesli wartosc nieosiagalna
+			color+=c_range.start;
+			plot(offsetA+i,offsetB+j,color);
+			}
+	
+
+	fast_data->close(h);
+	x1=offsetA+AA+1;//Dla skali zostaje prawy margines
+	}
+	else
+	{
+	print_width(x1,(y1+y2)/2,x2-x1,t_colors.start,getbackground(),"%@CTo small area");
+	}
+
+//NIE_DA_SIE:;
+}
+
+
+
+/********************************************************************/
+/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
+/*            W O J C I E C H   B O R K O W S K I                   */
+/* Zaklad Systematyki i Geografii Roslin Uniwersytetu Warszawskiego */
+/*  & Instytut Studiow Spolecznych Uniwersytetu Warszawskiego       */
+/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk             */
+/*        MAIL: borkowsk@iss.uw.edu.pl                              */
+/*                               (Don't change or remove this note) */
+/********************************************************************/
+
+
+
