@@ -14,7 +14,7 @@
 #define HAVE_STRCASECMP 1
 #endif
 
-/** W MSVC funkcja stricmp jest dostepna z biiblioteki */
+/** W MSVC funkcja stricmp() jest dostępna z biblioteki */
 
 #ifndef _MSC_VER
 
@@ -44,28 +44,59 @@
  * \attention This really shouldn't be used in new projects because it doesn't
  * do any bounds checking on the underlying memory areas!
  */
-int stricmp(const char* s1, const char* s2)
-{
-                                                                                                      assert(s1 != NULL);
-                                                                                                      assert(s2 != NULL);
-#ifdef HAVE_STRCASECMP
-  return strcasecmp(s1, s2);
-#else
-  while (tolower((unsigned char) *s1) == tolower((unsigned char) *s2)) {
-    if (*s1 == '\0')
-      return 0;
-    s1++; s2++;
-  }
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-  return (int) tolower((unsigned char) *s1) -
-    (int) tolower((unsigned char) *s2);
+int stricmp(const char *s1, const char *s2) {
+    assert(s1 != NULL);
+    assert(s2 != NULL);
+#ifdef HAVE_STRCASECMP
+    return strcasecmp(s1, s2);
+#else
+    while (tolower((unsigned char) *s1) == tolower((unsigned char) *s2)) {
+      if (*s1 == '\0')
+        return 0;
+      s1++; s2++;
+    }
+
+    return (int) tolower((unsigned char) *s1) -
+      (int) tolower((unsigned char) *s2);
 #endif /* !HAVE_STRCASECMP */
 }
+
+const char *strlwr(char *what) {
+    if (what == NULL)
+        return NULL;
+
+    char *pom = what;
+    while (*pom) {
+        *pom = tolower(*pom);
+        pom++;
+    }
+    return what;
+}
+
+const char *strupr(char *what) {
+    if (what == NULL)
+        return NULL;
+
+    char *pom = what;
+    while (*pom) {
+        *pom = toupper(*pom);
+        pom++;
+    }
+    return what;
+}
+
+#ifdef __cplusplus
+} //extern "C"
+#endif
 
 #endif
 
 /* *******************************************************************/
-/*	       WBRTM  version 2006 - renovated in 2022                   */
+/*	       WBRTM  version 2006 - renovated in 2022.12                */
 /* *******************************************************************/
 /*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                  */
 /*            W O J C I E C H   B O R K O W S K I                    */

@@ -14,15 +14,15 @@
 #define wb_unused_attr    /*__attribute__((unused))*/
 
 /** Funkcje  stricmp, strlwr i strupr są dostępne w MSVC, 
-*   więc nie ma powodu ich tu dodawać, ale trzeba przedefiniować strcasecmp()
+*   więc nie ma powodu ich tu dodawać, ale można przedefiniować strcasecmp()
 */
 
 #define strcasecmp( A , B )    _stricmp((A),(B))
 
 #else
-#define wb_unused_attr    __attribute__((unused))
+#define wb_unused_attr    /*__attribute__((unused))*/
 
-#ifdef _cplusplus
+#ifdef __cplusplus
 extern "C" {
 #endif
 	//Zdefiniowana w osobnym pliku z rozszerzeniem .c !!!
@@ -39,7 +39,7 @@ extern "C" {
 		/// \brief Przekształcenie łańCucHa char* na wersję WIELKOLITEROWĄ "in place".
 		const char* strupr(char* what);
 
-#ifdef _cplusplus
+#ifdef __cplusplus
 } //extern "C"
 #endif
 
