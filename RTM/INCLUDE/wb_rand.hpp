@@ -1,7 +1,6 @@
 /** \file wb_rand.hpp
 *  \brief BASIC CLASSES OF PSEUDORANDOM NUMBER GENERATORS
 *  \author Wojciech Borkowski @ Institut for Social Studies, University of Warsaw
-*  \date 2022-10-12 (last modification)
 *  \details
 *   Contents:
 *   - RandomGenerator - interface to random generators
@@ -11,6 +10,7 @@
 * \warning OBSOLETE
 *   - RandBSD - Random generator from BSD UNIX
 *   - RandSVR4 - Random generator from System V UNIX
+*  \date 2022-12-15 (last modification)
 */
 
 #ifndef __cplusplus
@@ -70,6 +70,9 @@ namespace wbrtm {
 
         ///Initialisation for random selected sequence.
         virtual void Reset() = 0;
+
+        ///Required for abstract classes.
+        virtual ~RandomGenerator() {}
     };
 
     /// \brief Random generator specialization using the randg() function.
@@ -78,13 +81,13 @@ namespace wbrtm {
     {
     public:
         /// \brief Max Value that can be returned from Rand().
-        unsigned long RandomMax() { return (INT_MAX); }
+        unsigned long RandomMax() override { return (INT_MAX); }
 
         /// \brief Returned ulong from 0 to RandomMax.
-        unsigned long Rand() { return ((int) ((::randg)() * INT_MAX)); }
+        unsigned long Rand() override { return ((int) ((::randg)() * INT_MAX)); }
 
         /// \brief Returned ulong from 0 to i.
-        unsigned long Random(unsigned long i)
+        unsigned long Random(unsigned long i) override
         {
             unsigned long ret = (unsigned long) (((double) (::randg)() * (i)));
             if (ret >= i) ret = i - 1;
@@ -92,7 +95,7 @@ namespace wbrtm {
         }
 
         /// \brief Returned double from <0 to 1).
-        double DRand() { return ((::randg)()); }
+        double DRand() override { return ((::randg)()); }
 
         /// \brief Generation of normal distribution. Defined only for this class.
         double NormRand() { return ::randnorm(); }
@@ -101,13 +104,14 @@ namespace wbrtm {
         double ExpRand() { return ::randexp(); }
 
         /// \brief Initialisation for well defined repeatable sequence.
-        void Seed(unsigned long i) { ::srandg((short int) i); }
+        void Seed(unsigned long i) override { ::srandg((short int) i); }
 
         /// \brief Initialisation for random selected sequence.
-        void Reset() { ::srandg((unsigned) time(NULL)); }
+        void Reset() override { ::srandg((unsigned) time(NULL)); }
 
         /// \brief DEFAULT CONSTRUCTOR.
         RandG() { RandG::Reset();}
+        ~RandG() override {}
     };
 
     /// \brief A random generator specialization that uses the standard C language generator.
@@ -115,25 +119,26 @@ namespace wbrtm {
     {
     public:
         /// \brief Max Value that can be returned from Rand()
-        unsigned long RandomMax() { return (RAND_MAX); }
+        unsigned long RandomMax() override { return (RAND_MAX); }
 
         /// \brief Returned ulong from 0 to RandomMax
-        unsigned long Rand() { return my_rand(); }
+        unsigned long Rand() override { return my_rand(); }
 
         /// \brief Returned ulong from 0 to i
-        unsigned long Random(unsigned long i) { return (int) (((double) (my_rand)() * (i)) / ((double) RAND_MAX + 1)); }
+        unsigned long Random(unsigned long i) override { return (int) (((double) (my_rand)() * (i)) / ((double) RAND_MAX + 1)); }
 
         /// \brief Returned double from <0 to 1)
-        double DRand() { return ((double) (my_rand)()) / (double) RAND_MAX; }
+        double DRand() override { return ((double) (my_rand)()) / (double) RAND_MAX; }
 
         /// \brief Initialisation for well defined repeatable sequence
-        void Seed(unsigned long i) { (::srand)(i); }
+        void Seed(unsigned long i) override { (::srand)(i); }
 
         /// \brief Initialisation for random selected sequence
-        void Reset() { (::srand)((unsigned) time(NULL)); }
+        void Reset() override { (::srand)((unsigned) time(NULL)); }
 
         /// \brief DEFAULT CONSTRUCTOR.
         RandSTDC() { RandSTDC::Reset(); }
+        ~RandSTDC() override {}
     };
 
 } //namespace

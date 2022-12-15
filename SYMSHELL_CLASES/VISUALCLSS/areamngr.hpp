@@ -19,8 +19,8 @@ int		cont_actions;	//Flaga kontynuacji. Jesli 0 to wypada kiedy moze.
 public:
 virtual ~area_menager_base(){} //Pusty destruktor dla wymuszenia wirtualnosci destruktorow
 
-area_menager_base(//Konieczny jakis konstruktor do przekazania parametrow drawable_base
-						   //i zeby byl default.	
+/// Konieczny jakis konstruktor do przekazania parametrów drawable_base i żeby był default.
+area_menager_base(
 				int ix1=0,int iy1=0,int ix2=0,int iy2=0,
 				unsigned ibkg=default_color,
 				unsigned ifr=default_color):
@@ -28,12 +28,16 @@ area_menager_base(//Konieczny jakis konstruktor do przekazania parametrow drawab
 				cont_actions(1)
 					{}
 
-//Sterowanie przerywaniem dzialania menagera
-virtual 
-void need_break_action(int Yes=1){ cont_actions=!Yes;}
-int should_continue(){return cont_actions;}//Czy user chcial przerwac
+// Sterowanie przerywaniem dzialania menagera
+//*///////////////////////////////////////////
 
-//	AKCESORY OGOLNE
+/// Ustawianie wymagania zakończenia.
+virtual void need_break_action(int Yes=1){ cont_actions=!Yes;}
+
+/// Czy user chcial przerwac?
+int          should_continue() {return cont_actions;}
+
+//	AKCESORY OGÓLNE
 //------------------
 virtual int    insert(wb_ptr<drawable_base>	drw)=0;//Dodaje obszar do listy. Zwraca pozycje albo -1(blad)
 virtual int    insert(drawable_base* drw)//Zabiera w zarzad zwykly wskaznik.
@@ -54,25 +58,42 @@ virtual size_t get_size()=0;		//Podaje po prostu aktualny rozmiar listy lacznie 
 
 //	REAKCJE NA ZDAZENIA
 //--------------------------
-virtual int    on_click(int x,int y,int click)=0;//Przepytuje obszary z reakcji na punkt.
-//Jesli on_click() zwraca 1 to mozna sie dowiedziec, który obszar wywołujac:
-virtual int    get_last_lazy_area()=0;//zwroci -1 jesli juz raz wziete, lub inny blad
-virtual int    on_margin_click(int x,int y,int click){return 2;}//Co robic gdy clikniete tlo menagera
-virtual int    on_input(int input_char)=0;//Przepytuje obszary z chca znak
-virtual int    on_change(const gps_area& ar)=0;//Reguje na zmiane rozmiarow lub polozenia wlasnego obszaru
-virtual void   replot(const gps_area& ar)=0;//Odrysowuje obszary "nadepniete" przez "ar"
-virtual void   _replot()=0;	//Odrysowuje wszystkie (widoczne) obszary
+
+/// \brief  Przepytuje obszary z reakcji na punkt.
+/// \note   Jeśli znajdzie (zwroci 1) to można ustalić wywołując get_last_lazy_area()
+virtual int    on_click(int x,int y,int click)=0;
+
+/// \brief Który obszar wymaga odświeżenia lub innej uwagi.
+/// \note  Jeśli on_click() zwraca 1 to można sie dowiedzieć, który obszar znalazł wywołując właśnie to.
+/// \return  -1 jeśli już ten obszar był wzięty, lub powstał jakiś inny błąd.
+virtual int    get_last_lazy_area()=0;
+
+/// \brief Akcja, gdy kliknieto w tlo menagera.
+virtual int    on_margin_click(int x,int y,int click) {return 2;}
+
+/// \brief Przepytuje obszary czy chcą znak z wejścia (... zwykle okna graficznego)
+virtual int    on_input(int input_char)=0;
+
+/// \brief Reaguje na zmianę rozmiarów lub położenia własnego obszaru
+virtual int    on_change(const gps_area& ar)=0;
+
+/// \brief Odrysowuje obszary "nadepnięte" przez "ar" (???)
+virtual void   replot(const gps_area& ar)=0;
+
+/// \brief Odrysowuje wszystkie (widoczne) obszary
+virtual void   _replot()=0;
+
 //  MANIPULATORY
 //----------------
-virtual int    refresh(size_t index)=0; //Odrysowuje obszar jesli nie zminimalizowany
+virtual int    refresh(size_t index)=0; //Odrysowuje obszar jeśli nie zminimalizowany
 virtual int    mark(size_t index,wb_color frame=default_color)=0;//Zaznacza obszar 
-virtual int    mark_all(wb_color frame=default_color)=0;//Zaznacza wszytkie widoczne
+virtual int    mark_all(wb_color frame=default_color)=0;//Zaznacza wszystkie widoczne
 virtual int    unmark(size_t index)=0;	 //i odznacza obszar
 virtual int    is_minimized(size_t index)=0;//Informuje czy jest zminimalizowany
 virtual int    is_marked(size_t index)=0;//Informuje czy jest zaznaczony
-virtual wb_dynarray<int> get_marked(wb_color filtr=default_color,int unm=0)=0;//Zwraca liste zaznaczonych obszarow. 
-									    // Jesli what=default color to wszystkie zaznaczone.
-										// i opcjonalnie zdejmuje zaznaczenie
+virtual wb_dynarray<int> get_marked(wb_color filtr=default_color,int unm=0)=0; //Zwraca listę zaznaczonych obszarów.
+									    // Jesli what=default color to wszystkie zaznaczone...
+										// I opcjonalnie zdejmuje zaznaczenie
 //...DLA POJEDYNCZYCH OBSZAROW
 virtual int    set_input(size_t index)=0;//Ustala obszar jako pierwszy do wejscia z klawiatury lub zdarzen menu
 virtual int    maximize(size_t index)=0;//Oddaje podobszarowi caly zarzadzany obszar
@@ -148,7 +169,7 @@ public:
  int    get_last_lazy_area();//zwroci -1 jesli juz raz wziete, lub inny blad
  int    on_input(int input_char);//Przepytuje obszary z chca znak
  int    on_change(const gps_area& ar);//Reguje na zmiane rozmiarow lub polozenia wlasnego obszaru
- void   replot(int flu=1){drawable_base::replot(flu);}//Odrysuj wszystko
+ void   replot(int flus=1) {drawable_base::replot(flus);} //Odrysuj wszystko
  void   replot(const gps_area& ar);//Odrysowuje obszary "nadepniete" przez "ar"
  void   _replot();	//Odrysowuje wszystkie (widoczne) obszary
 //  MANIPULATORY

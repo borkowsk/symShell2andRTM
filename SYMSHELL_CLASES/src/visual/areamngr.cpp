@@ -192,13 +192,13 @@ area_menager::area_menager(size_t size, //Konstruktor dający zarządcę o okre�
 	flush();
  }
 
+ /// Odrysowuje wszystkie (widoczne) obszary
  void   area_menager::_replot()
-//Odrysowuje wszystkie (widoczne) obszary
  {
    if(maximized!=-1)
 	 {
          assert(maximized>=0 && maximized<int(tab.get_size()));
-	 tab[maximized].ptr->replot(0);
+         tab[maximized].ptr->replot(0);
 	 }
 	 else
          {
@@ -206,22 +206,26 @@ area_menager::area_menager(size_t size, //Konstruktor dający zarządcę o okre�
 		if( tab[i].ptr && !tab[i].minimized)
 				tab[i].ptr->replot(0);
 	 }
+
+     flush_plot();
  }
 
 
 //  MANIPULATORY
 //----------------
+
+//Zaznacza obszar
  int    area_menager::mark(size_t index,wb_color frame)
-//Zaznacza obszar 
  {
 	if( index>=0 && index<tab.get_size() && !tab[index].minimized)
-		{
+    {
 		tab[index].mark=1;
 		tab[index].org_frame=tab[index].ptr->setframe(frame);
 		tab[index].ptr->replot();
 		return 0;
-		}
-	 return -1;
+    }
+
+    return -1;
  }
 
  int    area_menager::mark_all(wb_color frame)

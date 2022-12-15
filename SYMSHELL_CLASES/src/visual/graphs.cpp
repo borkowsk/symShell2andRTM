@@ -205,77 +205,76 @@ if(need_flush)
 		flush_plot();
 }
 
-void drawable_base::replot(int need_flush)
 //Rysuje ramke,moze tytul i wirtualnie zawartosc
+void drawable_base::replot(int need_flush)
 {
-if(x1==x2 && y1==y2) return; //uspiony obszar o zerowym rozmiarze
+    if(x1==x2 && y1==y2) return; //uspiony obszar o zerowym rozmiarze
 
-int tx=int(x1);
-int ty=int(y1);
-int tw=int(x2-x1);
-int zostalo_dosc_y=(y2-y1)>char_height('X');//Czy jest miejsce na tytul i/lub reszte
+    int tx=int(x1);
+    int ty=int(y1);
+    int tw=int(x2-x1);
+    int zostalo_dosc_y=(y2-y1)>char_height('X');//Czy jest miejsce na tytul i/lub reszte
 
-//Czyszczenie tlem lufcika jesli jest ustawione
-if(getbackground()!=default_transparent)
-	fill_rect(toi(x1),toi(y1),toi(x2+1),toi(y2+1),getbackground());
+    //Czyszczenie tłem lufcika jesli jest ustawione
+    if(getbackground()!=default_transparent)
+        fill_rect(toi(x1),toi(y1),toi(x2+1),toi(y2+1),getbackground());
 
-if(zostalo_dosc_y && title && (titcol!=default_transparent || titbck!=default_transparent))
-	//printtitle(tx,ty,tw)
-	{
-	int sw=0;//Current string width
-	unsigned col1=(titcol!=default_transparent?titcol:getframe());
-	unsigned col2=(titbck!=default_transparent?titbck:getbackground());
-	if(col1==default_transparent)
-		col1=default_black;
+    if(zostalo_dosc_y && title && (titcol!=default_transparent || titbck!=default_transparent))
+    {
+        int sw=0;//Current string width
+        unsigned col1=(titcol!=default_transparent?titcol:getframe());
+        unsigned col2=(titbck!=default_transparent?titbck:getbackground());
+        if(col1==default_transparent)
+            col1=default_black;
 
-	char*  pom=clone_str(title);
-	size_t len=strlen(pom);
-	if(len==0)	goto REZYGNACJA;
+        char*  pom=clone_str(title);
+        size_t len=strlen(pom);
+        if(len==0)	goto REZYGNACJA;
 
-	//skracanie
-	while((sw=string_width(pom))>tw)
-		{
-		pom[len-1]='\0';
-		len--;
-		if(len==1) goto REZYGNACJA;
-		}
+        //skracanie
+        while((sw=string_width(pom))>tw)
+            {
+            pom[len-1]='\0';
+            len--;
+            if(len==1) goto REZYGNACJA;
+            }
 
-	if(col1==col2)//Jesli takie same To tlo staje sie takie jak calosci obszaru
-		if((col2=getbackground())==col1) //a jesli juz niestety bylo
-			if((col1=default_black)==col2)//to text czarny, a jak juz byl
-				col1=default_white;//to bialy
+        if(col1==col2)//Jesli takie same To tlo staje sie takie jak calosci obszaru
+            if((col2=getbackground())==col1) //a jesli juz niestety bylo
+                if((col1=default_black)==col2)//to text czarny, a jak juz byl
+                    col1=default_white;//to bialy
 
-	printc(tx+(tw/2-sw/2),ty,col1,col2,"%s",pom);
+        printc(tx+(tw/2-sw/2),ty,col1,col2,"%s",pom);
 
-	// czy jest jeszcze miejsce na cokolwiek poza tytulem
-	zostalo_dosc_y=(y2-y1)>char_height('X')*2+frame_width;//Na frame asekurancko
+        // czy jest jeszcze miejsce na cokolwiek poza tytulem
+        zostalo_dosc_y=(y2-y1)>char_height('X')*2+frame_width;//Na frame asekurancko
 
-	REZYGNACJA:
-	delete pom;
-	}
+        REZYGNACJA:
+        delete pom;
+    }
 
-if(x2-x1>(2*frame_width) && zostalo_dosc_y)
-{
-    //assert(this->CurrConfig!=nullptr);
-	_replot();//Nie odrysowuje idiotycznie waskich obszarow
-}
+    if(x2-x1>(2*frame_width) && zostalo_dosc_y)
+    {
+        //assert(this->CurrConfig!=nullptr);
+        _replot(); //Nie odrysowuje idiotycznie wąskich obszarów (?)
+    }
 
-if(getframe()!=default_transparent && frame_width>0)
-	{
-	tx+=frame_width;
-	ty+=frame_width;
-	tw-=2*frame_width;
-	rect(toi(x1),toi(y1),toi(x2),toi(y2),getframe());
-	}
+    if(getframe()!=default_transparent && frame_width>0)
+    {
+        tx+=frame_width;
+        ty+=frame_width;
+        tw-=2*frame_width;
+        rect(toi(x1),toi(y1),toi(x2),toi(y2),getframe());
+    }
 
-if(need_flush)
-		flush_plot();
+    if(need_flush)
+            flush_plot();
 
 }
 
 void drawable_base::_replot()
 {
-	assert("drawable_base::_replot(); should be rimplemenented!"==0);
+	assert("drawable_base::_replot(); should be reimplemented!"==0);
 }
 
 //graph implemenmtation
