@@ -296,9 +296,9 @@ if(pom)//Zaalokowane OK
 	}
 }
 
-//Obsluga wszelkich zdarzen z zewnatrz
+/// Obsługa wszelkich zdarzeń z zewnątrz
+/// Wychodzi z funkcji, gdy nie ma co robić, czyi brak zdarzeń do obsługi.
 void main_area_menager::process_input()
-//Wychodzi, gdy nie ma co robic
 {
 int inp;
 while((!background_enabled()) || input_ready())
@@ -311,50 +311,50 @@ while((!background_enabled()) || input_ready())
 		continue;
    switch(inp)
 		{
-	   //case 0:ctrl-@ break;
+	   //case 0: //ctrl-@ break;
 	   case SSH_ONESTEP:
-	   case 1://ctrl-a
+	   case 1: //ctrl-a
 		   {
 			   cout<<" STEP ";
 			   cout.flush();
-			   disable_background(); //Procedure bedzie zablokowana po powrocie
+			   disable_background(); //Procedure będzie zablokowana po powrocie
 		   }
-		   return;//break; niepotrzebne raczej
+		   return; //break; niepotrzebne raczej
 	   case SSH_STARTSTOP:
-	   case 2://ctrl-b
+	   case 2: //ctrl-b
 		   if(background_enabled())
 		   {
 				cout<<"STOPPED."<<char(7)<<endl;//<<flush;
-				disable_background(); //Blokuje ta procedure w petli
+				disable_background(); //Blokuje ta procedure w pętli
 		   }
 			else
 			{
 				cout<<"CONTINUE."<<char(7)<<endl;//<<flush;
-				enable_background(); //Odblokowanie procedury i od razu wyjscie
+				enable_background(); //Odblokowanie procedury i od razu wyjście
 			    return;
-			}//Przerywa wewnetrzna petle z tej funkcji
+			} //Przerywa wewnętrzną pętlę tej funkcji
 	   break;
-	   //case 3:ctrl-c break;
-	   //case 4:ctrl-d break;
+	   //case 3: //ctrl-c break;
+	   //case 4: //ctrl-d break;
        case SSH_WINDOWS_HIDEMARKEDAREAS:
-	   case 5://ctrl-e
+	   case 5: //ctrl-e
            {
-            wb_dynarray<int> list=get_marked(Marker,1);//Z odmarkowywaniem
+            wb_dynarray<int> list=get_marked(Marker,1); //Z odmarkowywaniem
 		    minimize(list);
            }
 	   break;
-	   //case 6:ctrl-f break;
-	   //case 7:ctrl-g break;
+	   //case 6: //ctrl-f break;
+	   //case 7: //ctrl-g break;
 	   //case 8:
-		case '\b'://ctrl-h
+		case '\b': //ctrl-h
 		{
-		int xpos=0,ypos=0,click=0;//Myszowate
+		int xpos=0,ypos=0,click=0; //Myszowate
 		get_mouse_event(&xpos,&ypos,&click);
 
 		if(on_click(xpos,ypos,click)==1)
 			{
 			int pom=get_last_lazy_area();
-			if(pom==-1) return;//Cos nie tak ale olal...
+			if(pom==-1) return; //Cos nie tak ale olal...
 
 			if(click==1)
 			{
@@ -405,7 +405,7 @@ while((!background_enabled()) || input_ready())
 		break;
         case SSH_WINDOWS_MARKALLAREAS:
 		case 11://ctrl-k
-			mark_all(wb_color(Marker));//Wszystkie widoczne
+			mark_all(wb_color(Marker)); //Wszystkie widoczne
 		break;
 
         /*
@@ -420,70 +420,71 @@ while((!background_enabled()) || input_ready())
 		break;
 		*/
 
-		case '\r'://ctrl-m
+		case '\r': //ctrl-m
 		{
         ssh_coordinate rx,ry;
         ssh_natural    rw,rh;
         int            maxim;
-		//Reakcja na zmiane rozmiarów okna
-		gps_area old_area(*this); //Potrzebna do pozniejszych przeliczen
+
+		//Reakcja na zmianę rozmiarów okna
+		gps_area old_area(*this); //Potrzebna do późniejszych przeliczeń.
         gps_area new_area(0,0,max((ssh_natural)0,::screen_width()-1),
                               max((ssh_natural)0,::screen_height()-1));
 		this->load(new_area);
 
 		//Powinno byc jeszcze przeliczenie aktualnych
 		if((maxim=get_maximized())>=0)
-			{
+        {
 			get(maxim)->load(new_area);
-			}
-			else
-			{
-				//Nie ma jednego - nie tak prosto
-			}
+        }
+        else
+        {
+				//Nie ma jednego. Nie tak prosto!
+        }
 
 		//Właściwe odrysowanie
 		int old=mouse_activity(0);
 		int ret=repaint_area(&rx,&ry,&rw,&rh);
-		if(ret==-1)//Nie wiadomo co dokladnie - wiec lepiej wszystko
+		if(ret==-1) //Nie wiadomo co dokładnie, więc lepiej wszystko
 		  this->replot( *this);
 		  else
-		  if(ret==0) //Wiadomo - tylko okreslony obszar
+		  if(ret==0) //Wiadomo, że tylko określony obszar
 			{
 			gps_area are(rx,ry,rx+rw,ry+rh);
 //#ifndef NDEBUG
 			//rect(rx,ry,rx+rw,ry+rh,default_black);//TEST ONLY!!!
 //#endif
-			this->replot( are );//Tylko czesc wnetrza. Ramki i tytulu i tak nie ma!
+			this->replot( are ); //Tylko cześć wnętrza. Ramki i tytułu i tak nie ma!
 			}
 		mouse_activity(old);
 		}
 		break;
 
-		//case 14:ctrl-n break;
+		//case 14: //ctrl-n break;
         case SSH_WINDOWS_RESTORETOORGINALPOSITION:
-		case 15://ctrl-o
-			orginal(get_marked(Marker,1));//Z odmarkowywaniem
+		case 15: //ctrl-o
+			orginal(get_marked(Marker,1)); //Z odmarkowywaniem
 		break;
 
-		//case 16://ctrl-p
+		//case 16: //ctrl-p
         case SSH_FILE_EXIT:
-		case 17://ctrl-Q
+		case 17: //ctrl-Q
 		case EOF:
 			need_break_action();
-		return;//Nie ma kontynuowac!
+		return; //Nie ma już kontynuować!
 
         case SSH_WINDOWS_UNCOVERHIDDENAREAS:
-		case 18://ctrl-r //restore_all
+		case 18: //ctrl-r //restore_all
 			restore();
 		break;
 
         case SSH_FILE_DUMPSCREEN:
-		case 19://ctrl-s
+		case 19: //ctrl-s
 			dump_screen();
 		break;
 
         case SSH_WINDOWS_TILEMARKEDAREAS:
-		case 20://ctrl-t //tile
+		case 20: //ctrl-t //tile
 			tile(get_marked(Marker,1));//Z odmarkowywaniem
 		break;
 
@@ -493,7 +494,7 @@ while((!background_enabled()) || input_ready())
         break;
 
         case SSH_WINDOWS_UNMARKALLAREAS:
-		case 21://ctrl-u
+		case 21: //ctrl-u
 			get_marked(Marker,1);//Odznacza wszystkie
 		break;
 
@@ -522,26 +523,25 @@ while((!background_enabled()) || input_ready())
     }
 }
 
-
+/// gdy zostanie wywołane to koniec wejścia
 void main_area_menager::break_input_loop()
-//gdy zostanie wywolane
 {
-need_break_action();//Nie ma kontynuowac!
+    need_break_action(); //Nie ma kontynuowac!
 }
 
-//Przechwycenie calosci sterowania
+/// Przechwycenie całości sterowania
+/// Wychodzi z tej funkcji dopiero gdy user "zakończy" program.
 void main_area_menager::run_input_loop()
-//Wychodzi gdy user "zakonczy" program.
 {
-need_break_action(0);//Planuje pokontynuowac
-do{
-process_input();
-_on_idle();
-}while(should_continue());
+    need_break_action(0); //Planuje pokontynuować.
+    do{
+    process_input();
+    _on_idle();
+    }while(should_continue());
 }
 
 
-//ELASTYCZNE UCHWYTY OBSLUGI
+//ELASTYCZNE UCHWYTY OBSŁUGI
 //---------------------------
 int main_area_menager::_pre_process_input(int input_char)
 //Przed obsluga domyslna. Zwraca 1 jesli obsluzyl.

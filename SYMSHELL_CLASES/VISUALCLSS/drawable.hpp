@@ -1,4 +1,4 @@
-//   DEKLARACJE SPRZEGU DLA OBSZAROW EKRANU
+//   DEKLARACJE SPRZĘGU DLA OBSZARÓW EKRANU
 //--------------------------------------------
 #ifndef _DRAWABLE_HPP_
 #define _DRAWABLE_HPP_

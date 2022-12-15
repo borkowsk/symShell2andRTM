@@ -1,4 +1,4 @@
-//     KLASY ZARZADCÓW OBSZAROW EKRANU
+//     KLASY ZARZÄ„DCÃ“W OBSZARÃ“W EKRANU
 //--------------------------------------
 #ifndef __AREAMNGR_HPP__
 #define __AREAMNGR_HPP__
@@ -7,11 +7,11 @@
 #endif
 
 
-//Niezbedne definicje bazowe
+// NiezbÄ™dne definicje bazowe
 //------------------------------------------
 #include "drawable.hpp"
 
-//INTERFACE DO DOWOLNEGO ZARZADCY OBSZARU
+//INTERFACE DO DOWOLNEGO ZARZÄ„DCY OBSZARU
 //------------------------------------------
 class area_menager_base:public drawable_base //Zeby mozna bylo zestawiac menagery w hierarchie
 {
@@ -55,7 +55,7 @@ virtual size_t get_size()=0;		//Podaje po prostu aktualny rozmiar listy lacznie 
 //	REAKCJE NA ZDAZENIA
 //--------------------------
 virtual int    on_click(int x,int y,int click)=0;//Przepytuje obszary z reakcji na punkt.
-//Jesli on_click() zwraca 1 to mozna sie dowiedziec, który obszar wywo³ujac:
+//Jesli on_click() zwraca 1 to mozna sie dowiedziec, ktÃ³ry obszar wywoÅ‚ujac:
 virtual int    get_last_lazy_area()=0;//zwroci -1 jesli juz raz wziete, lub inny blad
 virtual int    on_margin_click(int x,int y,int click){return 2;}//Co robic gdy clikniete tlo menagera
 virtual int    on_input(int input_char)=0;//Przepytuje obszary z chca znak
@@ -144,7 +144,7 @@ public:
  //	REAKCJE NA ZDAZENIA
 //--------------------------
  int    on_click(int x,int y,int click);//Przepytuje obszary z reakcji na punkt.
-			//Jesli on_click() zwraca 1 to mozna sie dowiedziec, który obszar wywo³ujac:
+			//Jesli on_click() zwraca 1 to mozna sie dowiedziec, ktÃ³ry obszar wywoÅ‚ujac:
  int    get_last_lazy_area();//zwroci -1 jesli juz raz wziete, lub inny blad
  int    on_input(int input_char);//Przepytuje obszary z chca znak
  int    on_change(const gps_area& ar);//Reguje na zmiane rozmiarow lub polozenia wlasnego obszaru

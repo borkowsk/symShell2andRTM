@@ -48,9 +48,8 @@
 extern "C" {
 #endif
 
-int stricmp(const char *s1, const char *s2) {
-    assert(s1 != NULL);
-    assert(s2 != NULL);
+int stricmp(const char *s1, const char *s2)
+{                                                                                      assert(s1 != NULL && s2 != NULL);
 #ifdef HAVE_STRCASECMP
     return strcasecmp(s1, s2);
 #else
@@ -65,7 +64,8 @@ int stricmp(const char *s1, const char *s2) {
 #endif /* !HAVE_STRCASECMP */
 }
 
-const char *strlwr(char *what) {
+const char *strlwr(char *what)
+{
     if (what == NULL)
         return NULL;
 
@@ -77,7 +77,8 @@ const char *strlwr(char *what) {
     return what;
 }
 
-const char *strupr(char *what) {
+const char *strupr(char *what)
+{
     if (what == NULL)
         return NULL;
 
