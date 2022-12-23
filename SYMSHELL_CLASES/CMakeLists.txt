@@ -1,7 +1,7 @@
 # CMAKE configuration for SYMSHELLCLASS libraries wbsyshclss
 ##################################################################################
 # @author Wojciech Borkowski
-# @date 2022-12-13 (last update)
+# @date 2022-12-22 (last update)
 ######################################################
 
 cmake_minimum_required(VERSION 3.0)
