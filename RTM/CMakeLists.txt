@@ -1,7 +1,7 @@
 # CMAKE configuration for WBRTM library `wbrtm`
 ######################################################
 # (c)ISS UW, @author Wojciech Borkowski
-# @date 2022-11-16 (last update)
+# @date 2022-12-22 (last update)
 ######################################################
 
 project(wbrtm)
