@@ -4,7 +4,7 @@
  *  \date   2022-10-19 (last modification)
  *  @ingroup OBSOLETE
  */
-#ifdef _MSC_VER //# warning still not work under Microsoft C++
+#ifndef _MSC_VER //# warning still not work under Microsoft C++
 #warning  "This code is not tested in C++11 standard"
 #endif
 
