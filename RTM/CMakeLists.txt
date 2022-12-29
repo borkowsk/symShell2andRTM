@@ -72,7 +72,7 @@ endif()
 
 #KONIEC - THE END
 #********************************************************************/
-#*                   WBRTM version 2022-11                          */
+#*                   WBRTM version 2022-12                          */
 #********************************************************************/
 #*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
 #*            W O J C I E C H   B O R K O W S K I                   */

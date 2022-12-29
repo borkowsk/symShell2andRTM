@@ -1,28 +1,33 @@
 #!/bin/bash
 #Checking for required dependencies
 echo "Running" `realpath $0`
+source "screen.ini"
 
 # SIMPLE CHECK FOR WINDOWS
 env | grep Windows_NT >> check_out.tmp
 if [[ "$?" == 0 ]]
 then #TO JEST WINDOWS
-	echo "Under MS Windows only MS VISUAL STUDIO with C++ & cmake plugins is required & tested".
+	echo -e $COLOR1"Under MS Windows only MS VISUAL STUDIO with C++ & cmake plugins is required & tested".$NORMCO
 	
+	echo -e "\n"'C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\'
+
 	"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\devenv.exe" ./RTM/
 	if [[ "$?" == 0 ]]
 	then
-		echo "It looks like you have MS VC++ instaled".
+		echo -e $COLOR2"It looks like you have MS VC++ instaled."$NORMCO
 		exit
 	fi
+
+	echo -e "\n"'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\'
 
 	"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\devenv.exe" ./RTM/
 	if [[ "$?" == 0 ]]
 	then
-		echo "It looks like you have MS VC++ instaled".
+		echo -e $COLOR2"It looks like you have MS VC++ instaled."$NORMCO
 		exit
 	fi
-	
-	echo "Searching C:\Program files"
+
+	echo -e $COLOR1"\nSearching 'C:\Program files'"$NORMCO
 	find "/c/Program Files/" -name devenv.exe > msvc.lst
 	CNT=`cat msvc.lst | wc -l - `
 	echo #"\"$CNT\""
@@ -31,10 +36,11 @@ then #TO JEST WINDOWS
 		head msvc.lst
 	else
 		
-		echo "Searching C:\Program files (x86)"
+		echo -e $COLOR1"Searching C:\Program files (x86)"$NORMCO
 		find "/c/Program Files (x86)/" -name devenv.exe > msvc.lst
 		CNT=`cat msvc.lst | wc -l - `
 		echo #"\"$CNT\""
+
 		if [[ "$CNT" == "1 -" ]]
 		then
 			head msvc.lst
@@ -45,7 +51,7 @@ then #TO JEST WINDOWS
 	
 	if [[ "$?" == 0 ]]
 	then
-		echo "It looks like you have MS VC++ instaled".
+		echo -e $COLOR2"It looks like you have MS VC++ instaled".$NORMCO
 	fi
 	
 	exit
@@ -55,19 +61,21 @@ fi
 EDIT=nano
 
 set -e # https://intoli.com/blog/exit-on-errors-in-bash-scripts/
-echo -e "\n\tThis script stops on any error!\n\tWhen it stop, remove source of the error & run it again!\n"
+echo -e $COLOR2"\n\tThis script stops on any error!\n\tWhen it stop, remove source of the error & run it again!\n"$NORMCO
      
-echo -e "Test for required software:\n" 
-gcc --version 
-echo -e "\n GCC  OK\n"
-g++ --version
-echo -e "\n G++  OK\n"
-make --version 
-echo -e "\n MAKE  OK\n"
-cmake --version 
-echo -e "\n CMAKE  OK\n"
+echo -e $COLOR1"Test for required software:\n"$NORMCO
 
-echo -e "Test for required library packages:\n"
+gcc --version 
+echo -e $COLOR2"\n GCC  OK\n"$NORMCO
+g++ --version
+echo -e $COLOR2"\n G++  OK\n"$NORMCO
+make --version 
+echo -e $COLOR2"\n MAKE  OK\n"$NORMCO
+cmake --version 
+echo -e $COLOR2"\n CMAKE  OK\n"$NORMCO
+
+echo -e $COLOR1"Test for required library packages:\n"$NORMCO
+
 cat << EOF >> tmpX11.cpp
 #include <X11/Xlib.h>   // sudo apt install libx11-dev ? 
 #include <X11/Xutil.h>
@@ -75,7 +83,7 @@ cat << EOF >> tmpX11.cpp
 EOF
 
 g++ -c tmpX11.cpp
-echo -e "\n libxpm-dev  OK\n"
+echo -e $COLOR1"\n libxpm-dev  OK\n"$NORMCO
 
 rm -f tmpX11.cpp tmpX11.o*
 
