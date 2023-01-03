@@ -53,8 +53,8 @@ add_library( wbrtm STATIC
     "${WINDOWS_ONLY_SRC}" #TYLKO WINDOWS
 #   "${WBRTM}/VIRTUALIO/iosuppor.cpp"
 #   "${WBRTM}/VIRTUALIO/iodatabase.cpp"
-#   "${WBRTM}/VIRTUALIO/iocharp.cpp"
-#   "${WBRTM}/VIRTUALIO/vobject.cpp"
+    "${WBRTM}/VIRTUALIO/iocharp.cpp"
+    "${WBRTM}/VIRTUALIO/vobject.cpp"
 #   "${WBRTM}/EXCEPT/extextex.cpp"
 #   "${WBRTM}/BASE/wb_cmdline.cpp"
 #   "${WBRTM}/BASE/wb_assert.c"

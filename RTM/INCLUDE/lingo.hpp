@@ -18,6 +18,7 @@ const char* _lingo(const char* _PL,const char* _IN)
 } //namespace
 
 #define _LPL  (wbrtm::_lingo)
+#define lang  (wbrtm::_lingo)
 
 /*  //Insert this where you want:
 #ifndef LOCAL_VERSION
@@ -28,12 +29,11 @@ const char* _lingo(const char* _PL,const char* _IN)
 */
 
 /* *******************************************************************/
-/*	              WBRTM  version 2013-2022                           */
+/*	              WBRTM  version 2013-2022                       */
 /* *******************************************************************/
 /*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                  */
 /*            W O J C I E C H   B O R K O W S K I                    */
-/*    Instytut Studiow Spolecznych Uniwersytetu Warszawskiego        */
-/*        WWW:  http://borkowski.iss.uw.edu.pl/                      */
+/*    Instytut Studiów Społecznych Uniwersytetu Warszawskiego        */
 /*                                                                   */
 /*                               (Don't change or remove this note)  */
 /* *******************************************************************/

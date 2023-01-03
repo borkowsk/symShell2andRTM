@@ -8,7 +8,7 @@
 *  @ingroup OBSOLETE
 */
 #ifndef _MSC_VER //# warning still not work under Microsoft C++
-#warning  "This code is OBSOLETE and not tested in C++11 standard"
+//#warning  "This code is OBSOLETE and not tested in C++11 standard"
 #endif
 
 #ifndef __ARRAYS_IMP__

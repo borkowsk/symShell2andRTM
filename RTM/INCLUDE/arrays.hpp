@@ -4,11 +4,11 @@
 *  \details Obsolete and not improved part of the wb_rtm library.
 *           It was established before 2000.
 *  \copyright Wojciech T. Borkowski
-*  \date 2022-10-12 (last modification)
+*  \date 2022-11-31 (last modification)
 *  @ingroup OBSOLETE
 */
 #ifndef _MSC_VER //# warning still not work under Microsoft C++
-#warning  "This code is OBSOLETE and not tested in C++11 standard"
+//#warning  "This code is OBSOLETE and not tested in C++11 standard"
 #endif
 
 #ifndef _ARRAY_HPP_

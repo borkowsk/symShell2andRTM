@@ -30,6 +30,7 @@ include_directories( "SIMULCLSS/" "DATACLSS/" "VISUALCLSS/" "${WBRTMINC}/" "${SY
 add_library( wbsyshclss STATIC
 	"./src/data/datalog.cpp"
 	"./src/data/sourmngr.cpp"
+	"./src/data/_ikeycon.cpp"
 	"./src/data/sourbase.cpp"
 	"./src/simul/worldistr.cpp"
 	"./src/simul/world.cpp"
