@@ -27,7 +27,7 @@ ELSE()
   #add_compile_options( -Wall )
 ENDIF()
 
-include_directories( "." "${WBRTMINC}" ) #"${CONTRLIBS}" )
+include_directories( "${WBRTMINC}" ) #"${CONTRLIBS}" )
 
 if(true) # wbrtm basic
 add_library( wbrtm STATIC

@@ -6,9 +6,9 @@
 
 #include <sstream>
 #include <cstdio> //scanf? TODO
-#include "INCLUDE/errorhan.hpp"
-#include "INCLUDE/excpbase.hpp"
-#include "INCLUDE/wb_ptr.hpp"
+#include "errorhan.hpp"
+#include "excpbase.hpp"
+#include "wb_ptr.hpp"
 
 
 // ABSOLETE!
