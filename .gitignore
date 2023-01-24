@@ -36,11 +36,12 @@
 *.tmp
 
 #cmake
-CMakeFiles
+CMakeFiles/
 Makefile
 cmake_install.cmake
 CMakeCache.txt
 clean_list.txt
+.idea/
 
 #Doxygen
 doxDocs
