@@ -240,7 +240,7 @@ return NULL;// Moze cos byc juz wczytane
 } //namespace
 
 /* *******************************************************************/
-/* 			          WBRTM  version 2006-2022                       */
+/*                    WBRTM  version 2006-2022                       */
 /* *******************************************************************/
 /*            THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
 /*             W O J C I E C H   B O R K O W S K I                   */
