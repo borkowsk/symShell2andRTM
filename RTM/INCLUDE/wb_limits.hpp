@@ -1,4 +1,4 @@
-/// \file
+/// \file wb_limits.hpp
 /// \brief    LIMITS FOR SCALAR TYPES in wbrtm::
 ///          -----------------------------------
 ///
@@ -9,15 +9,17 @@
 ///          W przypadku konfliktu specjalizacji  zdefiniuj
 ///          ADD_OWN_SPECIALISATION_TO_WB_LIMITS_H przed włączeniem
 ///          tego pliku
+///
 /// \author borkowsk
 /// \date   2022-10-12 (last modification)
 /// @ingroup OBSOLETE
+#ifndef _WB_LIMITS_H_INCLUDED_
+#define _WB_LIMITS_H_INCLUDED_
+
 #ifndef _MSC_VER //# warning still not work under Microsoft C++
 #warning  "This code is OBSOLETE and not tested in C++11 standard"
 #endif
 
-#ifndef _WB_LIMITS_H_
-#define _WB_LIMITS_H_
 #include <float.h>
 #include <limits.h>
 
@@ -159,11 +161,11 @@ namespace wbrtm { // Przestrzeń nazw biblioteki WBRTM
 
 #endif
 
-} //namespaxe wbrtm
+} //namespace wbrtm
 ///@}
-#endif
+
 /* ******************************************************************/
-/*              SYMSHELLLIGHT  version 2022                         */
+/*                WBRTM  version 2022 for GuestXR                   */
 /* ******************************************************************/
 /*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
 /*            W O J C I E C H   B O R K O W S K I                   */
@@ -173,3 +175,5 @@ namespace wbrtm { // Przestrzeń nazw biblioteki WBRTM
 /*                                                                  */
 /*                               (Don't change or remove this note) */
 /* ******************************************************************/
+#endif //_WB_LIMITS_H_INCLUDED_
+

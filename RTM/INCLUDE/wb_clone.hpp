@@ -1,6 +1,7 @@
 /** \file wb_clone.hpp
 *	\brief WB CLONING SUPPORT FOR ANY C++ OBJECTS
 *          --------------------------------------
+*
 * \details
 *       Content:
 *       - wbrtm::clone_str - Function for cloning strings;
@@ -92,8 +93,9 @@ public:
 };
 
 } //namespace
+
 /* ******************************************************************/
-/*              SYMSHELLLIGHT  version 2022                         */
+/*                WBRTM  version 2022 for GuestXR                   */
 /* ******************************************************************/
 /*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
 /*            W O J C I E C H   B O R K O W S K I                   */

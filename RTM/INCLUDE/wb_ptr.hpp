@@ -1,23 +1,23 @@
 /// \file wb_ptr.hpp
 /// \brief Proste szablony inteligentnych wskaźników oraz tablic dynamicznych.
-/// \author borkowsk
-// *******************************************************************************************************************
-/// \details
-/// ZAWARTOŚĆ:
-///	    - wb_sptr     : scalar only ptr
-///	    - wb_ptr	   : struct/class ptr
-///	    - wb_pchar    : ptr to char[]
-///	    - wb_dynarray : dynamic 1D array of something
-///	    - wb_dynmatrix: dynamic matrix of something
+///        ===================================================================
 ///
-/// Trochę na wzór wczesnego STL, ale inne i raczej mało kompatybilne.
-/// Zawartość wskazywana jest "sztefetowana" pomiędzy obiektami powyższych typów,
-/// co oznacza, że w konstruktorze kopiującym albo przypisaniu jest przenoszona,
-/// a nie kopiowana. Obiekt donor staje się PUSTY! Dlatego obiekty te do funkcji
-/// muszą być zawsze przekazywane przez REFERENCJE!
+/// \details
+///     ZAWARTOŚĆ:
+///	        - wb_sptr     : scalar only ptr
+///	        - wb_ptr	   : struct/class ptr
+///	        - wb_pchar    : ptr to char[]
+///	        - wb_dynarray : dynamic 1D array of something
+///	        - wb_dynmatrix: dynamic matrix of something
+///
+///     Trochę na wzór wczesnego STL, ale inne i raczej mało kompatybilne.
+///     Zawartość wskazywana jest "sztefetowana" pomiędzy obiektami powyższych typów,
+///     co oznacza, że w konstruktorze kopiującym albo przypisaniu jest przenoszona,
+///     a nie kopiowana. Obiekt donor staje się PUSTY! Dlatego obiekty te do funkcji
+///     muszą być zawsze przekazywane przez REFERENCJE!
 ///
 /// \copyright Wojciech Borkowski wborkowski (_at_) uw.edu.pl
-/// \date 2022-10-12 (last modification)
+/// \date 2023-01-23 (last modification)
 /// \author    borkowsk
 ///
 
@@ -863,6 +863,7 @@ extern "C"
 extern int WB_error_enter_before_clean; ///< Sterowanie reakcją na kończące błędy
 }
 ///@}
+
 /* ******************************************************************/
 /*                WBRTM  version 2022 for GuestXR                   */
 /* ******************************************************************/

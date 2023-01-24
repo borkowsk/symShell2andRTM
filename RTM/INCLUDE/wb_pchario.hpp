@@ -1,4 +1,4 @@
-/** \file wb_pchario.cpp
+/** \file wb_pchario.hpp
  *  \brief Templates for input and output of wbrtm::wb_pchar objects
  *         ---------------------------------------------------------
  *  \author Wojciech Borkowski @ Institut for Social Studies, University of Warsaw
@@ -7,9 +7,8 @@
  *  \note Like many others wbrtm files created around year 1996.
  *  \ingroup DYNMEMORY
  */
-
-#ifndef _WB_PCHARIO_HPP_
-#define _WB_PCHARIO_HPP_
+#ifndef _WB_PCHARIO_HPP_INCLUDED_
+#define _WB_PCHARIO_HPP_INCLUDED_
 
 #include <iostream>
 #include <cstring>
@@ -137,6 +136,6 @@ return 0;
 /*                                                                  */
 /*                               (Don't change or remove this note) */
 /* ******************************************************************/
-#endif
+#endif //_WB_PCHARIO_HPP_INCLUDED_
 
 

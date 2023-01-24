@@ -523,16 +523,19 @@ DEFINE_VIRTUAL_NECESSARY_FOR_TEMPLATE( <class T> , array_of<T> )
 DEFINE_VIRTUAL_NECESSARY_FOR_TEMPLATE( <class T> , array_of_class<T> )
 DEFINE_VIRTUAL_NECESSARY_FOR_TEMPLATE( <class T> , array_of_ptr<T> )
 
-#endif
-/********************************************************************/
+/* ******************************************************************/
+/*                WBRTM  version 2022 for GuestXR                   */
+/* ******************************************************************/
 /*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
 /*            W O J C I E C H   B O R K O W S K I                   */
-/* Zaklad Systematyki i Geografii Roslin Uniwersytetu Warszawskiego */
-/*  & Instytut Studiow Spolecznych Uniwersytetu Warszawskiego       */
-/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk             */
-/*        MAIL: borkowsk@iss.uw.edu.pl                              */
+/*    Instytut Studiów Społecznych Uniwersytetu Warszawskiego       */
+/*    WWW: https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI  */
+/*    GITHUB: https://github.com/borkowsk                           */
+/*                                                                  */
 /*                               (Don't change or remove this note) */
-/********************************************************************/
+/* ******************************************************************/
+#endif
+
 
 
 

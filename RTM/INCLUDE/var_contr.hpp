@@ -1,6 +1,6 @@
 //Szablon klasy pozwalajacej na zmiane wartosci zmiennej w taki sposob
 //ze po wyjsciu z bloku przywracana jest wartosc pierwotna.
-///////////////////////////////////////////////////////////////////////////////
+//*/////////////////////////////////////////////////////////////////////////////
 #ifndef _INCLUDE_VARIABLE_CONROLER_HPP_
 #define _INCLUDE_VARIABLE_CONROLER_HPP_
 
@@ -12,7 +12,7 @@ class przechwytywacz
 public:
 	przechwytywacz(K& What,const V& NewValue):OrginalPos(&What)
 	{
-		OrginalVal=*OrginalPos; //Zabezpieczenie starej wartosci
+		OrginalVal=*OrginalPos; //Zabezpieczenie starej wartości
 		//What=(K&)NewValue;	 //Zamienienie na nowa - Niebezpieczne
         //K pom=const_cast<K>(static_cast<const K>(NewValue)); //Za malo uniwersalne
         K pom=(K&)NewValue;     //Niestety nadal niebezpieczne
@@ -21,12 +21,12 @@ public:
 	
 	przechwytywacz(K& What):OrginalPos(&What)
 	{
-		OrginalVal=*OrginalPos;//Zabezpieczenie starej wartosci
+		OrginalVal=*OrginalPos;//Zabezpieczenie starej wartości
 	}
 
 	~przechwytywacz()
 	{
-		*OrginalPos=OrginalVal;//Przywrocenie orginalnej wartosci
+		*OrginalPos=OrginalVal;//Przywrócenie oryginalnej wartości
 	}
 };
 
@@ -36,17 +36,19 @@ public:
 //typedef przechwytywacz<> przechwytywacz_t;   //A tak sie nawet nie kompiluje
 //typedef przechwytywacz przechwytywacz_t;     //I tak tez sie nie kompiluje
 
-#endif
-
-/********************************************************************/
+/* ******************************************************************/
+/*                WBRTM  version 2022 for GuestXR                   */
+/* ******************************************************************/
 /*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
 /*            W O J C I E C H   B O R K O W S K I                   */
-/* Zaklad Systematyki i Geografii Roslin Uniwersytetu Warszawskiego */
-/*  & Instytut Studiow Spolecznych Uniwersytetu Warszawskiego       */
-/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk             */
-/*        MAIL: borkowsk@iss.uw.edu.pl                              */
+/*    Instytut Studiów Społecznych Uniwersytetu Warszawskiego       */
+/*    WWW: https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI  */
+/*    GITHUB: https://github.com/borkowsk                           */
+/*                                                                  */
 /*                               (Don't change or remove this note) */
-/********************************************************************/
+/* ******************************************************************/
+#endif
+
 
 
 

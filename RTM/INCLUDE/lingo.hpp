@@ -28,13 +28,15 @@ const char* _lingo(const char* _PL,const char* _IN)
 #endif
 */
 
-/* *******************************************************************/
-/*	              WBRTM  version 2013-2022                       */
-/* *******************************************************************/
-/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                  */
-/*            W O J C I E C H   B O R K O W S K I                    */
-/*    Instytut Studiów Społecznych Uniwersytetu Warszawskiego        */
-/*                                                                   */
-/*                               (Don't change or remove this note)  */
-/* *******************************************************************/
+/* ******************************************************************/
+/*                WBRTM  version 2022 for GuestXR                   */
+/* ******************************************************************/
+/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
+/*            W O J C I E C H   B O R K O W S K I                   */
+/*    Instytut Studiów Społecznych Uniwersytetu Warszawskiego       */
+/*    WWW: https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI  */
+/*    GITHUB: https://github.com/borkowsk                           */
+/*                                                                  */
+/*                               (Don't change or remove this note) */
+/* ******************************************************************/
 #endif

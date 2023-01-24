@@ -4,6 +4,9 @@
 * **************************************************************************
 *  \date 2022-10-25 (last modification)
 */
+#ifndef _COMPATYB_HPP_INCLUDED_
+#define _COMPATYB_HPP_INCLUDED_
+
 #include "compatyb.h"
 #include <cstdio>
 #include <cstring>
@@ -154,15 +157,18 @@ namespace wbrtm {
 } //namespace wbrtm
 
 #endif /* end of other compilers part */
-/* *******************************************************************/
-/*		               WBRTM  version 2022                           */
-/* *******************************************************************/
-/*            THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
-/*             W O J C I E C H   B O R K O W S K I                   */
-/*     Instytut Studiów Społecznych Uniwersytetu Warszawskiego       */
-/*         WWW:  ...                                                 */
-/*                                                                   */
-/*                                (Don't change or remove this note) */
-/* *******************************************************************/
+
+/* ******************************************************************/
+/*                WBRTM  version 2022 for GuestXR                   */
+/* ******************************************************************/
+/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
+/*            W O J C I E C H   B O R K O W S K I                   */
+/*    Instytut Studiów Społecznych Uniwersytetu Warszawskiego       */
+/*    WWW: https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI  */
+/*    GITHUB: https://github.com/borkowsk                           */
+/*                                                                  */
+/*                               (Don't change or remove this note) */
+/* ******************************************************************/
+#endif
 
 

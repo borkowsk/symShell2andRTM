@@ -4,6 +4,8 @@
 * \date  2022-10-25 (last modification)
 * **************************************************************************
 */
+#ifndef _COMPATYB_H_INCLUDED_
+#define _COMPATYB_H_INCLUDED_
 
 #include <ctype.h>
 #include <stdlib.h>
@@ -47,15 +49,17 @@ extern "C" {
 
 #undef wb_unused_attr
 
-/* *******************************************************************/
-/*                     WBRTM  version 2022                           */
-/* *******************************************************************/
-/*            THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
-/*             W O J C I E C H   B O R K O W S K I                   */
-/*     Instytut Studiów Społecznych Uniwersytetu Warszawskiego       */
-/*         WWW:  ...                                                 */
-/*                                                                   */
-/*                                (Don't change or remove this note) */
-/* *******************************************************************/
+/* ******************************************************************/
+/*                WBRTM  version 2022 for GuestXR                   */
+/* ******************************************************************/
+/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
+/*            W O J C I E C H   B O R K O W S K I                   */
+/*    Instytut Studiów Społecznych Uniwersytetu Warszawskiego       */
+/*    WWW: https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI  */
+/*    GITHUB: https://github.com/borkowsk                           */
+/*                                                                  */
+/*                               (Don't change or remove this note) */
+/* ******************************************************************/
+#endif
 
 

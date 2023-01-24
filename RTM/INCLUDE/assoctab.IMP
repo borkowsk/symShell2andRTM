@@ -1,4 +1,18 @@
 //INCLUDED TO Assoctab.hpp 2013-10-07
 #ifndef _MSC_VER //# warning still not work under Microsoft C++
 #warning  "This code is OBSOLETE and not tested in C++11 standard"
+
+// ...
+
+/* ******************************************************************/
+/*                WBRTM  version 2022 for GuestXR                   */
+/* ******************************************************************/
+/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
+/*            W O J C I E C H   B O R K O W S K I                   */
+/*    Instytut Studiów Społecznych Uniwersytetu Warszawskiego       */
+/*    WWW: https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI  */
+/*    GITHUB: https://github.com/borkowsk                           */
+/*                                                                  */
+/*                               (Don't change or remove this note) */
+/* ******************************************************************/
 #endif

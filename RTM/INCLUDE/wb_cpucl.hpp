@@ -1,7 +1,10 @@
 /// \file wb_cpucl.hpp
 /// \brief   Klasa stopera liczącego czas CPU
+///          --------------------------------
+///
 /// \details liczy od momentu utworzenia lub wywołania reset() do chwili pobrania
 ///          wartości za pomocą "operator double()"
+///
 /// \author borkowsk
 /// \date 2022-10-27 (last modification)
 /// @ingroup OBSOLETE
@@ -95,7 +98,7 @@ friend
 typedef wb_cpu_clock cticker; ///< ready to use timer starting before main()
 
 /* ******************************************************************/
-/*              SYMSHELLLIGHT  version 2022                         */
+/*                WBRTM  version 2022 for GuestXR                   */
 /* ******************************************************************/
 /*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
 /*            W O J C I E C H   B O R K O W S K I                   */

@@ -1,18 +1,29 @@
-#ifndef _TYPENAMES_H_ /* BEGIN OF HEADER */
+/** \file wb_tnames.h
+ *  \brief Templates for input and output of wbrtm::wb_pchar objects
+ *         ---------------------------------------------------------
+ *  \author Wojciech Borkowski @ Institut for Social Studies, University of Warsaw
+ *  \date   2023-01-23 (last modification)
+ *  \details ... ...
+ *           ... ...
+ *  \note Like many others wbrtm files created around year 1996.
+ *  \ingroup DYNMEMORY
+ */
+#ifndef _TYPENAMES_H_
+
 #define _TYPENAMES_H_
 
 #include <stddef.h>
 #include <limits.h>
-//#include "platform.hpp"
 
 #if false //sizeof(void*)==4
-#define  FULL			((void*)(0xffffffff) )   // MAX 32bit POINTER
+#define  FULL			  ((void*)(0xffffffff) )   // MAX 32bit POINTER
 #else
-typedef  unsigned long int object_size_t;
-constexpr auto MAXOBJECTSIZE = (object_size_t)( ULONG_MAX );
-constexpr auto MAXSIZE 		 = (size_t) ( ULONG_MAX );
 #define  FULL			  ((void*)(0xffffffffffffffff))   // MAX of 64bit POINTER. Nie może być constexpr bo reinterpret cast.
 #endif
+
+typedef  unsigned long int      object_size_t;
+constexpr auto MAXOBJECTSIZE = (object_size_t)( ULONG_MAX );
+constexpr auto MAXSIZE 		 = (size_t) ( ULONG_MAX );
 
 static_assert( sizeof (FULL) == sizeof (void*) );
 
@@ -96,21 +107,19 @@ typedef word32	      address;  //unsigned type as long as pointer
 typedef void*         pointer;
 #endif
 
-
-
-
-#endif/* END OF HEADER */
-
-
-/********************************************************************/
+/* ******************************************************************/
+/*                WBRTM  version 2022 for GuestXR                   */
+/* ******************************************************************/
 /*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
 /*            W O J C I E C H   B O R K O W S K I                   */
-/* Zaklad Systematyki i Geografii Roslin Uniwersytetu Warszawskiego */
-/*  & Instytut Studiow Spolecznych Uniwersytetu Warszawskiego       */
-/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk             */
-/*        MAIL: borkowsk@iss.uw.edu.pl                              */
+/*    Instytut Studiów Społecznych Uniwersytetu Warszawskiego       */
+/*    WWW: https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI  */
+/*    GITHUB: https://github.com/borkowsk                           */
+/*                                                                  */
 /*                               (Don't change or remove this note) */
-/********************************************************************/
+/* ******************************************************************/
+#endif/* END OF HEADER */
+
 
 
 

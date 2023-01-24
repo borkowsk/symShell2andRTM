@@ -1,5 +1,15 @@
-//Podstawowe operacje na 8 bitach bajtu (W.Borkowski)
-///////////////////////////////////////////////////////
+/** \file wb_bits.h
+ *  \brief Podstawowe operacje na 8 bitach bajtu
+ *         --------------------------------------
+ *  \details ... ...
+ *           ... ...
+ *  \author Wojciech Borkowski @ Institut for Social Studies, University of Warsaw
+ *  \date   2023-01-23 (last modification)
+ *  \note   Like many others wbrtm files created around year 1996.
+ *  \ingroup OBSOLETE
+ */
+//  (W.Borkowski)
+//#/////////////////////////////////////////////////////
 #ifndef __WB_BITS_H_INCLUDED__
 #define __WB_BITS_H_INCLUDED__
 
@@ -44,7 +54,7 @@ inline unsigned bits(unsigned char u)
 
 inline void byte2bits(unsigned char u,unsigned char* out)
 {
-#if BITSPERBYTE!=8 //NIETYPOWA SYTUACJA, ALE MOZLIWA
+#if BITSPERBYTE!=8 //NIETYPOWA SYTUACJA, ALE MOŻLIWA
 
 #error Function not implemented for non 8 bits bytes
 
@@ -84,15 +94,15 @@ inline int highest_bit_index(unsigned value)
   return depth + 1;
 }
 
-/* *******************************************************************/
-/*                     WBRTM  version 2015                           */
-/* *******************************************************************/
-/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                  */
-/*            W O J C I E C H   B O R K O W S K I                    */
-/*    Instytut Studiow Spolecznych Uniwersytetu Warszawskiego        */
-/*        WWW:  http://wwww.iss.uw.edu.pl/                           */
-/*                                                                   */
-/*                               (Don't change or remove this note)  */
-/* *******************************************************************/
-
+/* ******************************************************************/
+/*                WBRTM  version 2022 for GuestXR                   */
+/* ******************************************************************/
+/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
+/*            W O J C I E C H   B O R K O W S K I                   */
+/*    Instytut Studiów Społecznych Uniwersytetu Warszawskiego       */
+/*    WWW: https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI  */
+/*    GITHUB: https://github.com/borkowsk                           */
+/*                                                                  */
+/*                               (Don't change or remove this note) */
+/* ******************************************************************/
 #endif  //__WB_BITS_H_INCLUDED__

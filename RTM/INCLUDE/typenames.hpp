@@ -69,24 +69,25 @@ struct TypeName<int>
 #define ENABLE_TYPENAME(A) template<> struct TypeName<A> { static const char *Get() { return #A; }};
 
 // Default specialisation for simple types
-ENABLE_TYPENAME(bool)         ///< \brief specialization for type 'bool'.
-ENABLE_TYPENAME(char)         ///< \brief specialization for type 'char'.
-ENABLE_TYPENAME(float)        ///< \brief specialization for type 'float'.
-ENABLE_TYPENAME(double)       ///< \brief specialization for type 'double'.
-ENABLE_TYPENAME(long) 	      ///< \brief specialization for type 'long'.
+ENABLE_TYPENAME(bool)         ///< \brief `TypeName` specialization for type 'bool'.
+ENABLE_TYPENAME(char)         ///< \brief `TypeName` specialization for type 'char'.
+ENABLE_TYPENAME(float)        ///< \brief `TypeName` specialization for type 'float'.
+ENABLE_TYPENAME(double)       ///< \brief `TypeName` specialization for type 'double'.
+ENABLE_TYPENAME(long) 	      ///< \brief `TypeName` specialization for type 'long'.
 
 ///@}
-/* *******************************************************************/
-/*               SYMSHELLLIGHT  version 2022                         */
-/* *******************************************************************/
-/*            THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
-/*             W O J C I E C H   B O R K O W S K I                   */
-/*     Instytut Studiów Społecznych Uniwersytetu Warszawskiego       */
-/*     WWW: https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI  */
-/*     GITHUB: https://github.com/borkowsk                           */
-/*                                                                   */
-/*                                (Don't change or remove this note) */
-/* *******************************************************************/
+
+/* ******************************************************************/
+/*                WBRTM  version 2022 for GuestXR                   */
+/* ******************************************************************/
+/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
+/*            W O J C I E C H   B O R K O W S K I                   */
+/*    Instytut Studiów Społecznych Uniwersytetu Warszawskiego       */
+/*    WWW: https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI  */
+/*    GITHUB: https://github.com/borkowsk                           */
+/*                                                                  */
+/*                               (Don't change or remove this note) */
+/* ******************************************************************/
 #endif // _DEFINED_TypeName
 
 
