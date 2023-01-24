@@ -2,7 +2,6 @@
 #define __MATTRIX_SOUR_HPP__
 // Konkretne klasy zrodel - dostep do danych w tablicach i zmiennych
 //--------------------------------------------------------------------
-//--------------------------------------------------------------------
 #include "datasour.hpp"
 
 //Klasa udostepniajaca dowolna tablice prostokatna oraz jej wycinki.
@@ -12,7 +11,6 @@
 //potrzebne.
 template<class T>
 class matrix_source:public rectangle_source_base
-//--------------------------------------------------------------
 {
 T* arra;		//Wskaznik do tablicy
 public:
@@ -31,13 +29,9 @@ matrix_source(const char* itit,
 
 
 matrix_source(size_t iA,size_t iB,
-
 			  void* iarray,
-
 			  const char* itit,
-
 			  int  itorus
-
 			 ):
 
 	rectangle_source_base(itit,iA,iB,itorus,NULL,default_missing<double>()),
@@ -49,8 +43,8 @@ matrix_source(const char* itit,
               rectangle_geometry& geom,
 			  void* iarray,
 			  int* subs=NULL, //Ustala wycinek tablicy. startX,lenX,startY,lenY
-			  double imiss=default_missing<double>()//Wartosc podawana przy
-							 //skanowaniu wycinka wychodzacego poza maciez
+			  double imiss=default_missing<double>() //Wartość podawana przy
+							 //skanowaniu wycinka wychodzącego poza macierz
 			  ):
 	rectangle_source_base(itit,geom,subs,imiss),
 	arra(iarray)
@@ -59,7 +53,7 @@ matrix_source(const char* itit,
 ~matrix_source()
 	{
 #ifndef NDEBUG
-	cerr<<"~matrix_source():"<<name()<<'\n';//                ???
+	cerr<<"~matrix_source():"<<name()<<'\n'; //                ???
 #endif
 	}
 
@@ -158,7 +152,7 @@ double get(iteratorh& p)
 {                                                                                                       assert(p!=NULL);
     size_t pom=_next( p );
     if( pom< this->getrectgeometry()->get_size() )
-    {                                                                                cerr<<this->name()<<' '<<pom<<endl; // DEBUG
+    {                                                                               // cerr<<this->name()<<' '<<pom<<endl; // DEBUG get()
         double val=arra[ pom ].*skladowa;
         return val;
     }
