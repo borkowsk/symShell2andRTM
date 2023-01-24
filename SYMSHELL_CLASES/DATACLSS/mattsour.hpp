@@ -113,8 +113,8 @@ class struct_matrix_source:	public rectangle_source_base
 //------------------------------------------------
 {
 typedef FIELD_T STRUCT_T::* TYP_POLA;
-STRUCT_T* arra;//Tablica indywiduow
-TYP_POLA  skladowa;//Wskaznik do skladowej indywiduum
+STRUCT_T* arra; //Tablica indywiduow
+TYP_POLA  skladowa; //Wskaznik do skladowej indywiduum
 public:
 // Constructor
 struct_matrix_source(const char* itit,
@@ -139,8 +139,8 @@ struct_matrix_source(const char* itit,
 			  STRUCT_T* iarray,
 			  TYP_POLA iskladowa,
 			  int* subs=NULL, //Ustala wycinek tablicy. startX,lenX,startY,lenY
-			  double imiss=default_missing<double>()//Wartosc podawana przy
-							 //skanowaniu wycinka wychodzacego poza maciez
+			  double imiss=default_missing<double>() //Wartość podawana przy
+							 //skanowaniu wycinka wychodzącego poza macierz
 			  ):
 	rectangle_source_base(itit,geom,imiss),
 	arra(iarray),
@@ -154,29 +154,28 @@ struct_matrix_source(const char* itit,
 
 
 double get(iteratorh& p)
-//Daje nastepna z la*lb liczb!!!
-{
-    assert(p!=NULL);
+//Daje następną z la*lb liczb!!!
+{                                                                                                       assert(p!=NULL);
     size_t pom=_next( p );
-    if(pom!=ULONG_MAX)
-    {
-        double val=arra[ pom ].*skladowa; //assert(val>=ymin);assert(val<=ymax); ASSERT BEZ SENSU BO FUNKCJA UZYWANA PODCZAS LICZENIA MIN i MAX
+    if( pom< this->getrectgeometry()->get_size() )
+    {                                                                                cerr<<this->name()<<' '<<pom<<endl; // DEBUG
+        double val=arra[ pom ].*skladowa;
         return val;
     }
     else
         return miss;
 }
 
-double get(size_t index)//Przetwarza index uzyskany z geometri
-	{ //na wartosc z serii, o ile jest mozliwe czytanie losowe
-                                                            assert(arra);
-                                                            assert(skladowa!=NULL);
-                                                            assert(index<getrectgeometry()->get_size());
+double get(size_t index) //Przetwarza index uzyskany z geometrii
+	{ //na wartość z serii, o ile jest możliwe czytanie losowe
+                                                                                                           assert(arra);
+                                                                                                 assert(skladowa!=NULL);
+                                                                            assert(index<getrectgeometry()->get_size());
         return arra[ index ].*skladowa;
 	}
 
 void  bounds(size_t& num,double& min,double& max)
-//Ile elementow,wartosc minimalna i maksymalna
+//Ile elementów, wartość minimalna i maksymalna
 	{
 	num=getrectgeometry()->get_width()*getrectgeometry()->get_height();
 	if(ymin<ymax)//Sa dane
@@ -185,7 +184,7 @@ void  bounds(size_t& num,double& min,double& max)
 		return;
 		}
 
-	//Nie sa dane wiec probkujemy - co troche kosztuje
+	//Nie są dane, wiec próbkujemy, co trochę kosztuje.
     min=wbrtm::limit<FIELD_T>::Max();
 	max=wbrtm::limit<FIELD_T>::Min();
 	iteratorh iterator=getrectgeometry()->make_global_iterator();
@@ -201,25 +200,25 @@ void  bounds(size_t& num,double& min,double& max)
 
 };
 
-//Klasa czytajaca z dowolnej prostokatnej tablicy wskaznikow do struktor
-//za pomoca wskaznikow do skladowych
+//Klasa czytająca z dowolnej prostokątnej tablicy wskaźników do struktur
+//za pomocą wskaźników do składowych
 template<class STRUCT_T,class FIELD_T>
 class ptr_to_struct_matrix_source:	public rectangle_source_base
 //------------------------------------------------
 {
 typedef FIELD_T STRUCT_T::* TYP_POLA;
-STRUCT_T** arra;//Tablica wskaznikow do indywiduow
-TYP_POLA  skladowa;//Wskaznik do skladowej indywiduum
+STRUCT_T** arra; //Tablica wskaźników do indywiduów
+TYP_POLA  skladowa; //Wskaźnik do składowej indywiduum
 public:
 // Constructor
 ptr_to_struct_matrix_source(const char* itit,
                             size_t iA,size_t iB,
 			  STRUCT_T** iarray,
 			  TYP_POLA iskladowa,
-			  int  itorus=1,	 //Czy wlaczyc geometrie torusa. Default, bo wtedy nie trzeba "miss"
-			  int* subs=NULL, //Ustala wycinek tablicy. startX,lenX,startY,lenY
-			  double imiss=default_missing<double>()//Wartosc podawana przy
-							 //skanowaniu wycinka wychodzacego poza maciez, lub NULL w miejscu indywiduum
+			  int  itorus=1,	 //Czy włączyć geometrie torusa. Default, bo wtedy nie trzeba "miss"
+			  int* subs=NULL,    //Ustala wycinek tablicy. startX,lenX,startY,lenY
+			  double imiss=default_missing<double>() //Wartość podawana przy
+                                 //skanowaniu wycinka wychodzącego poza macierz, lub NULL w miejscu indywiduum
 			  ):
 rectangle_source_base(itit,iA,iB,itorus,subs,imiss),
 arra(iarray),
@@ -231,8 +230,8 @@ ptr_to_struct_matrix_source(const char* itit,
 			  STRUCT_T** iarray,
 			  TYP_POLA iskladowa,
 			  int* subs=NULL, //Ustala wycinek tablicy. startX,lenX,startY,lenY
-			  double imiss=default_missing<double>()//Wartosc podawana przy
-							 //skanowaniu wycinka wychodzacego poza maciez
+			  double imiss=default_missing<double>() //Wartość podawana przy
+							 //skanowaniu wycinka wychodzącego poza macierz
 			  ):
 	rectangle_source_base(itit,geom,imiss),
 	arra(iarray),
@@ -246,11 +245,11 @@ ptr_to_struct_matrix_source(const char* itit,
 
 
 double get(iteratorh& p)
-//Daje nastepna z la*lb liczb!!!
+//Daje następną z la*lb liczb!!!
 	{
 	assert(p!=NULL);
 	size_t pom1=_next( p );
-	if(pom1!=ULONG_MAX)
+	if( pom1< this->getrectgeometry()->get_size() )
 		{
 		STRUCT_T* pom2=arra[ pom1 ];
 		if(pom2)

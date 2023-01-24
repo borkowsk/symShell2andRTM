@@ -22,6 +22,7 @@ protected:
 RandomGenerator& RndSel;//Maszyna losujaca pozycje
 long	Szerokosc;		//Ile kolumn
 long	Wysokosc;		//Ile wierszy
+unsigned long _currSize=0;  //Liczba itemów do leniwego obliczania rozmiaru
 int		torus;			//flaga geometrii torusa
 
 //Parametry aktualnego wycinka uzywanego dla wizualizacji
@@ -45,6 +46,7 @@ public:
 				horiz_start(hors),sub_width(subw),
 				vert_start(vers),sub_height(subh)
 					{}
+
 	virtual 
 	~iterator()
 	{
@@ -80,6 +82,7 @@ public:
 				horiz_start(hors),sub_width(subw),
 				vert_start(vers),sub_height(subh)
 			{}
+
 	virtual 
 	~monte_carlo_iterator()
 	{
@@ -105,8 +108,8 @@ public:
 		}
 	};//koniec klasy iteratora monte-carlo
 	
-//METODY IMPLEMENTUJACE OGOLNE WLASCIWOSCI GEOMETRII
-///////////////////////////////////////////////////////
+// METODY IMPLEMENTUJACE OGOLNE WLASCIWOSCI GEOMETRII
+//*/////////////////////////////////////////////////////
 int  compare(geometry_base& bsec)
 {
 if( _compare_geometry_base(&bsec)==0 )//Czy jest tego samego typu i wymiaru
@@ -257,10 +260,10 @@ iteratorh make_random_neighbour_iterator(size_t center,size_t dist=1,size_t how_
 	return new monte_carlo_iterator(how_many,x,y,lenx,leny);
 	}
 
-//METODY SPECYFICZNE TYLKO DLA GEOMETRII PROSTOKATNEJ
-///////////////////////////////////////////////////////////////////
+// METODY SPECYFICZNE TYLKO DLA GEOMETRII PROSTOKATNEJ
+//*/////////////////////////////////////////////////////////////////
 // bezposrednie akcesory rozmiarowe
-size_t get_size() const { return size_t(Wysokosc)*size_t(Szerokosc);}
+size_t get_size() const { return _currSize;}
 size_t get_height() const { return Wysokosc;}
 size_t get_width() const { return Szerokosc;}
 size_t get_sub_height() const { return lWYS;}
@@ -294,7 +297,7 @@ return ret;
 }
 
 //  KONSTRUKTORY/DESTRUKTORY
-//////////////////////////////
+//*////////////////////////////
 ~rectangle_geometry(){}
 
 rectangle_geometry(	size_t iA,			//Szerokosc pelnego obszaru
@@ -315,6 +318,7 @@ rectangle_geometry(	size_t iA,			//Szerokosc pelnego obszaru
 		assert(Wysokosc>0);
         if(distmat)
             enable_distance_matrix();
+        _currSize=iA*iB;
     }
 
 void enable_distance_matrix(bool yes=true)
@@ -345,6 +349,7 @@ void  set(	size_t	iA,			//Szerokosc pelnego obszaru
 		lSZER=iA;
 		lWYS=iB;
 		RndSel=RndIni;
+        _currSize=iA*iB;
 	}
 
 

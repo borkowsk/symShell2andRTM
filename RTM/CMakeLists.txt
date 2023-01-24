@@ -51,8 +51,8 @@ add_library( wbrtm STATIC
     "${WBRTM}/EXCEPT/excpprin.cpp"
     "${WBRTM}/EXCEPT/boundexc.cpp"
     "${WINDOWS_ONLY_SRC}" #TYLKO WINDOWS
-#   "${WBRTM}/VIRTUALIO/iosuppor.cpp"
-#   "${WBRTM}/VIRTUALIO/iodatabase.cpp"
+    "${WBRTM}/VIRTUALIO/iosuppor.cpp"
+    "${WBRTM}/VIRTUALIO/iodatabase.cpp"
     "${WBRTM}/VIRTUALIO/iocharp.cpp"
     "${WBRTM}/VIRTUALIO/vobject.cpp"
 #   "${WBRTM}/EXCEPT/extextex.cpp"

@@ -30,31 +30,36 @@ class base_decoder;
 using namespace std;
 
 class IO_type_info_base
-//Potomstwo tej klasy tworzy liste informacji o typach
-//w aplikacji.
+// Wystarczy po jednym obiekcie na typ
+// Potomstwo tej klasy tworzy listę informacji o typach
+// w aplikacji.
 {
 friend class _io_database;
-static  IO_type_info_base*	top;
-IO_type_info_base*		   next;
+static  IO_type_info_base*	    top;
+        IO_type_info_base*		next;
 protected:
-// Wystarczy po jednym obiekcie na typ
-IO_type_info_base(); //Linkuje obiekt do listy
+        IO_type_info_base(); ///< Linkuje obiekt do listy
+virtual ~IO_type_info_base(){}; ///< Skoro jest wirtualny interfejs to i musi być wirtualny destruktor
+
 public:
-virtual const char* Name() const=0 ;
-virtual vobject*	Create() const=0;
-virtual size_t		SizeOf() const=0;
+// Wymuszony interface
+//*///////////////////////
+virtual const char* Name() const=0 ;  ///< Nazwa klasy - jakaś! Format nie jest zdefiniowany
+virtual size_t		SizeOf() const=0; ///< Wirtualnie dostępny rozmiar obiektu
+virtual vobject*	Create() const=0; ///< Tworzy obiekt tego typu na bazie domyślnego konstruktora
 };
 
 template<class T>
 class IO_type_info:public IO_type_info_base
 //Defaultowa implementacja
 {
+protected:
 #if !defined( _CPPRTTI ) && !defined( __GXX_RTTI )
 static const char* name;//User musi dostarczyc linkerowi
 public:
 const char* Name() const { return name; }
 #else
-//"Class Name" dostarcza compilator przez RTTI
+//"Class Name" dostarcza kompilator przez RTTI
 public:
 const char* Name() const { return typeid(T).name();}
 #endif
@@ -64,8 +69,8 @@ size_t    SizeOf() const { return sizeof(T);}
 
 template<>//New syntax - explicit specialization of class template
 class IO_type_info<vobject>:public IO_type_info_base
-//Implementacja dla vobject wylapuje bledy uzycia
-//io_type_info klasach potomnych vobject.
+//Implementacja dla `vobject` wyłapuje błędy użycia
+//io_type_info klasach potomnych `vobject`.
 {
 public:
 const char* Name() const;
@@ -75,27 +80,25 @@ size_t    SizeOf() const;
 
 template<class T>
 class IO_type_info_alias:public IO_type_info<T>
-//Implementacja aliasow
+//Implementacja aliasów
 {
-const char* loc_name;//User musi dostarczyc w inicjalizacji
-				 //jako lancuch trwaly przez caly czas istnienia tego obiektu
+const char* loc_name; //User musi dostarczyć w inicjalizacji
+				      //jako łańcuch trwały przez cały czas istnienia tego obiektu
 public:
 const char* Name()const{ return loc_name;}
-IO_type_info_alias(const char* alias_name)//alias_name nie moze zniknac wczesniej niz ten obiekt!
+IO_type_info_alias(const char* alias_name) //alias_name nie może zniknąć wcześniej niż ten obiekt!
 			:loc_name(alias_name)
 {}
 };
 
-
-
 // RAISE AS MACRO IS MORE FLEXIBLE.
-// IT CAN (???) SYMULATE EXCEPTION WITOUT SUPPORT
+// IT CAN (???) SIMULATE EXCEPTION WITHOUT SUPPORT
 #define RAISE( _EXC_ ) 	\
 	{if( Raise(_EXC_) ) return ;/* will call destructors */}
 #define RAISEV( _EXC_ , _RV_ ) \
 	{if( Raise(_EXC_) ) return (_RV_) ;/* will call destructors */}
 
-// Same deklaracje operacji wejscia/wyjscia
+// Same deklaracje operacji wejścia/wyjścia
 #define  IO_PUBLIC_DECLARE						\
 protected:										\
 /*virtual void implement_encode(base_encoder&) const;  */   \
@@ -104,7 +107,7 @@ virtual void implement_output(ostream&)const;	\
 virtual void implement_input(istream&);			\
 private:										\
 
-// Pelnia niezbednych informacji koniecznych dla wejscia/wyjscia
+// Pełnia niezbędnych informacji koniecznych dla wejścia/wyjścia
 // oraz klonowani obiektu w kontenerach heterogenicznych
 #define  VIRTUAL_NECESSARY( _P_ )		    \
 private:								    \
@@ -124,7 +127,7 @@ _P_*    clone(const _P_ * par)			    \
 	{ return (_P_ *)(par->_clone()); }	    \
 private:								    \
 
-//Wersja deklaracji odtwarzajaca przecinek niekompatybilny z preprocesorem
+//Wersja deklaracji odtwarzająca przecinek niekompatybilny z preprocesorem
 #define  VIRTUAL_NECESSARY2( _P1_ , _P2_ )		\
 private:										\
 static IO_type_info<  _P2_,_P2_  > _io_info;	\
@@ -149,20 +152,20 @@ VIRTUAL_NECESSARY( _PP_ )					\
 IO_PUBLIC_DECLARE							\
 
 
-// Definicje zmiennych niezbednych do wejscia/wyjscia
+// Definicje zmiennych niezbędnych do wejścia/wyjścia
 #define DEFINE_VIRTUAL_NECESSARY_FOR( _T_ )	\
 IO_type_info< _T_ > _T_::_io_info;
 
-// Definiuje alias do czytania strumieni klas produkcji innych kompilatorow
+// Definiuje alias do czytania strumieni klas produkcji innych kompilatorów
 #define DEFINE_ALIAS_RTIME_TYPE( _T_ , _ident_ )	\
 IO_type_info_alias< _T_ > _io_info_alias_##_ident_   ( (#_ident_) );
 
-// Wersja pozwalajaca na zupelnie dowolny lancuch w ciapkach
+// Wersja pozwalająca na zupełnie dowolny łańcuch w ciapkach
 #define DEFINE_ALIAS_RTIME_TYPE2( _T_ , _STR_ , _ident_ )	\
 IO_type_info_alias< _T_ > _io_info_alias_##_ident_   ( (#_STR_) );
 
-// Definicje zmiennych niezbednych do wejscia/wyjscia
-// dla szablonow
+// Definicje zmiennych niezbędnych do wejścia/wyjścia
+// dla szablonów
 #define DEFINE_VIRTUAL_NECESSARY_FOR_TEMPLATE( _list_ , _KLASA_ )	\
 template _list_														\
 IO_type_info< _KLASA_ > _KLASA_::_io_info;
@@ -171,13 +174,13 @@ IO_type_info< _KLASA_ > _KLASA_::_io_info;
 //#ifndef __DJGPP__
 //#else
 #define DEFINE_VIRTUAL_NECESSARY_FOR_TEMPLATE( _list_ , _KLASA_ ) \
-// W DJGPP nie zaimplementowane niestety, trzeba osobno definiowac
+// W DJGPP nie zaimplementowane niestety, trzeba osobno definiować
 #endif
 */
 
-//Definicja niezbedna zeby maskowac przecinki w powyzszych definicjach
-//uzywanych dla szablonow wieloparametrowych. Konieczna tylko tylko
-//dla starego (?) MSVC++
+//Definicja niezbędna, żeby maskować przecinki w powyższych definicjach
+//używanych dla szablonów wieloparametrowych.
+// Konieczna tylko dla starego (?) MSVC++
 #define _COMA_  ,
 
 
@@ -215,14 +218,14 @@ istream& operator >> (istream& i,vobject& vo); // stream input function
 
 } //namespace
 
-/********************************************************************/
-/*			          WBRTM  version 2006                           */
-/********************************************************************/
-/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
-/*            W O J C I E C H   B O R K O W S K I                   */
-/*    Instytut Studiow Spolecznych Uniwersytetu Warszawskiego       */
-/*        WWW:  http://wwww.iss.uw.edu.pl/~borkowsk/                */
-/*                                                                  */
-/*                               (Don't change or remove this note) */
-/********************************************************************/
+/* *******************************************************************/
+/*			          WBRTM  version 2006-2022                       */
+/* *******************************************************************/
+/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                  */
+/*            W O J C I E C H   B O R K O W S K I                    */
+/*    Instytut Studiow Spolecznych Uniwersytetu Warszawskiego        */
+/*        WWW:  http://wwww.iss.uw.edu.pl/~borkowsk/                 */
+/*                                                                   */
+/*                               (Don't change or remove this note)  */
+/* *******************************************************************/
 #endif
