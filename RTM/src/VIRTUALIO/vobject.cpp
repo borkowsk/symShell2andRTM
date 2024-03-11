@@ -43,7 +43,7 @@ void vobject::finalise() const	// run destructor if T::~T construction is inacce
 ostream& operator << (ostream& o,const vobject& vo) // stream output function
 {
     o<<'{';                                                                                           assert(o. good());
-    //A spacja oddzielajaca ???
+    //A spacja oddzielajƒÖca ???
     vo.implement_output(o);                                                                         assert(o.good());
     o<<'}';                                                                                            assert(o.good());
     return o;
@@ -53,7 +53,7 @@ istream& operator >> (istream& i,vobject& vo) // stream input function
 {                                                                                       assert((!i.fail()) && i.good());
     char zn='\0';
 
-    //Musi zaczynaÊ siÍ od `{` co najwyøej poprzedzonego "blank-ami".
+    /// @internal Musi zaczynaƒá siƒô od `{` co najwy≈ºej poprzedzonego "blank-ami".
     i>>zn;
 
     if(zn!='{')
@@ -61,7 +61,7 @@ istream& operator >> (istream& i,vobject& vo) // stream input function
         return i;
                                                                                            assert(i.good() && !i.eof());
     vo.implement_input(i);                                                              assert(i.good() && !i.eof());
-    i>>zn; //Musi koÒczyÊ siÍ `}`
+    i>>zn; //Musi ko≈Ñczyƒá siƒô `}`
     if(zn!='}')
     {
         ostrstream pom;
@@ -82,14 +82,14 @@ istream& operator >> (istream& i,vobject& vo) // stream input function
 int vobject::Load(const char* name)
 {
     ifstream i(name);
-    //ifstream i(name,ios::in|ios::_Nocreate); //NIE DZIA£AJ•
+    //ifstream i(name,ios::in|ios::_Nocreate); //NIE DZIA≈ÅAJƒÑ
     //ifstream i(name,ios::in|ios::nocreate);
 
-    if(i.fail())  // b≥πd otwarcia pliku
+    if(i.fail())  // b≈ÇƒÖd otwarcia pliku
         if(Raise(ExcpIO(name,MAXOBJECTSIZE,"open read stream for vobject"))==1)
             return 0;
                                                                                                        assert(i.good());
-    i>>*this; // Uøycie standardowego operatora
+    i>>*this; // U≈ºycie standardowego operatora
     HTEST;                                                                                             assert(i.good());
 
     return 1;
@@ -98,16 +98,16 @@ int vobject::Load(const char* name)
 int vobject::Save(const char* name) const
 {
     fstream o(name);
-    // std::ofstream o(name,ios::out,ios_base::_Openprot); //NIE DZIA£AJ• :-(
+    // std::ofstream o(name,ios::out,ios_base::_Openprot); //NIE DZIA≈ÅAJƒÑ :-(
     // std::ofstream o(name,ios::out,filebuf::openprot);
 
-    if(o.fail())  // b≥πd otwarcia pliku
+    if(o.fail())  // b≈ÇƒÖd otwarcia pliku
         if(Raise(ExcpIO(name,MAXOBJECTSIZE,"open write stream for vobject"))==1)
             return 0;                                                                                  assert(o.good());
 
-    o<<*this; // Uøycie standardowego operatora
+    o<<*this; // U≈ºycie standardowego operatora
 
-    if(o.bad())  // b≥πd zapisu do pliku
+    if(o.bad())  // b≈ÇƒÖd zapisu do pliku
         if(Raise(ExcpIO(name,o.tellp(),"write"))==1)
             return 0;
 
@@ -115,9 +115,14 @@ int vobject::Save(const char* name) const
 }
 
 
-//STREAM & BINARY IO IMPLEMENTATION
-/* Those methods must be defined in all derived class */
-/* but not declared as pure for simple code developing   */
+// STREAM & BINARY IO IMPLEMENTATION:
+//*//////////////////////////////////
+
+/**
+ * @details
+ *      Those methods must be defined in all derived class
+ *      but not declared as pure for simple code developing
+ */
 void vobject::implement_output(ostream&)      const
 	{ Raise(FATAL("Method not implemented"));}
 
@@ -136,8 +141,8 @@ void vobject::implement_decode(base_decoder&) const
 /* *******************************************************************/
 /*            THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
 /*             W O J C I E C H   B O R K O W S K I                   */
-/*     Instytut Studiow Spolecznych Uniwersytetu Warszawskiego       */
-/*         WWW:  http://wwww.iss.uw.edu.pl/~borkowsk/                */
+/*     Instytut Studi√≥w Spo≈Çecznych Uniwersytetu Warszawskiego       */
+/*         WWW:  https://github.com/borkowsk                         */
 /*                                                                   */
 /*                                (Don't change or remove this note) */
 /* *******************************************************************/

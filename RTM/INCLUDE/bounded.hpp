@@ -1,7 +1,7 @@
 /** \file   bounded.hpp
  *  \author borkowsk
  *  \brief  wbrtm::bounded class & dedicated exception
- *  \date   2022-12-31 (last modification)
+ *  \date   2023-04-25 (last modification)
  *  @ingroup OBSOLETE
  */
 #ifndef _MSC_VER //# warning still not work under Microsoft C++
@@ -24,17 +24,18 @@ double val;
 double high;
 public:
 BoundExcp(double llow,double lval,double lhigh,
-	  const char* fname=0,const int fline=0):RangCheckExcp(fname,fline)
-	  {low=llow;high=lhigh;val=lval;}
+          const char* fname=0,const int fline=0):RangCheckExcp(fname,fline)
+    {low=llow;high=lhigh;val=lval;}
+
 void PrintTo(std::ostream&) const;
 };
 
-/// \brief Klasa zapewniająca kontrole wartości przypisywanych na zmienną
+/// \brief Klasa zapewniająca kontrolę wartości przypisywanych na zmienną
 /// \details
 ///     Jest to szablon parametryzowany typem T.
 ///     Wymagane jest zdefiniowanie operatorów <= i >= dla typu T
 ///     i liczb (?).
-///     Generuje wyjątek gdy wartość inicjująca lub przypisywana jest spoza zakresu.
+///     Generuje wyjątek, gdy wartość inicjująca lub przypisywana jest spoza zakresu.
 /// \tparam T - typ wartości
 /// \param low - najmniejsza dopuszczalna wartość
 /// \param high - największa dopuszczalna wartość
@@ -42,10 +43,10 @@ template<class T,T low,T high>
 class bounded
 {
 protected:
-    T val;  ///< przechowywana wartość
+    T val;          //!< Przechowywana wartość
 public:
 
-    /// \brief konstruktor inicjujący wartość. \details Generuje wyjątek gdy wartośc spoza zakresu.
+    /// \brief konstruktor inicjujący wartość. \details Generuje wyjątek, gdy wartość spoza zakresu.
     bounded(const T ini=low)
     {
     if( low<=ini && ini<=high)
@@ -54,7 +55,7 @@ public:
         error_handling::Error(BoundExcp(low,ini,high,__FILE__,__LINE__));
     }
 
-    /// \brief operator przypisana.\details Generuje wyjątek gdy wartośc spoza zakresu.
+    /// \brief operator przypisana.\details Generuje wyjątek, gdy wartość spoza zakresu.
     bounded& operator = (const T ival)
     {
         if( low<=ival && ival<=high)
@@ -70,7 +71,7 @@ public:
 } //namespace wbrtm
 
 /* ******************************************************************/
-/*                WBRTM  version 2022 for GuestXR                   */
+/*                WBRTM  version 2023 for GuestXR                   */
 /* ******************************************************************/
 /*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
 /*            W O J C I E C H   B O R K O W S K I                   */
