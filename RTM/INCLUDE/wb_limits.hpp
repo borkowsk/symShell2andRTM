@@ -11,7 +11,7 @@
 ///          tego pliku
 ///
 /// \author borkowsk
-/// \date   2022-10-12 (last modification)
+/// @date   2022-10-12 (last modification)
 /// @ingroup OBSOLETE
 #ifndef _WB_LIMITS_H_INCLUDED_
 #define _WB_LIMITS_H_INCLUDED_

@@ -16,7 +16,7 @@
 #include <cassert>
 #include <string>
 #include <iostream>
-#include <errno.h>
+#include <cerrno>
 
 namespace wbrtm {
 
@@ -24,35 +24,35 @@ namespace wbrtm {
     class TabelaTabDelimited
     {
     private:
-        /// \brief Konstruktor kopiujący - bardzo kosztowny albo niebezpieczny, więc dlatego prywatny.
+        /// \brief Konstruktor kopiujący — bardzo kosztowny albo niebezpieczny, więc dlatego prywatny.
         TabelaTabDelimited(const TabelaTabDelimited &); ///< Zabroniony także dla kompilatora.
 
         std::string *Tresc;     ///< Właściwa treść w postaci wektora "zawijanego" długością wiersza
 
     protected:
         std::string NazwaPliku; ///< Nazwa pliku, jak trzeba zapisać albo podać na ekran
-        char Delimiter;         ///< Znak delimitujący - domyślnie '\t' - i tylko to przetestowane
+        char Delimiter;         ///< Znak delimitujący — domyślnie '\t' - i tylko to przetestowane ("ogranicznik"?)
         unsigned Wiersz;        ///< Długość wiersza
         unsigned Rozmiar;       ///< Ile w ogóle komórek?
 
-        void pomin_puste(std::istream &str); ///< Własna funkcja do usuwania śmieci - ciągów białych znaków.
-        void wczytaj_do_delim(std::istream &str, std::string &buf); ///< Funkcja pobierania znaków aż do delimitera.
+        void pomin_puste(std::istream &str); ///< Własna funkcja do usuwania śmieci — ciągów białych znaków.
+        void wczytaj_do_delim(std::istream &str, std::string &buf); ///< Funkcja pobierania znaków aż do ogranicznika (delimiter).
 
-        ///\brief Metoda tnie \p 'buf' na delimiterach i fragmenty umieszcza w kolejnych komórkach
+        ///\brief Metoda tnie 'buf' na ogranicznikach i fragmenty umieszcza w kolejnych komórkach.
         bool parse_string(const std::string &buf, unsigned w, unsigned &k);
 
     public:
-        /// \brief Destruktor musi być i to wirtualny bo są wewnątrz obiekty dynamiczne.
+        /// \brief Destruktor musi być i to wirtualny, bo są wewnątrz obiekty dynamiczne.
         virtual ~TabelaTabDelimited();
 
         /// \brief Konstruktor domyślny, bez rozmiarów. Czeka na późniejsze decyzje.
         TabelaTabDelimited() :
-                NazwaPliku("<TabelaTabDelimited>"), Delimiter('\t'), Tresc(NULL), Wiersz(0), Rozmiar(0), Opisowo(1) {}
+                NazwaPliku("<TabelaTabDelimited>"), Delimiter('\t'), Tresc(nullptr), Wiersz(0), Rozmiar(0), Opisowo(1) {}
 
         /// \brief   Konstruktor z podaniem rozmiaru.
         /// \note   Tworzy od razu tabele o określonym rozmiarze i pustych komórkach.
         TabelaTabDelimited(int w, int k) :
-                NazwaPliku("<TabelaTabDelimited>"), Delimiter('\t'), Tresc(NULL), Wiersz(0), Rozmiar(0),
+                NazwaPliku("<TabelaTabDelimited>"), Delimiter('\t'), Tresc(nullptr), Wiersz(0), Rozmiar(0),
                 Opisowo(1) { UstalRozmiar(w, k); }
 
         /// \brief Decyzja ustalająca rozmiary tabeli. \note Nie zachowuje poprzedniej zawartości!
@@ -66,21 +66,21 @@ namespace wbrtm {
         bool ZapiszDoPliku(const char *_Nazwa = "\0",
                            char Delimiter = -1);
 
-        /// \brief Zrobienie kopi całości lub wycinka. \note Bardzo kosztowne, więc tylko jawne.
-        void PrzekopiujZ(const TabelaTabDelimited &Zrodlo, ///< tabela z której bierzemy zawartość
-                         unsigned startw = 0,  ///< Początkowy wiersz
-                         unsigned startk = 0,  ///< Poczatkowa kolumna
-                         unsigned endw = -1,   ///< Koncowy wiersz albo do konca
-                         unsigned endk = -1,   ///< Koncowa kolumna albo do konca
-                         unsigned celw = 0,    ///< Pierwsza komorka docelowa - numer wiersza
-                         unsigned celk = 0     ///< Pierwsza komorka docelowa - numer kolumny
+        /// \brief Zrobienie kopii całości lub wycinka. \note Bardzo kosztowne, więc tylko jawne.
+        void PrzekopiujZ(const TabelaTabDelimited &Zrodlo, ///< Tabela, z której bierzemy zawartość.
+                         unsigned startw = 0,  ///< Początkowy wiersz.
+                         unsigned startk = 0,  ///< Początkowa kolumna.
+                         unsigned endw = -1,   ///< Końcowy wiersz albo do konca.
+                         unsigned endk = -1,   ///< Końcowa kolumna albo do konca.
+                         unsigned celw = 0,    ///< Pierwsza komórka docelowa — numer wiersza.
+                         unsigned celk = 0     ///< Pierwsza komórka docelowa — numer kolumny.
         );
 
         /// \brief Szuka komórki równej tekstowi "Czego". Zwraca 'true' jak znajdzie.
         bool Znajdz(const char *Czego, unsigned &pozw,
                     unsigned pozk) const;
 
-        // Akcesory - inlinowany (lub nie) dostęp do atrybutów obiektu
+        // Akcesory — dostęp do atrybutów obiektu
         // ///////////////////////////////////////////////////////////////////////
 
         /// \brief Pełny dostęp do zawartości komórki
@@ -89,7 +89,7 @@ namespace wbrtm {
         /// \brief Dostęp do nie zmienialnej treści komórki
         const char *operator()(int w, int k) const;
 
-        /// \brief Zmiana domyślnego delimiter-a
+        /// \brief Zmiana domyślnego ogranicznika (delimiter).
         char ZmienDelimiter(char nowy)
         {
             char stary = Delimiter;
@@ -115,17 +115,17 @@ namespace wbrtm {
         // Obsługa wejścia-wyjścia
         // //////////////////////////////
 
-        /// \brief Operacja wyprowadzania na dowolny strumień. Używa ustalonego wczesniej Delimiter-a.
+        /// \brief Operacja wyprowadzania na dowolny strumień. Używa ustalonego wcześniej ogranicznika (delimiter).
         friend
         std::ostream &operator << (std::ostream &o, const TabelaTabDelimited &self);
 
         /// \brief Typ funkcji obsługi błędu czytania czy pisania.
-        /// \return Jak zwróci 0 to czytanie będzie kontynuowane, w przeciwnym wypadku jest przerywane.
+        /// \return Jak zwróci 0, to czytanie będzie kontynuowane, w przeciwnym wypadku jest przerywane.
         typedef int funkcja_bledu(int kod, const TabelaTabDelimited &self, std::ios &s);
 
         /// \brief Wersja domyślna funkcji reakcji na błąd.
-        /// \note  Ta funkcja zawsze sygnalizuje kod błędu (nie 0), więc że akcja czytania jest przerywana,
-        ///        ale można to zmienić podstawiając własną funkcję.
+        /// \note  Ta funkcja zawsze sygnalizuje kod błędu (nie 0), czyli, że akcja czytania jest przerywana
+        ///        , ale można to zmienić, podstawiając własną funkcję.
         static int PodstawowaFunkcjaBledu(int kod, const TabelaTabDelimited &self, std::ios &s);
 
         /// \brief Statyczny wskaźnik do aktualnie stosowanej funkcji błędu.
