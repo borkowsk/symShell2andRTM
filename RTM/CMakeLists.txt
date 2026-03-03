@@ -5,7 +5,7 @@
 ######################################################
 
 project(wbrtm)
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.20)
 
 set(CMAKE_CXX_STANDARD 11) # See: https://matgomes.com/setting-cpp-standard-cmake/
 set(CMAKE_CXX_STANDARD_REQUIRED On)

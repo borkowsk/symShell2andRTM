@@ -1,10 +1,10 @@
 # CMAKE configuration for SYMSHELLCLASS libraries wbsyshclss
 ##################################################################################
 # @author Wojciech Borkowski
-# @date 2022-12-22 (last update)
+# @date 2026-03-03 (last update)
 ######################################################
 
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.20)
 
 project(symshellclasses)
 
@@ -25,7 +25,7 @@ ELSE()	     # set stuff for other systems
   #add_compile_options( -Wall )
 ENDIF()
 
-include_directories( "SIMULCLSS/" "DATACLSS/" "VISUALCLSS/" "${WBRTMINC}/" "${SYMSHELLLIGHT}")
+include_directories( "SIMULCLSS/" "DATACLSS/" "VISUALCLSS/" "${WBRTMINC}/" "${SYMSHELLLIGHT}/INCL/")
 
 add_library( wbsyshclss STATIC
 	"./src/data/datalog.cpp"
@@ -57,7 +57,7 @@ add_library( wbsyshclss STATIC
 	
 	
 #********************************************************************/
-#*              SYMSHELLCLASSES  version 2022-12                    */
+#*              SYMSHELLCLASSES  version 2026                       */
 #********************************************************************/
 #*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
 #*            W O J C I E C H   B O R K O W S K I                   */
