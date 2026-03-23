@@ -16,9 +16,9 @@
 #ifndef _WB_LIMITS_H_INCLUDED_
 #define _WB_LIMITS_H_INCLUDED_
 
-#ifndef _MSC_VER //# warning still not work under Microsoft C++
-#warning  "This code is OBSOLETE and not tested in C++11 standard"
-#endif
+//#ifndef _MSC_VER //# warning still not work under Microsoft C++
+//#warning  "This code is OBSOLETE and not tested in C++11 standard"
+//#endif
 
 #include <float.h>
 #include <limits.h>

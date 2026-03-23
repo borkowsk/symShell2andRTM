@@ -24,11 +24,11 @@ ELSE()
   add_definitions( -DHAVE_X11 -DUSE_ZENITY ) # -DUSE_X11  DUSE_CONSOLE_ONLY -DDEF_MAXTHREADS=16 -DMULTITR
 ENDIF()
 
-set( WBSLIBS   "../../public/symShell2andRTM" )
+set( WBSLIBS   "../../../../public/symShell2andRTM" )
 get_filename_component( WBRTM     "${WBSLIBS}/RTM" ABSOLUTE)
 get_filename_component( SYMSHELL  "${WBSLIBS}/SYMSHELL" ABSOLUTE)
 get_filename_component( SYMSCLSS  "${WBSLIBS}/SYMSHELL_CLASES" ABSOLUTE)
-message( "Assumed sources\nWBRTM\t at ${WBRTM}\nSYMSHELL\t at ${SYMSHELL}\nAnd classes at ${SYMSCLSS}\n")
+message( "Assumed sources in\nWBRTM\t at ${WBRTM}\nSYMSHELL\t at ${SYMSHELL}\nAnd classes at ${SYMSCLSS}\n")
 
 #add_subdirectory( ${} ${} )
 add_subdirectory( "${SYMSHELL}/" "${SYMSHELL}/" )
@@ -68,7 +68,7 @@ target_link_libraries( life
         ${CMAKE_THREAD_LIBS_INIT}
      )
 ELSE()
-target_compile_options( dimensions  PRIVATE "${CMAKE_CXX_FLAGS}" "-std=c++11" "-pthread" "-fpermissive")
+target_compile_options( life  PRIVATE "${CMAKE_CXX_FLAGS}" "-std=c++11" "-pthread" "-fpermissive")
 target_link_libraries( life
 #        "-L ${MYLIBS}"
         wbsyshclss wbsyshLight  wbrtm

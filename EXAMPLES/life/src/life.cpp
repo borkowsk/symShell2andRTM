@@ -3,16 +3,16 @@
 const char* WINDOW_HEADER="RAND-LIFE version 1.01b (by Wojciech Borkowski)";
 const char* SYMULATION_NAME="randlife_v1.01b";
 
-#include <stdlib.h>
-#include <iostream.h>
-#include "wbminmax.hpp"
+#include <cstdlib>
+#include <iostream>
 #include "lrand.h"
 #include "lworld.h"
+#include "wbminmax.hpp"
 
 unsigned SWIDTH=750;
 unsigned SHEIGHT=550;
 
-unsigned internal_log=7000; //Nieobiektowo przekazywane do metody inicializacji zrodel 
+unsigned internal_log=7000; //Nieobiektowo przekazywane do metody inicializacji źródeł
 char  LogName[512]="randlife.log\0-------------------+--";
 char HistName[512]="\0--+---------randlife.otx----------";
 char MapLName[512]="\0--+---------randlife.gif----------";
