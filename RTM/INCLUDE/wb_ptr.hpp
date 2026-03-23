@@ -277,13 +277,22 @@ public:
 
     /// \brief Konstruktor do inicjalizowania z const char*
     /// \warning Ma klonowanie danych, bo stałe łańcuchowe ("") nie są alokowane na stercie!
-    explicit wb_pchar(const char* nini):wb_sptr<char>(NULL)
+    wb_pchar(const char* nini):wb_sptr<char>(NULL)
 	{
         WBPTRLOG( "wb_pchar::FROM char* CONSTRUCTOR :"<<(ptr?ptr:"@") )
         if(nini!=NULL) ptr=clone_str(nini);
 	}
 
-    /// \brief Konstruktor sztafetujący - głównie do niejawnego kopiowania przy wyjściu z funkcji
+    /// \brief Konstruktor do inicjalizowania z nullptr
+    /// \note Nie wymaga klonowania, inicjalizuje wskaźnik jako pusty.
+    wb_pchar(std::nullptr_t nini):wb_sptr<char>(nullptr)
+    {
+        WBPTRLOG( "wb_pchar::FROM nullptr CONSTRUCTOR :@" )
+        // Przy nullptr nie wykonujemy żadnej alokacji ani klonowania
+        ptr = nullptr;
+    }
+
+    /// \brief Konstruktor sztafetujący — głównie do niejawnego kopiowania przy wyjściu z funkcji
     /// \warning Inicjator traci swoje dane. Jeśli nie to znaczy ze zaszło niezamierzone kopiowanie!
     wb_pchar(wb_pchar& nini):wb_sptr<char>(nini)
 	{
@@ -463,13 +472,16 @@ public:
 		}
 
 	/// \brief Konstruktor wieloparametrowy inicjujący itemy
-	explicit wb_dynarray(size_t s,T /*first,second,...*/...):size(s)
+	explicit wb_dynarray(size_t s, T /* first,second,...*/ ...):size(s)
     {
 		WBPTRLOG( "wb_dynarray::CONSTRUCTOR("<<size<<",T ...)" )                                        assert(size>=1);
 		ptr=new T[s];                                                             /*After allocation*/assert(ptr!=NULL);
 
 		va_list list;
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wvarargs"
 		va_start(list,s);
+#pragma GCC diagnostic pop
 		for(size_t i=0;i<s;i++)
 			ptr[i]=va_arg(list,T);
 		va_end(list);
@@ -482,19 +494,19 @@ public:
 		dispose();
 		}
 
-    /// \brief Metoda sprawdza czy tablica została zaalokowana
+    /// \brief Metoda sprawdza, czy tablica została zaalokowana
     int OK() const
         {
         return ptr!=NULL;
         }
 
-    /// \brief Metoda sprawdza czy tablica została zaalokowana. \warning OBSOLETE
+    /// \brief Metoda sprawdza, czy tablica została zaalokowana. \warning OBSOLETE
     int IsOK() const
         {
         return ptr!=NULL;
         }
 
-    /// \brief Transferujacy operator przypisania
+    /// \brief Transferujący operator przypisania
     wb_dynarray<T>& operator = (wb_dynarray<T>& nini)
     {
         WBPTRLOG( "wb_dynnarray::operator = (wb_dynarray& "<<((void*)&nini)<<")" )

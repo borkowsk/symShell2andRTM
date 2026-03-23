@@ -40,10 +40,10 @@ protected:
 public:
 	//ZWYKLY KONSTRUKTOR
 	ExcpIO(const char* sname,
-		const object_size_t posit=MAXOBJECTSIZE,
-		const char*			icomm=NULL,
-		const int			e=-1,
-		istream*			iptr=NULL
+           const object_size_t posit=MAXOBJECTSIZE,
+           wb_pchar            icomm= nullptr,
+           const int			e=-1,
+           istream*			iptr=NULL
 		):
 		stream_name(sname),stream_ptr(iptr),
 		position(posit),my_errno(e),comm(icomm)

@@ -109,7 +109,7 @@ file.put(delimiter);
 while(*str!='\0')
 	{
 	if(file.bad())
-		if(caller.Raise(ExcpIO(NULL, file.tellp() , "string write") ) == 1)
+		if(caller.Raise( ExcpIO(NULL, file.tellp() , "string write") ) == 1)
 			return -1;
 	if(*str==delimiter || *str=='\\')
 		file.put('\\');

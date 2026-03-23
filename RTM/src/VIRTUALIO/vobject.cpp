@@ -1,9 +1,9 @@
 #include <cassert>
 #include <fstream>
-#include <sstream>
-#include <cctype>
-#include <ioexcep.hpp>
+#include "ioexcep.hpp"
+
 #include <strstream>
+//TODO USE #include <sstream>
 
 #include "vobject.hpp"
 
@@ -64,6 +64,7 @@ istream& operator >> (istream& i,vobject& vo) // stream input function
     i>>zn; //Musi kończyć się `}`
     if(zn!='}')
     {
+        //TODO REPLACE TO: ostringstream pom;
         ostrstream pom;
         i.putback(zn);
         pom<<"At the end of reading vobject::, '}' expected but '"<<zn<<"'(#"<<unsigned(zn)<<") found.\n----->";
@@ -72,7 +73,7 @@ istream& operator >> (istream& i,vobject& vo) // stream input function
                 pom<<char(i.get());
         pom<<"<------"<<char(0);
 
-        if(vo.Raise(ExcpIO(NULL,i.tellg(),pom.str(),-1,&i))==1)
+        if(vo.Raise(ExcpIO(nullptr,i.tellg(),pom.str(),-1,&i))==1)
             return i;
     }
                                                                                                         assert(!i.bad());
