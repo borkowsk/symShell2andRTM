@@ -323,12 +323,12 @@ ERROR://...akcja na niepogode TODO
 }
 
 void   world::make_basic_sources(sources_menager& WhatSourMen)
-//NA RAZIE NIE WOLNO TAKIEJ FUNKCJI! Pomys� zewn�trznego menagera danych okaza� si� niesprwadzony
+//NA RAZIE NIE WOLNO TAKIEJ FUNKCJI! Pomysł zewnętrznego manager-a danych okazał się niesprwadzony.
 {
 	assert("Never use: world::make_basic_sources(sources_menager& WhatSourMen) !"==NULL);
 }
 
-/********************************************************************/
+/* **************************************************************** */
 /*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
 /*            W O J C I E C H   B O R K O W S K I                   */
 /* Zaklad Systematyki i Geografii Roslin Uniwersytetu Warszawskiego */
@@ -336,6 +336,6 @@ void   world::make_basic_sources(sources_menager& WhatSourMen)
 /*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk             */
 /*        MAIL: borkowsk@iss.uw.edu.pl                              */
 /*                               (Don't change or remove this note) */
-/********************************************************************/
+/* **************************************************************** */
 
 

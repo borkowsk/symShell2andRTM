@@ -1,6 +1,6 @@
-///////////////////////////////////////////////////////////////////////////
-// Filtr liczacy rozne rodzaje klasteringu dla serii  g e o m e t r i a!!!
-///////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////
+// Filtr licz¹cy rozne rodzaje klasteringu dla serii  g e o m e t r i a!!!
+// /////////////////////////////////////////////////////////////////////////
 #ifndef __CLSTSOUR_HPP__
 #define __CLSTSOUR_HPP__
 #include "statsour.hpp"
@@ -9,6 +9,10 @@ template<class DATA_SOURCE>
 class clustering_source:public basic_statistics_source<DATA_SOURCE>
 //------------------------------------------------------------------------------
 {
+public:
+    typedef basic_statistics_source<DATA_SOURCE> basics_;
+    using basics_::table; //skrócony dostêp do tablicy danych klasy bazowej
+
 protected:
 
 int _calculate() //Zwraca 1 jesli musial przeliczyc
@@ -17,8 +21,8 @@ if(!basic_statistics_source<DATA_SOURCE>::_calculate())
 	return 0;
 
 unsigned testowanie=0;//Licznik wartosci centralnych
-double Stress=miss;	  //Suma stresow
-geometry_base* MyGeom=Source->getgeometry();//Wskaznik do geometri
+double Stress=basics_::miss;	  //Suma stresow
+geometry_base* MyGeom=basics_::Source->getgeometry();//Wskaznik do geometri
 
 if(MyGeom!=NULL)
 {//Jest znana geometria - da sie policzyc
@@ -32,8 +36,8 @@ if(MyGeom!=NULL)
 	{	
 		size_t index=MyGeom->get_next(Glob);//Uzyskujemy index agenta	
 		                                    assert(index!=any_layer_base::FULL);//... tutaj nie powinno sie zdarzyc
-		double CenterVal=Source->get(index);// Uzyskujemy referencje do agenta
-		if(Source->is_missing(CenterVal))	// Sprawdzamy czy nie jest miss.
+		double CenterVal=basics_::Source->get(index);// Uzyskujemy referencje do agenta
+		if(basics_::Source->is_missing(CenterVal))	// Sprawdzamy czy nie jest miss.
 			continue;					// bo wtedy robic dalej by³oby bez sensu.
 		
 		// Alokujemy iterator sasiedztwa
@@ -44,12 +48,12 @@ if(MyGeom!=NULL)
 
 		while(Neigh)
 		{
-			size_t index2=MyGeom->get_next(Neigh);//Uzyskujemy index sasiada		
+			size_t index2=MyGeom->get_next(Neigh); //Uzyskujemy index sasiada
 			if(index2==any_layer_base::FULL || index2==index)	//Jesli poza obszarem symulacji lub w 
 				continue;				//centrum obszaru to dalej byloby bez sensu.
 		
-			double PeryfVal=Source->get(index2);//Uzyskujemy referencje do sasiada
-			if(Source->is_missing(PeryfVal))		//Sprawdzamy czy nie jest miss.
+			double PeryfVal=basics_::Source->get(index2); //Uzyskujemy referencje do sasiada
+			if(basics_::Source->is_missing(PeryfVal))		//Sprawdzamy czy nie jest miss.
 				continue;					// bo wtedy robic dalej by³oby bez sensu.
 			
 			zliczanie++;
@@ -60,12 +64,12 @@ if(MyGeom!=NULL)
 			
 		}	
         
-		MyGeom->destroy_iterator(Neigh);	// upewniamy sie ze iterator zostanie usuniety
+		MyGeom->destroy_iterator(Neigh);	// upewniamy siê ze iterator zostanie usuniêty
 		
         if(zliczanie>0)
         {
             suma+=double(inni)/double(zliczanie);
-            //Zlicza ile by³o wartosci
+            //Zlicza ile by³o wartoœci
             testowanie++;					
         }
 	}
@@ -94,7 +98,7 @@ clustering_source(DATA_SOURCE* ini=NULL,
 	
 scalar_source<double>*      Stress(const char* format="Stress(%s)")	
 {
-return GetMonoSource(6,format);
+return basics_::GetMonoSource(6,format);
 }
 
 void all_subseries_required()//Alokuje i ewentualnie rejestruje w menagerze wszystkie serie
@@ -109,7 +113,7 @@ typedef clustering_source<data_source_base> generic_clustering_source;
 
 
 #endif
-/********************************************************************/
+/* **************************************************************** */
 /*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
 /*            W O J C I E C H   B O R K O W S K I                   */
 /* Zaklad Systematyki i Geografii Roslin Uniwersytetu Warszawskiego */
@@ -117,4 +121,4 @@ typedef clustering_source<data_source_base> generic_clustering_source;
 /*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk             */
 /*        MAIL: borkowsk@iss.uw.edu.pl                              */
 /*                               (Don't change or remove this note) */
-/********************************************************************/
+/* **************************************************************** */

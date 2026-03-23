@@ -2506,9 +2506,6 @@ else
   }
 }
 
-// Lokalna funkcyjka podnosząca do kwadratu.
-static inline double sqr(double x) { return x*x; }
-
 void net_graph::_replot()
 // Rysuje wykres punktowy a pod nim ewentualnie legende
 //a do tego laczy punkty liniami

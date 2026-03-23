@@ -1,8 +1,8 @@
-///////////////////////////////////////////////////////////////////////////
-// Filtr liczacy liczebnosc klas serii i pochodne statystyki
-// WERSJA PIERWOTNA - LICZY TYLKO HISTOGRAMY CALKOWITO-LICZBOWE 
+// /////////////////////////////////////////////////////////////////////////
+// Filtr licz¹cy liczebnoœci klas serii i pochodne statystyki
+// WERSJA PIERWOTNA — LICZY TYLKO HISTOGRAMY CA£KOWITOLICZBOWE
 // Z RUCHOM¥ LICZB¥ KLAS.
-///////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////
 #ifndef __HISTOGRAM_SOUR_HPP__
 #define __HISTOGRAM_SOUR_HPP__
 #include "statsour.hpp"
@@ -11,14 +11,16 @@ template<class DATA_SOURCE>
 class histogram_source:public basic_statistics_source<DATA_SOURCE>
 //------------------------------------------------------------------------------
 {
+public:
+    typedef basic_statistics_source<DATA_SOURCE> basics_;
+    using basics_::table; //skrócony dostêp do tablicy danych klasy bazowej
 protected:
 size_t N;//Number of Class;
 wb_dynarray<unsigned long> arra;
 
-// Przemieszcza iterator o jednostke. Zeruje jesli koniec tablicy
+// Przemieszcza iterator o jednostkê. Zeruje, jeœli koniec tablicy
 size_t _next(iteratorh& p)
-{
-	assert(p!=NULL);//Nie wolno wywolac dla NULL
+{                                        assert(p!=NULL); //Nie wolno wywo³aæ dla NULL
 	size_t pom=((size_t)p)-1;
 	if(pom+1>=N)
 		p=NULL;
@@ -28,7 +30,7 @@ size_t _next(iteratorh& p)
 }
 
 
-int _calculate() //Zwraca 1 jesli musial przeliczyc
+int _calculate() //@returns 1, jeœli musia³ przeliczyæ
 {
 	if(!basic_statistics_source<DATA_SOURCE>::_calculate()) 
 		return 0;
@@ -36,20 +38,20 @@ int _calculate() //Zwraca 1 jesli musial przeliczyc
 	double Entropy=0;
 	
 	{//OBLICZANIE HISTOGRAMU
-	assert(N==-1);//Tylko tryb integerowy zaimplementowany
+	assert(N==-1); //Tylko tryb integer-owy zaimplementowany
 
 	size_t i;
 	size_t SN,KL;
-	double smin,smax;	
-	Source->bounds(SN,smin,smax);
-	
-	if(smax-smin<=double(size_t(-1)))//Czy w zakresie size_t
-		KL=size_t(smax-smin)+1;//Ile jednostek calkowitych zakresu
-		else
+	double smin,smax;
+    this->Source->bounds(SN,smin,smax);
+
+	if(smax-smin<=double(size_t(-1))) //Czy w zakresie size_t
+		KL=size_t(smax-smin)+1; //Ile jednostek ca³kowitych zakresu
+    else
 		goto ERROR;
 
 	arra.alloc(KL);
-	if(!arra.IsOK()) //blad alokacji - za malo/za duzo?
+	if(!arra.IsOK()) //b³¹d alokacji — za ma³o/za du¿o?
 		goto ERROR;
 
 	for(i=0;i<KL;i++)
@@ -61,26 +63,28 @@ int _calculate() //Zwraca 1 jesli musial przeliczyc
 	ymax=smax;
 	*/
 
-	//PETLA ZLICZANIA
-	iteratorh Ind=Source->reset();
-	source_miss=Source->get_missing();	
+	//PÊTLA ZLICZANIA
+	iteratorh Ind=this->Source->reset();
+	this->source_miss=this->Source->get_missing();
 	size_t Licz=0;
 	for(i=0;i<SN;i++)
 		{
-		double pom=Source->get(Ind);
-		if(!FromSourceIsMissing(pom))
+		double pom=this->Source->get(Ind);
+		if(!this->FromSourceIsMissing(pom))
 			{	
 			Licz++;
 			pom-=smin;//Przesuniecie
-					 assert(pom<SIZE_MAX);
-			arra[size_t(pom)]++;//Takie to sobie. Trzeba przetrawic i poprawic. WARNING jak najbardziej.
+					            assert(pom<SIZE_MAX);
+			arra[size_t(pom)]++; //Takie to sobie. Trzeba przetrawiæ i poprawiæ. WARNING jak najbardziej.
 			}
 		}
-	Source->close(Ind);	
 
-	//PETLA	MIN/MAX
-	ymin=DBL_MAX;
-	ymax=0;	
+    this->Source->close(Ind);
+
+	//PÊTLA MIN/MAX
+    this->ymin=DBL_MAX;
+    this->ymax=0;
+
 	size_t licz_klasy=0;
 	size_t minp=0,maxp=0;
 
@@ -91,29 +95,29 @@ int _calculate() //Zwraca 1 jesli musial przeliczyc
 		if(pom>0)
 			licz_klasy++;
 
-		if(pom>ymax) 
+		if(pom>this->ymax)
 		{
-			ymax=pom;
+            this->ymax=pom;
 			maxp=i;
 		}
 
-		if(pom<ymin) 
+		if(pom<this->ymin)
 		{
-			ymin=pom;
+            this->ymin=pom;
 			minp=i;
 		}
 
 		//Liczenie skladowych entropi
 		double qi=pom/double(Licz);
 
-		//Powiekrzenie sumy, tam gdzie nie jest to puste skrzyzowanie
+		//Powiêkszenie sumy, tam, gdzie nie jest to puste skrzy¿owanie
 		if(qi>0)
 			Entropy+=qi*log(qi);
 	}
 
-	if(table[6]!=NULL)
+	if(basics_::table[6]!=NULL)
 		{
-		table[6]->change_val(ymax);
+		table[6]->change_val(this->ymax);
 		}
 
 	if(table[7]!=NULL)
@@ -123,7 +127,7 @@ int _calculate() //Zwraca 1 jesli musial przeliczyc
 
 	if(table[8]!=NULL)
 		{
-		table[8]->change_val(maxp+smin+0.5);//0.5 bo srodek przedzialu calkowitego
+		table[8]->change_val(maxp+smin+0.5); //0.5 bo œrodek przedzia³u ca³kowitego
 		}
 
 	if(table[9]!=NULL)
@@ -136,8 +140,8 @@ int _calculate() //Zwraca 1 jesli musial przeliczyc
 		table[10]->change_val(-Entropy/log(double(KL)));
 		}
 
-	return 1;
-	}//Musial przeliczyc
+	return 1; //Musial przeliczyæ
+	}
 	
 ERROR:
 	if(table[10]=NULL)
@@ -151,34 +155,34 @@ ERROR:
 	if(table[6]!=NULL)
 		table[6]->change_val(table[6]->get_missing());
 	arra.dispose();
-	ymin=ymax=0;
+    basics_::ymin=basics_::ymax=0;
 	return 1;
 }
 
 public:
 scalar_source<double>*      MainClass(const char* format="MainClass(%s)")	
 {
-	return GetMonoSource(6,format);
+	return basics_::GetMonoSource(6,format);
 }
 
 scalar_source<double>*      NumOfClass(const char* format="NumOfClass(%s)")	
 {
-	return GetMonoSource(7,format);
+	return basics_::GetMonoSource(7,format);
 }
 
 scalar_source<double>*      WhichMain(const char* format="WhichMain(%s)")	
 {
-	return GetMonoSource(8,format);
+	return basics_::GetMonoSource(8,format);
 }
 
 scalar_source<double>*      Entropy(const char* format="S(%s)")	
 {
-	return GetMonoSource(9,format);
+	return basics_::GetMonoSource(9,format);
 }
 
 scalar_source<double>*      NormEntropy(const char* format="nS(%s)")	
 {
-	return GetMonoSource(10,format);
+	return basics_::GetMonoSource(10,format);
 }
 
 	
@@ -195,9 +199,9 @@ scalar_source<double>*      NormEntropy(const char* format="nS(%s)")
 
 // Methods
 size_t get_size()
-{ 
-	check_version();//Uaktualnia tez wersje podzrodla jesli trzeba
-	_calculate();//Sprawdza czy nie trzeba policzyc i ewentualnie liczy	
+{
+    basics_::check_version(); //Uaktualnia te¿ wersje pod-Ÿród³a, jeœli trzeba
+	_calculate(); //Sprawdza, czy nie trzeba policzyæ i ewentualnie liczy
 	return arra.get_size();
 }	
 
@@ -214,8 +218,8 @@ void all_subseries_required()//Alokuje i ewentualnie rejestruje w menagerze wszy
 
 iteratorh  reset()
 //Umozliwia czytanie od poczatku
-{ 
-	check_version();//Uaktualnia tez wersje podzrodla jesli trzeba
+{
+    basics_::check_version();//Uaktualnia tez wersje podzrodla jesli trzeba
 	_calculate();//Sprawdza czy nie trzeba policzyc i ewentualnie liczy
 	return (iteratorh)1;
 }
@@ -228,10 +232,11 @@ void close(iteratorh& p)
 void  bounds(size_t& num,double& min,double& max)
 //Ile elementow,wartosc minimalna i maksymalna
 {
-	check_version();//Uaktualnia tez wersje podzrodla jesli trzeba
-	_calculate();//Sprawdza czy nie trzeba policzyc i ewentualnie liczy
+    basics_::check_version(); //Uaktualnia te¿ wersje podzrodla jesli trzeba
+	_calculate(); //Sprawdza czy nie trzeba policzyc i ewentualnie liczy
 	num=get_size();	
-	min=ymin;max=ymax;
+	min=basics_::ymin;
+    max=basics_::ymax;
 }
 
 double get(iteratorh& ptr_to_iterator)
@@ -241,13 +246,13 @@ double get(iteratorh& ptr_to_iterator)
 	return arra[ _next(ptr_to_iterator) ];
 }
 
-double get(size_t index)//Przetwarza index uzyskany z geometri
-{ //na wartosc z serii, o ile jest mozliwe czytanie losowe	
-	check_version();//Uaktualnia tez wersje podzrodla jesli trzeba
-	_calculate();//Sprawdza czy nie trzeba policzyc i ewentualnie liczy	
+double get(size_t index) //Przetwarza index uzyskany z geometrii
+{ //na wartosc z serii, o ile jest mo¿liwe czytanie losowe
+    basics_::check_version(); //Uaktualnia tez wersje podzrodla jesli trzeba
+	_calculate(); //Sprawdza, czy nie trzeba policzyc i ewentualnie liczy
 	assert(index<get_size());
 	return arra[ index ];
-}	
+}
 
 
 };
@@ -256,7 +261,7 @@ typedef histogram_source<data_source_base> generic_histogram_source;
 
 
 #endif
-/********************************************************************/
+/* **************************************************************** */
 /*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
 /*            W O J C I E C H   B O R K O W S K I                   */
 /* Zaklad Systematyki i Geografii Roslin Uniwersytetu Warszawskiego */
@@ -264,4 +269,4 @@ typedef histogram_source<data_source_base> generic_histogram_source;
 /*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk             */
 /*        MAIL: borkowsk@iss.uw.edu.pl                              */
 /*                               (Don't change or remove this note) */
-/********************************************************************/
+/* **************************************************************** */

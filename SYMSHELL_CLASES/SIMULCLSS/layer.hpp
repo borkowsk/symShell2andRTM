@@ -610,6 +610,7 @@ bool filled(int X,int Y)//Sprawdzenie czy jest agent w tym miejscu
 
 //Prykrycie funkcji init_from_bitmap
 typedef void (AGENT::* assign_rgb_fun)(unsigned char,unsigned char,unsigned char);
+
 struct assign_rgb_stc
 {
 	assign_rgb_fun AssFun;
