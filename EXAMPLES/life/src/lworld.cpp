@@ -2,8 +2,8 @@
 //#include <assert.h>
 //#include <string.h>
 //#include <math.h>
-#include <string.h>
-#include <math.h>
+#include <cstring>
+#include <cmath>
 
 #include "lrand.h"
 #include "lworld.h"
@@ -12,8 +12,9 @@
 #include "coincsou.hpp"
 #include "gadgets.hpp" 
 #include "wb_ptrio.h"
+#include "wb_swap.hpp"
 
-const RAMKA=4;
+const int RAMKA=4;
 extern const char* SYMULATION_NAME;
 
 /*
@@ -26,8 +27,8 @@ inline void wb_swap(T& a,T& b)
 }
 */
 
-//Konstrukcja agentow
-///////////////////////////////////
+// Konstrukcja agentow
+// /////////////////////////////////
 lifeagent::lifeagent(const lifeagent& ini)
 	{
 		if(&ini!=NULL)
@@ -106,13 +107,13 @@ lifeworld::lifeworld(
 
 		}
 
-//Generuje podstawowe zrodla dla wbudowanego menagera danych lub innego
-////////////////////////////////////////////////////////////////////////////
+// Generuje podstawowe Ÿród³a dla wbudowanego manager-a danych lub innego
+// //////////////////////////////////////////////////////////////////////////
 void lifeworld::make_basic_sources(sources_menager& WhatSourMen)
 {
-world::make_basic_sources(WhatSourMen);//Odziedziczone
+//world::make_basic_sources(WhatSourMen); //NA RAZIE NIE WOLNO U¯YWAÆ.
 
-//Glowne serie 
+//G³ówne serie
 Firsts=Agenci.make_source("State",&lifeagent::First);	
 if(Firsts)
 	Firsts->setminmax(0,IleKate-1);	
@@ -127,13 +128,17 @@ WhatSourMen.insert(Seconds);
 }
 
 
-//Wspolpraca z menagerem wyswietlania a takze logiem
-//------------------------------------------------------------------
-void lifeworld::make_default_visualisation(area_menager_base& Menager)
-//Rejestruje pochodne serie, tworzy domyslne "lufciki" i wklada w "Menager"
+//Wspó³praca z menagerem wyswietlania, a tak¿e logiem:
+//----------------------------------------------------
+
+///Wspó³praca z zarz¹dc¹ wyœwietlania.
+//virtual void make_default_visualisation()
+void lifeworld::make_default_visualisation()
+//Rejestruje pochodne serie, tworzy domyœlne "lufciki" i wk³ada w "Manager"
 {
+area_menager_base& Menager=this->MyAreaMenager(); //ustawiane w this->initialise()
 int iFirst=0,iSecond=0;
-//Uzyskanie indeksow podstawowych serii z menagera
+//Uzyskanie indeksów podstawowych serii z zarz¹dcy
 {
 if(Firsts) iFirst=Sources.search(Firsts->name());
 	else  goto ERROR;
@@ -159,7 +164,7 @@ if(!ClassStat) goto ERROR;
 //A takze utworzenie seri liczacych ich wzajemne ko-statystyki
 coincidention_source* CorrFS=new coincidention_source(Firsts,Seconds);
 if(!CorrFS) goto ERROR;
-Sources.insert(CorrFS);//Zeby zostala kiedys zwolniona, a poza tym moze ktos kiedys...
+Sources.insert(CorrFS); //Zeby zostala kiedys zwolniona, a poza tym moze ktos kiedys...
 
 fifo_source<double>* EntropyFSLog=new fifo_source<double>(CorrFS->Entropy(),internal_log);
 if(!EntropyFSLog) goto ERROR;
@@ -217,7 +222,7 @@ unsigned wyso=Menager.getheight();
 assert(szer>50 && wyso>40);//Najmniejsze sensowne okno
 
 //Obszary domyœlne - np obszar STATUSU
-world::make_default_visualisation(Menager);
+world::make_default_visualisation(); // this->initialize(Manager);
 if(OutArea) 
 {
 	OutArea->set(1,1,szer/2-1,wyso/2-1);
@@ -359,7 +364,7 @@ void lifeworld::after_read_from_image()
 void lifeworld::initialize_layers()
 //-------------------------------------
 {
-	static first=1;//TYMCZASOWE WYLACZENIE NADMIARU WYDRUKOW!!!
+	static int first=1;//TYMCZASOWE WYLACZENIE NADMIARU WYDRUKOW!!!
 	if(first)
 		Log.GetStream()<<"attitude SIMULATION:";
 	//odl_sasiad=1,//Rozmiar sasiedztwa
@@ -393,13 +398,18 @@ void lifeworld::initialize_layers()
 		<<"\nNaighborhood="<<Log.separator()<<IleSasiad<<"/("<<(1+2*OdlSasiad)<<"*"<<(1+2*OdlSasiad)<<")\n";
 	
 	//			USTALANIE STANÓW AGENTÓW
-	//Wczytuje uzywajac konstruktora lub klonowania gdy niema, wiec inicjuje reszte pól.
-	int from= Agenci.init_from_bitmap(MaplName.get_ptr_val(),lifeagent::assign123);
+	//Wczytuje u¿ywaj¹c konstruktora lub klonowania gdy niema, wiec inicjuje reszte pól.
+    rectangle_layer_of_agents<lifeagent>::assign_rgb_fun tmp=&lifeagent::assign123;
+	int from= Agenci.init_from_bitmap(MaplName.get_ptr_val(),tmp);
 	
 	//Jesli nie zainicjowane z bitmapy to zostaje to z konstruktorow
-	//if(from!=1)	Agenci.clean();//		reallocate_all();
+	if(from!=1) {
+        cerr<<"Agents initialisation from the bitmap "<<MaplName<<" failed!";
+        //Agenci.clean(); //		reallocate_all();
+        exit(-10);
+    }
 	
-	first=0;//Koniec pierwszego wywolania //TYMCZASOWO!!!
+	first=0; //Koniec pierwszego wywolania //TYMCZASOWO!!!
 }
 
 //Pojedynczy krok symulacji

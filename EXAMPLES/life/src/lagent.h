@@ -6,7 +6,7 @@ class lifeagent:public agent_base
 {
 	friend class lifeworld;//Na razie tak - zeby uproscic dostep do skladowych.
 	
-	// STATYCZNE SKLADOWE - PARAMETRY INICJOWANIA AGENTÓW
+	// STATYCZNE SKLADOWE - PARAMETRY INICJOWANIA AGENTï¿½W
 	static short ile_kate;//Ilosc kategori - na razie zawsze 2!!!
 	static short kate_shift;//Do wczytywania
 	static double MutationLevel;//Prawd. spontanicznej zmiany stanu (0..1) - raczej nieuzywane
@@ -52,7 +52,7 @@ public:
 	void assign123(unsigned char Red,unsigned char Green,unsigned char Blue)
 	{
 		First=unsigned( (long(Red)+long(Green)+Blue)/3 ) >>kate_shift;
-		Second=0;	
+		Second=0;
 	}
 	
 	
