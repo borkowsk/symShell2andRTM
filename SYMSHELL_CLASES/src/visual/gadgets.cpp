@@ -1,7 +1,10 @@
-// IMPLEMENTACJA ROZNYCH TYPOW OBSZAROW NIE BEDACYCH GRAFAMI
+/// @file
+///        IMPLEMENTACJA ROZNYCH TYPOW OBSZAROW NIE BEDACYCH GRAFAMI.
 //==============================================================================
-// Wersja z kosmetyką XI 2012
+/// @date 2026-03-24 (last modification)
+/// Wersja z kosmetyką XI 2012 i późniejszymi.
 //*//////////////////////////////////////////////////////////////////////////////
+
 #include "wb_clone.hpp"
 #include "symshell.h"
 #include "drawable.hpp"
@@ -17,7 +20,7 @@ T c=a;a=b;b=c;
 }
 
 int gadget::on_click(int x,int y,int click)
-//Jesli "inside" to rysuje w inwersji, ale zwraca 1.
+//Jesli klik "inside" to rysuje w inwersji, ale zwraca wynik funkcji `is_inside`.
 {
 int ins=is_inside(x,y);
 if(ins==1)

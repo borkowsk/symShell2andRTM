@@ -1,7 +1,10 @@
-//				POMOCNICZE TYPY OBSZAROW
+/// @file
+///				GADŻETY CZYLI POMOCNICZE TYPY OBSZARÓW.
 //--------------------------------------------------------------------
-// Sluza glownie jako typy bazowe dla klas specjalizowanych, wykonujacych
-// jakies akcje w metodzie is_inside() i ewentualnie podobnych.
+/// Sluza glownie jako typy bazowe dla klas specjalizowanych, wykonujacych
+/// jakies akcje w metodzie `_on_click` i ewentualnie podobnych.
+/// @date 2026-03-23 (last modification)
+//*//////////////////////////////////////////////////////////////////////////////
 #ifndef __GADGETS_HPP__
 #define __GADGETS_HPP__
 #ifndef __cplusplus
@@ -29,13 +32,18 @@ public:
 
 	virtual void _replot()=0; //Rysuje - np X. Do reimplementacji w klasach potomnych
 
+	/// Obsługa reakcji na klikniecie.
+	/// Bazowa wersja sprawdza czy klik "is_inside" i rysuje za pomocą `replot`, ewentualnie w inwersji.
+	/// @returns wynik działania funkcji `is_inside`.
 	virtual int  on_click(int x,int y,int click=0); //Jesli "inside" to rysuje w inwersji, ale zwraca wynik _on_click() lub 0
 
 	// TODO Poniżej chyba pozostałość po starym projekcie?
+
 	/// Wewnetrzna akcja klasy potomnej jest w środku tej metody wywoływanej w domyślnym `on_click`.
 	/// @returns 1 jeśli "nie obsłużono" albo "2" jeśli obsłużono.
+	///          Domyslna wersja zwraca 1=="nie obsluzono".
 	virtual int _on_click(int /*x*/,int /*y*/,int /*click*/)
-	     		{return 1;}							         //Domyslnie zwraca 1=="nie obsluzono"
+	     		{return 1;}
 
 };
 
@@ -62,7 +70,7 @@ public:
 
 typedef sensitive_area empty_area;
 
-/// Klasa gadźetu implementująca przycisk.
+/// Klasa gadżetu implementująca przycisk.
 /// Dwa możliwe tryby wyświetlania:
 /// 0 -> vertical print mode
 /// 1 -> horizontal print mode
