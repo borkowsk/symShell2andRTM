@@ -9,24 +9,26 @@
 
 #include <math.h> //cos jest potrzebne
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <iostream.h>
+#include <cstdio>
+#include <cstdlib>
+//#include <iostream>
 
-#include "simpsour.hpp"
+//#include "simpsour.hpp"
+#include "arrasour.hpp"
 #include "funcsour.hpp"
+#include "mattsour.hpp"
 #include "sourmngr.hpp"
 #include "gadgets.hpp"
 #include "graphs.hpp"
-#include "areamngr.hpp"     
+//#include "areamngr.hpp"
 #include "mainmngr.hpp"
 
 //#include "symshell.h" - niepotrzebne - juz opakowane obiektami
 
 //int x,y,vx,vy;
 //ROZMIARY OKNA
-const SWIDTH=390;
-const SHEIGHT=280;
+const int SWIDTH=390;
+const int SHEIGHT=280;
 
 class tangens//Klasa funkcyjna opakowujaca tangens
 {
@@ -214,7 +216,7 @@ pom2->settitle("");
 /*  OGOLNA FUNKCJA MAIN */
 /************************/
 
-main(int argc,const char* argv[])
+int main(int argc,const char* argv[])
 {
 int i=0;
 int cont=1;//flaga kontynuacji
