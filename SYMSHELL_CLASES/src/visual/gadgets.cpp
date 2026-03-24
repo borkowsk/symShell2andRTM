@@ -25,7 +25,7 @@ if(ins==1)
 	draw_color=setbackground(draw_color);//Na draw_color stara wartosc background
 	replot();
 	draw_color=setbackground(draw_color);//i z powrotem
-	ins=_on_click(x,y,click);//Moze zmienic wynik
+	ins=_on_click(x,y,click); //Moze zmienic wynik
 	}
 return ins;
 }
@@ -340,7 +340,7 @@ right->replot(0);
 int leftrigt_button::_user_action(int leftorright,int /*ingnoruje click*/)
 /*Jeśli lewo to -1, a jesli prawo to 1*/
 {
-	return 2;//Obsluzone, choć nie zrobione
+	return 2; //Obsłuzone, choć nie zrobione
 }
 
 
@@ -421,28 +421,28 @@ int steering_wheel::on_click(int x,int y,int click)
 	{	
 		if(click==1)
 			{
-			//Przy malych zakresach co 1, przy duzych dwukrotnie
-			if(subtab.dia.X()<10*subtab.sst.X() &&
-				subtab.dia.Y()<10*subtab.sst.Y() )
-				{
-				subtab.dia.X()-=subtab.sst.X();
-				subtab.dia.Y()-=subtab.sst.Y();
-				}
+				//Przy malych zakresach co 1, przy duzych dwukrotnie
+				if(subtab.dia.X()<10*subtab.sst.X()
+					&& subtab.dia.Y()<10*subtab.sst.Y() )
+					{
+					subtab.dia.X()-=subtab.sst.X();
+					subtab.dia.Y()-=subtab.sst.Y();
+					}
 				else
-				{
-				subtab.dia.X()/=2;
-				subtab.dia.Y()/=2;					
-				}
+					{
+					subtab.dia.X()/=2;
+					subtab.dia.Y()/=2;
+					}
 			}
-			else if(click==2)
+		else if(click==2)
 			{
-			if(subtab.dia.X()<15*subtab.sst.X() &&
-				subtab.dia.Y()<15*subtab.sst.Y() )
+			if(subtab.dia.X()<15*subtab.sst.X()
+				&& subtab.dia.Y()<15*subtab.sst.Y() )
 				{			
 				subtab.dia.X()+=subtab.sst.X();
 				subtab.dia.Y()+=subtab.sst.Y();
 				}
-				else
+			else
 				{			
 				subtab.dia.X()*=2;
 				if(subtab.dia.X()*2>md.max.X()-md.min.X())
