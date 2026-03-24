@@ -341,7 +341,10 @@ return my_geometry->get_next(p);
 public:
 //Zwraca wskaznik do obowiazujacej geometrii danych. NULL oznaczalby dane nie-zgeometryzowane
 geometry_base* getgeometry()
-	{ return my_geometry; }
+    {
+                            assert(my_geometry!=NULL);
+    return my_geometry;
+    }
 
 rectangle_geometry* getrectgeometry() //Non virtual (!!!) shortcut
 	{

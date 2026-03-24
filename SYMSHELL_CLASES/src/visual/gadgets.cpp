@@ -460,33 +460,35 @@ int steering_wheel::on_click(int x,int y,int click)
 	*/	
 	}
 	else //Zaden z podobiektów
-	return is_inside(x,y);//Wychodzi sie.		
+	return is_inside(x,y);//Wychodzi sie.
 		
-//Ustawia tak samo pozostalym zarzadzanym seriom
-size_t i;
-for(i=1;i<data.get_size();i++)
-	{		
-	geometry_base* sec_geom=data[i]->getgeometry();
-    if(sec_geom==nullptr)
-				continue;
-	if(*geom!=*sec_geom)
-				continue;
-	if(sec_geom->set_view_info(&subtab)==-1) 
-					goto ERROR;
-	}
-//I ustawia seri podstawowej
-geom->set_view_info(&subtab);
+    //Ustawia tak samo pozostalym zarzadzanym seriom
+    size_t i;
+    for(i=1;i<data.get_size();i++)
+        {
+        rectangle_source_base* pom=data[i];                    assert(pom!=nullptr);
 
-set_char('\r');//Informacja ze trzeba odrysowac - prowizoryczna!!!
-return 2;
-ERROR://Niezaimplemtowano koniecznej operacja lub inny blad
-{
-int bf=getframe();//Uzyte jako tymczas
-setframe(254);//Jasny ale nie bialy
-replot();
-setframe(bf);
-}
-return 0;//NIe przyznaje sie do punktu
+        geometry_base* sec_geom=pom->getgeometry();
+        if(sec_geom==nullptr)
+                    continue;
+        if(*geom!=*sec_geom)
+                    continue;
+        if(sec_geom->set_view_info(&subtab)==-1)
+                        goto ERROR;
+        }
+    //I ustawia seri podstawowej
+    geom->set_view_info(&subtab);
+
+    set_char('\r');//Informacja ze trzeba odrysowac - prowizoryczna!!!
+    return 2;
+    ERROR://Niezaimplemtowano koniecznej operacja lub inny blad
+    {
+    int bf=getframe();//Uzyte jako tymczas
+    setframe(254);//Jasny ale nie bialy
+    replot();
+    setframe(bf);
+    }
+    return 0;//NIe przyznaje sie do punktu
 }
 
 /*

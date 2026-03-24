@@ -125,6 +125,7 @@ class steering_wheel:public sensitive_area
 {
 //wskaznik do danych
 wb_dynarray<rectangle_source_base*> data;
+
 //wskazniki do elementow sterowania 
 wb_ptr<drawable_base> resizing;
 wb_ptr<drawable_base> left;
