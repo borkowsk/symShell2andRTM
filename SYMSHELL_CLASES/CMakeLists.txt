@@ -1,7 +1,7 @@
-# CMAKE configuration for SYMSHELLCLASS libraries wbsyshclss
+# CMAKE configuration for SYMSHELL CLASSES library wbsyshclss
 ##################################################################################
 # @author Wojciech Borkowski
-# @date 2026-03-03 (last update)
+# @date 2026-03-26 (last update)
 ######################################################
 
 cmake_minimum_required(VERSION 3.20)
@@ -28,36 +28,39 @@ ENDIF()
 include_directories( "SIMULCLSS/" "DATACLSS/" "VISUALCLSS/" "${WBRTMINC}/" "${SYMSHELLLIGHT}/INCL/")
 
 add_library( wbsyshclss STATIC
-	"./src/data/datalog.cpp"
-	"./src/data/sourmngr.cpp"
-	"./src/data/_ikeycon.cpp"
-	"./src/data/sourbase.cpp"
-	"./src/simul/worldistr.cpp"
-	"./src/simul/world.cpp"
-	"./src/simul/world_io.cpp"
-	"./src/simul/geombase.cpp"
-	"./src/simul/worldimpi.cpp"
-	"./src/simul/worldimpo.cpp"
-	"./src/simul/worldstrm.cpp"
-	"./src/simul/aleyerostr.cpp"
-#	"./src/simul/layer_gd.cpp"
-	"./src/simul/layer.cpp"
-	"./src/simul/alayeristr.cpp"
-	"./src/simul/worldostr.cpp"
-#	"./src/visual/__history/_fastcarp.c--"
-	"./src/visual/graphs.cpp"
-	"./src/visual/areamngr.cpp"
-	"./src/visual/points_plot.cpp"
-	"./src/visual/rgb_graphs.cpp"
-	"./src/visual/gadgets.cpp"
-	"./src/visual/mainmngr.cpp"
-	)
-	
-#target_compile_features(wbsyshclss PUBLIC cxx_std_11)	
-	
-	
+        "./src/data/datalog.cpp"
+        "./src/data/sourmngr.cpp"
+        "./src/data/_ikeycon.cpp"
+        "./src/data/sourbase.cpp"
+        "./src/simul/worldistr.cpp"
+        "./src/simul/world.cpp"
+        "./src/simul/world_io.cpp"
+        "./src/simul/geombase.cpp"
+        "./src/simul/worldimpi.cpp"
+        "./src/simul/worldimpo.cpp"
+        "./src/simul/worldstrm.cpp"
+        "./src/simul/aleyerostr.cpp"
+        "./src/simul/layer.cpp"
+        "./src/simul/layer_gd.cpp"
+        "./src/simul/alayeristr.cpp"
+        "./src/simul/worldostr.cpp"
+        "./src/visual/graphs.cpp"
+        "./src/visual/areamngr.cpp"
+        "./src/visual/points_plot.cpp"
+        "./src/visual/rgb_graphs.cpp"
+        "./src/visual/gadgets.cpp"
+        "./src/visual/mainmngr.cpp"
+        "../third_party/GD2/ext/gdbmpread.cpp"
+        "../third_party/GD2/ext/gdpcxread.cpp"
+        "../third_party/GD2/gd.c"
+        #	"./src/visual/__history/_fastcarp.c--"
+    )
+
+#target_compile_features(wbsyshclss PUBLIC cxx_std_11)
+
+
 #********************************************************************/
-#*              SYMSHELLCLASSES  version 2026                       */
+#*             SYMSHELL CLASSES  version 2026                       */
 #********************************************************************/
 #*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
 #*            W O J C I E C H   B O R K O W S K I                   */
