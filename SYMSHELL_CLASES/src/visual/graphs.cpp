@@ -1,6 +1,6 @@
-///////////////////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////////////////
 //IMPLEMENTACJA PODSTAWOWYCH KLAS GRAFOW
-///////////////////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////////////////
 
 #include <stdarg.h>
 #include <ctype.h>
@@ -16,6 +16,7 @@
 #include "wb_ptr.hpp"
 //#include "wbminmax.hpp"
 #include "symshell.h"
+#include "sshutils.hpp"
 #include "graphs.hpp"
 
 
@@ -23,9 +24,9 @@
 
 static char* trunc(char* bufor,unsigned width)
 {
-while(size_t(string_width(bufor))>width)//Symshell zle zwraca ??? tzn?
+while( size_t(string_width(bufor))>width ) //Symshell zle zwraca ??? tzn?
 		{
-		int size=strlen(bufor);
+		int size=strlen(bufor);  //TODO Mocno nieoptymalna metoda.
 		if(size==1) break;
 		bufor[size-2]='*';
 		bufor[size-1]='\0';
