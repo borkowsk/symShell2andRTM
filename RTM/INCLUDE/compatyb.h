@@ -1,15 +1,23 @@
-/**  \file     compatyb.h
-* \details  Plik definiujący zastępcze funkcje "C" (strlwr,strupr,sticmp)
-*    	    których brak w poszczególnych kompilatorach i systemach
-* \date  2022-10-25 (last modification)
-* **************************************************************************
-*/
+/** @file     compatyb.h
+ * @brief Plik definiujący zastępcze funkcje "C" (strlwr,strupr,sticmp).
+ * @details
+ *    Funkcji tych  brak w poszczególnych lub większości kompilatorów.
+ *    Prawdopodobnie pochodzą z rozszerzeń Borland C++ albo MSVC
+ * @date  2026-03-26 (last modification)
+ * **************************************************************************
+ */
 #ifndef _COMPATYB_H_INCLUDED_
 #define _COMPATYB_H_INCLUDED_
 
+#ifdef __cplusplus
+#include <cctype>
+#include <cstdlib>
+#include <cstring>
+#else
 #include <ctype.h>
 #include <stdlib.h>
 #include <string.h>
+#endif
 
 #ifdef _MSC_VER
 #define __MSVC__	(true)
@@ -34,11 +42,11 @@ extern "C" {
 		int stricmp(const char* s1, const char* s2);
 
 	wb_unused_attr
-		/// \brief Przekształcenie łańCucHa char* na wersję małoliterową "in place".
+		/// \brief Przekształcenie łańcucha char* na wersję małoliterową "in place".
 		const char* strlwr(char* what);
 
 	wb_unused_attr
-		/// \brief Przekształcenie łańCucHa char* na wersję WIELKOLITEROWĄ "in place".
+		/// \brief Przekształcenie łańcucha char* na wersję WIELKOLITEROWĄ "in place".
 		const char* strupr(char* what);
 
 #ifdef __cplusplus
@@ -49,9 +57,9 @@ extern "C" {
 
 #undef wb_unused_attr
 
-/* ******************************************************************/
-/*                WBRTM  version 2022 for GuestXR                   */
-/* ******************************************************************/
+/* ************************************************************* ** */
+/*                     WBRTM  version 2026                          */
+/* **************************************************************** */
 /*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
 /*            W O J C I E C H   B O R K O W S K I                   */
 /*    Instytut Studiów Społecznych Uniwersytetu Warszawskiego       */
@@ -59,7 +67,7 @@ extern "C" {
 /*    GITHUB: https://github.com/borkowsk                           */
 /*                                                                  */
 /*                               (Don't change or remove this note) */
-/* ******************************************************************/
+/* **************************************************************** */
 #endif
 
 
