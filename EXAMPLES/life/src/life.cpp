@@ -1,5 +1,8 @@
-/// Wariacje na temat life Conway'a - Algorytmy losowe.
+/// @file
+/// Wariacje na temat life Conway'a — program główny.
 // ////////////////////////////////////////////////////
+/// @date 2026-03-26 (modified)
+
 const char* WINDOW_HEADER="RAND-LIFE version 1.01c (by Wojciech Borkowski)";
 const char* SYMULATION_NAME="randlife_v1.01c";
 
@@ -365,3 +368,7 @@ return 0;
 /* STATIC ALLOCATION */
 //unsigned agent::max=0; //jaki jest największy taxon
 
+// /////////////////////////////////////////////
+// Example for SYMSHELL library.
+/// @author Wojciech Borkowski, iss.uw.edu.pl
+// /////////////////////////////////////////////

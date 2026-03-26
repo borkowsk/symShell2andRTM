@@ -1,33 +1,40 @@
-//DECLARATION OF   W O R L D  FOR "attitudeS" SIMULATION
-/////////////////////////////////////////////////////////
+/// @file
+/// DECLARATION OF   W O R L D  FOR "Conways Life" SIMULATION.
+// ///////////////////////////////////////////////////////////
+/// @date 2026-03-26 (modified)
+
 #include <limits.h> //SHRT_MAX
 #include "world.hpp"
 #include "layer.hpp"
 #include "lagent.h" //Definicja agenta
 
-class lifeworld:public world	//Caly swiat symulacji
+/// Cały świat symulacji Life.
+class lifeworld:public world
 //--------------------------------------------------
 {
-//Parametry jednowartosciowe
-/////////////////////////////////
-size_t				MyWidth;	//Obwod torusa
-short				IleKate;	//Ilosc kategori w mapach
-short				IleSasiad;	//8==Gestosc sasiedztwa
-short				OdlSasiad;	//Rozmiar sasiedztwa
-short				BierzWszystko;//Czy ma brac wszystko z sasiedztwa
+// Parametry jednowartościowe:
+// ///////////////////////////
 
-double				Noise;		//Szum informacyjny
-bool				Synchronic; //Synchroniczna zmiana pogladow
-wb_pchar			MaplName;	//nazwa pliku inicjujacej bitmapy
+size_t				MyWidth;	//!< Obwod torusa
+short				IleKate;	//!< Ilosc kategori w mapach
+short				IleSasiad;	//!< 8 == Gestosc sasiedztwa
+short				OdlSasiad;	//!< Rozmiar sasiedztwa
+short				BierzWszystko; //!< Czy ma brac wszystko z sasiedztwa
+
+double				Noise;		//!< Szum informacyjny
+bool				Synchronic; //!< Synchroniczna zmiana "pogladow"
+wb_pchar			MaplName;	//!< Nazwa pliku inicjujacej bitmapy
 
 
-//Warstwy symulacji (sa torusami)
-/////////////////////////////////
-//rectangle_unilayer<unsigned char> zdatnosc;//Warstwa definiujaca zdatnosc do zasiedlenia
-rectangle_layer_of_agents<lifeagent> Agenci;  //Wla�ciwa warstwa agentow zasiedlajacych
+// Warstwy symulacji (są torusami):
+// ////////////////////////////////
 
-//Glowne serie - wygodniej miec wskazniki niz odszukiwac z Sources po nazwach
-////////////////////////////////////////////////////////////////////////////////
+//rectangle_unilayer<unsigned char> zdatnosc; //!< Warstwa definiujaca zdatnosc do zasiedlenia
+rectangle_layer_of_agents<lifeagent> Agenci;  //!< Właściwa warstwa agentów zasiedlajacych
+
+// Główne serie — wygodniej miec wskaźniki niż odszukiwać z Sources po nazwach:
+// //////////////////////////////////////////////////////////////////////////////
+
 struct_matrix_source<lifeagent,short>		*Firsts;//=Agenci.make_source("First mem",&lifeagent::First);		
 struct_matrix_source<lifeagent,short>		*Seconds;//=Agenci.make_source("Second mem",&lifeagent::Second);
 
@@ -70,3 +77,8 @@ int		implement_output(ostream& o) const;
 virtual
 int		implement_input(istream& i);
 };
+
+// /////////////////////////////////////////////
+// Example for SYMSHELL library.
+/// @author Wojciech Borkowski, iss.uw.edu.pl
+// /////////////////////////////////////////////

@@ -1,3 +1,8 @@
+/// @file
+/// IMPLEMENTATION OF   W O R L D  FOR "Conways Life" SIMULATION.
+// //////////////////////////////////////////////////////////////
+/// @date 2026-03-26 (modified)
+
 //#include <limits.h>
 //#include <assert.h>
 //#include <string.h>
@@ -8,7 +13,7 @@
 #include "lrand.h"
 #include "lworld.h"
 #include "histosou.hpp"
-#include "clstsour.hpp" //Jest tez statsour
+#include "clstsour.hpp" //Jest tez statsour (?)
 #include "coincsou.hpp"
 #include "gadgets.hpp" 
 #include "wb_ptrio.h"
@@ -27,8 +32,9 @@ inline void wb_swap(T& a,T& b)
 }
 */
 
-// Konstrukcja agentow
-// /////////////////////////////////
+// Konstrukcja agentów:
+// ////////////////////
+
 lifeagent::lifeagent(const lifeagent& ini)
 	{
 		if(&ini!=NULL)
@@ -51,15 +57,16 @@ lifeagent::lifeagent()
 		Second=0;
 	}
 
-//Statyczne pola lifeagentow dla inicjalizacji
-////////////////////////////////////////////////////////////////
-short	lifeagent::ile_kate=2;//Ilosc kategori w mapach	
-double	lifeagent::MutationLevel=0;//Prawd. spontanicznej zmiany pogladow (0..1)
-short	lifeagent::kate_shift=7;
-double  lifeagent::InitProp=0.5;//Proporcje inicjowania losowego
+// Statyczne pola lifeagentow dla inicjalizacji:
+// /////////////////////////////////////////////
 
-//KONSTRUKCJA	SWIATA
-////////////////////////////////////
+short	lifeagent::ile_kate=2;      //!< Liczba kategorii w mapach
+double	lifeagent::MutationLevel=0; //!< Prawd. spontanicznej zmiany pogl¹dów (0..1)
+short	lifeagent::kate_shift=7;
+double  lifeagent::InitProp=0.5;    //!< Proporcje inicjowania losowego
+
+// KONSTRUKCJA	ŒWIATA:
+// ////////////////////
 extern unsigned internal_log;
 
 lifeworld::lifeworld(
@@ -74,8 +81,8 @@ lifeworld::lifeworld(
 	  double spontanic	//=0	//Prawdopodobienstwo spontanicznej zmiany pogladu
 		):	
 		world(log_name,50),		
-		MaplName(clone_str(mapl_name)),//Nazwa (bit)mapy 1. inicjujacej agentow					
-	//Sub-obiekty wlasciwe dla tej symulacji
+		MaplName(clone_str(mapl_name)), //Nazwa (bit)mapy 1. inicjuj¹cej agentów
+	//Sub-obiekty w³aœciwe dla tej symulacji:
 		
 		MyWidth(Width),
 		//Agenci(Width,Width,false,NULL),//Initer == NULL wiec tworzone przez konstruktor a nie klonowanie
@@ -97,8 +104,8 @@ lifeworld::lifeworld(
 
 			if(lifeagent::InitProp!=Noise)
 			{
-				lifeagent::InitProp=Noise;//Inne proporcje inicjowania losowego
-				Agenci.Reinitialise();//Niestety powtorna robota
+				lifeagent::InitProp=Noise; //Inne proporcje inicjowania losowego
+				Agenci.Reinitialise(); //Niestety powtórna robota
 			}
 
 			lifeagent::MutationLevel=spontanic;
@@ -128,11 +135,10 @@ WhatSourMen.insert(Seconds);
 }
 
 
-//Wspó³praca z menagerem wyswietlania, a tak¿e logiem:
-//----------------------------------------------------
+// Wspó³praca z managerem wyœwietlania, a tak¿e logiem:
+// ////////////////////////////////////////////////////
 
 ///Wspó³praca z zarz¹dc¹ wyœwietlania.
-//virtual void make_default_visualisation()
 void lifeworld::make_default_visualisation()
 //Rejestruje pochodne serie, tworzy domyœlne "lufciki" i wk³ada w "Manager"
 {
@@ -161,7 +167,7 @@ generic_histogram_source*  ClassStat=new generic_histogram_source(Firsts);
 if(!ClassStat) goto ERROR;
 	else	Sources.insert(ClassStat);
 
-//A takze utworzenie seri liczacych ich wzajemne ko-statystyki
+//A tak¿e utworzenie seri liczacych ich wzajemne ko-statystyki
 coincidention_source* CorrFS=new coincidention_source(Firsts,Seconds);
 if(!CorrFS) goto ERROR;
 Sources.insert(CorrFS); //Zeby zostala kiedys zwolniona, a poza tym moze ktos kiedys...
@@ -229,7 +235,7 @@ if(OutArea)
 	Menager.as_orginal(Menager.search(OutArea->name()));
 }
 
-//WLASCIWE LUFCIKI
+// W£AŒCIWE LUFCIKI:
 graph* pom1=new sequence_graph(szer/2-1,wyso/4,szer-50,wyso/2-1,
 							    3,Sources.make_series_info(
 										iClassEntropy,iNumClassF,iMainClassF,									
@@ -333,13 +339,13 @@ ERROR://... tu akcja na niepogode
 	
 
 
-//AKCJE SYMULACYJNE
-//////////////////////
-//////////////////////
+// AKCJE SYMULACYJNE:
+// //////////////////
+
 void lifeworld::after_read_from_image()
 //actions after read state from file. Aktualizacja pol static lifeagent'a!!!
 {
-	lifeagent::ile_kate=IleKate;//Ilosc kategori w mapach	
+	lifeagent::ile_kate=IleKate; //Ilosc kategori w mapach
 	
 	switch(IleKate)
 	{
@@ -364,13 +370,13 @@ void lifeworld::after_read_from_image()
 void lifeworld::initialize_layers()
 //-------------------------------------
 {
-	static int first=1;//TYMCZASOWE WYLACZENIE NADMIARU WYDRUKOW!!!
+	static int first=1; //TYMCZASOWE WY£¥CZENIE NADMIARU WYDRUKÓW!!!
 	if(first)
 		Log.GetStream()<<"attitude SIMULATION:";
 	//odl_sasiad=1,//Rozmiar sasiedztwa
 	//ile_sasiad=8 //8==Gestosc sasiedztwa
 
-	lifeagent::ile_kate=IleKate;//Ilosc kategori w mapach	
+	lifeagent::ile_kate=IleKate; //Ilosc kategori w mapach
 	
 	switch(IleKate)
 	{
@@ -398,18 +404,26 @@ void lifeworld::initialize_layers()
 		<<"\nNaighborhood="<<Log.separator()<<IleSasiad<<"/("<<(1+2*OdlSasiad)<<"*"<<(1+2*OdlSasiad)<<")\n";
 	
 	//			USTALANIE STANÓW AGENTÓW
-	//Wczytuje u¿ywaj¹c konstruktora lub klonowania gdy niema, wiec inicjuje reszte pól.
+	//Wczytuje, u¿ywaj¹c konstruktora lub klonowania, gdy nie ma, wiec inicjuje resztê pól.
     rectangle_layer_of_agents<lifeagent>::assign_rgb_fun tmp=&lifeagent::assign123;
-	int from= Agenci.init_from_bitmap(MaplName.get_ptr_val(),tmp);
-	
-	//Jesli nie zainicjowane z bitmapy to zostaje to z konstruktorow
-	if(from!=1) {
-        cerr<<"Agents initialisation from the bitmap "<<MaplName<<" failed!";
-        //Agenci.clean(); //		reallocate_all();
-        exit(-10);
+    char* fname=MaplName.get_ptr_val();
+    //Jeœli nie zainicjowane z bitmapy to zostaje to z konstruktorów!
+    if( fname != nullptr && strlen(fname)>0 )
+    {
+        int from = Agenci.init_from_bitmap(MaplName.get_ptr_val(), tmp);
+
+        if (from != 1) {
+            cerr << "Agents initialisation from the bitmap " << MaplName << " failed!" <<endl;
+            //Agenci.clean(); //		reallocate_all();
+            exit(-10);
+        }
     }
-	
-	first=0; //Koniec pierwszego wywolania //TYMCZASOWO!!!
+    else
+    {
+        cerr << "Agents default initialisation because of empty bitmap filename." <<endl;
+    }
+
+	first=0; //Koniec pierwszego wywo³ania //TYMCZASOWO!!! Ha Ha !!!
 }
 
 //Pojedynczy krok symulacji
@@ -471,12 +485,10 @@ void lifeworld::simulate_one_step()
 				}
 		}
 		
-		// upewniamy sie ze iterator zostanie usuniety
+		// upewniamy sie ze iterator zostanie usuniêty
 		MyGeom->destroy_iterator(Monte);
 	}
-	
-	
-	
+
 }
 
 
@@ -487,7 +499,7 @@ int lifeworld::CheckChange(const geometry_base* MyGeom,
 { 
 	int testowanie=0;
 	
-	if(DRAND()<=lifeagent::MutationLevel)//Rzadka, spontaniczna zmiana stanu
+	if(DRAND()<=lifeagent::MutationLevel) //Rzadka, spontaniczna zmiana stanu
 	{
 		int atti=RANDOM(IleKate);
 		assert(0<=atti && atti<IleKate);
@@ -508,8 +520,8 @@ int lifeworld::CheckChange(const geometry_base* MyGeom,
 		Neigh=MyGeom->make_random_neighbour_iterator(index,OdlSasiad,IleSasiad);
 	}
 
-	int zliczanie=0;//Zliczanie sasiadów
-	double alive=0;//LICZNIK ZYWYCH
+	int zliczanie=0; //Zliczanie sasiadów
+	double alive=0;  //LICZNIK ZYWYCH
 
 	while(Neigh)
 	{
@@ -542,3 +554,8 @@ int lifeworld::CheckChange(const geometry_base* MyGeom,
 		return 0;
 	}
 }
+
+// /////////////////////////////////////////////
+// Example for SYMSHELL library.
+/// @author Wojciech Borkowski, iss.uw.edu.pl
+// /////////////////////////////////////////////
