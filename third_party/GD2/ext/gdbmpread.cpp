@@ -1,30 +1,26 @@
-/****************************************************************************************/
+/* ***************************************************************************************/
 // Implementacja odczytywania  BITMAP uzupelniajaca biblioteke GD na bazie  kodu bibl.PIC
-/****************************************************************************************/
-#include <malloc.h>
-#include <stdio.h>
-#include <math.h>
-#include <string.h>
-#include <stdlib.h>
-#include <assert.h>
-#include <errno.h>
-#include <setjmp.h>
+/* ***************************************************************************************/
 
-#ifndef OLD_FASHION_CPP
+
+#include <cstdio>
+#include <cmath>
+#include <cstring>
+#include <cstdlib>
+#include <cassert>
+#include <csetjmp>
+#include <cerrno>
+
+#include <malloc.h> //!!!
+
 #include <iostream>
-#else
-#include <iostream.h>
-#endif
 
-#include "INCLUDE/platform.hpp"
-#include "../CONTRLIBS/GD2/gd.h" //Adopted library  GD
+//#include "INCLUDE/platform.hpp"
+#include "../gd.h" //Adopted library  GD
 
 #ifndef SIMPLE_ERROR_HANDLING //Hide exceptions or pseudoexceptions
-
-#define USES_IOSTREAM
-#define USES_ERROR_HANDLING
-#include "INCLUDE/uses_wb.hpp"
-
+#include "errorhan.hpp"
+#include "excpbase.hpp"
 #endif
 
 /* THIS CODE IS BASED ON BMPDECODER FROM PICT LIBRARY
@@ -138,7 +134,7 @@ static jmp_buf Jamper;//Nie ma lokalnych obiektow do zwalnianie wiec mozna
 void raiseError( int Code,char * pszErr)
   {
 #ifndef SIMPLE_ERROR_HANDLING
-	  wbrtm::errh::Error(wbrtm::TextException(pszErr,0));//Warning only
+	  wbrtm::error_handling::Error(wbrtm::TextException(pszErr,0));//Warning only
 #else
   cerr<<"SORRY:"<<pszErr<<"["<<Code<<"]"<<endl;
 #endif
@@ -933,5 +929,17 @@ return Work.give();
 
 
 jmp_buf  MyBmp256Decoder::Jamper;
+
+/* ****************************************************************** */
+/*			    Adopted to WBRTM  version 2006                        */
+/* ****************************************************************** */
+/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                   */
+/*            W O J C I E C H   B O R K O W S K I                     */
+/*    Instytut Studiow Spolecznych Uniwersytetu Warszawskiego         */
+/*        WWW:  http://wwww.iss.uw.edu.pl/~borkowsk/                  */
+/*                                                                    */
+/*                               (Don't change or remove this note)   */
+/* ****************************************************************** */
+
 
 

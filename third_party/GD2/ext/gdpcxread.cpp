@@ -1,6 +1,6 @@
-/////////////////PCX LOAD FOR GD//////////////////////
+// ///////////////PCX LOAD FOR GD//////////////////////
 //extern "C" gdImagePtr gdImageCreateFromPcx(FILE *fd);
-//////////////////////////////////////////////////////
+// ////////////////////////////////////////////////////
 /*
 Developed by Wojciech Borkowski based on :
 ** Demonstration of loading a PCX file and displaying it on screen
@@ -14,38 +14,42 @@ Developed by Wojciech Borkowski based on :
 **    shd@earthling.net
 **    http://shd.home.ml.org
 **
-****************************************************************************/
+* ***************************************************************************/
 /* #define PLOT_DEBUG  - for detailed load trace on screen */
 
 //#include <dos.h>
-#include <stdio.h>
-#include <string.h>
-#include <setjmp.h>
-#include <assert.h>
+#include <cstdio>
+#include <cstring>
+#include <csetjmp>
+#include <cassert>
+#include <iostream>
 
 #include "../gd.h"
 #include "symshell.h"
 #include "wb_bits.h"
+#include "excpbase.hpp"
+#include "errorhan.hpp"
 
 
 extern "C" gdImagePtr gdImageCreateFromPcx(FILE *fd);
 
 //OBSLUGA BLEDOW LADOWANIA
 static jmp_buf Jamper; //Nie ma lokalnych obiektow do zwalnianie wiec mozna
-static void raiseError( int Code,char * pszErr)
+
+static void raiseError( int Code,const char* pszErr)
 {
 #ifndef SIMPLE_ERROR_HANDLING
-	wbrtm::errh::Error(wbrtm::TextException(pszErr,0));//Warning only
+	wbrtm::error_handling::Error( wbrtm::TextException(pszErr,0) ); //Warning only
 #else
   cerr<<pszErr<<"["<<Code<<"] ";
 #endif
-  if(Code!=0)
-  {
-	cerr<<" SORRY!"<<endl;
-	longjmp(Jamper,Code);//Wskakuje z czytania
+  if(Code!=0) {
+      std::cerr<<" SORRY!"<<std::endl;
+      longjmp(Jamper,Code);//Wskakuje z czytania
   }
-  else
-	cerr<<" WARNING ONLY!"<<endl;
+  else {
+      std::cerr << " WARNING ONLY!" << std::endl;
+  }
 }
 
 /*
@@ -59,7 +63,7 @@ static void TextScreen ()
 	//Closing. Nothing to do.
 }
 */
-static void SetDAC (unsigned char DAC, unsigned char R, unsigned char G,unsigned char B)
+inline void SetDAC (unsigned char DAC, unsigned char R, unsigned char G,unsigned char B)
 {
 	set_rgb(DAC,R,G,B);
 }
@@ -133,10 +137,10 @@ static void _Load8bitPCX(FILE *PCXFile,gdImagePtr Image)
 		   if(color==-1)
 			   raiseError(3,"To many colors during load PCX.");
 #ifndef NDEBUG
-		   cerr<<"PCX color \t"<<int(DataByte)<<"("
+		   std::cerr<<"PCX color \t"<<int(DataByte)<<"("
 			   <<int(Palette[DataByte][0])<<','
 			   <<int(Palette[DataByte][1])<<','
-			   <<int(Palette[DataByte][2])<<") using index "<<color<<endl;
+			   <<int(Palette[DataByte][2])<<") using index "<<color<<std::endl;
 #endif
 	   }
 	   else
@@ -274,7 +278,7 @@ gdImagePtr gdImageCreateFromPcx(FILE *PCXFile)
    cerr<<endl;
 #endif
    if(setjmp(Jamper)!=0){ //Control point for read failure
-		cerr<<"Ups!"<<endl;
+       std::cerr<<"Ups!"<<std::endl;
 		goto FAILED;
 	}
 
@@ -298,8 +302,8 @@ gdImagePtr gdImageCreateFromPcx(FILE *PCXFile)
 		_Load1bitPCX(PCXFile,Image);
 	else
 	{
-		cerr<<"Manufacturer:"<<Header.Manufacturer<<" Version:"<<Header.Version<<endl;
-		cerr<<"Encoding:"<<Header.Encoding<<" BitsPerPixel:"<<Header.BitsPerPixel<<endl;
+        std::cerr<<"Manufacturer:"<<Header.Manufacturer<<" Version:"<<Header.Version<<std::endl;
+        std::cerr<<"Encoding:"<<Header.Encoding<<" BitsPerPixel:"<<Header.BitsPerPixel<<std::endl;
 		raiseError(1,"Unsupported PCX version");
 	}
 
@@ -314,13 +318,14 @@ FAILED:
 }
 
 
-/********************************************************************/
-/*			    Adopted to WBRTM  version 2006                      */
-/********************************************************************/
-/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
-/*            W O J C I E C H   B O R K O W S K I                   */
-/*    Instytut Studiow Spolecznych Uniwersytetu Warszawskiego       */
-/*        WWW:  http://wwww.iss.uw.edu.pl/~borkowsk/                */
-/*                                                                  */
-/*                               (Don't change or remove this note) */
-/********************************************************************/
+/* ****************************************************************** */
+/*			    Adopted to WBRTM  version 2006                        */
+/* ****************************************************************** */
+/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                   */
+/*            W O J C I E C H   B O R K O W S K I                     */
+/*    Instytut Studiow Spolecznych Uniwersytetu Warszawskiego         */
+/*        WWW:  http://wwww.iss.uw.edu.pl/~borkowsk/                  */
+/*                                                                    */
+/*                               (Don't change or remove this note)   */
+/* ****************************************************************** */
+
