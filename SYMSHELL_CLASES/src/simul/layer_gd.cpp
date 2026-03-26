@@ -1,7 +1,7 @@
 // Implementacja bazy warstwy symulacji
 //*////////////////////////////////////////////////////////////////////
 #include <limits.h>
-#include "../CONTRLIBS/GD2/gd.h"
+#include "../../third_party/GD2/gd.h"
 
 #include "compatyb.h"
 #define USES_STDC_RAND
@@ -9,13 +9,13 @@
 
 #include "layer.hpp"
 
-extern "C" gdImagePtr gdImageCreateFromBmp(FILE *f); //Uzupelnienie dla BMP
+extern "C" gdImagePtr gdImageCreateFromBmp(FILE *f); //Uzupełnienie dla BMP
 //const unsigned long any_layer_base::FULL=UINT_MAX;
 
 //Wczytanie pliku GIF lub BMP
 int rectangle_layer::init_from_bitmap(const char* filename,void* user_data)
 {
-size_t Width=0,i=0,Height=0,j=0;//Rozmiary i indeksy petli
+size_t Width=0,i=0,Height=0,j=0;//Rozmiary i indeksy pętli
 if(filename==nullptr || filename[0]=='\0')
 			return 0;
 FILE* file=fopen(filename,"rb");
