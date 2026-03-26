@@ -483,7 +483,9 @@ public:
 		va_start(list,s);
 #pragma GCC diagnostic pop
 		for(size_t i=0;i<s;i++)
+        {
 			ptr[i]=va_arg(list,T);
+        }
 		va_end(list);
     }
 

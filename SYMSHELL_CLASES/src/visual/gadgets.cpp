@@ -1,7 +1,10 @@
-// IMPLEMENTACJA ROZNYCH TYPOW OBSZAROW NIE BEDACYCH GRAFAMI
+/// @file
+///        IMPLEMENTACJA ROZNYCH TYPOW OBSZAROW NIE BEDACYCH GRAFAMI.
 //==============================================================================
-// Wersja z kosmetyką XI 2012
+/// @date 2026-03-24 (last modification)
+/// Wersja z kosmetyką XI 2012 i późniejszymi.
 //*//////////////////////////////////////////////////////////////////////////////
+
 #include "wb_clone.hpp"
 #include "symshell.h"
 #include "drawable.hpp"
@@ -17,7 +20,7 @@ T c=a;a=b;b=c;
 }
 
 int gadget::on_click(int x,int y,int click)
-//Jesli "inside" to rysuje w inwersji, ale zwraca 1.
+//Jesli klik "inside" to rysuje w inwersji, ale zwraca wynik funkcji `is_inside`.
 {
 int ins=is_inside(x,y);
 if(ins==1)
@@ -25,7 +28,7 @@ if(ins==1)
 	draw_color=setbackground(draw_color);//Na draw_color stara wartosc background
 	replot();
 	draw_color=setbackground(draw_color);//i z powrotem
-	ins=_on_click(x,y,click);//Moze zmienic wynik
+	ins=_on_click(x,y,click); //Moze zmienic wynik
 	}
 return ins;
 }
@@ -340,7 +343,7 @@ right->replot(0);
 int leftrigt_button::_user_action(int leftorright,int /*ingnoruje click*/)
 /*Jeśli lewo to -1, a jesli prawo to 1*/
 {
-	return 2;//Obsluzone, choć nie zrobione
+	return 2; //Obsłuzone, choć nie zrobione
 }
 
 
@@ -421,28 +424,28 @@ int steering_wheel::on_click(int x,int y,int click)
 	{	
 		if(click==1)
 			{
-			//Przy malych zakresach co 1, przy duzych dwukrotnie
-			if(subtab.dia.X()<10*subtab.sst.X() &&
-				subtab.dia.Y()<10*subtab.sst.Y() )
-				{
-				subtab.dia.X()-=subtab.sst.X();
-				subtab.dia.Y()-=subtab.sst.Y();
-				}
+				//Przy malych zakresach co 1, przy duzych dwukrotnie
+				if(subtab.dia.X()<10*subtab.sst.X()
+					&& subtab.dia.Y()<10*subtab.sst.Y() )
+					{
+					subtab.dia.X()-=subtab.sst.X();
+					subtab.dia.Y()-=subtab.sst.Y();
+					}
 				else
-				{
-				subtab.dia.X()/=2;
-				subtab.dia.Y()/=2;					
-				}
+					{
+					subtab.dia.X()/=2;
+					subtab.dia.Y()/=2;
+					}
 			}
-			else if(click==2)
+		else if(click==2)
 			{
-			if(subtab.dia.X()<15*subtab.sst.X() &&
-				subtab.dia.Y()<15*subtab.sst.Y() )
+			if(subtab.dia.X()<15*subtab.sst.X()
+				&& subtab.dia.Y()<15*subtab.sst.Y() )
 				{			
 				subtab.dia.X()+=subtab.sst.X();
 				subtab.dia.Y()+=subtab.sst.Y();
 				}
-				else
+			else
 				{			
 				subtab.dia.X()*=2;
 				if(subtab.dia.X()*2>md.max.X()-md.min.X())
@@ -460,33 +463,35 @@ int steering_wheel::on_click(int x,int y,int click)
 	*/	
 	}
 	else //Zaden z podobiektów
-	return is_inside(x,y);//Wychodzi sie.		
+	return is_inside(x,y);//Wychodzi sie.
 		
-//Ustawia tak samo pozostalym zarzadzanym seriom
-size_t i;
-for(i=1;i<data.get_size();i++)
-	{		
-	geometry_base* sec_geom=data[i]->getgeometry();
-    if(sec_geom==nullptr)
-				continue;
-	if(*geom!=*sec_geom)
-				continue;
-	if(sec_geom->set_view_info(&subtab)==-1) 
-					goto ERROR;
-	}
-//I ustawia seri podstawowej
-geom->set_view_info(&subtab);
+    //Ustawia tak samo pozostalym zarzadzanym seriom
+    size_t i;
+    for(i=1;i<data.get_size();i++)
+        {
+        rectangle_source_base* pom=data[i];                    assert(pom!=nullptr);
 
-set_char('\r');//Informacja ze trzeba odrysowac - prowizoryczna!!!
-return 2;
-ERROR://Niezaimplemtowano koniecznej operacja lub inny blad
-{
-int bf=getframe();//Uzyte jako tymczas
-setframe(254);//Jasny ale nie bialy
-replot();
-setframe(bf);
-}
-return 0;//NIe przyznaje sie do punktu
+        geometry_base* sec_geom=pom->getgeometry();
+        if(sec_geom==nullptr)
+                    continue;
+        if(*geom!=*sec_geom)
+                    continue;
+        if(sec_geom->set_view_info(&subtab)==-1)
+                        goto ERROR;
+        }
+    //I ustawia seri podstawowej
+    geom->set_view_info(&subtab);
+
+    set_char('\r');//Informacja ze trzeba odrysowac - prowizoryczna!!!
+    return 2;
+    ERROR://Niezaimplemtowano koniecznej operacja lub inny blad
+    {
+    int bf=getframe();//Uzyte jako tymczas
+    setframe(254);//Jasny ale nie bialy
+    replot();
+    setframe(bf);
+    }
+    return 0;//NIe przyznaje sie do punktu
 }
 
 /*

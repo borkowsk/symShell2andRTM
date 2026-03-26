@@ -23,6 +23,7 @@
 #define _EXCEPTION_BASE_HPP_
 
 
+#include <cstdint>
 #ifdef __DJGPP__
 #pragma interface
 #endif
