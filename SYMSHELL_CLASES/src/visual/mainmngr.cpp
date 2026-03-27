@@ -91,20 +91,20 @@ return 0;
 
 //KONSTRUKTORY
 //---------------
-//Wywolanie wiecej niz jednego konstruktora powoduje aborcje procesu!!!
-main_area_menager::main_area_menager(size_t size, //Konstruktor dajacy zarzadce o okreslonym rozmiarze listy
-				                    int width,int height,
-				                    unsigned ibkg
+//Wywołanie więcej niż jednego konstruktora powoduje aborcje procesu!!!
+main_area_menager::main_area_menager( size_t size, //Konstruktor dający zarządcę o określonym rozmiarze listy
+                                      int width,int height,
+				                      unsigned ibkg
 				                    ):
 				area_menager(size,0,0,width-1,height-1,ibkg)
 {
-if(initialized || counter>0)
-	{
-	fprintf(stderr,"One main_area_menager already constructed!\n");
-	fprintf(stderr,"Process will be aborted!\n");
-	abort();
-	}
-counter++;
+    if(initialized || counter>0)
+        {
+        fprintf(stderr,"One main_area_menager already constructed!\n");
+        fprintf(stderr,"Process will be aborted!\n");
+        abort();
+        }
+    counter++;
 }
 
 /*
