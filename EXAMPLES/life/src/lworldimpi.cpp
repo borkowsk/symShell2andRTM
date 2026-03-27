@@ -13,7 +13,7 @@ int lifeworld::implement_input(istream& i)
     if(ret!=1) return ret;
     i>>MyWidth;		//Obwód torusa
 
-    i>>IleKate;		//Ilość kategorii w mapach
+    i>>IleKate;		//Liczba kategorii w mapach
     i>>IleSasiad;	//8 == Gęstość sąsiedztwa
     i>>OdlSasiad;	//Rozmiar sąsiedztwa
 

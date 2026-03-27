@@ -1,5 +1,5 @@
 /// @file
-/// Wariacje na temat life Conway'a — program główny.
+/// Wariacje na temat life Conway-a — program główny.
 // ////////////////////////////////////////////////////
 /// @date 2026-03-26 (modified)
 
@@ -60,7 +60,7 @@ int parse_options(const int argc,const char* argv[])
         MutacjeSpon=atof(pom+5);
         if(MutacjeSpon<0 || MutacjeSpon>100)
             {
-            cerr<<"Bad SPCH ="<<MutacjeSpon<<" (must be in <0,100> )"<<endl;
+            cerr<<"Bad SPCH ="<<MutacjeSpon<<" (must be in <0,100>)"<<endl;
             return 0;
             }
         cerr<<"SPCH (spn. change percent) = "<<MutacjeSpon<<endl;
@@ -72,7 +72,7 @@ int parse_options(const int argc,const char* argv[])
         ProcentSzumu=atol(pom+5);
         if(ProcentSzumu<0 || ProcentSzumu>100)
             {
-            cerr<<"Bad NOIP ="<<ProcentSzumu<<" (must be in <0,100> )"<<endl;
+            cerr<<"Bad NOIP ="<<ProcentSzumu<<" (must be in <0,100>)"<<endl;
             return 0;
             }
         cerr<<"NOIP (noise percent) = "<<ProcentSzumu<<endl;
@@ -216,7 +216,7 @@ int parse_options(const int argc,const char* argv[])
         if(internal_log<50)
                 {
                 internal_log=50;
-                cerr<<"Internal log to short. Reset to default minimum ="<<internal_log<<endl;
+                cerr<<"The internal log value is too small. Reset to the default minimum ="<<internal_log<<endl;
                 }
         }
         else
@@ -233,7 +233,7 @@ int parse_options(const int argc,const char* argv[])
         if((pom=strstr(rob,"HIST="))!=nullptr) //Nie nullptr, czyli jest
         {
         strcpy(HistName,pom+5);
-        cerr<<"History of the simulation will be saved to \""<<HistName<<"\"\n";
+        cerr<<"The history of the simulation will be saved to \""<<HistName<<"\"\n";
         }
         else
         if((pom=strstr(rob,"REPL="))!=nullptr) //Nie nullptr, czyli jest
@@ -258,7 +258,7 @@ int parse_options(const int argc,const char* argv[])
             cerr<<" NOIP=NN - percent of initially life cells. ("<<ProcentSzumu<<")\n";
             // cerr<<" SPCH=NN - percent of spontanic change of randlifes ("<<MutacjeSpon*100<<")\n";
             cerr<<" MAX=NNNN - max simulation step ("<<iMaxIterations<<")\n";
-            cerr<<" ILOG=NNNN - lenght of internal statistic logs ("<<internal_log<<")\n";
+            cerr<<" ILOG=NNNN - length of internal statistic logs ("<<internal_log<<")\n";
             cerr<<" STOP=N/Y - exit after MAX steps ("<<(iWychodzenie?"Yes":"No")<<")\n";
             cerr<<" VIEV=N - visualisation frequency ("<<iViewRatio<<")\n";
             cerr<<" LOGC=N - log file saving frequency ("<<iLogRatio<<")\n";
@@ -347,7 +347,7 @@ int main(const int argc,const char* argv[])
                 cout<<WINDOW_HEADER<<": SIMULATION "<<symulacja<<" DONE."<<endl;
                 if(symulacja<AUTOSTART-1)
                     {
-                    //Reinicjalizacja
+                    //Reinicjalizacja:
                     tenSwiat.restart();
                     }
                 }

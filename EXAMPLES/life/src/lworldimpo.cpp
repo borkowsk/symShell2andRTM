@@ -12,13 +12,13 @@ int lifeworld::implement_output(ostream& o) const
     int ret=world::implement_output(o);
     if(ret!=1) return ret;
     o<<separator;
-    o<<MyWidth<<separator;	//Obwod (?) torusa
+    o<<MyWidth<<separator;	    //Obwód (?) torusa
 
-    o<<IleKate<<separator;	//Ilosc kategori w mapach
-    o<<IleSasiad<<separator;	//8==Gestosc sasiedztwa
-    o<<OdlSasiad<<separator;	//Rozmiar sasiedztwa
+    o<<IleKate<<separator;	    //Liczba kategorii w mapach
+    o<<IleSasiad<<separator;	//8 == gęstość sąsiedztwa
+    o<<OdlSasiad<<separator;	//Rozmiar sąsiedztwa
 
-    o<<Noise<<separator<<endl;		//Szum informacyjny
+    o<<Noise<<separator<<endl;	//Szum informacyjny
     o<<Agenci<<endl;
     return 1;
 }

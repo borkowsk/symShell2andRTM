@@ -15,22 +15,22 @@ class lifeworld:public world
     // Parametry jednowartościowe:
     // ///////////////////////////
 
-    size_t				MyWidth;	//!< Obwod torusa
-    short				IleKate;	//!< Ilosc kategori w mapach
-    short				IleSasiad;	//!< 8 == Gestosc sasiedztwa
-    short				OdlSasiad;	//!< Rozmiar sasiedztwa
-    short				BierzWszystko; //!< Czy ma brac wszystko z sasiedztwa
+    size_t				MyWidth;	//!< Obwód torusa
+    short				IleKate;	//!< Liczba kategorii w mapach
+    short				IleSasiad;	//!< 8 == gęstość sąsiedztwa
+    short				OdlSasiad;	//!< Rozmiar sąsiedztwa
+    short				BierzWszystko; //!< Czy ma brać wszystko z sąsiedztwa
 
     double				Noise;		//!< Szum informacyjny
-    bool				Synchronic; //!< Synchroniczna zmiana "pogladow"
-    wb_pchar			MaplName;	//!< Nazwa pliku inicjujacej bitmapy
+    bool				Synchronic; //!< Synchroniczna zmiana "poglądów"
+    wb_pchar			MaplName;	//!< Nazwa pliku inicjującej bitmapy/grafiki
 
 
     // Warstwy symulacji (są torusami):
     // ////////////////////////////////
 
-    //rectangle_unilayer<unsigned char> zdatnosc; //!< Warstwa definiujaca zdatnosc do zasiedlenia
-    rectangle_layer_of_agents<lifeagent> Agenci;  //!< Właściwa warstwa agentów zasiedlajacych
+    //rectangle_unilayer<unsigned char> zdatność; //!< Warstwa definiująca zdatność do zasiedlenia
+    rectangle_layer_of_agents<lifeagent> Agenci;  //!< Właściwa warstwa agentów zasiedlających
 
     // Główne serie — wygodniej miec wskaźniki niż odszukiwać z Sources po nazwach:
     // //////////////////////////////////////////////////////////////////////////////
@@ -60,7 +60,7 @@ class lifeworld:public world
     protected:
     //AKCJE
     void	initialize_layers();     //Stan startowy symulacji
-    void	after_read_from_image(); //Actions after read state from file. Aktualizacja pol static lifeagent'a!!!
+    void	after_read_from_image(); //Actions after read state from a file. Aktualizacja pol static `lifeagent`-a!!!
     void	simulate_one_step();     //Właściwa implementacja kroku symulacji
 
     //Wspolpraca z menagerem wyswietlania
@@ -68,10 +68,10 @@ class lifeworld:public world
     void	make_default_visualisation() override; //Tworzy domyślne "lufciki" i umieszcza w zarządcy lufcików ustawionym w world::initialise(...)
     //void actualize_out_area(); // aktualizacja zawartości `OutArea` po `n` krokach symulacji
 
-    //Generuje podstawowe zrodla dla wbudowanego manager-a danych lub innego
+    //Generuje podstawowe źródła dla wbudowanego manager-a danych lub innego
     void	make_basic_sources(sources_menager& WhatSourMen);
 
-    //Implementacja wejścia/wyjścia. Zwracaj 1 jeśli sukces!
+    //Implementacja wejścia/wyjścia. Zwracaj 1, jeśli sukces!
     virtual
     int		implement_output(ostream& o) const;
     virtual

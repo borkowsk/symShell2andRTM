@@ -9,15 +9,15 @@
 
 class lifeagent:public agent_base
 {
-    friend class lifeworld; //Na razie tak - zeby uproscic dostep do skladowych.
+    friend class lifeworld; //Na razie tak, żeby uprościć dostęp do składowych.
 
-    // STATYCZNE SKLADOWE - PARAMETRY INICJOWANIA AGENT�W
-    static short ile_kate; //Ilosc kategori - na razie zawsze 2!!!
-    static short kate_shift; //Do wczytywania
-    static double MutationLevel; //Prawd. spontanicznej zmiany stanu (0..1) - raczej nieuzywane
+    // STATYCZNE SKŁADOWE - PARAMETRY INICJOWANIA AGENTÓW:
+    static short  ile_kate;   //Liczba kategorii. Na razie zawsze 2!!! NIEUŻYWANE?
+    static short  kate_shift; //Do wczytywania
+    static double MutationLevel; //Prawd. spontanicznej zmiany stanu (0..1) - chyba nieużywane
     static double InitProp; //Proporcje inicjowania losowego
 
-    // SKLADOWE DLA SYMULACJI
+    // SKŁADOWE DLA SYMULACJI:
     short First;		//Pierwsze stan
     short Second;		//Nowy/stary stan
 
@@ -41,22 +41,22 @@ class lifeagent:public agent_base
         return 1; //Chyba tak...
     }
 
-    lifeagent(const lifeagent& ini);	//Konkretna implementacja w lifeworld!
+    lifeagent(const lifeagent& ini); //!< Konkretna implementacja tego konstruktora w "lworld.cpp".
 
-    lifeagent();					//Konkretna implementacja w lifeworld!
+    lifeagent(); //!< Konkretna implementacja tego konstruktora w "lworld.cpp".
 
     lifeagent* clone() const
     { return new lifeagent(*this);}
 
-    ~lifeagent()
+    ~lifeagent() override
     {_clean();}
 
-    void clean()
+    void clean() override
     {_clean();}
 
     void assign123(unsigned char Red,unsigned char Green,unsigned char Blue)
     {
-        First=unsigned( (long(Red)+long(Green)+Blue)/3 ) >>kate_shift;
+        First=unsigned( (long(Red)+long(Green)+Blue)/3 ) >> kate_shift;
         Second=0;
     }
 
