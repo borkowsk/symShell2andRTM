@@ -7,21 +7,22 @@
 
 #include "layer.hpp"
 
+/// Klasa agenta do implementacji Life.
 class lifeagent:public agent_base
 {
-    friend class lifeworld; //Na razie tak, żeby uprościć dostęp do składowych.
+    friend class lifeworld; //!< Na razie tak, żeby uprościć dostęp do składowych.
 
     // STATYCZNE SKŁADOWE - PARAMETRY INICJOWANIA AGENTÓW:
-    static short  ile_kate;   //Liczba kategorii. Dla Life zawsze 2!!! WIĘC TO POLE NIEUŻYWANE — TYLKO DLA INFORMACJI.
-    static short  kate_shift; //Do wczytywania
-    static double MutationLevel; //Prawd. spontanicznej zmiany stanu (0..1) - chyba nieużywane
-    static double InitProp; //Proporcje inicjowania losowego
+    static short  ile_kate;   //!< Liczba kategorii. Dla Life zawsze 2!!! WIĘC TO POLE NIEUŻYWANE — TYLKO DLA INFORMACJI.
+    static short  kate_shift; //!< Przesunięcie do wczytywania (z grafik?).
+    static double MutationLevel; //!< Prawd. spontanicznej zmiany stanu (0..1) - chyba tu nieużywane.
+    static double InitProp;  //!< Proporcje inicjowania losowego.
 
     // SKŁADOWE DLA SYMULACJI:
-    short First;		//Pierwsze stan
-    short Second;		//Nowy/stary stan
+    short First;		//!< Pierwszy, czyli aktualny stan.
+    short Second;		//!< Nowy albo stary stan (zależnie od modelu).
 
-
+    /// Statyczne czyszczenie stanu.
     void _clean()
     {
         First=0;
@@ -31,11 +32,13 @@ class lifeagent:public agent_base
     // TO CO MUSI byc zdefiniowane:
     // ////////////////////////////
     public:
+    /// Określenie, czy stan poprawny formalnie.
     int IsOK()
     {
         return 1;
     }
 
+    /// Określenie, czy agent jest żywy, tj. bierze udział w symulacji.
     int is_alive()
     {
         return 1; //Chyba tak...
@@ -45,27 +48,32 @@ class lifeagent:public agent_base
 
     lifeagent(); //!< Konkretna implementacja tego konstruktora w "lworld.cpp".
 
+    /// Tworzenie klonu agenta na stercie.
     lifeagent* clone() const
     { return new lifeagent(*this);}
 
+    /// Destruktor wirtualny.
     ~lifeagent() override
     {_clean();}
 
+    /// Wirtualne czyszczenie.
     void clean() override
     {_clean();}
 
+    ///Do przypisywania stanu z obrazków (RGB)
     void assign123(unsigned char Red,unsigned char Green,unsigned char Blue)
     {
         First=unsigned( (long(Red)+long(Green)+Blue)/3 ) >> kate_shift;
         Second=0;
     }
 
-
+    ///Do odczytywania stanu na obrazek.
     long RGB()
     {
         return (unsigned long) ( (unsigned char) (First) );
     }
 
+    ///Zapis na strumień.
     friend
     ostream& operator << (ostream& o,const lifeagent& a)
     {
@@ -75,6 +83,7 @@ class lifeagent:public agent_base
         return o;
     }
 
+    ///Odczyt ze strumienia.
     friend
     istream& operator >> (istream& i,lifeagent& a)
     {

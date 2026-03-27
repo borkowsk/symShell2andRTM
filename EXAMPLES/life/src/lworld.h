@@ -1,7 +1,7 @@
 /// @file
 /// DECLARATION OF   W O R L D  FOR "Conways Life" SIMULATION.
 // ///////////////////////////////////////////////////////////
-/// @date 2026-03-26 (modified)
+/// @date 2026-03-27 (modified)
 
 #include <limits.h> //SHRT_MAX
 #include "world.hpp"
@@ -55,27 +55,26 @@ class lifeworld:public world
           double spontanic=0	//Prawdopodobieństwo spontanicznej zmiany "stanu"
           );
 
-    ~lifeworld(){}
+    ~lifeworld() override= default;
 
     protected:
-    //AKCJE
-    void	initialize_layers();     //Stan startowy symulacji
-    void	after_read_from_image(); //Actions after read state from a file. Aktualizacja pol static `lifeagent`-a!!!
-    void	simulate_one_step();     //Właściwa implementacja kroku symulacji
+    //GŁÓWNE AKCJE
+    void	initialize_layers() override;     //!< Stan startowy symulacji.
+    void	after_read_from_image() override; //!< Actions after read state from a file. Aktualizacja pol static `lifeagent`-a!!!
+    void	simulate_one_step() override;     //!< Właściwa implementacja kroku symulacji.
 
-    //Wspolpraca z menagerem wyswietlania
-    //---------------------------------------------
-    void	make_default_visualisation() override; //Tworzy domyślne "lufciki" i umieszcza w zarządcy lufcików ustawionym w world::initialise(...)
+    //Współpraca z menagerem wyświetlania:
+    //------------------------------------
+    void	make_default_visualisation() override; //!< Tworzy domyślne "lufciki". I umieszcza w zarządcy lufcików ustawionym w world::initialise(...)
     //void actualize_out_area(); // aktualizacja zawartości `OutArea` po `n` krokach symulacji
 
-    //Generuje podstawowe źródła dla wbudowanego manager-a danych lub innego
+    /// Generuje podstawowe źródła dla wbudowanego manager-a danych.
     void	make_basic_sources() override;
 
-    //Implementacja wejścia/wyjścia. Zwracaj 1, jeśli sukces!
-    virtual
-    int		implement_output(ostream& o) const;
-    virtual
-    int		implement_input(istream& i);
+    //Implementacja wejścia/wyjścia:
+    //------------------------------
+    int		implement_output(ostream& o) const override;
+    int		implement_input(istream& i) override;
 };
 
 // /////////////////////////////////////////////

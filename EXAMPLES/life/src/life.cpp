@@ -3,21 +3,21 @@
 // ////////////////////////////////////////////////////
 /// @date 2026-03-27 (modified)
 
-const char* WINDOW_HEADER="RAND-LIFE version 1.01c (by Wojciech Borkowski)";
-const char* SIMULATION_NAME="randlife_v1.01c";
+const char* WINDOW_HEADER="RAND-LIFE version 1.01d (by Wojciech Borkowski)";
+const char* SIMULATION_NAME="randlife_v1.01d";
 
 #include <cstdlib>
-//#include <cmath>
 #include <iostream>
-#include <compatyb.h>
+
+#include "compatyb.h"
 #include "lrand.h"
 #include "lworld.h"
-//#include "wbminmax.hpp"
 
-unsigned SWIDTH=750;
-unsigned SHEIGHT=550;
 
-unsigned internal_log=7000; //Nieobiektowo przekazywane do metody inicializacji źródeł
+unsigned short SWIDTH=750;
+unsigned short SHEIGHT=550;
+
+unsigned internal_log=7000; //Nieobiektowo przekazywane do metody inicjalizacji źródeł
 char  LogName[512]="randlife.log\0-------------------+--";
 char HistName[512]="\0--+---------randlife.otx----------";
 char MapLName[512]="\0--+---------randlife.gif----------";
@@ -28,12 +28,14 @@ unsigned iLogRatio=1;
 unsigned iViewRatio=1;
 
 
-const int IloscKlas=2;
-int  ProcentSzumu=10;
+const short LiczbaKlas=2;
+short  ProcentSzumu=10;
 double MutacjeSpon=0;
-int  RozmiarSasiedztwa=1; //3x3-1
-int  IleSasiadow=-1; //Wszyscy sąsiedzi — nielosowo. 8. - losowo!!!
-bool TypSymulacji=0; //Synchroniczna
+short  ROtoczenia=1; //3x3-1
+short  IluZOtoczenia=-1; //Wszyscy sąsiedzi — nielosowo. 8. - losowo!!!
+
+constexpr bool SYNCHRONOUSLY=true;
+bool TypSymulacji=SYNCHRONOUSLY; //Synchroniczna
 
 int  iWychodzenie=0;
 int  Replay=0;
@@ -57,190 +59,196 @@ int parse_options(const int argc,const char* argv[])
         *pom='=';
         if((pom=strstr(rob,"SPCH="))!=nullptr) //Nie nullptr, czyli jest
         {
-        MutacjeSpon=atof(pom+5);
-        if(MutacjeSpon<0 || MutacjeSpon>100)
+            MutacjeSpon=atof(pom+5);
+            if(MutacjeSpon<0 || MutacjeSpon>100)
             {
-            cerr<<"Bad SPCH ="<<MutacjeSpon<<" (must be in <0,100>)"<<endl;
-            return 0;
+                cerr<<"Bad SPCH ="<<MutacjeSpon<<" (must be in <0,100>)"<<endl;
+                return 0;
             }
-        cerr<<"SPCH (spn. change percent) = "<<MutacjeSpon<<endl;
-        MutacjeSpon/=100; //Ułamek, a nie procent tak naprawdę
+            cerr<<"SPCH (spn. change percent) = "<<MutacjeSpon<<endl;
+            MutacjeSpon/=100; //Ułamek, a nie procent tak naprawdę
         }
         else
         if((pom=strstr(rob,"NOIP="))!=nullptr) //Nie nullptr, czyli jest
         {
-        ProcentSzumu=atol(pom+5);
-        if(ProcentSzumu<0 || ProcentSzumu>100)
+            long tmpProcent=atol(pom+5);
+            if(tmpProcent<0 || tmpProcent>100)
             {
-            cerr<<"Bad NOIP ="<<ProcentSzumu<<" (must be in <0,100>)"<<endl;
-            return 0;
+                cerr<<"Bad NOIP ="<<tmpProcent<<" (must be in <0,100>)"<<endl;
+                return 0;
             }
-        cerr<<"NOIP (noise percent) = "<<ProcentSzumu<<endl;
+            ProcentSzumu=(short)tmpProcent;
+            cerr<<"NOIP (noise percent) = "<<ProcentSzumu<<endl;
         }
         /*
         else
         if((pom=strstr(rob,"CLSS="))!=nullptr) //Nie nullptr czyli jest
         {
-        IloscKlas=atol(pom+5);
-        if(IloscKlas<2)
+        LiczbaKlas=atol(pom+5);
+        if(LiczbaKlas<2)
             {
-            cerr<<"Bad CLSS ="<<IloscKlas<<" (must be >2 )"<<endl;
+            cerr<<"Bad CLSS ="<<LiczbaKlas<<" (must be >2 )"<<endl;
             return 0;
             }
         }*/
         else
         if((pom=strstr(rob,"WIDTH="))!=nullptr) //Nie nullptr, czyli jest
         {
-        iWidth=atol(pom+6);
-        if(iWidth<3 || iWidth>=SWIDTH)
+            iWidth=atol(pom+6);
+            if(iWidth<3 || iWidth>=SWIDTH)
             {
-            cerr<<"Bad WIDTH = "<<iWidth<<"(must be in <3,"<<SWIDTH<<">"<<endl;
-            return 0;
+                cerr<<"Bad WIDTH = "<<iWidth<<"(must be in <3,"<<SWIDTH<<">"<<endl;
+                return 0;
             }
         }
         else
         if((pom=strstr(rob,"WIDTHWIN="))!=nullptr) //Nie nullptr, czyli jest
         {
-        SWIDTH=atol(pom+9);
-        if(SWIDTH<50)
-            {
-            cerr<<"Bad WIDTHWIN = "<<SWIDTH<<" (must be >50)"<<endl;
-            return 0;
-            }
+            SWIDTH=atol(pom+9);
+            if(SWIDTH<50)
+                {
+                cerr<<"Bad WIDTHWIN = "<<SWIDTH<<" (must be >50)"<<endl;
+                return 0;
+                }
         }
         else
         if((pom=strstr(rob,"HEIGHTWIN="))!=nullptr) //Nie nullptr, czyli jest
         {
-        SHEIGHT=atol(pom+10);
-        if(SHEIGHT<50)
-            {
-            cerr<<"Bad HEIGHTWIN = "<<SHEIGHT<<" (must be >50)"<<endl;
-            return 0;
-            }
+            SHEIGHT=atol(pom+10);
+            if(SHEIGHT<50)
+                {
+                cerr<<"Bad HEIGHTWIN = "<<SHEIGHT<<" (must be >50)"<<endl;
+                return 0;
+                }
         }
         else
         if((pom=strstr(rob,"MAX="))!=nullptr) //Nie nullptr, czyli jest
         {
-        iMaxIterations=atol(pom+4);
-        if(iMaxIterations<=0)
-            {
-            cerr<<"Bad MAX iterations. Must be >0"<<endl;
-            return 0;
-            }
+            iMaxIterations=atol(pom+4);
+            if(iMaxIterations<=0)
+                {
+                cerr<<"Bad MAX iterations. Must be >0"<<endl;
+                return 0;
+                }
             else
-            {
-                internal_log=iMaxIterations+1;
-            }
+                {
+                    internal_log=iMaxIterations+1;
+                }
         }
         else
         if((pom=strstr(rob,"LOGC="))!=nullptr) //Nie nullptr, czyli jest
         {
-        iLogRatio=atol(pom+5);
-        if(iLogRatio<=0)
-            {
-            cerr<<"Bad LOGC (write to log frequency). Must be >0"<<endl;
-            return 0;
-            }
+            iLogRatio=atol(pom+5);
+            if(iLogRatio<=0)
+                {
+                cerr<<"Bad LOGC (write to log frequency). Must be >0"<<endl;
+                return 0;
+                }
         }
         else
         if((pom=strstr(rob,"VIEW="))!=nullptr) //Nie nullptr, czyli jest
         {
-        iViewRatio=atol(pom+5);
-        if(iViewRatio<=0)
-            {
-            cerr<<"Bad VIEW (visualisation frequency). Must be >0"<<endl;
-            return 0;
-            }
+            iViewRatio=atol(pom+5);
+            if(iViewRatio<=0)
+                {
+                    cerr<<"Bad VIEW (visualization frequency). Must be >0"<<endl;
+                    return 0;
+                }
         }
         else
         if((pom=strstr(rob,"INDI="))!=nullptr) //Nie nullptr, czyli jest
         {
-        RozmiarSasiedztwa=atol(pom+5);
-        if(RozmiarSasiedztwa>=1 && RozmiarSasiedztwa<iWidth/2-1)
-            {
-            cerr<<"INDI="<<RozmiarSasiedztwa<<endl;;
-            }
+            int tmpRozmiar=atoi(pom+5);
+            if(tmpRozmiar>=1 && tmpRozmiar<iWidth/2-1)
+                {
+                ROtoczenia=(short)tmpRozmiar;
+                cerr << "INDI=" << ROtoczenia << endl;
+                }
             else
-            {
-            cerr<<"Bad INDI="<<RozmiarSasiedztwa<<" Must from 1 to "<<iWidth/2-1<<endl;
-            return 0;
-            }
+                {
+                cerr<<"Bad INDI="<<tmpRozmiar<<" Must from 1 to "<<iWidth/2-1<<endl;
+                return 0;
+                }
         }
         else
         if((pom=strstr(rob,"PRTR="))!=nullptr) //Nie nullptr, czyli jest
             {
-                IleSasiadow=atol(pom+5);
-                if(IleSasiadow==-1)
+                int IluZOtocz=atoi(pom + 5);
+                IluZOtoczenia=-1;
+                if(IluZOtocz == -1)
                 {
-                    cerr<<"PRTR = all"<<endl;
+                    cerr<<"PRTR = all"<<endl; //To, co domyślnie.
                 }
                 else
-                    if(IleSasiadow>1 && IleSasiadow<=sqr(RozmiarSasiedztwa*2+1)-1)
+                    if(IluZOtocz > 1 && IluZOtocz <= sqr(ROtoczenia * 2 + 1) - 1)
                     {
-                        cerr<<"PRTR="<<IleSasiadow<<endl;
+                        cerr << "PRTR=" << IluZOtocz << endl;
+                        IluZOtoczenia=(short)IluZOtocz;
                     }
                     else
                     {
-                        cerr<<"Bad PRTR="<<IleSasiadow
-                            <<" Must from 2 to "<<sqr(RozmiarSasiedztwa*2+1)-1<<endl;
+                        cerr << "Bad PRTR=" << IluZOtocz
+                             << " (Must be from 2 to " << sqr(ROtoczenia * 2 + 1) - 1 <<")"<< endl;
                         return 0;
                     }
             }
         else
         if((pom=strstr(rob,"AUTO="))!=nullptr) //Nie nullptr, czyli jest
         {
-        AUTOSTART=atol(pom+5);
-        cerr<<"AUTO="<<AUTOSTART<<endl;
-        if(AUTOSTART)
-            {
-            iWychodzenie=1;
-            cerr<<"STOP="<<(iWychodzenie?"Yes":"No")<<endl;
-            }
+            AUTOSTART=atoi(pom+5);
+            cerr<<"AUTO="<<AUTOSTART<<endl;
+            if(AUTOSTART)
+                {
+                iWychodzenie=1; //TODO ZAWSZE???
+                //cerr<<"STOP="<<(iWychodzenie?"Yes":"No")<<endl;
+                cerr<<"STOP=Yes !!!"<<endl;
+                }
         }
         else
         if((pom=strstr(rob,"STOP="))!=nullptr) //Nie nullptr, czyli jest
         {
-        iWychodzenie=(toupper(pom[5])=='Y');
-        cerr<<"STOP="<<(iWychodzenie?"Yes":"No")<<endl;
+            iWychodzenie=(toupper(pom[5])=='Y');
+            cerr<<"STOP="<<(iWychodzenie?"Yes":"No")<<endl;
         }
         else  //SYNC
         if((pom=strstr(rob,"SYNC="))!=nullptr) //Nie nullptr, czyli jest
         {
-        TypSymulacji=!(toupper(pom[5])=='Y');
-        cerr<<"SYNC="<<(TypSymulacji==0?"Yes":"No")<<endl;
+            TypSymulacji= toupper(pom[5]) != 'Y';
+            cerr<<"SYNC="<<(TypSymulacji==0?"Yes":"No")<<endl;
         }
         else
         if((pom=strstr(rob,"ILOG="))!=nullptr) //Nie nullptr, czyli jest
         {
-        internal_log=atoi(pom+5);
-        if(internal_log<50)
-                {
-                internal_log=50;
-                cerr<<"The internal log value is too small. Reset to the default minimum ="<<internal_log<<endl;
-                }
+            internal_log=atoi(pom+5);
+            if(internal_log<50)
+                    {
+                    internal_log=50;
+                    cerr<<"The internal log value is too small. Reset to the default minimum ="<<internal_log<<endl;
+                    }
         }
         else
         if((pom=strstr(rob,"LOGF="))!=nullptr) //Nie nullptr, czyli jest
         {
-        strcpy(LogName,pom+5);
-        }else
+            strcpy(LogName,pom+5);
+        }
+        else
         if((pom=strstr(rob,"MAPL="))!=nullptr) //Nie nullptr, czyli jest
         {
-        strcpy(MapLName,pom+5);
-        cerr<<"Map of randlifes from file \""<<MapLName<<"\"\n";
+            strcpy(MapLName,pom+5);
+            cerr<<"Map of randlifes from file \""<<MapLName<<"\"\n";
         }
         else
         if((pom=strstr(rob,"HIST="))!=nullptr) //Nie nullptr, czyli jest
         {
-        strcpy(HistName,pom+5);
-        cerr<<"The history of the simulation will be saved to \""<<HistName<<"\"\n";
+            strcpy(HistName,pom+5);
+            cerr<<"The history of the simulation will be saved to \""<<HistName<<"\"\n";
         }
         else
         if((pom=strstr(rob,"REPL="))!=nullptr) //Nie nullptr, czyli jest
         {
-        strcpy(HistName,pom+5);
-        Replay=1;
-        cerr<<"The simulation will be replayed from \""<<HistName<<"\"\n";
+            strcpy(HistName,pom+5);
+            Replay=1;
+            cerr<<"The simulation will be replayed from \""<<HistName<<"\"\n";
         }
         else
         /* Ostatecznie wychodzi, że nie ma takiej opcji */
@@ -251,10 +259,10 @@ int parse_options(const int argc,const char* argv[])
             cerr<<" REPL=hist.otx - not simulate, but replay simulation history file.\n";
             cerr<<" MAPL=initL.gif (or BMP)- file with an initialization map of randlifes (RANDOM)\n";
             cerr<<" WIDTH=NN - matrix size ("<<iWidth<<")\n";
-            // cerr<<" CLSS=NN - number of class. Must be power of 2. ("<<IloscKlas<<")\n";
+            // cerr<<" CLSS=NN - number of class. Must be power of 2. ("<<LiczbaKlas<<")\n";
             cerr<<" SYNC=Y/N - synchronic (Y) or Monte-Carlo simulation mode ("<<(TypSymulacji==0?"Yes":"No")<<")\n";
-            cerr<<" PRTR=2..WIDTH^2-1 - number of interaction partners (-1 = all neighbourhood) ("<<IleSasiadow<<")\n";
-            cerr<<" INDI=1..WIDTH/2-1 - interaction distance ("<<RozmiarSasiedztwa<<")\n";
+            cerr << " PRTR=2..WIDTH^2-1 - number of interaction partners (-1 = all neighbourhood) (" << IluZOtoczenia << ")\n";
+            cerr << " INDI=1..WIDTH/2-1 - interaction distance (" << ROtoczenia << ")\n";
             cerr<<" NOIP=NN - percent of initially life cells. ("<<ProcentSzumu<<")\n";
             // cerr<<" SPCH=NN - percentage of spontaneous changes of classes ("<<MutacjeSpon*100<<")\n";
             cerr<<" MAX=NNNN - max simulation step ("<<iMaxIterations<<")\n";
@@ -291,49 +299,49 @@ int main(const int argc,const char* argv[])
         }
 
     //INICJALIZACJA SYMULACJI
-    lifeworld& tenSwiat=*new lifeworld(
-                               iWidth,
-                               LogName,
-                               MapLName,
+    lifeworld& theWorld=*new lifeworld(
+            iWidth,
+            LogName,
+            MapLName,
                                ProcentSzumu/100.0,//Szum od 0-1
-                               IloscKlas,
-                               RozmiarSasiedztwa,
-                               IleSasiadow,
-                               (TypSymulacji==0?true:false), //Synchroniczna czy nie
+                               LiczbaKlas,
+            ROtoczenia,
+            IluZOtoczenia,
+            TypSymulacji, //Synchroniczna czy nie
                                MutacjeSpon
                                );
 
-    if(&tenSwiat==nullptr)
-        {
-        cerr<<"Can't allocate the simulation world!\n"<<endl;
-        exit(1);
-        }
+//    if(&theWorld==nullptr) //OD C++11 nie ma możliwości żeby `new` zwróciło `nullptr`
+//        {
+//        cerr<<"Can't allocate the simulation world!\n"<<endl;
+//        exit(1);
+//        }
 
     //INICJALIZACJA
-    RANDOMIZE(); //inicjalizacja globalnego randomizer-a
-    tenSwiat.set_max_iteration(iMaxIterations); //Ile najwięcej kroków
-    tenSwiat.set_input_ratio(iViewRatio);
-    tenSwiat.set_log_ratio(iLogRatio);
+    RANDOMIZE()//; //inicjalizacja globalnego randomizer-a
+    theWorld.set_max_iteration(iMaxIterations); //Ile najwięcej kroków
+    theWorld.set_input_ratio(iViewRatio);
+    theWorld.set_log_ratio(iLogRatio);
     cout<<WINDOW_HEADER<<": LOADED."<<endl;
-    tenSwiat.set_history_stream(HistName);
+    theWorld.set_history_stream(HistName);
 
     if(Replay)
     {
-        tenSwiat.initialize(&Lufciki,1); //inicjalizacja wizualizacji
+        theWorld.initialize(&Lufciki, 1); //inicjalizacja wizualizacji
         cout<<WINDOW_HEADER<<": PREPARED FOR READING. WAITING!"<<endl;
         Lufciki.process_input(); //Pierwsze zdarzenia. Kończą się po ctrl-B
-        tenSwiat.read_loop(iWychodzenie);
+        theWorld.read_loop(iWychodzenie);
     }
     else
     {
-        tenSwiat.initialize(&Lufciki); //inicjalizacja wizualizacji i warstw symulacji
+        theWorld.initialize(&Lufciki); //inicjalizacja wizualizacji i warstw symulacji
         cout<<WINDOW_HEADER<<": INITIALISED."<<endl;
         if(!AUTOSTART)
         {
             Lufciki.process_input(); //Pierwsze zdarzenia. Kończą się po ctrl-B
             //GŁÓWNA PĘTLA SYMULACJI
             cout<<WINDOW_HEADER<<": STARTED."<<endl;
-            tenSwiat.simulation_loop(iWychodzenie);
+            theWorld.simulation_loop(iWychodzenie);
         }
         else
         {
@@ -343,12 +351,12 @@ int main(const int argc,const char* argv[])
                 {
                 //GŁÓWNA PĘTLA SYMULACJI
                 cout<<WINDOW_HEADER<<": SIMULATION "<<symulacja<<" STARTED."<<endl;
-                tenSwiat.simulation_loop(1);
+                theWorld.simulation_loop(1);
                 cout<<WINDOW_HEADER<<": SIMULATION "<<symulacja<<" DONE."<<endl;
                 if(symulacja<AUTOSTART-1)
                     {
                     //Reinicjalizacja:
-                    tenSwiat.restart();
+                    theWorld.restart();
                     }
                 }
         }
@@ -359,7 +367,7 @@ int main(const int argc,const char* argv[])
 
     cout.flush();
 
-    delete &tenSwiat; //Dealokacja świata wraz ze wszystkimi składowymi
+    delete &theWorld; //Dealokacja świata wraz ze wszystkimi składowymi
     cout<<"----------> See you later!!! <--------------\n"<<endl<<flush;
     return 0;
 }

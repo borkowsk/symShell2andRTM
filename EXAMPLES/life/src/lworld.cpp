@@ -1,7 +1,7 @@
 /// @file
 /// IMPLEMENTATION OF   W O R L D  FOR "Conways Life" SIMULATION.
 // //////////////////////////////////////////////////////////////
-/// @date 2026-03-26 (modified)
+/// @date 2026-03-27 (modified)
 
 //#include <limits.h>
 //#include <assert.h>
