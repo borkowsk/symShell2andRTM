@@ -44,16 +44,16 @@ int CheckChange(const geometry_base* MyGeom,size_t index,lifeagent& CenterAgent)
 public:
 //KONSTRUKCJA DESTRUKCJA
 lifeworld(
-	  size_t Width,	//Szerokość torusa / macierzy agentów
-	  char* log_name,	//Nazwa pliku do zapisywania historii
-	  char* mapl_name,	//Nazwa (bit)mapy inicjującej "składowe"
-	  double Noise=0,
-	  short	ile_kate=2,		//Liczba kategorii w mapach
-	  short	odl_sasiad=1,	//Rozmiar sąsiedztwa
-	  short	ile_sasiad=8,	//8 == Gęstość sąsiedztwa — jeśli -1 to wszystko po kolei
-	  bool	synchronicly=true,
-	  double spontanic=0	//Prawdopodobieństwo spontanicznej zmiany "stanu"
-	  );	
+      size_t Width,	//Szerokość torusa / macierzy agentów
+      char* log_name,	//Nazwa pliku do zapisywania historii
+      char* mapl_name,	//Nazwa (bit)mapy inicjującej "składowe"
+      double Noise=0,
+      short	ile_kate=2,		//Liczba kategorii w mapach
+      short	odl_sasiad=1,	//Rozmiar sąsiedztwa
+      short	ile_sasiad=8,	//8 == Gęstość sąsiedztwa — jeśli -1 to wszystko po kolei
+      bool	synchronicly=true,
+      double spontanic=0	//Prawdopodobieństwo spontanicznej zmiany "stanu"
+      );
 
 ~lifeworld(){}
 

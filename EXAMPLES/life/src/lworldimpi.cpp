@@ -9,21 +9,21 @@
 
 int lifeworld::implement_input(istream& i)
 {
-	int ret=world::implement_input(i);
-	if(ret!=1) return ret;
-	i>>MyWidth;		//Obwód torusa
+    int ret=world::implement_input(i);
+    if(ret!=1) return ret;
+    i>>MyWidth;		//Obwód torusa
 
-	i>>IleKate;		//Ilość kategorii w mapach
-	i>>IleSasiad;	//8 == Gęstość sąsiedztwa
-	i>>OdlSasiad;	//Rozmiar sąsiedztwa
+    i>>IleKate;		//Ilość kategorii w mapach
+    i>>IleSasiad;	//8 == Gęstość sąsiedztwa
+    i>>OdlSasiad;	//Rozmiar sąsiedztwa
 
-	i>>Noise;		//Szum informacyjny
-	rectangle_geometry* Geom=(rectangle_geometry*)Agenci.get_geometry();                          assert(Geom!=nullptr);
-	if(Geom->get_width()!=MyWidth||
-	   Geom->get_height()!=MyWidth )
-			Geom->set(MyWidth,MyWidth,1);
-	i>>Agenci;
-	return 0;
+    i>>Noise;		//Szum informacyjny
+    rectangle_geometry* Geom=(rectangle_geometry*)Agenci.get_geometry();                          assert(Geom!=nullptr);
+    if(Geom->get_width()!=MyWidth||
+       Geom->get_height()!=MyWidth )
+            Geom->set(MyWidth,MyWidth,1);
+    i>>Agenci;
+    return 0;
 }
 
 // /////////////////////////////////////////////

@@ -9,18 +9,18 @@
 
 int lifeworld::implement_output(ostream& o) const
 {
-	int ret=world::implement_output(o);
-	if(ret!=1) return ret;
-	o<<separator;
-	o<<MyWidth<<separator;	//Obwod (?) torusa
+    int ret=world::implement_output(o);
+    if(ret!=1) return ret;
+    o<<separator;
+    o<<MyWidth<<separator;	//Obwod (?) torusa
 
-	o<<IleKate<<separator;	//Ilosc kategori w mapach
-	o<<IleSasiad<<separator;	//8==Gestosc sasiedztwa
-	o<<OdlSasiad<<separator;	//Rozmiar sasiedztwa
+    o<<IleKate<<separator;	//Ilosc kategori w mapach
+    o<<IleSasiad<<separator;	//8==Gestosc sasiedztwa
+    o<<OdlSasiad<<separator;	//Rozmiar sasiedztwa
 
-	o<<Noise<<separator<<endl;		//Szum informacyjny
-	o<<Agenci<<endl;
-	return 1;
+    o<<Noise<<separator<<endl;		//Szum informacyjny
+    o<<Agenci<<endl;
+    return 1;
 }
 
 // /////////////////////////////////////////////
