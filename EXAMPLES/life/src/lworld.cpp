@@ -556,6 +556,8 @@ int lifeworld::CheckChange(const geometry_base* MyGeom,
 }
 
 // /////////////////////////////////////////////
-// Example for SYMSHELL library.
+// Example for SYMSHELL CLASSES library.
 /// @author Wojciech Borkowski, iss.uw.edu.pl
+// https://github.com/borkowsk/symShell2andRTM
+/// @copyright 2000 - 2026
 // /////////////////////////////////////////////

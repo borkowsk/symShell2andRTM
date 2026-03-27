@@ -1,5 +1,10 @@
-//DECLARATION OF    A G E N T   FOR "life" SIMULATION
-/////////////////////////////////////////////////////////////
+/// @file
+/// DECLARATION OF    A G E N T   FOR "life" SIMULATION.
+//---------------------------------------------------------------
+/// Its is rather simply implementation. You can replace it if you need.
+// ////////////////////////////////////////////////////
+/// @date 2026-03-27 (modified)
+
 #include "layer.hpp"
 
 class lifeagent:public agent_base
@@ -82,4 +87,10 @@ public:
 
 };
 
+// /////////////////////////////////////////////
+// Example for SYMSHELL CLASSES library.
+/// @author Wojciech Borkowski, iss.uw.edu.pl
+// https://github.com/borkowsk/symShell2andRTM
+/// @copyright 2000 - 2026
+// /////////////////////////////////////////////
 

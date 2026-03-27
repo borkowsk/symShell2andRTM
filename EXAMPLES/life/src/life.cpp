@@ -369,6 +369,8 @@ return 0;
 //unsigned agent::max=0; //jaki jest największy taxon
 
 // /////////////////////////////////////////////
-// Example for SYMSHELL library.
+// Example for SYMSHELL CLASSES library.
 /// @author Wojciech Borkowski, iss.uw.edu.pl
+// https://github.com/borkowsk/symShell2andRTM
+/// @copyright 2000 - 2026
 // /////////////////////////////////////////////
