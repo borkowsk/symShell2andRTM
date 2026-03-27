@@ -12,7 +12,7 @@ class lifeagent:public agent_base
     friend class lifeworld; //Na razie tak, żeby uprościć dostęp do składowych.
 
     // STATYCZNE SKŁADOWE - PARAMETRY INICJOWANIA AGENTÓW:
-    static short  ile_kate;   //Liczba kategorii. Na razie zawsze 2!!! NIEUŻYWANE?
+    static short  ile_kate;   //Liczba kategorii. Dla Life zawsze 2!!! WIĘC TO POLE NIEUŻYWANE — TYLKO DLA INFORMACJI.
     static short  kate_shift; //Do wczytywania
     static double MutationLevel; //Prawd. spontanicznej zmiany stanu (0..1) - chyba nieużywane
     static double InitProp; //Proporcje inicjowania losowego

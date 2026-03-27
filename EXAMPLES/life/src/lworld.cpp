@@ -20,7 +20,7 @@
 #include "wb_swap.hpp"
 
 const int RAMKA=4;
-extern const char* SYMULATION_NAME;
+extern const char* SIMULATION_NAME;
 
 /*
 template <class T>
@@ -61,8 +61,9 @@ lifeagent::lifeagent()
 // ////////////////////////////////////////////////
 
 short	lifeagent::ile_kate=2;      //!< Liczba kategorii w mapach
-double	lifeagent::MutationLevel=0; //!< Prawd. spontanicznej zmiany pogl¹dów (0..1)
 short	lifeagent::kate_shift=7;
+
+double	lifeagent::MutationLevel=0; //!< Prawd. spontanicznej zmiany pogl¹dów (0..1)
 double  lifeagent::InitProp=0.5;    //!< Proporcje inicjowania losowego
 
 // KONSTRUKCJA	ŒWIATA:
@@ -98,7 +99,7 @@ lifeworld::lifeworld(
         Seconds(nullptr)
         {// Niewiele mo¿na zrobiæ, bo nie mo¿na tu jeszcze polegaæ na wirtualnych metodach klasy œwiat !!!
 
-            set_simulation_name(SYMULATION_NAME);
+            set_simulation_name(SIMULATION_NAME);
 
             assert(ile_kate==2); //Na razie nie mo¿e byæ nic innego
 
@@ -116,8 +117,9 @@ lifeworld::lifeworld(
 
 // Generujemy podstawowe Ÿród³a dla wbudowanego manager-a danych lub innego:
 // /////////////////////////////////////////////////////////////////////////
-void lifeworld::make_basic_sources(sources_menager& WhatSourMen)
+void lifeworld::make_basic_sources()
 {
+    sources_menager& WhatSourMen=this->Sources;
     //world::make_basic_sources(WhatSourMen); //NA RAZIE NIE WOLNO U¯YWAÆ.
 
     //G³ówne serie
@@ -146,11 +148,21 @@ void lifeworld::make_default_visualisation()
     int iFirst=0,iSecond=0;
     //Uzyskanie indeksów podstawowych serii z zarz¹dcy
     {
-    if(Firsts) iFirst=Sources.search(Firsts->name());
-        else  goto ERROR;
+    const char* FiName=Firsts->name();
+    if(Firsts) iFirst=Sources.search(FiName);
+    else
+    {
+        cerr<<"No data series named '"<<FiName<<"' was found."<<endl;
+        goto ERROR;
+    }
 
-    if(Seconds) iSecond=Sources.search(Seconds->name());
-        else  goto ERROR;
+    const char* SeName=Seconds->name();
+    if(Seconds) iSecond=Sources.search(SeName);
+    else
+    {
+        cerr<<"No data series named '"<<SeName<<"' was found."<<endl;
+        goto ERROR;
+    }
 
 
     //Oraz utworzenie pochodnych serii statystycznych
@@ -337,6 +349,7 @@ void lifeworld::make_default_visualisation()
     Sources.new_data_version(1,1); //Oznajmia seriom, ¿e dane siê uaktualni³y	(po inicjacji)
 
     ERROR: //Tu akcja na niepogodê
+    std::cerr<<"Incorrect initialization of the default visualizations!"<<std::endl;
         ;  //`error_message(...)`???
 }
 
@@ -347,9 +360,10 @@ void lifeworld::make_default_visualisation()
 
 void lifeworld::after_read_from_image()
 //Actions after read state from a file. Aktualizacja pól statycznych `lifeagent`-a!!!
-{
+{                   assert(IleKate==2); //Dla life tylko dwie mo¿liwe kategorie.
     lifeagent::ile_kate=IleKate; //Liczba kategorii w mapach
-
+    lifeagent::kate_shift=7;
+    /*
     switch(IleKate)
     {
     case   2:lifeagent::kate_shift=7;break;
@@ -367,6 +381,7 @@ void lifeworld::after_read_from_image()
         Log.GetStream()<<"Invalid number of class (not power of 2). Using default.\n";
         break;
     }
+     */
 }
 
 // stan startowy symulacji

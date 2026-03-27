@@ -69,7 +69,7 @@ class lifeworld:public world
     //void actualize_out_area(); // aktualizacja zawartości `OutArea` po `n` krokach symulacji
 
     //Generuje podstawowe źródła dla wbudowanego manager-a danych lub innego
-    void	make_basic_sources(sources_menager& WhatSourMen);
+    void	make_basic_sources() override;
 
     //Implementacja wejścia/wyjścia. Zwracaj 1, jeśli sukces!
     virtual

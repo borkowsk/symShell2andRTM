@@ -1,10 +1,10 @@
 /// @file
 /// Wariacje na temat life Conway-a — program główny.
 // ////////////////////////////////////////////////////
-/// @date 2026-03-26 (modified)
+/// @date 2026-03-27 (modified)
 
 const char* WINDOW_HEADER="RAND-LIFE version 1.01c (by Wojciech Borkowski)";
-const char* SYMULATION_NAME="randlife_v1.01c";
+const char* SIMULATION_NAME="randlife_v1.01c";
 
 #include <cstdlib>
 //#include <cmath>
@@ -28,7 +28,7 @@ unsigned iLogRatio=1;
 unsigned iViewRatio=1;
 
 
-int  IloscKlas=2;
+const int IloscKlas=2;
 int  ProcentSzumu=10;
 double MutacjeSpon=0;
 int  RozmiarSasiedztwa=1; //3x3-1
@@ -256,7 +256,7 @@ int parse_options(const int argc,const char* argv[])
             cerr<<" PRTR=2..WIDTH^2-1 - number of interaction partners (-1 = all neighbourhood) ("<<IleSasiadow<<")\n";
             cerr<<" INDI=1..WIDTH/2-1 - interaction distance ("<<RozmiarSasiedztwa<<")\n";
             cerr<<" NOIP=NN - percent of initially life cells. ("<<ProcentSzumu<<")\n";
-            // cerr<<" SPCH=NN - percent of spontanic change of randlifes ("<<MutacjeSpon*100<<")\n";
+            // cerr<<" SPCH=NN - percentage of spontaneous changes of classes ("<<MutacjeSpon*100<<")\n";
             cerr<<" MAX=NNNN - max simulation step ("<<iMaxIterations<<")\n";
             cerr<<" ILOG=NNNN - length of internal statistic logs ("<<internal_log<<")\n";
             cerr<<" STOP=N/Y - exit after MAX steps ("<<(iWychodzenie?"Yes":"No")<<")\n";
