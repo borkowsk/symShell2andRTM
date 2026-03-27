@@ -28,9 +28,9 @@ class lifeagent:public agent_base
         Second=0;
     }
 
-    // TO CO MUSI byc zdefiniowane
-    ///////////////////////////////////
-public:
+    // TO CO MUSI byc zdefiniowane:
+    // ////////////////////////////
+    public:
     int IsOK()
     {
         return 1;

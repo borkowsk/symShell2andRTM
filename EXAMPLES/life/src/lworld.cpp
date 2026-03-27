@@ -118,20 +118,20 @@ lifeworld::lifeworld(
 // //////////////////////////////////////////////////////////////////////////
 void lifeworld::make_basic_sources(sources_menager& WhatSourMen)
 {
-//world::make_basic_sources(WhatSourMen); //NA RAZIE NIE WOLNO U¯YWAÆ.
+    //world::make_basic_sources(WhatSourMen); //NA RAZIE NIE WOLNO U¯YWAÆ.
 
-//G³ówne serie
-Firsts=Agenci.make_source("State",&lifeagent::First);	
-if(Firsts)
-    Firsts->setminmax(0,IleKate-1);
+    //G³ówne serie
+    Firsts=Agenci.make_source("State",&lifeagent::First);
+    if(Firsts)
+        Firsts->setminmax(0,IleKate-1);
 
-Seconds=Agenci.make_source("Prev. state",&lifeagent::Second);
-if(Seconds)
-    Seconds->setminmax(0,IleKate-1);
+    Seconds=Agenci.make_source("Prev. state",&lifeagent::Second);
+    if(Seconds)
+        Seconds->setminmax(0,IleKate-1);
 
-//Umieszczenie glownych serii w menagerze serii
-WhatSourMen.insert(Firsts);
-WhatSourMen.insert(Seconds);
+    //Umieszczenie glownych serii w menagerze serii
+    WhatSourMen.insert(Firsts);
+    WhatSourMen.insert(Seconds);
 }
 
 
@@ -142,199 +142,199 @@ WhatSourMen.insert(Seconds);
 void lifeworld::make_default_visualisation()
 //Rejestruje pochodne serie, tworzy domyœlne "lufciki" i wk³ada w "Manager"
 {
-area_menager_base& Menager=this->MyAreaMenager(); //ustawiane w this->initialise()
-int iFirst=0,iSecond=0;
-//Uzyskanie indeksów podstawowych serii z zarz¹dcy
-{
-if(Firsts) iFirst=Sources.search(Firsts->name());
-    else  goto ERROR;
+    area_menager_base& Menager=this->MyAreaMenager(); //ustawiane w this->initialise()
+    int iFirst=0,iSecond=0;
+    //Uzyskanie indeksów podstawowych serii z zarz¹dcy
+    {
+    if(Firsts) iFirst=Sources.search(Firsts->name());
+        else  goto ERROR;
 
-if(Seconds) iSecond=Sources.search(Seconds->name());
-    else  goto ERROR;
-
-
-//Oraz utworzenie pochodnych serii statystycznych
-generic_clustering_source*	FirstStat=new generic_clustering_source(Firsts);
-if(!FirstStat) goto ERROR;
-    else	Sources.insert(FirstStat);
-
-generic_clustering_source*	SecondStat=new generic_clustering_source(Seconds);
-if(!SecondStat) goto ERROR;
-    else	Sources.insert(SecondStat);
-
-//Zrodlo liczace statystyke i histogram z klasyfikacji
-generic_histogram_source*  ClassStat=new generic_histogram_source(Firsts);
-if(!ClassStat) goto ERROR;
-    else	Sources.insert(ClassStat);
-
-//A tak¿e utworzenie seri liczacych ich wzajemne ko-statystyki
-coincidention_source* CorrFS=new coincidention_source(Firsts,Seconds);
-if(!CorrFS) goto ERROR;
-Sources.insert(CorrFS); //Zeby zostala kiedys zwolniona, a poza tym moze ktos kiedys...
-
-fifo_source<double>* EntropyFSLog=new fifo_source<double>(CorrFS->Entropy(),internal_log);
-if(!EntropyFSLog) goto ERROR;
-int iEntropyFS=Sources.insert(EntropyFSLog);
-
-fifo_source<double>* CorrFSLogR=new fifo_source<double>(CorrFS->Tau_a_Goodman_Kruskal(),internal_log);//Fifo korelacji pierwszych z drugimi
-if(!CorrFSLogR) goto ERROR;
-int iCorrFSR=Sources.insert(CorrFSLogR);
- 
- 
-//I utworzenie seri liczacych ich statystyki
- 
-fifo_source<double>* StressFirstLog=new fifo_source<double>(FirstStat->Stress(),internal_log);//Fifo ze stresu
-if(!StressFirstLog) goto ERROR;
-int iSFirst=Sources.insert(StressFirstLog);
-
-fifo_source<double>* StressSecondLog=new fifo_source<double>(SecondStat->Stress(),internal_log);//Fifo ze stresu
-if(!StressSecondLog) goto ERROR;
-int iSSecond=Sources.insert(StressSecondLog);
-
-//iMainClassF,iWhichMainF,iNumClassF,			
-fifo_source<double>* NumClassLog=new fifo_source<double>(ClassStat->NumOfClass(),internal_log);
-if(!NumClassLog) goto ERROR;
-int iNumClassF=Sources.insert(NumClassLog);
-
-fifo_source<double>* ClassEntropyLog=new fifo_source<double>(ClassStat->Entropy(),internal_log);
-if(!ClassEntropyLog) goto ERROR;
-int iClassEntropy=Sources.insert(ClassEntropyLog);
-
-fifo_source<double>* MainClassLog=new fifo_source<double>(ClassStat->MainClass(),internal_log);
-if(!MainClassLog) goto ERROR;
-int iMainClassF=Sources.insert(MainClassLog);
-
-//I umieszczanie w logu tego co trzeba
-Log.insert(ClassStat->NumOfClass());
-Log.insert(ClassStat->Entropy());
-Log.insert(ClassStat->NormEntropy());
-Log.insert(ClassStat->MainClass());
-Log.insert(ClassStat->WhichMain());
-Log.insert(FirstStat->Stress());
-Log.insert(SecondStat->Stress());
-Log.insert(CorrFS->Entropy());
-Log.insert(CorrFS->NormEntropy());
-Log.insert(CorrFS->Chi2());
-Log.insert(CorrFS->LevelOfFreedom());
-Log.insert(CorrFS->V2Cramer());
-Log.insert(CorrFS->T2Czupurow());
-Log.insert(CorrFS->Tau_b_Goodman_Kruskal());
-Log.insert(CorrFS->Tau_a_Goodman_Kruskal());
-
-//PODSTAWOWA WIZUALIZACJA SERII DANYCH
-//WYMIARY DOMYSLNEGO OKNA
-unsigned szer=Menager.getwidth();
-unsigned wyso=Menager.getheight();
-assert(szer>50 && wyso>40);//Najmniejsze sensowne okno
-
-//Obszary domyœlne - np obszar STATUSU
-world::make_default_visualisation(); // this->initialize(Manager);
-if(OutArea) 
-{
-    OutArea->set(1,1,szer/2-1,wyso/2-1);
-    Menager.as_orginal(Menager.search(OutArea->name()));
-}
-
-// W£AŒCIWE LUFCIKI:
-graph* pom1=new sequence_graph(szer/2-1,wyso/4,szer-50,wyso/2-1,
-                                3,Sources.make_series_info(
-                                        iClassEntropy,iNumClassF,iMainClassF,
-                                            -1
-                                        ).get_ptr_val(),
-                                0//* Z reskalowaniem
-                               );
-if(!pom1) goto ERROR;
-pom1->setframe(128);
-pom1->settitle("HISTORY OF CLASSIFICATION");
-Menager.insert(pom1);
-
-//inne mniej potrzebne
-graph* pom=new sequence_graph(szer/2-1,1,szer-50,wyso/4-1,	//domyslne wspolrzedne
-                                1,Sources.make_series_info(
-                                        iSFirst,
-                                            -1
-                                        ).get_ptr_val(),
-                                //0// Z reskalowaniem
-                               1);//Wspolne minimum/maximum
-if(!pom) goto ERROR;
-pom->setframe(128);
-pom->settitle("HISTORY OF STRESS");
-Menager.insert(pom);
-
-pom=new carpet_graph(1,wyso/2,szer/3,wyso-1,//domyslne wspolrzedne
-                        Firsts);//I zrodlo danych
-pom->setdatacolors(0,255);
-pom->settitle("Map of current state");
-Menager.insert(pom);
-
-pom=new bars_graph(szer/3+1,wyso/2,szer/3*2,wyso-1,//domyslne wspolrzedne  szer-49,7*char_height('X')+7,szer,8*char_height('X')+9
-                        ClassStat);
-pom->setdatacolors(0,255);
-pom->settitle("Histogram of state");
-Menager.insert(pom);
-
-pom=new manhattan_graph(szer/3*2+1,wyso/2,szer,wyso-1,//domyslne wspolrzedne
-                            CorrFS,0,	//I zrodlo danych
-                            CorrFS,0,
-                            1,
-                            0.22,		//Ulamek szerokosci przeznaczony na perspektywe
-                            0.77);		//Ulamek wysokosci  przeznaczony na perspektywe
-pom->setdatacolors(0,255);
-pom->settextcolors(0);
-pom->settitle("Determination of curr. state by prev. state");
-Menager.insert(pom);
-
-//PRZYCISKI
-pom=new carpet_graph(szer-49,5*(char_height('X')+RAMKA),szer,6*(char_height('X')+RAMKA),//domyslne wspolrzedne 
-                        Seconds);//I zrodlo danych
-pom->setdatacolors(0,255);
-pom->setframe(0);
-pom->settitle("Map of previous state");
-Menager.insert(pom);
+    if(Seconds) iSecond=Sources.search(Seconds->name());
+        else  goto ERROR;
 
 
-pom1=new sequence_graph(szer-49, 9*(char_height('X')+RAMKA),szer,10*(char_height('X')+RAMKA),
+    //Oraz utworzenie pochodnych serii statystycznych
+    generic_clustering_source*	FirstStat=new generic_clustering_source(Firsts);
+    if(!FirstStat) goto ERROR;
+        else	Sources.insert(FirstStat);
 
-                                1,Sources.make_series_info(
-                                        iEntropyFS,
-                                            -1
-                                        ).get_ptr_val(),
-                               1/*Wspolne minimum/maximum*/);
-if(!pom1) goto ERROR;
-pom1->setframe(128);
-pom1->settitle("HISTORY OF ENTROPY OF DETERMINATION");
-Menager.insert(pom1);
+    generic_clustering_source*	SecondStat=new generic_clustering_source(Seconds);
+    if(!SecondStat) goto ERROR;
+        else	Sources.insert(SecondStat);
+
+    //Zrodlo liczace statystyke i histogram z klasyfikacji
+    generic_histogram_source*  ClassStat=new generic_histogram_source(Firsts);
+    if(!ClassStat) goto ERROR;
+        else	Sources.insert(ClassStat);
+
+    //A tak¿e utworzenie seri liczacych ich wzajemne ko-statystyki
+    coincidention_source* CorrFS=new coincidention_source(Firsts,Seconds);
+    if(!CorrFS) goto ERROR;
+    Sources.insert(CorrFS); //Zeby zostala kiedys zwolniona, a poza tym moze ktos kiedys...
+
+    fifo_source<double>* EntropyFSLog=new fifo_source<double>(CorrFS->Entropy(),internal_log);
+    if(!EntropyFSLog) goto ERROR;
+    int iEntropyFS=Sources.insert(EntropyFSLog);
+
+    fifo_source<double>* CorrFSLogR=new fifo_source<double>(CorrFS->Tau_a_Goodman_Kruskal(),internal_log);//Fifo korelacji pierwszych z drugimi
+    if(!CorrFSLogR) goto ERROR;
+    int iCorrFSR=Sources.insert(CorrFSLogR);
 
 
-pom=new sequence_graph(szer-49, 11*(char_height('X')+RAMKA),szer,12*(char_height('X')+RAMKA),
-                                1,Sources.make_series_info(
-                                        iCorrFSR,//iCorrFS,
-                                            -1
-                                        ).get_ptr_val(),
-                                1
-                               );
-if(!pom) goto ERROR;
-pom->setframe(128);
-pom->settitle("HISTORY OF Prev. TO Curr. CORRELATION");
-Menager.insert(pom);
+    //I utworzenie seri liczacych ich statystyki
 
-//Tworzenie obszaru sterujacego
-{
-wb_dynarray<rectangle_source_base*> tmp(2,(rectangle_source_base*)Sources.get(iFirst),
-                                          (rectangle_source_base*)Sources.get(iSecond),
-                                          -1
-                                          );
-drawable_base* pom=new steering_wheel(szer-49,0,szer,5*(char_height('X')+RAMKA),tmp);			
-assert(pom!=NULL);
-pom->setbackground(10);
-Menager.insert(pom);
-}
+    fifo_source<double>* StressFirstLog=new fifo_source<double>(FirstStat->Stress(),internal_log);//Fifo ze stresu
+    if(!StressFirstLog) goto ERROR;
+    int iSFirst=Sources.insert(StressFirstLog);
 
-}
-Sources.new_data_version(1,1);//Oznajmia seriom ze dane sie uaktualnily	(po inicjacji)
+    fifo_source<double>* StressSecondLog=new fifo_source<double>(SecondStat->Stress(),internal_log);//Fifo ze stresu
+    if(!StressSecondLog) goto ERROR;
+    int iSSecond=Sources.insert(StressSecondLog);
 
-ERROR://... tu akcja na niepogode
-    ;//error_message(...)
+    //iMainClassF,iWhichMainF,iNumClassF,
+    fifo_source<double>* NumClassLog=new fifo_source<double>(ClassStat->NumOfClass(),internal_log);
+    if(!NumClassLog) goto ERROR;
+    int iNumClassF=Sources.insert(NumClassLog);
+
+    fifo_source<double>* ClassEntropyLog=new fifo_source<double>(ClassStat->Entropy(),internal_log);
+    if(!ClassEntropyLog) goto ERROR;
+    int iClassEntropy=Sources.insert(ClassEntropyLog);
+
+    fifo_source<double>* MainClassLog=new fifo_source<double>(ClassStat->MainClass(),internal_log);
+    if(!MainClassLog) goto ERROR;
+    int iMainClassF=Sources.insert(MainClassLog);
+
+    //I umieszczanie w logu tego co trzeba
+    Log.insert(ClassStat->NumOfClass());
+    Log.insert(ClassStat->Entropy());
+    Log.insert(ClassStat->NormEntropy());
+    Log.insert(ClassStat->MainClass());
+    Log.insert(ClassStat->WhichMain());
+    Log.insert(FirstStat->Stress());
+    Log.insert(SecondStat->Stress());
+    Log.insert(CorrFS->Entropy());
+    Log.insert(CorrFS->NormEntropy());
+    Log.insert(CorrFS->Chi2());
+    Log.insert(CorrFS->LevelOfFreedom());
+    Log.insert(CorrFS->V2Cramer());
+    Log.insert(CorrFS->T2Czupurow());
+    Log.insert(CorrFS->Tau_b_Goodman_Kruskal());
+    Log.insert(CorrFS->Tau_a_Goodman_Kruskal());
+
+    //PODSTAWOWA WIZUALIZACJA SERII DANYCH
+    //WYMIARY DOMYSLNEGO OKNA
+    unsigned szer=Menager.getwidth();
+    unsigned wyso=Menager.getheight();
+    assert(szer>50 && wyso>40);//Najmniejsze sensowne okno
+
+    //Obszary domyœlne - np obszar STATUSU
+    world::make_default_visualisation(); // this->initialize(Manager);
+    if(OutArea)
+    {
+        OutArea->set(1,1,szer/2-1,wyso/2-1);
+        Menager.as_orginal(Menager.search(OutArea->name()));
+    }
+
+    // W£AŒCIWE LUFCIKI:
+    graph* pom1=new sequence_graph(szer/2-1,wyso/4,szer-50,wyso/2-1,
+                                    3,Sources.make_series_info(
+                                            iClassEntropy,iNumClassF,iMainClassF,
+                                                -1
+                                            ).get_ptr_val(),
+                                    0//* Z reskalowaniem
+                                   );
+    if(!pom1) goto ERROR;
+    pom1->setframe(128);
+    pom1->settitle("HISTORY OF CLASSIFICATION");
+    Menager.insert(pom1);
+
+    //inne mniej potrzebne
+    graph* pom=new sequence_graph(szer/2-1,1,szer-50,wyso/4-1,	//domyslne wspolrzedne
+                                    1,Sources.make_series_info(
+                                            iSFirst,
+                                                -1
+                                            ).get_ptr_val(),
+                                    //0// Z reskalowaniem
+                                   1);//Wspolne minimum/maximum
+    if(!pom) goto ERROR;
+    pom->setframe(128);
+    pom->settitle("HISTORY OF STRESS");
+    Menager.insert(pom);
+
+    pom=new carpet_graph(1,wyso/2,szer/3,wyso-1,//domyslne wspolrzedne
+                            Firsts);//I zrodlo danych
+    pom->setdatacolors(0,255);
+    pom->settitle("Map of current state");
+    Menager.insert(pom);
+
+    pom=new bars_graph(szer/3+1,wyso/2,szer/3*2,wyso-1,//domyslne wspolrzedne  szer-49,7*char_height('X')+7,szer,8*char_height('X')+9
+                            ClassStat);
+    pom->setdatacolors(0,255);
+    pom->settitle("Histogram of state");
+    Menager.insert(pom);
+
+    pom=new manhattan_graph(szer/3*2+1,wyso/2,szer,wyso-1,//domyslne wspolrzedne
+                                CorrFS,0,	//I zrodlo danych
+                                CorrFS,0,
+                                1,
+                                0.22,		//Ulamek szerokosci przeznaczony na perspektywe
+                                0.77);		//Ulamek wysokosci  przeznaczony na perspektywe
+    pom->setdatacolors(0,255);
+    pom->settextcolors(0);
+    pom->settitle("Determination of curr. state by prev. state");
+    Menager.insert(pom);
+
+    //PRZYCISKI
+    pom=new carpet_graph(szer-49,5*(char_height('X')+RAMKA),szer,6*(char_height('X')+RAMKA),//domyslne wspolrzedne
+                            Seconds);//I zrodlo danych
+    pom->setdatacolors(0,255);
+    pom->setframe(0);
+    pom->settitle("Map of previous state");
+    Menager.insert(pom);
+
+
+    pom1=new sequence_graph(szer-49, 9*(char_height('X')+RAMKA),szer,10*(char_height('X')+RAMKA),
+
+                                    1,Sources.make_series_info(
+                                            iEntropyFS,
+                                                -1
+                                            ).get_ptr_val(),
+                                   1/*Wspolne minimum/maximum*/);
+    if(!pom1) goto ERROR;
+    pom1->setframe(128);
+    pom1->settitle("HISTORY OF ENTROPY OF DETERMINATION");
+    Menager.insert(pom1);
+
+
+    pom=new sequence_graph(szer-49, 11*(char_height('X')+RAMKA),szer,12*(char_height('X')+RAMKA),
+                                    1,Sources.make_series_info(
+                                            iCorrFSR,//iCorrFS,
+                                                -1
+                                            ).get_ptr_val(),
+                                    1
+                                   );
+    if(!pom) goto ERROR;
+    pom->setframe(128);
+    pom->settitle("HISTORY OF Prev. TO Curr. CORRELATION");
+    Menager.insert(pom);
+
+    //Tworzenie obszaru sterujacego
+    {
+    wb_dynarray<rectangle_source_base*> tmp(2,(rectangle_source_base*)Sources.get(iFirst),
+                                              (rectangle_source_base*)Sources.get(iSecond),
+                                              -1
+                                              );
+    drawable_base* pom=new steering_wheel(szer-49,0,szer,5*(char_height('X')+RAMKA),tmp);
+    assert(pom!=NULL);
+    pom->setbackground(10);
+    Menager.insert(pom);
+    }
+
+    }
+    Sources.new_data_version(1,1);//Oznajmia seriom ze dane sie uaktualnily	(po inicjacji)
+
+    ERROR://... tu akcja na niepogode
+        ;//error_message(...)
 }
 
 
