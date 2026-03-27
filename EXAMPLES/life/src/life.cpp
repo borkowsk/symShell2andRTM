@@ -251,12 +251,12 @@ int parse_options(const int argc,const char* argv[])
             cerr<<" REPL=hist.otx - not simulate, but replay simulation history file.\n";
             cerr<<" MAPL=initL.gif (or BMP)- file with an initialization map of randlifes (RANDOM)\n";
             cerr<<" WIDTH=NN - matrix size ("<<iWidth<<")\n";
-    //		cerr<<" CLSS=NN - number of class. Must be power of 2. ("<<IloscKlas<<")\n";
+            // cerr<<" CLSS=NN - number of class. Must be power of 2. ("<<IloscKlas<<")\n";
             cerr<<" SYNC=Y/N - synchronic (Y) or Monte-Carlo simulation mode ("<<(TypSymulacji==0?"Yes":"No")<<")\n";
             cerr<<" PRTR=2..WIDTH^2-1 - number of interaction partners (-1 = all neighbourhood) ("<<IleSasiadow<<")\n";
             cerr<<" INDI=1..WIDTH/2-1 - interaction distance ("<<RozmiarSasiedztwa<<")\n";
             cerr<<" NOIP=NN - percent of initially life cells. ("<<ProcentSzumu<<")\n";
-        //	cerr<<" SPCH=NN - percent of spontanic change of randlifes ("<<MutacjeSpon*100<<")\n";
+            // cerr<<" SPCH=NN - percent of spontanic change of randlifes ("<<MutacjeSpon*100<<")\n";
             cerr<<" MAX=NNNN - max simulation step ("<<iMaxIterations<<")\n";
             cerr<<" ILOG=NNNN - lenght of internal statistic logs ("<<internal_log<<")\n";
             cerr<<" STOP=N/Y - exit after MAX steps ("<<(iWychodzenie?"Yes":"No")<<")\n";

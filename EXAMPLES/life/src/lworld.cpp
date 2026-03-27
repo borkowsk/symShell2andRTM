@@ -85,14 +85,14 @@ lifeworld::lifeworld(
     //Sub-obiekty w³aœciwe dla tej symulacji:
 
         MyWidth(Width),
-        //Agenci(Width,Width,false,NULL),//Initer == NULL wiec tworzone przez konstruktor a nie klonowanie
-        Agenci(Width,Width),//Zakladamy ze wystarcza to co robi bezparametrowy konstruktor agenta
-        IleKate(ile_kate),	//Ilosc kategori w mapach
-        IleSasiad(ile_sasiad),	//8==Gestosc sasiedztwa
-        OdlSasiad(odl_sasiad),	//Rozmiar sasiedztwa
+        //Agenci(Width,Width,false,NULL), //Initer == NULL wiec tworzone przez konstruktor a nie klonowanie
+        Agenci(Width,Width),       //Zakladamy ze wystarcza to co robi bezparametrowy konstruktor agenta
+        IleKate(ile_kate),                //Ilosc kategori w mapach
+        IleSasiad(ile_sasiad),            //8==Gestosc sasiedztwa
+        OdlSasiad(odl_sasiad),            //Rozmiar sasiedztwa
         Noise(noise),
         Synchronic(synchronicly),
-        BierzWszystko(0), //Sasiedztwo bez losowania
+        BierzWszystko(0),                 //Sasiedztwo bez losowania
         //Wskazniki do podstawowych seri danych
         Firsts(NULL),
         Seconds(NULL)
@@ -100,7 +100,7 @@ lifeworld::lifeworld(
 
             set_simulation_name(SYMULATION_NAME);
 
-            assert(ile_kate==2);//Na razie nie moze byc nic innego
+            assert(ile_kate==2); //Na razie nie moze byc nic innego
 
             if(lifeagent::InitProp!=Noise)
             {
@@ -114,8 +114,8 @@ lifeworld::lifeworld(
 
         }
 
-// Generuje podstawowe Ÿród³a dla wbudowanego manager-a danych lub innego
-// //////////////////////////////////////////////////////////////////////////
+// Generujemy podstawowe Ÿród³a dla wbudowanego manager-a danych lub innego:
+// /////////////////////////////////////////////////////////////////////////
 void lifeworld::make_basic_sources(sources_menager& WhatSourMen)
 {
     //world::make_basic_sources(WhatSourMen); //NA RAZIE NIE WOLNO U¯YWAÆ.
@@ -129,7 +129,7 @@ void lifeworld::make_basic_sources(sources_menager& WhatSourMen)
     if(Seconds)
         Seconds->setminmax(0,IleKate-1);
 
-    //Umieszczenie glownych serii w menagerze serii
+    //Umieszczenie g³ównych serii w managerze serii
     WhatSourMen.insert(Firsts);
     WhatSourMen.insert(Seconds);
 }
@@ -138,7 +138,7 @@ void lifeworld::make_basic_sources(sources_menager& WhatSourMen)
 // Wspó³praca z managerem wyœwietlania, a tak¿e logiem:
 // ////////////////////////////////////////////////////
 
-///Wspó³praca z zarz¹dc¹ wyœwietlania.
+// Wspó³praca z zarz¹dc¹ wyœwietlania.
 void lifeworld::make_default_visualisation()
 //Rejestruje pochodne serie, tworzy domyœlne "lufciki" i wk³ada w "Manager"
 {
@@ -167,27 +167,27 @@ void lifeworld::make_default_visualisation()
     if(!ClassStat) goto ERROR;
         else	Sources.insert(ClassStat);
 
-    //A tak¿e utworzenie seri liczacych ich wzajemne ko-statystyki
+    //A tak¿e utworzenie seri licz¹cych ich wzajemne ko-statystyki
     coincidention_source* CorrFS=new coincidention_source(Firsts,Seconds);
     if(!CorrFS) goto ERROR;
-    Sources.insert(CorrFS); //Zeby zostala kiedys zwolniona, a poza tym moze ktos kiedys...
+    Sources.insert(CorrFS); //¯eby zosta³a kiedyœ zwolniona, a poza tym mo¿e ktoœ kiedyœ...
 
     fifo_source<double>* EntropyFSLog=new fifo_source<double>(CorrFS->Entropy(),internal_log);
     if(!EntropyFSLog) goto ERROR;
     int iEntropyFS=Sources.insert(EntropyFSLog);
 
-    fifo_source<double>* CorrFSLogR=new fifo_source<double>(CorrFS->Tau_a_Goodman_Kruskal(),internal_log);//Fifo korelacji pierwszych z drugimi
+    fifo_source<double>* CorrFSLogR=new fifo_source<double>(CorrFS->Tau_a_Goodman_Kruskal(),internal_log); //Fifo korelacji pierwszych z drugimi
     if(!CorrFSLogR) goto ERROR;
     int iCorrFSR=Sources.insert(CorrFSLogR);
 
 
-    //I utworzenie seri liczacych ich statystyki
+    //I utworzenie seri licz¹cych ich statystyki
 
-    fifo_source<double>* StressFirstLog=new fifo_source<double>(FirstStat->Stress(),internal_log);//Fifo ze stresu
+    fifo_source<double>* StressFirstLog=new fifo_source<double>(FirstStat->Stress(),internal_log); //Fifo ze stresu
     if(!StressFirstLog) goto ERROR;
     int iSFirst=Sources.insert(StressFirstLog);
 
-    fifo_source<double>* StressSecondLog=new fifo_source<double>(SecondStat->Stress(),internal_log);//Fifo ze stresu
+    fifo_source<double>* StressSecondLog=new fifo_source<double>(SecondStat->Stress(),internal_log); //Fifo ze stresu
     if(!StressSecondLog) goto ERROR;
     int iSSecond=Sources.insert(StressSecondLog);
 
@@ -225,7 +225,7 @@ void lifeworld::make_default_visualisation()
     //WYMIARY DOMYSLNEGO OKNA
     unsigned szer=Menager.getwidth();
     unsigned wyso=Menager.getheight();
-    assert(szer>50 && wyso>40);//Najmniejsze sensowne okno
+    assert(szer>50 && wyso>40); //Najmniejsze sensowne okno
 
     //Obszary domyœlne - np obszar STATUSU
     world::make_default_visualisation(); // this->initialize(Manager);
@@ -255,14 +255,14 @@ void lifeworld::make_default_visualisation()
                                                 -1
                                             ).get_ptr_val(),
                                     //0// Z reskalowaniem
-                                   1);//Wspolne minimum/maximum
+                                   1); //Wspolne minimum/maximum
     if(!pom) goto ERROR;
     pom->setframe(128);
     pom->settitle("HISTORY OF STRESS");
     Menager.insert(pom);
 
     pom=new carpet_graph(1,wyso/2,szer/3,wyso-1,//domyslne wspolrzedne
-                            Firsts);//I zrodlo danych
+                            Firsts); //I zrodlo danych
     pom->setdatacolors(0,255);
     pom->settitle("Map of current state");
     Menager.insert(pom);
@@ -286,7 +286,7 @@ void lifeworld::make_default_visualisation()
 
     //PRZYCISKI
     pom=new carpet_graph(szer-49,5*(char_height('X')+RAMKA),szer,6*(char_height('X')+RAMKA),//domyslne wspolrzedne
-                            Seconds);//I zrodlo danych
+                            Seconds); //I zrodlo danych
     pom->setdatacolors(0,255);
     pom->setframe(0);
     pom->settitle("Map of previous state");
@@ -299,7 +299,7 @@ void lifeworld::make_default_visualisation()
                                             iEntropyFS,
                                                 -1
                                             ).get_ptr_val(),
-                                   1/*Wspolne minimum/maximum*/);
+                                   1 /*Wspólne minimum/maximum*/);
     if(!pom1) goto ERROR;
     pom1->setframe(128);
     pom1->settitle("HISTORY OF ENTROPY OF DETERMINATION");
@@ -318,7 +318,7 @@ void lifeworld::make_default_visualisation()
     pom->settitle("HISTORY OF Prev. TO Curr. CORRELATION");
     Menager.insert(pom);
 
-    //Tworzenie obszaru sterujacego
+    //Tworzenie obszaru steruj¹cego:
     {
     wb_dynarray<rectangle_source_base*> tmp(2,(rectangle_source_base*)Sources.get(iFirst),
                                               (rectangle_source_base*)Sources.get(iSecond),
@@ -331,10 +331,10 @@ void lifeworld::make_default_visualisation()
     }
 
     }
-    Sources.new_data_version(1,1);//Oznajmia seriom ze dane sie uaktualnily	(po inicjacji)
+    Sources.new_data_version(1,1); //Oznajmia seriom ze dane siê uaktualni³y	(po inicjacji)
 
-    ERROR://... tu akcja na niepogode
-        ;//error_message(...)
+    ERROR: //... tu akcja na niepogodê
+        ;  //error_message(...)
 }
 
 
@@ -439,11 +439,11 @@ void lifeworld::simulate_one_step()
         iteratorh IGlob=MyGeom->make_global_iterator();
         while(IGlob)
         {
-            size_t index=MyGeom->get_next(IGlob);//Uzyskujemy index  agenta
+            size_t index=MyGeom->get_next(IGlob); //Uzyskujemy index  agenta
 
             assert(index!=MyGeom->FULL);				//... tutaj nie powinno sie zdarzyc
 
-            lifeagent& CenterAgent=Agenci.get(index);// Uzyskujemy referencje do agenta
+            lifeagent& CenterAgent=Agenci.get(index); // Uzyskujemy referencje do agenta
 
             CheckChange(MyGeom,index,CenterAgent); //Sprawdzamy zmiane stanu
         }
@@ -451,14 +451,14 @@ void lifeworld::simulate_one_step()
         MyGeom->destroy_iterator(IGlob);
 
 
-        IGlob=MyGeom->make_global_iterator();//Tworzymy nowy iterator i iterujemy od poczatku
+        IGlob=MyGeom->make_global_iterator(); //Tworzymy nowy iterator i iterujemy od poczatku
         while(IGlob)
         {
-            size_t index=MyGeom->get_next(IGlob);//Uzyskujemy index  agenta
+            size_t index=MyGeom->get_next(IGlob); //Uzyskujemy index  agenta
 
             assert(index!=MyGeom->FULL);				//... tutaj nie powinno sie zdarzyc
 
-            lifeagent& CenterAgent=Agenci.get(index);// Uzyskujemy referencje do agenta
+            lifeagent& CenterAgent=Agenci.get(index); // Uzyskujemy referencje do agenta
 
             wb_swap(CenterAgent.First,CenterAgent.Second);  //Ma nowy stan
         }
@@ -473,11 +473,11 @@ void lifeworld::simulate_one_step()
 
         while(Monte)//Idziemy po agentach iteratorem Monte-Carlo. Niektórzy moga sie powtórzyc
         {
-            size_t index=MyGeom->get_next(Monte);//Uzyskujemy index losowo wybranego agenta
+            size_t index=MyGeom->get_next(Monte); //Uzyskujemy index losowo wybranego agenta
 
             assert(index!=MyGeom->FULL);				//... tutaj nie powinno sie zdarzyc
 
-            lifeagent& CenterAgent=Agenci.get(index);// Uzyskujemy referencje do agenta
+            lifeagent& CenterAgent=Agenci.get(index); // Uzyskujemy referencje do agenta
 
             if(CheckChange(MyGeom,index,CenterAgent)==1)//Czy zaszla zmiana stanu
                 {
@@ -525,14 +525,14 @@ int lifeworld::CheckChange(const geometry_base* MyGeom,
 
     while(Neigh)
     {
-        size_t index2=MyGeom->get_next(Neigh);//Uzyskujemy index sasiada
+        size_t index2=MyGeom->get_next(Neigh); //Uzyskujemy index sasiada
         if(index2==MyGeom->FULL || index2==index)	//Jesli poza obszarem symulacji lub w
             continue;				//centrum obszaru to dalej byloby bez sensu.
 
-        lifeagent& PeryfAgent=Agenci.get(index2);//Uzyskujemy referencje do sasiada
+        lifeagent& PeryfAgent=Agenci.get(index2); //Uzyskujemy referencje do sasiada
 
         zliczanie++;
-        alive+=PeryfAgent.First;// /double(lifeagent::ile_kate);
+        alive+=PeryfAgent.First; // /double(lifeagent::ile_kate);
     }
 
     MyGeom->destroy_iterator(Neigh);	// upewniamy sie ze iterator zostanie usuniety
@@ -545,12 +545,12 @@ int lifeworld::CheckChange(const geometry_base* MyGeom,
     else
     if(alive==3 )//&& CenterAgent.First!=0)
     {
-        CenterAgent.Second=1;//+CenterAgent.First;			//zmieniamy w agencie centralnym
+        CenterAgent.Second=1; //+CenterAgent.First;			//zmieniamy w agencie centralnym
         return 1;
     }
     else //Nic sie nie zmienia
     {
-        CenterAgent.Second=CenterAgent.First;//Albo nic nie zmieniamy
+        CenterAgent.Second=CenterAgent.First; //Albo nic nie zmieniamy
         return 0;
     }
 }

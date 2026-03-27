@@ -9,13 +9,13 @@
 
 class lifeagent:public agent_base
 {
-    friend class lifeworld;//Na razie tak - zeby uproscic dostep do skladowych.
+    friend class lifeworld; //Na razie tak - zeby uproscic dostep do skladowych.
 
     // STATYCZNE SKLADOWE - PARAMETRY INICJOWANIA AGENT�W
-    static short ile_kate;//Ilosc kategori - na razie zawsze 2!!!
-    static short kate_shift;//Do wczytywania
-    static double MutationLevel;//Prawd. spontanicznej zmiany stanu (0..1) - raczej nieuzywane
-    static double InitProp;//Proporcje inicjowania losowego
+    static short ile_kate; //Ilosc kategori - na razie zawsze 2!!!
+    static short kate_shift; //Do wczytywania
+    static double MutationLevel; //Prawd. spontanicznej zmiany stanu (0..1) - raczej nieuzywane
+    static double InitProp; //Proporcje inicjowania losowego
 
     // SKLADOWE DLA SYMULACJI
     short First;		//Pierwsze stan

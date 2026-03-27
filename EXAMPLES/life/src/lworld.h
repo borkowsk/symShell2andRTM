@@ -35,8 +35,8 @@ class lifeworld:public world
     // Główne serie — wygodniej miec wskaźniki niż odszukiwać z Sources po nazwach:
     // //////////////////////////////////////////////////////////////////////////////
 
-    struct_matrix_source<lifeagent,short>		*Firsts;//=Agenci.make_source("First mem",&lifeagent::First);
-    struct_matrix_source<lifeagent,short>		*Seconds;//=Agenci.make_source("Second mem",&lifeagent::Second);
+    struct_matrix_source<lifeagent,short>		*Firsts; //=Agenci.make_source("First mem",&lifeagent::First);
+    struct_matrix_source<lifeagent,short>		*Seconds; //=Agenci.make_source("Second mem",&lifeagent::Second);
 
 
     int CheckChange(const geometry_base* MyGeom,size_t index,lifeagent& CenterAgent);
@@ -59,9 +59,9 @@ class lifeworld:public world
 
     protected:
     //AKCJE
-    void	initialize_layers();	//Stan startowy symulacji
-    void	after_read_from_image();//Actions after read state from file. Aktualizacja pol static lifeagent'a!!!
-    void	simulate_one_step();	//Właściwa implementacja kroku symulacji
+    void	initialize_layers();     //Stan startowy symulacji
+    void	after_read_from_image(); //Actions after read state from file. Aktualizacja pol static lifeagent'a!!!
+    void	simulate_one_step();     //Właściwa implementacja kroku symulacji
 
     //Wspolpraca z menagerem wyswietlania
     //---------------------------------------------
