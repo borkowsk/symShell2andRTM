@@ -100,7 +100,7 @@ virtual void initialize_layers()=0;
 virtual void after_read_from_image()=0;
 
 //Generuje podstawowe Ÿrod³a dla wbudowanego zarz¹dcy danych
-virtual void make_basic_sources();
+virtual void make_basic_sources()=0;
 
 //Wspó³praca z zarz¹dc¹ wyœwietlania
 virtual void make_default_visualisation()=0; //Tworzy domyœlne "lufciki" i umieszcza w
