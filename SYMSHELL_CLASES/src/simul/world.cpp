@@ -1,6 +1,8 @@
-// world.cpp: implementation of the world class.
-//
-//*////////////////////////////////////////////////////////////////////
+/// @file world.cpp
+/// implementation of the world-class.
+// ////////////////////////////////////////////////////////////////////
+/// @date 2026-03-27 (modified)
+
 #include "world.hpp"
 #include "wb_cpucl.hpp"
 
@@ -36,6 +38,7 @@ void world::make_default_visualisation()
 
 	if(!OutArea) goto ERROR;
 		OutArea->settitle("STATUS");
+
 	this->MyAreaMenager().insert(/*dynamic_cast<drawable_base*>*/(OutArea));
 	//MyAreaMenager().insert(OutArea);//!!! Tak powinno dzialac! ANSI ???
 	//MyAreaMenager().insert(wb_ptr<drawable_base>(OutArea)); //???Dziala, ale to jest inny konstruktor
@@ -222,14 +225,15 @@ void world::simulate(unsigned Steps)
 	while(i<Steps);
 
 }
+
 //inline
 void world::actualize_out_area()
-// aktualizacja zawartosci OutArea po n krokach symulacji
+// aktualizacja zawartości `OutArea` po `n` krokach symulacji
 {
 	if(OutArea)
 	{
-		wb_pchar bufor(1024);//ze sporym zapsem
-		bufor.prn("%lu SYMULATION STEP. %s\n",(unsigned long)get_current_step(),ClockTime.get());
+		wb_pchar bufor(1024); //ze sporym zapsem
+		bufor.prn("%lu SIMULATION STEP. %s\n",(unsigned long)get_current_step(),ClockTime.get());
 		OutArea->clean();
 		OutArea->add_text(bufor.get_ptr_val());
 		if(AreaMenager!=NULL && (!AreaMenager->background_enabled()))
