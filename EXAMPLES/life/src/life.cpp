@@ -1,6 +1,6 @@
 /// @file
 /// Wariacje na temat life Conway-a — program główny.
-// ////////////////////////////////////////////////////
+// //////////////////////////////////////////////////
 /// @date 2026-03-27 (modified)
 
 const char* WINDOW_HEADER="RAND-LIFE version 1.01d (by Wojciech Borkowski)";

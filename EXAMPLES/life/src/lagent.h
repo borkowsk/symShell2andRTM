@@ -2,7 +2,7 @@
 /// DECLARATION OF    A G E N T   FOR "life" SIMULATION.
 //---------------------------------------------------------------
 /// Its is rather simply implementation. You can replace it if you need.
-// ////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////
 /// @date 2026-03-27 (modified)
 
 #include "layer.hpp"
