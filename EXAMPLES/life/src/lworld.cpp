@@ -32,7 +32,7 @@ inline void wb_swap(T& a,T& b)
 }
 */
 
-// Konstrukcja agentÛw:
+// Konstrukcja agent√≥w:
 // ////////////////////
 
 lifeagent::lifeagent(const lifeagent& ini)
@@ -57,56 +57,54 @@ lifeagent::lifeagent()
         Second=0;
     }
 
-// Statyczne pola `lifeagent`-Ûw dla inicjalizacji:
+// Statyczne pola `lifeagent`-√≥w dla inicjalizacji:
 // ////////////////////////////////////////////////
 
 short	lifeagent::ile_kate=2;      //!< Liczba kategorii w mapach
 short	lifeagent::kate_shift=7;
 
-double	lifeagent::MutationLevel=0; //!< Prawd. spontanicznej zmiany poglπdÛw (0..1)
+double	lifeagent::MutationLevel=0; //!< Prawd. spontanicznej zmiany poglƒÖd√≥w (0..1)
 double  lifeagent::InitProp=0.5;    //!< Proporcje inicjowania losowego
 
-// KONSTRUKCJA	åWIATA:
+// KONSTRUKCJA	≈öWIATA:
 // ////////////////////
 extern unsigned internal_log;
 
 lifeworld::lifeworld(
-       size_t Width,	//SzerokoúÊ torusa macierzy agentÛw
+       size_t Width,	//Szeroko≈õƒá torusa macierzy agent√≥w
       char* log_name,	//Nazwa pliku do zapisywania historii
-      char* mapl_name,	//Nazwa pliku mapy inicjujπcej "sk≥adowe"
+      char* mapl_name,	//Nazwa pliku mapy inicjujƒÖcej "sk≈Çadowe"
       double noise,		//= 0,
       short	ile_kate,	//= 2,		//Liczba kategorii w mapach
-      short	odl_sasiad,	//= 1,	//Rozmiar sπsiedztwa
-      short	ile_sasiad,	//= 8,	//8 == gÍstoúÊ sπsiedztwa ó jeúli -1 to wszystko po kolei
+      short	odl_sasiad,	//= 1,	//Rozmiar sƒÖsiedztwa
+      short	ile_sasiad,	//= 8,	//8 == gƒôsto≈õƒá sƒÖsiedztwa ‚Äî je≈õli -1 to wszystko po kolei
       bool	synchronicly,	//=true,
-      double spontanic	//= 0	//PrawdopodobieÒstwo spontanicznej zmiany poglπdu
+      double spontanic	//= 0	//Prawdopodobie≈Ñstwo spontanicznej zmiany poglƒÖdu
         ):
         world(log_name,50),
-        MaplName(clone_str(mapl_name)), //Nazwa mapy 1. inicjujπcej agentÛw
-    //Sub-obiekty w≥aúciwe dla tej symulacji:
+        MaplName(clone_str(mapl_name)), //Nazwa mapy 1. inicjujƒÖcej agent√≥w
+    //Sub-obiekty w≈Ça≈õciwe dla tej symulacji:
 
         MyWidth(Width),
         //Agenci(Width,Width,false,nullptr), //Initer == nullptr wiec tworzony przez konstruktor, a nie klonowanie
-        Agenci(Width,Width),       //Zak≥adamy, øe wystarcza to, co robi bezparametrowy konstruktor agenta
+        Agenci(Width,Width),       //Zak≈Çadamy, ≈ºe wystarcza to, co robi bezparametrowy konstruktor agenta
         IleKate(ile_kate),                //Liczba kategorii w mapach
-        IleSasiad(ile_sasiad),            //8 == gÍstoúÊ sπsiedztwa
-        OdlSasiad(odl_sasiad),            //Rozmiar sπsiedztwa
+        IleSasiad(ile_sasiad),            //8 == gƒôsto≈õƒá sƒÖsiedztwa
+        OdlSasiad(odl_sasiad),            //Rozmiar sƒÖsiedztwa
         Noise(noise),
         Synchronic(synchronicly),
-        BierzWszystko(0),                 //Sπsiedztwo bez losowania
-        //Wskaüniki do podstawowych seri danych
+        BierzWszystko(0),                 //SƒÖsiedztwo bez losowania
+        //Wska≈∫niki do podstawowych seri danych
         Firsts(nullptr),
         Seconds(nullptr)
-        {// Niewiele moøna zrobiÊ, bo nie moøna tu jeszcze polegaÊ na wirtualnych metodach klasy úwiat !!!
-
-            set_simulation_name(SIMULATION_NAME);
-
-            assert(ile_kate==2); //Na razie nie moøe byÊ nic innego
+        {// Niewiele mo≈ºna zrobiƒá, bo nie mo≈ºna tu jeszcze polegaƒá na wirtualnych metodach klasy ≈õwiat !!!
+            assert(ile_kate==2); //Na razie nie mo≈ºe byƒá nic innego
+            lifeworld::set_simulation_name(SIMULATION_NAME);
 
             if(lifeagent::InitProp!=Noise)
             {
                 lifeagent::InitProp=Noise; //Inne proporcje inicjowania losowego
-                Agenci.Reinitialise(); //Niestety powtÛrna robota
+                Agenci.Reinitialise(); //Niestety powt√≥rna robota
             }
 
             lifeagent::MutationLevel=spontanic;
@@ -115,14 +113,14 @@ lifeworld::lifeworld(
 
         }
 
-// Generujemy podstawowe ürÛd≥a dla wbudowanego manager-a danych lub innego:
-// /////////////////////////////////////////////////////////////////////////
+// Generujemy podstawowe ≈∫r√≥d≈Ça dla wbudowanego manager-a danych:
+// //////////////////////////////////////////////////////////////
 void lifeworld::make_basic_sources()
 {
+    world::make_basic_sources(); //TWORZY SERIƒò "STEP"
     sources_menager& WhatSourMen=this->Sources;
-    //world::make_basic_sources(WhatSourMen); //NA RAZIE NIE WOLNO UØYWA∆.
 
-    //G≥Ûwne serie
+    //G≈Ç√≥wne serie
     Firsts=Agenci.make_source("State",&lifeagent::First);
     if(Firsts)
         Firsts->setminmax(0,IleKate-1);
@@ -131,224 +129,226 @@ void lifeworld::make_basic_sources()
     if(Seconds)
         Seconds->setminmax(0,IleKate-1);
 
-    //Umieszczenie g≥Ûwnych serii w managerze serii
+    //Umieszczenie g≈Ç√≥wnych serii w managerze serii
     WhatSourMen.insert(Firsts);
     WhatSourMen.insert(Seconds);
 }
 
 
-// WspÛ≥praca z managerem wyúwietlania, a takøe logiem:
+// Wsp√≥≈Çpraca z managerem wy≈õwietlania, a tak≈ºe logiem:
 // ////////////////////////////////////////////////////
 
-// WspÛ≥praca z zarzπdcπ wyúwietlania.
 void lifeworld::make_default_visualisation()
-//Rejestruje pochodne serie, tworzy domyúlne "lufciki" i wk≥ada w "Manager"
+//Wsp√≥≈Çpraca z zarzƒÖdcƒÖ wy≈õwietlania.
+//Rejestruje pochodne serie, tworzy domy≈õlne "lufciki" i wk≈Çada w "Manager"
 {
     area_menager_base& Menager=this->MyAreaMenager(); //ustawiane w this->initialise()
-    int iFirst=0,iSecond=0;
-    //Uzyskanie indeksÛw podstawowych serii z zarzπdcy
-    {
-    const char* FiName=Firsts->name();
-    if(Firsts) iFirst=Sources.search(FiName);
-    else
-    {
-        cerr<<"No data series named '"<<FiName<<"' was found."<<endl;
+
+    if(!Firsts) {
+        cerr<<"`Firsts` obligatory data serie was not found!"<<endl;
         goto ERROR;
     }
 
-    const char* SeName=Seconds->name();
-    if(Seconds) iSecond=Sources.search(SeName);
-    else
-    {
-        cerr<<"No data series named '"<<SeName<<"' was found."<<endl;
+    if(!Seconds) {
+        cerr<<"`Seconds` obligatory data serie was not found!"<<endl;
         goto ERROR;
     }
 
+    {  //Uzyskanie indeks√≥w podstawowych serii z zarzƒÖdcy
+        const char *FiName = Firsts->name();
+        int iFirst = Sources.search(FiName);
 
-    //Oraz utworzenie pochodnych serii statystycznych
-    generic_clustering_source*	FirstStat=new generic_clustering_source(Firsts);
-    // TODO WspÛ≥czesny C++ (od standardu C++11 wzwyø) ma w tej kwestii bardzo jasne zasady.
-    //      KrÛtka odpowiedü brzmi: standardowy operator new nie zwraca `nullptr`!!!
-    if(!FirstStat) goto ERROR; //TODO!!!
-        else	Sources.insert(FirstStat);
+        const char *SeName = Seconds->name();
+        int iSecond = Sources.search(SeName);
 
-    generic_clustering_source*	SecondStat=new generic_clustering_source(Seconds);
-    if(!SecondStat) goto ERROR; //TODO!!!
-        else	Sources.insert(SecondStat);
+        //Oraz utworzenie pochodnych serii statystycznych
+        generic_clustering_source *FirstStat = new generic_clustering_source(Firsts);
+        // TODO Wsp√≥≈Çczesny C++ (od standardu C++11 wzwy≈º) ma w tej kwestii bardzo jasne zasady.
+        //      Kr√≥tka odpowied≈∫ brzmi: standardowy operator new nie zwraca `nullptr`!!!
+        if (!FirstStat) goto ERROR; //TODO!!!
+        else Sources.insert(FirstStat);
 
-    //èrÛd≥o liczπce statystykÍ i histogram z klasyfikacji
-    generic_histogram_source*  ClassStat=new generic_histogram_source(Firsts);
-    if(!ClassStat) goto ERROR; //TODO itd...
-        else	Sources.insert(ClassStat);
+        generic_clustering_source *SecondStat = new generic_clustering_source(Seconds);
+        if (!SecondStat) goto ERROR; //TODO!!!
+        else Sources.insert(SecondStat);
 
-    //A takøe utworzenie seri liczπcych ich wzajemne ko-statystyki
-    coincidention_source* CorrFS=new coincidention_source(Firsts,Seconds);
-    if(!CorrFS) goto ERROR;
-    Sources.insert(CorrFS); //Øeby zosta≥a kiedyú zwolniona, a poza tym moøe ktoú kiedyú...
+        //≈πr√≥d≈Ço liczƒÖce statystykƒô i histogram z klasyfikacji
+        generic_histogram_source *ClassStat = new generic_histogram_source(Firsts);
+        if (!ClassStat) goto ERROR; //TODO itd...
+        else Sources.insert(ClassStat);
 
-    fifo_source<double>* EntropyFSLog=new fifo_source<double>(CorrFS->Entropy(),internal_log);
-    if(!EntropyFSLog) goto ERROR;
-    int iEntropyFS=Sources.insert(EntropyFSLog);
+        //A tak≈ºe utworzenie seri liczƒÖcych ich wzajemne ko-statystyki
+        coincidention_source *CorrFS = new coincidention_source(Firsts, Seconds);
+        if (!CorrFS) goto ERROR;
+        Sources.insert(CorrFS); //≈ªeby zosta≈Ça kiedy≈õ zwolniona, a poza tym mo≈ºe kto≈õ kiedy≈õ...
 
-    fifo_source<double>* CorrFSLogR=new fifo_source<double>(CorrFS->Tau_a_Goodman_Kruskal(),internal_log); //Kolejka dla korelacji pierwszych z drugimi
-    if(!CorrFSLogR) goto ERROR;
-    int iCorrFSR=Sources.insert(CorrFSLogR);
+        fifo_source<double> *EntropyFSLog = new fifo_source<double>(CorrFS->Entropy(), internal_log);
+        if (!EntropyFSLog) goto ERROR;
+        int iEntropyFS = Sources.insert(EntropyFSLog);
 
-
-    //I utworzenie seri liczπcych ich statystyki
-
-    fifo_source<double>* StressFirstLog=new fifo_source<double>(FirstStat->Stress(),internal_log); //Fifo ze stresu
-    if(!StressFirstLog) goto ERROR;
-    int iSFirst=Sources.insert(StressFirstLog);
-
-    fifo_source<double>* StressSecondLog=new fifo_source<double>(SecondStat->Stress(),internal_log); //Fifo ze stresu
-    if(!StressSecondLog) goto ERROR;
-    int iSSecond=Sources.insert(StressSecondLog);
-
-    //iMainClassF,iWhichMainF,iNumClassF,
-    fifo_source<double>* NumClassLog=new fifo_source<double>(ClassStat->NumOfClass(),internal_log);
-    if(!NumClassLog) goto ERROR;
-    int iNumClassF=Sources.insert(NumClassLog);
-
-    fifo_source<double>* ClassEntropyLog=new fifo_source<double>(ClassStat->Entropy(),internal_log);
-    if(!ClassEntropyLog) goto ERROR;
-    int iClassEntropy=Sources.insert(ClassEntropyLog);
-
-    fifo_source<double>* MainClassLog=new fifo_source<double>(ClassStat->MainClass(),internal_log);
-    if(!MainClassLog) goto ERROR;
-    int iMainClassF=Sources.insert(MainClassLog);
-
-    //I umieszczanie w logu tego co trzeba
-    Log.insert(ClassStat->NumOfClass());
-    Log.insert(ClassStat->Entropy());
-    Log.insert(ClassStat->NormEntropy());
-    Log.insert(ClassStat->MainClass());
-    Log.insert(ClassStat->WhichMain());
-    Log.insert(FirstStat->Stress());
-    Log.insert(SecondStat->Stress());
-    Log.insert(CorrFS->Entropy());
-    Log.insert(CorrFS->NormEntropy());
-    Log.insert(CorrFS->Chi2());
-    Log.insert(CorrFS->LevelOfFreedom());
-    Log.insert(CorrFS->V2Cramer());
-    Log.insert(CorrFS->T2Czupurow());
-    Log.insert(CorrFS->Tau_b_Goodman_Kruskal());
-    Log.insert(CorrFS->Tau_a_Goodman_Kruskal());
-
-    //PODSTAWOWA WIZUALIZACJA SERII DANYCH
-    //WYMIARY DOMYåLNEGO OKNA
-    unsigned szer=Menager.getwidth();
-    unsigned wyso=Menager.getheight();                           assert(szer>50 && wyso>40); //Najmniejsze sensowne okno
-
-    //Obszary domyúlne ó np. obszar STATUSU
-    world::make_default_visualisation(); // this->initialize(Manager);
-    if(OutArea)
-    {
-        OutArea->set(1,1,szer/2-1,wyso/2-1);
-        Menager.as_orginal(Menager.search(OutArea->name()));
-    }
-
-    // W£AåCIWE LUFCIKI:
-    graph* pom1=new sequence_graph(szer/2-1,wyso/4,szer-50,wyso/2-1,
-                                    3,Sources.make_series_info(
-                                            iClassEntropy,iNumClassF,iMainClassF,
-                                                -1
-                                            ).get_ptr_val(),
-                                    0 // Z reskalowaniem
-                                   );
-    if(!pom1)
-        goto ERROR;
-
-    pom1->setframe(128);
-    pom1->settitle("HISTORY OF CLASSIFICATION");
-    Menager.insert(pom1);
-
-    //inne mniej potrzebne
-    graph* pom=new sequence_graph(szer/2-1,1,szer-50,wyso/4-1,  //domyúlne wspÛ≥rzÍdne
-                                    1,Sources.make_series_info(
-                                            iSFirst,
-                                                -1
-                                            ).get_ptr_val(),
-                                    //0// Z reskalowaniem
-                                   1); //WspÛlne minimum/maximum
-    if(!pom) goto ERROR;
-    pom->setframe(128);
-    pom->settitle("HISTORY OF STRESS");
-    Menager.insert(pom);
-
-    pom=new carpet_graph(1,wyso/2,szer/3,wyso-1,//domyúlne wspÛ≥rzÍdne
-                            Firsts); //I  //TODO!!! danych
-    pom->setdatacolors(0,255);
-    pom->settitle("Map of current state");
-    Menager.insert(pom);
-
-    pom=new bars_graph(szer/3+1,wyso/2,szer/3*2,wyso-1,//domyúlne wspÛ≥rzÍdne  szer-49,7*char_height('X')+7,szer,8*char_height('X')+9
-                            ClassStat);
-    pom->setdatacolors(0,255);
-    pom->settitle("Histogram of state");
-    Menager.insert(pom);
-
-    pom=new manhattan_graph(szer/3*2+1,wyso/2,szer,wyso-1,//domyúlne wspÛ≥rzÍdne
-                                CorrFS,0,	//I ürÛd≥o danych
-                                CorrFS,0,
-                                1,
-                                0.22,		//U≥amek szerokoúci przeznaczony na perspektywÍ
-                                0.77);	//U≥amek wysokoúci  przeznaczony na perspektywÍ
-    pom->setdatacolors(0,255);
-    pom->settextcolors(0);
-    pom->settitle("Determination of curr. state by prev. state");
-    Menager.insert(pom);
-
-    //PRZYCISKI
-    pom=new carpet_graph(szer-49,5*(char_height('X')+RAMKA),szer,6*(char_height('X')+RAMKA),//domyúlne wspÛ≥rzÍdne
-                            Seconds); //I ürÛd≥o danych
-    pom->setdatacolors(0,255);
-    pom->setframe(0);
-    pom->settitle("Map of previous state");
-    Menager.insert(pom);
+        fifo_source<double> *CorrFSLogR = new fifo_source<double>(CorrFS->Tau_a_Goodman_Kruskal(),
+                                                                  internal_log); //Kolejka dla korelacji pierwszych z drugimi
+        if (!CorrFSLogR) goto ERROR;
+        int iCorrFSR = Sources.insert(CorrFSLogR);
 
 
-    pom1=new sequence_graph(szer-49, 9*(char_height('X')+RAMKA),szer,10*(char_height('X')+RAMKA),
+        //I utworzenie seri liczƒÖcych ich statystyki
 
-                                    1,Sources.make_series_info(
-                                            iEntropyFS,
-                                                -1
-                                            ).get_ptr_val(),
-                                   1 /*WspÛlne minimum/maximum*/);
-    if(!pom1) goto ERROR;
-    pom1->setframe(128);
-    pom1->settitle("HISTORY OF ENTROPY OF DETERMINATION");
-    Menager.insert(pom1);
+        fifo_source<double> *StressFirstLog = new fifo_source<double>(FirstStat->Stress(),
+                                                                      internal_log); //Fifo ze stresu
+        if (!StressFirstLog) goto ERROR;
+        int iSFirst = Sources.insert(StressFirstLog);
 
+        fifo_source<double> *StressSecondLog = new fifo_source<double>(SecondStat->Stress(),
+                                                                       internal_log); //Fifo ze stresu
+        if (!StressSecondLog) goto ERROR;
+        int iSSecond = Sources.insert(StressSecondLog);
 
-    pom=new sequence_graph(szer-49, 11*(char_height('X')+RAMKA),szer,12*(char_height('X')+RAMKA),
-                                    1,Sources.make_series_info(
-                                            iCorrFSR,//iCorrFS,
-                                                -1
-                                            ).get_ptr_val(),
-                                    1
-                                   );
-    if(!pom) goto ERROR;
-    pom->setframe(128);
-    pom->settitle("HISTORY OF Prev. TO Curr. CORRELATION");
-    Menager.insert(pom);
+        //iMainClassF,iWhichMainF,iNumClassF,
+        fifo_source<double> *NumClassLog = new fifo_source<double>(ClassStat->NumOfClass(), internal_log);
+        if (!NumClassLog) goto ERROR;
+        int iNumClassF = Sources.insert(NumClassLog);
 
-    //Tworzenie obszaru sterujπcego:
-    {
-        wb_dynarray<rectangle_source_base*> tmp(2,(rectangle_source_base*)Sources.get(iFirst),
-                                                  (rectangle_source_base*)Sources.get(iSecond),
-                                                  -1
-                                                  );
-        drawable_base* pom=new steering_wheel(szer-49,0,szer,5*(char_height('X')+RAMKA),tmp);
-        assert(pom!=nullptr);
-        pom->setbackground(10);
-        Menager.insert(pom);
+        fifo_source<double> *ClassEntropyLog = new fifo_source<double>(ClassStat->Entropy(), internal_log);
+        if (!ClassEntropyLog) goto ERROR;
+        int iClassEntropy = Sources.insert(ClassEntropyLog);
+
+        fifo_source<double> *MainClassLog = new fifo_source<double>(ClassStat->MainClass(), internal_log);
+        if (!MainClassLog) goto ERROR;
+        int iMainClassF = Sources.insert(MainClassLog);
+
+        //I umieszczanie w logu tego co trzeba
+        Log.insert(ClassStat->NumOfClass());
+        Log.insert(ClassStat->Entropy());
+        Log.insert(ClassStat->NormEntropy());
+        Log.insert(ClassStat->MainClass());
+        Log.insert(ClassStat->WhichMain());
+        Log.insert(FirstStat->Stress());
+        Log.insert(SecondStat->Stress());
+        Log.insert(CorrFS->Entropy());
+        Log.insert(CorrFS->NormEntropy());
+        Log.insert(CorrFS->Chi2());
+        Log.insert(CorrFS->LevelOfFreedom());
+        Log.insert(CorrFS->V2Cramer());
+        Log.insert(CorrFS->T2Czupurow());
+        Log.insert(CorrFS->Tau_b_Goodman_Kruskal());
+        Log.insert(CorrFS->Tau_a_Goodman_Kruskal());
+
+        //PODSTAWOWA WIZUALIZACJA SERII DANYCH
+        //WYMIARY DOMY≈öLNEGO OKNA
+        unsigned szer = Menager.getwidth();
+        unsigned wyso = Menager.getheight();
+        assert(szer > 50 && wyso > 40); //Najmniejsze sensowne okno
+
+        //Obszary domy≈õlne ‚Äî np. obszar STATUSU
+        world::make_default_visualisation(); // this->initialize(Manager);
+        if (OutArea) {
+            OutArea->set(1, 1, szer / 2 - 1, wyso / 2 - 1);
+            Menager.as_orginal(Menager.search(OutArea->name()));
         }
 
-    }
-    Sources.new_data_version(1,1); //Oznajmia seriom, øe dane siÍ uaktualni≥y	(po inicjacji)
+        // W≈ÅA≈öCIWE LUFCIKI:
+        graph *pom1 = new sequence_graph(szer / 2 - 1, wyso / 4, szer - 50, wyso / 2 - 1,
+                                         3, Sources.make_series_info(
+                        iClassEntropy, iNumClassF, iMainClassF,
+                        -1
+                ).get_ptr_val(),
+                                         0 // Z reskalowaniem
+        );
+        if (!pom1)
+            goto ERROR;
 
-    ERROR: //Tu akcja na niepogodÍ
+        pom1->setframe(128);
+        pom1->settitle("HISTORY OF CLASSIFICATION");
+        Menager.insert(pom1);
+
+        //inne mniej potrzebne
+        graph *pom = new sequence_graph(szer / 2 - 1, 1, szer - 50, wyso / 4 - 1,  //domy≈õlne wsp√≥≈Çrzƒôdne
+                                        1, Sources.make_series_info(
+                        iSFirst,
+                        -1
+                ).get_ptr_val(),
+                //0// Z reskalowaniem
+                                        1); //Wsp√≥lne minimum/maximum
+        if (!pom) goto ERROR;
+        pom->setframe(128);
+        pom->settitle("HISTORY OF STRESS");
+        Menager.insert(pom);
+
+        pom = new carpet_graph(1, wyso / 2, szer / 3, wyso - 1,//domy≈õlne wsp√≥≈Çrzƒôdne
+                               Firsts); //I  //TODO!!! danych
+        pom->setdatacolors(0, 255);
+        pom->settitle("Map of current state");
+        Menager.insert(pom);
+
+        pom = new bars_graph(szer / 3 + 1, wyso / 2, szer / 3 * 2,
+                             wyso - 1,//domy≈õlne wsp√≥≈Çrzƒôdne  szer-49,7*char_height('X')+7,szer,8*char_height('X')+9
+                             ClassStat);
+        pom->setdatacolors(0, 255);
+        pom->settitle("Histogram of state");
+        Menager.insert(pom);
+
+        pom = new manhattan_graph(szer / 3 * 2 + 1, wyso / 2, szer, wyso - 1,//domy≈õlne wsp√≥≈Çrzƒôdne
+                                  CorrFS, 0,    //I ≈∫r√≥d≈Ço danych
+                                  CorrFS, 0,
+                                  1,
+                                  0.22,        //U≈Çamek szeroko≈õci przeznaczony na perspektywƒô
+                                  0.77);    //U≈Çamek wysoko≈õci  przeznaczony na perspektywƒô
+        pom->setdatacolors(0, 255);
+        pom->settextcolors(0);
+        pom->settitle("Determination of curr. state by prev. state");
+        Menager.insert(pom);
+
+        //PRZYCISKI
+        pom = new carpet_graph(szer - 49, 5 * (char_height('X') + RAMKA), szer,
+                               6 * (char_height('X') + RAMKA),//domy≈õlne wsp√≥≈Çrzƒôdne
+                               Seconds); //I ≈∫r√≥d≈Ço danych
+        pom->setdatacolors(0, 255);
+        pom->setframe(0);
+        pom->settitle("Map of previous state");
+        Menager.insert(pom);
+
+
+        pom1 = new sequence_graph(szer - 49, 9 * (char_height('X') + RAMKA), szer, 10 * (char_height('X') + RAMKA),
+
+                                  1, Sources.make_series_info(
+                        iEntropyFS,
+                        -1
+                ).get_ptr_val(),
+                                  1 /*Wsp√≥lne minimum/maximum*/);
+        if (!pom1) goto ERROR;
+        pom1->setframe(128);
+        pom1->settitle("HISTORY OF ENTROPY OF DETERMINATION");
+        Menager.insert(pom1);
+
+
+        pom = new sequence_graph(szer - 49, 11 * (char_height('X') + RAMKA), szer, 12 * (char_height('X') + RAMKA),
+                                 1, Sources.make_series_info(
+                        iCorrFSR,//iCorrFS,
+                        -1
+                ).get_ptr_val(),
+                                 1
+        );
+        if (!pom) goto ERROR;
+        pom->setframe(128);
+        pom->settitle("HISTORY OF Prev. TO Curr. CORRELATION");
+        Menager.insert(pom);
+
+        //Tworzenie obszaru sterujƒÖcego:
+        {
+            wb_dynarray < rectangle_source_base * > tmp(2, (rectangle_source_base *) Sources.get(iFirst),
+                                                        (rectangle_source_base *) Sources.get(iSecond),
+                                                        -1
+            );
+            drawable_base *pom = new steering_wheel(szer - 49, 0, szer, 5 * (char_height('X') + RAMKA), tmp);
+            assert(pom != nullptr);
+            pom->setbackground(10);
+            Menager.insert(pom);
+        }
+
+        Sources.new_data_version(1, 1); //Oznajmia seriom, ≈ºe dane siƒô uaktualni≈Çy	(po inicjacji)
+    }
+    ERROR: //Tu akcja na niepogodƒô
     std::cerr<<"Incorrect initialization of the default visualizations!"<<std::endl;
         ;  //`error_message(...)`???
 }
@@ -359,8 +359,8 @@ void lifeworld::make_default_visualisation()
 // //////////////////
 
 void lifeworld::after_read_from_image()
-//Actions after read state from a file. Aktualizacja pÛl statycznych `lifeagent`-a!!!
-{                   assert(IleKate==2); //Dla life tylko dwie moøliwe kategorie.
+//Actions after read state from a file. Aktualizacja p√≥l statycznych `lifeagent`-a!!!
+{                   assert(IleKate==2); //Dla life tylko dwie mo≈ºliwe kategorie.
     lifeagent::ile_kate=IleKate; //Liczba kategorii w mapach
     lifeagent::kate_shift=7;
     /*
@@ -388,11 +388,11 @@ void lifeworld::after_read_from_image()
 void lifeworld::initialize_layers()
 //-------------------------------------
 {
-    static int first=1; //TYMCZASOWE WY£•CZENIE NADMIARU WYDRUK”W!!!
+    static int first=1; //TYMCZASOWE WY≈ÅƒÑCZENIE NADMIARU WYDRUK√ìW!!!
     if(first)
         Log.GetStream()<<"attitude SIMULATION:";
-    //odl_sasiad = 1,//Rozmiar sπsiedztwa
-    //ile_sasiad = 8 //8 == gÍstoúÊ sπsiedztwa
+    //odl_sasiad = 1,//Rozmiar sƒÖsiedztwa
+    //ile_sasiad = 8 //8 == gƒôsto≈õƒá sƒÖsiedztwa
 
     lifeagent::ile_kate=IleKate; //Liczba kategorii w mapach
 
@@ -414,18 +414,18 @@ void lifeworld::initialize_layers()
         break;
     }
 
-    //...wydruk wartoúci parametrÛw symulacji
+    //...wydruk warto≈õci parametr√≥w symulacji
     if(first)
       Log.GetStream()
         <<"\nNum of Kl="<<Log.separator()<<IleKate
         <<"\nNoise %="<<Log.separator()<<Noise*100
         <<"\nNeighborhood="<<Log.separator()<<IleSasiad<<"/("<<(1+2*OdlSasiad)<<"*"<<(1+2*OdlSasiad)<<")\n";
 
-    //			USTALANIE STAN”W AGENT”W
-    //Wczytuje, uøywajπc konstruktora lub klonowania, gdy nie ma, wiec inicjuje resztÍ pÛl.
+    //			USTALANIE STAN√ìW AGENT√ìW
+    //Wczytuje, u≈ºywajƒÖc konstruktora lub klonowania, gdy nie ma, wiec inicjuje resztƒô p√≥l.
     rectangle_layer_of_agents<lifeagent>::assign_rgb_fun tmp=&lifeagent::assign123;
     char* fname=MaplName.get_ptr_val();
-    //Jeúli nie zainicjowane z bitmapy to zostaje to z konstruktorÛw!
+    //Je≈õli nie zainicjowane z bitmapy to zostaje to z konstruktor√≥w!
     if( fname != nullptr && strlen(fname)>0 )
     {
         int from = Agenci.init_from_bitmap(MaplName.get_ptr_val(), tmp);
@@ -441,7 +441,7 @@ void lifeworld::initialize_layers()
         cerr << "Agents default initialization because of empty bitmap filename." <<endl;
     }
 
-    first=0; //Koniec pierwszego wywo≥ania //TYMCZASOWO!!! Ha Ha !!!
+    first=0; //Koniec pierwszego wywo≈Çania //TYMCZASOWO!!! Ha Ha !!!
 }
 
 //Pojedynczy krok symulacji
@@ -453,33 +453,33 @@ void lifeworld::simulate_one_step()
 
     if(Synchronic)
     {
-        //Idziemy po agentach pe≥nym iteratorem, a stan agentÛw zmieniamy dopiero potem.
+        //Idziemy po agentach pe≈Çnym iteratorem, a stan agent√≥w zmieniamy dopiero potem.
         iteratorh IGlob=MyGeom->make_global_iterator();
         while(IGlob)
         {   //Uzyskujemy index  agenta
-            size_t index=MyGeom->get_next(IGlob);    assert(index!=MyGeom->FULL); //Tutaj nie powinno siÍ zdarzyÊ
+            size_t index=MyGeom->get_next(IGlob);    assert(index!=MyGeom->FULL); //Tutaj nie powinno siƒô zdarzyƒá
 
             lifeagent& CenterAgent=Agenci.get(index); // Uzyskujemy referencje do agenta
 
-            CheckChange(MyGeom,index,CenterAgent); //Sprawdzamy zmianÍ stanu
+            CheckChange(MyGeom,index,CenterAgent); //Sprawdzamy zmianƒô stanu
         }
-        // upewniamy siÍ ze iterator zostanie usuniÍty
+        // upewniamy siƒô ze iterator zostanie usuniƒôty
         MyGeom->destroy_iterator(IGlob);
 
 
-        IGlob=MyGeom->make_global_iterator(); //Tworzymy nowy iterator i iterujemy od poczπtku
+        IGlob=MyGeom->make_global_iterator(); //Tworzymy nowy iterator i iterujemy od poczƒÖtku
         while(IGlob)
         {
             size_t index=MyGeom->get_next(IGlob); //Uzyskujemy index  agenta
 
-            assert(index!=MyGeom->FULL);				//... tutaj nie powinno siÍ zdarzyÊ
+            assert(index!=MyGeom->FULL);				//... tutaj nie powinno siƒô zdarzyƒá
 
             lifeagent& CenterAgent=Agenci.get(index); // Uzyskujemy referencje do agenta
 
             wb_swap(CenterAgent.First,CenterAgent.Second);  //Ma nowy stan
         }
 
-        // upewniamy siÍ ze iterator zostanie usuniÍty
+        // upewniamy siƒô ze iterator zostanie usuniƒôty
         MyGeom->destroy_iterator(IGlob);
 
     }
@@ -487,20 +487,20 @@ void lifeworld::simulate_one_step()
     {
         iteratorh Monte=MyGeom->make_random_global_iterator();	//Alokujemy iterator Monte-Carlo
 
-        while(Monte) //Idziemy po agentach iteratorem Monte-Carlo. NiektÛrzy mogπ siÍ powtÛrzyÊ
+        while(Monte) //Idziemy po agentach iteratorem Monte-Carlo. Niekt√≥rzy mogƒÖ siƒô powt√≥rzyƒá
         {
             //Uzyskujemy index losowo wybranego agenta
-            size_t index=MyGeom->get_next(Monte);    assert(index!=MyGeom->FULL); //... tutaj nie powinno siÍ zdarzyÊ
+            size_t index=MyGeom->get_next(Monte);    assert(index!=MyGeom->FULL); //... tutaj nie powinno siƒô zdarzyƒá
 
             lifeagent& CenterAgent=Agenci.get(index); // Uzyskujemy referencje do agenta
 
-            if(CheckChange(MyGeom,index,CenterAgent)==1) //Czy zasz≥a zmiana stanu
+            if(CheckChange(MyGeom,index,CenterAgent)==1) //Czy zasz≈Ça zmiana stanu
                 {
                     wb_swap(CenterAgent.First,CenterAgent.Second);
                 }
         }
 
-        // upewniamy siÍ, øe iterator zostanie usuniÍty
+        // upewniamy siƒô, ≈ºe iterator zostanie usuniƒôty
         MyGeom->destroy_iterator(Monte);
     }
 
@@ -523,7 +523,7 @@ int lifeworld::CheckChange(const geometry_base* MyGeom,
         return 1;
     }
 
-    // Alokujemy iterator sπsiedztwa
+    // Alokujemy iterator sƒÖsiedztwa
     ::iteratorh Neigh=nullptr;
 
     if(BierzWszystko)
@@ -535,22 +535,22 @@ int lifeworld::CheckChange(const geometry_base* MyGeom,
         Neigh=MyGeom->make_random_neighbour_iterator(index,OdlSasiad,IleSasiad);
     }
 
-    int zliczanie=0; //Zliczanie sπsiadÛw
-    double alive=0;  //LICZNIK ØYWYCH
+    int zliczanie=0; //Zliczanie sƒÖsiad√≥w
+    double alive=0;  //LICZNIK ≈ªYWYCH
 
     while(Neigh)
     {
-        size_t index2=MyGeom->get_next(Neigh); //Uzyskujemy index sπsiada
-        if(index2==MyGeom->FULL || index2==index) //Jeúli poza obszarem symulacji lub w
-            continue; //centrum obszaru to dalej by≥oby bez sensu.
+        size_t index2=MyGeom->get_next(Neigh); //Uzyskujemy index sƒÖsiada
+        if(index2==MyGeom->FULL || index2==index) //Je≈õli poza obszarem symulacji lub w
+            continue; //centrum obszaru to dalej by≈Çoby bez sensu.
 
-        lifeagent& PeryfAgent=Agenci.get(index2); //Uzyskujemy referencje do sπsiada
+        lifeagent& PeryfAgent=Agenci.get(index2); //Uzyskujemy referencje do sƒÖsiada
 
         zliczanie++;
         alive+=PeryfAgent.First; // `double(lifeagent::ile_kate);`
     }
 
-    MyGeom->destroy_iterator(Neigh); // upewniamy siÍ, øe iterator zostanie usuniÍty
+    MyGeom->destroy_iterator(Neigh); // upewniamy siƒô, ≈ºe iterator zostanie usuniƒôty
 
     if(alive<=1 || alive>=4)
     {
@@ -563,7 +563,7 @@ int lifeworld::CheckChange(const geometry_base* MyGeom,
         CenterAgent.Second=1; // + `CenterAgent.First;` //zmieniamy w agencie centralnym
         return 1;
     }
-    else //Nic siÍ nie zmienia
+    else //Nic siƒô nie zmienia
     {
         CenterAgent.Second=CenterAgent.First; //Albo nic nie zmieniamy
         return 0;
