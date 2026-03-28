@@ -1,6 +1,6 @@
 /// @file
 /// Implementation of the lifeworld class - virtual Input method
-//---------------------------------------------------------------
+//--------------------------------------------------------------
 /// Its is rather simply implementation. You can replace it if you need.
 // /////////////////////////////////////////////////////////////////////
 /// @date 2026-03-27 (modified)
