@@ -1,7 +1,7 @@
 /// @file world.hpp
 /// Interface for the base world-class.
 // ////////////////////////////////////////////////////////////////////
-/// @date 2026-03-28 (modified)
+/// @date 2026-03-30 (modified)
 
 #if !defined(WORLD_HPP_INCLUDED_)
 #define WORLD_HPP_INCLUDED_
@@ -16,12 +16,12 @@
 #include "textarea.hpp"
 #include "logfile.hpp"
 
-/// Podstawy u¿ytkowe dla ca³ego œwiata symulacji.
+/// Podstawy uÅ¼ytkowe dla caÅ‚ego Å›wiata symulacji.
 class world
 //---------------------------------------------------------
 {
-    /// @brief NA RAZIE NIE WOLNO TAKIEJ FUNKCJI! CHOÆ MUSI BYÆ ZDEFINIOWANA.
-    /// Pomys³ zewnêtrznego manager-a danych okaza³ siê niesprowadzany.
+    /// @brief NA RAZIE NIE WOLNO TAKIEJ FUNKCJI! CHOÄ† MUSI BYÄ† ZDEFINIOWANA.
+    /// PomysÅ‚ zewnÄ™trznego manager-a danych okazaÅ‚ siÄ™ niesprawdzony.
     virtual void   make_basic_sources(sources_menager& WhatSourMen);
     /// Uchwyt do aktualnego manager danych.
     main_area_menager*		AreaMenager;
@@ -29,46 +29,46 @@ class world
     wb_pchar				TimeStamp;
 
 protected:
-    /// Obszar bezpoœredniego wyœwietlania do wypisywania statusu.
-    /// Jest zarz¹dzany przez zarz¹dcê obszarów i mo¿e byæ NULL!!!
+    /// Obszar bezpoÅ›redniego wyÅ›wietlania do wypisywania statusu.
+    /// Jest zarzÄ…dzany przez zarzÄ…dcÄ™ obszarÃ³w i moÅ¼e byÄ‡ NULL!!!
     text_area*				OutArea;
-    /// Zarz¹dzanie Ÿród³ami danych. Czyli WBUDOWANY zarz¹dca serii danych.
+    /// ZarzÄ…dzanie ÅºrÃ³dÅ‚ami danych. Czyli WBUDOWANY zarzÄ…dca serii danych.
     sources_menager			Sources;
-    /// Obiekt rz¹dz¹cy zapisem historii.
+    /// Obiekt rzÄ…dzÄ…cy zapisem historii.
     logfile					Log;
 
-    /// Strumieñ do dok³adnego zapisu przebiegu symulacji pozwalaj¹cego na odtwarzanie.
-    /// Jeœli wskaŸnik nie jest pusty, to zrzuca ca³oœæ symulacji na ten strumieñ.
-    /// Otwiera strumieñ, jeœli jest podana nazwa, ale nie ma strumienia.
+    /// StrumieÅ„ do dokÅ‚adnego zapisu przebiegu symulacji pozwalajÄ…cego na odtwarzanie.
+    /// JeÅ›li wskaÅºnik nie jest pusty, to zrzuca caÅ‚oÅ›Ä‡ symulacji na ten strumieÅ„.
+    /// Otwiera strumieÅ„, jeÅ›li jest podana nazwa, ale nie ma strumienia.
     wb_ptr<fstream>			Out;
     static char				separator;
 
 public:
-    /// Œredni czas pojedynczego kroku i czas ostatniego.
+    /// Åšredni czas pojedynczego kroku i czas ostatniego.
     wb_pchar				ClockTime;
-    /// Data i czas rozpoczêcia symulacji.
+    /// Data i czas rozpoczÄ™cia symulacji.
     wb_pchar				StartTime; //Nie zapisywana! (?)
-    /// Licznik kroków symulacji.
-    /// Jest resetowany przez "initialize" i zwiêkszany przez "simulate"
+    /// Licznik krokÃ³w symulacji.
+    /// Jest resetowany przez "initialize" i zwiÄ™kszany przez "simulate"
     unsigned long			Licznik;
-    /// Ogranicznik kroków symulacji.
+    /// Ogranicznik krokÃ³w symulacji.
     unsigned long			MaxIterations;
-    /// Co ile kroków symulacji sprawdzaæ pisanie do logu.
+    /// Co ile krokÃ³w symulacji sprawdzaÄ‡ pisanie do logu.
     unsigned				LogRatio;
-    /// Co ile kroków symulacji sprawdzaæ wejœcie.
+    /// Co ile krokÃ³w symulacji sprawdzaÄ‡ wejÅ›cie.
     unsigned				InputRatio;
-    /// STEROWANIE ZAPISEM EKRANÓW.
+    /// STEROWANIE ZAPISEM EKRANÃ“W.
     static 	  bool 			continous_dump; //=false;
-    //STERUJ¥CE NAZWY PLIKÓW
-    wb_pchar				SimulName;   //!< G³ówna nazwa symulacji.
-    wb_pchar				OutName;	 //!< Nazwa pliku historii. Zamyka jak niezgodnoœæ nazw.
+    //STERUJÄ„CE NAZWY PLIKÃ“W
+    wb_pchar				SimulName;   //!< GÅ‚Ã³wna nazwa symulacji.
+    wb_pchar				OutName;	 //!< Nazwa pliku historii. Zamyka jak niezgodnoÅ›Ä‡ nazw.
     wb_pchar 				DumpNetName; //!< Nazwa pliku sieci do zrzutu razem z danymi.
 
 public:
     //Konstrukcja i destrukcja:
     // ////////////////////////
 
-    /// G³ówny konstruktor.
+    /// GÅ‚Ã³wny konstruktor.
     world(const char* log_name,
           size_t max_sources=50):
             MaxIterations(0xffffffff),Licznik(0),
@@ -85,7 +85,7 @@ protected:
     // Wymagane implementacji specyficznych akcji:
     // ///////////////////////////////////////////
 
-    /// W³aœciwa implementacja jednego kroku symulacji — do zaimplementowania
+    /// WÅ‚aÅ›ciwa implementacja jednego kroku symulacji â€” do zaimplementowania
     virtual void		simulate_one_step()=0;
 
     /// A derived classes action for world initialization.
@@ -94,20 +94,20 @@ protected:
     /// Derived class action after read simulation state from an image file.
     virtual void		after_read_from_image()=0;
 
-    /// Generuje podstawowe Ÿród³a dla wbudowanego zarz¹dcy danych.
+    /// Generuje podstawowe ÅºrÃ³dÅ‚a dla wbudowanego zarzÄ…dcy danych.
     virtual void		make_basic_sources()=0;
 
-    /// Wspó³praca z zarz¹dc¹ wyœwietlania. Tworzy domyœlne "lufciki" i umieszcza w nim.
+    /// WspÃ³Å‚praca z zarzÄ…dcÄ… wyÅ›wietlania. Tworzy domyÅ›lne "lufciki" i umieszcza w nim.
     virtual void		make_default_visualisation()=0;
 
-    /// Aktualizacja zawartoœci okna statusu po `n` krokach symulacji.
-    /// Domyœlnie wyœwietla numer kroku lub informacje o trybie interaktywnym.
+    /// Aktualizacja zawartoÅ›ci okna statusu po `n` krokach symulacji.
+    /// DomyÅ›lnie wyÅ›wietla numer kroku lub informacje o trybie interaktywnym.
     virtual void		actualize_out_area();
 
-    ///Implementacja strumieniowego wyjœcia. @returns 1,  jeœli sukces!
+    ///Implementacja strumieniowego wyjÅ›cia. @returns 1,  jeÅ›li sukces!
     virtual int		implement_output(ostream& o) const=0;
 
-    ///Implementacja strumieniowego wejœcia. @returns 1,  jeœli sukces!
+    ///Implementacja strumieniowego wejÅ›cia. @returns 1,  jeÅ›li sukces!
     virtual int		implement_input(istream& i)=0;
 
 public:
@@ -116,72 +116,72 @@ public:
 
     /// Ustawianie nazwy symulacji.
     virtual //TODO Dlaczego wirtualne?
-    int				set_simulation_name(const char* name); //@returns 1 jak siê uda³o, ale mo¿e byæ niedozwolone.
+    int				set_simulation_name(const char* name); //@returns 1 jak siÄ™ udaÅ‚o, ale moÅ¼e byÄ‡ niedozwolone.
     /// Odczytywanie nazwy symulacji.
     const char*		get_simulation_name() const	{ return SimulName.get(); }
     /// Ustawianie strumienia do zapisu historii.
     int				set_history_stream(const char* name);
-    /// Ustawianie maksymalnej wartoœci licznika kroków symulacji.
-    /// Po osi¹gniêciu tej wartoœci symulacja zostaje zatrzymana.
+    /// Ustawianie maksymalnej wartoÅ›ci licznika krokÃ³w symulacji.
+    /// Po osiÄ…gniÄ™ciu tej wartoÅ›ci symulacja zostaje zatrzymana.
     void			set_max_iteration(unsigned long iMaxIter){MaxIterations=iMaxIter;}
-    /// Czyta licznik kroków symulacji.
+    /// Czyta licznik krokÃ³w symulacji.
     unsigned long	get_current_step() const {return Licznik;}
 
-    /// Co ile kroków symulacji zapisuje na wyjœcie.
+    /// Co ile krokÃ³w symulacji zapisuje na wyjÅ›cie.
     void			set_log_ratio(unsigned ratio){LogRatio=ratio;}
-    /// Ustawia `InputRatio`, czyli co ile kroków symulacji sprawdzaæ wejœcie.
+    /// Ustawia `InputRatio`, czyli co ile krokÃ³w symulacji sprawdzaÄ‡ wejÅ›cie.
     void			set_input_ratio(unsigned ratio){InputRatio=ratio;}
 
-    /// Aktualny zarz¹dca ekranu pod³¹czony do tego œwiata.
+    /// Aktualny zarzÄ…dca ekranu podÅ‚Ä…czony do tego Å›wiata.
     area_menager&	MyAreaMenager();
-    /// Sprawdzenie, czy ma ju¿ pod³¹czonego zarz¹dcê okien.
+    /// Sprawdzenie, czy ma juÅ¼ podÅ‚Ä…czonego zarzÄ…dcÄ™ okien.
     int 			HasAreaMenager() { return AreaMenager!=nullptr; }
-    ///Jak trzeba KONIECZNIE coœ dopisaæ do logu.
+    ///Jak trzeba KONIECZNIE coÅ› dopisaÄ‡ do logu.
     ostream&		MyLogStream();
 
-    // G³ówne akcje œwiata:
+    // GÅ‚Ã³wne akcje Å›wiata:
     // ////////////////////
 
     /// Przygotowuje stan startowy symulacji.
-    /// Jeœli pierwszy raz to
-    ///     - wywo³uje `initialise_leyers()`
-    ///     - tworzy bazowe Ÿród³a
+    /// JeÅ›li pierwszy raz to
+    ///     - wywoÅ‚uje `initialise_leyers()`
+    ///     - tworzy bazowe ÅºrÃ³dÅ‚a
     ///     - i opcjonalnie podstawowe grafy
-    /// jeœli z `Replay!=0` to inicjalizuje warstwy z zerowego kroku
-    /// pliku historii za pomoc¹ funkcji "initialize_from_image".
+    /// jeÅ›li z `Replay!=0` to inicjalizuje warstwy z zerowego kroku
+    /// pliku historii za pomocÄ… funkcji "initialize_from_image".
     void		initialize(main_area_menager* Menager=nullptr,int Replay=0);
 
-    /// Powtórzenie inicjalizacji dla powtórnego przebiegu symulacji.
+    /// PowtÃ³rzenie inicjalizacji dla powtÃ³rnego przebiegu symulacji.
     /// Nie odtwarza strony wizualizacyjnej.
     void		restart();
 
     /// Wczytanie pojedynczego obrazu symulacji np. dla inicjalizacji.
-    /// TODO CHECK... Jeœli nie ma nazwy to z nazwy `OutName`
+    /// TODO CHECK... JeÅ›li nie ma nazwy to z nazwy `OutName`
     void		initialize_from_image(const char* FileName=nullptr);
 
     /// Wykonuje kolejny(e) krok(i) symulacji.
     /// Opakowuje "inteligentnie" `simulate_one_step`.
-    /// @param Steps okreœla ile prostych kroków nale¿y wykonaæ.
+    /// @param Steps okreÅ›la ile prostych krokÃ³w naleÅ¼y wykonaÄ‡.
     void		simulate(unsigned Steps=1);
 
-    /// Prosta pêtla symulacyjna sprzê¿ona z wizualizacj¹.
+    /// Prosta pÄ™tla symulacyjna sprzÄ™Å¼ona z wizualizacjÄ….
     /// @param ret_after ???.
     void		simulation_loop(int ret_after);
 
-    /// Pêtla wczytywania symulacji z pliku.
+    /// PÄ™tla wczytywania symulacji z pliku.
     /// @param ret_after ???.
     void		read_loop(int ret_after);
 
-    ///Zapis na strumieñ. Opakowuje `implement_output`, ¿eby zapisaæ zawartoœæ.
+    ///Zapis na strumieÅ„. Opakowuje `implement_output`, Å¼eby zapisaÄ‡ zawartoÅ›Ä‡.
     friend
     ostream& operator << (ostream& o,const world& w);
 
-    ///Odczyt ze strumienia. Odpakowuje, u¿ywaj¹c `implement_input` ¿eby odczytaæ zawartoœæ.
+    ///Odczyt ze strumienia. Odpakowuje, uÅ¼ywajÄ…c `implement_input` Å¼eby odczytaÄ‡ zawartoÅ›Ä‡.
     friend
     istream& operator >> (istream& i,world& w);
 
     ///Implementacja zapisu stanu symulacji w formacie NET lub NET2 (z atrybutami).
-    virtual //Domyœlnie puste, nie wiem, czy kiedykolwiek u¿ywane.
+    virtual //DomyÅ›lnie puste, nie wiem, czy kiedykolwiek uÅ¼ywane.
     void dump_net_file(const char* core_name,unsigned long Step){}
 };
 
@@ -190,14 +190,14 @@ public:
 
 inline
 ostream& world::MyLogStream()
-//Dostêp do strumienia logu (¿eby coœ "rêcznie" dopisaæ)
+//DostÄ™p do strumienia logu (Å¼eby coÅ› "rÄ™cznie" dopisaÄ‡)
 {
     return Log.GetStream();
 }
 
 inline
 area_menager&		world::MyAreaMenager()
-//Aktualny zarz¹dca ekranu pod³¹czony do œwiata
+//Aktualny zarzÄ…dca ekranu podÅ‚Ä…czony do Å›wiata
 {
                                                 assert(AreaMenager!=nullptr);
     return *AreaMenager;
@@ -207,8 +207,8 @@ area_menager&		world::MyAreaMenager()
 /* **************************************************************** */
 /*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
 /*            W O J C I E C H   B O R K O W S K I                   */
-/* Zak³ad Systematyki i Geografii Roslin Uniwersytetu Warszawskiego */
-/*  & Instytut Studiów Spo³ecznych Uniwersytetu Warszawskiego       */
+/* ZakÅ‚ad Systematyki i Geografii Roslin Uniwersytetu Warszawskiego */
+/*  & Instytut StudiÃ³w SpoÅ‚ecznych Uniwersytetu Warszawskiego       */
 /*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk             */
 /*        MAIL: borkowsk@iss.uw.edu.pl                              */
 /*                               (Don't change or remove this note) */
