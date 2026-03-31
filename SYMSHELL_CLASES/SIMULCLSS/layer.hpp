@@ -981,7 +981,7 @@ public:
 
     bool filled(int X,int Y) override
     {
-        if(get_ptr(X,Y)!=NULL)
+        if(get_ptr(X,Y).OK()) //  !=NULL
             return true;
         else
             return false;
@@ -1045,7 +1045,7 @@ public:
             else
                 Target=initer->clone();
         }
-        assert(Target!=NULL);
+        assert(Target.OK());
         assert(AssignFun!=NULL);
         AGENT* pom=Target.get_ptr_val();
         (pom->*AssignFun)(Red,Green,Blue);
