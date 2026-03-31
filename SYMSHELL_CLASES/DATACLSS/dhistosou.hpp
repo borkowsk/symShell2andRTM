@@ -1,6 +1,6 @@
-///////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////
 // Filtr liczacy liczebnosc dyskretnych klas serii i pochodne statystyki
-///////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////
 #ifndef __DISCR_HISTOGRAM_SOUR_HPP__
 #define __DISCR_HISTOGRAM_SOUR_HPP__
 #include "statsour.hpp"
@@ -20,14 +20,14 @@ wb_dynarray<unsigned long> arra;
 // Przemieszcza iterator o jednostke. Zeruje jesli koniec tablicy
 size_t _next(iteratorh& p)
 {
-	assert(p!=NULL);//Nie wolno wywolac dla NULL
-	size_t pom=((size_t)p)-1;
+    assert(p!=NULL);//Nie wolno wywolac dla NULL
+    size_t pom=((size_t)p)-1;
 
-	if(pom+1>=Num)
-		p=NULL;
-	else
-		p=(iteratorh)(pom+2);
-	return pom;
+    if(pom+1>=Num)
+        p=NULL;
+    else
+        p=(iteratorh)(pom+2);
+    return pom;
 }
 
 
@@ -212,44 +212,44 @@ scalar_source<double>*      Class(size_t number,const char* format="N%d(%s)")
 }
 
 discrete_histogram_source(
-		int    LowestClass,     //Najnizsza klasa
+        int    LowestClass,     //Najnizsza klasa
                 size_t HowManyClass,    //Ile klas od niej
                 DATA_SOURCE* ini=NULL,  //Klasa zrodlowa
                                       //Jesli nie pokrywa sie z minX-maxX to faktycznie liczony jest wycinek
                 const char* format="DISCR.DISTRIBUTION(%s[%d..%d])",
-		sources_menager_base* MyMenager=NULL,
-		size_t table_size=11/*BEZ ZAPASU*/
-		):
-	    Num(HowManyClass),
+        sources_menager_base* MyMenager=NULL,
+        size_t table_size=11/*BEZ ZAPASU*/
+        ):
+        Num(HowManyClass),
             Sta(LowestClass),
             basic_statistics_source<DATA_SOURCE>(ini,MyMenager,
                                                 table_size+HowManyClass,//Alokuje miejsce na zrodelka klasowe
                                                 format)
-	{
+    {
             wb_pchar bufor(strlen(format)+2*100);//Z za duzym zapasem jak na dwa integery, ale...
             bufor.prn(format,"%s",Sta,Sta+Num-1);
             basic_statistics_source<DATA_SOURCE>::settitle(bufor.get());
             arra.alloc(Num);//Liczba klas zafiksowana
         }
 
-	~discrete_histogram_source(){}
+    ~discrete_histogram_source(){}
 
 // Methods
 size_t get_size()
 {
         this->check_version();//Uaktualnia tez wersje podzrodla jesli trzeba
-	_calculate();//Sprawdza czy nie trzeba policzyc i ewentualnie liczy
-	return arra.get_size();
+    _calculate();//Sprawdza czy nie trzeba policzyc i ewentualnie liczy
+    return arra.get_size();
 }
 
 void all_subseries_required()//Alokuje i ewentualnie rejestruje w menagerze wszystkie serie
 {
-	basic_statistics_source<DATA_SOURCE>::all_subseries_required();
-	//MAX CLASS
-	MainClass();
-	WhichMain();
-	NumOfClass();
-	Entropy();
+    basic_statistics_source<DATA_SOURCE>::all_subseries_required();
+    //MAX CLASS
+    MainClass();
+    WhichMain();
+    NumOfClass();
+    Entropy();
     for(size_t i=0;i<Num;i++)
         Class(i); //Alokacja zrodel liczebnosci klas
 }
@@ -258,37 +258,37 @@ iteratorh  reset()
 //Umozliwia czytanie od poczatku
 {
         this->check_version();//Uaktualnia tez wersje podzrodla jesli trzeba
-	_calculate();//Sprawdza czy nie trzeba policzyc i ewentualnie liczy
-	return (iteratorh)1;
+    _calculate();//Sprawdza czy nie trzeba policzyc i ewentualnie liczy
+    return (iteratorh)1;
 }
 
 void close(iteratorh& p)
 {
-	p=NULL;
+    p=NULL;
 }
 
 void  bounds(size_t& num,double& min,double& max)
 //Ile elementow,wartosc minimalna i maksymalna
 {
         this->check_version();//Uaktualnia tez wersje podzrodla jesli trzeba
-	_calculate();//Sprawdza czy nie trzeba policzyc i ewentualnie liczy
-	num=get_size();
-	min=this->ymin;max=this->ymax;
+    _calculate();//Sprawdza czy nie trzeba policzyc i ewentualnie liczy
+    num=get_size();
+    min=this->ymin;max=this->ymax;
 }
 
 double get(iteratorh& ptr_to_iterator)
 //Daje nastepna z N liczb!!!
 {
-	assert(ptr_to_iterator!=NULL);
-	return arra[ _next(ptr_to_iterator) ];
+    assert(ptr_to_iterator!=NULL);
+    return arra[ _next(ptr_to_iterator) ];
 }
 
 double get(size_t index)//Przetwarza index uzyskany z geometri
 { //na wartosc z serii, o ile jest mozliwe czytanie losowe
         this->check_version();//Uaktualnia tez wersje podzrodla jesli trzeba
-	_calculate();//Sprawdza czy nie trzeba policzyc i ewentualnie liczy
-	assert(index<get_size());
-	return arra[ index ];
+    _calculate();//Sprawdza czy nie trzeba policzyc i ewentualnie liczy
+    assert(index<get_size());
+    return arra[ index ];
 }
 
 
