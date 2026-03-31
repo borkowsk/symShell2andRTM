@@ -9,14 +9,15 @@
 const char* WINDOW_HEADER="NEED FOR CLOSURE version 0.22a";
 const char* SYMULATION_NAME="need4clos_v0.22a";
 
-//HISTORY:
-////////---------------- Attitude -v-v-v-v-v-v-v-v- ---------------------------------
-//v 0.6 - dodanie losowania nieproporcjonalnego, znaczne zmiany w statystykach, zmiany z bazowej bibliotece
-//v 0.61 - uzycie innego histogramu
+/// HISTORY:
+/// ---------------- Attitude -v-v-v-v-v-v-v-v- ---------------------------------
+/// v 0.6 - dodanie losowania nieproporcjonalnego, znaczne zmiany w statystykach, zmiany z bazowej bibliotece
+/// v 0.61 - uzycie innego histogramu
 
-////////---------------- need4clos --v-v-v-v-v-v-v- ---------------------------------
-//v 0.21 - uzupelnienie o menu i wywolywanie strony autorskiej
-//v 0.22 - poprawienie kodu ze wzgledu na konsekkwencje uzycia symbolu FULL typu unsigned long, rekompilacja z poprawionym symshellem
+/// ---------------- need4clos --v-v-v-v-v-v-v- ---------------------------------
+/// v 0.21 - uzupelnienie o menu i wywolywanie strony autorskiej
+/// v 0.22 - poprawienie kodu ze wzgledu na konsekkwencje uzycia symbolu FULL typu unsigned long,
+///          rekompilacja z poprawionym symshellem
 
 #include <cstdlib>
 #include <iostream>
@@ -28,8 +29,8 @@ const char* SYMULATION_NAME="need4clos_v0.22a";
 unsigned SWIDTH=750;
 unsigned SHEIGHT=550;
 
-unsigned internal_log=7000;             //Nieobiektowo przekazywane do metody inicializacji zrodel 
-unsigned spatial_correlation_mode=50;  //-------------//------------------//---------------------
+unsigned internal_log=7000;		///< Nieobiektowo przekazywane do metody inicializacji zrodel
+unsigned spatial_correlation_mode=50;		///< Nieobiektowo przekazywane do metody inicializacji zrodel
 
 char  LogName[512]="need4clos.log\0-------------------+--";
 char HistName[512]="\0--+---------need4clos.otx----------";
@@ -42,22 +43,22 @@ unsigned iMaxIterations=0xffffffff;
 unsigned iLogRatio=1;
 unsigned iViewRatio=1;
 
-int  MaksymalnaSila=100;	//Jaka najwieksza sila
-double  Treshold=100;		//Powyzej jakiego wplywu zmiana "pogladu" sie fiksuje
+int  MaksymalnaSila=100;		///< Nieobiektowo przekazywane do metody inicializacji zrodel Jaka najwieksza sila
+double  Treshold=100;			///< Nieobiektowo przekazywane do metody inicializacji zrodel Powyzej jakiego wplywu zmiana "pogladu" sie fiksuje
 
-double Fill=1;      //0.001 do 1 - poczatkowe wypelnienie przestrzeni agentow (wykonywane przez losowe usuwanie!!!)
-double Majority=0.050; //Jaka czesc spoleczenstwa bedzie wyznawac "czarny" poglad
-double Minority=0.025;  //Jaka czesc spoleczenstwa bedzie wyznawac "bialy" poglad 
+double Fill=1;				///< 0.001 do 1 - poczatkowe wypelnienie przestrzeni agentow (wykonywane przez losowe usuwanie!!!)
+double Majority=0.050;		///< Jaka czesc spoleczenstwa bedzie wyznawac "czarny" poglad
+double Minority=0.025;		///< Jaka czesc spoleczenstwa bedzie wyznawac "bialy" poglad
 
-double ProbMig=0;   //Prawdopodobienstwo migracji jesli presja otoczenia wskazuje na zmiane pogladow
+double ProbMig=0;			///< Nieobiektowo przekazywane do metody inicializacji zrodel Prawdopodobienstwo migracji jesli presja otoczenia wskazuje na zmiane pogladow
 int    ProcentSzumu=0;
 double MutacjeSpon=0;
-int    IleSasiadow=1; //Wybierani losowo do rozmowy
+int    IleSasiadow=1;		///< Wybierani losowo do rozmowy
 
-double WagaSiebie=9; //Poprzednie opinie waza 9:1
-double NeedForClousure=1; //Intensywnosc poszukiwan i potega sily
+double WagaSiebie=9;		///< Poprzednie opinie waza 9:1
+double NeedForClousure=1;	///< Intensywnosc poszukiwan i potega sily
 
-bool   TypSymulacji=0; //Synchroniczna
+bool   TypSymulacji=false;	///< Synchroniczna
 
 int  iWychodzenie=0;
 int  Replay=0;
@@ -73,12 +74,12 @@ for(int i=1;i<argc;i++)
     wb_pchar hand(clone_str(argv[i]));
     char*    rob=hand.get_ptr_val();
     char*    pom=strchr(rob,'=');
-    if(pom==NULL)
+    if(pom==nullptr)
             goto ERROR; //NA PEWNO ZLE
     *pom='\0';
     strupr(rob);
     *pom='=';
-    if((pom=strstr(rob,"SPCH="))!=NULL) //Nie NULL czyli jest
+    if((pom=strstr(rob,"SPCH="))!=nullptr) //Nie nullptr czyli jest
     {
     MutacjeSpon=atof(pom+5);
     if(MutacjeSpon<0 || MutacjeSpon>100)
@@ -90,7 +91,7 @@ for(int i=1;i<argc;i++)
     MutacjeSpon/=100; //Ulamek a nie procent tak naprawde
     }
     else
-    if((pom=strstr(rob,"FILL="))!=NULL) //Nie NULL czyli jest
+    if((pom=strstr(rob,"FILL="))!=nullptr) //Nie nullptr czyli jest
     {
         Fill=atof(pom+5);
         if(Fill<0 || Fill>100)
@@ -107,7 +108,7 @@ for(int i=1;i<argc;i++)
             cerr<<"FILL = "<<Fill<<endl;
     }
     else
-    if((pom=strstr(rob,"ILEF="))!=NULL) //Nie NULL czyli jest
+    if((pom=strstr(rob,"ILEF="))!=nullptr) //Nie nullptr czyli jest
     {
         Majority=atof(pom+5);
         if(Majority<0 || Majority>100)
@@ -124,7 +125,7 @@ for(int i=1;i<argc;i++)
             cerr<<"ILEF = "<<Majority<<endl;
     }
     else
-    if((pom=strstr(rob,"IRIG="))!=NULL) //Nie NULL czyli jest
+    if((pom=strstr(rob,"IRIG="))!=nullptr) //Nie nullptr czyli jest
     {
         Minority=atof(pom+5);
         if(Minority<0 || Minority>100)
@@ -141,7 +142,7 @@ for(int i=1;i<argc;i++)
             cerr<<"IRIG = "<<Minority<<endl;
     }
     else
-    if((pom=strstr(rob,"PMIG="))!=NULL) //Nie NULL czyli jest
+    if((pom=strstr(rob,"PMIG="))!=nullptr) //Nie nullptr czyli jest
     {
         ProbMig=atof(pom+5);
         if(ProbMig<0 || ProbMig>100)
@@ -158,7 +159,7 @@ for(int i=1;i<argc;i++)
             cerr<<"PMIG (probability of migration) = "<<ProbMig<<endl;
     }
     else
-    if((pom=strstr(rob,"NOIP="))!=NULL) //Nie NULL czyli jest
+    if((pom=strstr(rob,"NOIP="))!=nullptr) //Nie nullptr czyli jest
     {
     ProcentSzumu=atol(pom+5);
     if(ProcentSzumu<0 || ProcentSzumu>100)
@@ -169,7 +170,7 @@ for(int i=1;i<argc;i++)
     cerr<<"NOIP (noise percent) = "<<ProcentSzumu<<endl;
     }
     else
-    if((pom=strstr(rob,"MPOW="))!=NULL) //Nie NULL czyli jest
+    if((pom=strstr(rob,"MPOW="))!=nullptr) //Nie nullptr czyli jest
     {
     MaksymalnaSila=atol(pom+5);
     if(MaksymalnaSila<0) //0 czy 1???
@@ -179,7 +180,7 @@ for(int i=1;i<argc;i++)
         }
     }
     else
-    if((pom=strstr(rob,"WIDTH="))!=NULL) //Nie NULL czyli jest
+    if((pom=strstr(rob,"WIDTH="))!=nullptr) //Nie nullptr czyli jest
     {
     iWidth=atol(pom+6);
     if(iWidth<3 || iWidth>=SWIDTH)
@@ -189,7 +190,7 @@ for(int i=1;i<argc;i++)
         }
     }
     else
-    if((pom=strstr(rob,"WIDTHWIN="))!=NULL) //Nie NULL czyli jest
+    if((pom=strstr(rob,"WIDTHWIN="))!=nullptr) //Nie nullptr czyli jest
     {
     SWIDTH=atol(pom+9);
     if(SWIDTH<50)
@@ -199,7 +200,7 @@ for(int i=1;i<argc;i++)
         }
     }
     else
-    if((pom=strstr(rob,"HEIGHTWIN="))!=NULL) //Nie NULL czyli jest
+    if((pom=strstr(rob,"HEIGHTWIN="))!=nullptr) //Nie nullptr czyli jest
     {
     SHEIGHT=atol(pom+10);
     if(SHEIGHT<50)
@@ -209,7 +210,7 @@ for(int i=1;i<argc;i++)
         }
     }
     else
-    if((pom=strstr(rob,"MAX="))!=NULL) //Nie NULL czyli jest
+    if((pom=strstr(rob,"MAX="))!=nullptr) //Nie nullptr czyli jest
     {
     iMaxIterations=atol(pom+4);
     if(iMaxIterations<=0)
@@ -223,7 +224,7 @@ for(int i=1;i<argc;i++)
         }
     }
     else
-    if((pom=strstr(rob,"LOGC="))!=NULL) //Nie NULL czyli jest
+    if((pom=strstr(rob,"LOGC="))!=nullptr) //Nie nullptr czyli jest
     {
     iLogRatio=atol(pom+5);
     if(iLogRatio<=0)
@@ -233,7 +234,7 @@ for(int i=1;i<argc;i++)
         }
     }
     else
-    if((pom=strstr(rob,"VIEW="))!=NULL) //Nie NULL czyli jest
+    if((pom=strstr(rob,"VIEW="))!=nullptr) //Nie nullptr czyli jest
     {
     iViewRatio=atol(pom+5);
     if(iViewRatio<=0)
@@ -243,19 +244,19 @@ for(int i=1;i<argc;i++)
         }
     }    
     else
-    if((pom=strstr(rob,"SELF="))!=NULL) //Nie NULL czyli jest
+    if((pom=strstr(rob,"SELF="))!=nullptr) //Nie nullptr czyli jest
     {
     WagaSiebie=atof(pom+5);
     cerr<<"SELF = "<<WagaSiebie<<endl;
     }
     else
-    if((pom=strstr(rob,"NFOC="))!=NULL) //Nie NULL czyli jest
+    if((pom=strstr(rob,"NFOC="))!=nullptr) //Nie nullptr czyli jest
     {
     NeedForClousure=atof(pom+5);
     cerr<<"NFOC = "<<NeedForClousure<<endl;
     }
     else		
-    if((pom=strstr(rob,"PRTR="))!=NULL) //Nie NULL czyli jest
+    if((pom=strstr(rob,"PRTR="))!=nullptr) //Nie nullptr czyli jest
         {
             IleSasiadow=atol(pom+5);
             if(IleSasiadow==-1)
@@ -274,30 +275,30 @@ for(int i=1;i<argc;i++)
                 }
         }
     else
-    if((pom=strstr(rob,"AUTO="))!=NULL) //Nie NULL czyli jest
+    if((pom=strstr(rob,"AUTO="))!=nullptr) //Nie nullptr czyli jest
     {
     AUTOSTART=atol(pom+5);
     cerr<<"AUTO="<<AUTOSTART<<endl;
     if(AUTOSTART)
         {
         iWychodzenie=1;
-        cerr<<"STOP = "<<(iWychodzenie?"Yes":"No")<<endl;
+        cerr<<"STOP = Yes"<<endl;
         }
     }
     else
-    if((pom=strstr(rob,"STOP="))!=NULL) //Nie NULL czyli jest
+    if((pom=strstr(rob,"STOP="))!=nullptr) //Nie nullptr czyli jest
     {
     iWychodzenie=(toupper(pom[5])=='Y');
     cerr<<"STOP = "<<(iWychodzenie?"Yes":"No")<<endl;
     }
     else  //SYNC
-    if((pom=strstr(rob,"SYNC="))!=NULL) //Nie NULL czyli jest
+    if((pom=strstr(rob,"SYNC="))!=nullptr) //Nie nullptr czyli jest
     {
     TypSymulacji=!(toupper(pom[5])=='Y');
     cerr<<"SYNC = "<<(TypSymulacji==0?"Yes":"No")<<endl;
     }
     else
-    if((pom=strstr(rob,"ILOG="))!=NULL) //Nie NULL czyli jest
+    if((pom=strstr(rob,"ILOG="))!=nullptr) //Nie nullptr czyli jest
     {
     internal_log=atoi(pom+5);
     if(internal_log<50)
@@ -308,7 +309,7 @@ for(int i=1;i<argc;i++)
     }
     else
     //cerr<<"\tRSPC=N/Y or 1..WIDTH - Random calculation of spatial correlation ("<<(spatial_correlation_mode==0?"N":"Y")<<")\n";
-    if((pom=strstr(rob,"RSPC="))!=NULL) 
+    if((pom=strstr(rob,"RSPC="))!=nullptr)
     {
     const char* lpom=pom+5;
     if(toupper(*lpom)=='N')
@@ -321,40 +322,40 @@ for(int i=1;i<argc;i++)
     cerr<<"Random calculation of spatial correlation is "<<(spatial_correlation_mode==0?"d i s a b l e d":"e n a b l e d")<<". Multiplication="<<spatial_correlation_mode<<"\n";
     }
     else
-    if((pom=strstr(rob,"LOGF="))!=NULL) //Nie NULL czyli jest
+    if((pom=strstr(rob,"LOGF="))!=nullptr) //Nie nullptr czyli jest
     {
     strcpy(LogName,pom+5);
     }
     else
-    if((pom=strstr(rob,"MAPL="))!=NULL) //Nie NULL czyli jest
+    if((pom=strstr(rob,"MAPL="))!=nullptr) //Nie nullptr czyli jest
     {
     strcpy(MapLName,pom+5);
     cerr<<"Map of attitudes from file \""<<MapLName<<"\"\n";
     }
     else
-    if((pom=strstr(rob,"MAPP="))!=NULL) //Nie NULL czyli jest
+    if((pom=strstr(rob,"MAPP="))!=nullptr) //Nie nullptr czyli jest
     {
     strcpy(MapPName,pom+5);
     cerr<<"Map of individual power from file \""<<MapPName<<"\"\n";
     }
     else
-    if((pom=strstr(rob,"MASK="))!=NULL) //Nie NULL czyli jest
+    if((pom=strstr(rob,"MASK="))!=nullptr) //Nie nullptr czyli jest
     {
     strcpy(MaskName,pom+5);
     cerr<<"Mask for alive agents from file \""<<MaskName<<"\"\n";
     }	
     else
-    if((pom=strstr(rob,"HIST="))!=NULL) //Nie NULL czyli jest
+    if((pom=strstr(rob,"HIST="))!=nullptr) //Nie nullptr czyli jest
     {
     strcpy(HistName,pom+5);
-    cerr<<"History of the symulation will be saved to \""<<HistName<<"\"\n";
+    cerr<<"History of the simulation will be saved to \""<<HistName<<"\"\n";
     }
     else
-    if((pom=strstr(rob,"REPL="))!=NULL) //Nie NULL czyli jest
+    if((pom=strstr(rob,"REPL="))!=nullptr) //Nie nullptr czyli jest
     {
     strcpy(HistName,pom+5);
     Replay=1;
-    cerr<<"The symulation will be replayed from \""<<HistName<<"\"\n";
+    cerr<<"The simulation will be replayed from \""<<HistName<<"\"\n";
     }
     else
     /* Ostatecznie wychodzi ze nie ma takiej opcji */
@@ -424,7 +425,7 @@ if(!Lufciki.start(WINDOW_HEADER,argc,argv,1))
 //Utworzenie sensownej nazwy pliku(-ów) do zrzutow ekranu
 {
 wb_pchar buf(strlen(SYMULATION_NAME)+20);
-buf.prn("%s_%ld",SYMULATION_NAME,time(NULL));
+buf.prn("%s_%ld",SYMULATION_NAME,time(nullptr));
 Lufciki.set_dump_name(buf.get());
 }
 
@@ -450,12 +451,12 @@ kworld& tenSwiat=*new kworld(iWidth,
                            Majority,
                            Minority
                            );
-
-if(&tenSwiat==NULL)
-    {
-    cerr<<"Can't allocate simulation world!\n"<<endl;
-    exit(1);
-    }
+/// Od C++11 new nie powinno zwrócić "nullptr" tylko wylecieć z exception!
+// if(&tenSwiat==nullptr)
+//     {
+//     cerr<<"Can't allocate simulation world!\n"<<endl;
+//     exit(1);
+//     }
 
 
 //INICJALIZACJA
@@ -491,9 +492,9 @@ else
         for(int symulacja=0;symulacja<AUTOSTART;symulacja++)
             {
             //GLOWNA PETLA SYMULACJI
-            cout<<WINDOW_HEADER<<": SYMULATION "<<symulacja<<" STARTED ."<<endl;
+            cout<<WINDOW_HEADER<<": SIMULATION "<<symulacja<<" STARTED ."<<endl;
             tenSwiat.simulation_loop(1);
-            cout<<WINDOW_HEADER<<": SYMULATION "<<symulacja<<" DONE ."<<endl;
+            cout<<WINDOW_HEADER<<": SIMULATION "<<symulacja<<" DONE ."<<endl;
             if(symulacja<AUTOSTART-1)
                 {
                 //Reinicjalizacja

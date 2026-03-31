@@ -7,8 +7,8 @@
 
 #include "krand.h"
 #include "kworld.h"
-#include "dhistosou.hpp"//Nowsza wersja - poprawiona
-#include "clstsour.hpp" //Jest tez statsour
+#include "dhistosou.hpp" //Nowsza wersja - poprawiona
+#include "clstsour.hpp"  //Jest tez statsour
 #include "spatcors.hpp"
 #include "coincsou.hpp"
 #include "funcsour.hpp"
@@ -51,8 +51,8 @@ void kworld::make_basic_sources()
     Pressure->setminmax(0, MaxPressure  );
     */
     
-    ptrLastChanged=new ptr_to_scalar_source<int>(NULL,"Change cnt.");
-    ptrLastMigration=new ptr_to_scalar_source<int>(NULL,"Migration cnt.");
+    ptrLastChanged=new ptr_to_scalar_source<int>(nullptr,"Change cnt.");
+    ptrLastMigration=new ptr_to_scalar_source<int>(nullptr,"Migration cnt.");
     
     //NIE DZIALA PRAWIDLOWO (?)
     ptrLastChanged->set_missing(-1);
@@ -412,7 +412,7 @@ void kworld::make_default_visualisation()
                 -1
                 );
             drawable_base* pom=new steering_wheel(szer-49,0,szer,5*(char_height('X')+RAMKA),tmp);			
-            assert(pom!=NULL);
+            assert(pom!=nullptr);
             pom->setbackground(10);
             Menager.insert(pom);
             pom->settitle(" ");

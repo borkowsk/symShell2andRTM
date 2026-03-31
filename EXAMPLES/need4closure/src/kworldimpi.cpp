@@ -17,10 +17,10 @@ int kworld::implement_input(istream& i)
     i>>MaxSila;		//Maksymalna sila agenta
     i>>IleSasiad;	//8==Gestosc sasiedztwa
     i>>WeightOfSelf; //Jak ma brac siebie pod uwage
-    i>>NeedForClosure; //Jak ma brac in nych (waga)
+    i>>NeedForClosure; //Jak ma brac innych (waga)
     i>>Noise;		//Szum informacyjny
     rectangle_geometry* Geom=(rectangle_geometry*)Agenci.get_geometry();
-    assert(Geom!=NULL);
+    assert(Geom!=nullptr);
     if(Geom->get_width()!=MyWidth||
        Geom->get_height()!=MyWidth )
             Geom->set(MyWidth,MyWidth,1);

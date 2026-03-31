@@ -17,29 +17,29 @@ inline void wb_swap(short& a,short& b)
 
 class kagent:public agent_base
 {
-    friend class kworld; //Zeby uproscic dostep do skladowych.
+    friend class kworld;		///< Zeby uproscic dostep do skladowych.
 
     // STATYCZNE SKLADOWE - PARAMETRY INICJOWANIA I ZMIANY AGENTÓW
-    static short max_sila; //Maksymalna sila agenta
-    static int   treshold; //Granica domkniecia pogladu
-    //static short ile_kate; //Ilosc kategori w mapach
-    //static short kate_shift; //Przesuniecie dla wczytywania gifa
-    static double Majority; //Udzial w calosci przekonanych do wiekszej klasy 
-    static double Minority; //Udzial w calosci przekonanych do mniejszej klasy 
-    static double NoiseLevel; //Prawd. spontanicznej zmiany
+    static short max_sila;		///< Maksymalna sila agenta
+    static int   treshold;		///< Granica domkniecia pogladu
+    //static short ile_kate;		///< Ilosc kategori w mapach
+    //static short kate_shift;		///< Przesuniecie dla wczytywania gifa
+    static double Majority;		///< Udzial w calosci przekonanych do wiekszej klasy
+    static double Minority;		///< Udzial w calosci przekonanych do mniejszej klasy
+    static double NoiseLevel;	///< Prawd. spontanicznej zmiany
 
-    static short DrawAttitude(); //Funkcja do losowania przekonania - uzywa Majority i Minority
+    static short DrawAttitude();	///< Funkcja do losowania przekonania - uzywa Majority i Minority
 
     // SKLADOWE DLA SYMULACJI
-    short Power;	//Sila agenta
-    short First;	//Aktualne przekonanie -1,0,1 (Left,Neutral,Right)
-    short Second;	//Nowe przekonanie lub poprzednie
+    short Power;			///< Sila agenta
+    short First;			///< Aktualne przekonanie -1,0,1 (Left,Neutral,Right)
+    short Second;			///< Nowe przekonanie lub poprzednie
 
     unsigned int   ForRight;
     unsigned int   ForLeft;
 
-    //short Press;    //Nacisk spoleczny - sumaryczna sila za zwyciezajacym pogladem, o ile agent go nie wyznaje, albo 0
-    bool  DurCh:1;  //Czy jest w trakcie zmieniania (do zarzadzania zmianami stanow)
+    //short Press;		///< Nacisk spoleczny - sumaryczna sila za zwyciezajacym pogladem, o ile agent go nie wyznaje, albo 0
+    bool  DurCh:1;		///< Czy jest w trakcie zmieniania (do zarzadzania zmianami stanow)
     
     void _clean()
     {
@@ -60,17 +60,17 @@ public:
         return Power!=-1;
     }
 
-    kagent(const kagent& ini);	//Konkretna implementacja w kworld!
+    kagent(const kagent& ini);			///< Konstruktor typowy. Konkretna implementacja konstruktora w "kworld.cpp"!
 
-    kagent();					//Konkretna implementacja w kworld!
+    kagent();							///< Konstruktor bezparametrowy.
 
     kagent* clone() const
     { return new kagent(*this);}
 
-    ~kagent()
+    ~kagent() override
     {_clean();}
 
-    void clean()
+    void clean() override
     {_clean();}
 
     void new_attitude(short a)
@@ -79,7 +79,7 @@ public:
         DurCh=true; //Sygnal ze juz jest "w trakcie" zmiany - np. zeby zapobiec powtorce
     }
 
-    void update() //Kontrola zmiany stanu
+    void update() 			///< Kontrola zmiany stanu
     {
         assert(DurCh); //Powinien byc w trakcie zmiany
         wb_swap(First,Second);
@@ -109,14 +109,14 @@ public:
             _clean();
     }
 
-    long Classif()
+    long Classif() const
     {
         return First;
     }
 
-    long RGB()
+    long RGB() const
     {
-        return (unsigned long) ( (unsigned char) (First) );
+        return (unsigned long) ( (unsigned char) (First) ); //TODO Jakaś dziwna kombinacja...
     }
 
     friend
@@ -154,10 +154,9 @@ public:
 
 // Konstrukcja agentow
 // /////////////////////////////////
-inline
-kagent::kagent(const kagent& ini)
+inline kagent::kagent(const kagent& ini)
     {
-        if(&ini!=NULL)
+        if(&ini!=nullptr)
         {
             First=ini.First;
             Second=ini.Second;
@@ -169,8 +168,7 @@ kagent::kagent(const kagent& ini)
             _clean();
     }
 
-inline
-kagent::kagent()
+inline kagent::kagent()
     {
         _clean();
         Power=1+RANDOM(max_sila);
@@ -180,8 +178,7 @@ kagent::kagent()
         Second=First;
     }
 
-inline
-short kagent::DrawAttitude()
+inline short kagent::DrawAttitude()
     {
         assert(Majority+Minority<=1);
 
