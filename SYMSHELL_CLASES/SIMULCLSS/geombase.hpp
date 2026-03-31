@@ -1,7 +1,7 @@
 /// @file
 /// GEOMETRIA - SPOSÓB ORGANIZACJI AGENTÓW W WARSTWIE.
 // ////////////////////////////////////////////////////
-/// @date 2026-03-30 (modified)
+/// @date 2026-03-31 (modified)
 /// Geometria jest obiektem, który potrafi opisać położenie agentów w warstwie,
 /// a także wzajemnie względem siebie i przetworzyć je na liniowy indeks tablicy.
 /// /////////////////////////////////////////////////////////////////////////////
@@ -14,6 +14,7 @@
 #include <cstring>
 #include <cassert>
 //#include "platform.hpp"
+#include <cstdint>
 #include <iostream>
 
 /// Typ uchwytowy do iteratorów geometrii.
