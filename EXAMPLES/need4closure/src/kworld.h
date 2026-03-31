@@ -91,11 +91,11 @@ void	simulate_one_step();	//Wlasciwa implementacja kroku symulacji
 
 //Wspolpraca z menagerem wyswietlania
 //---------------------------------------------
-void	make_default_visualisation(area_menager_base& Menager);//Tworzy domyslne "lufciki" i umieszcza w 
+void	make_default_visualisation();//Tworzy domyslne "lufciki" i umieszcza w
 //void actualize_out_area(); // aktualizacja zawartosci OutArea po n krokach symulacji
 
 //Generuje podstawowe zrodla dla wbudowanego menagera danych lub innego
-void	make_basic_sources(sources_menager& WhatSourMen);
+void	make_basic_sources();
 
 //Wypisywanie/dopisywanie na konsole statusu
 void    actualize_out_area(); 

@@ -22,9 +22,10 @@ extern unsigned spatial_correlation_mode;
 
 // Generuje podstawowe zrodla dla wbudowanego menagera danych lub innego
 // //////////////////////////////////////////////////////////////////////////
-void kworld::make_basic_sources(sources_menager& WhatSourMen)
+void kworld::make_basic_sources()
 {
-    world::make_basic_sources(WhatSourMen);//Odziedziczone
+    sources_menager& WhatSourMen=this->Sources;
+    world::make_basic_sources();//Odziedziczone
     
     //Glowne serie 
     Firsts=Agenci.make_source("Attitude",&kagent::First);	
@@ -92,9 +93,10 @@ void    kworld::actualize_out_area()
 }
 
 
-void kworld::make_default_visualisation(area_menager_base& Menager)
+void kworld::make_default_visualisation()
 //Rejestruje pochodne serie, tworzy domyslne "lufciki" i wklada w "Menager"
 {
+    area_menager_base& Menager=this->MyAreaMenager();
     int iFirst=0,iSecond=0,iPower=0,iPressure=0,iChangeCnt,iMigratCnt;
     //Uzyskanie indeksow podstawowych serii z menagera
     {
@@ -226,7 +228,7 @@ void kworld::make_default_visualisation(area_menager_base& Menager)
         assert(szer>50 && wyso>40);//Najmniejsze sensowne okno
         
         //Obszary domyślne - np obszar STATUSU
-        world::make_default_visualisation(Menager);
+        world::make_default_visualisation();
         if(OutArea) 
         {
             OutArea->set(1,1,szer/2-1,wyso/2-1);

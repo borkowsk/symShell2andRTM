@@ -111,8 +111,8 @@ void kworld::initialize_layers()
     
     //			USTALANIE STANÓW AGENTÓW 
     //Wczytuje uzywajac konstruktora lub klonowania gdy niema, wiec inicjuje reszte pól.
-    int from1= Agenci.init_from_bitmap(MappName.get_ptr_val(),kagent::assignPow);
-    int from2= Agenci.init_from_bitmap(MaplName.get_ptr_val(),kagent::assign_curr);
+    int from1= Agenci.init_from_bitmap(MappName.get_ptr_val(),&kagent::assignPow);
+    int from2= Agenci.init_from_bitmap(MaplName.get_ptr_val(),&kagent::assign_curr);
     //   int from3= Agenci.init_from_bitmap(MaplName.get_ptr_val(),kagent::assign_prev);
     
     //Jesli nie zainicjowane z pliku to prowizoryczna inicjacja przez konstruktory lub klonowanie
@@ -120,7 +120,7 @@ void kworld::initialize_layers()
         Agenci.reallocate_all();
     
     //Zabija agenta, jesli w masce jest czarny kolor
-    if(Agenci.init_from_bitmap(MaskName.get_ptr_val(),kagent::killBlack)==1 )
+    if(Agenci.init_from_bitmap(MaskName.get_ptr_val(),&kagent::killBlack)==1 )
         Agenci.deallocate_not_OK();
     
     if(Fill<1)//Dealokacja nadmiarow
@@ -266,7 +266,7 @@ int kworld::CheckChange(const rectangle_geometry* MyGeom,
 
 
     //Tu z pewnym prawdopodobienstwem moglaby zajsc zmiana postawy
-    if(abs(CenterAgent.ForRight-CenterAgent.ForLeft)>Treshold)    
+    if(std::abs((long)CenterAgent.ForRight-CenterAgent.ForLeft)>Treshold)
         {
             if(CenterAgent.ForRight>CenterAgent.ForLeft)
                 CenterAgent.new_attitude(1);
@@ -274,8 +274,10 @@ int kworld::CheckChange(const rectangle_geometry* MyGeom,
                 CenterAgent.new_attitude(-1);
             CountCh++;
         }
-        else
-        CenterAgent.new_attitude(CenterAgent.First);//nic nie trzeba zmieniac wiec nic nie zmieniamy (faktycznie)
+    else
+        {
+            CenterAgent.new_attitude(CenterAgent.First);//nic nie trzeba zmieniac wiec nic nie zmieniamy (faktycznie)
+        }
 
     return 0;
 }
