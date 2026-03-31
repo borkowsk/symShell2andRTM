@@ -22,9 +22,9 @@ short				TrsSila;	//Treshold sily powyzej ktorego nie ma zmian
 short				IleKate;	//Ilosc kategori w mapach
 short				IleSasiad;	//8==Gestosc sasiedztwa
 short				OdlSasiad;	//Rozmiar sasiedztwa
-short				BierzWszystko;//Czy ma brac wszystko z sasiedztwa
-double				WeightOfSelf;//Z jaka waga brac siebie pod uwage (0..1)
-double				NeedForClosure;//Znaczenie moze byc rozne, zaleznie od implementacji
+short				BierzWszystko; //Czy ma brac wszystko z sasiedztwa
+double				WeightOfSelf; //Z jaka waga brac siebie pod uwage (0..1)
+double				NeedForClosure; //Znaczenie moze byc rozne, zaleznie od implementacji
 double				Noise;		//Szum informacyjny
 double              Fill;       //Udzial zywych na poczatku
 double              Migr;       //Prawdopodobienstwo migracji
@@ -36,17 +36,17 @@ wb_pchar			MaskName;	//nazwa pliku inicjujacej bitmapy
 // Warstwy symulacji (sa torusami)
 // ///////////////////////////////
 
-//rectangle_unilayer<unsigned char> zdatnosc;//Warstwa definiujaca zdatnosc do zasiedlenia
+//rectangle_unilayer<unsigned char> zdatnosc; //Warstwa definiujaca zdatnosc do zasiedlenia
 rectangle_layer_of_ptr_to_agents<aagent> Agenci;  //Wlaściwa warstwa agentow zasiedlajacych
 
 // Glowne serie - wygodniej miec wskazniki niz odszukiwac z Sources po nazwach
 // //////////////////////////////////////////////////////////////////////////////
 ptr_to_struct_matrix_source<aagent,short>		*Firsts; //=Agenci.make_source("First mem",&aagent::First);		
-ptr_to_struct_matrix_source<aagent,short>		*Seconds;//=Agenci.make_source("Second mem",&aagent::Second);
+ptr_to_struct_matrix_source<aagent,short>		*Seconds; //=Agenci.make_source("Second mem",&aagent::Second);
 
 ptr_to_struct_matrix_source<aagent,short>		*Powers; //=Agenci.make_source("Power",&aagent::Power);
-ptr_to_struct_matrix_source<aagent,short>		*Pressure;// =Agenci.make_source("Pressure",&aagent::Press);
-//method_by_ptr_matrix_source<aagent,long>		*Classif;//=Agenci.make_source("Classification",&aagent::Classif);
+ptr_to_struct_matrix_source<aagent,short>		*Pressure; // =Agenci.make_source("Pressure",&aagent::Press);
+//method_by_ptr_matrix_source<aagent,long>		*Classif; //=Agenci.make_source("Classification",&aagent::Classif);
 
 scalar_source<double>*       ptrStres;          //Do przekazywania aktualnie najwazniejszych danych na okno statusu
 scalar_source<double>*       ptrClsSize;
@@ -57,7 +57,7 @@ int  CountMig;   //Ilu ostatnio migrowalo - do celow statystyki
 ptr_to_scalar_source<int>*       ptrLastChanged;          //Do przekazywania licznikow zmian
 ptr_to_scalar_source<int>*       ptrLastMigration;        
 
-double MaxPressure;//Do zapamietania teoretycznie najwiekszej wartosci "presji"
+double MaxPressure; //Do zapamietania teoretycznie najwiekszej wartosci "presji"
 
 //Wlasciwa implementacja symulacji
 int CheckChange(const rectangle_geometry* MyGeom,size_t index,aagent& CenterAgent);
@@ -91,12 +91,12 @@ aworld(size_t Width,	//!< Szerokosc torusa macierzy agentow
 protected:
 //AKCJE
 void	initialize_layers();	//Stan startowy symulacji
-void	after_read_from_image();//actions after read state from file. Aktualizacja pol static aagent'a!!!
+void	after_read_from_image(); //actions after read state from file. Aktualizacja pol static aagent'a!!!
 void	simulate_one_step();	//Wlasciwa implementacja kroku symulacji
 
 //Wspolpraca z menagerem wyswietlania
 //---------------------------------------------
-void	make_default_visualisation(area_menager_base& Menager);//Tworzy domyslne "lufciki" i umieszcza w 
+void	make_default_visualisation(area_menager_base& Menager); //Tworzy domyslne "lufciki" i umieszcza w
 //void actualize_out_area(); // aktualizacja zawartosci OutArea po n krokach symulacji
 
 //Generuje podstawowe zrodla dla wbudowanego menagera danych lub innego

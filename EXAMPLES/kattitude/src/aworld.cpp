@@ -47,7 +47,7 @@ aagent::aagent(const aagent& ini)
         {
             First=ini.First;
             Second=ini.Second;
-            Power=1+RANDOM(max_sila);//Sila jest przydzielana z rozkladu
+            Power=1+RANDOM(max_sila); //Sila jest przydzielana z rozkladu
             Press=-1; //Bo to "statystyka" - nie ma sensu kopiowac
         }
         else
@@ -66,11 +66,11 @@ aagent::aagent()
 //Statyczne pola aagentow dla inicjalizacji
 ////////////////////////////////////////////////////////////////
 short	aagent::ruchsily=1;  //Maksymalny skok sily
-short	aagent::max_sila=256;//Maksymalna sila agenta
-short	aagent::ile_kate=256;//Ilosc kategori w mapach	
-short	aagent::kate_shift=0;//Przesuniecie dla wczytywania gifa
+short	aagent::max_sila=256; //Maksymalna sila agenta
+short	aagent::ile_kate=256; //Ilosc kategori w mapach
+short	aagent::kate_shift=0; //Przesuniecie dla wczytywania gifa
 double  aagent::Majority=-1; //Domyslnie nie ma znaczacej wiekszosci!!!
-double	aagent::MutationLevel=0;//Prawd. spontanicznej zmiany pogladow (0..1)
+double	aagent::MutationLevel=0; //Prawd. spontanicznej zmiany pogladow (0..1)
 
 //KONSTRUKCJA	SWIATA
 ////////////////////////////////////
@@ -140,7 +140,7 @@ aworld::aworld(size_t Width,		//Szerokosc torusa macierzy agentow
 ////////////////////////////////////////////////////////////////////////////
 void aworld::make_basic_sources(sources_menager& WhatSourMen)
 {
-world::make_basic_sources(WhatSourMen);//Odziedziczone
+world::make_basic_sources(WhatSourMen); //Odziedziczone
 
 //Glowne serie 
 Firsts=Agenci.make_source("Attitude",&aagent::First);	
@@ -169,7 +169,7 @@ CountMig=ptrLastMigration->get_missing();
 
 //Classif=Agenci.make_source("Classification",&aagent::Classif); //Z PIERWOWZORU "LANGUAGES"
 //if(Classif)
-//	Classif->setminmax(0,IleKate*IleKate*IleKate-1);//Max class ==IleKate^3 bo trzy niezalezne plaszczyzny
+//	Classif->setminmax(0,IleKate*IleKate*IleKate-1); //Max class ==IleKate^3 bo trzy niezalezne plaszczyzny
 
 //Umieszczenie glownych serii w menagerze serii
 WhatSourMen.insert(Firsts);
@@ -192,7 +192,7 @@ void    aworld::actualize_out_area()
 //ptrStres; ptrClsSize; - Do przekazywania aktualnie najwazniejszych danych na okno statusu
     if(OutArea)
     {
-        wb_pchar bufor(1024);//ze sporym zapsem
+        wb_pchar bufor(1024); //ze sporym zapsem
         //assert(ptrStres->);
         double Stres=ptrStres->get();      //Zakladamy ze to zrodla jednowartosciowe
         double ClsSiz=ptrClsSize->get();
@@ -255,33 +255,33 @@ void aworld::make_default_visualisation(area_menager_base& Menager)
     //A takze utworzenie seri liczacych ich wzajemne ko-statystyki
     coincidention_source* CorrFS=new coincidention_source(Firsts,Seconds);
     if(!CorrFS) goto ERROR;
-    Sources.insert(CorrFS);//Zeby zostala kiedys zwolniona, a poza tym moze ktos kiedys...
+    Sources.insert(CorrFS); //Zeby zostala kiedys zwolniona, a poza tym moze ktos kiedys...
 
     fifo_source<double>* EntropyFSLog=new fifo_source<double>(CorrFS->Entropy(),internal_log);
     if(!EntropyFSLog) goto ERROR;
     int iEntropyFS=Sources.insert(EntropyFSLog);
 
-    fifo_source<double>* CorrFSLogR=new fifo_source<double>(CorrFS->Tau_a_Goodman_Kruskal(),internal_log);//Fifo korelacji pierwszych z drugimi
+    fifo_source<double>* CorrFSLogR=new fifo_source<double>(CorrFS->Tau_a_Goodman_Kruskal(),internal_log); //Fifo korelacji pierwszych z drugimi
     if(!CorrFSLogR) goto ERROR;
     int iCorrFSR=Sources.insert(CorrFSLogR);
 
 
     //I utworzenie seri liczacych ich statystyki
 
-    fifo_source<double>* MeanPressLog=new fifo_source<double>(PressureStat->Mean(),internal_log);//Fifo ze sredniego chwilowego stresu
+    fifo_source<double>* MeanPressLog=new fifo_source<double>(PressureStat->Mean(),internal_log); //Fifo ze sredniego chwilowego stresu
     if(!MeanPressLog) goto ERROR;
     int iMeanPress=Sources.insert(MeanPressLog);
     /*
-    fifo_source<double>* StressFirstLog=new fifo_source<double>(FirstStat->Stress(),internal_log);//Fifo ze stresu klasycznego
+    fifo_source<double>* StressFirstLog=new fifo_source<double>(FirstStat->Stress(),internal_log); //Fifo ze stresu klasycznego
     if(!StressFirstLog) goto ERROR;
     int iSFirst=Sources.insert(StressFirstLog);
 
-    fifo_source<double>* StressSecondLog=new fifo_source<double>(SecondStat->Stress(),internal_log);//Fifo ze starego stresu
+    fifo_source<double>* StressSecondLog=new fifo_source<double>(SecondStat->Stress(),internal_log); //Fifo ze starego stresu
     if(!StressSecondLog) goto ERROR;
     int iSSecond=Sources.insert(StressSecondLog);
     */
 
-    fifo_source<double>* ClusterSizeLog=new fifo_source<double>(SpatialCorr->ApproximatedClusterSize(),internal_log);//Fifo z rozmiaru klastra
+    fifo_source<double>* ClusterSizeLog=new fifo_source<double>(SpatialCorr->ApproximatedClusterSize(),internal_log); //Fifo z rozmiaru klastra
     if(!ClusterSizeLog) goto ERROR;
     int iClusterSize=Sources.insert(ClusterSizeLog);
 
@@ -333,7 +333,7 @@ void aworld::make_default_visualisation(area_menager_base& Menager)
     //WYMIARY DOMYSLNEGO OKNA
     unsigned szer=Menager.getwidth();
     unsigned wyso=Menager.getheight();
-    assert(szer>50 && wyso>40);//Najmniejsze sensowne okno
+    assert(szer>50 && wyso>40); //Najmniejsze sensowne okno
 
     //Obszary domyślne - np obszar STATUSU
     world::make_default_visualisation(Menager);
@@ -375,7 +375,7 @@ void aworld::make_default_visualisation(area_menager_base& Menager)
     Menager.insert(pom);
 
     pom=new carpet_graph(1,wyso/2,szer/3,wyso-1,//domyslne wspolrzedne
-                            Firsts);//I zrodlo danych
+                            Firsts); //I zrodlo danych
     pom->setdatacolors(0,255);
     pom->settitle("Map of current attitude");
     Menager.insert(pom);
@@ -395,7 +395,7 @@ void aworld::make_default_visualisation(area_menager_base& Menager)
 
     //PRZYCISKI
     pom=new carpet_graph(szer-49,5*(char_height('X')+RAMKA),szer,6*(char_height('X')+RAMKA),//domyslne wspolrzedne
-                            Seconds);//I zrodlo danych
+                            Seconds); //I zrodlo danych
     pom->setdatacolors(0,255);
     pom->setframe(0);
     pom->settitle("Map of previous attitude");
@@ -403,7 +403,7 @@ void aworld::make_default_visualisation(area_menager_base& Menager)
 
 
     pom=new carpet_graph(szer-49,6*(char_height('X')+RAMKA),szer,7*(char_height('X')+RAMKA),//domyslne wspolrzedne
-                            Powers);//I zrodlo danych
+                            Powers); //I zrodlo danych
     pom->setdatacolors(0,255);
     pom->setframe(0);
     pom->settitle("Map of power");
@@ -416,7 +416,7 @@ void aworld::make_default_visualisation(area_menager_base& Menager)
                                         //Jesli 0 to zaczynaja sie od min>0
                             0.22,		//Ulamek szerokosci przeznaczony na perspektywe
                             0.77		//Ulamek wysokosci  przeznaczony na perspektywe
-                            );//I zrodlo danych
+                            ); //I zrodlo danych
     pom->setdatacolors(0,255);
     pom->setframe(0);
     pom->settitle("Composed map of strength & attitude of agents");
@@ -506,10 +506,10 @@ void aworld::make_default_visualisation(area_menager_base& Menager)
     }
 
     }
-    Sources.new_data_version(1,1);//Oznajmia seriom ze dane sie uaktualnily	(po inicjacji)
+    Sources.new_data_version(1,1); //Oznajmia seriom ze dane sie uaktualnily	(po inicjacji)
 
     ERROR://... tu akcja na niepogode
-        ;//error_message(...)
+        ; //error_message(...)
 }
 
 
@@ -520,8 +520,8 @@ void aworld::make_default_visualisation(area_menager_base& Menager)
 void aworld::after_read_from_image()
 //actions after read state from file. Aktualizacja pol static aagent'a!!!
 {
-    aagent::max_sila=MaxSila;//Maksymalna sila agenta
-    aagent::ile_kate=IleKate;//Ilosc kategori w mapach
+    aagent::max_sila=MaxSila; //Maksymalna sila agenta
+    aagent::ile_kate=IleKate; //Ilosc kategori w mapach
 
     switch(IleKate)
     {
@@ -546,13 +546,13 @@ void aworld::after_read_from_image()
 void aworld::initialize_layers()
 //-------------------------------------
 {
-    static first=1;//TYMCZASOWE WYLACZENIE NADMIARU WYDRUKOW!!!
+    static first=1; //TYMCZASOWE WYLACZENIE NADMIARU WYDRUKOW!!!
     if(first)
         Log.GetStream()<<"attitude SIMULATION:";
     //odl_sasiad=1,//Rozmiar sasiedztwa
     //ile_sasiad=8 //8==Gestosc sasiedztwa
-    aagent::max_sila=MaxSila;//Maksymalna sila agenta
-    aagent::ile_kate=IleKate;//Ilosc kategori w mapach
+    aagent::max_sila=MaxSila; //Maksymalna sila agenta
+    aagent::ile_kate=IleKate; //Ilosc kategori w mapach
 
     switch(IleKate)
     {
@@ -582,7 +582,7 @@ void aworld::initialize_layers()
         <<"\nSelf="<<Log.separator()<<WeightOfSelf
         <<"\nNforC="<<Log.separator()<<NeedForClosure
         <<"\nNeighborhood="<<Log.separator()<<IleSasiad<<"/("<<(1+2*OdlSasiad)<<"*"<<(1+2*OdlSasiad)<<")"
-        <<"\n";// //bylo Naighborhood
+        <<"\n"; // //bylo Naighborhood
 
     //			USTALANIE STANÓW AGENTÓW
     //Wczytuje uzywajac konstruktora lub klonowania gdy niema, wiec inicjuje reszte pól.
@@ -598,12 +598,12 @@ void aworld::initialize_layers()
     if(Agenci.init_from_bitmap(MaskName.get_ptr_val(),aagent::killBlack)==1 )
         Agenci.deallocate_not_OK();
 
-    if(Fill<1)//Dealokacja nadmiarow
+    if(Fill<1) //Dealokacja nadmiarow
     {
         size_t how_many=(1-Fill)*sqr(MyWidth);
         Agenci.clean_randomly(how_many);
     }
-    first=0;//Koniec pierwszego wywolania //TYMCZASOWO!!!
+    first=0; //Koniec pierwszego wywolania //TYMCZASOWO!!!
 }
 
 //Pojedynczy krok symulacji
@@ -620,11 +620,11 @@ void aworld::simulate_one_step()
         iteratorh IGlobal=MyGeom->make_global_iterator();
         while(IGlobal)
         {
-            size_t index=MyGeom->get_next(IGlobal);//Uzyskujemy index  agenta
+            size_t index=MyGeom->get_next(IGlobal); //Uzyskujemy index  agenta
 
             assert(index!=MyGeom->FULL);				//... tutaj nie powinno sie zdarzyc
 
-            aagent& CenterAgent=*(Agenci.get_ptr(index).get_ptr_val());// Uzyskujemy referencje do agenta omijajac asercje na NULL
+            aagent& CenterAgent=*(Agenci.get_ptr(index).get_ptr_val()); // Uzyskujemy referencje do agenta omijajac asercje na NULL
 
             if(Agenci.is_empty(CenterAgent))	// Sprawdzamy czy nie jest to pusta komórka (NULL)
                 continue;						// bo wtedy robic dalej byłoby bez sensu.
@@ -640,14 +640,14 @@ void aworld::simulate_one_step()
         MyGeom->destroy_iterator(IGlobal);
 
 
-        IGlobal=MyGeom->make_global_iterator();//Tworzymy nowy iterator i iterujemy od poczatku
+        IGlobal=MyGeom->make_global_iterator(); //Tworzymy nowy iterator i iterujemy od poczatku
         while(IGlobal)
         {
-            size_t index=MyGeom->get_next(IGlobal);//Uzyskujemy index  agenta
+            size_t index=MyGeom->get_next(IGlobal); //Uzyskujemy index  agenta
 
             assert(index!=MyGeom->FULL);				//... tutaj nie powinno sie zdarzyc
 
-            aagent& CenterAgent=*(Agenci.get_ptr(index).get_ptr_val());// Uzyskujemy referencje do agenta omijajac asercje na NULL
+            aagent& CenterAgent=*(Agenci.get_ptr(index).get_ptr_val()); // Uzyskujemy referencje do agenta omijajac asercje na NULL
 
             if(Agenci.is_empty(CenterAgent))	// Sprawdzamy czy nie jest to pusta komórka (NULL)
                 continue;
@@ -666,21 +666,21 @@ void aworld::simulate_one_step()
         int ret=-1;
         iteratorh Monte=MyGeom->make_random_global_iterator();	//Alokujemy iterator Monte-Carlo
 
-        while(Monte)//Idziemy po agentach iteratorem Monte-Carlo. Niektórzy moga sie powtórzyc
+        while(Monte) //Idziemy po agentach iteratorem Monte-Carlo. Niektórzy moga sie powtórzyc
         {
-            size_t index=MyGeom->get_next(Monte);//Uzyskujemy index losowo wybranego agenta
+            size_t index=MyGeom->get_next(Monte); //Uzyskujemy index losowo wybranego agenta
 
             assert(index!=MyGeom->FULL);				//... tutaj nie powinno sie zdarzyc
 
-            aagent& CenterAgent=*(Agenci.get_ptr(index).get_ptr_val());// Uzyskujemy referencje do agenta omijajac asercje na NULL
+            aagent& CenterAgent=*(Agenci.get_ptr(index).get_ptr_val()); // Uzyskujemy referencje do agenta omijajac asercje na NULL
 
             if(Agenci.is_empty(CenterAgent))	// Sprawdzamy czy nie jest to pusta komórka (NULL)
                 continue;						// bo wtedy robic dalej byłoby bez sensu.
 
             if(CenterAgent.Power<=TrsSila)		// Czy nie ma juz immunitedu na zmiany
             {
-                ret=CheckChange(MyGeom,index,CenterAgent);//Czy zaszla zmiana stanu
-                                             assert(CenterAgent.DurCh==true);//Czy flaga ustawiona prawidlowo
+                ret=CheckChange(MyGeom,index,CenterAgent); //Czy zaszla zmiana stanu
+                                             assert(CenterAgent.DurCh==true); //Czy flaga ustawiona prawidlowo
             }
 
             CenterAgent.update();
@@ -692,7 +692,7 @@ void aworld::simulate_one_step()
     }
 
     ptrLastChanged->change_ptr(&CountCh); //Alternatywna metoda dla oznacznia braku/obecnosci policzonych danych
-    ptrLastMigration->change_ptr(&CountMig);//Alternatywna metoda dla oznacznia braku policzonych danych
+    ptrLastMigration->change_ptr(&CountMig); //Alternatywna metoda dla oznacznia braku policzonych danych
 }
 
 
@@ -702,25 +702,25 @@ int aworld::DoMigration(const rectangle_geometry* MyGeom, //Ta procedura jest na
                         )
 {
     size_t SouX,SouY,TarX,TarY;
-    MyGeom->WhatCoordinates(index,SouX,SouY);//Nie ma co sprawdzac czy dobrze bo przeciez bylo dobrze
+    MyGeom->WhatCoordinates(index,SouX,SouY); //Nie ma co sprawdzac czy dobrze bo przeciez bylo dobrze
     
     do{
     TarX=RANDOM(MyGeom->get_width());
     TarY=RANDOM(MyGeom->get_height());
-    }while(Agenci.filled(TarX,TarY));//Dopuki nie znajdzie pustego
+    }while(Agenci.filled(TarX,TarY)); //Dopuki nie znajdzie pustego
 
-    Agenci.swap(TarX,TarY,SouX,SouY);//Zamienia miejsce
-    return MyGeom->get(TarX,TarY);//Nowa pozycja w postaci liniowej 
+    Agenci.swap(TarX,TarY,SouX,SouY); //Zamienia miejsce
+    return MyGeom->get(TarX,TarY); //Nowa pozycja w postaci liniowej
 }
 
 int aworld::CheckChange(const rectangle_geometry* MyGeom,
                         size_t index,
                         aagent& CenterAgent
-                        )//KOD NA SZUKANIE ZMIAN
+                        ) //KOD NA SZUKANIE ZMIAN
 { 
     int testowanie=0;
 
-    if(DRAND()<=aagent::MutationLevel)//Rzadka, spontaniczna zmiana pogladu
+    if(DRAND()<=aagent::MutationLevel) //Rzadka, spontaniczna zmiana pogladu
     {
         int atti=RANDOM(IleKate);
         assert(0<=atti && atti<IleKate);
@@ -750,21 +750,21 @@ int aworld::CheckChange(const rectangle_geometry* MyGeom,
     }
 
     //iteratorh Neigh=MyGeom->make_neighbour_iterator(index,OdlSasiad);
-    unsigned zliczanie=0;//Zliczanie sasiadów
+    unsigned zliczanie=0; //Zliczanie sasiadów
 
     while(Neigh)
     {
-        size_t index2=MyGeom->get_next(Neigh);//Uzyskujemy index sasiada
+        size_t index2=MyGeom->get_next(Neigh); //Uzyskujemy index sasiada
         if(index2==MyGeom->FULL || index2==index)	//Jesli poza obszarem symulacji lub w
             continue;				//centrum obszaru to dalej byloby bez sensu.
 
-        aagent& PeryfAgent=*(Agenci.get_ptr(index2).get_ptr_val());//Uzyskujemy referencje do sasiada omijajac asercje na NULL
+        aagent& PeryfAgent=*(Agenci.get_ptr(index2).get_ptr_val()); //Uzyskujemy referencje do sasiada omijajac asercje na NULL
         if(Agenci.is_empty(PeryfAgent))		//Sprawdzamy czy nie jest to pusta komórka (NULL)
             continue;					   // bo wtedy robic dalej byłoby bez sensu.
 
         zliczanie++;
         //Dodawanie sil sasiadow do licznikow w tablicach
-        Firsts[PeryfAgent.First]+=unsigned(PeryfAgent.Power*NeedForClosure);//W założeniu to nie sa duze liczby
+        Firsts[PeryfAgent.First]+=unsigned(PeryfAgent.Power*NeedForClosure); //W założeniu to nie sa duze liczby
     }
 
     MyGeom->destroy_iterator(Neigh);	// upewniamy sie ze iterator zostanie usuniety
@@ -774,13 +774,13 @@ int aworld::CheckChange(const rectangle_geometry* MyGeom,
     //Dodawanie wlasnych sil do licznikow w tablicach o ile WeightOfSelf>0
     if(WeightOfSelf)
     {
-        Firsts[CenterAgent.First]+=unsigned(CenterAgent.Power*WeightOfSelf);//W założeniu to nie sa duze liczby
+        Firsts[CenterAgent.First]+=unsigned(CenterAgent.Power*WeightOfSelf); //W założeniu to nie sa duze liczby
     }
 
     //Szukanie maksimow
     int maxF=0,indF=-1;
 
-    int offset=RANDOM(IleKate);                     assert(0<=offset && offset<IleKate);//Jak IleKate==2 to 0 albo 1 itd..
+    int offset=RANDOM(IleKate);                     assert(0<=offset && offset<IleKate); //Jak IleKate==2 to 0 albo 1 itd..
 
     for(int g=0;g<IleKate;g++)
     {
@@ -799,23 +799,23 @@ int aworld::CheckChange(const rectangle_geometry* MyGeom,
 
     }
 
-    assert(indF!=-1);//Czy jest maksimum 
+    assert(indF!=-1); //Czy jest maksimum
 
     //Trzeba cos zrobic, ale co?
-    if(Migr!=0 &&  Fill<1 && (Migr==1 || DRAND()<Migr)  )//Decyzja 
+    if(Migr!=0 &&  Fill<1 && (Migr==1 || DRAND()<Migr)  ) //Decyzja
     { //Migracja
         if(CenterAgent.First!=indF) //Ale tylko gdy trzebaby zmienic poglad
         {
-            CenterAgent.Press=maxF;//Specjalny znacznik 
+            CenterAgent.Press=maxF; //Specjalny znacznik
             CenterAgent.new_attitude(CenterAgent.First); //wiec nic nie zmieniamy w jego pogladach
-            DoMigration(MyGeom,index,CenterAgent);//za to zmieniamy pozycje w swiecie
+            DoMigration(MyGeom,index,CenterAgent); //za to zmieniamy pozycje w swiecie
             CountMig++;                      
-            return 0;//Trzeba wyjsc bo "index" jest nieaktualny i zasygnalizowac to wyzej
+            return 0; //Trzeba wyjsc bo "index" jest nieaktualny i zasygnalizowac to wyzej
         }
         else
         {
             CenterAgent.Press=0;
-            CenterAgent.new_attitude(CenterAgent.First);//nie potrzeba migrowac wiec nic nie zmieniamy                                 
+            CenterAgent.new_attitude(CenterAgent.First); //nie potrzeba migrowac wiec nic nie zmieniamy
             return 0;
         }
     }
@@ -831,7 +831,7 @@ int aworld::CheckChange(const rectangle_geometry* MyGeom,
         else                                    //nie znaleziono
         {
             CenterAgent.Press=0;
-            CenterAgent.new_attitude(CenterAgent.First);//wiec nic nie zmieniamy     
+            CenterAgent.new_attitude(CenterAgent.First); //wiec nic nie zmieniamy
             return 0;
         }
     }

@@ -16,17 +16,17 @@ inline void wb_swap(short& a,short& b)
 
 class aagent:public agent_base
 {
-    friend class aworld;//Na razie tak - zeby uproscic dostep do skladowych.
+    friend class aworld; //Na razie tak - zeby uproscic dostep do skladowych.
 
     // STATYCZNE SKLADOWE - PARAMETRY INICJOWANIA AGENTÓW
-    static short ruchsily;//Czy sila sie zmienia (rosnie) z wiekiem
-    static short max_sila;//Maksymalna sila agenta
-    static short ile_kate;//Ilosc kategori w mapach
-    static short kate_shift;//Przesuniecie dla wczytywania gifa
+    static short ruchsily; //Czy sila sie zmienia (rosnie) z wiekiem
+    static short max_sila; //Maksymalna sila agenta
+    static short ile_kate; //Ilosc kategori w mapach
+    static short kate_shift; //Przesuniecie dla wczytywania gifa
     static double Majority; //Udzial najwiekszej klasy w calosci
-    static double MutationLevel;//Prawd. spontanicznej zmiany pogladow (0..1)
+    static double MutationLevel; //Prawd. spontanicznej zmiany pogladow (0..1)
 
-    static short DrawAttitude();//Funkcja do losowania pogladu
+    static short DrawAttitude(); //Funkcja do losowania pogladu
 
     // SKLADOWE DLA SYMULACJI
     short Power;	//Sila agenta
@@ -52,12 +52,12 @@ public:
         return First!=-1 && Second!=-1 && Power!=-1;
     }
 
-    void MakeOlder()//Sila jako wiek
+    void MakeOlder() //Sila jako wiek
     {
         if(aagent::ruchsily)
         {
             Power+=aagent::ruchsily;
-            Power%=aagent::max_sila;//Nigdy nie przekracza sily maksymalnej
+            Power%=aagent::max_sila; //Nigdy nie przekracza sily maksymalnej
         }
     }
 
@@ -76,8 +76,8 @@ public:
 
     void new_attitude(short a)
     {
-        Second=a;//Takie ma byc nowe przekonanie
-        DurCh=true;//Sygnal ze juz jest "w trakcie" zmiany - np. zeby zapobiec powtorce
+        Second=a; //Takie ma byc nowe przekonanie
+        DurCh=true; //Sygnal ze juz jest "w trakcie" zmiany - np. zeby zapobiec powtorce
     }
 
     void update() //Kontrola zmiany stanu
