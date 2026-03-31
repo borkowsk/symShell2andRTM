@@ -63,24 +63,24 @@ protected:
 
 public:
     /// \brief Konstruktor pobierający surowy wskaźnik pod zarząd
-	explicit wb_sptr(T* ini=NULL):ptr(ini){}
+    explicit wb_sptr(T* ini=NULL):ptr(ini){}
 
     /// \brief Konstruktor sztafetujący
-	wb_sptr(wb_sptr& nini):ptr(nini.give()){}
+    wb_sptr(wb_sptr& nini):ptr(nini.give()){}
 
     /// \brief Destruktor zwalniający zawartość jeśli jest
-	~wb_sptr(){ dispose(); }
+    ~wb_sptr(){ dispose(); }
 
     /// \brief Metoda czyszcząca zawartość równoważna destruktorowi
     void dispose()
-	{
-	if(ptr)
-		{
-		WBPTRLOG( "wb_sptr::dispose :"<<ptr )
-		delete ptr;
-		}
-	ptr=NULL;
-	}
+    {
+    if(ptr)
+        {
+        WBPTRLOG( "wb_sptr::dispose :"<<ptr )
+        delete ptr;
+        }
+    ptr=NULL;
+    }
 
     /// \brief Operator przekazania surowego wskaźnika pod zarząd
     wb_sptr& operator = (T* nini)
@@ -92,10 +92,10 @@ public:
 
     /// \brief Metoda jawnego przekazania surowego wskaźnika pod zarząd
     void take(T* nini)
-	{
-	dispose();
-	ptr=nini;
-	}
+    {
+    dispose();
+    ptr=nini;
+    }
 
     /// \brief Metoda jawnego przekazania surowego wskaźnika pod zarząd
     /// \details  Pozwalająca dołączyć kolejne wywołanie dzięki zwracaniu *this
@@ -108,20 +108,20 @@ public:
 
     /// \brief Operator przypisania inteligentnych wskaźników. \warning Jest sztafetujący. Oddaje zawartość na L-value
     wb_sptr<T>& operator = (wb_sptr<T>& nini)
-	{
-	dispose();
-	ptr=nini.give();
-	return *this;
-	}
+    {
+    dispose();
+    ptr=nini.give();
+    return *this;
+    }
 
     /// \brief    Jawna metoda naśladująca sztafetujący operator przypisania
     /// \details  Pozwalająca dołączyć kolejne wywołanie dzięki zwracaniu *this
     wb_sptr<T>& transfer_from(wb_sptr<T>& nini)
-	{
-	dispose();
-	ptr=nini.give();
-	return *this;
-	}
+    {
+    dispose();
+    ptr=nini.give();
+    return *this;
+    }
 
     /// \brief Operator dostępu do zawartości
     T& operator* () const
@@ -131,31 +131,31 @@ public:
 
     /// \brief Konwersja sprawdzająca na int - do warunków (POWINNO BYĆ bool! TODO!)
     operator int () const
-	{
-	return ptr!=NULL;
-	}
+    {
+    return ptr!=NULL;
+    }
 
     /// \brief  Jawne sprawdzenie czy coś zawiera (POWINNO BYĆ bool! TODO!)
     int OK() const
-	{
-	return ptr!=NULL;
-	}
+    {
+    return ptr!=NULL;
+    }
 
     /// \brief  Metoda odczytu surowej zawartości - UŻYWAĆ OSTROŻNIE!
     ///\details Nie sprawdzamy czy NULL - niech sie martwi wołający metodę.
     T* get_ptr_val() const
-	{
-	return ptr;
-	}
+    {
+    return ptr;
+    }
 
     /// \brief  Metoda zabiera surowy wskaźnik spod zarządu inteligentnego wskaźnika!
     ///\details O dealokację musi się już martwić ktoś inny.
     T*  give()
-	{
-	T* pom=ptr;
-	ptr=NULL;
-	return pom;
-	}
+    {
+    T* pom=ptr;
+    ptr=NULL;
+    return pom;
+    }
 
     /// \brief Metoda niemal równoważna destruktorowi \warning OBSOLETE
     void finalise(){ dispose(); }
@@ -169,7 +169,7 @@ class wb_ptr:public wb_sptr<T>
     /// \brief WYŁĄCZONY konstruktor klonujący, bo nie ma zastosowania do klas abstrakcyjnych (??? TODO TEST ???)
     wb_ptr(const wb_ptr<T>& nini):wb_sptr<T>(clone(nini.get_ptr_val()))
     {
-    		assert("DO NOT USE wb_ptr(const wb_ptr<T>&)"==NULL);
+            assert("DO NOT USE wb_ptr(const wb_ptr<T>&)"==NULL);
     }
 
     /// \brief WYŁĄCZONY Operator przypisania dla const. Czy można stosować z klasami abstrakcyjnymi (??? TODO TEST ???)
@@ -180,7 +180,7 @@ class wb_ptr:public wb_sptr<T>
 public:
     //Konstruktory są dokładnie takie same jak w klasie bazowej. (Może zatem zbędne? TODO?)
 
-	/// \brief Konstruktor kopiujący jest sztafetujący!
+    /// \brief Konstruktor kopiujący jest sztafetujący!
     wb_ptr(wb_ptr& nini);
 
     /// \brief Konstruowanie ze wskaźnika utworzonego na stercie!
@@ -209,54 +209,54 @@ public:
 
 template<class T>
 wb_ptr<T>::wb_ptr(T* ini):wb_sptr<T>(ini)
-	{
+    {
         WBPTRLOG( "wb_ptr::EXPLICIT FROM PTR CONSTRUCTOR :"<< wb_sptr<T>::ptr );
     }
 
 template<class T>
 wb_ptr<T>::wb_ptr(wb_ptr& nini):wb_sptr<T>(nini)
-	{
-		WBPTRLOG( "wb_ptr::TRANSFER CONSTRUCTOR :"<< wb_sptr<T>::ptr );
-	}
+    {
+        WBPTRLOG( "wb_ptr::TRANSFER CONSTRUCTOR :"<< wb_sptr<T>::ptr );
+    }
 
 template<class T>
 wb_ptr<T>& wb_ptr<T>::operator = (T* nini)
-	{
-	return set(nini);
-	}
+    {
+    return set(nini);
+    }
 
 // Dodadany operator -> dla wskaźnika do klasy/struktury
 template<class T>
 T* wb_ptr<T>::operator -> () const
-	{                                                                                 assert	(wb_sptr<T>::ptr!=NULL);
-	return wb_sptr<T>::ptr;
-	}
+    {                                                                                 assert	(wb_sptr<T>::ptr!=NULL);
+    return wb_sptr<T>::ptr;
+    }
 
 template<class T>
 wb_ptr<T>& wb_ptr<T>::set(T* nini)
-	{
-	wb_sptr<T>::dispose();
-	wb_sptr<T>::ptr=nini;
-	return *this;
-	}
+    {
+    wb_sptr<T>::dispose();
+    wb_sptr<T>::ptr=nini;
+    return *this;
+    }
 
 //nie sptr bo wtedy byłoby nieuprawnione rozszerzenie operacji (TODO CHECK)
 template<class T>
 wb_ptr<T>& wb_ptr<T>::operator = (wb_ptr<T>& nini)
-	{
-	WBPTRLOG( "wb_ptr::TRANSFER oper = :"<<nini.ptr<<"->"<<wb_sptr<T>::ptr );
-	wb_sptr<T>::dispose();
-	wb_sptr<T>::ptr=nini.give();
-	return *this;
-	}
+    {
+    WBPTRLOG( "wb_ptr::TRANSFER oper = :"<<nini.ptr<<"->"<<wb_sptr<T>::ptr );
+    wb_sptr<T>::dispose();
+    wb_sptr<T>::ptr=nini.give();
+    return *this;
+    }
 
 template<class T>
 wb_ptr<T>& wb_ptr<T>::transfer_from(wb_ptr<T>& nini) //Jawnie nazwany operator przypisania
-	{
-	wb_sptr<T>::dispose();
-	wb_sptr<T>::ptr=nini.give();
-	return *this;
-	}
+    {
+    wb_sptr<T>::dispose();
+    wb_sptr<T>::ptr=nini.give();
+    return *this;
+    }
 
 
 ///\brief Inteligentny wskaźnik na tablicę znaków zakończonych \0  \ingroup DYNMEMORY
@@ -270,18 +270,18 @@ class wb_pchar:public wb_sptr<char>
 public:
     /// \brief Konstruktor alokujący (chyba że s==0, wtedy nie)
     explicit wb_pchar(size_t size=0):wb_sptr<char>(NULL)
-	{
+    {
         if(size>0) ptr=new char[size];
         if(ptr!=NULL) *ptr='\0';
-	}
+    }
 
     /// \brief Konstruktor do inicjalizowania z const char*
     /// \warning Ma klonowanie danych, bo stałe łańcuchowe ("") nie są alokowane na stercie!
     wb_pchar(const char* nini):wb_sptr<char>(NULL)
-	{
+    {
         WBPTRLOG( "wb_pchar::FROM char* CONSTRUCTOR :"<<(ptr?ptr:"@") )
         if(nini!=NULL) ptr=clone_str(nini);
-	}
+    }
 
     /// \brief Konstruktor do inicjalizowania z nullptr
     /// \note Nie wymaga klonowania, inicjalizuje wskaźnik jako pusty.
@@ -295,9 +295,9 @@ public:
     /// \brief Konstruktor sztafetujący — głównie do niejawnego kopiowania przy wyjściu z funkcji
     /// \warning Inicjator traci swoje dane. Jeśli nie to znaczy ze zaszło niezamierzone kopiowanie!
     wb_pchar(wb_pchar& nini):wb_sptr<char>(nini)
-	{
-	    WBPTRLOG( "wb_pchar::TRANSFER CONSTRUCTOR :"<<(ptr?ptr:"@") )                           assert(nini.ptr==NULL);
-	}
+    {
+        WBPTRLOG( "wb_pchar::TRANSFER CONSTRUCTOR :"<<(ptr?ptr:"@") )                           assert(nini.ptr==NULL);
+    }
 
     /// \brief Konstruktor kopiujący tej klasy ograniczony do sytuacji gdy inicjator jest stały
     wb_pchar(const wb_pchar& nini):wb_sptr<char>(NULL)
@@ -309,31 +309,31 @@ public:
     /// \brief Przypisanie stałej tablicy znaków (const char*) zmienia zawartość wb_pchar na nowy klon danych
     /// \note  Przypisanie NULL wymusza tylko dealokacje
     wb_pchar& operator = (const char* nini)
-	{
+    {
         WBPTRLOG( "wb_pchar::oper = (const char*) :"<<(nini?nini:"@")<<"->"<<(ptr?ptr:"@") )
         dispose();
         if(nini!=NULL) ptr=clone_str(nini);
         else ptr=NULL;
         return *this;
-	}
+    }
 
     /// \brief Sztafetujący operator przypisania
     wb_pchar& operator = (wb_pchar& nini)
-	{
+    {
         WBPTRLOG( "wb_pchar::TRANSFER oper = :"<<(nini.ptr?nini.ptr:"@")<<"->"<<(ptr?ptr:"@") )
         dispose();
         ptr=nini.give();
         return *this;
-	}
+    }
 
     /// \brief Klonujący operator przypisania na wypadek przypisywania od stałego źródła
     wb_pchar& operator = (const wb_pchar& nini)
-	{
+    {
         WBPTRLOG( "wb_pchar::CLONE oper = :"<<(nini.ptr?nini.ptr:"@")<<"->"<<(ptr?ptr:"@") )
         dispose();
         ptr=clone_str(nini.get_ptr_val());
         return *this;
-	}
+    }
 
     /// \brief Operator indeksowania dający dostęp do pojedynczych znaków
     /// \note Pozwala na zmianę znaku na danej pozycji, ale nie wskaźnika do niego!
@@ -345,27 +345,27 @@ public:
     /// \brief Metoda zmieniająca długość zaalokowanego łańcucha
     /// \warning Stare dane są tracone
     void alloc(size_t s)
-	{
+    {
         dispose();
         if(s>0)
         {
             ptr=new char[s];                                                                        assert(ptr!=NULL);
             *ptr='\0';
         }
-	}
+    }
 
     /// \brief Metoda oblicza rozmiar łańcucha i go zwraca. Gdy nie ma łańcucha zwraca 0.
     size_t get_size() const
-	{
-		return ptr?(::strlen(ptr)):(0);
-	}
+    {
+        return ptr?(::strlen(ptr)):(0);
+    }
 
     /// \brief Alias do get_ptr_val
     /// \note Nie jest sprawdzane czy nie NULL - niech sie martwi wołający
     const char* get() const
-	{
-	    return get_ptr_val();
-	}
+    {
+        return get_ptr_val();
+    }
 
     /// \brief Metoda wyprowadza formatowane dane na zawartość obiektu wb_pchar. \note  Nie sprawdza rozmiaru!!!
     wb_pchar& prn(const char* format,...);
@@ -454,47 +454,47 @@ class wb_dynarray
     //	}
 
 public:
-	/// \brief Konstruktor alokujący \details akceptuje też 0, ale wtedy nic nie alokuje
-	explicit wb_dynarray(size_t s=0):size(s)
-		{
-		WBPTRLOG( "wb_dynarray::CONSTRUCTOR("<<size<<')' )
-		if(size>0)	ptr=new T[s];
-			else ptr=NULL;
-		}
+    /// \brief Konstruktor alokujący \details akceptuje też 0, ale wtedy nic nie alokuje
+    explicit wb_dynarray(size_t s=0):size(s)
+        {
+        WBPTRLOG( "wb_dynarray::CONSTRUCTOR("<<size<<')' )
+        if(size>0)	ptr=new T[s];
+            else ptr=NULL;
+        }
 
-	/// \brief Konstruktor "kopiujący" - musi byc forsowany z const wiec jest niebezpieczny
-	//explicit? (TODO TEST!)
-	wb_dynarray(const wb_dynarray& nini/*,bool copy=false*/):size(nini.size),ptr(nini.ptr)
-		{
-		WBPTRLOG( "wb_dynarray::COPY CONSTRUCTOR("<<((void*)&nini)<<")" )                               assert(size!=0);
-		const_cast<wb_dynarray<T>&>(nini).ptr=NULL;
-		const_cast<wb_dynarray<T>&>(nini).size=0;
-		}
+    /// \brief Konstruktor "kopiujący" - musi byc forsowany z const wiec jest niebezpieczny
+    //explicit? (TODO TEST!)
+    wb_dynarray(const wb_dynarray& nini/*,bool copy=false*/):size(nini.size),ptr(nini.ptr)
+        {
+        WBPTRLOG( "wb_dynarray::COPY CONSTRUCTOR("<<((void*)&nini)<<")" )                               assert(size!=0);
+        const_cast<wb_dynarray<T>&>(nini).ptr=NULL;
+        const_cast<wb_dynarray<T>&>(nini).size=0;
+        }
 
-	/// \brief Konstruktor wieloparametrowy inicjujący itemy
-	explicit wb_dynarray(size_t s, T /* first,second,...*/ ...):size(s)
+    /// \brief Konstruktor wieloparametrowy inicjujący itemy
+    explicit wb_dynarray(size_t s, T /* first,second,...*/ ...):size(s)
     {
-		WBPTRLOG( "wb_dynarray::CONSTRUCTOR("<<size<<",T ...)" )                                        assert(size>=1);
-		ptr=new T[s];                                                             /*After allocation*/assert(ptr!=NULL);
+        WBPTRLOG( "wb_dynarray::CONSTRUCTOR("<<size<<",T ...)" )                                        assert(size>=1);
+        ptr=new T[s];                                                             /*After allocation*/assert(ptr!=NULL);
 
-		va_list list;
+        va_list list;
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wvarargs"
-		va_start(list,s);
+        va_start(list,s);
 #pragma GCC diagnostic pop
-		for(size_t i=0;i<s;i++)
+        for(size_t i=0;i<s;i++)
         {
-			ptr[i]=va_arg(list,T);
+            ptr[i]=va_arg(list,T);
         }
-		va_end(list);
+        va_end(list);
     }
 
-	/// \brief Destruktor zwalnia pamięć za pomocą metody dispose()
-	~wb_dynarray()
-		{
-		WBPTRLOG( "wb_dynarray::DESTRUCTOR" )
-		dispose();
-		}
+    /// \brief Destruktor zwalnia pamięć za pomocą metody dispose()
+    ~wb_dynarray()
+        {
+        WBPTRLOG( "wb_dynarray::DESTRUCTOR" )
+        dispose();
+        }
 
     /// \brief Metoda sprawdza, czy tablica została zaalokowana
     int OK() const
@@ -518,7 +518,7 @@ public:
 
     /// \brief Metoda alokacji surowego wektora \warning Jak 's' ma być 0 to użyj "dispose"!
     size_t alloc(size_t s)
-	{
+    {
         WBPTRLOG( "wb_dynnarray::alloc("<<s<<")" )                                                          assert(s>0);
         dispose();
         if(s>0)
@@ -529,7 +529,7 @@ public:
         }
         size=s;
         return s;
-	}
+    }
 
     /// \brief Skrócenie wektora - przydatne przy czytaniu z pliku \warning Jak 's' ma być 0 to użyj "dispose"!
     size_t trunc(size_t s)
@@ -558,7 +558,7 @@ public:
 
     /// \brief Dealokacja wektora
     void dispose()
-	{
+    {
         WBPTRLOG( "wb_dynarray::dispose() :"<<size )
 #ifdef USES_NONSTD_ALLOCATORS
         if(ptr) delete [size]ptr;
@@ -567,25 +567,25 @@ public:
 #endif
         ptr=NULL;
         size=0;
-	}
+    }
 
     /// \brief Operator indeksowania - dostęp do pojedynczego itemu
     T& operator [] (size_t index) const
-	{
+    {
 #ifndef _NDEBUG
-	if(ptr==NULL || index>=size)
-	{   //When DEBUG! Poniżej postaw breakpoint!
-		cerr<<"Invalid use of wb_dynarray "<<this<<" tabptr:"<<ptr<<"index:"<<index<<" size:"<<size<<endl;
+    if(ptr==NULL || index>=size)
+    {   //When DEBUG! Poniżej postaw breakpoint!
+        cerr<<"Invalid use of wb_dynarray "<<this<<" tabptr:"<<ptr<<"index:"<<index<<" size:"<<size<<endl;
                                                                                                         assert(ptr!=NULL);
                                                                                                         assert(index<size);
-	}
+    }
 #endif
-	return ptr[index];
-	}
+    return ptr[index];
+    }
 
     /// \brief   Zwraca rozmiar wewnętrznego zaalokowanego wektora (ewentualnie 0)
     size_t get_size() const
-	{ return size;}
+    { return size;}
 
     ///  \brief  Wymusza umieszczenie dynamicznie alokowanego
     ///          wektora jako tablicy wewnątrz dynarray
@@ -615,15 +615,15 @@ public:
     /// \note  Pozwala wykonać na wyniku
     ///        jakąś inną operację albo od razu przekazać jako parametr funkcji.
     wb_dynarray& set_dynamic_ptr_val(T* iptr,size_t isiz)
-	{
-	dispose();
-	ptr=iptr;
-	if(ptr!=NULL)
-		size=isiz;
-		else
-		size=0;
-	return *this;
-	}
+    {
+    dispose();
+    ptr=iptr;
+    if(ptr!=NULL)
+        size=isiz;
+        else
+        size=0;
+    return *this;
+    }
 
     /// \brief Daje bezpośredni dostęp do wewnętrznego wektora.
     /// \note  Jednak nie wolno go zdealokować!!!
@@ -695,7 +695,7 @@ class wb_dynmatrix:public wb_dynarray< wb_dynarray<T> >
 {
 public:
     /// \brief Konstruktor alokujący o ile nie ma żadnego zera w parametrach
-	explicit wb_dynmatrix(size_t y=0,size_t x=0):wb_dynarray< wb_dynarray<T> >(y)
+    explicit wb_dynmatrix(size_t y=0,size_t x=0):wb_dynarray< wb_dynarray<T> >(y)
     {
         WBPTRLOG( "wb_dynmatrix::CONSTRUCTOR("<<y<<','<<x<<')' );
 
@@ -705,7 +705,7 @@ public:
     }
 
     /// \brief Konstruktor inicjujący listą wskaźników - DZIWNY I CHYBA NIE PRZETESTOWANY. TODO?
-	explicit wb_dynmatrix(size_t s,wb_dynarray<T>* ...):wb_dynarray<wb_dynarray<T> >(s)
+    explicit wb_dynmatrix(size_t s,wb_dynarray<T>* ...):wb_dynarray<wb_dynarray<T> >(s)
     {
         WBPTRLOG( "wb_dynmatrix::CONSTRUCTOR("<<get_size()<<",wb_dynarray<T>* ...)" );
         assert( wb_sptr<T>::get_size()>=1 );
@@ -725,7 +725,7 @@ public:
     }
 
     /// \brief DESTRUKTOR. Dba o dealokacje.
-	~wb_dynmatrix()
+    ~wb_dynmatrix()
     {
         WBPTRLOG( "wb_dynmatrix::DESTRUCTOR" );
         dispose();
