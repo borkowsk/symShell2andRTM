@@ -83,19 +83,24 @@ if(CheckVersion())
 
     log_stream<<GetVersion()<<separator();
     for(i=0;i<next_column;i++)
-            {
+    {
             if(table[i]!=nullptr)
-                {
+            {
                 data_source_base::iteratorh in=table[i]->reset();
-                double pom=table[i]->get(in);
-                if(table[i]->get_missing()==pom)
-                    log_stream<<missing_string.name();
-                    else
-                    log_stream<<pom;
-                table[i]->close(in);
+                double pom;
+                // Odczyt wartości tylko wtedy gdy "in" nie jest z jakiś powodów pustym wskaźnikiem!
+                if(in==nullptr || (pom=table[i]->get(in))==table[i]->get_missing() )
+                {
+                    log_stream<<missing_string.name(); //No data!
                 }
-            log_stream<<separator();
+                else
+                {
+                    log_stream<<pom;
+                }
+                table[i]->close(in);
             }
+        log_stream<<separator();
+    }
     log_stream<<clock()<<'\n';
     log_stream.flush();
     return 1;//Zapisywal
