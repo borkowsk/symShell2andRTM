@@ -4,11 +4,11 @@
 #include "kworld.h"
 #include "wb_ptrio.h"
 
-extern const RAMKA=4;
+extern const int RAMKA=4;
 extern const char* SYMULATION_NAME;
 
-//Statyczne pola kagentow
-////////////////////////////////////////////////////////////////
+// Statyczne pola kagentow
+// //////////////////////////////////////////////////////////////
 short	kagent::max_sila=256;//Maksymalna sila agenta
 int     kagent::treshold=256;//Granica domkniecia pogladu
 double  kagent::Majority=0.10;//Poczatkowa ilosc czarnych - lewych
@@ -55,7 +55,7 @@ Noise(noise),
 Fill(fill),
 Migr(migrprob),
 WeightOfSelf(how_use_self),//Z jaka waga brac siebie pod uwage (0..1
-NeedForClosure(need_for_closure),//Z jaka waga brani sπ inni domyslnie 1
+NeedForClosure(need_for_closure),//Z jaka waga brani sƒÖ inni domyslnie 1
 Synchronic(synchronicly),
 
 //Wskazniki do podstawowych seri danych
@@ -94,7 +94,7 @@ void kworld::initialize_layers()
 {
     kagent::max_sila=MaxSila;//Maksymalna sila agenta
     
-    static first=1;//EWENTUALNE WYLACZENIE WYDRUKOW JESLI SYMULACJA 
+    static int first=1;//EWENTUALNE WYLACZENIE WYDRUKOW JESLI SYMULACJA
     
     //...wydruk wartosci parametrow symulacji
     if(first)
@@ -109,8 +109,8 @@ void kworld::initialize_layers()
         //		<<"\nNaighborhood="<<Log.separator()<<IleSasiad<<"/("<<(1+2*OdlSasiad)<<"*"<<(1+2*OdlSasiad)<<")\n"
             <<endl;
     
-    //			USTALANIE STAN”W AGENT”W 
-    //Wczytuje uzywajac konstruktora lub klonowania gdy niema, wiec inicjuje reszte pÛl.
+    //			USTALANIE STAN√ìW AGENT√ìW 
+    //Wczytuje uzywajac konstruktora lub klonowania gdy niema, wiec inicjuje reszte p√≥l.
     int from1= Agenci.init_from_bitmap(MappName.get_ptr_val(),kagent::assignPow);
     int from2= Agenci.init_from_bitmap(MaplName.get_ptr_val(),kagent::assign_curr);
     //   int from3= Agenci.init_from_bitmap(MaplName.get_ptr_val(),kagent::assign_prev);
@@ -151,8 +151,8 @@ void kworld::simulate_one_step()
             
             kagent& CenterAgent=*(Agenci.get_ptr(index).get_ptr_val());// Uzyskujemy referencje do agenta omijajac asercje na NULL
             
-            if(Agenci.is_empty(CenterAgent))	// Sprawdzamy czy nie jest to pusta komÛrka (NULL)
-                continue;						// bo wtedy robic dalej by≥oby bez sensu.
+            if(Agenci.is_empty(CenterAgent))	// Sprawdzamy czy nie jest to pusta kom√≥rka (NULL)
+                continue;						// bo wtedy robic dalej by≈Çoby bez sensu.
             
             if(CenterAgent.DurCh)
                 continue;                       //Ten juz byl sprawdzany, tylko ze sie przeniosl
@@ -173,7 +173,7 @@ void kworld::simulate_one_step()
             
             kagent& CenterAgent=*(Agenci.get_ptr(index).get_ptr_val());// Uzyskujemy referencje do agenta omijajac asercje na NULL
             
-            if(Agenci.is_empty(CenterAgent))	// Sprawdzamy czy nie jest to pusta komÛrka (NULL)
+            if(Agenci.is_empty(CenterAgent))	// Sprawdzamy czy nie jest to pusta kom√≥rka (NULL)
                 continue;
             
             CenterAgent.update();  //Tu dopiero NADAJEMY nowy stan agentowi
@@ -183,15 +183,15 @@ void kworld::simulate_one_step()
     else
     {
         iteratorh Monte=MyGeom->make_random_global_iterator();	//Alokujemy iterator Monte-Carlo
-        while(Monte)//Idziemy po agentach iteratorem Monte-Carlo. NiektÛrzy moga sie powtÛrzyc
+        while(Monte)//Idziemy po agentach iteratorem Monte-Carlo. Niekt√≥rzy moga sie powt√≥rzyc
         {	
             size_t index=MyGeom->get_next(Monte);//Uzyskujemy index losowo wybranego agenta	
             
             assert(index!=MyGeom->FULL);				//... tutaj nie powinno sie zdarzyc
             
             kagent& CenterAgent=*(Agenci.get_ptr(index).get_ptr_val());// Uzyskujemy referencje do agenta omijajac asercje na NULL
-            if(Agenci.is_empty(CenterAgent))	// Sprawdzamy czy nie jest to pusta komÛrka (NULL)
-                continue;						// bo wtedy robic dalej by≥oby bez sensu.
+            if(Agenci.is_empty(CenterAgent))	// Sprawdzamy czy nie jest to pusta kom√≥rka (NULL)
+                continue;						// bo wtedy robic dalej by≈Çoby bez sensu.
             
             CheckChange(MyGeom,index,CenterAgent);//Czy zaszla zmiana stanu
             
@@ -228,7 +228,7 @@ int kworld::CheckChange(const rectangle_geometry* MyGeom,
                         )//KOD NA SZUKANIE ZMIAN
 { 
     int testowanie=0;
-    // Alokujemy iterator sasiedztwa o boku 2*NeedForClosure, zawierajacy "IleSasiad" losowych sπsiadÛw.
+    // Alokujemy iterator sasiedztwa o boku 2*NeedForClosure, zawierajacy "IleSasiad" losowych sƒÖsiad√≥w.
     iteratorh Neigh=MyGeom->make_random_neighbour_iterator(index,NeedForClosure,IleSasiad);
     
     while(Neigh)
@@ -238,8 +238,8 @@ int kworld::CheckChange(const rectangle_geometry* MyGeom,
                   continue;				//centrum obszaru to dalej byloby bez sensu.
          
          kagent& SecAgent=*(Agenci.get_ptr(index2).get_ptr_val());//Uzyskujemy referencje do sasiada omijajac asercje na NULL
-         if(Agenci.is_empty(SecAgent))		//Sprawdzamy czy nie jest to pusta komÛrka (NULL)
-                    continue;					   // bo wtedy robic dalej by≥oby bez sensu.                  
+         if(Agenci.is_empty(SecAgent))		//Sprawdzamy czy nie jest to pusta kom√≥rka (NULL)
+                    continue;					   // bo wtedy robic dalej by≈Çoby bez sensu.                  
     
          double distance=MyGeom->get_distance(index,index2);                        assert(distance>=1);
          
@@ -323,7 +323,7 @@ int kworld::CheckChange(const rectangle_geometry* MyGeom,
               }
               
                 //iteratorh Neigh=MyGeom->make_neighbour_iterator(index,OdlSasiad);
-                unsigned zliczanie=0;//Zliczanie sasiadÛw
+                unsigned zliczanie=0;//Zliczanie sasiad√≥w
                 
                   while(Neigh)
                   {
@@ -332,12 +332,12 @@ int kworld::CheckChange(const rectangle_geometry* MyGeom,
                   continue;				//centrum obszaru to dalej byloby bez sensu.
                   
                     kagent& PeryfAgent=*(Agenci.get_ptr(index2).get_ptr_val());//Uzyskujemy referencje do sasiada omijajac asercje na NULL
-                    if(Agenci.is_empty(PeryfAgent))		//Sprawdzamy czy nie jest to pusta komÛrka (NULL)
-                    continue;					   // bo wtedy robic dalej by≥oby bez sensu.
+                    if(Agenci.is_empty(PeryfAgent))		//Sprawdzamy czy nie jest to pusta kom√≥rka (NULL)
+                    continue;					   // bo wtedy robic dalej by≈Çoby bez sensu.
                     
                       zliczanie++;
                       //Dodawanie sil sasiadow do licznikow w tablicach
-                      Firsts[PeryfAgent.First]+=unsigned(PeryfAgent.Power*NeedForClosure);//W za≥oøeniu to nie sa duze liczby
+                      Firsts[PeryfAgent.First]+=unsigned(PeryfAgent.Power*NeedForClosure);//W za≈Ço≈ºeniu to nie sa duze liczby
                       }
                       
                         MyGeom->destroy_iterator(Neigh);	// upewniamy sie ze iterator zostanie usuniety
@@ -347,7 +347,7 @@ int kworld::CheckChange(const rectangle_geometry* MyGeom,
                           //Dodawanie wlasnych sil do licznikow w tablicach o ile WeightOfSelf>0
                           if(WeightOfSelf)
                           {
-                          Firsts[CenterAgent.First]+=unsigned(CenterAgent.Power*WeightOfSelf);//W za≥oøeniu to nie sa duze liczby
+                          Firsts[CenterAgent.First]+=unsigned(CenterAgent.Power*WeightOfSelf);//W za≈Ço≈ºeniu to nie sa duze liczby
                           }
                           
                             //Szukanie maksimow

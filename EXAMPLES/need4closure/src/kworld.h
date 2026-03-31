@@ -28,7 +28,7 @@ wb_pchar			MaskName;	//nazwa pliku inicjujacej bitmapy
 //Warstwy symulacji (sa torusami)
 /////////////////////////////////
 //rectangle_unilayer<unsigned char> zdatnosc;//Warstwa definiujaca zdatnosc do zasiedlenia
-rectangle_layer_of_ptr_to_agents<kagent> Agenci;  //Wlaúciwa warstwa agentow zasiedlajacych
+rectangle_layer_of_ptr_to_agents<kagent> Agenci;  //Wla≈õciwa warstwa agentow zasiedlajacych
 
 //Glowne serie - wygodniej miec wskazniki niz odszukiwac z Sources po nazwach
 ////////////////////////////////////////////////////////////////////////////////
@@ -56,30 +56,30 @@ double MaxPressure;//Do zapamietania teoretycznie najwiekszej wartosci "presji"
 //Wlasciwa implementacja symulacji
 int CheckChange(const rectangle_geometry* MyGeom,size_t index,kagent& CenterAgent);
 int DoMigration(const rectangle_geometry* MyGeom,size_t index,kagent& CenterAgent);
-						
+
 public:
 //KONSTRUKCJA DESTRUKCJA
 kworld(size_t Width,		//Szerokosc torusa macierzy agentow
-	  char* log_name,	//Nazwa pliku do zapisywania histori
-	  char* mapl_name,	//Nazwa (bit)mapy inicjujacej "skladowe"
-	  char* mapp_name,	//Nazwa (bit)mapy inicjujacej "sily"
-	  char* live_mask,	//Czarne w tej mapie sa kasowane
-	  double noise,		//Szum informacyjny
-	  short	max_sila,	//Maksymalna sila agenta
+      char* log_name,	//Nazwa pliku do zapisywania histori
+      char* mapl_name,	//Nazwa (bit)mapy inicjujacej "skladowe"
+      char* mapp_name,	//Nazwa (bit)mapy inicjujacej "sily"
+      char* live_mask,	//Czarne w tej mapie sa kasowane
+      double noise,		//Szum informacyjny
+      short	max_sila,	//Maksymalna sila agenta
 
-	  short	ile_sasiad, //8==Gestosc sasiedztwa
-	  double need_use_self,//Z jaka waga ma brac siebie
-	  double need_for_something,//Z jaka waga brac innych
-	  bool	synchronicly,
+      short	ile_sasiad, //8==Gestosc sasiedztwa
+      double need_use_self,//Z jaka waga ma brac siebie
+      double need_for_something,//Z jaka waga brac innych
+      bool	synchronicly,
 
-	  short treshold,
-	  double spontanic,
+      short treshold,
+      double spontanic,
       
       double fill,
       double migrprob,
       double majority,
       double minority
-	  );	
+      );
 
 ~kworld(){}
 

@@ -1,3 +1,4 @@
+#include "compatyb.h"
 //Symulacja Need for closure wg teori Arie Kruglanskiego
 //Uzyskana z przerobienia programu ATTITUDEs
 /////////////////////////////////////////////////////////////////////////////////////
@@ -13,9 +14,9 @@ const char* SYMULATION_NAME="need4clos_v0.22a";
 //v 0.21 - uzupelnienie o menu i wywolywanie strony autorskiej
 //v 0.22 - poprawienie kodu ze wzgledu na konsekkwencje uzycia symbolu FULL typu unsigned long, rekompilacja z poprawionym symshellem
 
-#include <stdlib.h>
-#include <iostream.h>
-#include "wbminmax.hpp"
+#include <cstdlib>
+#include <iostream>
+//#include "wbminmax.hpp"
 #include "krand.h"
 #include "kworld.h"
 
@@ -62,27 +63,27 @@ int parse_options(const int argc,const char* argv[])
 for(int i=1;i<argc;i++)
     {
     if( *argv[i]=='-' ) /* Opcja X lub symsella */
-		continue;
-	//Uppercasing
-	wb_pchar hand(clone_str(argv[i]));
-	char*    rob=hand.get_ptr_val();
-	char*    pom=strchr(rob,'=');
-	if(pom==NULL) 
-			goto ERROR; //NA PEWNO ZLE
-	*pom='\0';
-	strupr(rob);
-	*pom='=';
-	if((pom=strstr(rob,"SPCH="))!=NULL) //Nie NULL czyli jest
-	{
-	MutacjeSpon=atof(pom+5);
+        continue;
+    //Uppercasing
+    wb_pchar hand(clone_str(argv[i]));
+    char*    rob=hand.get_ptr_val();
+    char*    pom=strchr(rob,'=');
+    if(pom==NULL)
+            goto ERROR; //NA PEWNO ZLE
+    *pom='\0';
+    strupr(rob);
+    *pom='=';
+    if((pom=strstr(rob,"SPCH="))!=NULL) //Nie NULL czyli jest
+    {
+    MutacjeSpon=atof(pom+5);
     if(MutacjeSpon<0 || MutacjeSpon>100)
-		{
-		cerr<<"Bad SPCH ="<<MutacjeSpon<<" (must be in <0,100> )"<<endl;
-		return 0;
-		}
-	cerr<<"SPCH (spn. change percent) = "<<MutacjeSpon<<endl;
-	MutacjeSpon/=100;//Ulamek a nie procent tak naprawde
-	}
+        {
+        cerr<<"Bad SPCH ="<<MutacjeSpon<<" (must be in <0,100> )"<<endl;
+        return 0;
+        }
+    cerr<<"SPCH (spn. change percent) = "<<MutacjeSpon<<endl;
+    MutacjeSpon/=100;//Ulamek a nie procent tak naprawde
+    }
     else
     if((pom=strstr(rob,"FILL="))!=NULL) //Nie NULL czyli jest
     {
@@ -152,153 +153,153 @@ for(int i=1;i<argc;i++)
             cerr<<"PMIG (probability of migration) = "<<ProbMig<<endl;
     }
     else
-	if((pom=strstr(rob,"NOIP="))!=NULL) //Nie NULL czyli jest
-	{
-	ProcentSzumu=atol(pom+5);
+    if((pom=strstr(rob,"NOIP="))!=NULL) //Nie NULL czyli jest
+    {
+    ProcentSzumu=atol(pom+5);
     if(ProcentSzumu<0 || ProcentSzumu>100)
-		{
-		cerr<<"Bad NOIP ="<<ProcentSzumu<<" (must be in <0,100> )"<<endl;
-		return 0;
-		}
-	cerr<<"NOIP (noise percent) = "<<ProcentSzumu<<endl;
-	}
+        {
+        cerr<<"Bad NOIP ="<<ProcentSzumu<<" (must be in <0,100> )"<<endl;
+        return 0;
+        }
+    cerr<<"NOIP (noise percent) = "<<ProcentSzumu<<endl;
+    }
     else
-	if((pom=strstr(rob,"MPOW="))!=NULL) //Nie NULL czyli jest
-	{
-	MaksymalnaSila=atol(pom+5);
+    if((pom=strstr(rob,"MPOW="))!=NULL) //Nie NULL czyli jest
+    {
+    MaksymalnaSila=atol(pom+5);
     if(MaksymalnaSila<0)//0 czy 1???
-		{
-		cerr<<"Bad MPOW = "<<MaksymalnaSila<<" (must be >=1 )"<<endl;
-		return 0;
-		}
-	}
-	else
+        {
+        cerr<<"Bad MPOW = "<<MaksymalnaSila<<" (must be >=1 )"<<endl;
+        return 0;
+        }
+    }
+    else
     if((pom=strstr(rob,"WIDTH="))!=NULL) //Nie NULL czyli jest
-	{
-	iWidth=atol(pom+6);
+    {
+    iWidth=atol(pom+6);
     if(iWidth<3 || iWidth>=SWIDTH)
-		{
-		cerr<<"Bad WIDTH = "<<iWidth<<"(must be in <3,"<<SWIDTH<<">"<<endl;
-		return 0;
-		}
-	}
-	else
+        {
+        cerr<<"Bad WIDTH = "<<iWidth<<"(must be in <3,"<<SWIDTH<<">"<<endl;
+        return 0;
+        }
+    }
+    else
     if((pom=strstr(rob,"WIDTHWIN="))!=NULL) //Nie NULL czyli jest
-	{
-	SWIDTH=atol(pom+9);
+    {
+    SWIDTH=atol(pom+9);
     if(SWIDTH<50)
-		{
-		cerr<<"Bad WIDTHWIN = "<<SWIDTH<<" (must be >50)"<<endl;
-		return 0;
-		}
-	}
-	else
-	if((pom=strstr(rob,"HEIGHTWIN="))!=NULL) //Nie NULL czyli jest
-	{
-	SHEIGHT=atol(pom+10);
+        {
+        cerr<<"Bad WIDTHWIN = "<<SWIDTH<<" (must be >50)"<<endl;
+        return 0;
+        }
+    }
+    else
+    if((pom=strstr(rob,"HEIGHTWIN="))!=NULL) //Nie NULL czyli jest
+    {
+    SHEIGHT=atol(pom+10);
     if(SHEIGHT<50)
-		{
-		cerr<<"Bad HEIGHTWIN = "<<SHEIGHT<<" (must be >50)"<<endl;
-		return 0;
-		}
-	}
+        {
+        cerr<<"Bad HEIGHTWIN = "<<SHEIGHT<<" (must be >50)"<<endl;
+        return 0;
+        }
+    }
     else
     if((pom=strstr(rob,"MAX="))!=NULL) //Nie NULL czyli jest
     {
     iMaxIterations=atol(pom+4);
     if(iMaxIterations<=0)
-		{
-		cerr<<"Bad MAX iterations. Must be >0"<<endl;
-		return 0;
+        {
+        cerr<<"Bad MAX iterations. Must be >0"<<endl;
+        return 0;
         }    
-		else
-		{
-			internal_log=iMaxIterations+1;
-		}
+        else
+        {
+            internal_log=iMaxIterations+1;
+        }
     }
     else
     if((pom=strstr(rob,"LOGC="))!=NULL) //Nie NULL czyli jest
     {
     iLogRatio=atol(pom+5);
     if(iLogRatio<=0)
-		{
-		cerr<<"Bad LOGC (write to log frequency). Must be >0"<<endl;
-		return 0;
+        {
+        cerr<<"Bad LOGC (write to log frequency). Must be >0"<<endl;
+        return 0;
         }
     }
-	else
+    else
     if((pom=strstr(rob,"VIEW="))!=NULL) //Nie NULL czyli jest
     {
     iViewRatio=atol(pom+5);
     if(iViewRatio<=0)
-		{
-		cerr<<"Bad VIEW (visualisation frequency). Must be >0"<<endl;
-		return 0;
+        {
+        cerr<<"Bad VIEW (visualisation frequency). Must be >0"<<endl;
+        return 0;
         }
     }    
     else
-	if((pom=strstr(rob,"SELF="))!=NULL) //Nie NULL czyli jest
+    if((pom=strstr(rob,"SELF="))!=NULL) //Nie NULL czyli jest
     {
     WagaSiebie=atof(pom+5);
-	cerr<<"SELF = "<<WagaSiebie<<endl;
+    cerr<<"SELF = "<<WagaSiebie<<endl;
     }
     else
-	if((pom=strstr(rob,"NFOC="))!=NULL) //Nie NULL czyli jest
+    if((pom=strstr(rob,"NFOC="))!=NULL) //Nie NULL czyli jest
     {
     NeedForClousure=atof(pom+5);
-	cerr<<"NFOC = "<<NeedForClousure<<endl;
+    cerr<<"NFOC = "<<NeedForClousure<<endl;
     }
     else		
-	if((pom=strstr(rob,"PRTR="))!=NULL) //Nie NULL czyli jest
-		{
-			IleSasiadow=atol(pom+5);
-			if(IleSasiadow==-1)
-			{
-				cerr<<"PRTR = all"<<endl;
-			}
-			else
-				if(IleSasiadow>1)
-				{
-					cerr<<"PRTR="<<IleSasiadow<<endl;
-				}
-				else
-				{
-					cerr<<"Bad PRTR="<<IleSasiadow<<endl;
-					return 0;
-				}
-		}
-	else
-	if((pom=strstr(rob,"AUTO="))!=NULL) //Nie NULL czyli jest
+    if((pom=strstr(rob,"PRTR="))!=NULL) //Nie NULL czyli jest
+        {
+            IleSasiadow=atol(pom+5);
+            if(IleSasiadow==-1)
+            {
+                cerr<<"PRTR = all"<<endl;
+            }
+            else
+                if(IleSasiadow>1)
+                {
+                    cerr<<"PRTR="<<IleSasiadow<<endl;
+                }
+                else
+                {
+                    cerr<<"Bad PRTR="<<IleSasiadow<<endl;
+                    return 0;
+                }
+        }
+    else
+    if((pom=strstr(rob,"AUTO="))!=NULL) //Nie NULL czyli jest
     {
     AUTOSTART=atol(pom+5);
-	cerr<<"AUTO="<<AUTOSTART<<endl;
-	if(AUTOSTART)
-		{
-		iWychodzenie=1;
-		cerr<<"STOP = "<<(iWychodzenie?"Yes":"No")<<endl;
-		}
-    }
-	else
-	if((pom=strstr(rob,"STOP="))!=NULL) //Nie NULL czyli jest
-    {
-    iWychodzenie=(toupper(pom[5])=='Y');
-	cerr<<"STOP = "<<(iWychodzenie?"Yes":"No")<<endl;
-    }
-    else  //SYNC
-	if((pom=strstr(rob,"SYNC="))!=NULL) //Nie NULL czyli jest
-    {
-    TypSymulacji=!(toupper(pom[5])=='Y');
-	cerr<<"SYNC = "<<(TypSymulacji==0?"Yes":"No")<<endl;
+    cerr<<"AUTO="<<AUTOSTART<<endl;
+    if(AUTOSTART)
+        {
+        iWychodzenie=1;
+        cerr<<"STOP = "<<(iWychodzenie?"Yes":"No")<<endl;
+        }
     }
     else
-	if((pom=strstr(rob,"ILOG="))!=NULL) //Nie NULL czyli jest
+    if((pom=strstr(rob,"STOP="))!=NULL) //Nie NULL czyli jest
+    {
+    iWychodzenie=(toupper(pom[5])=='Y');
+    cerr<<"STOP = "<<(iWychodzenie?"Yes":"No")<<endl;
+    }
+    else  //SYNC
+    if((pom=strstr(rob,"SYNC="))!=NULL) //Nie NULL czyli jest
+    {
+    TypSymulacji=!(toupper(pom[5])=='Y');
+    cerr<<"SYNC = "<<(TypSymulacji==0?"Yes":"No")<<endl;
+    }
+    else
+    if((pom=strstr(rob,"ILOG="))!=NULL) //Nie NULL czyli jest
     {
     internal_log=atoi(pom+5);
-	if(internal_log<50)
-			{
-			internal_log=50;
-			cerr<<"Internal log to short. Reset to default minimum ="<<internal_log<<endl;
-			}
+    if(internal_log<50)
+            {
+            internal_log=50;
+            cerr<<"Internal log to short. Reset to default minimum ="<<internal_log<<endl;
+            }
     }
     else
     //cerr<<"\tRSPC=N/Y or 1..WIDTH - Random calculation of spatial correlation ("<<(spatial_correlation_mode==0?"N":"Y")<<")\n";
@@ -314,8 +315,8 @@ for(int i=1;i<argc;i++)
         spatial_correlation_mode=atoi(lpom);
     cerr<<"Random calculation of spatial correlation is "<<(spatial_correlation_mode==0?"d i s a b l e d":"e n a b l e d")<<". Multiplication="<<spatial_correlation_mode<<"\n";
     }
-	else
-	if((pom=strstr(rob,"LOGF="))!=NULL) //Nie NULL czyli jest
+    else
+    if((pom=strstr(rob,"LOGF="))!=NULL) //Nie NULL czyli jest
     {
     strcpy(LogName,pom+5);
     }
@@ -323,73 +324,73 @@ for(int i=1;i<argc;i++)
     if((pom=strstr(rob,"MAPL="))!=NULL) //Nie NULL czyli jest
     {
     strcpy(MapLName,pom+5);
-	cerr<<"Map of attitudes from file \""<<MapLName<<"\"\n";
+    cerr<<"Map of attitudes from file \""<<MapLName<<"\"\n";
     }
-	else
-	if((pom=strstr(rob,"MAPP="))!=NULL) //Nie NULL czyli jest
+    else
+    if((pom=strstr(rob,"MAPP="))!=NULL) //Nie NULL czyli jest
     {
     strcpy(MapPName,pom+5);
-	cerr<<"Map of individual power from file \""<<MapPName<<"\"\n";
+    cerr<<"Map of individual power from file \""<<MapPName<<"\"\n";
     }
-	else
-	if((pom=strstr(rob,"MASK="))!=NULL) //Nie NULL czyli jest
+    else
+    if((pom=strstr(rob,"MASK="))!=NULL) //Nie NULL czyli jest
     {
     strcpy(MaskName,pom+5);
-	cerr<<"Mask for alive agents from file \""<<MaskName<<"\"\n";
+    cerr<<"Mask for alive agents from file \""<<MaskName<<"\"\n";
     }	
-	else
-	if((pom=strstr(rob,"HIST="))!=NULL) //Nie NULL czyli jest
+    else
+    if((pom=strstr(rob,"HIST="))!=NULL) //Nie NULL czyli jest
     {
     strcpy(HistName,pom+5);
-	cerr<<"History of the symulation will be saved to \""<<HistName<<"\"\n";
+    cerr<<"History of the symulation will be saved to \""<<HistName<<"\"\n";
     }
-	else
-	if((pom=strstr(rob,"REPL="))!=NULL) //Nie NULL czyli jest
+    else
+    if((pom=strstr(rob,"REPL="))!=NULL) //Nie NULL czyli jest
     {
     strcpy(HistName,pom+5);
-	Replay=1;
-	cerr<<"The symulation will be replayed from \""<<HistName<<"\"\n";
+    Replay=1;
+    cerr<<"The symulation will be replayed from \""<<HistName<<"\"\n";
     }
-	else
-	/* Ostatecznie wychodzi ze nie ma takiej opcji */
-	{
+    else
+    /* Ostatecznie wychodzi ze nie ma takiej opcji */
+    {
 ERROR:
-		cout<<"Unknown parameter \""<<argv[i]<<"\"\n";
-		cout<<"YOU CAN USE:\n";
-		cout<<"\tREPL=hist.otx - not symulate but replay symulation history file.\n";
-	//	cout<<"\tMAPL=initL.gif (or BMP)- file with initialization map of attitudes (RANDOM)\n";
-		cout<<"\tMAPP=initP.gif (or BMP)- file with initialization map of powers (RANDOM)\n";
-		cout<<"\tMASK=mask.gif	(or BMP)- mask file for alive (not black) agents (ALL ALIVE)\n";	
+        cout<<"Unknown parameter \""<<argv[i]<<"\"\n";
+        cout<<"YOU CAN USE:\n";
+        cout<<"\tREPL=hist.otx - not symulate but replay symulation history file.\n";
+    //	cout<<"\tMAPL=initL.gif (or BMP)- file with initialization map of attitudes (RANDOM)\n";
+        cout<<"\tMAPP=initP.gif (or BMP)- file with initialization map of powers (RANDOM)\n";
+        cout<<"\tMASK=mask.gif	(or BMP)- mask file for alive (not black) agents (ALL ALIVE)\n";
 
-	//	cout<<"\tSYNC=Y/N - synchronic (Y) or Monte-Carlo symulation mode ("<<(TypSymulacji==0?"Yes":"No")<<")\n";
-		cout<<"\tNFOC=0..inf - need for closure  [meaning depend on model]("<<NeedForClousure<<")\n";
-		cout<<"\tSELF=0..1 - use self for calculations ("<<(WagaSiebie)<<")\n";
-		
+    //	cout<<"\tSYNC=Y/N - synchronic (Y) or Monte-Carlo symulation mode ("<<(TypSymulacji==0?"Yes":"No")<<")\n";
+        cout<<"\tNFOC=0..inf - need for closure  [meaning depend on model]("<<NeedForClousure<<")\n";
+        cout<<"\tSELF=0..1 - use self for calculations ("<<(WagaSiebie)<<")\n";
+
         cout<<"\tWIDTH=NN - matrix size ("<<iWidth<<")\n";
         cout<<"\tFILL=0.001..1 - ratio of live agents ("<<Fill<<")\n";	
         cout<<"\tILEF=0.001..0.999 - part of society with \"black\" attitude ("<<Majority<<")\n"; 
         cout<<"\tIRIG=0.001..0.999 - part of society with \"white\" attitude ("<<Minority<<")\n"; 
 //      cout<<"\tPMIG=0.001..1 - probability of migration under pressure ("<<ProbMig<<")\n";	
-		cout<<"\tMPOW=NN - max strength for initilization ("<<MaksymalnaSila<<")\n"	;
-		cout<<"\tTRSP=N - treshold of strenght ("<<Treshold<<")\n";
+        cout<<"\tMPOW=NN - max strength for initilization ("<<MaksymalnaSila<<")\n"	;
+        cout<<"\tTRSP=N - treshold of strenght ("<<Treshold<<")\n";
 
-		cout<<"\tPRTR=1..N - number of interaction partners (-1 = all in neighbourhood) ("<<IleSasiadow<<")\n";		
-		cout<<"\tNOIP=NN - percent of noise ("<<ProcentSzumu<<")\n";
+        cout<<"\tPRTR=1..N - number of interaction partners (-1 = all in neighbourhood) ("<<IleSasiadow<<")\n";
+        cout<<"\tNOIP=NN - percent of noise ("<<ProcentSzumu<<")\n";
 //		cout<<"\tSPCH=NN - percent of spontanic change of attitudes ("<<MutacjeSpon*100<<")\n";
 
-		cout<<"\tMAX=NNNN - max simulation step ("<<iMaxIterations<<")\n";
+        cout<<"\tMAX=NNNN - max simulation step ("<<iMaxIterations<<")\n";
         cout<<"\tRSPC=N/Y or 1..WIDTH - Random calculation of spatial correlation ("<<(spatial_correlation_mode?"N":"Y")<<")\n";
         cout<<"\tILOG=NNNN - lenght of internal statistic logs ("<<internal_log<<")\n";
-		cout<<"\tSTOP=N/Y - exit after MAX steps ("<<(iWychodzenie?"Yes":"No")<<")\n";
-		cout<<"\tVIEV=N - visualisation frequency ("<<iViewRatio<<")\n";
-		cout<<"\tLOGC=N - log file saving frequency ("<<iLogRatio<<")\n";
-		cout<<"\tLOGF=name.log - file for simulation log ("<<LogName<<")\n";
+        cout<<"\tSTOP=N/Y - exit after MAX steps ("<<(iWychodzenie?"Yes":"No")<<")\n";
+        cout<<"\tVIEV=N - visualisation frequency ("<<iViewRatio<<")\n";
+        cout<<"\tLOGC=N - log file saving frequency ("<<iLogRatio<<")\n";
+        cout<<"\tLOGF=name.log - file for simulation log ("<<LogName<<")\n";
 //		cout<<"\tHIST=hist.otx - file for full history of symulation.\n";
-		cout<<"\tWIDTHWIN=YYY,HEIGHTWIN=XXX - initial window size.("<<SWIDTH<<'x'<<SHEIGHT<<"\n";
-		cout<<"\nAUTO=XXX - number of auto-repetition of symulation.("<<AUTOSTART<<")\n";
+        cout<<"\tWIDTHWIN=YYY,HEIGHTWIN=XXX - initial window size.("<<SWIDTH<<'x'<<SHEIGHT<<"\n";
+        cout<<"\nAUTO=XXX - number of auto-repetition of symulation.("<<AUTOSTART<<")\n";
         cout<<flush;
-	return 0;
-	}
+    return 0;
+    }
   }
 return 1;
 }
@@ -410,12 +411,12 @@ if(!parse_options(argc,argv))
 
 main_area_menager Lufciki(24,SWIDTH,SHEIGHT,28);
 if(!Lufciki.start(WINDOW_HEADER,argc,argv,1))
-	{
-	cerr<<"Can't initialize graphics"<<endl;
-	exit(1);
-	}
+    {
+    cerr<<"Can't initialize graphics"<<endl;
+    exit(1);
+    }
 
-//Utworzenie sensownej nazwy pliku(-ów) do zrzutow ekranu
+//Utworzenie sensownej nazwy pliku(-ï¿½w) do zrzutow ekranu
 {
 wb_pchar buf(strlen(SYMULATION_NAME)+20);
 buf.prn("%s_%ld",SYMULATION_NAME,time(NULL));
@@ -425,25 +426,25 @@ Lufciki.set_dump_name(buf.get());
 
 //INICJALIZACJA SYMULACJI
 kworld& tenSwiat=*new kworld(iWidth,
-						   LogName,
-						   MapLName,
-						   MapPName,
-						   MaskName,
-						   ProcentSzumu/100.0,//Szum od 0-1
-						   MaksymalnaSila,//Zeby byla w przedziale
+                           LogName,
+                           MapLName,
+                           MapPName,
+                           MaskName,
+                           ProcentSzumu/100.0,//Szum od 0-1
+                           MaksymalnaSila,//Zeby byla w przedziale
 
-						   IleSasiadow,
-						   WagaSiebie,
-						   NeedForClousure,
-						   (TypSymulacji==0?true:false),//Synchroniczna czy nie
+                           IleSasiadow,
+                           WagaSiebie,
+                           NeedForClousure,
+                           (TypSymulacji==0?true:false),//Synchroniczna czy nie
 
-						   Treshold,
-						   MutacjeSpon,
+                           Treshold,
+                           MutacjeSpon,
                            Fill,
                            ProbMig,
                            Majority,
                            Minority
-						   );
+                           );
 
 if(&tenSwiat==NULL)
     {
@@ -462,40 +463,40 @@ tenSwiat.set_history_stream(HistName);
 
 if(Replay)
 {	
-	tenSwiat.initialize(&Lufciki,1);//inicjalizacja wizualizacji
-	cout<<WINDOW_HEADER<<": PREPARED FOR READING. WAITING!"<<endl;
-	Lufciki.process_input();//Pierwsze zdazenia. Koncza sie po ctrl-B
-	tenSwiat.read_loop(iWychodzenie);
+    tenSwiat.initialize(&Lufciki,1);//inicjalizacja wizualizacji
+    cout<<WINDOW_HEADER<<": PREPARED FOR READING. WAITING!"<<endl;
+    Lufciki.process_input();//Pierwsze zdazenia. Koncza sie po ctrl-B
+    tenSwiat.read_loop(iWychodzenie);
 }
 else
 {
-	tenSwiat.initialize(&Lufciki);//inicjalizacja wizualizacji i warst symulacji
-	cout<<WINDOW_HEADER<<": INITIALISED."<<endl;
-	if(!AUTOSTART)
-	{
-		Lufciki.process_input();//Pierwsze zdazenia. Koncza sie po ctrl-B	
-		//GLOWNA PETLA SYMULACJI
-		cout<<WINDOW_HEADER<<": STARTED."<<endl;
-		tenSwiat.simulation_loop(iWychodzenie);
-	}
-	else
-	{
-		int statusWin=Lufciki.search("STATUS");
-		Lufciki.maximize(statusWin);
-		for(int symulacja=0;symulacja<AUTOSTART;symulacja++)
-			{
-			//GLOWNA PETLA SYMULACJI
-			cout<<WINDOW_HEADER<<": SYMULATION "<<symulacja<<" STARTED ."<<endl;
-			tenSwiat.simulation_loop(1);
-			cout<<WINDOW_HEADER<<": SYMULATION "<<symulacja<<" DONE ."<<endl;
-			if(symulacja<AUTOSTART-1)
-				{
-				//Reinicjalizacja
-				tenSwiat.restart();
-				}
-			}
-	}
-	
+    tenSwiat.initialize(&Lufciki);//inicjalizacja wizualizacji i warst symulacji
+    cout<<WINDOW_HEADER<<": INITIALISED."<<endl;
+    if(!AUTOSTART)
+    {
+        Lufciki.process_input();//Pierwsze zdazenia. Koncza sie po ctrl-B
+        //GLOWNA PETLA SYMULACJI
+        cout<<WINDOW_HEADER<<": STARTED."<<endl;
+        tenSwiat.simulation_loop(iWychodzenie);
+    }
+    else
+    {
+        int statusWin=Lufciki.search("STATUS");
+        Lufciki.maximize(statusWin);
+        for(int symulacja=0;symulacja<AUTOSTART;symulacja++)
+            {
+            //GLOWNA PETLA SYMULACJI
+            cout<<WINDOW_HEADER<<": SYMULATION "<<symulacja<<" STARTED ."<<endl;
+            tenSwiat.simulation_loop(1);
+            cout<<WINDOW_HEADER<<": SYMULATION "<<symulacja<<" DONE ."<<endl;
+            if(symulacja<AUTOSTART-1)
+                {
+                //Reinicjalizacja
+                tenSwiat.restart();
+                }
+            }
+    }
+
 }
 
 cout<<WINDOW_HEADER<<": CLOSING."<<endl;

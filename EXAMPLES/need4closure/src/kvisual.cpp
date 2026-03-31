@@ -11,7 +11,7 @@
 #include "gadgets.hpp" 
 #include "wb_ptrio.h"
 
-const RAMKA=4;
+const int RAMKA=4;
 extern const char* SYMULATION_NAME;
 
 //KONSTRUKCJA	WIZUALIZACJI
@@ -20,8 +20,8 @@ extern unsigned internal_log;
 extern unsigned spatial_correlation_mode;
 
 
-//Generuje podstawowe zrodla dla wbudowanego menagera danych lub innego
-////////////////////////////////////////////////////////////////////////////
+// Generuje podstawowe zrodla dla wbudowanego menagera danych lub innego
+// //////////////////////////////////////////////////////////////////////////
 void kworld::make_basic_sources(sources_menager& WhatSourMen)
 {
     world::make_basic_sources(WhatSourMen);//Odziedziczone
@@ -225,7 +225,7 @@ void kworld::make_default_visualisation(area_menager_base& Menager)
         unsigned wyso=Menager.getheight();
         assert(szer>50 && wyso>40);//Najmniejsze sensowne okno
         
-        //Obszary domyœlne - np obszar STATUSU
+        //Obszary domyÅ›lne - np obszar STATUSU
         world::make_default_visualisation(Menager);
         if(OutArea) 
         {
@@ -368,7 +368,7 @@ void kworld::make_default_visualisation(area_menager_base& Menager)
         iCorrFSR,//iCorrFS,						
         -1
         ).get_ptr_val(),
-								1//Wspolne minimum/maximum
+                                1//Wspolne minimum/maximum
                                 );
                                 if(!pom) goto ERROR;
                                 pom->setframe(128);
