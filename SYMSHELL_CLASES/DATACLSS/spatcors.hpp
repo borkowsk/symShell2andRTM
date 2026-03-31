@@ -3,9 +3,9 @@
 ///////////////////////////////////////////////////////////////////////////
 #ifndef __SPATIAL_CORRELATION_SOUR_HPP__
 #define __SPATIAL_CORRELATION_SOUR_HPP__
-#include <math.h>
-#include "SYMSHELL/multfils.hpp"
-#include "INCLUDE/wb_rand.hpp"
+#include <cmath>
+#include "multfils.hpp"
+#include "wb_rand.hpp"
 
 template<class DATA_SOURCE>
 class spatial_correlation_source:public multi_filter_source_base<DATA_SOURCE>
@@ -21,19 +21,19 @@ wb_dynarray<unsigned> niezgodne;
 // Przemieszcza iterator o jednostke. Zeruje jesli koniec tablicy
 size_t _next(iteratorh& p)
 {
-	assert(p!=NULL);//Nie wolno wywolac dla NULL
-	size_t pom=((size_t)p)-1;
-	if(pom+1>=N)
-		p=NULL;
-	else
-		p=(iteratorh)(pom+2);
-	return pom;	
+    assert(p!=NULL);//Nie wolno wywolac dla NULL
+    size_t pom=((size_t)p)-1;
+    if(pom+1>=N)
+        p=NULL;
+    else
+        p=(iteratorh)(pom+2);
+    return pom;
 }
 
 bool _count_all()
 {
     size_t NN=arra.get_size();
-    size_t HowManyCells,zliczaj=0; double Min,Max; //Parametry serii zrod³owej
+    size_t HowManyCells,zliczaj=0; double Min,Max; //Parametry serii zrodï¿½owej
     Source->bounds(HowManyCells,Min,Max);
     if(Min==Max || HowManyCells<2) 
         return false; //W kazdym razie nie ma czego liczyc
@@ -43,14 +43,14 @@ bool _count_all()
     {
         double CenterVal=Source->get(i);         //Uzyskujemy wartosc dla centralnego
         if(Source->is_missing(CenterVal))		 //Sprawdzamy czy nie jest miss.
-                continue;					     //bo wtedy robic dalej by³oby bez sensu.
+                continue;					     //bo wtedy robic dalej byï¿½oby bez sensu.
 
         for(unsigned int j=i+1;j<HowManyCells;j++)
         {
                                                     assert(i!=j);            
             double PeryfVal=Source->get(j);         //Uzyskujemy wartosc dla  sasiada
             if(Source->is_missing(PeryfVal))		//Sprawdzamy czy nie jest miss.
-                continue;					        // bo wtedy robic dalej by³oby bez sensu.
+                continue;					        // bo wtedy robic dalej byï¿½oby bez sensu.
             
             double dist=MyGeom->get_distance(i,j);
             size_t d=size_t(dist);                  assert(d<NN);//Index kategori odleglosci - w sposob uproszczony
@@ -72,7 +72,7 @@ bool _count_all()
 bool _count_randomly()
 {
     size_t NN=arra.get_size();
-    size_t HowManyDrawings; double Min,Max; //Parametry serii zrod³owej
+    size_t HowManyDrawings; double Min,Max; //Parametry serii zrodï¿½owej
     Source->bounds(HowManyDrawings,Min,Max);
     if(Min==Max || HowManyDrawings<2) 
         return false; //W kazdym razie nie ma czego liczyc
@@ -96,7 +96,7 @@ bool _count_randomly()
         assert(index!=MyGeom->FULL);//... tutaj nie powinno sie zdarzyc
         double CenterVal=Source->get(index);// Uzyskujemy referencje do agenta
         if(Source->is_missing(CenterVal))	// Sprawdzamy czy nie jest miss.
-            continue;					    // bo wtedy robic dalej by³oby bez sensu.
+            continue;					    // bo wtedy robic dalej byï¿½oby bez sensu.
         
         // Alokujemy iterator sasiedztwa - o roznym rozmiarze, zeby wyrownac prawdopodobienstwa poszczegolnych odleglosci - ale to nietrywialne
         
@@ -104,7 +104,7 @@ bool _count_randomly()
         //size_t radius=size_t(TheRandG.DRand()*NN/2)+((1-TheRandG.DRand()*TheRandG.DRand())*NN/2);       //tu podobnie
         //size_t radius=size_t(TheRandG.Random(NN);                                                       //A tu niemal liniowy spadek trafien wraz z odlegloscia
         //size_t radius=NN;                                                                               //Jednomodalny z 0 przy odleglosci 1
-        size_t radius=(TheRandG.DRand()>0.5 ? size_t(TheRandG.Random(NN)) : NN );                         //Troche lepiej, ale nie idealnie - ma³o dla odleglosci najwiekszych
+        size_t radius=(TheRandG.DRand()>0.5 ? size_t(TheRandG.Random(NN)) : NN );                         //Troche lepiej, ale nie idealnie - maï¿½o dla odleglosci najwiekszych
         
         iteratorh Neigh=MyGeom->make_random_neighbour_iterator(index,radius,1);  //Po ilus (1,2,?) sasiadow kazdego wylosowanego
         while(Neigh)
@@ -115,7 +115,7 @@ bool _count_randomly()
             
             double PeryfVal=Source->get(index2);    //Uzyskujemy referencje do sasiada
             if(Source->is_missing(PeryfVal))		//Sprawdzamy czy nie jest miss.
-                continue;					        // bo wtedy robic dalej by³oby bez sensu.
+                continue;					        // bo wtedy robic dalej byï¿½oby bez sensu.
             
             double dist=MyGeom->get_distance(index,index2);
             size_t i=size_t(dist);      assert(i<NN);   //Index kategori odleglosci - w sposob uproszczony
@@ -230,20 +230,20 @@ ERROR:
 public:
 scalar_source<double>*      ApproximatedClusterSize(const char* format="ClustSize(%s)")	
 {
-	return GetMonoSource(0,format);
+    return GetMonoSource(0,format);
 }
-	
+
 spatial_correlation_source(DATA_SOURCE* ini=NULL,
-		size_t NumberOfClass=-1,//-1 oznacza tryb calkowitoliczbowy
+        size_t NumberOfClass=-1,//-1 oznacza tryb calkowitoliczbowy
         int  CountMode=2,
-		sources_menager_base* MyMenager=NULL,
-		size_t table_size=1 /*BEZ ZAPASU*/,
-		const char* format="SPATIAL CORRELATION(%s)"):
+        sources_menager_base* MyMenager=NULL,
+        size_t table_size=1 /*BEZ ZAPASU*/,
+        const char* format="SPATIAL CORRELATION(%s)"):
         RndMult(CountMode),
-	N(NumberOfClass),
-		multi_filter_source_base<DATA_SOURCE>(ini,MyMenager,table_size,format) 
-	{}
-	
+    N(NumberOfClass),
+        multi_filter_source_base<DATA_SOURCE>(ini,MyMenager,table_size,format)
+    {}
+
 ~spatial_correlation_source()
     {}
 
@@ -251,53 +251,53 @@ spatial_correlation_source(DATA_SOURCE* ini=NULL,
 //--------------------------------------------------------------------
 size_t get_size()
 { 
-	check_version();//Uaktualnia tez wersje podzrodla jesli trzeba
-	_calculate();//Sprawdza czy nie trzeba policzyc i ewentualnie liczy	
-	return arra.get_size();
+    check_version();//Uaktualnia tez wersje podzrodla jesli trzeba
+    _calculate();//Sprawdza czy nie trzeba policzyc i ewentualnie liczy
+    return arra.get_size();
 }	
 
 void all_subseries_required()//Alokuje i ewentualnie rejestruje w menagerze wszystkie serie
 {
-	//multi_filter_source_base<DATA_SOURCE>::all_subseries_required(); - pure virtual!
-	//MAX CLASS
-	ApproximatedClusterSize();
+    //multi_filter_source_base<DATA_SOURCE>::all_subseries_required(); - pure virtual!
+    //MAX CLASS
+    ApproximatedClusterSize();
 }
 
 iteratorh  reset()
 //Umozliwia czytanie od poczatku
 { 
-	check_version();//Uaktualnia tez wersje podzrodla jesli trzeba
-	_calculate();//Sprawdza czy nie trzeba policzyc i ewentualnie liczy
-	return (iteratorh)1;
+    check_version();//Uaktualnia tez wersje podzrodla jesli trzeba
+    _calculate();//Sprawdza czy nie trzeba policzyc i ewentualnie liczy
+    return (iteratorh)1;
 }
 
 void close(iteratorh& p)
 {
-	p=NULL;
+    p=NULL;
 }
 
 void  bounds(size_t& num,double& min,double& max)
 //Ile elementow,wartosc minimalna i maksymalna
 {
-	check_version();//Uaktualnia tez wersje podzrodla jesli trzeba
-	_calculate();//Sprawdza czy nie trzeba policzyc i ewentualnie liczy
-	num=get_size();	
-	min=ymin;max=ymax;
+    check_version();//Uaktualnia tez wersje podzrodla jesli trzeba
+    _calculate();//Sprawdza czy nie trzeba policzyc i ewentualnie liczy
+    num=get_size();
+    min=ymin;max=ymax;
 }
 
 double get(iteratorh& ptr_to_iterator)
 //Daje nastepna z N liczb!!! 
 {
-	assert(ptr_to_iterator!=NULL);
-	return arra[ _next(ptr_to_iterator) ];
+    assert(ptr_to_iterator!=NULL);
+    return arra[ _next(ptr_to_iterator) ];
 }
 
 double get(size_t index)//Przetwarza index uzyskany z geometri
 { //na wartosc z serii, o ile jest mozliwe czytanie losowe	
-	check_version();//Uaktualnia tez wersje podzrodla jesli trzeba
-	_calculate();//Sprawdza czy nie trzeba policzyc i ewentualnie liczy	
-	assert(index<get_size());
-	return arra[ index ];
+    check_version();//Uaktualnia tez wersje podzrodla jesli trzeba
+    _calculate();//Sprawdza czy nie trzeba policzyc i ewentualnie liczy
+    assert(index<get_size());
+    return arra[ index ];
 }	
 
 
