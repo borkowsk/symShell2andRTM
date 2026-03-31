@@ -34,22 +34,22 @@ bool _count_all()
 {
     size_t NN=arra.get_size();
     size_t HowManyCells,zliczaj=0; double Min,Max; //Parametry serii zrod�owej
-    Source->bounds(HowManyCells,Min,Max);
+    this->Source->bounds(HowManyCells,Min,Max);
     if(Min==Max || HowManyCells<2) 
         return false; //W kazdym razie nie ma czego liczyc
 
-    geometry_base* MyGeom=Source->getgeometry();//Wskaznik do geometri
+    geometry_base* MyGeom=this->Source->getgeometry();//Wskaznik do geometri
     for(unsigned int i=0;i<HowManyCells;i++) //Dla kazdej z komorek
     {
-        double CenterVal=Source->get(i);         //Uzyskujemy wartosc dla centralnego
-        if(Source->is_missing(CenterVal))		 //Sprawdzamy czy nie jest miss.
+        double CenterVal=this->Source->get(i);         //Uzyskujemy wartosc dla centralnego
+        if(this->Source->is_missing(CenterVal))		 //Sprawdzamy czy nie jest miss.
                 continue;					     //bo wtedy robic dalej by�oby bez sensu.
 
         for(unsigned int j=i+1;j<HowManyCells;j++)
         {
                                                     assert(i!=j);            
-            double PeryfVal=Source->get(j);         //Uzyskujemy wartosc dla  sasiada
-            if(Source->is_missing(PeryfVal))		//Sprawdzamy czy nie jest miss.
+            double PeryfVal=this->Source->get(j);         //Uzyskujemy wartosc dla  sasiada
+            if(this->Source->is_missing(PeryfVal))		//Sprawdzamy czy nie jest miss.
                 continue;					        // bo wtedy robic dalej by�oby bez sensu.
             
             double dist=MyGeom->get_distance(i,j);
@@ -73,7 +73,7 @@ bool _count_randomly()
 {
     size_t NN=arra.get_size();
     size_t HowManyDrawings; double Min,Max; //Parametry serii zrod�owej
-    Source->bounds(HowManyDrawings,Min,Max);
+    this->Source->bounds(HowManyDrawings,Min,Max);
     if(Min==Max || HowManyDrawings<2) 
         return false; //W kazdym razie nie ma czego liczyc
     
@@ -88,14 +88,14 @@ bool _count_randomly()
         HowManyDrawings*=RndMult; //Conajmniej tyle losowan co obiektow w serii, ale mozna tez powielic liczbe losowan pare razy
     }
 
-    geometry_base* MyGeom=Source->getgeometry();//Wskaznik do geometri
+    geometry_base* MyGeom=this->Source->getgeometry();//Wskaznik do geometri
     iteratorh RndIter=MyGeom->make_random_global_iterator(HowManyDrawings);//Alokujemy iterator 
     while(RndIter)
     {
         size_t index=MyGeom->get_next(RndIter);//Uzyskujemy index agenta	
         assert(index!=MyGeom->FULL);//... tutaj nie powinno sie zdarzyc
-        double CenterVal=Source->get(index);// Uzyskujemy referencje do agenta
-        if(Source->is_missing(CenterVal))	// Sprawdzamy czy nie jest miss.
+        double CenterVal=this->Source->get(index);// Uzyskujemy referencje do agenta
+        if(this->Source->is_missing(CenterVal))	// Sprawdzamy czy nie jest miss.
             continue;					    // bo wtedy robic dalej by�oby bez sensu.
         
         // Alokujemy iterator sasiedztwa - o roznym rozmiarze, zeby wyrownac prawdopodobienstwa poszczegolnych odleglosci - ale to nietrywialne
@@ -113,8 +113,8 @@ bool _count_randomly()
             if(index2==MyGeom->FULL || index2==index)	    //Jesli poza obszarem symulacji lub w 
                 continue;				            //centrum obszaru to dalej byloby bez sensu.
             
-            double PeryfVal=Source->get(index2);    //Uzyskujemy referencje do sasiada
-            if(Source->is_missing(PeryfVal))		//Sprawdzamy czy nie jest miss.
+            double PeryfVal=this->Source->get(index2);    //Uzyskujemy referencje do sasiada
+            if(this->Source->is_missing(PeryfVal))		//Sprawdzamy czy nie jest miss.
                 continue;					        // bo wtedy robic dalej by�oby bez sensu.
             
             double dist=MyGeom->get_distance(index,index2);
@@ -141,7 +141,7 @@ int _calculate() //Zwraca 1 jesli musial przeliczyc
     //OBLICZANIE KORELACJI DLA ROZNYCH ODLEGLOSCI
                                                                     assert(N==-1);  //Tylko tryb "integerowy" - tyle klas ile liczb calkowitych 
                                                                                     // miesci sie w maksymalnej odleglosci
-    geometry_base* MyGeom=Source->getgeometry();//Wskaznik do geometri  
+    geometry_base* MyGeom=this->Source->getgeometry();//Wskaznik do geometri
     
     if(MyGeom!=NULL && MyGeom->get_dimension()>0) //Musi byc dostepna realna i conajmniej jednowymiarowa 
         //geometria symulacji - inaczej dupa blada
@@ -177,7 +177,8 @@ int _calculate() //Zwraca 1 jesli musial przeliczyc
         }
         
         //OBLICZANIE FUNKCJI KORELACJI I SZUKANIE PIERWSZEGO PIERWIASTKA FUNKCJI KORELACJI
-        ymin=DBL_MAX;ymax=-DBL_MAX;
+        this->ymin=DBL_MAX;
+        this->ymax=-DBL_MAX;
         for(unsigned int i=0;i<NN;i++)
         {
             //double pom=arra[i]=zgodne[i]+niezgodne[i];//DEBUGING ROZKLADU TRAFIEN
@@ -190,47 +191,48 @@ int _calculate() //Zwraca 1 jesli musial przeliczyc
                 if(pierwiastek==NN && pom<=0)
                     pierwiastek=i; //Pierwsza odleglosc z korelacja ponizej 0
 
-                if(pom<ymin)
-                    ymin=pom;
+                if(pom<this->ymin)
+                    this->ymin=pom;
                 
-                if(pom>ymax)
-                    ymax=pom;
+                if(pom>this->ymax)
+                    this->ymax=pom;
                 
                 arra[i]=pom;
             }
             else
             {
-                arra[i]=get_missing();
+                arra[i]=this->get_missing();
             }
            
         }
         
         //if()
-        ymin=-1;ymax=1;//Jesli nie interesuje nas max i min
+        this->ymin=-1;
+        this->ymax=1; //Jesli nie interesuje nas max i min
 
         //ZAPAMIETANIE WYNIKU
-        if(table[0]!=NULL)
+        if(this->table[0]!=NULL)
         {
-            table[0]->change_val(pierwiastek);
+            this->table[0]->change_val(pierwiastek);
         }
         
         return 1;
-    }//Musial przeliczyc
+    } //Musial przeliczyc
     
 ERROR:
-    if(table[0]!=NULL)
-        table[0]->change_val(table[0]->get_missing());	
+    if(this->table[0]!=NULL)
+        this->table[0]->change_val(this->table[0]->get_missing());
     
     arra.dispose();zgodne.dispose();niezgodne.dispose();
     
-    ymin=ymax=0;
+    this->ymin=this->ymax=0;
     return 1;
 }
 
 public:
 scalar_source<double>*      ApproximatedClusterSize(const char* format="ClustSize(%s)")	
 {
-    return GetMonoSource(0,format);
+    return this->GetMonoSource(0,format);
 }
 
 spatial_correlation_source(DATA_SOURCE* ini=NULL,
@@ -251,7 +253,7 @@ spatial_correlation_source(DATA_SOURCE* ini=NULL,
 //--------------------------------------------------------------------
 size_t get_size()
 { 
-    check_version();//Uaktualnia tez wersje podzrodla jesli trzeba
+    this->check_version();//Uaktualnia tez wersje podzrodla jesli trzeba
     _calculate();//Sprawdza czy nie trzeba policzyc i ewentualnie liczy
     return arra.get_size();
 }	
@@ -266,7 +268,7 @@ void all_subseries_required()//Alokuje i ewentualnie rejestruje w menagerze wszy
 iteratorh  reset()
 //Umozliwia czytanie od poczatku
 { 
-    check_version();//Uaktualnia tez wersje podzrodla jesli trzeba
+    this->check_version();//Uaktualnia tez wersje podzrodla jesli trzeba
     _calculate();//Sprawdza czy nie trzeba policzyc i ewentualnie liczy
     return (iteratorh)1;
 }
@@ -279,10 +281,11 @@ void close(iteratorh& p)
 void  bounds(size_t& num,double& min,double& max)
 //Ile elementow,wartosc minimalna i maksymalna
 {
-    check_version();//Uaktualnia tez wersje podzrodla jesli trzeba
+    this->check_version();//Uaktualnia tez wersje podzrodla jesli trzeba
     _calculate();//Sprawdza czy nie trzeba policzyc i ewentualnie liczy
     num=get_size();
-    min=ymin;max=ymax;
+    min=this->ymin;
+    max=this->ymax;
 }
 
 double get(iteratorh& ptr_to_iterator)
@@ -294,11 +297,11 @@ double get(iteratorh& ptr_to_iterator)
 
 double get(size_t index)//Przetwarza index uzyskany z geometri
 { //na wartosc z serii, o ile jest mozliwe czytanie losowe	
-    check_version();//Uaktualnia tez wersje podzrodla jesli trzeba
+    this->check_version();//Uaktualnia tez wersje podzrodla jesli trzeba
     _calculate();//Sprawdza czy nie trzeba policzyc i ewentualnie liczy
     assert(index<get_size());
     return arra[ index ];
-}	
+}
 
 
 };
