@@ -16,7 +16,7 @@ class any_layer_base
 //---------------------------
 {
 public:
-    //static const unsigned long FULL;//Najwieksza wartosc indeksu - marker nieznalezienia itp.
+    //static const unsigned long FULL; //Najwieksza wartosc indeksu - marker nieznalezienia itp.
 	enum my_full {FULL=((unsigned long)(ULONG_MAX))}; //Zamiast #define FULL albo const full
 //Wirtualny destruktor
 virtual	~any_layer_base(){}
@@ -26,9 +26,9 @@ virtual int registry_sources(sources_menager_base&		Sources)
 	{return 0;}//0->Brak automatycznej rejestracji. Inne oznaczaja sukces
 //Zwraca wskaznik do geometri - nie wolno go z-delet-owac
 virtual const geometry_base* get_geometry()=0;
-//virtual void swap(size_t index1,size_t index2)=0;//Zamienia ze soba dwa elementy
-//virtual void clean(size_t index)=0;//Czysci obiekt sposobem zdefiniowanym dla konkretnego typu warstwy
-//TYPE& get(size_t index);//Daje dostep do elementu o indeksie obliczonym przez geometrie
+//virtual void swap(size_t index1,size_t index2)=0; //Zamienia ze soba dwa elementy
+//virtual void clean(size_t index)=0; //Czysci obiekt sposobem zdefiniowanym dla konkretnego typu warstwy
+//TYPE& get(size_t index); //Daje dostep do elementu o indeksie obliczonym przez geometrie
 
 //Implementacja wejscia/wyjscia. Zwracaj 1 jesli sukces!
 virtual
@@ -46,7 +46,7 @@ template<class TYPE>
 class layer:public any_layer_base
 {
 public:
-virtual TYPE& get(size_t index)=0;//Daje dostep do elementu o indeksie obliczonym przez geometrie
+virtual TYPE& get(size_t index)=0; //Daje dostep do elementu o indeksie obliczonym przez geometrie
 };
 
 //Klasa implementujaca wlasnosci typowe dla wartswy prostokatnej
@@ -54,8 +54,8 @@ class rectangle_layer
 //////////////////////////////////////////////
 {
 protected:
-rectangle_geometry	MainGeometry;//Geometria dla operacji na warstwie
-//rectangle_geometry	VisoGeometry;//Geometria dla serii danych - w celu ich wizualizacji
+rectangle_geometry	MainGeometry; //Geometria dla operacji na warstwie
+//rectangle_geometry	VisoGeometry; //Geometria dla serii danych - w celu ich wizualizacji
 public:
 
 //AKCESORY ZALEZNE OD WLASNOSCI RECTANGLE
@@ -69,19 +69,19 @@ void assign_rgb(size_t TargetX,size_t TargetY,//tez konieczne bo pure-virtual
 				void* user_data=0
 				)=0;
 
-int init_from_bitmap(const char* filename,void* user_data=0);//Wczytanie pliku GIF,BMP lub XBM na warstwe. Plik musi miec rozmiar wystarczajacy inaczej "foult"
+int init_from_bitmap(const char* filename,void* user_data=0); //Wczytanie pliku GIF,BMP lub XBM na warstwe. Plik musi miec rozmiar wystarczajacy inaczej "foult"
 
 void clean_line(int X1,int Y1,int X2,int Y2);   //Czyszczenie lini
 
 void clean_horizontal(int X1,int Y1,size_t N);  //Czyszczenie wiersza punktow
 
-void clean_circle(int X,int Y,size_t R);//Czyszczenie kola z agentów i podłoża
+void clean_circle(int X,int Y,size_t R); //Czyszczenie kola z agentów i podłoża
 
 void clean_randomly(int how_many);              //Czyszczenie losowo wybranych elementow
 
-virtual void clean(size_t TargetX,size_t TargetY)=0;//Czyszczenie elementu - ze sprawdzaniem zakresu, lub zawijaniem
+virtual void clean(size_t TargetX,size_t TargetY)=0; //Czyszczenie elementu - ze sprawdzaniem zakresu, lub zawijaniem
 
-virtual void swap(size_t TargetX,size_t TargetY,size_t SourceX,size_t SourceY)=0;//Zamiana elementow
+virtual void swap(size_t TargetX,size_t TargetY,size_t SourceX,size_t SourceY)=0; //Zamiana elementow
 
 virtual bool filled(int X,int Y)=0; //Sprawdzenie czy jest agent w tym miejscu
 
@@ -90,7 +90,7 @@ virtual bool filled(int X,int Y)=0; //Sprawdzenie czy jest agent w tym miejscu
 const rectangle_geometry* get_rect_geometry()//Wypelnienie obowiazku pure-virtual
 			{return &MainGeometry;}
 
-//virtual rectangle_source_base* make_source(const char* name)=0;//Tworzy zawsze/wielokrotnie taka sama, ale nie ta sama warstwe
+//virtual rectangle_source_base* make_source(const char* name)=0; //Tworzy zawsze/wielokrotnie taka sama, ale nie ta sama warstwe
 
 //KONSTRUKTOR/DESTRUKTOR
 ~rectangle_layer(){}
@@ -108,7 +108,7 @@ class rectangle_unilayer:public layer<SCALAR>,public rectangle_layer
 //----------------------------------------------
 {
 wb_dynarray<SCALAR> table;
-SCALAR cleaner;//"Obiekt" do zamazywania
+SCALAR cleaner; //"Obiekt" do zamazywania
 public:
 rectangle_unilayer(size_t Width,
 				size_t Height,
@@ -135,7 +135,7 @@ SCALAR& get(size_t index)//Daje dostep do elementu o indeksie obliczonym przez g
 //Bezposredni dostep do pola
 SCALAR&	get(size_t X,size_t Y)
 	{
-        size_t lindex=MainGeometry.get(X,Y);        assert(lindex!=rectangle_geometry::FULL);//Jedyne sprawdzanie zakresow zeby nie spowalniac przetestowanej symulacji
+        size_t lindex=MainGeometry.get(X,Y);        assert(lindex!=rectangle_geometry::FULL); //Jedyne sprawdzanie zakresow zeby nie spowalniac przetestowanej symulacji
 	return table[lindex];
 	}
 
@@ -165,7 +165,7 @@ void assign_rgb(size_t TargetX,size_t TargetY,//tez konieczne bo pure-virtual
 	{
 	//Uproszczone - moznaby zastosowac specjalny wzor z wagami
 	unsigned long pom=(unsigned long)Red+(unsigned long)Green+(unsigned long)Blue;
-	pom/=3;//Srednia intensywnosc - w zakresie 0..255
+	pom/=3; //Srednia intensywnosc - w zakresie 0..255
 	get(TargetX,TargetY)=(unsigned char)pom;
 	}
 
@@ -243,14 +243,14 @@ STRUCT_T& get(size_t index)//Daje dostep do elementu o indeksie obliczonym przez
 STRUCT_T&	get(size_t X,size_t Y)
 	{
 	size_t lindex=MainGeometry.get(X,Y);
-    assert(lindex!=rectangle_geometry::FULL);//Jedyne sprawdzanie zakresow zeby nie spowalniac przetestowanej symulacji
+    assert(lindex!=rectangle_geometry::FULL); //Jedyne sprawdzanie zakresow zeby nie spowalniac przetestowanej symulacji
 	return table[lindex];
 	}
 
 //Czyszczenie pojedynczego pola
 void clean(size_t TargetX,size_t TargetY)//Konieczne bo pure-virtual
 	{
-		get(TargetX,TargetY)=STRUCT_T();//Czyszczenie bezparametrowym konstruktorem
+		get(TargetX,TargetY)=STRUCT_T(); //Czyszczenie bezparametrowym konstruktorem
 	}
 
 //Zamiana elementow
@@ -499,8 +499,8 @@ class rectangle_layer_of_agents:public layer<AGENT>,public rectangle_layer
 //----------------------------------------------
 {
 wb_dynarray<AGENT> table;
-AGENT			   cleaner;//Obiekt do zamazywania
-int				   use_cleaner;//Czy potrzebne jest uzycie cleanera,
+AGENT			   cleaner; //Obiekt do zamazywania
+int				   use_cleaner; //Czy potrzebne jest uzycie cleanera,
 							//   czy wystarczy konstruktor bezparametrowy i clean()
 public:
 rectangle_layer_of_agents(
@@ -570,7 +570,7 @@ AGENT& get(size_t index)//Daje dostep do elementu o indeksie obliczonym przez ge
 AGENT&	get(size_t X,size_t Y)
 	{
 	size_t lindex=MainGeometry.get(X,Y);
-    assert(lindex!=rectangle_geometry::FULL);//Jedyne sprawdzanie zakresow zeby nie spowalniac przetestowanej symulacji
+    assert(lindex!=rectangle_geometry::FULL); //Jedyne sprawdzanie zakresow zeby nie spowalniac przetestowanej symulacji
 	return table[lindex];
 	}
 
@@ -872,9 +872,9 @@ class rectangle_layer_of_ptr_to_agents:public layer<AGENT>,public rectangle_laye
 //--------------------------------------------------------------
 {
     wb_dynarray<wb_ptr<AGENT> >	table;
-    wb_ptr<AGENT>				initer;//Obiekt do zamazywania
-    wb_ptr<AGENT>				empty_guard;//Zwracany jako reprezentant pustych pol
-    int						full_allocation;//Wszystkie wskazniki maja byc pelne
+    wb_ptr<AGENT>				initer; //Obiekt do zamazywania
+    wb_ptr<AGENT>				empty_guard; //Zwracany jako reprezentant pustych pol
+    int						full_allocation; //Wszystkie wskazniki maja byc pelne
 
 public:
     rectangle_layer_of_ptr_to_agents(
@@ -889,11 +889,11 @@ public:
         empty_guard((iiniter?iiniter->clone():NULL)),
         full_allocation(allocate_all)
         {
-            assert(sizeof(wb_ptr<AGENT>)==sizeof(AGENT*));//Bedzie taki cast
+            assert(sizeof(wb_ptr<AGENT>)==sizeof(AGENT*)); //Bedzie taki cast
             if(allocate_all)//Na wypadek gdy konstruktor nie wystarcza
-                reallocate_all();//Realokuje lub klonuje wszystkie
+                reallocate_all(); //Realokuje lub klonuje wszystkie
             else
-                deallocate_all();//Wpisuje wszedzie NULL dla pewnosci
+                deallocate_all(); //Wpisuje wszedzie NULL dla pewnosci
         }
 
     void reallocate_all()
@@ -963,7 +963,7 @@ public:
     //Bezposredni dostep do struktury
     AGENT&	get(size_t X,size_t Y)
     {
-        size_t lindex=MainGeometry.get(X,Y);           assert(lindex!=any_layer_base::FULL);//Jedyne sprawdzanie zakresow zeby nie spowalniac przetestowanej symulacji
+        size_t lindex=MainGeometry.get(X,Y);           assert(lindex!=any_layer_base::FULL); //Jedyne sprawdzanie zakresow zeby nie spowalniac przetestowanej symulacji
         return *table[lindex];
     }
 
@@ -975,11 +975,11 @@ public:
     //Dostep do inteligentnego wskaznika
     wb_ptr<AGENT>&	get_ptr(size_t X,size_t Y)
     {
-        size_t lindex=MainGeometry.get(X,Y);            assert(lindex!=any_layer_base::FULL);//Jedyne sprawdzanie zakresow zeby nie spowalniac przetestowanej symulacji
+        size_t lindex=MainGeometry.get(X,Y);            assert(lindex!=any_layer_base::FULL); //Jedyne sprawdzanie zakresow zeby nie spowalniac przetestowanej symulacji
         return table[lindex];
     }
 
-    bool filled(int X,int Y)
+    bool filled(int X,int Y) override
     {
         if(get_ptr(X,Y)!=NULL)
             return true;
@@ -988,7 +988,7 @@ public:
     }
 
     //Czyszczenie pojedynczej struktury
-    void clean(size_t TargetX,size_t TargetY)//Konieczne bo pure-virtual
+    void clean(size_t TargetX,size_t TargetY) override //Konieczne bo pure-virtual
     {
         if(full_allocation)
         {
@@ -996,7 +996,7 @@ public:
         }
         else
         {
-            get_ptr(TargetX,TargetY)=NULL;//Automatyczna destrukcja
+            get_ptr(TargetX,TargetY)=NULL; //Automatyczna destrukcja
         }
     }
 
@@ -1190,8 +1190,8 @@ public:
     //Implementacja wejscia/wyjscia. Zwracaj 1 jesli sukces!
     int		implement_output(ostream& o) const
     {
-        o<<table<<' '<<initer<<' ';//Obiekt do zamazywania
-        o<<empty_guard<<' '<<full_allocation<<' ';//Zwracany jako reprezentant pustych pol
+        o<<table<<' '<<initer<<' '; //Obiekt do zamazywania
+        o<<empty_guard<<' '<<full_allocation<<' '; //Zwracany jako reprezentant pustych pol
         return 1;
     }
 
