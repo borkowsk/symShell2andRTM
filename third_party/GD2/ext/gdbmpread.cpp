@@ -131,14 +131,14 @@ FILE*      finput;
 RGBAPIXEL   * m_pPal;  // Pointer to palette used in file.
 static jmp_buf Jamper;//Nie ma lokalnych obiektow do zwalnianie wiec mozna
 
-void raiseError( int Code,char * pszErr)
+void raiseError( int Code,const char * pszErr)
   {
 #ifndef SIMPLE_ERROR_HANDLING
-	  wbrtm::error_handling::Error(wbrtm::TextException(pszErr,0));//Warning only
+    wbrtm::error_handling::Error(wbrtm::TextException(pszErr,0));//Warning only
 #else
   cerr<<"SORRY:"<<pszErr<<"["<<Code<<"]"<<endl;
 #endif
-  longjmp(Jamper,Code);//Wskakuje do DoDecode - jesli nie ma mechanizmu exceptions
+  longjmp(Jamper,Code); //Wskakuje do DoDecode - jesli nie ma mechanizmu exceptions
   }
 
 public:
@@ -157,9 +157,9 @@ public:
     ()
   {
   if(im)
-	  gdImageDestroy(im);
+    gdImageDestroy(im);
   if(m_pPal!=NULL)
-	  delete m_pPal;
+    delete m_pPal;
   }
 
   gdImagePtr give()
@@ -171,7 +171,7 @@ public:
 
   //! Does the actual decoding of bitmap data.
   int DoDecode
-		();
+    ();
 
 protected:
 //Read important information about current Image
@@ -204,7 +204,7 @@ int GetNumColors
 }
 
 BYTE ** GetLineArray
-	()
+  ()
 {
   assert(im!=NULL);
 
@@ -291,7 +291,7 @@ private:
 
   void SetPalette
     ( RGBAPIXEL * pPal,
-	  int len
+    int len
     );
 
 };
@@ -300,48 +300,48 @@ inline BYTE * MyBmp256Decoder::ReadNBytes
     ( size_t n
     )
 {
-	BYTE* bufor=new BYTE[n];
-	size_t ret=fread(bufor,sizeof(BYTE),n,finput);
+  BYTE* bufor=new BYTE[n];
+  size_t ret=fread(bufor,sizeof(BYTE),n,finput);
 //	if(ret!=n)
 //		errh::Error(TextException("decoding bmp:File shorter than header declare",0));
 
 //  m_pData += n;
 //  return m_pData-n;
-	return bufor;
+  return bufor;
 }
 
 
 inline BYTE * MyBmp256Decoder::Read1Byte
     ()
 {
-	static BYTE bufor;
-	bufor=getc(finput);
+  static BYTE bufor;
+  bufor=getc(finput);
 //  m_pData++;
 //  return m_pData-1;
-	return &bufor;
+  return &bufor;
 }
 
 
 inline BYTE * MyBmp256Decoder::Read2Bytes
     ()
 {
-	static BYTE bufor[2];
-	bufor[0]=getc(finput);
-	bufor[1]=getc(finput);
+  static BYTE bufor[2];
+  bufor[0]=getc(finput);
+  bufor[1]=getc(finput);
 //  m_pData += 2;
 //  return m_pData-2;
-	return bufor;
+  return bufor;
 }
 
 
 inline BYTE * MyBmp256Decoder::Read4Bytes
     ()
 {
-	static BYTE bufor[4];
-	fread(bufor,sizeof(BYTE),4,finput);
+  static BYTE bufor[4];
+  fread(bufor,sizeof(BYTE),4,finput);
 //  m_pData += 4;
 //  return m_pData-4;
-	return bufor;
+  return bufor;
 }
 
 
@@ -393,40 +393,40 @@ inline LONG MyBmp256Decoder::ReadMLong
 }
 
 void MyBmp256Decoder::trace
-	( int //TraceLevel,
-	  ,char * //pszMessage
-	)
+  ( int //TraceLevel,
+    ,char * //pszMessage
+  )
 {                                                                               assert("Not implemented"==0);
 //  clog<<"LEV:"<<TraceLevel<<":"<<pszMessage<<"\n"<<flush;
 }
 
 void MyBmp256Decoder::SetPalette
-	( RGBAPIXEL * pPal
-	  ,int NumColors)
+  ( RGBAPIXEL * pPal
+    ,int NumColors)
 {																				assert( pPal	);
-																				assert(im!=NULL);
+                                        assert(im!=NULL);
   //memcpy (m_pClrTab, pPal, 256*sizeof(RGBAPIXEL));    TODO ?
   //Skopiowac palete z naglowka na palete w im
   //im->red[] ... itd
   if(NumColors==2)
-	{
-	im->blue[0]=im->green[0]=im->red[0]=0;
-	im->blue[1]=im->green[1]=im->red[1]=255;
-	im->open[0] = im->open[1] = 0;
-	}
+  {
+  im->blue[0]=im->green[0]=im->red[0]=0;
+  im->blue[1]=im->green[1]=im->red[1]=255;
+  im->open[0] = im->open[1] = 0;
+  }
   else
   for (int i=0; i<NumColors; i++)
-	{
-	im->blue[i]=*(((BYTE *)m_pPal)+i*4+RGBA_BLUE);
+  {
+  im->blue[i]=*(((BYTE *)m_pPal)+i*4+RGBA_BLUE);
     im->green[i]=*(((BYTE *)m_pPal)+i*4+RGBA_GREEN);
     im->red[i]=*(((BYTE *)m_pPal)+i*4+RGBA_RED);
-	im->open[i] =  0;
-	}
+  im->open[i] =  0;
+  }
   im->colorsTotal=NumColors;
 }
 
 int MyBmp256Decoder::DoDecode
-	()
+  ()
 {
   WINBITMAPINFOHEADER * pBMI;  // Pointer to bitmapinfoheader of the file.
   BYTE * pBits = NULL;
@@ -435,24 +435,24 @@ int MyBmp256Decoder::DoDecode
   pBMI = getInfoHeader (&pBits);
 
   if(pBMI==NULL)
-	{ ret=0; goto FAILED;}
+  { ret=0; goto FAILED;}
 
   im=gdImageCreate(pBMI->biHeight,pBMI->biWidth);
   if(im==NULL)
-	{ ret=0; goto FAILED;}
+  { ret=0; goto FAILED;}
 
   //Ustawianie palety
   int NumColors;
   if (pBMI->biClrUsed == 0)
-	NumColors = 1<<(pBMI->biBitCount);
-	else
+  NumColors = 1<<(pBMI->biBitCount);
+  else
     NumColors = pBMI->biClrUsed;
   if(m_pPal!=NULL) //Jesli jest paleta -np BMP true-color nie maja
-	SetPalette (m_pPal,NumColors);
+  SetPalette (m_pPal,NumColors);
 
 
   if(setjmp(Jamper)!=0)
-	{ ret=0; goto FAILED;}
+  { ret=0; goto FAILED;}
 
   switch (pBMI->biBitCount)
   {
@@ -481,10 +481,10 @@ goto END;//Jest OK
 
 FAILED:
  if(im)
-	{
-	gdImageDestroy(im);
-	im=NULL;
-	}
+  {
+  gdImageDestroy(im);
+  im=NULL;
+  }
 END:
   delete pBMI;
   delete pBits;
@@ -507,8 +507,8 @@ WINBITMAPINFOHEADER * MyBmp256Decoder::getInfoHeader
 
   // Check for bitmap file signature: First 2 bytes are 'BM'
   if (BFH.bfType != 0x4d42)
-	raiseError (ERR_WRONG_SIGNATURE,
-				"Bitmap decoder: This isn't a bitmap.");
+  raiseError (ERR_WRONG_SIGNATURE,
+        "Bitmap decoder: This isn't a bitmap.");
 
   trace (2, "Bitmap file signature found\n");
 
