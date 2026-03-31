@@ -90,26 +90,24 @@ aworld(size_t Width,	//!< Szerokosc torusa macierzy agentow
 
 protected:
 //AKCJE
-void	initialize_layers();	//Stan startowy symulacji
-void	after_read_from_image(); //actions after read state from file. Aktualizacja pol static aagent'a!!!
-void	simulate_one_step();	//Wlasciwa implementacja kroku symulacji
+void	initialize_layers() override;	//Stan startowy symulacji
+void	after_read_from_image() override; //actions after read state from file. Aktualizacja pol static aagent'a!!!
+void	simulate_one_step() override;	//Wlasciwa implementacja kroku symulacji
 
 //Wspolpraca z menagerem wyswietlania
 //---------------------------------------------
-void	make_default_visualisation(area_menager_base& Menager); //Tworzy domyslne "lufciki" i umieszcza w
+void	make_default_visualisation(); //Tworzy domyslne "lufciki" i umieszcza w liście zarządcy.
 //void actualize_out_area(); // aktualizacja zawartosci OutArea po n krokach symulacji
 
 //Generuje podstawowe zrodla dla wbudowanego menagera danych lub innego
-void	make_basic_sources(sources_menager& WhatSourMen);
+void	make_basic_sources() override;
 
 //Wypisywanie/dopisywanie na konsole statusu
-void    actualize_out_area(); 
+void    actualize_out_area() override;
 
 //Implementacja wejscia/wyjscia. Zwracaj 1 jesli sukces!
-virtual
-int		implement_output(ostream& o) const;
-virtual
-int		implement_input(istream& i);
+int		implement_output(ostream& o) const override;
+int		implement_input(istream& i) override;
 };
 
 

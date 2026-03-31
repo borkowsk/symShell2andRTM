@@ -22,12 +22,12 @@
 #include "gadgets.hpp" 
 #include "wb_ptrio.h"
 
-const RAMKA=4;
+const int RAMKA=4;
 extern const char* SYMULATION_NAME;
 
 
-//Konstrukcja agentow
-///////////////////////////////////
+// Konstrukcja agentow
+// /////////////////////////////////
 short aagent::DrawAttitude()
     {
         if(0<Majority && Majority<1) //Uwaga - moze byc faktycznie w mniejszosci!!!
@@ -63,8 +63,8 @@ aagent::aagent()
         Press=-1;
     }
 
-//Statyczne pola aagentow dla inicjalizacji
-////////////////////////////////////////////////////////////////
+// Statyczne pola aagentow dla inicjalizacji
+// //////////////////////////////////////////////////////////////
 short	aagent::ruchsily=1;  //Maksymalny skok sily
 short	aagent::max_sila=256; //Maksymalna sila agenta
 short	aagent::ile_kate=256; //Ilosc kategori w mapach
@@ -72,8 +72,8 @@ short	aagent::kate_shift=0; //Przesuniecie dla wczytywania gifa
 double  aagent::Majority=-1; //Domyslnie nie ma znaczacej wiekszosci!!!
 double	aagent::MutationLevel=0; //Prawd. spontanicznej zmiany pogladow (0..1)
 
-//KONSTRUKCJA	SWIATA
-////////////////////////////////////
+// KONSTRUKCJA	SWIATA
+// //////////////////////////////////
 extern unsigned internal_log;
 extern unsigned spatial_correlation_mode;
 
@@ -136,12 +136,12 @@ aworld::aworld(size_t Width,		//Szerokosc torusa macierzy agentow
                 BierzWszystko=1;
         }
 
-//Generuje podstawowe zrodla dla wbudowanego menagera danych lub innego
-////////////////////////////////////////////////////////////////////////////
-void aworld::make_basic_sources(sources_menager& WhatSourMen)
+// Generuje podstawowe zrodla dla wbudowanego menagera danych lub innego
+// //////////////////////////////////////////////////////////////////////////
+void aworld::make_basic_sources()
 {
-world::make_basic_sources(WhatSourMen); //Odziedziczone
-
+    world::make_basic_sources(); //Odziedziczone
+    sources_menager& WhatSourMen=this->Sources;
 //Glowne serie 
 Firsts=Agenci.make_source("Attitude",&aagent::First);	
 if(Firsts)
@@ -202,9 +202,10 @@ void    aworld::actualize_out_area()
 }
 
 
-void aworld::make_default_visualisation(area_menager_base& Menager)
+void aworld::make_default_visualisation()
 //Rejestruje pochodne serie, tworzy domyslne "lufciki" i wklada w "Menager"
 {
+    area_menager_base& Menager=this->MyAreaMenager();
     int iFirst=0,iSecond=0,iPower=0,iPressure=0,iChangeCnt,iMigratCnt;
     //Uzyskanie indeksow podstawowych serii z menagera
     {
@@ -336,7 +337,7 @@ void aworld::make_default_visualisation(area_menager_base& Menager)
     assert(szer>50 && wyso>40); //Najmniejsze sensowne okno
 
     //Obszary domyślne - np obszar STATUSU
-    world::make_default_visualisation(Menager);
+    world::make_default_visualisation();
     if(OutArea)
     {
         OutArea->set(1,1,szer/2-1,wyso/2-1);
@@ -443,7 +444,7 @@ void aworld::make_default_visualisation(area_menager_base& Menager)
                                    1/*Wspolne minimum/maximum*/);
     if(!pom1) goto ERROR;
     pom1->setframe(128);
-    pom1->settitle("HISTORY OF ENTROPY OF CLASIFICATION");
+    pom1->settitle("HISTORY OF ENTROPY OF CLASSIFICATION");
     Menager.insert(pom1);
 
 
@@ -514,9 +515,9 @@ void aworld::make_default_visualisation(area_menager_base& Menager)
 
 
 
-//AKCJE SYMULACYJNE
-//////////////////////
-//////////////////////
+// AKCJE SYMULACYJNE
+// ////////////////////
+
 void aworld::after_read_from_image()
 //actions after read state from file. Aktualizacja pol static aagent'a!!!
 {
@@ -546,7 +547,7 @@ void aworld::after_read_from_image()
 void aworld::initialize_layers()
 //-------------------------------------
 {
-    static first=1; //TYMCZASOWE WYLACZENIE NADMIARU WYDRUKOW!!!
+    static int first=1; //TYMCZASOWE WYLACZENIE NADMIARU WYDRUKOW!!!
     if(first)
         Log.GetStream()<<"attitude SIMULATION:";
     //odl_sasiad=1,//Rozmiar sasiedztwa
@@ -586,8 +587,8 @@ void aworld::initialize_layers()
 
     //			USTALANIE STANÓW AGENTÓW
     //Wczytuje uzywajac konstruktora lub klonowania gdy niema, wiec inicjuje reszte pól.
-    int from1= Agenci.init_from_bitmap(MappName.get_ptr_val(),aagent::assignPow);
-    int from2= Agenci.init_from_bitmap(MaplName.get_ptr_val(),aagent::assign_curr);
+    int from1= Agenci.init_from_bitmap(MappName.get_ptr_val(),&aagent::assignPow);
+    int from2= Agenci.init_from_bitmap(MaplName.get_ptr_val(),&aagent::assign_curr);
  //   int from3= Agenci.init_from_bitmap(MaplName.get_ptr_val(),aagent::assign_prev);
 
     //Jesli nie zainicjowane to prowizoryczna inicjacja przez konstruktory lub klonowanie
@@ -595,7 +596,7 @@ void aworld::initialize_layers()
         Agenci.reallocate_all();
 
     //Zabija m jesli w masce jesc czarny kolor
-    if(Agenci.init_from_bitmap(MaskName.get_ptr_val(),aagent::killBlack)==1 )
+    if(Agenci.init_from_bitmap(MaskName.get_ptr_val(),&aagent::killBlack)==1 )
         Agenci.deallocate_not_OK();
 
     if(Fill<1) //Dealokacja nadmiarow

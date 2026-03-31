@@ -4,7 +4,7 @@
 /// @date 2026-03-31 (last modified)
 ///
 //DECLARATION OF    A G E N T   FOR "attitudeS" SIMULATION
-/////////////////////////////////////////////////////////////
+// ///////////////////////////////////////////////////////////
 #include "layer.hpp"
 
 inline void wb_swap(short& a,short& b)
@@ -45,7 +45,7 @@ class aagent:public agent_base
     }
 
     // TO CO MUSI byc zdefiniowane
-    ///////////////////////////////////
+    // /////////////////////////////////
 public:
     int IsOK()
     {
@@ -68,10 +68,10 @@ public:
     aagent* clone() const
     { return new aagent(*this);}
 
-    ~aagent()
+    ~aagent() override
     {_clean();}
 
-    void clean()
+    void clean() override
     {_clean();}
 
     void new_attitude(short a)
