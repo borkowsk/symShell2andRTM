@@ -1,7 +1,11 @@
-#include "compatyb.h"
+/// @file
+/// @brief ... (old example for SymShell implementing Kruglanskis like model)
+// //////////////////////////////////////////////////////////////////////////
+/// @date 2026-03-31 (modified)
+///
 //Symulacja Need for closure wg teori Arie Kruglanskiego
 //Uzyskana z przerobienia programu ATTITUDEs
-/////////////////////////////////////////////////////////////////////////////////////
+// ///////////////////////////////////////////////////////////////////////////////////
 const char* WINDOW_HEADER="NEED FOR CLOSURE version 0.22a";
 const char* SYMULATION_NAME="need4clos_v0.22a";
 
@@ -17,6 +21,7 @@ const char* SYMULATION_NAME="need4clos_v0.22a";
 #include <cstdlib>
 #include <iostream>
 //#include "wbminmax.hpp"
+#include "compatyb.h"
 #include "krand.h"
 #include "kworld.h"
 
@@ -508,12 +513,11 @@ cout<<"----------> See you later!!! <--------------\n"<<endl<<flush;
 return 0;
 }
 
-
 /********************************************************************/
 /*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
 /*            W O J C I E C H   B O R K O W S K I                   */
 /*                                                                  */
-/*      Instytut Studiow Spolecznych Uniwersytetu Warszawskiego     */
+/*      Instytut Studiów Społecznych Uniwersytetu Warszawskiego     */
 /*                                                                  */
 /*        WWW:  http://www.iss.uw.edu.pl/~borkowsk                  */
 /*        MAIL: borkowsk@samba.iss.uw.edu.pl                        */

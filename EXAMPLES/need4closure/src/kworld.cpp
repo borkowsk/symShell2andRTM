@@ -1,5 +1,9 @@
-#include <string.h>
-#include <math.h>
+/// @file
+/// @brief ... (old example for SymShell implementing Kruglanskis like model)
+// //////////////////////////////////////////////////////////////////////////
+/// @date 2026-03-31 (modified)
+#include <cstring>
+#include <cmath>
 #include "krand.h"
 #include "kworld.h"
 #include "wb_ptrio.h"
@@ -15,8 +19,8 @@ double  kagent::Majority=0.10;//Poczatkowa ilosc czarnych - lewych
 double  kagent::Minority=0.05;//Poczatkowa ilosc bialych - prawych 
 double	kagent::NoiseLevel=0;//Prawd. spontanicznej zmiany
 
-//KONSTRUKCJA	SWIATA
-////////////////////////////////////
+// KONSTRUKCJA	SWIATA
+// //////////////////////////////////
 extern unsigned internal_log;
 extern unsigned spatial_correlation_mode;
 
@@ -79,9 +83,9 @@ CountMig(0)
 }
 
 
-//AKCJE SYMULACYJNE
-//////////////////////
-//////////////////////
+// AKCJE SYMULACYJNE
+// ////////////////////
+
 void kworld::after_read_from_image()
 //actions after read state from file. Aktualizacja pol static kagent'a!!!
 {   
@@ -282,18 +286,18 @@ int kworld::CheckChange(const rectangle_geometry* MyGeom,
     return 0;
 }
 
-
 /********************************************************************/
 /*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
 /*            W O J C I E C H   B O R K O W S K I                   */
 /*                                                                  */
-/*      Instytut Studiow Spolecznych Uniwersytetu Warszawskiego     */
+/*      Instytut Studiów Społecznych Uniwersytetu Warszawskiego     */
 /*                                                                  */
 /*        WWW:  http://www.iss.uw.edu.pl/~borkowsk                  */
 /*        MAIL: borkowsk@samba.iss.uw.edu.pl                        */
 /*                                                                  */
 /*                               (Don't change or remove this note) */
 /********************************************************************/
+
 
   /*
     if(DRAND()<=kagent::NoiseLevel)//Rzadka, spontaniczna zmiana pogladu

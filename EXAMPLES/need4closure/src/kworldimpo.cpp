@@ -1,7 +1,11 @@
+/// @file
+/// @brief ... (old example for SymShell implementing Kruglanskis like model)
+// //////////////////////////////////////////////////////////////////////////
+/// @date 2026-03-31 (modified)
 // implementation of the kworld class.
 //	Virtual output methods 
 //----------------------------------------------
-//Its is rather simply implementation. You can replace it if you need.
+// Its is rather simply implementation. You can replace it if you need.
 // ////////////////////////////////////////////////////////////////////
 #include "kworld.h"
 
@@ -24,7 +28,7 @@ int kworld::implement_output(ostream& o) const
 /*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
 /*            W O J C I E C H   B O R K O W S K I                   */
 /*                                                                  */
-/*      Instytut Studiow Spolecznych Uniwersytetu Warszawskiego     */
+/*      Instytut Studiów Społecznych Uniwersytetu Warszawskiego     */
 /*                                                                  */
 /*        WWW:  http://www.iss.uw.edu.pl/~borkowsk                  */
 /*        MAIL: borkowsk@samba.iss.uw.edu.pl                        */
