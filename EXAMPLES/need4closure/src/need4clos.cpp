@@ -3,8 +3,8 @@
 // //////////////////////////////////////////////////////////////////////////
 /// @date 2026-03-31 (modified)
 ///
-//Symulacja Need for closure wg teori Arie Kruglanskiego
-//Uzyskana z przerobienia programu ATTITUDEs
+// Symulacja Need for closure wg teorii Arie Kruglanskiego
+// Uzyskana z przerobienia programu ATTITUDEs
 // ///////////////////////////////////////////////////////////////////////////////////
 const char* WINDOW_HEADER="NEED FOR CLOSURE version 0.22a";
 const char* SYMULATION_NAME="need4clos_v0.22a";
@@ -46,18 +46,18 @@ int  MaksymalnaSila=100;	//Jaka najwieksza sila
 double  Treshold=100;		//Powyzej jakiego wplywu zmiana "pogladu" sie fiksuje
 
 double Fill=1;      //0.001 do 1 - poczatkowe wypelnienie przestrzeni agentow (wykonywane przez losowe usuwanie!!!)
-double Majority=0.050;//Jaka czesc spoleczenstwa bedzie wyznawac "czarny" poglad 
+double Majority=0.050; //Jaka czesc spoleczenstwa bedzie wyznawac "czarny" poglad
 double Minority=0.025;  //Jaka czesc spoleczenstwa bedzie wyznawac "bialy" poglad 
 
 double ProbMig=0;   //Prawdopodobienstwo migracji jesli presja otoczenia wskazuje na zmiane pogladow
 int    ProcentSzumu=0;
 double MutacjeSpon=0;
-int    IleSasiadow=1;//Wybierani losowo do rozmowy 
+int    IleSasiadow=1; //Wybierani losowo do rozmowy
 
-double WagaSiebie=9;//Poprzednie opinie waza 9:1
-double NeedForClousure=1;//Intensywnosc poszukiwan i potega sily
+double WagaSiebie=9; //Poprzednie opinie waza 9:1
+double NeedForClousure=1; //Intensywnosc poszukiwan i potega sily
 
-bool   TypSymulacji=0;//Synchroniczna
+bool   TypSymulacji=0; //Synchroniczna
 
 int  iWychodzenie=0;
 int  Replay=0;
@@ -87,7 +87,7 @@ for(int i=1;i<argc;i++)
         return 0;
         }
     cerr<<"SPCH (spn. change percent) = "<<MutacjeSpon<<endl;
-    MutacjeSpon/=100;//Ulamek a nie procent tak naprawde
+    MutacjeSpon/=100; //Ulamek a nie procent tak naprawde
     }
     else
     if((pom=strstr(rob,"FILL="))!=NULL) //Nie NULL czyli jest
@@ -101,7 +101,7 @@ for(int i=1;i<argc;i++)
         if(Fill>1)
         {
             cerr<<"FILL (fill percent) = "<<Fill<<endl;
-            Fill/=100;//Ulamek a nie procent tak naprawde
+            Fill/=100; //Ulamek a nie procent tak naprawde
         }
         else
             cerr<<"FILL = "<<Fill<<endl;
@@ -118,7 +118,7 @@ for(int i=1;i<argc;i++)
         if(Majority>1)
         {
             cerr<<"ILEF (\"left\" percent) = "<<Majority<<endl;
-            Majority/=100;//Ulamek a nie procent tak naprawde
+            Majority/=100; //Ulamek a nie procent tak naprawde
         }
         else
             cerr<<"ILEF = "<<Majority<<endl;
@@ -135,7 +135,7 @@ for(int i=1;i<argc;i++)
         if(Minority>1)
         {
             cerr<<"IRIG (\"right\" percent) = "<<Minority<<endl;
-            Minority/=100;//Ulamek a nie procent tak naprawde
+            Minority/=100; //Ulamek a nie procent tak naprawde
         }
         else
             cerr<<"IRIG = "<<Minority<<endl;
@@ -152,7 +152,7 @@ for(int i=1;i<argc;i++)
         if(ProbMig>1)
         {
             cerr<<"PMIG (probability of migration) = "<<ProbMig<<'%'<<endl;
-            ProbMig/=100;//Ulamek a nie procent tak naprawde
+            ProbMig/=100; //Ulamek a nie procent tak naprawde
         }
         else
             cerr<<"PMIG (probability of migration) = "<<ProbMig<<endl;
@@ -172,7 +172,7 @@ for(int i=1;i<argc;i++)
     if((pom=strstr(rob,"MPOW="))!=NULL) //Nie NULL czyli jest
     {
     MaksymalnaSila=atol(pom+5);
-    if(MaksymalnaSila<0)//0 czy 1???
+    if(MaksymalnaSila<0) //0 czy 1???
         {
         cerr<<"Bad MPOW = "<<MaksymalnaSila<<" (must be >=1 )"<<endl;
         return 0;
@@ -421,7 +421,7 @@ if(!Lufciki.start(WINDOW_HEADER,argc,argv,1))
     exit(1);
     }
 
-//Utworzenie sensownej nazwy pliku(-�w) do zrzutow ekranu
+//Utworzenie sensownej nazwy pliku(-ów) do zrzutow ekranu
 {
 wb_pchar buf(strlen(SYMULATION_NAME)+20);
 buf.prn("%s_%ld",SYMULATION_NAME,time(NULL));
@@ -460,7 +460,7 @@ if(&tenSwiat==NULL)
 
 //INICJALIZACJA
 RANDOMIZE(); //inicjalizacja globalnego randomizera 
-tenSwiat.set_max_iteration(iMaxIterations);//Ile najwiecej krokow
+tenSwiat.set_max_iteration(iMaxIterations); //Ile najwiecej krokow
 tenSwiat.set_input_ratio(iViewRatio);
 tenSwiat.set_log_ratio(iLogRatio);
 cout<<WINDOW_HEADER<<": LOADED."<<endl;
@@ -468,18 +468,18 @@ tenSwiat.set_history_stream(HistName);
 
 if(Replay)
 {	
-    tenSwiat.initialize(&Lufciki,1);//inicjalizacja wizualizacji
+    tenSwiat.initialize(&Lufciki,1); //inicjalizacja wizualizacji
     cout<<WINDOW_HEADER<<": PREPARED FOR READING. WAITING!"<<endl;
-    Lufciki.process_input();//Pierwsze zdazenia. Koncza sie po ctrl-B
+    Lufciki.process_input(); //Pierwsze zdazenia. Koncza sie po ctrl-B
     tenSwiat.read_loop(iWychodzenie);
 }
 else
 {
-    tenSwiat.initialize(&Lufciki);//inicjalizacja wizualizacji i warst symulacji
+    tenSwiat.initialize(&Lufciki); //inicjalizacja wizualizacji i warst symulacji
     cout<<WINDOW_HEADER<<": INITIALISED."<<endl;
     if(!AUTOSTART)
     {
-        Lufciki.process_input();//Pierwsze zdazenia. Koncza sie po ctrl-B
+        Lufciki.process_input(); //Pierwsze zdazenia. Koncza sie po ctrl-B
         //GLOWNA PETLA SYMULACJI
         cout<<WINDOW_HEADER<<": STARTED."<<endl;
         tenSwiat.simulation_loop(iWychodzenie);
@@ -508,7 +508,7 @@ cout<<WINDOW_HEADER<<": CLOSING."<<endl;
 
 cout.flush();
 
-delete &tenSwiat;//Dealokacja swiata wraz ze wszystkimi skladowymi
+delete &tenSwiat; //Dealokacja swiata wraz ze wszystkimi skladowymi
 cout<<"----------> See you later!!! <--------------\n"<<endl<<flush;
 return 0;
 }

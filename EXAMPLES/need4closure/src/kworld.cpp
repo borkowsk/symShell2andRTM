@@ -13,11 +13,11 @@ extern const char* SYMULATION_NAME;
 
 // Statyczne pola kagentow
 // //////////////////////////////////////////////////////////////
-short	kagent::max_sila=256;//Maksymalna sila agenta
-int     kagent::treshold=256;//Granica domkniecia pogladu
-double  kagent::Majority=0.10;//Poczatkowa ilosc czarnych - lewych
-double  kagent::Minority=0.05;//Poczatkowa ilosc bialych - prawych 
-double	kagent::NoiseLevel=0;//Prawd. spontanicznej zmiany
+short	kagent::max_sila=256; //Maksymalna sila agenta
+int     kagent::treshold=256; //Granica domkniecia pogladu
+double  kagent::Majority=0.10; //Poczatkowa ilosc czarnych - lewych
+double  kagent::Minority=0.05; //Poczatkowa ilosc bialych - prawych 
+double	kagent::NoiseLevel=0; //Prawd. spontanicznej zmiany
 
 // KONSTRUKCJA	SWIATA
 // //////////////////////////////////
@@ -78,7 +78,7 @@ CountMig(0)
     kagent::Majority=majority;
     kagent::Minority=minority;
     set_simulation_name(SYMULATION_NAME);
-    kagent::max_sila=MaxSila;//Maksymalna sila agenta
+    kagent::max_sila=MaxSila; //Maksymalna sila agenta
     kagent::NoiseLevel=spontanic;
 }
 
@@ -96,9 +96,9 @@ void kworld::after_read_from_image()
 void kworld::initialize_layers()
 //-------------------------------------
 {
-    kagent::max_sila=MaxSila;//Maksymalna sila agenta
+    kagent::max_sila=MaxSila; //Maksymalna sila agenta
     
-    static int first=1;//EWENTUALNE WYLACZENIE WYDRUKOW JESLI SYMULACJA
+    static int first=1; //EWENTUALNE WYLACZENIE WYDRUKOW JESLI SYMULACJA
     
     //...wydruk wartosci parametrow symulacji
     if(first)
@@ -127,13 +127,13 @@ void kworld::initialize_layers()
     if(Agenci.init_from_bitmap(MaskName.get_ptr_val(),&kagent::killBlack)==1 )
         Agenci.deallocate_not_OK();
     
-    if(Fill<1)//Dealokacja nadmiarow
+    if(Fill<1) //Dealokacja nadmiarow
     {
         size_t how_many=(1-Fill)*sqr(MyWidth);
         Agenci.clean_randomly(how_many);
     }
 
-    first=0;//Koniec pierwszego wywolania - WYLACZA WYPISYWANIE PARAMETROW W KOLEJNYCH POWTORZENIACH SYMULACJI
+    first=0; //Koniec pierwszego wywolania - WYLACZA WYPISYWANIE PARAMETROW W KOLEJNYCH POWTORZENIACH SYMULACJI
 }
 
 //Pojedynczy krok symulacji
@@ -143,17 +143,17 @@ void kworld::simulate_one_step()
     CountCh=CountMig=0; //Zerowanie licznikow dynamizmu
     const rectangle_geometry* MyGeom=dynamic_cast<const rectangle_geometry*>(Agenci.get_geometry());    assert(MyGeom!=NULL);
     
-    if(Synchronic)//Jesli synchronicznie to inna petla niz przy monte-carlo
+    if(Synchronic) //Jesli synchronicznie to inna petla niz przy monte-carlo
     {//Idziemy po agentach pelnym iteratorem a stan agentow zmieniamy dopiero potem
         
-        iteratorh Iglobal=MyGeom->make_global_iterator();//Alokujemy iterator po wszystkich agentach
+        iteratorh Iglobal=MyGeom->make_global_iterator(); //Alokujemy iterator po wszystkich agentach
         while(Iglobal)
         {
-            size_t index=MyGeom->get_next(Iglobal);//Uzyskujemy index  agenta	
+            size_t index=MyGeom->get_next(Iglobal); //Uzyskujemy index  agenta	
             
             assert(index!=MyGeom->FULL);				//... tutaj nie powinno sie zdarzyc
             
-            kagent& CenterAgent=*(Agenci.get_ptr(index).get_ptr_val());// Uzyskujemy referencje do agenta omijajac asercje na NULL
+            kagent& CenterAgent=*(Agenci.get_ptr(index).get_ptr_val()); // Uzyskujemy referencje do agenta omijajac asercje na NULL
             
             if(Agenci.is_empty(CenterAgent))	// Sprawdzamy czy nie jest to pusta komórka (NULL)
                 continue;						// bo wtedy robic dalej byłoby bez sensu.
@@ -165,48 +165,48 @@ void kworld::simulate_one_step()
             CheckChange(MyGeom,index,CenterAgent); //Sprawdzamy zmiane stanu
             
         }        
-        MyGeom->destroy_iterator(Iglobal);// upewniamy sie ze iterator zostanie usuniety
+        MyGeom->destroy_iterator(Iglobal); // upewniamy sie ze iterator zostanie usuniety
         
         
-        Iglobal=MyGeom->make_global_iterator();//Tworzymy nowy iterator i iterujemy od poczatku
+        Iglobal=MyGeom->make_global_iterator(); //Tworzymy nowy iterator i iterujemy od poczatku
         while(Iglobal)
         {
-            size_t index=MyGeom->get_next(Iglobal);//Uzyskujemy index  agenta	
+            size_t index=MyGeom->get_next(Iglobal); //Uzyskujemy index  agenta	
             
             assert(index!=MyGeom->FULL);				//... tutaj nie powinno sie zdarzyc
             
-            kagent& CenterAgent=*(Agenci.get_ptr(index).get_ptr_val());// Uzyskujemy referencje do agenta omijajac asercje na NULL
+            kagent& CenterAgent=*(Agenci.get_ptr(index).get_ptr_val()); // Uzyskujemy referencje do agenta omijajac asercje na NULL
             
             if(Agenci.is_empty(CenterAgent))	// Sprawdzamy czy nie jest to pusta komórka (NULL)
                 continue;
             
             CenterAgent.update();  //Tu dopiero NADAJEMY nowy stan agentowi
         }	                
-        MyGeom->destroy_iterator(Iglobal);// upewniamy sie ze iterator zostanie usuniety        
+        MyGeom->destroy_iterator(Iglobal); // upewniamy sie ze iterator zostanie usuniety        
     }
     else
     {
         iteratorh Monte=MyGeom->make_random_global_iterator();	//Alokujemy iterator Monte-Carlo
-        while(Monte)//Idziemy po agentach iteratorem Monte-Carlo. Niektórzy moga sie powtórzyc
+        while(Monte) //Idziemy po agentach iteratorem Monte-Carlo. Niektórzy moga sie powtórzyc
         {	
-            size_t index=MyGeom->get_next(Monte);//Uzyskujemy index losowo wybranego agenta	
+            size_t index=MyGeom->get_next(Monte); //Uzyskujemy index losowo wybranego agenta	
             
             assert(index!=MyGeom->FULL);				//... tutaj nie powinno sie zdarzyc
             
-            kagent& CenterAgent=*(Agenci.get_ptr(index).get_ptr_val());// Uzyskujemy referencje do agenta omijajac asercje na NULL
+            kagent& CenterAgent=*(Agenci.get_ptr(index).get_ptr_val()); // Uzyskujemy referencje do agenta omijajac asercje na NULL
             if(Agenci.is_empty(CenterAgent))	// Sprawdzamy czy nie jest to pusta komórka (NULL)
                 continue;						// bo wtedy robic dalej byłoby bez sensu.
             
-            CheckChange(MyGeom,index,CenterAgent);//Czy zaszla zmiana stanu
+            CheckChange(MyGeom,index,CenterAgent); //Czy zaszla zmiana stanu
             
-            CenterAgent.update();//Tu NADAJEMY nowy stan agentowi				
+            CenterAgent.update(); //Tu NADAJEMY nowy stan agentowi				
         }
-        MyGeom->destroy_iterator(Monte);// upewniamy sie ze iterator zostanie usuniety
+        MyGeom->destroy_iterator(Monte); // upewniamy sie ze iterator zostanie usuniety
     }
     
     //Wpisujemy wartosci licznikow do zrodel eksportujacych je dla wizualizacji
     ptrLastChanged->change_ptr(&CountCh); //Alternatywna metoda dla oznacznia braku/obecnosci policzonych danych
-    ptrLastMigration->change_ptr(&CountMig);//Alternatywna metoda dla oznacznia braku policzonych danych
+    ptrLastMigration->change_ptr(&CountMig); //Alternatywna metoda dla oznacznia braku policzonych danych
 }
 
 int kworld::DoMigration(const rectangle_geometry* MyGeom, //Ta procedura jest napisana nie-ogolnie, tj. w uzaleznieniu od prostokatnego typu geometrii
@@ -215,21 +215,21 @@ int kworld::DoMigration(const rectangle_geometry* MyGeom, //Ta procedura jest na
                         )
 {
     size_t SouX,SouY,TarX,TarY;
-    MyGeom->WhatCoordinates(index,SouX,SouY);//Nie ma co sprawdzac czy dobrze bo przeciez bylo dobrze
+    MyGeom->WhatCoordinates(index,SouX,SouY); //Nie ma co sprawdzac czy dobrze bo przeciez bylo dobrze
     
     do{
         TarX=RANDOM(MyGeom->get_width());
         TarY=RANDOM(MyGeom->get_height());
-    }while(Agenci.filled(TarX,TarY));//Dopuki nie znajdzie pustego
+    }while(Agenci.filled(TarX,TarY)); //Dopuki nie znajdzie pustego
     
-    Agenci.swap(TarX,TarY,SouX,SouY);//Zamienia miejsce
-    return MyGeom->get(TarX,TarY);//Nowa pozycja w postaci liniowej 
+    Agenci.swap(TarX,TarY,SouX,SouY); //Zamienia miejsce
+    return MyGeom->get(TarX,TarY); //Nowa pozycja w postaci liniowej 
 }
 
 int kworld::CheckChange(const rectangle_geometry* MyGeom,
                         size_t index,
                         kagent& CenterAgent
-                        )//KOD NA SZUKANIE ZMIAN
+                        ) //KOD NA SZUKANIE ZMIAN
 { 
     int testowanie=0;
     // Alokujemy iterator sasiedztwa o boku 2*NeedForClosure, zawierajacy "IleSasiad" losowych sąsiadów.
@@ -237,11 +237,11 @@ int kworld::CheckChange(const rectangle_geometry* MyGeom,
     
     while(Neigh)
     {
-         size_t index2=MyGeom->get_next(Neigh);//Uzyskujemy index sasiada		
+         size_t index2=MyGeom->get_next(Neigh); //Uzyskujemy index sasiada		
          if(index2==MyGeom->FULL || index2==index)	//Jesli poza obszarem symulacji lub w 
                   continue;				//centrum obszaru to dalej byloby bez sensu.
          
-         kagent& SecAgent=*(Agenci.get_ptr(index2).get_ptr_val());//Uzyskujemy referencje do sasiada omijajac asercje na NULL
+         kagent& SecAgent=*(Agenci.get_ptr(index2).get_ptr_val()); //Uzyskujemy referencje do sasiada omijajac asercje na NULL
          if(Agenci.is_empty(SecAgent))		//Sprawdzamy czy nie jest to pusta komórka (NULL)
                     continue;					   // bo wtedy robic dalej byłoby bez sensu.                  
     
@@ -280,7 +280,7 @@ int kworld::CheckChange(const rectangle_geometry* MyGeom,
         }
     else
         {
-            CenterAgent.new_attitude(CenterAgent.First);//nic nie trzeba zmieniac wiec nic nie zmieniamy (faktycznie)
+            CenterAgent.new_attitude(CenterAgent.First); //nic nie trzeba zmieniac wiec nic nie zmieniamy (faktycznie)
         }
 
     return 0;
@@ -300,7 +300,7 @@ int kworld::CheckChange(const rectangle_geometry* MyGeom,
 
 
   /*
-    if(DRAND()<=kagent::NoiseLevel)//Rzadka, spontaniczna zmiana pogladu
+    if(DRAND()<=kagent::NoiseLevel) //Rzadka, spontaniczna zmiana pogladu
     {
     int atti=RANDOM(IleKate);
     assert(0<=atti && atti<IleKate);
@@ -329,21 +329,21 @@ int kworld::CheckChange(const rectangle_geometry* MyGeom,
               }
               
                 //iteratorh Neigh=MyGeom->make_neighbour_iterator(index,OdlSasiad);
-                unsigned zliczanie=0;//Zliczanie sasiadów
+                unsigned zliczanie=0; //Zliczanie sasiadów
                 
                   while(Neigh)
                   {
-                  size_t index2=MyGeom->get_next(Neigh);//Uzyskujemy index sasiada		
+                  size_t index2=MyGeom->get_next(Neigh); //Uzyskujemy index sasiada		
                   if(index2==FULL || index2==index)	//Jesli poza obszarem symulacji lub w 
                   continue;				//centrum obszaru to dalej byloby bez sensu.
                   
-                    kagent& PeryfAgent=*(Agenci.get_ptr(index2).get_ptr_val());//Uzyskujemy referencje do sasiada omijajac asercje na NULL
+                    kagent& PeryfAgent=*(Agenci.get_ptr(index2).get_ptr_val()); //Uzyskujemy referencje do sasiada omijajac asercje na NULL
                     if(Agenci.is_empty(PeryfAgent))		//Sprawdzamy czy nie jest to pusta komórka (NULL)
                     continue;					   // bo wtedy robic dalej byłoby bez sensu.
                     
                       zliczanie++;
                       //Dodawanie sil sasiadow do licznikow w tablicach
-                      Firsts[PeryfAgent.First]+=unsigned(PeryfAgent.Power*NeedForClosure);//W założeniu to nie sa duze liczby
+                      Firsts[PeryfAgent.First]+=unsigned(PeryfAgent.Power*NeedForClosure); //W założeniu to nie sa duze liczby
                       }
                       
                         MyGeom->destroy_iterator(Neigh);	// upewniamy sie ze iterator zostanie usuniety
@@ -353,13 +353,13 @@ int kworld::CheckChange(const rectangle_geometry* MyGeom,
                           //Dodawanie wlasnych sil do licznikow w tablicach o ile WeightOfSelf>0
                           if(WeightOfSelf)
                           {
-                          Firsts[CenterAgent.First]+=unsigned(CenterAgent.Power*WeightOfSelf);//W założeniu to nie sa duze liczby
+                          Firsts[CenterAgent.First]+=unsigned(CenterAgent.Power*WeightOfSelf); //W założeniu to nie sa duze liczby
                           }
                           
                             //Szukanie maksimow
                             int maxF=0,indF=-1;
                             
-                              int offset=RANDOM(IleKate);                     assert(0<=offset && offset<IleKate);//Jak IleKate==2 to 0 albo 1 itd..
+                              int offset=RANDOM(IleKate);                     assert(0<=offset && offset<IleKate); //Jak IleKate==2 to 0 albo 1 itd..
                               
                                 for(int g=0;g<IleKate;g++)
                                 {
@@ -378,23 +378,23 @@ int kworld::CheckChange(const rectangle_geometry* MyGeom,
                                   
                                     }
                                     
-                                      assert(indF!=-1);//Czy jest maksimum 
+                                      assert(indF!=-1); //Czy jest maksimum 
                                       
                                         //Trzeba cos zrobic, ale co?
-                                        if(Migr!=0 &&  Fill<1 && (Migr==1 || DRAND()<Migr)  )//Decyzja 
+                                        if(Migr!=0 &&  Fill<1 && (Migr==1 || DRAND()<Migr)  ) //Decyzja
                                         { //Migracja
                                         if(CenterAgent.First!=indF) //Ale tylko gdy trzebaby zmienic poglad
                                         {
-                                        CenterAgent.Press=maxF;//Specjalny znacznik 
+                                        CenterAgent.Press=maxF; //Specjalny znacznik 
                                         CenterAgent.new_attitude(CenterAgent.First); //wiec nic nie zmieniamy w jego pogladach
-                                        DoMigration(MyGeom,index,CenterAgent);//za to zmieniamy pozycje w swiecie
+                                        DoMigration(MyGeom,index,CenterAgent); //za to zmieniamy pozycje w swiecie
                                         CountMig++;
-                                        return 0;//Trzeba wyjsc bo "index" jest nieaktualny i zasygnalizowac to wyzej
+                                        return 0; //Trzeba wyjsc bo "index" jest nieaktualny i zasygnalizowac to wyzej
                                         }
                                         else
                                         {
                                         CenterAgent.Press=0;
-                                        CenterAgent.new_attitude(CenterAgent.First);//nie potrzeba migrowac wiec nic nie zmieniamy        
+                                        CenterAgent.new_attitude(CenterAgent.First); //nie potrzeba migrowac wiec nic nie zmieniamy        
                                         return 0;
                                         }
                                         }
@@ -410,7 +410,7 @@ int kworld::CheckChange(const rectangle_geometry* MyGeom,
                                         else                                    //nie znaleziono
                                         {
                                         CenterAgent.Press=0;
-                                        CenterAgent.new_attitude(CenterAgent.First);//wiec nic nie zmieniamy        
+                                        CenterAgent.new_attitude(CenterAgent.First); //wiec nic nie zmieniamy        
                                         return 0;
                                         }
                                         }

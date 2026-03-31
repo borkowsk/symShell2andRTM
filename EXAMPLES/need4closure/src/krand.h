@@ -5,8 +5,8 @@
 ///
 //	WHICH RANDOM NUMBER GENERATOR USE THIS SIMULATION
 // ////////////////////////////////////////////////////
-#ifndef _KRAND_INCLUDED_
-#define _KRAND_INCLUDED_
+#ifndef K_RAND_HPP_INCLUDED_
+#define K_RAND_HPP_INCLUDED_
 
 #define USES_RANDG
 #include "random.h"

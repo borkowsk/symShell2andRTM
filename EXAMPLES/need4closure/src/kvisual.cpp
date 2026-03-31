@@ -18,8 +18,8 @@
 const int RAMKA=4;
 extern const char* SYMULATION_NAME;
 
-//KONSTRUKCJA	WIZUALIZACJI
-////////////////////////////////////
+// KONSTRUKCJA	WIZUALIZACJI
+// //////////////////////////////////
 extern unsigned internal_log;
 extern unsigned spatial_correlation_mode;
 
@@ -29,7 +29,7 @@ extern unsigned spatial_correlation_mode;
 void kworld::make_basic_sources()
 {
     sources_menager& WhatSourMen=this->Sources;
-    world::make_basic_sources();//Odziedziczone
+    world::make_basic_sources(); //Odziedziczone
     
     //Glowne serie 
     Firsts=Agenci.make_source("Attitude",&kagent::First);	
@@ -46,7 +46,7 @@ void kworld::make_basic_sources()
     /*
     Pressure=Agenci.make_source("Pressure",&kagent::Press);
     MaxPressure=long(MaxSila)*WeightOfSelf;
-    MaxPressure+=long(MaxSila)*NeedForClosure * (IleSasiad>0 ? IleSasiad : sqr(OdlSasiad*2+1)-1   );//Prymitywna implementacja
+    MaxPressure+=long(MaxSila)*NeedForClosure * (IleSasiad>0 ? IleSasiad : sqr(OdlSasiad*2+1)-1   ); //Prymitywna implementacja
     Pressure->set_missing(-1);
     Pressure->setminmax(0, MaxPressure  );
     */
@@ -62,7 +62,7 @@ void kworld::make_basic_sources()
     
     //Classif=Agenci.make_source("Classification",&kagent::Classif); //Z PIERWOWZORU "LANGUAGES"
     //if(Classif)
-    //	Classif->setminmax(0,IleKate*IleKate*IleKate-1);//Max class ==IleKate^3 bo trzy niezalezne plaszczyzny
+    //	Classif->setminmax(0,IleKate*IleKate*IleKate-1); //Max class ==IleKate^3 bo trzy niezalezne plaszczyzny
     
     //Umieszczenie glownych serii w menagerze serii
     WhatSourMen.insert(Firsts);
@@ -78,16 +78,16 @@ void kworld::make_basic_sources()
 }
 
 
-//Wspolpraca z menagerem wyswietlania a takze logiem
+// Wspolpraca z menagerem wyswietlania a takze logiem
 //------------------------------------------------------------------
-//Wypisywanie/dopisywanie na konsole statusu
+// Wypisywanie/dopisywanie na konsole statusu
 void    kworld::actualize_out_area()
 {
     world::actualize_out_area();
     //ptrStres; ptrClsSize; - Do przekazywania aktualnie najwazniejszych danych na okno statusu
     if(OutArea)
     {
-        wb_pchar bufor(1024);//ze sporym zapsem
+        wb_pchar bufor(1024); //ze sporym zapsem
         //assert(ptrStres->);
         double Stres=ptrStres->get();      //Zakladamy ze to zrodla jednowartosciowe
         double ClsSiz=ptrClsSize->get();
@@ -151,33 +151,33 @@ void kworld::make_default_visualisation()
         //A takze utworzenie seri liczacych ich wzajemne ko-statystyki
         coincidention_source* CorrFS=new coincidention_source(Firsts,Seconds);
         if(!CorrFS) goto ERROR;
-        Sources.insert(CorrFS);//Zeby zostala kiedys zwolniona, a poza tym moze ktos kiedys...
+        Sources.insert(CorrFS); //Zeby zostala kiedys zwolniona, a poza tym moze ktos kiedys...
         
         fifo_source<double>* EntropyFSLog=new fifo_source<double>(CorrFS->Entropy(),internal_log);
         if(!EntropyFSLog) goto ERROR;
         int iEntropyFS=Sources.insert(EntropyFSLog);
         
-        fifo_source<double>* CorrFSLogR=new fifo_source<double>(CorrFS->Tau_a_Goodman_Kruskal(),internal_log);//Fifo korelacji pierwszych z drugimi
+        fifo_source<double>* CorrFSLogR=new fifo_source<double>(CorrFS->Tau_a_Goodman_Kruskal(),internal_log); //Fifo korelacji pierwszych z drugimi
         if(!CorrFSLogR) goto ERROR;
         int iCorrFSR=Sources.insert(CorrFSLogR);
         
         
         //I utworzenie seri liczacych ich statystyki
         /*
-        fifo_source<double>* MeanPressLog=new fifo_source<double>(PressureStat->Mean(),internal_log);//Fifo ze sredniego chwilowego stresu
+        fifo_source<double>* MeanPressLog=new fifo_source<double>(PressureStat->Mean(),internal_log); //Fifo ze sredniego chwilowego stresu
         if(!MeanPressLog) goto ERROR;
         int iMeanPress=Sources.insert(MeanPressLog);
         
-          fifo_source<double>* StressFirstLog=new fifo_source<double>(FirstStat->Stress(),internal_log);//Fifo ze stresu klasycznego
+          fifo_source<double>* StressFirstLog=new fifo_source<double>(FirstStat->Stress(),internal_log); //Fifo ze stresu klasycznego
           if(!StressFirstLog) goto ERROR;
           int iSFirst=Sources.insert(StressFirstLog);
           
-            fifo_source<double>* StressSecondLog=new fifo_source<double>(SecondStat->Stress(),internal_log);//Fifo ze starego stresu
+            fifo_source<double>* StressSecondLog=new fifo_source<double>(SecondStat->Stress(),internal_log); //Fifo ze starego stresu
             if(!StressSecondLog) goto ERROR;
             int iSSecond=Sources.insert(StressSecondLog);
         */
         
-        fifo_source<double>* ClusterSizeLog=new fifo_source<double>(SpatialCorr->ApproximatedClusterSize(),internal_log);//Fifo z rozmiaru klastra
+        fifo_source<double>* ClusterSizeLog=new fifo_source<double>(SpatialCorr->ApproximatedClusterSize(),internal_log); //Fifo z rozmiaru klastra
         if(!ClusterSizeLog) goto ERROR;
         int iClusterSize=Sources.insert(ClusterSizeLog);
         
@@ -229,7 +229,7 @@ void kworld::make_default_visualisation()
         //WYMIARY DOMYSLNEGO OKNA
         unsigned szer=Menager.getwidth();
         unsigned wyso=Menager.getheight();
-        assert(szer>50 && wyso>40);//Najmniejsze sensowne okno
+        assert(szer>50 && wyso>40); //Najmniejsze sensowne okno
         
         //Obszary domyślne - np obszar STATUSU
         world::make_default_visualisation();
@@ -271,7 +271,7 @@ void kworld::make_default_visualisation()
         Menager.insert(pom);
         
         pom=new carpet_graph(1,wyso/2,szer/3,wyso-1,//domyslne wspolrzedne
-            Firsts);//I zrodlo danych
+            Firsts); //I zrodlo danych
         pom->setdatacolors(0,255);
         pom->settitle("Map of current attitude");
         Menager.insert(pom);
@@ -299,7 +299,7 @@ void kworld::make_default_visualisation()
         
         //PRZYCISKI
         pom=new carpet_graph(szer-49,5*(char_height('X')+RAMKA),szer,6*(char_height('X')+RAMKA),//domyslne wspolrzedne 
-            Seconds);//I zrodlo danych
+            Seconds); //I zrodlo danych
         pom->setdatacolors(0,255);
         pom->setframe(32);
         pom->settitle("Map of previous attitude");
@@ -307,7 +307,7 @@ void kworld::make_default_visualisation()
         
         
         pom=new carpet_graph(szer-49,6*(char_height('X')+RAMKA),szer,7*(char_height('X')+RAMKA),//domyslne wspolrzedne
-            Powers);//I zrodlo danych
+            Powers); //I zrodlo danych
         pom->setdatacolors(0,255);
         pom->setframe(32);
         pom->settitle("Map of power");
@@ -320,7 +320,7 @@ void kworld::make_default_visualisation()
             //Jesli 0 to zaczynaja sie od min>0
             0.22,		//Ulamek szerokosci przeznaczony na perspektywe
             0.77		//Ulamek wysokosci  przeznaczony na perspektywe
-            );//I zrodlo danych
+            ); //I zrodlo danych
         pom->setdatacolors(0,255);
         pom->setframe(32);
         pom->settitle("Composed map of strength & attitude of agents");
@@ -419,10 +419,10 @@ void kworld::make_default_visualisation()
         }
         
 }
-Sources.new_data_version(1,1);//Oznajmia seriom ze dane sie uaktualnily	(po inicjacji)
+Sources.new_data_version(1,1); //Oznajmia seriom ze dane sie uaktualnily	(po inicjacji)
 
 ERROR://... tu akcja na niepogode
-;//error_message(...)
+; //error_message(...)
 }
 
 /********************************************************************/

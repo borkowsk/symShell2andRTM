@@ -17,18 +17,18 @@ inline void wb_swap(short& a,short& b)
 
 class kagent:public agent_base
 {
-    friend class kworld;//Zeby uproscic dostep do skladowych.
+    friend class kworld; //Zeby uproscic dostep do skladowych.
 
     // STATYCZNE SKLADOWE - PARAMETRY INICJOWANIA I ZMIANY AGENTÓW
-    static short max_sila;//Maksymalna sila agenta
-    static int   treshold;//Granica domkniecia pogladu
-    //static short ile_kate;//Ilosc kategori w mapach
-    //static short kate_shift;//Przesuniecie dla wczytywania gifa
+    static short max_sila; //Maksymalna sila agenta
+    static int   treshold; //Granica domkniecia pogladu
+    //static short ile_kate; //Ilosc kategori w mapach
+    //static short kate_shift; //Przesuniecie dla wczytywania gifa
     static double Majority; //Udzial w calosci przekonanych do wiekszej klasy 
     static double Minority; //Udzial w calosci przekonanych do mniejszej klasy 
-    static double NoiseLevel;//Prawd. spontanicznej zmiany
+    static double NoiseLevel; //Prawd. spontanicznej zmiany
 
-    static short DrawAttitude();//Funkcja do losowania przekonania - uzywa Majority i Minority
+    static short DrawAttitude(); //Funkcja do losowania przekonania - uzywa Majority i Minority
 
     // SKLADOWE DLA SYMULACJI
     short Power;	//Sila agenta
@@ -53,7 +53,7 @@ class kagent:public agent_base
     }
 
     // TO CO MUSI byc zdefiniowane
-    ///////////////////////////////////
+    // /////////////////////////////////
 public:
     int IsOK()
     {
@@ -75,13 +75,13 @@ public:
 
     void new_attitude(short a)
     {
-        Second=a;//Takie ma byc nowe przekonanie
-        DurCh=true;//Sygnal ze juz jest "w trakcie" zmiany - np. zeby zapobiec powtorce
+        Second=a; //Takie ma byc nowe przekonanie
+        DurCh=true; //Sygnal ze juz jest "w trakcie" zmiany - np. zeby zapobiec powtorce
     }
 
     void update() //Kontrola zmiany stanu
     {
-        assert(DurCh);//Powinien byc w trakcie zmiany
+        assert(DurCh); //Powinien byc w trakcie zmiany
         wb_swap(First,Second);
         DurCh=false; //Teraz jest juz zmieniony
     }
@@ -90,7 +90,7 @@ public:
     {
         ForLeft=Red;
         ForRight=Blue;
-        First=0;//Na razie bez zdecydowania
+        First=0; //Na razie bez zdecydowania
     }
 
     void assign_prev(unsigned char Red,unsigned char Green,unsigned char Blue)
@@ -152,8 +152,8 @@ public:
 
 };
 
-//Konstrukcja agentow
-///////////////////////////////////
+// Konstrukcja agentow
+// /////////////////////////////////
 inline
 kagent::kagent(const kagent& ini)
     {
@@ -161,9 +161,9 @@ kagent::kagent(const kagent& ini)
         {
             First=ini.First;
             Second=ini.Second;
-            Power=1+RANDOM(max_sila);//Sila jest przydzielana z rozkladu
-            ForLeft=RANDOM(treshold);//Licznik przekonan za "Lewymi"
-            ForRight=RANDOM(treshold);//Licznik przekonan za "Prawymi"
+            Power=1+RANDOM(max_sila); //Sila jest przydzielana z rozkladu
+            ForLeft=RANDOM(treshold); //Licznik przekonan za "Lewymi"
+            ForRight=RANDOM(treshold); //Licznik przekonan za "Prawymi"
         }
         else
             _clean();
@@ -174,8 +174,8 @@ kagent::kagent()
     {
         _clean();
         Power=1+RANDOM(max_sila);
-        ForLeft=RANDOM(treshold);//Licznik przekonan za "Lewymi"
-        ForRight=RANDOM(treshold);//Licznik przekonan za "Prawymi"
+        ForLeft=RANDOM(treshold); //Licznik przekonan za "Lewymi"
+        ForRight=RANDOM(treshold); //Licznik przekonan za "Prawymi"
         First=DrawAttitude();
         Second=First;
     }
@@ -193,10 +193,10 @@ short kagent::DrawAttitude()
         else 
             if(pom<Majority+Minority)
             {
-                return 1;//Biali=Prawi
+                return 1; //Biali=Prawi
             }
             else
-                return 0;//Niezdecydowani
+                return 0; //Niezdecydowani
 
     }
 

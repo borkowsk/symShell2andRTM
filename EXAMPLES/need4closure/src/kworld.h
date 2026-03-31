@@ -12,15 +12,15 @@
 class kworld:public world	//Caly swiat symulacji
 //--------------------------------------------------
 {
-//Parametry jednowartosciowe
-/////////////////////////////////
+// Parametry jednowartosciowe
+// ///////////////////////////////
 size_t				MyWidth;	//Obwod torusa
 short				MaxSila;	//Maksymalna sila agenta
 short				Treshold;	//Treshold sily powyzej ktorego nie ma zmian
 short				IleSasiad;	//8==Gestosc sasiedztwa
 //short				OdlSasiad;	//Rozmiar sasiedztwa
-double				WeightOfSelf;//Z jaka waga brac siebie pod uwage (0..1)
-double				NeedForClosure;//Znaczenie moze byc rozne, zaleznie od implementacji
+double				WeightOfSelf; //Z jaka waga brac siebie pod uwage (0..1)
+double				NeedForClosure; //Znaczenie moze byc rozne, zaleznie od implementacji
 double				Noise;		//Szum informacyjny
 double              Fill;       //Udzial zywych na poczatku
 double              Migr;       //Prawdopodobienstwo migracji
@@ -31,20 +31,20 @@ wb_pchar			MaskName;	//nazwa pliku inicjujacej bitmapy
 
 //Warstwy symulacji (sa torusami)
 /////////////////////////////////
-//rectangle_unilayer<unsigned char> zdatnosc;//Warstwa definiujaca zdatnosc do zasiedlenia
+//rectangle_unilayer<unsigned char> zdatnosc; //Warstwa definiujaca zdatnosc do zasiedlenia
 rectangle_layer_of_ptr_to_agents<kagent> Agenci;  //Wlaściwa warstwa agentow zasiedlajacych
 
 //Glowne serie - wygodniej miec wskazniki niz odszukiwac z Sources po nazwach
 ////////////////////////////////////////////////////////////////////////////////
 ptr_to_struct_matrix_source<kagent,short>		*Firsts; //=Agenci.make_source("First mem",&kagent::First);		
-ptr_to_struct_matrix_source<kagent,short>		*Seconds;//=Agenci.make_source("Second mem",&kagent::Second);
+ptr_to_struct_matrix_source<kagent,short>		*Seconds; //=Agenci.make_source("Second mem",&kagent::Second);
 
 ptr_to_struct_matrix_source<kagent,short>		*Powers; //=Agenci.make_source("Power",&kagent::Power);
 ptr_to_struct_matrix_source<kagent,unsigned>    *ForLeft; //=Agenci.make_source("Power",&kagent::ForLeft);
 ptr_to_struct_matrix_source<kagent,unsigned>    *ForRight; //=Agenci.make_source("Power",&kagent::ForRight);
 
-//ptr_to_struct_matrix_source<kagent,short>		*Pressure;// =Agenci.make_source("Pressure",&kagent::Press);
-//method_by_ptr_matrix_source<kagent,long>		*Classif;//=Agenci.make_source("Classification",&kagent::Classif);
+//ptr_to_struct_matrix_source<kagent,short>		*Pressure; // =Agenci.make_source("Pressure",&kagent::Press);
+//method_by_ptr_matrix_source<kagent,long>		*Classif; //=Agenci.make_source("Classification",&kagent::Classif);
 
 scalar_source<double>*       ptrStres;          //Do przekazywania aktualnie najwazniejszych danych na okno statusu
 scalar_source<double>*       ptrClsSize;
@@ -55,7 +55,7 @@ int  CountMig;   //Ilu ostatnio migrowalo - do celow statystyki
 ptr_to_scalar_source<int>*       ptrLastChanged;          //Do przekazywania licznikow zmian
 ptr_to_scalar_source<int>*       ptrLastMigration;        
 
-double MaxPressure;//Do zapamietania teoretycznie najwiekszej wartosci "presji"
+double MaxPressure; //Do zapamietania teoretycznie najwiekszej wartosci "presji"
 
 //Wlasciwa implementacja symulacji
 int CheckChange(const rectangle_geometry* MyGeom,size_t index,kagent& CenterAgent);
@@ -90,12 +90,12 @@ kworld(size_t Width,		//Szerokosc torusa macierzy agentow
 protected:
 //AKCJE
 void	initialize_layers();	//Stan startowy symulacji
-void	after_read_from_image();//actions after read state from file. Aktualizacja pol static kagent'a!!!
+void	after_read_from_image(); //actions after read state from file. Aktualizacja pol static kagent'a!!!
 void	simulate_one_step();	//Wlasciwa implementacja kroku symulacji
 
 //Wspolpraca z menagerem wyswietlania
 //---------------------------------------------
-void	make_default_visualisation();//Tworzy domyslne "lufciki" i umieszcza w
+void	make_default_visualisation(); //Tworzy domyslne "lufciki" i umieszcza w
 //void actualize_out_area(); // aktualizacja zawartosci OutArea po n krokach symulacji
 
 //Generuje podstawowe zrodla dla wbudowanego menagera danych lub innego

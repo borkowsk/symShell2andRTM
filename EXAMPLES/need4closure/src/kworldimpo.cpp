@@ -18,7 +18,7 @@ int kworld::implement_output(ostream& o) const
     o<<MaxSila<<separator;	//Maksymalna sila agenta
     o<<IleSasiad<<separator;	//8==Gestosc sasiedztwa
     o<<WeightOfSelf<<separator; //Jak ma brac siebie pod uwage
-    o<<NeedForClosure<<separator;//Jak ma brac in nych (waga)
+    o<<NeedForClosure<<separator; //Jak ma brac in nych (waga)
     o<<Noise<<separator<<endl;		//Szum informacyjny
     o<<Agenci<<endl;
     return 1;
