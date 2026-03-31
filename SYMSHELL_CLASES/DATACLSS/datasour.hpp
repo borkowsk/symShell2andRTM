@@ -69,9 +69,9 @@ public:
 	  scalar_source_base(nam,min,max)
       { miss=default_missing<T>(); }
 
-double get(iteratorh& I)//"Zwalnia" iterator i wywoluje wirtualne get()
-		{               assert(I!=0);//Jak juz zwolniony to nie powinien byc wywolany
-            I=0;
+double get(iteratorh& I) override //"Zwalnia"(?) iterator i wywoluje wirtualne get()
+		{               assert(I!=nullptr);//Jak juz zwolniony to nie powinien byc wywolany
+            I=nullptr;
             return get();
         }
 
