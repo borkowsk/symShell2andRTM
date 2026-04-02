@@ -128,8 +128,8 @@ class MyBmp256Decoder
 {
 gdImagePtr im;
 FILE*      finput;
-RGBAPIXEL   * m_pPal;  // Pointer to palette used in file.
-static jmp_buf Jamper;//Nie ma lokalnych obiektow do zwalnianie wiec mozna
+RGBAPIXEL   * m_pPal;  //!< Pointer to palette used in file.
+static jmp_buf Jamper; //!< Nie ma lokalnych obiektów do zwalniania wiec można skoczyć.
 
 void raiseError( int Code,const char * pszErr)
   {
@@ -249,7 +249,7 @@ BYTE ** GetLineArray
 
   static void trace
     ( int TraceLevel,
-      char * pszMessage
+      const char * pszMessage
     );
 
 private:
@@ -394,9 +394,9 @@ inline LONG MyBmp256Decoder::ReadMLong
 
 void MyBmp256Decoder::trace
   ( int //TraceLevel,
-    ,char * //pszMessage
+    ,const char * //pszMessage
   )
-{                                                                               assert("Not implemented"==0);
+{                                                                               assert("Not implemented"==nullptr);
 //  clog<<"LEV:"<<TraceLevel<<":"<<pszMessage<<"\n"<<flush;
 }
 
