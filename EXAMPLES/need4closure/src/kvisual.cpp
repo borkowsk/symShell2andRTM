@@ -16,7 +16,7 @@
 #include "wb_ptrio.h"
 
 const int RAMKA=4;
-extern const char* SYMULATION_NAME;
+extern const char* SIMULATION_NAME;
 
 // KONSTRUKCJA	WIZUALIZACJI
 // //////////////////////////////////
@@ -60,9 +60,9 @@ void kworld::make_basic_sources()
     CountCh=ptrLastChanged->get_missing();
     CountMig=ptrLastMigration->get_missing();
     
-    //Classif=Agenci.make_source("Classification",&kagent::Classif); //Z PIERWOWZORU "LANGUAGES"
-    //if(Classif)
-    //	Classif->setminmax(0,IleKate*IleKate*IleKate-1); //Max class ==IleKate^3 bo trzy niezalezne plaszczyzny
+    //Classif=Agenci.make_source("Classification",&kagent::classif); //Z PIERWOWZORU "LANGUAGES"
+    //if(classif)
+    //	classif->setminmax(0,IleKate*IleKate*IleKate-1); //Max class ==IleKate^3 bo trzy niezalezne plaszczyzny
     
     //Umieszczenie glownych serii w menagerze serii
     WhatSourMen.insert(Firsts);
@@ -74,7 +74,7 @@ void kworld::make_basic_sources()
     WhatSourMen.insert(ptrLastChanged);
     WhatSourMen.insert(ptrLastMigration);
     
-    //WhatSourMen.insert(Classif);
+    //WhatSourMen.insert(classif);
 }
 
 

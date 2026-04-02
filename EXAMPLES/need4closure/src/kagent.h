@@ -1,9 +1,8 @@
 /// @file
-/// @brief ... (old example for SymShell implementing Kruglanskis like model)
-// //////////////////////////////////////////////////////////////////////////
-/// @date 2026-03-31 (modified)
-// DECLARATION OF    A G E N T   FOR "need 4 closure" SIMULATION
-// ///////////////////////////////////////////////////////////
+/// @brief DECLARATION OF THE AGENT FOR "need 4 closure" SIMULATION (old example for SymShell implementing a Kruglanski's like model)
+// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// @date 2026-04-02 (modified)
+//
 #pragma once
 #include "layer.hpp"
 #include "krand.h"
@@ -17,31 +16,32 @@ inline void wb_swap(short& a,short& b)
 
 class kagent:public agent_base
 {
-    friend class kworld;		///< Zeby uproscic dostep do skladowych.
+    friend class kworld;		///< To simplify access to the components of the world class.
 
-    // STATYCZNE SKLADOWE - PARAMETRY INICJOWANIA I ZMIANY AGENTÓW
-    static short max_sila;		///< Maksymalna sila agenta
-    static int   treshold;		///< Granica domkniecia pogladu
-    //static short ile_kate;		///< Ilosc kategori w mapach
-    //static short kate_shift;		///< Przesuniecie dla wczytywania gifa
-    static double Majority;		///< Udzial w calosci przekonanych do wiekszej klasy
-    static double Minority;		///< Udzial w calosci przekonanych do mniejszej klasy
-    static double NoiseLevel;	///< Prawd. spontanicznej zmiany
+    // STATIC CLASS MEMBERS - INITIALIZATION AND AGENT CHANGE PARAMETERS:
+    // //////////////////////////////////////////////////////////////////
+    static short Max_power;		///< Maksymalna siła agenta.
+    static int   Threshold;		///< Granica domknięcia poglądu.
+    //static short ile_kate;		///< Liczba kategorii w mapach.
+    //static short kate_shift;		///< Przesuniecie dla wczytywania gifa.
+    static double Majority;		///< Udział w całości przekonanych do większej klasy.
+    static double Minority;		///< Udział w całości przekonanych do mniejszej klasy.
+    static double NoiseLevel;	///< Prawd. spontanicznej zmiany (niezaimplementowane chyba).
 
-    static short DrawAttitude();	///< Funkcja do losowania przekonania - uzywa Majority i Minority
+    static short DrawAttitude();	///< Funkcja do losowania przekonania. Używa `Majority` i `Minority`.
 
-    // SKLADOWE DLA SYMULACJI
-    short Power;			///< Sila agenta
-    short First;			///< Aktualne przekonanie -1,0,1 (Left,Neutral,Right)
-    short Second;			///< Nowe przekonanie lub poprzednie
+    // AGENT ATTRIBUTES IMPORTANT FOR SIMULATION:
+    short Power;			///< Siła agenta.
+    short First;			///< Aktualne przekonanie -1,0,1 (Left,Neutral,Right).
+    short Second;			///< Nowe przekonanie lub poprzednie.
 
     unsigned int   ForRight;
     unsigned int   ForLeft;
 
-    //short Press;		///< Nacisk spoleczny - sumaryczna sila za zwyciezajacym pogladem, o ile agent go nie wyznaje, albo 0
-    bool  DurCh:1;		///< Czy jest w trakcie zmieniania (do zarzadzania zmianami stanow)
+    //short Pressure;		///< Social pressure. The aggregate force behind a prevailing view, unless the agent holds it, or 0.
+    bool  DurCh:1;		///< Information whether the state is being changed (for managing state changes).
     
-    void _clean()
+    void _clean()		///< Implementacja czyszczenia stanu agenta.
     {
         Power=-1;
 
@@ -52,55 +52,56 @@ class kagent:public agent_base
         DurCh=false;
     }
 
-    // TO CO MUSI byc zdefiniowane
-    // /////////////////////////////////
+    // EVERYTHING THAT MUST BE DEFINED:
+    // ////////////////////////////////
 public:
-    int IsOK()
+    int IsOK() const
     {
         return Power!=-1;
     }
 
-    kagent(const kagent& ini);			///< Konstruktor typowy. Konkretna implementacja konstruktora w "kworld.cpp"!
+    kagent(const kagent& ini);			///< Konstruktor typowy.
+
+    explicit kagent(const kagent* ini);	///< Konstruktor nietypowy.
 
     kagent();							///< Konstruktor bezparametrowy.
 
-    kagent* clone() const
+    kagent* clone() const				///< Dynamiczna kopia agenta.
     { return new kagent(*this);}
 
-    ~kagent() override
+    ~kagent() override					///< Wirtualny destruktor.
     {_clean();}
 
-    void clean() override
+    void clean() override				///< Wirtualne czyszczenia stanu agenta.
     {_clean();}
 
     void new_attitude(short a)
     {
-        Second=a; //Takie ma byc nowe przekonanie
-        DurCh=true; //Sygnal ze juz jest "w trakcie" zmiany - np. zeby zapobiec powtorce
+        Second=a; //Takie ma być nowe przekonanie
+        DurCh=true; //Sygnał, że juź jest "w trakcie" zmiany. Np. żeby zapobiec powtórce.
     }
 
     void update() 			///< Kontrola zmiany stanu
-    {
-        assert(DurCh); //Powinien byc w trakcie zmiany
+    {                                                                     assert(DurCh); //Powinien być w trakcie zmiany
         wb_swap(First,Second);
-        DurCh=false; //Teraz jest juz zmieniony
+        DurCh=false; //Teraz jest już zmieniony
     }
 
-    void assign_curr(unsigned char Red,unsigned char Green,unsigned char Blue)
+    void assign_curr(unsigned char Red,unsigned char /*Green*/,unsigned char Blue)
     {
         ForLeft=Red;
         ForRight=Blue;
         First=0; //Na razie bez zdecydowania
     }
 
-    void assign_prev(unsigned char Red,unsigned char Green,unsigned char Blue)
+    void assign_prev(unsigned char /*Red*/,unsigned char /*Green*/,unsigned char /*Blue*/)
     {
         Second=0;
     }
 
     void assignPow(unsigned char Red,unsigned char Green,unsigned char Blue)
     {
-        Power=short((int(Red)+int(Green)+int(Blue))/(3.*255)*max_sila);
+        Power=short((int(Red)+int(Green)+int(Blue)) / (3.*255) * Max_power);
     }
 
     void killBlack(unsigned char Red,unsigned char Green,unsigned char Blue)
@@ -109,7 +110,8 @@ public:
             _clean();
     }
 
-    long Classif() const
+    [[maybe_unused]]
+    long classif() const
     {
         return First;
     }
@@ -119,7 +121,7 @@ public:
         return (unsigned long) ( (unsigned char) (First) ); //TODO Jakaś dziwna kombinacja...
     }
 
-    friend
+    friend /// Zapisywanie. Serializacja.
     ostream& operator << (ostream& o,const kagent& a)
     {
         o<<'{';
@@ -134,7 +136,7 @@ public:
         return o;
     }
 
-    friend
+    friend /// Wczytywanie. Deserializacja.
     istream& operator >> (istream& i,kagent& a)
     {
         char pom;
@@ -152,30 +154,43 @@ public:
 
 };
 
-// Konstrukcja agentow
-// /////////////////////////////////
+// Implementation of agent construction:
+// /////////////////////////////////////
+
 inline kagent::kagent(const kagent& ini)
     {
-        if(&ini!=nullptr)
-        {
-            First=ini.First;
-            Second=ini.Second;
-            Power=1+RANDOM(max_sila); //Sila jest przydzielana z rozkladu
-            ForLeft=RANDOM(treshold); //Licznik przekonan za "Lewymi"
-            ForRight=RANDOM(treshold); //Licznik przekonan za "Prawymi"
-        }
-        else
-            _clean();
+        DurCh= false;
+        First=ini.First;
+        Second=ini.Second;
+        Power=1+RANDOM(Max_power); //Siła jest przydzielana z rozkładu
+        ForLeft=RANDOM(Threshold); //Licznik przekonań za "Lewymi"
+        ForRight=RANDOM(Threshold); //Licznik przekonań za "Prawymi"
     }
+
+inline kagent::kagent(const kagent *ini)
+{
+    if(ini!=nullptr)
+    {
+        DurCh= false;
+        First=ini->First;
+        Second=ini->Second;
+        Power=1+RANDOM(Max_power); //Siła jest przydzielana z rozkładu
+        ForLeft=RANDOM(Threshold); //Licznik przekonań za "Lewymi"
+        ForRight=RANDOM(Threshold); //Licznik przekonań za "Prawymi"
+    }
+    else
+        _clean();
+}
 
 inline kagent::kagent()
     {
         _clean();
-        Power=1+RANDOM(max_sila);
-        ForLeft=RANDOM(treshold); //Licznik przekonan za "Lewymi"
-        ForRight=RANDOM(treshold); //Licznik przekonan za "Prawymi"
+        Power=1+RANDOM(Max_power);
+        ForLeft=RANDOM(Threshold); //Licznik przekonań za "Lewymi"
+        ForRight=RANDOM(Threshold); //Licznik przekonań za "Prawymi"
         First=DrawAttitude();
         Second=First;
+        DurCh= false;
     }
 
 inline short kagent::DrawAttitude()
@@ -185,20 +200,20 @@ inline short kagent::DrawAttitude()
         double pom=DRAND();
         if(pom<Majority)
         {
-            return -1;  //Czarni=Lewi
+            return -1;  //Czarni = Lewi
         }
         else 
             if(pom<Majority+Minority)
             {
-                return 1; //Biali=Prawi
+                return 1; //Biali = Prawi
             }
             else
                 return 0; //Niezdecydowani
 
     }
 
-/********************************************************************/
-/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
+/* **************************************************************** */
+/*           THIS CODE IS DESIGNED & COPYRIGHT BY:                  */
 /*            W O J C I E C H   B O R K O W S K I                   */
 /*                                                                  */
 /*      Instytut Studiów Społecznych Uniwersytetu Warszawskiego     */
@@ -207,4 +222,5 @@ inline short kagent::DrawAttitude()
 /*        MAIL: borkowsk@samba.iss.uw.edu.pl                        */
 /*                                                                  */
 /*                               (Don't change or remove this note) */
-/********************************************************************/
+/* **************************************************************** */
+

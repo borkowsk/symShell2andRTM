@@ -7,7 +7,7 @@
 // Uzyskana z przerobienia programu ATTITUDEs
 // ///////////////////////////////////////////////////////////////////////////////////
 const char* WINDOW_HEADER="NEED FOR CLOSURE version 0.22a";
-const char* SYMULATION_NAME="need4clos_v0.22a";
+const char* SIMULATION_NAME="need4clos_v0.22a";
 
 /// HISTORY:
 /// ---------------- Attitude -v-v-v-v-v-v-v-v- ---------------------------------
@@ -378,7 +378,7 @@ ERROR:
         cout<<"\tIRIG=0.001..0.999 - part of society with \"white\" attitude ("<<Minority<<")\n"; 
 //      cout<<"\tPMIG=0.001..1 - probability of migration under pressure ("<<ProbMig<<")\n";	
         cout<<"\tMPOW=NN - max strength for initilization ("<<MaksymalnaSila<<")\n"	;
-        cout<<"\tTRSP=N - treshold of strenght ("<<Treshold<<")\n";
+        cout<<"\tTRSP=N - Threshold of strenght ("<<Treshold<<")\n";
 
         cout<<"\tPRTR=1..N - number of interaction partners (-1 = all in neighbourhood) ("<<IleSasiadow<<")\n";
         cout<<"\tNOIP=NN - percent of noise ("<<ProcentSzumu<<")\n";
@@ -424,8 +424,8 @@ if(!Lufciki.start(WINDOW_HEADER,argc,argv,1))
 
 //Utworzenie sensownej nazwy pliku(-ów) do zrzutow ekranu
 {
-wb_pchar buf(strlen(SYMULATION_NAME)+20);
-buf.prn("%s_%ld",SYMULATION_NAME,time(nullptr));
+wb_pchar buf(strlen(SIMULATION_NAME) + 20);
+buf.prn("%s_%ld", SIMULATION_NAME, time(nullptr));
 Lufciki.set_dump_name(buf.get());
 }
 

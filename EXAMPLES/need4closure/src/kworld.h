@@ -1,41 +1,45 @@
 /// @file
-/// @brief ... (old example for SymShell implementing Kruglanskis like model)
-// //////////////////////////////////////////////////////////////////////////
-/// @date 2026-03-31 (modified)
-// DECLARATION OF   W O R L D  FOR "need 4 closure" SIMULATION
-// ///////////////////////////////////////////////////////
-#include <limits.h> //SHRT_MAX
+/// @brief DECLARATION OF THE WORLD FOR "need 4 closure" SIMULATION (old example for SymShell implementing Kruglanskis like model)
+// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// @date 2026-04-02 (modified)
+//
+#pragma once
+#include <climits> //SHRT_MAX
 #include "world.hpp"
 #include "layer.hpp"
 #include "kagent.h" //Definicja agenta
 
-class kworld:public world	//Caly swiat symulacji
+/// Cały świat symulacji "need for closure".
+class kworld:public world
 //--------------------------------------------------
 {
-// Parametry jednowartosciowe
-// ///////////////////////////////
-size_t			MyWidth;		///< Obwod torusa
-short				MaxSila;		///< Maksymalna sila agenta
-short				Treshold;		///< Treshold sily powyzej ktorego nie ma zmian
-short				IleSasiad;		///< 8==Gestosc sasiedztwa
-//short			OdlSasiad;		///< Rozmiar sasiedztwa
-double			WeightOfSelf;	///< Z jaka waga brac siebie pod uwage (0..1)
-double			NeedForClosure;	///< Znaczenie moze byc rozne, zaleznie od implementacji
-double			Noise;		///< Szum informacyjny
-double			Fill;			///< Udzial zywych na poczatku
-double			Migr;			///< Prawdopodobienstwo migracji
-bool				Synchronic;		///< Synchroniczna zmiana pogladow
-wb_pchar			MappName;		///< nazwa pliku inicjujacej bitmapy
-wb_pchar			MaplName;		///< nazwa pliku inicjujacej bitmapy
-wb_pchar			MaskName;		///< nazwa pliku inicjujacej bitmapy
+// Single-value model parameters:
+// //////////////////////////////
 
-// Warstwy symulacji (sa torusami)
-// ///////////////////////////////
-//rectangle_unilayer<unsigned char> zdatnosc; //Warstwa definiujaca zdatnosc do zasiedlenia
-rectangle_layer_of_ptr_to_agents<kagent> Agenci;		///< Wlaściwa warstwa agentow zasiedlajacych
+size_t			MyWidth;		///< Obwód torusa.
+short			MaxSila;		///< Maksymalna siła agenta.
+short			Treshold;		///< Próg siły powyżej którego nie ma zmian.
+short			IleSasiad;		///< 8 == Gęstość sąsiedztwa.
+//short			OdlSasiad;		///< Rozmiar sasiedztwa.
+double			WeightOfSelf;	///< Z jaka waga brac siebie pod uwage (0..1).
+double			NeedForClosure;	///< Znaczenie może byc różne, zależnie od implementacji.
+double			Noise;			///< Szum informacyjny.
+double			Fill;			///< Udział żywych na początku.
+double			Migr;			///< Prawdopodobieństwo migracji.
+bool			Synchronic;		///< Synchroniczna zmiana poglądów.
+wb_pchar		MappName;		///< Nazwa pliku inicjującej bitmapy.
+wb_pchar		MaplName;		///< Nazwa pliku inicjującej bitmapy.
+wb_pchar		MaskName;		///< Nazwa pliku inicjującego maskę zdatności (?).
 
-// Glowne serie - wygodniej miec wskazniki niz odszukiwac z Sources po nazwach
-// //////////////////////////////////////////////////////////////////////////////
+// Simulation layers (are tori):
+// /////////////////////////////
+
+//rectangle_unilayer<unsigned char> zdatnosc; //Warstwa definiująca zdatność do zasiedlenia
+rectangle_layer_of_ptr_to_agents<kagent> Agenci;		///< Właściwa warstwa agentów zasiedlających.
+
+// Main data series. It's convenient to have pointers rather than searching for them in Sources by name:
+// /////////////////////////////////////////////////////////////////////////////////////////////////////
+
 ptr_to_struct_matrix_source<kagent,short>		*Firsts;	///< =Agenci.make_source("First mem",&kagent::First);
 ptr_to_struct_matrix_source<kagent,short>		*Seconds;	///< =Agenci.make_source("Second mem",&kagent::Second);
 
@@ -44,36 +48,43 @@ ptr_to_struct_matrix_source<kagent,unsigned>    *ForLeft;	///< =Agenci.make_sour
 ptr_to_struct_matrix_source<kagent,unsigned>    *ForRight;	///< =Agenci.make_source("Power",&kagent::ForRight);
 
 //ptr_to_struct_matrix_source<kagent,short>		*Pressure;	///<  =Agenci.make_source("Pressure",&kagent::Press);
-//method_by_ptr_matrix_source<kagent,long>		*Classif;	///< =Agenci.make_source("Classification",&kagent::Classif);
+//method_by_ptr_matrix_source<kagent,long>		*Classify;	///< =Agenci.make_source("Classification",&kagent::classif);
 
-scalar_source<double>*       ptrStres;	///< Do przekazywania aktualnie najwazniejszych danych na okno statusu
+scalar_source<double>*       ptrStres;	///< Do przekazywania aktualnie najważniejszych danych na okno statusu.
 scalar_source<double>*       ptrClsSize;
 
-int  CountCh;	///< Ilu ostatnio zmienilo poglad - do celow statystyki
-int  CountMig;	///< Ilu ostatnio migrowalo - do celow statystyki
+int  CountCh;	///< Ilu ostatnio zmieniło pogląd. Do celów statystyki.
+int  CountMig;	///< Ilu ostatnio migrowało. Do celów statystyki, o ile jest zaimplementowana migracja.
     
-ptr_to_scalar_source<int>*       ptrLastChanged;	///< Do przekazywania licznikow zmian
-ptr_to_scalar_source<int>*       ptrLastMigration;	///< ...
+ptr_to_scalar_source<int>*       ptrLastChanged;	///< Do przekazywania liczników zmian.
+ptr_to_scalar_source<int>*       ptrLastMigration;	///< Do przekazywania liczników migracji.
 
-double MaxPressure; 	///< Do zapamietania teoretycznie najwiekszej wartosci "presji"
+double MaxPressure; 	///< Do zapamiętania teoretycznie największej wartości "presji".
 
-//Wlasciwa implementacja symulacji
+// Here is the actual simulation implementation:
+// /////////////////////////////////////////////
+
+/// Zmiana stanów.
 int CheckChange(const rectangle_geometry* MyGeom,size_t index,kagent& CenterAgent);
+
+/// Ewentualna migracja.
 int DoMigration(const rectangle_geometry* MyGeom,size_t index,kagent& CenterAgent);
 
 public:
-//KONSTRUKCJA DESTRUKCJA
-kworld(size_t Width,		///< Szerokosc torusa macierzy agentow
-      char* log_name,		///< Nazwa pliku do zapisywania histori
-      char* mapl_name,		///< Nazwa (bit)mapy inicjujacej "skladowe"
-      char* mapp_name,		///< Nazwa (bit)mapy inicjujacej "sily"
-      char* live_mask,		///< Czarne w tej mapie sa kasowane
-      double noise,		///< Szum informacyjny
-      short	max_sila,		///< Maksymalna sila agenta
+// CONSTRUCTION AND DESTRUCTION:
+// /////////////////////////////
 
-      short	ile_sasiad,		///< 8==Gestosc sasiedztwa
-      double need_use_self,	///< Z jaka waga ma brac siebie
-      double need_for_something,	///< Z jaka waga brac innych
+kworld(size_t Width,		///< Szerokość torusa macierzy agentów.
+      char* log_name,		///< Nazwa pliku do zapisywania historii.
+      char* mapl_name,		///< Nazwa (bit)mapy inicjującej "składowe".
+      char* mapp_name,		///< Nazwa (bit)mapy inicjującej "siły".
+      char* live_mask,		///< Czarne w tej mapie są kasowane.
+      double noise,			///< Szum informacyjny.
+      short	max_sila,		///< Maksymalna sila agenta.
+
+      short	how_many_neib,		///< 8 == Gęstość sąsiedztwa.
+      double need_use_self,	///< Z jaką wagą ma brać siebie (0,1,2...?).
+      double need_for_something,	///< Z jaka wagą brać innych.
       bool	synchronicly,
 
       short treshold,
@@ -88,29 +99,33 @@ kworld(size_t Width,		///< Szerokosc torusa macierzy agentow
 ~kworld() override = default;
 
 protected:
-//AKCJE
-void	initialize_layers() override;	///< Stan startowy symulacji
-void	after_read_from_image() override;	///< actions after read state from file. Aktualizacja pol static kagent'a!!!
-void	simulate_one_step() override;	///< Wlasciwa implementacja kroku symulacji
 
-//Wspolpraca z menagerem wyswietlania
-//---------------------------------------------
-void	make_default_visualisation() override;	///< Tworzy domyslne "lufciki" i umieszcza w
-//void actualize_out_area();	///<  aktualizacja zawartosci OutArea po n krokach symulacji
+// TYPICAL ACTIONS OF EACH SIMULATION:
+// ///////////////////////////////////
 
-//Generuje podstawowe zrodla dla wbudowanego menagera danych lub innego
+void	initialize_layers() override;	///< Stan startowy symulacji.
+void	after_read_from_image() override;	///< Actions after read state from file. TAKŻE aktualizacja pól static kagent'a!!!
+void	simulate_one_step() override;	///< Właściwa implementacja kroku symulacji.
+
+// Collaboration with the area manager:
+//-------------------------------------
+
+/// Tworzy domyślne "lufciki" i umieszcza na liście zarządcy.
+void	make_default_visualisation() override;
+/// Wypisywanie/dopisywanie na konsole statusu. Aktualizacja zawartości `OutArea` zwykle co `n` kroków symulacji.
+void	actualize_out_area() override;
+
+/// Generuje podstawowe źródła dla wbudowanego manager-a danych lub innego
 void	make_basic_sources() override;
 
-//Wypisywanie/dopisywanie na konsole statusu
-void    actualize_out_area() override;
-
-//Implementacja wejscia/wyjscia. Zwracaj 1 jesli sukces!
-int		implement_output(ostream& o) const override;
-int		implement_input(istream& i) override;
+// Input/output implementation:
+//-----------------------------
+int		implement_output(ostream& o) const override; ///< @returns 1, gdy sukces!
+int		implement_input(istream& i) override; ///< @returns 1, gdy sukces!
 };
 
-/********************************************************************/
-/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
+/* **************************************************************** */
+/*           THIS CODE IS DESIGNED & COPYRIGHT BY:                  */
 /*            W O J C I E C H   B O R K O W S K I                   */
 /*                                                                  */
 /*      Instytut Studiów Społecznych Uniwersytetu Warszawskiego     */
@@ -119,4 +134,5 @@ int		implement_input(istream& i) override;
 /*        MAIL: borkowsk@samba.iss.uw.edu.pl                        */
 /*                                                                  */
 /*                               (Don't change or remove this note) */
-/********************************************************************/
+/* **************************************************************** */
+

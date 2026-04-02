@@ -1,10 +1,8 @@
 /// @file
-/// @brief ... (old example for SymShell implementing Kruglanskis like model)
-// //////////////////////////////////////////////////////////////////////////
-/// @date 2026-03-31 (modified)
+/// @brief WHICH RANDOM NUMBER GENERATOR USE THIS SIMULATION (old example for SymShell implementing Kruglanski like model)
+// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// @date 2026-04-02 (modified)
 ///
-//	WHICH RANDOM NUMBER GENERATOR USE THIS SIMULATION
-// ////////////////////////////////////////////////////
 #ifndef K_RAND_HPP_INCLUDED_
 #define K_RAND_HPP_INCLUDED_
 
@@ -13,8 +11,9 @@
 #include "wb_rand.hpp"
 
 #endif
-/********************************************************************/
-/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
+
+/* **************************************************************** */
+/*           THIS CODE IS DESIGNED & COPYRIGHT BY:                  */
 /*            W O J C I E C H   B O R K O W S K I                   */
 /*                                                                  */
 /*      Instytut Studiów Społecznych Uniwersytetu Warszawskiego     */
@@ -23,4 +22,5 @@
 /*        MAIL: borkowsk@samba.iss.uw.edu.pl                        */
 /*                                                                  */
 /*                               (Don't change or remove this note) */
-/********************************************************************/
+/* **************************************************************** */
+
