@@ -1,12 +1,11 @@
 /// @file
 ///	RECTANGULAR GEOMETRY.
 //*/////////////////////////////////////////////////////////////
-/// @date 2026-03-30 (modified)
+/// @date 2026-04-02 (modified)
 #ifndef RECT_GEOM_HPP_DEFINED_
 #define RECT_GEOM_HPP_DEFINED_
 
 #include <cmath>
-//#include "wbminmax.hpp"
 #include "wb_ptr.hpp"
 #include "wb_rand.hpp"
 #include "geombase.hpp"
@@ -15,23 +14,25 @@ using namespace wbrtm;
 //using wbrtm::wb_dynmatrix;
 //using wbrtm::round;
 
+/// Klasa geometrii komórkowej 2D.
 class rectangle_geometry:public geometry_base
 //---------------------------------------------
 {
     wb_dynmatrix<float> distances;	//!< Macierz odległości. Oczywiście nie zawsze potrzebna.
 
-protected:
-    RandomGenerator& RndSel;	//!< Maszyna losująca pozycje.
-    long	Szerokosc;			//!< Ile kolumn.
-    long	Wysokosc;			//!< Ile wierszy.
-    unsigned long _currSize=0;	//!< Liczba itemów do leniwego obliczania rozmiaru.
+    long	columns;			//!< Ile ogólnie kolumn obszaru.
+    long	rows;				//!< Ile ogólnie wierszy obszaru.
+    unsigned long _currSize=0;	//!< Liczba itemów do leniwego obliczania rozmiaru (?).
     int		torus;				//!< flaga geometrii torusa.
 
+protected:
     //Parametry aktualnego wycinka używanego dla wizualizacji:
     long	sSZER;	//!< ...
     long	sWYS;	//!< ...
     long	lSZER;	//!< ...
     long	lWYS;	//!< ...
+
+    RandomGenerator& RndSel;	//!< Maszyna losująca pozycje.
 
 public:
     RandomGenerator& 	get_rnd() { return RndSel; }	//!< Dostęp do odpowiedniego generatora liczb pseudolosowych.
@@ -56,22 +57,26 @@ public:
             //	cerr<<"rectangle_geometry::~iterator() ";
         }
 
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "modernize-use-auto"
         /// Implementacja pobrania następnego elementu.
         void _next(const geometry_base& geo,size_t& ret,size_t& end) override
         {
             rectangle_geometry* MyGeo=(rectangle_geometry*)&geo; //Dostęp do pól
-            size_t I_S=horiz_start+i;
-            size_t J_W=vert_start+j;
+            long I_S=horiz_start+i;
+            long J_W=vert_start+j;
 
             ret=MyGeo->get(I_S,J_W); //FULL, gdy nie w tablicy
 
             if((i=(i+1)%sub_width)==0) //Inkrementacja kolumn
                 if((j=j+1)==sub_height) //i czasami wierszy
                     { //Gdy j == lb to jesteśmy za oknem
-                    end=1; //Kończymy z tym iteratorem
+                    end=1; //Kończymy z tym iterator-em
                     }
         }
-    }; //koniec definicji iteratora globalnego
+#pragma clang diagnostic pop
+
+    }; //koniec definicji iterator-a globalnego
 
     /// Struktura do losowej iteracji po tablicy.
     struct monte_carlo_iterator:public geometry_base::iterator_base
@@ -86,42 +91,44 @@ public:
                     geometry_base::iterator_base(ii),
                     horiz_start(hors),sub_width(subw),
                     vert_start(vers),sub_height(subh)
-                {}
+        {
+            // cerr<<"monte_carlo_iterator:"<<ile<<"["<<horiz_start<<"+"<<sub_width<<"|"<<vert_start<<"+"<<sub_width<<"]"<<endl;
+        }
 
         ~monte_carlo_iterator() override
         {
-            //	cerr<<"~monte_carlo_iterator() ";
+            // cerr<<"~monte_carlo_iterator() ";
         }
 
         /// Implementacja pobrania następnego elementu.
         void _next(const geometry_base& geo,size_t& ret,size_t& end) override
         {
             rectangle_geometry* MyGeo=(rectangle_geometry*)&geo; //Dostęp do pól
-            size_t i=MyGeo->get_rnd().Random(sub_width);  // Gdy wycinek wybiega za tablice, to może...
-            size_t j=MyGeo->get_rnd().Random(sub_height); // ...nie byc wewnątrz tablicy elementów
-            assert(i<sub_width);
-            assert(i<sub_height);
-            size_t I_S=horiz_start+i;
-            size_t J_W=vert_start+j;
+            size_t i=MyGeo->get_rnd().Random(sub_width);  assert(i<sub_width);// Gdy wycinek wybiega za tablice, to może...
+            size_t j=MyGeo->get_rnd().Random(sub_height); assert(i<sub_height);// ...nie być wewnątrz tablicy elementów.
+                                                                                            //    assert(horiz_start>=0);
+            long I_S=horiz_start+i;                                                         //            assert(I_S>=0);
+                                                                                            //     assert(vert_start>=0);
+            long J_W=vert_start+j;                                                          //            assert(J_W>=0);
 
             ret=MyGeo->get(I_S,J_W); //FULL, gdy nie w tablicy
 
             ile--; //Już zaliczony
             if(ile==0)
-                end=1; //Kończymy z tym iteratorem
+                end=1; //Kończymy z tym iterator-em.
         }
-    };//koniec klasy iteratora monte-carlo
+    }; //koniec klasy iterator-a monte-carlo
 
     // METODY IMPLEMENTUJĄCE OGÓLNE WŁAŚCIWOŚCI GEOMETRII:
     //*///////////////////////////////////////////////////
 
-    int  compare(geometry_base& bsec)
+    int  compare(geometry_base& bsec) override
     {
         if( _compare_geometry_base(&bsec)==0 ) //Czy jest tego samego typu i wymiaru
             {
             rectangle_geometry& sec=*(rectangle_geometry*)&bsec; //Można zrzutować.
-            if(sec.Szerokosc==Szerokosc && //Wiersze i kolumny
-                    sec.Wysokosc==Wysokosc &&
+            if(sec.columns == columns && //Wiersze i kolumny
+                    sec.rows == rows &&
                     sec.sSZER==sSZER &&	//Parametry zaznaczonego wycinka
                     sec.sWYS==sWYS &&
                     sec.lSZER==lSZER &&
@@ -132,29 +139,29 @@ public:
 
     /// Informacja o rozmiarze użytecznej przestrzeni.
     /// @note W wersji bezparametrowej zwraca coś zaalokowanego, co trzeba potem zdealokować!
-    MD_info* get_info(MD_info* Info=nullptr) const override
+    MD_info* get_info(MD_info* Info/* =nullptr */) const override
     {
         if(Info==nullptr)
             Info=new MD_info; //Teraz już nie może być pusty.
         //Set information:
-        Info->max.X()=Szerokosc-1;
-        Info->max.Y()=Wysokosc-1;
+        Info->max.X()= columns - 1;
+        Info->max.Y()= rows - 1;
         return Info;
     }
 
     /// Informacja o maksymalnej możliwej odległości. Potrzebna np. dla "Spatial correlation".
     double      get_max_distance() const override
     {
-        double ret=(Szerokosc*Szerokosc+Wysokosc*Wysokosc);
+        double ret=(columns * columns + rows * rows);
         ret=sqrt(ret);
         if(torus)
             ret/=2;
         return ret;
     }
 
-    /// Informacja o położeniu i zasięgu kamery dla view_iteratora.
+    /// Informacja o położeniu i zasięgu kamery dla `view_iterator`-a.
     /// @note W wersji bezparametrowej zwraca coś zaalokowanego, co trzeba potem zdealokować!
-    view_info* get_view_info(view_info* Info=nullptr) const
+    view_info* get_view_info(view_info* Info) const override
     {
         if(Info==nullptr)
             Info=new view_info;  //Teraz już nie może być pusty.
@@ -185,22 +192,22 @@ public:
 
         //Sprawdzanie poprawności parametrów:
         //-----------------------------------
-        if(dlSZER<1 || dlSZER>Szerokosc)
+        if(dlSZER<1 || dlSZER > columns)
                       goto ERROR;
-        if(dlWYS<1 || dlWYS>Szerokosc)
+        if(dlWYS<1 || dlWYS > columns)
                       goto ERROR;
         if(torus)
             {
-            if(dsSZER<-double(Szerokosc) || dsSZER>2*Szerokosc-1)
+            if(dsSZER<-double(columns) || dsSZER > 2 * columns - 1)
                 goto ERROR;
-            if(dsWYS<-double(Wysokosc) || dsWYS>2*Wysokosc-1)
+            if(dsWYS<-double(rows) || dsWYS > 2 * rows - 1)
                 goto ERROR;
             }
         else
             {
-            if(dsSZER<0 || dsSZER>Szerokosc-dlSZER)
+            if(dsSZER<0 || dsSZER > columns - dlSZER)
                 goto ERROR;
-            if(dsWYS<0 || dsWYS>Wysokosc-dlWYS)
+            if(dsWYS<0 || dsWYS > rows - dlWYS)
                 goto ERROR;
             }
 
@@ -209,8 +216,8 @@ public:
         lWYS=long(dlWYS);
         if( torus )
             {
-            sSZER=(Szerokosc+long(dsSZER))%Szerokosc;
-            sWYS=(Wysokosc+long(dsWYS))%Wysokosc;
+            sSZER= (columns + long(dsSZER)) % columns;
+            sWYS= (rows + long(dsWYS)) % rows;
             }
         else
             {
@@ -221,8 +228,8 @@ public:
     RESET:
         sSZER=0;
         sWYS=0;
-        lSZER=Szerokosc;
-        lWYS=Wysokosc;
+        lSZER=columns;
+        lWYS=rows;
         return 0;
     ERROR:
         return -1;
@@ -231,7 +238,7 @@ public:
     /// Tworzy iterator po całości. Umożliwia następnie czytanie od początku całej tablicy lub wycinka.
     iteratorh make_global_iterator() const override
         {
-            return new iterator(0,0,Szerokosc,Wysokosc);
+            return new iterator(0, 0, columns, rows);
         }
 
     /// Tworzy iterator po obszarze wizualizacji. Umożliwia następnie czytanie wycinka wybranego do wizualizacji.
@@ -241,33 +248,33 @@ public:
         }
 
     /// Tworzy globalny iterator monte-carlo.
-    iteratorh make_random_global_iterator(size_t how_many=-1) const override
+    iteratorh make_random_global_iterator(size_t how_many/*=-1*/) const override
         {
          if(how_many==size_t(-1))
-            how_many=Szerokosc*Wysokosc; //Dla pełnego kroku monte-carlo
-         return new monte_carlo_iterator(how_many,0,0,Szerokosc,Wysokosc);
+            how_many= columns * rows; //Dla pełnego kroku monte-carlo
+         return new monte_carlo_iterator(how_many, 0, 0, columns, rows);
         }
 
     /// Tworzy iterator po sąsiadach.
-    iteratorh make_neighbour_iterator(size_t center,size_t dist=1)  const override
+    iteratorh make_neighbour_iterator(size_t center,size_t dist/*=1*/)  const override
         {
-        long x=center%Szerokosc-dist;
-        long lenx=1+2*dist;
-        long y=center/Szerokosc-dist;
-        long leny=1+2*dist;
-        return new iterator(x,y,lenx,leny);
+        long x= center % columns - dist;
+        long lenX= 1 + 2 * dist;
+        long y= center / columns - dist;
+        long lenY= 1 + 2 * dist;
+        return new iterator(x, y, lenX, lenY);
         }
 
     /// Tworzy losowy iterator po sąsiadach.
-    iteratorh make_random_neighbour_iterator(size_t center,size_t dist=1,size_t how_many=-1)  const override
+    iteratorh make_random_neighbour_iterator(size_t center,size_t dist/*=1*/,size_t how_many/*=-1*/)  const override
         {
-        long x=center%Szerokosc-dist;
-        long lenx=1+2*dist;
-        long y=center/Szerokosc-dist;
-        long leny=1+2*dist;
+        long x= center % columns - dist;
+        long lenX= 1 + 2 * dist;
+        long y= center / columns - dist;
+        long lenY= 1 + 2 * dist;
         if(how_many==size_t(-1)) //-1 jako marker domyślnego rozmiaru
-            how_many=lenx*leny; //Dla pełnego kroku monte-carlo	sąsiedztwa
-        return new monte_carlo_iterator(how_many,x,y,lenx,leny);
+            how_many= lenX * lenY; //Dla pełnego kroku monte-carlo	sąsiedztwa
+        return new monte_carlo_iterator(how_many, x, y, lenX, lenY);
         }
 
     // METODY SPECYFICZNE TYLKO DLA GEOMETRII PROSTOKĄTNEJ:
@@ -275,8 +282,8 @@ public:
 
     // bezpośrednie akcesory rozmiarowe
     size_t get_size() const { return _currSize;}
-    size_t get_height() const { return Wysokosc;}
-    size_t get_width() const { return Szerokosc;}
+    size_t get_height() const { return rows;}
+    size_t get_width() const { return columns;}
     size_t get_sub_height() const { return lWYS;}
     size_t get_sub_width() const { return lSZER;}
     size_t get_sub_vert_start() const { return sWYS;}
@@ -286,24 +293,24 @@ public:
     /// Specyficzna dla tej geometrii transformacja do indeksu liniowego.
     /// Gwarantuje poprawna prace dla zakresu:
     ///```
-    ///			x in < -Szerokosc, 2*Szerokosc
-    ///			y in < -Wysokosc, 2*Wysokosc
+    ///			x in < -columns, 2*columns
+    ///			y in < -rows, 2*rows
     ///```
-    /// O ile `Wysokosc` lub `Szerokosc` nie jest w zakresie (0,LONG_MAX/2).
+    /// O ile `rows` lub `columns` nie jest w zakresie (0,LONG_MAX/2).
     long get(long x,long y) const
     {
         long ret = FULL; //Sygnał, że nie tego w tablicy
 
-        if (x >= 0 && x < Szerokosc && y >= 0 && y < Wysokosc) //Czy wewnątrz danych?
+        if (x >= 0 && x < columns && y >= 0 && y < rows) //Czy wewnątrz danych?
         {
-            ret = y * Szerokosc + x; //Można obliczyć index
+            ret = y * columns + x; //Można obliczyć index
         }
         else if(torus)	//Gdy nie to jak torus
                 {
-                    if(x<0) x=Szerokosc+x;
-                    if(y<0) y=Wysokosc+y;
+                    if(x<0) x= columns + x;
+                    if(y<0) y= rows + y;
                                                              assert(x>=0 && y>=0); //Sprawdzanie, czy od dołu jest w tablicy
-                    ret=(y%Wysokosc)*Szerokosc+(x%Szerokosc); //da się obliczyć index
+                    ret= (y % rows) * columns + (x % columns); //da się obliczyć index
                 }
 
         //Zwrot wyniku
@@ -312,25 +319,25 @@ public:
 
     //  KONSTRUKTORY/DESTRUKTORY
     //*////////////////////////////
-    ~rectangle_geometry() override {}
+    ~rectangle_geometry() override = default;
 
     rectangle_geometry(	size_t iA,				//!< Szerokość pełnego obszaru.
                         size_t iB,				//!< Wysokość pełnego obszaru.
-                        int  itorus=1,			//!< Ustala, czy włączyć geometrie torusa.
-                        bool distmat=false,
+                        int  iTorus=1,			//!< Ustala, czy włączyć geometrie torusa.
+                        bool eDistMat=false,	//!< Informuje, czy będzie potrzebna macierz odległości (która jest duża!).
                         RandomGenerator& RndIni	//!< Generator do losowania elementów.
                                         =TheRandG	//!< Domyślnie z całości i sąsiedztwa! RÓWNOMIERNIE!
                         )
-                :geometry_base(2),
-                 Szerokosc(iA),Wysokosc(iB),
-                 torus(itorus),
-                 sSZER(0),sWYS(0),
-                 lSZER(iA),lWYS(iB),
-                 RndSel(RndIni)
+                : geometry_base(2),
+                  columns(iA), rows(iB),
+                  torus(iTorus),
+                  sSZER(0), sWYS(0),
+                  lSZER(iA), lWYS(iB),
+                  RndSel(RndIni)
         {
-            assert(Szerokosc>0);
-            assert(Wysokosc>0);
-            if(distmat)
+            assert(columns > 0);
+            assert(rows > 0);
+            if(eDistMat)
                 enable_distance_matrix();
             _currSize=iA*iB;
         }
@@ -339,7 +346,7 @@ public:
     {
         if(yes)
         {
-            distances.alloc(Szerokosc*Wysokosc,Szerokosc*Wysokosc); //Bardzo duża tablica, do tego w połowie nieużywana!!!
+            distances.alloc(columns * rows, columns * rows); //Bardzo duża tablica, do tego w połowie nieużywana!!!
             distances.fill(-1.0); //Nie obliczone odległości
         }
         else
@@ -350,14 +357,14 @@ public:
 
     void  set(	size_t	iA,				//!< Szerokość pełnego obszaru.
                 size_t	iB,				//!< Wysokość pełnego obszaru.
-                int		itorus=1,			//!< Określa, czy włączyć geometrie torusa.
+                int		iTorus=1,			//!< Określa, czy włączyć geometrie torusa.
                 RandomGenerator& RndIni 	//!< Generator do losowania elementów.
                                         =TheRandG 	//!< Domyślnie z całości i sąsiedztwa! RÓWNOMIERNIE!
             )
         {
-            Szerokosc=iA;
-            Wysokosc=iB;
-            torus=itorus;
+            columns=iA;
+            rows=iB;
+            torus=iTorus;
             sSZER=0;
             sWYS=0;
             lSZER=iA;
@@ -380,10 +387,10 @@ public:
             else
             {
                 //Odzyskiwanie współrzędnych z indeksu
-                size_t fX=first%Szerokosc;
-                size_t fY=first/Szerokosc;
-                size_t sX=second%Szerokosc;
-                size_t sY=second/Szerokosc;
+                size_t fX=first%columns;
+                size_t fY=first/columns;
+                size_t sX=second%columns;
+                size_t sY=second/columns;
 
                 //Liczenie składowych
                 long dX=abs(fX-sX); //Pierwsza składowa
@@ -391,10 +398,10 @@ public:
 
                 if(torus)
                 {
-                    if(dX>Szerokosc/2)
-                        dX=Szerokosc-dX;
-                    if(dY>Wysokosc/2)
-                        dY=Wysokosc-dY;
+                    if(dX>columns/2)
+                        dX=columns-dX;
+                    if(dY>rows/2)
+                        dY=rows-dY;
                 }
 
                 return distances[first][second]=sqrt(dX*dX+dY*dY); //Zwraca z zapamiętaniem
@@ -403,10 +410,10 @@ public:
         else */
         {
             //Odzyskiwanie współrzędnych z indeksu
-            size_t fX=first%Szerokosc;
-            size_t fY=first/Szerokosc;
-            size_t sX=second%Szerokosc;
-            size_t sY=second/Szerokosc;
+            size_t fX= first % columns;
+            size_t fY= first / columns;
+            size_t sX= second % columns;
+            size_t sY= second / columns;
 
             //Liczenie składowych
             long dX=abs(long(fX-sX)); //Pierwsza składowa
@@ -416,10 +423,10 @@ public:
 
             if(torus) //Z dwu odległości po torusie ważna jest ta mniejsza
             {
-                if(dX>Szerokosc/2)
-                    dX=Szerokosc-dX;
-                if(dY>Wysokosc/2)
-                    dY=Wysokosc-dY;
+                if(dX > columns / 2)
+                    dX= columns - dX;
+                if(dY > rows / 2)
+                    dY= rows - dY;
             }
 
             return sqrt(double(dX*dX)+double(dY*dY)); //Zwraca wynik, ale nie ma zapamiętywania, bo nie ma gdzie
@@ -430,10 +437,10 @@ public:
     /// @return `true` jak jest to wykonalne, `false` w przeciwnym razie.
     bool WhatCoordinates(const size_t index,size_t& x,size_t& y) const
     {
-        if(index<(unsigned long)(Szerokosc)*Wysokosc)
+        if(index< (unsigned long)(columns) * rows)
         {
-            x=index%Szerokosc;
-            y=index/Szerokosc;
+            x= index % columns;
+            y= index / columns;
             return true;
         }
         else
@@ -445,7 +452,7 @@ public:
 
 #endif
 /* **************************************************************** */
-/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
+/*           THIS CODE IS DESIGNED & COPYRIGHT BY:                  */
 /*            W O J C I E C H   B O R K O W S K I                   */
 /* Zakład Systematyki i Geografii Roślin Uniwersytetu Warszawskiego */
 /*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego       */
