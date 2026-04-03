@@ -1,9 +1,8 @@
 /// @file
-/// @brief ... (kattitude old example for SymShell)
-// /////////////////////////////////////////////////////////
-/// @date 2026-03-31 (last modified)
-//DECLARATION OF   W O R L D  FOR "attitudeS" SIMULATION
-// ///////////////////////////////////////////////////////
+/// @brief DECLARATION OF THE WORLD FOR "attitudeS" SIMULATION (kattitude old example for SymShell)
+// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// @date 2026-04-03 (modified)
+//
 //#include <limits.h> //SHRT_MAX
 #pragma once
 
@@ -11,108 +10,113 @@
 #include "layer.hpp"
 #include "aagent.h" //Definicja agenta
 
-class aworld:public world	//Caly swiat symulacji
+/// Cały świat symulacji `kattitude`.
+class aworld:public world
 //--------------------------------------------------
 {
-// Parametry jednowartosciowe
+// Parametry jednowartościowe
 // ///////////////////////////////
-size_t				MyWidth;	//Obwod torusa
-short				MaxSila;	//Maksymalna sila agenta
-short				TrsSila;	//Treshold sily powyzej ktorego nie ma zmian
-short				IleKate;	//Ilosc kategori w mapach
-short				IleSasiad;	//8==Gestosc sasiedztwa
-short				OdlSasiad;	//Rozmiar sasiedztwa
-short				BierzWszystko; //Czy ma brac wszystko z sasiedztwa
-double				WeightOfSelf; //Z jaka waga brac siebie pod uwage (0..1)
-double				NeedForClosure; //Znaczenie moze byc rozne, zaleznie od implementacji
-double				Noise;		//Szum informacyjny
-double              Fill;       //Udzial zywych na poczatku
-double              Migr;       //Prawdopodobienstwo migracji
-bool				Synchronic; //Synchroniczna zmiana pogladow
-wb_pchar			MappName;	//nazwa pliku inicjujacej bitmapy
-wb_pchar			MaplName;	//nazwa pliku inicjujacej bitmapy
-wb_pchar			MaskName;	//nazwa pliku inicjujacej bitmapy
+size_t				MyWidth;			//!< Obwód torusa.
+short				MaxPower;			//!< Maksymalna sila agenta.
+short				ThrPower;			//!< Threshold sily powyżej, którego nie ma zmian.
+short				IleKate;			//!< Liczba kategorii w mapach.
+short				NeiDens;			//!< 8 == Gęstość sąsiedztwa.
+short				NeiSize;			//!< Rozmiar sąsiedztwa (Neighborhood)
+short				TakeAll;			//!< Określa, czy ma brać wszystko z sąsiedztwa.
+double				WeightOfSelf;		//!< Z jaką wagą brać siebie pod uwagę (0..1).
+double				NeedForClosure;		//!< Znaczenie może być różne, zależnie od implementacji.
+double				Noise;				//!< /Szum informacyjny.
+double				LifeFill;			//!< Udział żywych na początku.
+double				MigrProb;			//!< Prawdopodobieństwo migracji.
+bool				Synchronic;			//!< Synchroniczna zmiana poglądów.
+wb_pchar			MappName;			//!< Nazwa pliku bitmapy inicjującej siły.
+wb_pchar			MaplName;			//!< Nazwa pliku bitmapy inicjującej stany.
+wb_pchar			MaskName;			//!< Nazwa pliku bitmapy inicjującej maskę obszarów zdatnych.
 
-// Warstwy symulacji (sa torusami)
-// ///////////////////////////////
+// Warstwy symulacji (są torusami):
+// ////////////////////////////////
 
-//rectangle_unilayer<unsigned char> zdatnosc; //Warstwa definiujaca zdatnosc do zasiedlenia
-rectangle_layer_of_ptr_to_agents<aagent> Agenci;  //Wlaściwa warstwa agentow zasiedlajacych
+//rectangle_unilayer<unsigned char> suitability;		//!< Warstwa definiująca zdatność do zasiedlenia (suitability or usefulness)
+rectangle_layer_of_ptr_to_agents<aagent> Agenci;		//!< Właściwa warstwa agentów zasiedlających.
 
-// Glowne serie - wygodniej miec wskazniki niz odszukiwac z Sources po nazwach
-// //////////////////////////////////////////////////////////////////////////////
-ptr_to_struct_matrix_source<aagent,short>		*Firsts; //=Agenci.make_source("First mem",&aagent::First);		
-ptr_to_struct_matrix_source<aagent,short>		*Seconds; //=Agenci.make_source("Second mem",&aagent::Second);
+// Główne serie danych. Wygodniej i efektywniej mieć wskaźniki niż odszukiwać z Sources po nazwach:
+// ////////////////////////////////////////////////////////////////////////////////////////////////
+ptr_to_struct_matrix_source<aagent,short>		*Firsts;		//!< =Agenci.make_source("First mem",&aagent::First);
+ptr_to_struct_matrix_source<aagent,short>		*Seconds;		//!< =Agenci.make_source("Second mem",&aagent::Second);
 
-ptr_to_struct_matrix_source<aagent,short>		*Powers; //=Agenci.make_source("Power",&aagent::Power);
-ptr_to_struct_matrix_source<aagent,short>		*Pressure; // =Agenci.make_source("Pressure",&aagent::Press);
-//method_by_ptr_matrix_source<aagent,long>		*Classif; //=Agenci.make_source("Classification",&aagent::Classif);
+ptr_to_struct_matrix_source<aagent,short>		*Powers;		//!< =Agenci.make_source("Power",&aagent::Power);
+ptr_to_struct_matrix_source<aagent,short>		*Pressure;		//!< =Agenci.make_source("Pressure",&aagent::Press);
+//method_by_ptr_matrix_source<aagent,long>		*Classif;		//!< =Agenci.make_source("Classification",&aagent::classif);
 
-scalar_source<double>*       ptrStres;          //Do przekazywania aktualnie najwazniejszych danych na okno statusu
-scalar_source<double>*       ptrClsSize;
+scalar_source<double>*       ptrStres;			//!< Do przekazywania aktualnie najważniejszych danych na okno statusu
+scalar_source<double>*       ptrClsSize;		//!< ...
 
-int  CountCh;    //Ilu ostatnio zmienilo poglad - do celow statystyki
-int  CountMig;   //Ilu ostatnio migrowalo - do celow statystyki
+int  CountCh;			//!< Ilu ostatnio zmieniło pogląd (do celów statystycznych).
+int  CountMig;			//!< Ilu ostatnio migrowało (do celów statystycznych).
     
-ptr_to_scalar_source<int>*       ptrLastChanged;          //Do przekazywania licznikow zmian
-ptr_to_scalar_source<int>*       ptrLastMigration;        
+ptr_to_scalar_source<int>*       ptrLastChanged;			//!< Do przekazywania liczników zmian.
+ptr_to_scalar_source<int>*       ptrLastMigration;			//!< Do przekazywania liczników zmian.
 
-double MaxPressure; //Do zapamietania teoretycznie najwiekszej wartosci "presji"
+double MaxPressure; //Do zapamiętania teoretycznie największej wartości "presji".
 
-//Wlasciwa implementacja symulacji
-int CheckChange(const rectangle_geometry* MyGeom,size_t index,aagent& CenterAgent);
-int DoMigration(const rectangle_geometry* MyGeom,size_t index,aagent& CenterAgent);
+// Właściwa implementacja symulacji:
+// /////////////////////////////////
+int CheckChange(const rectangle_geometry* MyGeom,size_t index,aagent& CenterAgent);		//!< Sprawdzenie zmiany stanów.
+int DoMigration(const rectangle_geometry* MyGeom,size_t index,aagent& CenterAgent);		//!< Sprawdzenie możliwości migracji.
 
 public:
 //KONSTRUKCJA DESTRUKCJA
-aworld(size_t Width,	//!< Szerokosc torusa macierzy agentow
-      char* log_name,	//!< Nazwa pliku do zapisywania histori
-      char* mapl_name,	//!< Nazwa (bit)mapy inicjujacej "skladowe"
-      char* mapp_name,	//!< Nazwa (bit)mapy inicjujacej "sily"
-      char* live_mask,	//!< Czarne w tej mapie sa kasowane
-      double noise,		//!< Szum informacyjny
-      short	max_sila,	//!< Maksymalna sila agenta
-      short	ile_kate,	//!< Ilosc kategori w mapach
-      short	odl_sasiad,	//!< Rozmiar sasiedztwa
-      short	ile_sasiad, //!< 8==Gestosc sasiedztwa
-      double need_use_self,		//!< Z jaka waga ma brac siebie
-      double need_for_something,		//!< Z jaka waga brac innych
-      bool	synchronicly,		//!< ...
-      short walkpower,		//!< ...
-      short trespower,		//!< ...
-      double spontanic,		//!< ...
-      double fill,		//!< ...
-      double migrprob,		//!< ...
-      double majority		//!< ...
+aworld(size_t Width,			//!< Szerokość torusa macierzy agentów.
+      char* log_name,			//!< Nazwa pliku do zapisywania historii.
+      char* mapl_name,			//!< Nazwa bitmapy inicjującej "składowe".
+      char* mapp_name,			//!< Nazwa bitmapy inicjującej "siły".
+      char* live_mask,			//!< Czarne w tej mapie są kasowane.
+      double noise,				//!< Szum informacyjny.
+      short	max_sila,			//!< Maksymalna sila agenta.
+      short	ile_kate,			//!< Liczba kategorii w mapach.
+      short	nei_radius,			//!< Rozmiar sąsiedztwa.
+      short	nei_density,			//!< 8 == Gęstość sąsiedztwa.
+      double need_use_self,		//!< Z jaką wagą ma brać siebie.
+      double need_for_something,	//!< Z jaka waga brać innych.
+      bool	synchronously,		//!< ...
+      short walk_power,			//!< ...
+      short thr_power,		//!< ...
+      double spontaneously,		//!< ...
+      double fill,				//!< ...
+      double migration_prob,	//!< ...
+      double majority			//!< ...
       );
 
 ~aworld() override = default;
 
 protected:
-//AKCJE
-void	initialize_layers() override;	//Stan startowy symulacji
-void	after_read_from_image() override; //actions after read state from file. Aktualizacja pol static aagent'a!!!
-void	simulate_one_step() override;	//Wlasciwa implementacja kroku symulacji
+// KONIECZNE AKCJE:
+// ////////////////
+void	initialize_layers() override;		//!<Stan startowy symulacji
+void	after_read_from_image() override;	//!<Actions after read state from a file. Aktualizacja pól statycznych aagent-a!!!
+void	simulate_one_step() override;		//!<Właściwa implementacja kroku symulacji
 
-//Wspolpraca z menagerem wyswietlania
-//---------------------------------------------
-void	make_default_visualisation(); //Tworzy domyslne "lufciki" i umieszcza w liście zarządcy.
-//void actualize_out_area(); // aktualizacja zawartosci OutArea po n krokach symulacji
+// Współpraca z zarządcą wyświetlania i zarządcą danych:
+//------------------------------------------------------
 
-//Generuje podstawowe zrodla dla wbudowanego menagera danych lub innego
+/// Tworzenie domyślnych "lufcików" i umieszczanie ich na liście zarządcy.
+void	make_default_visualisation() override;
+
+/// Wypisywanie/dopisywanie na konsole statusu.
+void    actualize_out_area() override; //!< Aktualizacja zawartości `OutArea` co ileś kroków symulacji.
+
+/// Generuje podstawowe źródła dla wbudowanego zarządcy danych.
 void	make_basic_sources() override;
 
-//Wypisywanie/dopisywanie na konsole statusu
-void    actualize_out_area() override;
-
-//Implementacja wejscia/wyjscia. Zwracaj 1 jesli sukces!
-int		implement_output(ostream& o) const override;
-int		implement_input(istream& i) override;
+// Implementacja wejścia/wyjścia:
+//-------------------------------
+int		implement_output(ostream& o) const override;		//!< Serializacja. @returns 1, jeśli sukces!
+int		implement_input(istream& i) override;				//!< Deserializacja. @returns 1, jeśli sukces!
 };
 
 
 /* **************************************************************** */
-/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
+/*           THIS CODE IS DESIGNED & COPYRIGHT BY:                  */
 /*            W O J C I E C H   B O R K O W S K I                   */
 /* Zakład Systematyki i Geografii Roślin Uniwersytetu Warszawskiego */
 /*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego       */
