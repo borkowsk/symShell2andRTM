@@ -1,5 +1,6 @@
-//	WHICH RANDOM NUMBER GENERATOR IS USED IN THIS SIMULATION
+//	WHICH RANDOM NUMBER GENERATOR IS USED IN THIS SIMULATION.
 // //////////////////////////////////////////////////////////
+// @date 2026-04-07 (modification)
 #define USES_RANDG
 #include "random.h"
 #include "wb_rand.hpp"

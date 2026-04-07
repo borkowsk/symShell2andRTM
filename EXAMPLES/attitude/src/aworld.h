@@ -1,5 +1,6 @@
-// DECLARATION OF   W O R L D  FOR "attitudes" SIMULATION
+// DECLARATION OF   W O R L D  FOR "attitudes" SIMULATION.
 // ///////////////////////////////////////////////////////
+// @date 2026-04-07 (modification)
 #include <climits> //SHRT_MAX
 #include "world.hpp"
 #include "layer.hpp"

@@ -1,3 +1,6 @@
+// IMPLEMENTATION OF   W O R L D  FOR "attitudes" SIMULATION.
+// //////////////////////////////////////////////////////////
+// @date 2026-04-07 (modification)
 //#include <limits.h>
 //#include <assert.h>
 //#include <string.h>

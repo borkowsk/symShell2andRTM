@@ -1,10 +1,11 @@
-//Dosyc prosta symulacja zmiany pogladow - attitude wg. modelu A.Nowak-a.
-//Uzyskana przez uproszczenie programu LANGUAGES
+// Dosyć prosta symulacja zmiany poglądów — attitude wg. modelu A.Nowak-a.
+// Uzyskana przez uproszczenie programu LANGUAGES
 // ///////////////////////////////////////////////////////////////////////
+// @date 2026-04-07 (modification)
 const char* WINDOW_HEADER="ATTITUDES version 1.01c";
 const char* SYMULATION_NAME="attitudes_v1.01c";
-// * 15.02.2006 - 1.01: Zrekompilowane z nową wersją biblioteki lufcików
-// * 07.04.2026 - 1.01: Zrekompilowane z nową wersją biblioteki lufcików!
+// * 15.02.2006 - 1.01: Zrekompilowane z nową wersją biblioteki lufcików.
+// * 07.04.2026 - 1.01: Zrekompilowane z nową wersją biblioteki lufcików po 20 latach!
 
 #include <cstdlib>
 
@@ -29,7 +30,7 @@ unsigned iMaxIterations=0xffffffff;
 unsigned iLogRatio=1;
 unsigned iViewRatio=1;
 
-int  RuchomaSila=0;			//Czy sila ma sie powiekrzac "z wiekiem"
+int  RuchomaSila=0;			//Czy sila ma sie powiększać "z wiekiem"
 int  MaksymalnaSila=100;	//Jaka najwieksza sila
 char TresProcent=100;		//Powyzej jakiej sily zmiany "pogladu" sa juz niemozliwe
 

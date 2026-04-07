@@ -1,8 +1,7 @@
-// implementation of the aworld class.
-//	Virtual output methods 
-//----------------------------------------------
+// Virtual output methods implementation of the aworld class.
 //Its is rather simply implementation. You can replace it if you need.
 // ////////////////////////////////////////////////////////////////////
+// @date 2026-04-07 (modification)
 #include "aworld.h"
 
 int aworld::implement_output(ostream& o) const

@@ -1,5 +1,6 @@
-// DECLARATION OF    A G E N T   FOR "attitudeS" SIMULATION
-// ///////////////////////////////////////////////////////////
+// DECLARATION OF    A G E N T   FOR "attitudes" SIMULATION.
+// /////////////////////////////////////////////////////////
+// @date 2026-04-07 (modification)
 #include "layer.hpp"
 
 class aagent:public agent_base
