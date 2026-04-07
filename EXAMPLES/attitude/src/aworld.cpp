@@ -2,15 +2,16 @@
 //#include <assert.h>
 //#include <string.h>
 //#include <math.h>
-#include <string.h>
-#include <math.h>
+#include <cstring>
+#include <cmath>
 
 #include "arand.h"
 #include "aworld.h"
 #include "histosou.hpp"
 #include "clstsour.hpp" //Jest tez statsour
 #include "coincsou.hpp"
-#include "gadgets.hpp" 
+#include "gadgets.hpp"
+#include "wb_swap.hpp"
 #include "wb_ptrio.h"
 
 const int RAMKA=4;
@@ -107,9 +108,10 @@ aworld::aworld(size_t Width,		//Szerokosc torusa macierzy agentow
 
 //Generuje podstawowe zrodla dla wbudowanego menagera danych lub innego
 ////////////////////////////////////////////////////////////////////////////
-void aworld::make_basic_sources(sources_menager& WhatSourMen)
+void aworld::make_basic_sources()
 {
-world::make_basic_sources(WhatSourMen);//Odziedziczone
+sources_menager& WhatSourMen=this->Sources;
+world::make_basic_sources();//Odziedziczone
 
 //Glowne serie 
 Firsts=Agenci.make_source("Attitude",&aagent::First);	
@@ -136,9 +138,10 @@ WhatSourMen.insert(Powers);
 
 //Wspolpraca z menagerem wyswietlania a takze logiem
 //------------------------------------------------------------------
-void aworld::make_default_visualisation(area_menager_base& Menager)
+void aworld::make_default_visualisation()
 //Rejestruje pochodne serie, tworzy domyslne "lufciki" i wklada w "Menager"
 {
+area_menager_base& Menager=this->MyAreaMenager();
 int iFirst=0,iSecond=0,iPower=0,iClassif=0;
 //Uzyskanie indeksow podstawowych serii z menagera
 {
@@ -235,8 +238,8 @@ unsigned szer=Menager.getwidth();
 unsigned wyso=Menager.getheight();
 assert(szer>50 && wyso>40);//Najmniejsze sensowne okno
 
-//Obszary domyœlne - np obszar STATUSU
-world::make_default_visualisation(Menager);
+//Obszary domyï¿½lne - np obszar STATUSU
+world::make_default_visualisation();
 if(OutArea) 
 {
 	OutArea->set(1,1,szer/2-1,wyso/2-1);
@@ -450,8 +453,8 @@ void aworld::initialize_layers()
 		<<"\nSelf="<<Log.separator()<<UseSelf
 		<<"\nNaighborhood="<<Log.separator()<<IleSasiad<<"/("<<(1+2*OdlSasiad)<<"*"<<(1+2*OdlSasiad)<<")\n";
 	
-	//			USTALANIE STANÓW AGENTÓW
-	//Wczytuje uzywajac konstruktora lub klonowania gdy niema, wiec inicjuje reszte pól.
+	//			USTALANIE STANï¿½W AGENTï¿½W
+	//Wczytuje uzywajac konstruktora lub klonowania gdy niema, wiec inicjuje reszte pï¿½l.
 	int from1= Agenci.init_from_bitmap(MappName.get_ptr_val(),&aagent::assignPow);
 	int from2= Agenci.init_from_bitmap(MaplName.get_ptr_val(),&aagent::assign123);
 	
@@ -485,8 +488,8 @@ void aworld::simulate_one_step()
 
 			aagent& CenterAgent=*(Agenci.get_ptr(index).get_ptr_val());// Uzyskujemy referencje do agenta omijajac asercje na NULL
 			
-			if(Agenci.is_empty(CenterAgent))	// Sprawdzamy czy nie jest to pusta komórka (NULL)
-				continue;						// bo wtedy robic dalej by³oby bez sensu.
+			if(Agenci.is_empty(CenterAgent))	// Sprawdzamy czy nie jest to pusta komï¿½rka (NULL)
+				continue;						// bo wtedy robic dalej byï¿½oby bez sensu.
 			
 			if(CenterAgent.Power<=TrsSila)		// Czy nie ma juz immunitetu na zmiany
 				CheckChange(MyGeom,index,CenterAgent); //Sprawdzamy zmiane stanu
@@ -505,7 +508,7 @@ void aworld::simulate_one_step()
 
 			aagent& CenterAgent=*(Agenci.get_ptr(index).get_ptr_val());// Uzyskujemy referencje do agenta omijajac asercje na NULL
 			
-			if(Agenci.is_empty(CenterAgent))	// Sprawdzamy czy nie jest to pusta komórka (NULL)
+			if(Agenci.is_empty(CenterAgent))	// Sprawdzamy czy nie jest to pusta komï¿½rka (NULL)
 				continue;
 
 			wb_swap(CenterAgent.First,CenterAgent.Second);  //Ma nowy stan
@@ -520,15 +523,15 @@ void aworld::simulate_one_step()
 	{
 		iteratorh Monte=MyGeom->make_random_global_iterator();	//Alokujemy iterator Monte-Carlo
 		
-		while(Monte)//Idziemy po agentach iteratorem Monte-Carlo. Niektórzy moga sie powtórzyc
+		while(Monte)//Idziemy po agentach iteratorem Monte-Carlo. Niektï¿½rzy moga sie powtï¿½rzyc
 		{	
 			size_t index=MyGeom->get_next(Monte);//Uzyskujemy index losowo wybranego agenta	
 		
 			assert(index!=any_layer_base::FULL);				//... tutaj nie powinno sie zdarzyc
 			
 			aagent& CenterAgent=*(Agenci.get_ptr(index).get_ptr_val());// Uzyskujemy referencje do agenta omijajac asercje na NULL
-			if(Agenci.is_empty(CenterAgent))	// Sprawdzamy czy nie jest to pusta komórka (NULL)
-				continue;						// bo wtedy robic dalej by³oby bez sensu.
+			if(Agenci.is_empty(CenterAgent))	// Sprawdzamy czy nie jest to pusta komï¿½rka (NULL)
+				continue;						// bo wtedy robic dalej byï¿½oby bez sensu.
 			
 			if(CenterAgent.Power<=TrsSila)		// Czy nie ma juz immunitedu na zmiany
 				if(CheckChange(MyGeom,index,CenterAgent)==1)//Czy zaszla zmiana stanu
@@ -581,7 +584,7 @@ int aworld::CheckChange(const geometry_base* MyGeom,
 	}
 
 	//iteratorh Neigh=MyGeom->make_neighbour_iterator(index,OdlSasiad);
-	unsigned zliczanie=0;//Zliczanie sasiadów
+	unsigned zliczanie=0;//Zliczanie sasiadï¿½w
 	
 	while(Neigh)
 	{
@@ -590,8 +593,8 @@ int aworld::CheckChange(const geometry_base* MyGeom,
 			continue;				//centrum obszaru to dalej byloby bez sensu.
 		
 		aagent& PeryfAgent=*(Agenci.get_ptr(index2).get_ptr_val());//Uzyskujemy referencje do sasiada omijajac asercje na NULL
-		if(Agenci.is_empty(PeryfAgent))		//Sprawdzamy czy nie jest to pusta komórka (NULL)
-			continue;					   // bo wtedy robic dalej by³oby bez sensu.
+		if(Agenci.is_empty(PeryfAgent))		//Sprawdzamy czy nie jest to pusta komï¿½rka (NULL)
+			continue;					   // bo wtedy robic dalej byï¿½oby bez sensu.
 		
 		zliczanie++;
 		//Dodawanie sil sasiadow do licznikow w tablicach

@@ -1,6 +1,6 @@
-//DECLARATION OF   W O R L D  FOR "attitudeS" SIMULATION
+// DECLARATION OF   W O R L D  FOR "attitudeS" SIMULATION
 /////////////////////////////////////////////////////////
-#include <limits.h> //SHRT_MAX
+#include <climits> //SHRT_MAX
 #include "world.hpp"
 #include "layer.hpp"
 #include "aagent.h" //Definicja agenta
@@ -27,7 +27,7 @@ wb_pchar			MaskName;	//nazwa pliku inicjujacej bitmapy
 //Warstwy symulacji (sa torusami)
 /////////////////////////////////
 //rectangle_unilayer<unsigned char> zdatnosc;//Warstwa definiujaca zdatnosc do zasiedlenia
-rectangle_layer_of_ptr_to_agents<aagent> Agenci;  //Wlaúciwa warstwa agentow zasiedlajacych
+rectangle_layer_of_ptr_to_agents<aagent> Agenci;  //Wla≈õciwa warstwa agentow zasiedlajacych
 
 //Glowne serie - wygodniej miec wskazniki niz odszukiwac z Sources po nazwach
 ////////////////////////////////////////////////////////////////////////////////
@@ -68,11 +68,11 @@ void	simulate_one_step();	//Wlasciwa implementacja kroku symulacji
 
 //Wspolpraca z menagerem wyswietlania
 //---------------------------------------------
-void	make_default_visualisation(area_menager_base& Menager);//Tworzy domyslne "lufciki" i umieszcza w 
+void	make_default_visualisation();//Tworzy domyslne "lufciki" i umieszcza w
 //void actualize_out_area(); // aktualizacja zawartosci OutArea po n krokach symulacji
 
 //Generuje podstawowe zrodla dla wbudowanego menagera danych lub innego
-void	make_basic_sources(sources_menager& WhatSourMen);
+void	make_basic_sources();
 
 //Implementacja wejscia/wyjscia. Zwracaj 1 jesli sukces!
 virtual

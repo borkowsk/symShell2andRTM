@@ -1,18 +1,16 @@
-//Dosyc prosta symulacja zmiany pogladow - attitude
+//Dosyc prosta symulacja zmiany pogladow - attitude wg. modelu A.Nowak-a.
 //Uzyskana przez uproszczenie programu LANGUAGES
-/////////////////////////////////////////////////////////////////
-const char* WINDOW_HEADER="ATTITUDES version 1.01b (0.03)";
-const char* SYMULATION_NAME="attitudes_v1.01b";
-//1.01: Zrekompilowane z now� wersj� biblioteki lufcik�w (15.02.2006)
+/////////////////////////////////////////////////////////////////////////
+const char* WINDOW_HEADER="ATTITUDES version 1.01c";
+const char* SYMULATION_NAME="attitudes_v1.01c";
+// * 15.02.2006 - 1.01: Zrekompilowane z nową wersją biblioteki lufcików
+// * 07.04.2026 - 1.01: Zrekompilowane z nową wersją biblioteki lufcików!
 
-#include <stdlib.h>
-#include "platform.hpp"
-#ifdef NEW_FASHION_CPP
+#include <cstdlib>
+
 #include <iostream>
-#else
-#include <iostream.h>
-#endif
-#include "wbminmax.hpp"
+#include <compatyb.h>
+
 #include "arand.h"
 #include "aworld.h"
 
@@ -61,7 +59,7 @@ for(int i=1;i<argc;i++)
 	if(pom==NULL) 
 			goto ERROR; //NA PEWNO ZLE
 	*pom='\0';
-	_strupr(rob);
+	strupr(rob);
 	*pom='=';
 	if((pom=strstr(rob,"SPCH="))!=NULL) //Nie NULL czyli jest
 	{

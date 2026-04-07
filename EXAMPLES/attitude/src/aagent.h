@@ -1,4 +1,4 @@
-//DECLARATION OF    A G E N T   FOR "attitudeS" SIMULATION
+// DECLARATION OF    A G E N T   FOR "attitudeS" SIMULATION
 /////////////////////////////////////////////////////////////
 #include "layer.hpp"
 
@@ -6,7 +6,7 @@ class aagent:public agent_base
 {
 	friend class aworld;//Na razie tak - zeby uproscic dostep do skladowych.
 	
-	// STATYCZNE SKLADOWE - PARAMETRY INICJOWANIA AGENTÓW
+	// STATYCZNE SKLADOWE - PARAMETRY INICJOWANIA AGENTÃ“W
 	static short ruchsily;//Czy sila sie zmienia (rosnie) z wiekiem
 	static short max_sila;//Maksymalna sila agenta
 	static short ile_kate;//Ilosc kategori w mapach	
