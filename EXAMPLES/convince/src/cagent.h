@@ -35,7 +35,7 @@ class anAgent:public agent_base
     }
 
     // TO CO MUSI byc zdefiniowane
-    ///////////////////////////////////
+    // /////////////////////////////////
 public:
     int IsOK()
     {
