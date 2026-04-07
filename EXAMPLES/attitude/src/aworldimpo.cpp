@@ -10,11 +10,11 @@ int aworld::implement_output(ostream& o) const
     if(ret!=1) return ret;
     o << separator;
     o << MyWidth<<separator;	//Obwod (?) torusa
-    o << MaxSila<<separator;	//Maksymalna sila agenta
-    o << NofCateg << separator;	//Ilosc kategori w mapach
-    o << NofNeigh << separator;	//8==Gestosc sasiedztwa
-    o << NeighRadius << separator;	//Rozmiar sasiedztwa
-    o << UseSelf<<separator;	//Czy ma brac siebie pod uwage
+    o << MaxSila<<separator;	//Maksymalna siła agenta
+    o << NofCateg << separator;	//Liczba kategori w mapach
+    o << NofNeigh << separator;	//8 == Gęstość sąsiedztwa
+    o << NeighRadius << separator;	//Rozmiar sąsiedztwa
+    o << UseSelf<<separator;	//Czy ma brac siębie pod uwage
     o << Noise<<separator<<endl;		//Szum informacyjny
     o << Agents << endl;
     return 1;

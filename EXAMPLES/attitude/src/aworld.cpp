@@ -11,30 +11,21 @@
 #include "arand.h"
 #include "aworld.h"
 #include "histosou.hpp"
-#include "clstsour.hpp" //Jest tez statsour
+#include "clstsour.hpp" //Jest też "statsour" jakby co...
 #include "coincsou.hpp"
 #include "gadgets.hpp"
 #include "wb_swap.hpp"
 #include "wb_ptrio.h"
 
 const int RAMKA=4;
-extern const char* SYMULATION_NAME;
+extern const char* SIMULATION_NAME;
 
-/* //jest w "wbminmax.hpp"
-template <class T>
-inline void wb_swap(T& a,T& b)
-{
-    T c=a;
-    a=b;
-    b=c;
-}
-*/
+// Konstrukcja agentów:
+// ////////////////////
 
-//Konstrukcja agentow
-// /////////////////////////////////
 aagent::aagent(const aagent& ini)
     {
-        if(&ini!=NULL)
+        if(&ini!=NULL) //TODO: to już nieeleganckie.
         {
             First=ini.First;
             Second=ini.Second;
@@ -52,71 +43,74 @@ aagent::aagent()
         Power=RANDOM(max_str + 1);
     }
 
-//Statyczne pola aagentow dla inicjalizacji
-// //////////////////////////////////////////////////////////////
-short	aagent::str_grow=1;  //Maksymalny skok sily
-short	aagent::max_str=256; //Maksymalna sila agenta
-short	aagent::n_of_cate=256; //Ilosc kategori w mapach
-short	aagent::cate_shift=0; //Przesuniecie dla wczytywania gifa
-double	aagent::mutation_prob=0; //Prawd. spontanicznej zmiany pogladow (0..1)
+// Statyczne pola aAgent-ów dla inicjalizacji:
+// ///////////////////////////////////////////
 
-//KONSTRUKCJA	SWIATA
-// //////////////////////////////////
+short	aagent::str_grow=1;  //Maksymalny skok siły
+short	aagent::max_str=256; //Maksymalna siła agenta
+short	aagent::n_of_cate=256; //Liczba kategorii w mapach
+short	aagent::cate_shift=0; //Przesuniecie dla wczytywania gifa
+double	aagent::mutation_prob=0; //Prawd. spontanicznej zmiany poglądów (0..1)
+
+// KONSTRUKCJA	ŚWIATA:
+// ////////////////////
+
 extern unsigned InternalLogLen;
 
-aworld::aworld(size_t Width,		//Szerokosc torusa macierzy agentow
-      char* log_name,	//Nazwa pliku do zapisywania histori
-      char* mapl_name,	//Nazwa (bit)mapy inicjujacej "skladowe"
-      char* mapp_name,	//Nazwa (bit)mapy inicjujacej "sily"
-      char* live_mask,	//Czarne w tej mapie sa kasowane
-      double noise_p,		//Szum informacyjny
-      short	max_str,	//Maksymalna sila agenta
-      short	n_of_cate,	//Ilosc kategori w mapach
-      short	neigh_radius,	//Rozmiar sasiedztwa
-      short	n_of_neigh, //8==Gestosc sasiedztwa
-      short need_use_self, //Czy ma uzywac siebie
+aworld::aworld(size_t Width,		//Szerokość torusa macierzy agentów
+      char* log_name,	//Nazwa pliku do zapisywania historii
+      char* mapl_name,	//Nazwa (bit)mapy inicjującej "składowe"
+      char* mapp_name,	//Nazwa (bit)mapy inicjującej "sily"
+      char* live_mask,	//Czarne w tej mapie są kasowane
+      double noise_p,	//Szum informacyjny
+      short	max_str,	//Maksymalna siła agenta
+      short	n_of_cate,	//Liczba kategorii w mapach
+      short	neigh_radius,	//Rozmiar sąsiedztwa
+      short	n_of_neigh, //8 == Gęstość sąsiedztwa
+      short need_use_self, //Czy ma używać siebie
       bool	sync_update,
       short walk_str,
       short str_thres,
       double spon_prob
         ):
         world(log_name,50),
-        MaplName(clone_str(mapl_name)), //Nazwa (bit)mapy 1. inicjujacej agentow
-        MappName(clone_str(mapp_name)), //Nazwa (bit)mapy 2. inicjujacej agentow
-        MaskName(clone_str(live_mask)), //Nazwa bitmapy maskujacej (kasujacej agentow)
-    //Sub-obiekty wlasciwe dla tej symulacji
+        MaplName(clone_str(mapl_name)), //Nazwa (bit)mapy 1. inicjującej agentów
+        MappName(clone_str(mapp_name)), //Nazwa (bit)mapy 2. inicjującej agentów
+        MaskName(clone_str(live_mask)), //Nazwa bitmapy maskującej (kasującej agentów)
+    //Sub-obiekty właściwe dla tej symulacji
         MyWidth(Width),
-        Agents(Width, Width, NULL), //Initer == NULL wiec tworzone przez konstruktor a nie klonowanie
-        MaxSila(max_str),	//Maksymalna sila agenta
-        ThrsStr(str_thres), //Sila dajaca odporosc na zmiany
-        NofCateg(n_of_cate),	//Ilosc kategori w mapach
-        NofNeigh(n_of_neigh),	//8==Gestosc sasiedztwa
-        NeighRadius(neigh_radius),	//Rozmiar sasiedztwa
+        Agents(Width, Width, NULL), //Initer jest NULL, więc tworzone są konstruktorem, a nie klonowanie
+        MaxSila(max_str),	//Maksymalna siła agenta
+        ThrsStr(str_thres), //Siła dająca odporność na zmiany
+        NofCateg(n_of_cate),	//Liczba kategorii w mapach
+        NofNeigh(n_of_neigh),	//8 == Gęstość sąsiedztwa
+        NeighRadius(neigh_radius),	//Rozmiar sąsiedztwa
         Noise(noise_p),
         UseSelf(need_use_self),
         SyncChange(sync_update),
-        TakeAll(0), //Sasiedztwo bez losowania
-        //Wskazniki do podstawowych seri danych
+        TakeAll(0), //Sąsiedztwo bez losowania
+        //Wskaźniki do podstawowych seri danych
         Firsts(NULL),
         Seconds(NULL),
-        Powers(NULL)//,Classif(NULL)
-    {//!!!Niewiele mozna zrobic bo nie mozna tu jeszcze polegac na wirtualnych metodach klasy swiat
+        Powers(NULL)
+    { // Niewiele można zrobić, bo nie można tu jeszcze polegać na wirtualnych metodach klasy aWorld.
         aagent::str_grow=walk_str;
         //set_simulation_name("attitudes_v02");
-        set_simulation_name(SYMULATION_NAME);
+        world::set_simulation_name(SIMULATION_NAME);
         aagent::mutation_prob=spon_prob;
         if(NofNeigh == -1)
             TakeAll=1;
     }
 
-//Generuje podstawowe zrodla dla wbudowanego menagera danych lub innego
-// //////////////////////////////////////////////////////////////////////////
+// Generuje podstawowe źródła dla wbudowanego manager-a danych lub innego:
+// ///////////////////////////////////////////////////////////////////////
+
 void aworld::make_basic_sources()
 {
     sources_menager& WhatSourMen=this->Sources;
     world::make_basic_sources(); //Odziedziczone
 
-    //Glowne serie
+    //Główne serie danych:
     Firsts=Agents.make_source("Attitude", &aagent::First);
     if(Firsts)
         Firsts->setminmax(0, NofCateg - 1);
@@ -126,27 +120,22 @@ void aworld::make_basic_sources()
 
     Powers=Agents.make_source("Power", &aagent::Power);
 
-    //Classif=Agents.make_source("Classification",&aagent::Classif);
-    //if(Classif)
-    //	Classif->setminmax(0,NofCateg*NofCateg*NofCateg-1); //Max class ==NofCateg^3 bo trzy niezalezne plaszczyzny
-
-    //Umieszczenie glownych serii w menagerze serii
+    //Umieszczenie głównych serii w zarządcy serii:
     WhatSourMen.insert(Firsts);
     WhatSourMen.insert(Seconds);
     WhatSourMen.insert(Powers);
-
-    //WhatSourMen.insert(Classif);
 }
 
 
-//Wspolpraca z menagerem wyswietlania a takze logiem
-//------------------------------------------------------------------
+// Współpraca z zarządcą wyświetlania, a także logiem:
+// ///////////////////////////////////////////////////
+
 void aworld::make_default_visualisation()
-//Rejestruje pochodne serie, tworzy domyslne "lufciki" i wklada w "Menager"
+//Rejestruje pochodne serie, tworzy domyślne "lufciki" i wkłada w "Manager"
 {
-    area_menager_base& Menager=this->MyAreaMenager();
+    area_menager_base& Manager=this->MyAreaMenager();
     int iFirst=0,iSecond=0,iPower=0,iClassif=0;
-    //Uzyskanie indeksow podstawowych serii z menagera
+    //Uzyskanie indeksów podstawowych serii z zarządcy
     {
     if(Firsts) iFirst=Sources.search(Firsts->name());
         else  goto ERROR;
@@ -154,14 +143,14 @@ void aworld::make_default_visualisation()
     if(Seconds) iSecond=Sources.search(Seconds->name());
         else  goto ERROR;
 
-    if(Powers)   iPower=Sources.search(Powers->name());
+    if(Powers) iPower=Sources.search(Powers->name());
         else  goto ERROR;
 
     if(Firsts)  iClassif=Sources.search(Firsts->name());
         else  goto ERROR;
 
 
-    //Oraz utworzenie pochodnych serii statystycznych
+    //Oraz utworzenie pochodnych serii statystycznych:
     generic_clustering_source*	FirstStat=new generic_clustering_source(Firsts);
     if(!FirstStat) goto ERROR;
         else	Sources.insert(FirstStat);
@@ -170,32 +159,32 @@ void aworld::make_default_visualisation()
     if(!SecondStat) goto ERROR;
         else	Sources.insert(SecondStat);
 
-    //Zrodlo liczace statystyke i histogram z klasyfikacji
+    //Źródło liczące statystykę i histogram z klasyfikacji:
     generic_histogram_source*  ClassStat=new generic_histogram_source(Firsts);
     if(!ClassStat) goto ERROR;
         else	Sources.insert(ClassStat);
 
-    //A takze utworzenie seri liczacych ich wzajemne ko-statystyki
+    //A także utworzenie seri liczących ich wzajemne ko-statystyki:
     coincidention_source* CorrFS=new coincidention_source(Firsts,Seconds);
     if(!CorrFS) goto ERROR;
-    Sources.insert(CorrFS); //Zeby zostala kiedys zwolniona, a poza tym moze ktos kiedys...
+    Sources.insert(CorrFS); //Żeby została na końcu zwolniona, a poza tym może ktoś kiedyś użyje.
 
     fifo_source<double>* EntropyFSLog=new fifo_source<double>(CorrFS->Entropy(), InternalLogLen);
     if(!EntropyFSLog) goto ERROR;
     int iEntropyFS=Sources.insert(EntropyFSLog);
 
-    fifo_source<double>* CorrFSLogR=new fifo_source<double>(CorrFS->Tau_a_Goodman_Kruskal(), InternalLogLen); //Fifo korelacji pierwszych z drugimi
+    fifo_source<double>* CorrFSLogR=new fifo_source<double>(CorrFS->Tau_a_Goodman_Kruskal(), InternalLogLen); //Kolejka "Fifo" dla korelacji pierwszych z drugimi
     if(!CorrFSLogR) goto ERROR;
     int iCorrFSR=Sources.insert(CorrFSLogR);
 
 
-    //I utworzenie seri liczacych ich statystyki
+    //I utworzenie seri liczących ich statystyki:
 
-    fifo_source<double>* StressFirstLog=new fifo_source<double>(FirstStat->Stress(), InternalLogLen); //Fifo ze stresu
+    fifo_source<double>* StressFirstLog=new fifo_source<double>(FirstStat->Stress(), InternalLogLen); //Fifo, ze stresu
     if(!StressFirstLog) goto ERROR;
     int iSFirst=Sources.insert(StressFirstLog);
 
-    fifo_source<double>* StressSecondLog=new fifo_source<double>(SecondStat->Stress(), InternalLogLen); //Fifo ze stresu
+    fifo_source<double>* StressSecondLog=new fifo_source<double>(SecondStat->Stress(), InternalLogLen); //Fifo, ze stresu
     if(!StressSecondLog) goto ERROR;
     int iSSecond=Sources.insert(StressSecondLog);
 
@@ -218,7 +207,7 @@ void aworld::make_default_visualisation()
     int iWhichMainF=Sources.insert(WhichMainLog);
 
 
-    //I umieszczanie w logu tego co trzeba
+    //I umieszczanie w logu tego, co trzeba:
     Log.insert(ClassStat->NumOfClass());
     Log.insert(ClassStat->Entropy());
     Log.insert(ClassStat->NormEntropy());
@@ -236,20 +225,20 @@ void aworld::make_default_visualisation()
     Log.insert(CorrFS->Tau_a_Goodman_Kruskal());
 
     //PODSTAWOWA WIZUALIZACJA SERII DANYCH
-    //WYMIARY DOMYSLNEGO OKNA
-    unsigned szer=Menager.getwidth();
-    unsigned wyso=Menager.getheight();
+    //WYMIARY DOMYŚLNEGO OKNA
+    unsigned szer=Manager.getwidth();
+    unsigned wyso=Manager.getheight();
     assert(szer>50 && wyso>40); //Najmniejsze sensowne okno
 
-    //Obszary domy�lne - np obszar STATUSU
+    //Obszary domyślne — np. obszar STATUSU
     world::make_default_visualisation();
     if(OutArea)
     {
         OutArea->set(1,1,szer/2-1,wyso/2-1);
-        Menager.as_orginal(Menager.search(OutArea->name()));
+        Manager.as_orginal(Manager.search(OutArea->name()));
     }
 
-    //WLASCIWE LUFCIKI
+    //WŁAŚCIWE LUFCIKI:
     graph* pom1=new sequence_graph(szer/2-1,wyso/4,szer-50,wyso/2-1,
                                     3,Sources.make_series_info(
                                             iNumClassF,iMainClassF,iWhichMainF,
@@ -260,10 +249,10 @@ void aworld::make_default_visualisation()
     if(!pom1) goto ERROR;
     pom1->setframe(128);
     pom1->settitle("HISTORY OF CLASSIFICATION");
-    Menager.insert(pom1);
+    Manager.insert(pom1);
 
     //inne mniej potrzebne
-    graph* pom=new sequence_graph(szer/2-1,1,szer-50,wyso/4-1,	//domyslne wspolrzedne
+    graph* pom=new sequence_graph(szer/2-1,1,szer-50,wyso/4-1,	//domyślne współrzędne
                                     1,Sources.make_series_info(
                                             iSFirst,
                                                 -1
@@ -273,59 +262,59 @@ void aworld::make_default_visualisation()
     if(!pom) goto ERROR;
     pom->setframe(128);
     pom->settitle("HISTORY OF STRESS");
-    Menager.insert(pom);
+    Manager.insert(pom);
 
-    pom=new carpet_graph(1,wyso/2,szer/3,wyso-1, //domyslne wspolrzedne
-                            Firsts); //I zrodlo danych
+    pom=new carpet_graph(1,wyso/2,szer/3,wyso-1,	//domyślne współrzędne
+                            Firsts); //I źródlo danych
     pom->setdatacolors(0,255);
     pom->settitle("Map of current attitude");
-    Menager.insert(pom);
+    Manager.insert(pom);
 
-    pom=new bars_graph(szer/3+1,wyso/2,szer/3*2,wyso-1, //domyslne wspolrzedne  szer-49,7*char_height('X')+7,szer,8*char_height('X')+9
+    pom=new bars_graph(szer/3+1,wyso/2,szer/3*2,wyso-1,	//domyślne współrzędne
                             ClassStat);
     pom->setdatacolors(0,255);
     pom->settitle("Histogram of attitude");
-    Menager.insert(pom);
+    Manager.insert(pom);
 
-    pom=new manhattan_graph(szer/3*2+1,wyso/2,szer,wyso-1, //domyslne wspolrzedne
-                                CorrFS,0,	//I zrodlo danych
+    pom=new manhattan_graph(szer/3*2+1,wyso/2,szer,wyso-1,	//domyślne współrzędne
+                                CorrFS,0,	//I źródło danych
                                 CorrFS,0,
                                 1,
-                                0.22,		//Ulamek szerokosci przeznaczony na perspektywe
-                                0.77);		//Ulamek wysokosci  przeznaczony na perspektywe
+                                0.22,		//Ułamek szerokości przeznaczony na perspektywę
+                                0.77);		//Ułamek wysokości  przeznaczony na perspektywe
     pom->setdatacolors(0,255);
     pom->settextcolors(0);
     pom->settitle("Dynamism: curr. attit. vers. prev. attitude");
-    Menager.insert(pom);
+    Manager.insert(pom);
 
     //PRZYCISKI
-    pom=new carpet_graph(szer-49,5*(char_height('X')+RAMKA),szer,6*(char_height('X')+RAMKA), //domyslne wspolrzedne
-                            Seconds); //I zrodlo danych
+    pom=new carpet_graph(szer-49,5*(char_height('X')+RAMKA),szer,6*(char_height('X')+RAMKA),	//domyślne współrzędne
+                            Seconds); //I źródlo danych
     pom->setdatacolors(0,255);
     pom->setframe(0);
     pom->settitle("Map of previous attitude");
-    Menager.insert(pom);
+    Manager.insert(pom);
 
 
-    pom=new carpet_graph(szer-49,6*(char_height('X')+RAMKA),szer,7*(char_height('X')+RAMKA), //domyslne wspolrzedne
-                            Powers); //I zrodlo danych
+    pom=new carpet_graph(szer-49,6*(char_height('X')+RAMKA),szer,7*(char_height('X')+RAMKA),	//domyślne współrzędne
+                            Powers); //I źródło danych
     pom->setdatacolors(0,255);
     pom->setframe(0);
     pom->settitle("Map of power");
-    Menager.insert(pom);
+    Manager.insert(pom);
 
-    pom=new manhattan_graph(szer-49, 7*(char_height('X')+RAMKA),szer,8*(char_height('X')+RAMKA), //domyslne wspolrzedne
-                            Powers,0, //I zrodlo danych o wysokosciach, miezazadzane
-                            Firsts,0, //Zrodlo danych o kolorach - niezazadzane
-                            1,		//Slupki zaczynaja sie conajmniej od 0!
-                                        //Jesli 0 to zaczynaja sie od min>0
-                            0.22,		//Ulamek szerokosci przeznaczony na perspektywe
-                            0.77		//Ulamek wysokosci  przeznaczony na perspektywe
-                            ); //I zrodlo danych
+    pom=new manhattan_graph(szer-49, 7*(char_height('X')+RAMKA),szer,8*(char_height('X')+RAMKA), 	//domyślne współrzędne
+                            Powers,0, //I źródlo danych o wysokościach, niezarządzane
+                            Firsts,0, //Zrodlo danych o kolorach — niezarządzane
+                            1,		//Słupki zaczynają się co najmniej od 0!
+                                        //Jesli 0 to zaczynają się od min>0
+                            0.22,		//Ułamek szerokości przeznaczony na perspektywę
+                            0.77		//Ułamek wysokości  przeznaczony na perspektywę
+                            ); //I źródlo danych
     pom->setdatacolors(0,255);
     pom->setframe(0);
-    pom->settitle("Composed map of strength & attitude of agents");
-    Menager.insert(pom);
+    pom->settitle("A composed map of strength & attitude of agents");
+    Manager.insert(pom);
 
     pom1=new sequence_graph(szer-49, 9*(char_height('X')+RAMKA),szer,10*(char_height('X')+RAMKA),
 
@@ -333,11 +322,11 @@ void aworld::make_default_visualisation()
                                             iClassEntropy,
                                                 -1
                                             ).get_ptr_val(),
-                                   1/*Wspolne minimum/maximum*/);
+                                   1/*Wspólne minimum/maximum*/);
     if(!pom1) goto ERROR;
     pom1->setframe(128);
-    pom1->settitle("HISTORY OF ENTROPY OF CLASIFICATION");
-    Menager.insert(pom1);
+    pom1->settitle("HISTORY OF ENTROPY OF CLASSIFICATION");
+    Manager.insert(pom1);
 
 
     pom1=new sequence_graph(szer-49, 10*(char_height('X')+RAMKA),szer,11*(char_height('X')+RAMKA),
@@ -349,7 +338,7 @@ void aworld::make_default_visualisation()
     if(!pom1) goto ERROR;
     pom1->setframe(128);
     pom1->settitle("HISTORY OF ENTROPY OF CHANGE");
-    Menager.insert(pom1);
+    Manager.insert(pom1);
 
 
     pom=new sequence_graph(szer-49, 11*(char_height('X')+RAMKA),szer,12*(char_height('X')+RAMKA),
@@ -362,9 +351,9 @@ void aworld::make_default_visualisation()
     if(!pom) goto ERROR;
     pom->setframe(128);
     pom->settitle("HISTORY OF Prev.TO Curr. CORRELATION");
-    Menager.insert(pom);
+    Manager.insert(pom);
 
-    //Tworzenie obszaru sterujacego
+    //Tworzenie obszaru sterującego:
     {
     wb_dynarray<rectangle_source_base*> tmp(4,(rectangle_source_base*)Sources.get(iFirst),
                                               (rectangle_source_base*)Sources.get(iSecond),
@@ -376,26 +365,26 @@ void aworld::make_default_visualisation()
     drawable_base* pom=new steering_wheel(szer-49,0,szer,5*(char_height('X')+RAMKA),tmp);
     assert(pom!=NULL);
     pom->setbackground(10);
-    Menager.insert(pom);
+    Manager.insert(pom);
     }
 
     }
-    Sources.new_data_version(1,1); //Oznajmia seriom ze dane sie uaktualnily	(po inicjacji)
+    Sources.new_data_version(1,1); //Oznajmia seriom, że dane się uaktualniły	(po inicjacji)
 
-    ERROR://... tu akcja na niepogode
+    ERROR://... tu akcja na niepogodę
         ; //error_message(...)
 }
 
 
 
-//AKCJE SYMULACYJNE
-// ////////////////////
-// ////////////////////
+// AKCJE SYMULACYJNE:
+// //////////////////
+
 void aworld::after_read_from_image()
-//actions after read state from file. Aktualizacja pol static aagent'a!!!
+//actions after read state from file. Aktualizacja pol static aAgent'a!!!
 {
-    aagent::max_str=MaxSila; //Maksymalna sila agenta
-    aagent::n_of_cate=NofCateg; //Ilosc kategori w mapach
+    aagent::max_str=MaxSila; //Maksymalna siła agenta
+    aagent::n_of_cate=NofCateg; //Liczba kategorii w mapach
 
     switch(NofCateg)
     {
@@ -420,13 +409,12 @@ void aworld::after_read_from_image()
 void aworld::initialize_layers()
 //-------------------------------------
 {
-    static int first=1; //TYMCZASOWE WYLACZENIE NADMIARU WYDRUKOW!!!
+    static int first=1; //TYMCZASOWE WYŁĄCZENIE NADMIARU WYDRUKÓW!!!
     if(first)
         Log.GetStream()<<"attitude SIMULATION:";
-    //odl_sasiad=1, //Rozmiar sasiedztwa
-    //ile_sasiad=8 //8==Gestosc sasiedztwa
-    aagent::max_str=MaxSila; //Maksymalna sila agenta
-    aagent::n_of_cate=NofCateg; //Ilosc kategori w mapach
+
+    aagent::max_str=MaxSila; //Maksymalna siła agenta
+    aagent::n_of_cate=NofCateg; //Liczba kategorii w mapach
 
     switch(NofCateg)
     {
@@ -446,7 +434,7 @@ void aworld::initialize_layers()
         break;
     }
 
-    //...wydruk wartosci parametrow symulacji
+    //...wydruk wartości parametrów symulacji
     if(first)
       Log.GetStream()
               << "\nMax Power=" << Log.separator() << MaxSila
@@ -456,20 +444,20 @@ void aworld::initialize_layers()
               << "\nSelf=" << Log.separator() << UseSelf
               << "\nNaighborhood=" << Log.separator() << NofNeigh << "/(" << (1 + 2 * NeighRadius) << "*" << (1 + 2 * NeighRadius) << ")\n";
 
-    //			USTALANIE STAN�W AGENT�W
-    //Wczytuje uzywajac konstruktora lub klonowania gdy niema, wiec inicjuje reszte p�l.
+    //			USTALANIE STANÓW AGENTÓW:
+    // Wczytuje używając konstruktora lub klonowania, gdy go niema, wiec inicjuje resztę pól.
     int from1= Agents.init_from_bitmap(MappName.get_ptr_val(), &aagent::assignPow);
     int from2= Agents.init_from_bitmap(MaplName.get_ptr_val(), &aagent::assign123);
 
-    //Jesli nie zainicjowane to prowizoryczna inicjacja przez konstruktory lub klonowanie
+    //Gdy nie zainicjowane, to prowizoryczna inicjacja przez konstruktory lub klonowanie
     if(from1!=1 && from2!=1)
         Agents.reallocate_all();
 
-    //Zabija m jesli w masce jesc czarny kolor
+    //Zabija agenta, gdy w masce jest czarny kolor
     if(Agents.init_from_bitmap(MaskName.get_ptr_val(), &aagent::killBlack) == 1 )
         Agents.deallocate_not_OK();
 
-    first=0; //Koniec pierwszego wywolania //TYMCZASOWO!!!
+    first=0; //Koniec pierwszego wywołania. Potem wydruki już nie są potrzebne.
 }
 
 //Pojedynczy krok symulacji
@@ -481,44 +469,44 @@ void aworld::simulate_one_step()
 
     if(SyncChange)
     {
-        //Idziemy po agentach pelnym iteratorem a stan agentow zmieniamy dopiero potem
+        //Idziemy po agentach pełnym iterator-em, a stan agentów zmieniamy dopiero potem
         iteratorh Full=MyGeom->make_global_iterator();
         while(Full)
         {
             size_t index=MyGeom->get_next(Full); //Uzyskujemy index  agenta
 
-            assert(index!=any_layer_base::FULL);				//... tutaj nie powinno sie zdarzyc
+            assert(index!=any_layer_base::FULL);				//... tutaj nie powinno się zdarzyć
 
-            aagent& CenterAgent=*(Agents.get_ptr(index).get_ptr_val()); // Uzyskujemy referencje do agenta omijajac asercje na NULL
+            aagent& CenterAgent=*(Agents.get_ptr(index).get_ptr_val()); // Uzyskujemy referencje do agenta omijając asercje na NULL
 
-            if(Agents.is_empty(CenterAgent))	// Sprawdzamy czy nie jest to pusta kom�rka (NULL)
-                continue;						// bo wtedy robic dalej by�oby bez sensu.
+            if(Agents.is_empty(CenterAgent))	// Sprawdzamy, czy nie jest to pusta kom�rka (NULL)
+                continue;						// bo wtedy robić dalej byłoby bez sensu.
 
-            if(CenterAgent.Power <= ThrsStr)		// Czy nie ma juz immunitetu na zmiany
-                CheckChange(MyGeom,index,CenterAgent); //Sprawdzamy zmiane stanu
+            if(CenterAgent.Power <= ThrsStr)		// Czy nie ma już immunitetu na zmiany
+                CheckChange(MyGeom,index,CenterAgent); //Sprawdzamy zmianę stanu
 
         }
-        // upewniamy sie ze iterator zostanie usuniety
+        // upewniamy się, że iterator zostanie usunięty
         MyGeom->destroy_iterator(Full);
 
 
-        Full=MyGeom->make_global_iterator(); //Tworzymy nowy iterator i iterujemy od poczatku
+        Full=MyGeom->make_global_iterator(); //Tworzymy nowy iterator i iterujemy od początku
         while(Full)
         {
             size_t index=MyGeom->get_next(Full); //Uzyskujemy index  agenta
 
-            assert(index!=any_layer_base::FULL);				//... tutaj nie powinno sie zdarzyc
+            assert(index!=any_layer_base::FULL);				//... tutaj nie powinno się zdarzyć
 
-            aagent& CenterAgent=*(Agents.get_ptr(index).get_ptr_val()); // Uzyskujemy referencje do agenta omijajac asercje na NULL
+            aagent& CenterAgent=*(Agents.get_ptr(index).get_ptr_val()); // Uzyskujemy referencje do agenta omijając asercje na NULL
 
-            if(Agents.is_empty(CenterAgent))	// Sprawdzamy czy nie jest to pusta kom�rka (NULL)
+            if(Agents.is_empty(CenterAgent))	// Sprawdzamy, czy nie jest to pusta kom�rka (NULL)
                 continue;
 
             wb_swap(CenterAgent.First,CenterAgent.Second);  //Ma nowy stan
-            CenterAgent.make_older();						//Robi sie starszy
+            CenterAgent.make_older();						//Robi się starszy
         }
 
-        // upewniamy sie ze iterator zostanie usuniety
+        // upewniamy się, że iterator zostanie usunięty
         MyGeom->destroy_iterator(Full);
 
     }
@@ -526,30 +514,28 @@ void aworld::simulate_one_step()
     {
         iteratorh Monte=MyGeom->make_random_global_iterator();	//Alokujemy iterator Monte-Carlo
 
-        while(Monte)//Idziemy po agentach iteratorem Monte-Carlo. Niekt�rzy moga sie powt�rzyc
+        while(Monte) //Idziemy po agentach iterator-em Monte-Carlo. Niektórzy mogą się powtórzyć
         {
             size_t index=MyGeom->get_next(Monte); //Uzyskujemy index losowo wybranego agenta
 
-            assert(index!=any_layer_base::FULL);				//... tutaj nie powinno sie zdarzyc
+            assert(index!=any_layer_base::FULL);				//... tutaj nie powinno się zdarzyć
 
-            aagent& CenterAgent=*(Agents.get_ptr(index).get_ptr_val()); // Uzyskujemy referencje do agenta omijajac asercje na NULL
-            if(Agents.is_empty(CenterAgent))	// Sprawdzamy czy nie jest to pusta kom�rka (NULL)
-                continue;						// bo wtedy robic dalej by�oby bez sensu.
+            aagent& CenterAgent=*(Agents.get_ptr(index).get_ptr_val()); // Uzyskujemy referencje do agenta omijając asercje na NULL
+            if(Agents.is_empty(CenterAgent))	// Sprawdzamy, czy nie jest to pusta kom�rka (NULL)
+                continue;						// bo wtedy robić dalej byłoby bez sensu.
 
-            if(CenterAgent.Power <= ThrsStr)		// Czy nie ma juz immunitedu na zmiany
-                if(CheckChange(MyGeom,index,CenterAgent)==1)//Czy zaszla zmiana stanu
+            if(CenterAgent.Power <= ThrsStr)		// Czy nie ma już immunitetu na zmiany
+                if(CheckChange(MyGeom,index,CenterAgent)==1) //Czy zaszła zmiana stanu
                 {
                     wb_swap(CenterAgent.First,CenterAgent.Second);
                 }
 
-            CenterAgent.make_older();			//Robi sie starszy
+            CenterAgent.make_older();			//Robi się starszy
         }
 
-        // upewniamy sie ze iterator zostanie usuniety
+        // upewniamy się, że iterator zostanie usunięty
         MyGeom->destroy_iterator(Monte);
     }
-
-
 }
 
 
@@ -557,11 +543,11 @@ void aworld::simulate_one_step()
 int aworld::CheckChange(const geometry_base* MyGeom,
                         size_t index,
                         aagent& CenterAgent
-                        )//KOD NA SZUKANIE ZMIAN
+                        ) //KOD NA SZUKANIE ZMIAN
 { 
     int testowanie=0;
 
-    if(DRAND()<=aagent::mutation_prob)//Rzadka, spontaniczna zmiana pogladu
+    if(DRAND()<=aagent::mutation_prob) //Rzadka, spontaniczna zmiana poglądu
     {
         int atti=RANDOM(NofCateg);       	assert(0 <= atti && atti < NofCateg);
         CenterAgent.Second=atti;			//zmieniamy w agencie centralnym
@@ -574,7 +560,7 @@ int aworld::CheckChange(const geometry_base* MyGeom,
     //Czyszczenie licznika
     memset(Firsts.get_ptr_val(),0, sizeof(int) * NofCateg);
 
-    // Alokujemy iterator sasiedztwa
+    // Alokujemy iterator sąsiedztwa
     ::iteratorh Neigh=NULL;
 
     if(TakeAll)
@@ -586,35 +572,35 @@ int aworld::CheckChange(const geometry_base* MyGeom,
         Neigh=MyGeom->make_random_neighbour_iterator(index, NeighRadius, NofNeigh);
     }
 
-    //iteratorh Neigh=MyGeom->make_neighbour_iterator(index,NeighRadius);
+    //`iteratorh Neigh=MyGeom->make_neighbour_iterator(index,NeighRadius);`
     unsigned zliczanie=0; //Zliczanie sasiad�w
 
     while(Neigh)
     {
-        size_t index2=MyGeom->get_next(Neigh); //Uzyskujemy index sasiada
-        if(index2==any_layer_base::FULL || index2==index)	//Jesli poza obszarem symulacji lub w
-            continue;				//centrum obszaru to dalej byloby bez sensu.
+        size_t index2=MyGeom->get_next(Neigh); //Uzyskujemy index sąsiada
+        if(index2==any_layer_base::FULL || index2==index)	//Gdy poza obszarem symulacji lub w
+            continue;				//centrum obszaru to dalej jest bez sensu.
 
-        aagent& PeryfAgent=*(Agents.get_ptr(index2).get_ptr_val()); //Uzyskujemy referencje do sasiada omijajac asercje na NULL
-        if(Agents.is_empty(PeryfAgent))		//Sprawdzamy czy nie jest to pusta kom�rka (NULL)
-            continue;					   // bo wtedy robic dalej by�oby bez sensu.
+        aagent& PeryfAgent=*(Agents.get_ptr(index2).get_ptr_val()); //Uzyskujemy referencje do sąsiada omijając asercje na NULL
+        if(Agents.is_empty(PeryfAgent))		//Sprawdzamy, czy nie jest to pusta kom�rka (NULL)
+            continue;					   // bo wtedy robić dalej byłoby bez sensu.
 
         zliczanie++;
-        //Dodawanie sil sasiadow do licznikow w tablicach
+        //Dodawanie sił sąsiadów do liczników w tablicach
         Firsts[PeryfAgent.First]+=PeryfAgent.Power;
     }
 
-    MyGeom->destroy_iterator(Neigh);	// upewniamy sie ze iterator zostanie usuniety
-    //Zlicza wylosowanych agentow
+    MyGeom->destroy_iterator(Neigh);	// upewniamy się, że iterator zostanie usunięty
+    //Zlicza wylosowanych agentów
     testowanie++;
 
-    //Dodawanie wlasnych sil do licznikow w tablicach
+    //Dodawanie własnych sił do liczników w tablicach
     if(UseSelf)
     {
         Firsts[CenterAgent.First]+=CenterAgent.Power;
     }
 
-    //Szukanie maksimow
+    //Szukanie maksimów
     int maxF=0,indF=-1;
 
     int offset=RANDOM(NofCateg);

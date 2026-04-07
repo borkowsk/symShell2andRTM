@@ -1,20 +1,20 @@
-// DECLARATION OF    A G E N T   FOR "attitudes" SIMULATION.
+// DECLARATION OF   , A G E N T   FOR "attitudes" SIMULATION.
 // /////////////////////////////////////////////////////////
 // @date 2026-04-07 (modification)
 #include "layer.hpp"
 
 class aagent:public agent_base
 {
-    friend class aworld; //Na razie tak - zeby uproscic dostep do skladowych.
+    friend class aworld; //Na razie tak — żeby uprościć dostęp do składowych.
 
-    // STATYCZNE SKLADOWE - PARAMETRY INICJOWANIA AGENTÓW
-    static short str_grow; //Czy sila sie zmienia (rosnie) z wiekiem
-    static short max_str; //Maksymalna sila agenta
-    static short n_of_cate; //Ilosc kategori w mapach
+    // STATYCZNE SKŁADOWE - PARAMETRY INICJOWANIA AGENTÓW
+    static short str_grow; //Czy siła się zmienia (rośnie) z wiekiem
+    static short max_str; //Maksymalna siła agenta
+    static short n_of_cate; //Liczba kategorii w mapach
     static short cate_shift; //Przesuniecie dla wczytywania gifa
-    static double mutation_prob; //Prawd. spontanicznej zmiany pogladow (0..1)
+    static double mutation_prob; //Prawd. spontanicznej zmiany poglądów (0..1)
 
-    // SKLADOWE DLA SYMULACJI
+    // SKŁADOWE DLA SYMULACJI
     short Power;	//Sila agenta
     short First;	//Pierwsze przekonanie
     short Second;	//Nowe przekonanie
@@ -27,8 +27,8 @@ class aagent:public agent_base
         Power=-1;
     }
 
-    // TO CO MUSI byc zdefiniowane
-    // /////////////////////////////////
+    // TO CO MUSI byc zdefiniowane:
+    // ////////////////////////////
 public:
     int IsOK()
     {
@@ -40,7 +40,7 @@ public:
         if(aagent::str_grow)
         {
             Power+=aagent::str_grow;
-            Power%=aagent::max_str; //Nigdy nie przekracza sily maksymalnej
+            Power%=aagent::max_str; //Nigdy nie przekracza siły maksymalnej
         }
     }
 
