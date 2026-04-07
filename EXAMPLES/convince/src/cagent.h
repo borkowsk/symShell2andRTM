@@ -1,12 +1,15 @@
-//DECLARATION OF    A G E N T   FOR this SIMULATION
-/////////////////////////////////////////////////////////////
+/// @file
+/// DECLARATION OF A G E N T FOR this SIMULATION.
+// /////////////////////////////////////////////////////////////////////
+/// @date 2026-04-07 (modified)
+
 #include "layer.hpp"
 
 class anAgent:public agent_base
 {
 	friend class aWorld;//Na razie tak - zeby uproscic dostep do skladowych.
 	
-	// STATYCZNE SKLADOWE - PARAMETRY INICJOWANIA AGENT�W
+	// STATYCZNE SKLADOWE - PARAMETRY INICJOWANIA AGENTÓW
 	static short ruchsily;//Czy sila sie zmienia (rosnie) z wiekiem
 	static short min_sila;//Minimalna sila agenta
 	static short max_sila;//Maksymalna sila agenta
@@ -108,5 +111,15 @@ public:
 	}
 
 };
+
+/* **************************************************************** */
+/*           THIS CODE IS DESIGNED & COPYRIGHT BY:                  */
+/*            W O J C I E C H   B O R K O W S K I                   */
+/* Zakład Systematyki i Geografii Roslin Uniwersytetu Warszawskiego */
+/*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego       */
+/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk             */
+/*        MAIL: borkowsk@iss.uw.edu.pl                              */
+/*                               (Don't change or remove this note) */
+/* **************************************************************** */
 
 

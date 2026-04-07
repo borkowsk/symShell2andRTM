@@ -1,7 +1,8 @@
-//#include <limits.h>
-//#include <assert.h>
-//#include <string.h>
-//#include <math.h>
+/// @file
+/// Implementation of the convincible world.
+// /////////////////////////////////////////////////////////////////////
+/// @date 2026-04-07 (modified)
+
 #include <string.h>
 #include <math.h>
 
@@ -775,3 +776,15 @@ int aWorld::CheckChange(const geometry_base* MyGeom,
 */	
 	return 0;
 }
+
+/* **************************************************************** */
+/*           THIS CODE IS DESIGNED & COPYRIGHT BY:                  */
+/*            W O J C I E C H   B O R K O W S K I                   */
+/* Zakład Systematyki i Geografii Roslin Uniwersytetu Warszawskiego */
+/*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego       */
+/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk             */
+/*        MAIL: borkowsk@iss.uw.edu.pl                              */
+/*                               (Don't change or remove this note) */
+/* **************************************************************** */
+
+

@@ -1,8 +1,9 @@
-// implementation of the aWorld class.
-//	Virtual Input methods 
-//----------------------------------------------
-//Its is rather simply implementation. You can replace it if you need.
-//////////////////////////////////////////////////////////////////////
+/// @file
+/// Virtual Input method implementation of the aWorld class.
+/// Its is rather simply implementation. You can replace it if you need.
+// /////////////////////////////////////////////////////////////////////
+/// @date 2026-04-07 (modified)
+
 #include "cworld.h"
 
 int aWorld::implement_input(istream& i)
@@ -26,13 +27,15 @@ int aWorld::implement_input(istream& i)
 	return 0;
 }
 
-/********************************************************************/
-/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
+/* **************************************************************** */
+/*           THIS CODE IS DESIGNED & COPYRIGHT BY:                  */
 /*            W O J C I E C H   B O R K O W S K I                   */
-/* Zaklad Systematyki i Geografii Roslin Uniwersytetu Warszawskiego */
-/*  & Instytut Studiow Spolecznych Uniwersytetu Warszawskiego       */
+/* Zakład Systematyki i Geografii Roslin Uniwersytetu Warszawskiego */
+/*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego       */
 /*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk             */
 /*        MAIL: borkowsk@iss.uw.edu.pl                              */
 /*                               (Don't change or remove this note) */
-/********************************************************************/
+/* **************************************************************** */
+
+
 

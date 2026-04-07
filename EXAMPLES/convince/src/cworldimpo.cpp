@@ -1,8 +1,9 @@
-// implementation of the aWorld class.
-//	Virtual output methods 
-//----------------------------------------------
-//Its is rather simply implementation. You can replace it if you need.
-//////////////////////////////////////////////////////////////////////
+/// @file
+/// Virtual output methods implementation of the aWorld class.
+/// Its is rather simply implementation. You can replace it if you need.
+// /////////////////////////////////////////////////////////////////////
+/// @date 2026-04-07 (modified)
+
 #include "cworld.h"
 
 int aWorld::implement_output(ostream& o) const
@@ -22,14 +23,14 @@ int aWorld::implement_output(ostream& o) const
 	return 1;
 }
 
-/********************************************************************/
-/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
+/* **************************************************************** */
+/*           THIS CODE IS DESIGNED & COPYRIGHT BY:                  */
 /*            W O J C I E C H   B O R K O W S K I                   */
-/* Zaklad Systematyki i Geografii Roslin Uniwersytetu Warszawskiego */
-/*  & Instytut Studiow Spolecznych Uniwersytetu Warszawskiego       */
+/* Zakład Systematyki i Geografii Roslin Uniwersytetu Warszawskiego */
+/*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego       */
 /*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk             */
 /*        MAIL: borkowsk@iss.uw.edu.pl                              */
 /*                               (Don't change or remove this note) */
-/********************************************************************/
+/* **************************************************************** */
 
 

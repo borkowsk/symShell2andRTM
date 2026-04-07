@@ -1,3 +1,8 @@
+/// @file
+/// Values for communication with menu.
+// /////////////////////////////////////////////////////////////////////
+/// @date 2026-04-07 (modified)
+
 //{{NO_DEPENDENCIES}}
 // Microsoft Developer Studio generated include file.
 // Used by amenager.rc

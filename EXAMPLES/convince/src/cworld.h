@@ -1,6 +1,9 @@
-//DECLARATION OF   W O R L D  FOR "attitudeS" SIMULATION
-/////////////////////////////////////////////////////////
-#include <limits.h> //SHRT_MAX
+/// @file
+/// DECLARATION OF   W O R L D  FOR "attitudeS" SIMULATION.
+// ////////////////////////////////////////////////////////////////////
+/// @date 2026-04-07 (modified)
+
+#include <climits> //SHRT_MAX
 #include "world.hpp"
 #include "layer.hpp"
 #include "cagent.h" //Definicja agenta
@@ -68,3 +71,14 @@ int		implement_output(ostream& o) const;
 virtual
 int		implement_input(istream& i);
 };
+
+/* **************************************************************** */
+/*           THIS CODE IS DESIGNED & COPYRIGHT BY:                  */
+/*            W O J C I E C H   B O R K O W S K I                   */
+/* Zakład Systematyki i Geografii Roslin Uniwersytetu Warszawskiego */
+/*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego       */
+/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk             */
+/*        MAIL: borkowsk@iss.uw.edu.pl                              */
+/*                               (Don't change or remove this note) */
+/* **************************************************************** */
+
