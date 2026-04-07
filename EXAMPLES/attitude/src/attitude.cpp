@@ -15,43 +15,44 @@ const char* SYMULATION_NAME="attitudes_v1.01c";
 #include "arand.h"
 #include "aworld.h"
 
-unsigned SWIDTH=750;
-unsigned SHEIGHT=550;
+unsigned	SCR_WIDTH=750;
+unsigned	SCR_HEIGHT=550;
 
-unsigned internal_log=7000; //Nieobiektowo przekazywane do metody inicializacji zrodel 
+unsigned	InternalLogLen=7000;	//Nieobiektowo przekazywane do metody inicializacji zrodel.
 
-char  LogName[512]="attitude.log\0-------------------+--";
-char HistName[512]="\0--+---------attitude.otx----------";
-char MapLName[512]="\0--+---------attitude.gif----------";
-char MapPName[512]="\0--+---------powers.gif------------";
-char MaskName[512]="\0--+---------mask.gif--------------";
-unsigned iWidth=50;
-unsigned iMaxIterations=0xffffffff;
-unsigned iLogRatio=1;
-unsigned iViewRatio=1;
+char	LogName[512]="attitude.log\0-------------------+--";
+char	HistName[512]="\0--+---------attitude.otx----------";
+char	MapLName[512]="\0--+---------attitude.gif----------";
+char	MapPName[512]="\0--+---------powers.gif------------";
+char	MaskName[512]="\0--+---------mask.gif--------------";
 
-int  RuchomaSila=0;			//Czy sila ma sie powiększać "z wiekiem"
-int  MaksymalnaSila=100;	//Jaka najwieksza sila
-char TresProcent=100;		//Powyzej jakiej sily zmiany "pogladu" sa juz niemozliwe
+unsigned	WorldWidth=50;
+unsigned	MaxNumOfIterations=0xffffffff;
+unsigned	LogWriteRatio=1;
+unsigned	ScrViewRatio=1;
 
-int  IloscKlas=2;
-int  ProcentSzumu=0;
-double MutacjeSpon=0;
-int  RozmiarSasiedztwa=1; //3x3-1
-int  IleSasiadow=-1; //Wszyscy sasiedzi - nielosowo. 8 - losowo!!!
-int  BranieSiebie=1; //8+1
-bool TypSymulacji=0; //Synchroniczna
+int	GrowingStrength=0;			//Czy sila ma sie powiększać "z wiekiem"
+int	MaximalStrength=100;		//Jaka najwieksza sila
+int	ThresholdPercent=100;		//Powyzej jakiej sily zmiany "pogladu" sa juz niemozliwe.
 
-int  iWychodzenie=0;
-int  Replay=0;
-int	 AUTOSTART=0;
+int	NumberOfAttitudes=2;
+int	NoisePercent=0;
+double	MutationProb=0;
+int	NeighborhoodR=1; //Promień sąsiedztwa. Jeśli 1 to sąsiedztwo 3x3-1.
+int	NeighborhoodD=-1; //Wszyscy sąsiedzi — nielosowo. 8 - losowo!!!
+int	SelfTaking=1; //8+1... Branie siebie do zliczania presji.
+bool	SimulationMode=0; //Tryb symulacji. 0 == synchroniczna.
+
+int	AutoExit=0;		//Automatyczne wychodzenie z programu po końcu symulacji.
+int	Replay=0;		//Odtwarzanie z zapisu.
+int	AUTOSTART=0;
 
 
 int parse_options(const int argc,const char* argv[])
 {
     for(int i=1;i<argc;i++)
         {
-        if( *argv[i]=='-' ) /* Opcja X lub symshella */
+        if( *argv[i]=='-' ) /* Opcja X11 lub symshell-a */
             continue;
         //Uppercasing
         wb_pchar hand( clone_str(argv[i]) );
@@ -64,125 +65,125 @@ int parse_options(const int argc,const char* argv[])
         *pom='=';
         if((pom=strstr(rob,"SPCH="))!=NULL) //Nie NULL czyli jest
         {
-        MutacjeSpon=atof(pom+5);
-        if(MutacjeSpon<0 || MutacjeSpon>100)
+        MutationProb=atof(pom + 5);
+        if(MutationProb < 0 || MutationProb > 100)
             {
-            cerr<<"Bad SPCH ="<<MutacjeSpon<<" (must be in <0,100> )"<<endl;
+            cerr << "Bad SPCH =" << MutationProb << " (must be in <0,100> )" << endl;
             return 0;
             }
-        cerr<<"SPCH (spn. change percent) = "<<MutacjeSpon<<endl;
-        MutacjeSpon/=100; //Ulamek a nie procent tak naprawde
+        cerr << "SPCH (spn. change percent) = " << MutationProb << endl;
+            MutationProb/=100; //Ulamek a nie procent tak naprawde
         }
         else
         if((pom=strstr(rob,"NOIP="))!=NULL) //Nie NULL czyli jest
         {
-        ProcentSzumu=atol(pom+5);
-        if(ProcentSzumu<0 || ProcentSzumu>100)
+        NoisePercent=atol(pom + 5);
+        if(NoisePercent < 0 || NoisePercent > 100)
             {
-            cerr<<"Bad NOIP ="<<ProcentSzumu<<" (must be in <0,100> )"<<endl;
+            cerr << "Bad NOIP =" << NoisePercent << " (must be in <0,100> )" << endl;
             return 0;
             }
-        cerr<<"NOIP (noise percent) = "<<ProcentSzumu<<endl;
+        cerr << "NOIP (noise percent) = " << NoisePercent << endl;
         }
         else
         if((pom=strstr(rob,"CLSS="))!=NULL) //Nie NULL czyli jest
         {
-        IloscKlas=atol(pom+5);
-        if(IloscKlas<2)
+            NumberOfAttitudes=atol(pom + 5);
+        if(NumberOfAttitudes < 2)
             {
-            cerr<<"Bad CLSS ="<<IloscKlas<<" (must be >2 )"<<endl;
+            cerr << "Bad CLSS =" << NumberOfAttitudes << " (must be >2 )" << endl;
             return 0;
             }
         }
         else
         if((pom=strstr(rob,"MPOW="))!=NULL) //Nie NULL czyli jest
         {
-        MaksymalnaSila=atol(pom+5);
-        if(MaksymalnaSila<0)//0 czy 1???
+        MaximalStrength=atol(pom + 5);
+        if(MaximalStrength < 0)//0 czy 1???
             {
-            cerr<<"Bad MPOW ="<<MaksymalnaSila<<" (must be >=1 )"<<endl;
+            cerr << "Bad MPOW =" << MaximalStrength << " (must be >=1 )" << endl;
             return 0;
             }
         }
         else
         if((pom=strstr(rob,"WPOW="))!=NULL) //Nie NULL czyli jest
         {
-        RuchomaSila=atol(pom+5);
-        if(RuchomaSila<0)
+        GrowingStrength=atol(pom + 5);
+        if(GrowingStrength < 0)
             {
-            cerr<<"Bad WPOW ="<<RuchomaSila<<" (must be >=0 )"<<endl;
+            cerr << "Bad WPOW =" << GrowingStrength << " (must be >=0 )" << endl;
             return 0;
             }
-        cerr<<"WPOW="<<RuchomaSila<<endl;
+        cerr << "WPOW=" << GrowingStrength << endl;
         }
         else
         if((pom=strstr(rob,"TRSP="))!=NULL) //Nie NULL czyli jest
         {
-        TresProcent=atol(pom+5);
-        if(TresProcent<0 || TresProcent>100)
+            ThresholdPercent=atol(pom + 5);
+        if(ThresholdPercent < 0 || ThresholdPercent > 100)
             {
-            cerr<<"Bad TRSP = "<<int(TresProcent)<<"(must be in <0,100>"<<endl;
+            cerr << "Bad TRSP = " << int(ThresholdPercent) << "(must be in <0,100>" << endl;
             return 0;
             }
-            else
+        else
             {
-            cerr<<"Treshold of strenght for change parameters = "<<int(TresProcent)<<"%"<<endl;
-            if(RuchomaSila==0)//Nie ma sensu TRSP jesli nie jest ruchoma sila
+            cerr << "Treshold of strenght for change parameters = " << int(ThresholdPercent) << "%" << endl;
+            if(GrowingStrength == 0)//Nie ma sensu TRSP jesli nie jest ruchoma sila
                 {
-                RuchomaSila=1;
-                cerr<<"Automatically set WPOW to "<<RuchomaSila<<endl;
+                    GrowingStrength=1;
+                cerr << "Automatically set WPOW to " << GrowingStrength << endl;
                 }
             }
         }
         else
         if((pom=strstr(rob,"WIDTH="))!=NULL) //Nie NULL czyli jest
         {
-        iWidth=atol(pom+6);
-        if(iWidth<3 || iWidth>=SWIDTH)
+        WorldWidth=atol(pom + 6);
+        if(WorldWidth < 3 || WorldWidth >= SCR_WIDTH)
             {
-            cerr<<"Bad WIDTH = "<<iWidth<<"(must be in <3,"<<SWIDTH<<">"<<endl;
+            cerr << "Bad WIDTH = " << WorldWidth << "(must be in <3," << SCR_WIDTH << ">" << endl;
             return 0;
             }
         }
         else
         if((pom=strstr(rob,"WIDTHWIN="))!=NULL) //Nie NULL czyli jest
         {
-        SWIDTH=atol(pom+9);
-        if(SWIDTH<50)
+            SCR_WIDTH=atol(pom + 9);
+        if(SCR_WIDTH < 50)
             {
-            cerr<<"Bad WIDTHWIN = "<<SWIDTH<<" (must be >50)"<<endl;
+            cerr << "Bad WIDTHWIN = " << SCR_WIDTH << " (must be >50)" << endl;
             return 0;
             }
         }
         else
         if((pom=strstr(rob,"HEIGHTWIN="))!=NULL) //Nie NULL czyli jest
         {
-        SHEIGHT=atol(pom+10);
-        if(SHEIGHT<50)
+            SCR_HEIGHT=atol(pom + 10);
+        if(SCR_HEIGHT < 50)
             {
-            cerr<<"Bad HEIGHTWIN = "<<SHEIGHT<<" (must be >50)"<<endl;
+            cerr << "Bad HEIGHTWIN = " << SCR_HEIGHT << " (must be >50)" << endl;
             return 0;
             }
         }
         else
         if((pom=strstr(rob,"MAX="))!=NULL) //Nie NULL czyli jest
         {
-        iMaxIterations=atol(pom+4);
-        if(iMaxIterations<=0)
+            MaxNumOfIterations=atol(pom + 4);
+        if(MaxNumOfIterations <= 0)
             {
             cerr<<"Bad MAX iterations. Must be >0"<<endl;
             return 0;
             }
-            else
+        else
             {
-                internal_log=iMaxIterations+1;
+                InternalLogLen= MaxNumOfIterations + 1;
             }
         }
         else
         if((pom=strstr(rob,"LOGC="))!=NULL) //Nie NULL czyli jest
         {
-        iLogRatio=atol(pom+5);
-        if(iLogRatio<=0)
+            LogWriteRatio=atol(pom + 5);
+        if(LogWriteRatio <= 0)
             {
             cerr<<"Bad LOGC (write to log frequency). Must be >0"<<endl;
             return 0;
@@ -191,8 +192,8 @@ int parse_options(const int argc,const char* argv[])
         else
         if((pom=strstr(rob,"VIEW="))!=NULL) //Nie NULL czyli jest
         {
-        iViewRatio=atol(pom+5);
-        if(iViewRatio<=0)
+            ScrViewRatio=atol(pom + 5);
+        if(ScrViewRatio <= 0)
             {
             cerr<<"Bad VIEW (visualisation frequency). Must be >0"<<endl;
             return 0;
@@ -201,40 +202,40 @@ int parse_options(const int argc,const char* argv[])
         else
         if((pom=strstr(rob,"SELF="))!=NULL) //Nie NULL czyli jest
         {
-        BranieSiebie=(toupper(pom[5])=='Y');
-        cerr<<"SELF="<<(BranieSiebie?"Yes":"No")<<endl;
+            SelfTaking=(toupper(pom[5]) == 'Y');
+        cerr << "SELF=" << (SelfTaking ? "Yes" : "No") << endl;
         }
         else
         if((pom=strstr(rob,"INDI="))!=NULL) //Nie NULL czyli jest
         {
-        RozmiarSasiedztwa=atol(pom+5);
-        if(RozmiarSasiedztwa>=1 && RozmiarSasiedztwa<iWidth/2-1)
+        NeighborhoodR=atol(pom + 5);
+        if(NeighborhoodR >= 1 && NeighborhoodR < WorldWidth / 2 - 1)
             {
-            cerr<<"INDI="<<RozmiarSasiedztwa<<endl;;
+            cerr << "INDI=" << NeighborhoodR << endl;;
             }
             else
             {
-            cerr<<"Bad INDI="<<RozmiarSasiedztwa<<" Must from 1 to "<<iWidth/2-1<<endl;
+            cerr << "Bad INDI=" << NeighborhoodR << " Must from 1 to " << WorldWidth / 2 - 1 << endl;
             return 0;
             }
         }
         else
         if((pom=strstr(rob,"PRTR="))!=NULL) //Nie NULL czyli jest
             {
-                IleSasiadow=atol(pom+5);
-                if(IleSasiadow==-1)
+                NeighborhoodD=atol(pom + 5);
+                if(NeighborhoodD == -1)
                 {
                     cerr<<"PRTR = all"<<endl;
                 }
                 else
-                    if(IleSasiadow>1 && IleSasiadow<=sqr(RozmiarSasiedztwa*2+1)-1)
+                    if(NeighborhoodD > 1 && NeighborhoodD <= sqr(NeighborhoodR * 2 + 1) - 1)
                     {
-                        cerr<<"PRTR="<<IleSasiadow<<endl;
+                        cerr << "PRTR=" << NeighborhoodD << endl;
                     }
                     else
                     {
-                        cerr<<"Bad PRTR="<<IleSasiadow
-                            <<" Must from 2 to "<<sqr(RozmiarSasiedztwa*2+1)-1<<endl;
+                        cerr << "Bad PRTR=" << NeighborhoodD
+                             << " Must from 2 to " << sqr(NeighborhoodR * 2 + 1) - 1 << endl;
                         return 0;
                     }
             }
@@ -245,30 +246,30 @@ int parse_options(const int argc,const char* argv[])
         cerr<<"AUTO="<<AUTOSTART<<endl;
         if(AUTOSTART)
             {
-            iWychodzenie=1;
-            cerr<<"STOP="<<(iWychodzenie?"Yes":"No")<<endl;
+                AutoExit=1;
+            cerr << "STOP=" << (AutoExit ? "Yes" : "No") << endl;
             }
         }
         else
         if((pom=strstr(rob,"STOP="))!=NULL) //Nie NULL czyli jest
         {
-        iWychodzenie=(toupper(pom[5])=='Y');
-        cerr<<"STOP="<<(iWychodzenie?"Yes":"No")<<endl;
+        AutoExit=(toupper(pom[5]) == 'Y');
+        cerr << "STOP=" << (AutoExit ? "Yes" : "No") << endl;
         }
         else  //SYNC
         if((pom=strstr(rob,"SYNC="))!=NULL) //Nie NULL czyli jest
         {
-        TypSymulacji=!(toupper(pom[5])=='Y');
-        cerr<<"SYNC="<<(TypSymulacji==0?"Yes":"No")<<endl;
+        SimulationMode=!(toupper(pom[5]) == 'Y');
+        cerr << "SYNC=" << (SimulationMode == 0 ? "Yes" : "No") << endl;
         }
         else
         if((pom=strstr(rob,"ILOG="))!=NULL) //Nie NULL czyli jest
         {
-        internal_log=atoi(pom+5);
-        if(internal_log<50)
+        InternalLogLen=atoi(pom + 5);
+        if(InternalLogLen < 50)
                 {
-                internal_log=50;
-                cerr<<"Internal log to short. Reset to default minimum ="<<internal_log<<endl;
+                    InternalLogLen=50;
+                cerr << "Internal log to short. Reset to default minimum =" << InternalLogLen << endl;
                 }
         }
         else
@@ -312,30 +313,30 @@ int parse_options(const int argc,const char* argv[])
     ERROR:
             cerr<<"Unknown parameter \""<<argv[i]<<"\"\n";
             cerr<<"YOU CAN USE:\n";
-            cerr<<"\tREPL=hist.otx - not symulate but replay symulation history file.\n";
-            cerr<<"\tMAPL=initL.gif (or BMP)- file with initialization map of attitudes (RANDOM)\n";
-            cerr<<"\tMAPP=initP.gif (or BMP)- file with initialization map of powers (RANDOM)\n";
+            cerr<<"\tREPL=hist.otx - not simulate, but replay a simulation history file.\n";
+            cerr<<"\tMAPL=initL.gif (or BMP)- file with an initialization map of attitudes (RANDOM)\n";
+            cerr<<"\tMAPP=initP.gif (or BMP)- file with an initialization map of powers (RANDOM)\n";
             cerr<<"\tMASK=mask.gif	(or BMP)- mask file for alive (not black) agents (ALL ALIVE)\n";
-            cerr<<"\tWIDTH=NN - matrix size ("<<iWidth<<")\n";
-            cerr<<"\tCLSS=NN - number of class. Must be power of 2. ("<<IloscKlas<<")\n";
-            cerr<<"\tMPOW=NN - max strength for initilization ("<<MaksymalnaSila<<")\n"	;
-            cerr<<"\tWPOW=N	- walking step of strenght	("<<RuchomaSila<<")\n";
-            cerr<<"\tTRSP=N - % of treshold of strenght ("<<TresProcent<<")\n";
-            cerr<<"\tSYNC=Y/N - synchronic (Y) or Monte-Carlo symulation mode ("<<(TypSymulacji==0?"Yes":"No")<<")\n";
-            cerr<<"\tPRTR=2..WIDTH^2-1 - number of interaction partners (-1 = all neighbourhood) ("<<IleSasiadow<<")\n";
-            cerr<<"\tINDI=1..WIDTH/2-1 - interaction distance ("<<RozmiarSasiedztwa<<")\n";
-            cerr<<"\tSELF=N/Y -use self for calculations ("<<(BranieSiebie?"Yes":"No")<<")\n";
-            cerr<<"\tNOIP=NN - percent of noise ("<<ProcentSzumu<<")\n";
-            cerr<<"\tSPCH=NN - percent of spontanic change of attitudes ("<<MutacjeSpon*100<<")\n";
-            cerr<<"\tMAX=NNNN - max simulation step ("<<iMaxIterations<<")\n";
-            cerr<<"\tILOG=NNNN - lenght of internal statistic logs ("<<internal_log<<")\n";
-            cerr<<"\tSTOP=N/Y - exit after MAX steps ("<<(iWychodzenie?"Yes":"No")<<")\n";
-            cerr<<"\tVIEV=N - visualisation frequency ("<<iViewRatio<<")\n";
-            cerr<<"\tLOGC=N - log file saving frequency ("<<iLogRatio<<")\n";
+            cerr << "\tWIDTH=NN - matrix size (" << WorldWidth << ")\n";
+            cerr << "\tCLSS=NN - number of class. Must be power of 2. (" << NumberOfAttitudes << ")\n";
+            cerr << "\tMPOW=NN - max strength for initialization (" << MaximalStrength << ")\n"	;
+            cerr << "\tWPOW=N	- walking step of strength	(" << GrowingStrength << ")\n";
+            cerr << "\tTRSP=N - % of threshold of strength (" << ThresholdPercent << ")\n";
+            cerr << "\tSYNC=Y/N - synchronic (Y) or Monte-Carlo simulation mode (" << (SimulationMode == 0 ? "Yes" : "No") << ")\n";
+            cerr << "\tPRTR=2..WIDTH^2-1 - number of interaction partners (-1 = all neighbourhood) (" << NeighborhoodD << ")\n";
+            cerr << "\tINDI=1..WIDTH/2-1 - interaction distance (" << NeighborhoodR << ")\n";
+            cerr << "\tSELF=N/Y - use self for calculations (" << (SelfTaking ? "Yes" : "No") << ")\n";
+            cerr << "\tNOIP=NN - percent of noise (" << NoisePercent << ")\n";
+            cerr << "\tSPCH=NN - percent of spontaneity change of attitudes (" << MutationProb * 100 << ")\n";
+            cerr << "\tMAX=NNNN - max simulation step (" << MaxNumOfIterations << ")\n";
+            cerr << "\tILOG=NNNN - length of internal statistic logs (" << InternalLogLen << ")\n";
+            cerr << "\tSTOP=N/Y - exit after MAX steps (" << (AutoExit ? "Yes" : "No") << ")\n";
+            cerr << "\tVIEV=N - visualisation frequency (" << ScrViewRatio << ")\n";
+            cerr << "\tLOGC=N - log file saving frequency (" << LogWriteRatio << ")\n";
             cerr<<"\tLOGF=name.log - file for simulation log ("<<LogName<<")\n";
-            cerr<<"\tHIST=hist.otx - file for full history of symulation.\n";
-            cerr<<"\tWIDTHWIN,HEIGHTWIN=XXX - initial window size.("<<SWIDTH<<'x'<<SHEIGHT<<"\n";
-            cerr<<"\nAUTO=XXX - number of auto-repetition of symulation.("<<AUTOSTART<<")\n";
+            cerr<<"\tHIST=hist.otx - file for full history of simulation.\n";
+            cerr << "\tWIDTHWIN,HEIGHTWIN=XXX - initial window size.(" << SCR_WIDTH << 'x' << SCR_HEIGHT << "\n";
+            cerr<<"\nAUTO=XXX - number of auto-repetition of simulation.("<<AUTOSTART<<")\n";
         return 0;
         }
         }
@@ -343,20 +344,20 @@ int parse_options(const int argc,const char* argv[])
 }
 
 
-/*  OGOLNA FUNKCJA MAIN */
-/************************/
+/*  OGÓLNA FUNKCJA MAIN  */
+/* ********************* */
 
 int main(const int argc,const char* argv[])
 {
     cout<<WINDOW_HEADER<<", compilation: "<<__DATE__<<' '<<__TIME__<<endl;
-    cout<<"Programmed by W.Borkowski for A.Nowak & R.Vallacher"<<endl;
+    cout<<"Programmed by W. Borkowski for A. Nowak & R. Vallacher"<<endl;
     cout<<"=========================================================="<<endl;
     cout.flush();
 
     if(!parse_options(argc,argv))
             exit(1);
 
-    main_area_menager Lufciki(24,SWIDTH,SHEIGHT,28);
+    main_area_menager Lufciki(24, SCR_WIDTH, SCR_HEIGHT, 28);
     if(!Lufciki.start(WINDOW_HEADER,argc,argv,1))
         {
         cerr<<"Can't initialize graphics"<<endl;
@@ -364,54 +365,54 @@ int main(const int argc,const char* argv[])
         }
 
     //INICJALIZACJA SYMULACJI
-    aworld& tenSwiat=*new aworld(iWidth,
-                               LogName,
-                               MapLName,
-                               MapPName,
-                               MaskName,
-                               ProcentSzumu/100.0, //Szum od 0-1
-                               MaksymalnaSila, //Zeby byla w przedziale
-                               IloscKlas,
-                               RozmiarSasiedztwa,
-                               IleSasiadow,
-                               BranieSiebie,
-                               (TypSymulacji==0?true:false), //Synchroniczna czy nie
-                               RuchomaSila,
-                               MaksymalnaSila*TresProcent/100.0,
-                               MutacjeSpon
+    aworld& theWorld=*new aworld(WorldWidth,
+                                 LogName,
+                                 MapLName,
+                                 MapPName,
+                                 MaskName,
+                                 NoisePercent / 100.0, //Szum od 0-1
+                               MaximalStrength, //Zeby byla w przedziale
+                               NumberOfAttitudes,
+                                 NeighborhoodR,
+                                 NeighborhoodD,
+                                 SelfTaking,
+                                 (SimulationMode == 0 ? true : false), //Synchroniczna czy nie
+                               GrowingStrength,
+                                 MaximalStrength * ThresholdPercent / 100.0,
+                                 MutationProb
                                );
 
-    if(&tenSwiat==NULL)
+    if(&theWorld == NULL)
         {
         cerr<<"Can't allocate simulation world!\n"<<endl;
         exit(1);
         }
 
     //INICJALIZACJA
-    RANDOMIZE(); //inicjalizacja globalnego randomizera
-    tenSwiat.set_max_iteration(iMaxIterations); //Ile najwiecej krokow
-    tenSwiat.set_input_ratio(iViewRatio);
-    tenSwiat.set_log_ratio(iLogRatio);
+    RANDOMIZE() //Makro inicjalizacja globalnego randomizera
+    theWorld.set_max_iteration(MaxNumOfIterations); //Ile najwiecej krokow
+    theWorld.set_input_ratio(ScrViewRatio);
+    theWorld.set_log_ratio(LogWriteRatio);
     cout<<WINDOW_HEADER<<": LOADED."<<endl;
-    tenSwiat.set_history_stream(HistName);
+    theWorld.set_history_stream(HistName);
 
     if(Replay)
     {
-        tenSwiat.initialize(&Lufciki,1); //inicjalizacja wizualizacji
+        theWorld.initialize(&Lufciki, 1); //inicjalizacja wizualizacji
         cout<<WINDOW_HEADER<<": PREPARED FOR READING. WAITING!"<<endl;
-        Lufciki.process_input(); //Pierwsze zdazenia. Koncza sie po ctrl-B
-        tenSwiat.read_loop(iWychodzenie);
+        Lufciki.process_input(); //Pierwsze zdarzenia. Koncza sie po ctrl-B
+        theWorld.read_loop(AutoExit);
     }
     else
     {
-        tenSwiat.initialize(&Lufciki); //inicjalizacja wizualizacji i warst symulacji
+        theWorld.initialize(&Lufciki); //inicjalizacja wizualizacji i warst symulacji
         cout<<WINDOW_HEADER<<": INITIALISED."<<endl;
         if(!AUTOSTART)
         {
-            Lufciki.process_input(); //Pierwsze zdazenia. Koncza sie po ctrl-B
+            Lufciki.process_input(); //Pierwsze zdarzenia. Koncza sie po ctrl-B
             //GLOWNA PETLA SYMULACJI
             cout<<WINDOW_HEADER<<": STARTED."<<endl;
-            tenSwiat.simulation_loop(iWychodzenie);
+            theWorld.simulation_loop(AutoExit);
         }
         else
         {
@@ -421,12 +422,12 @@ int main(const int argc,const char* argv[])
                 {
                 //GLOWNA PETLA SYMULACJI
                 cout<<WINDOW_HEADER<<": SYMULATION "<<symulacja<<" STARTED ."<<endl;
-                tenSwiat.simulation_loop(1);
+                theWorld.simulation_loop(1);
                 cout<<WINDOW_HEADER<<": SYMULATION "<<symulacja<<" DONE ."<<endl;
                 if(symulacja<AUTOSTART-1)
                     {
                     //Reinicjalizacja
-                    tenSwiat.restart();
+                    theWorld.restart();
                     }
                 }
         }
@@ -437,7 +438,7 @@ int main(const int argc,const char* argv[])
 
     cout.flush();
 
-    delete &tenSwiat; //Dealokacja swiata wraz ze wszystkimi skladowymi
+    delete &theWorld; //Dealokacja swiata wraz ze wszystkimi skladowymi
     cout<<"----------> See you later!!! <--------------\n"<<endl<<flush;
     return 0;
 }

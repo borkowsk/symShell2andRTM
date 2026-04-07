@@ -16,28 +16,28 @@ Programmed by Wojciech Borkowski for... ????
  \attitude.cpp(21)       char MaskName[512]="\0--+---------mask.gif--------------";
 
  \attitude.cpp(59)       	if((pom=strstr(rob,"SPCH="))!=NULL) //Nie NULL czyli jest
- \attitude.cpp(64)       		cerr<<"Bad SPCH ="<<MutacjeSpon<<" (must be in <0,100> )"<<endl;
- \attitude.cpp(67)       	cerr<<"SPCH (spn. change percent) = "<<MutacjeSpon<<endl;
+ \attitude.cpp(64)       		cerr<<"Bad SPCH ="<<MutationProb<<" (must be in <0,100> )"<<endl;
+ \attitude.cpp(67)       	cerr<<"SPCH (spn. change percent) = "<<MutationProb<<endl;
  \attitude.cpp(71)       	if((pom=strstr(rob,"NOIP="))!=NULL) //Nie NULL czyli jest
- \attitude.cpp(76)       		cerr<<"Bad NOIP ="<<ProcentSzumu<<" (must be in <0,100> )"<<endl;
- \attitude.cpp(79)       	cerr<<"NOIP (noise percent) = "<<ProcentSzumu<<endl;
+ \attitude.cpp(76)       		cerr<<"Bad NOIP ="<<NoisePercent<<" (must be in <0,100> )"<<endl;
+ \attitude.cpp(79)       	cerr<<"NOIP (noise percent) = "<<NoisePercent<<endl;
  \attitude.cpp(82)       	if((pom=strstr(rob,"CLSS="))!=NULL) //Nie NULL czyli jest
- \attitude.cpp(87)       		cerr<<"Bad CLSS ="<<IloscKlas<<" (must be >2 )"<<endl;
+ \attitude.cpp(87)       		cerr<<"Bad CLSS ="<<NumberOfAttitudes<<" (must be >2 )"<<endl;
  \attitude.cpp(92)       	if((pom=strstr(rob,"MPOW="))!=NULL) //Nie NULL czyli jest
- \attitude.cpp(97)       		cerr<<"Bad MPOW ="<<MaksymalnaSila<<" (must be >=1 )"<<endl;
+ \attitude.cpp(97)       		cerr<<"Bad MPOW ="<<MaximalStrength<<" (must be >=1 )"<<endl;
  \attitude.cpp(102)       	if((pom=strstr(rob,"WPOW="))!=NULL) //Nie NULL czyli jest
- \attitude.cpp(107)       		cerr<<"Bad WPOW ="<<RuchomaSila<<" (must be >=0 )"<<endl;
- \attitude.cpp(110)       	cerr<<"WPOW="<<RuchomaSila<<endl;
+ \attitude.cpp(107)       		cerr<<"Bad WPOW ="<<GrowingStrength<<" (must be >=0 )"<<endl;
+ \attitude.cpp(110)       	cerr<<"WPOW="<<GrowingStrength<<endl;
  \attitude.cpp(113)           if((pom=strstr(rob,"TRSP="))!=NULL) //Nie NULL czyli jest
- \attitude.cpp(118)       		cerr<<"Bad TRSP = "<<int(TresProcent)<<"(must be in <0,100>"<<endl;
- \attitude.cpp(123)       		cerr<<"Treshold of strenght for change parameters = "<<int(TresProcent)<<"%"<<endl;
- \attitude.cpp(127)       			cerr<<"Automatically set WPOW to "<<RuchomaSila<<endl;
+ \attitude.cpp(118)       		cerr<<"Bad TRSP = "<<int(ThresholdPercent)<<"(must be in <0,100>"<<endl;
+ \attitude.cpp(123)       		cerr<<"Treshold of strenght for change parameters = "<<int(ThresholdPercent)<<"%"<<endl;
+ \attitude.cpp(127)       			cerr<<"Automatically set WPOW to "<<GrowingStrength<<endl;
  \attitude.cpp(132)           if((pom=strstr(rob,"WIDTH="))!=NULL) //Nie NULL czyli jest
- \attitude.cpp(137)       		cerr<<"Bad WIDTH = "<<iWidth<<"(must be in <3,"<<SWIDTH<<">"<<endl;
+ \attitude.cpp(137)       		cerr<<"Bad WIDTH = "<<WorldWidth<<"(must be in <3,"<<SCR_WIDTH<<">"<<endl;
  \attitude.cpp(142)           if((pom=strstr(rob,"WIDTHWIN="))!=NULL) //Nie NULL czyli jest
- \attitude.cpp(147)       		cerr<<"Bad WIDTHWIN = "<<SWIDTH<<" (must be >50)"<<endl;
+ \attitude.cpp(147)       		cerr<<"Bad WIDTHWIN = "<<SCR_WIDTH<<" (must be >50)"<<endl;
  \attitude.cpp(152)       	if((pom=strstr(rob,"HEIGHTWIN="))!=NULL) //Nie NULL czyli jest
- \attitude.cpp(157)       		cerr<<"Bad HEIGHTWIN = "<<SHEIGHT<<" (must be >50)"<<endl;
+ \attitude.cpp(157)       		cerr<<"Bad HEIGHTWIN = "<<SCR_HEIGHT<<" (must be >50)"<<endl;
  \attitude.cpp(162)           if((pom=strstr(rob,"MAX="))!=NULL) //Nie NULL czyli jest
  \attitude.cpp(167)       		cerr<<"Bad MAX iterations. Must be >0"<<endl;
  \attitude.cpp(176)           if((pom=strstr(rob,"LOGC="))!=NULL) //Nie NULL czyli jest
@@ -45,24 +45,24 @@ Programmed by Wojciech Borkowski for... ????
  \attitude.cpp(186)           if((pom=strstr(rob,"VIEW="))!=NULL) //Nie NULL czyli jest
  \attitude.cpp(191)       		cerr<<"Bad VIEW (visualisation frequency). Must be >0"<<endl;
  \attitude.cpp(196)       	if((pom=strstr(rob,"SELF="))!=NULL) //Nie NULL czyli jest
- \attitude.cpp(199)       	cerr<<"SELF="<<(BranieSiebie?"Yes"       "No")<<endl;
+ \attitude.cpp(199)       	cerr<<"SELF="<<(SelfTaking?"Yes"       "No")<<endl;
  \attitude.cpp(202)       	if((pom=strstr(rob,"INDI="))!=NULL) //Nie NULL czyli jest
- \attitude.cpp(207)       		cerr<<"INDI="<<RozmiarSasiedztwa<<endl;;
- \attitude.cpp(211)       		cerr<<"Bad INDI="<<RozmiarSasiedztwa<<" Must from 1 to "<<iWidth/2-1<<endl;
+ \attitude.cpp(207)       		cerr<<"INDI="<<NeighborhoodR<<endl;;
+ \attitude.cpp(211)       		cerr<<"Bad INDI="<<NeighborhoodR<<" Must from 1 to "<<WorldWidth/2-1<<endl;
  \attitude.cpp(216)       	if((pom=strstr(rob,"PRTR="))!=NULL) //Nie NULL czyli jest
  \attitude.cpp(221)       				cerr<<"PRTR = all"<<endl;
- \attitude.cpp(226)       					cerr<<"PRTR="<<IleSasiadow<<endl;
- \attitude.cpp(230)       					cerr<<"Bad PRTR="<<IleSasiadow
- \attitude.cpp(231)       						<<" Must from 2 to "<<sqr(RozmiarSasiedztwa*2+1)-1<<endl;
+ \attitude.cpp(226)       					cerr<<"PRTR="<<NeighborhoodD<<endl;
+ \attitude.cpp(230)       					cerr<<"Bad PRTR="<<NeighborhoodD
+ \attitude.cpp(231)       						<<" Must from 2 to "<<sqr(NeighborhoodR*2+1)-1<<endl;
  \attitude.cpp(236)       	if((pom=strstr(rob,"AUTO="))!=NULL) //Nie NULL czyli jest
  \attitude.cpp(239)       	cerr<<"AUTO="<<AUTOSTART<<endl;
- \attitude.cpp(243)       		cerr<<"STOP="<<(iWychodzenie?"Yes"       "No")<<endl;
+ \attitude.cpp(243)       		cerr<<"STOP="<<(AutoExit?"Yes"       "No")<<endl;
  \attitude.cpp(247)       	if((pom=strstr(rob,"STOP="))!=NULL) //Nie NULL czyli jest
- \attitude.cpp(250)       	cerr<<"STOP="<<(iWychodzenie?"Yes"       "No")<<endl;
+ \attitude.cpp(250)       	cerr<<"STOP="<<(AutoExit?"Yes"       "No")<<endl;
  \attitude.cpp(253)       	if((pom=strstr(rob,"SYNC="))!=NULL) //Nie NULL czyli jest
- \attitude.cpp(256)       	cerr<<"SYNC="<<(TypSymulacji==0?"Yes"       "No")<<endl;
+ \attitude.cpp(256)       	cerr<<"SYNC="<<(SimulationMode==0?"Yes"       "No")<<endl;
  \attitude.cpp(259)       	if((pom=strstr(rob,"ILOG="))!=NULL) //Nie NULL czyli jest
- \attitude.cpp(265)       			cerr<<"Internal log to short. Reset to default minimum ="<<internal_log<<endl;
+ \attitude.cpp(265)       			cerr<<"Internal log to short. Reset to default minimum ="<<InternalLogLen<<endl;
  \attitude.cpp(269)       	if((pom=strstr(rob,"LOGF="))!=NULL) //Nie NULL czyli jest
  \attitude.cpp(273)           if((pom=strstr(rob,"MAPL="))!=NULL) //Nie NULL czyli jest
  \attitude.cpp(276)       	cerr<<"Map of attitudes from file \""<<MapLName<<"\"\n";
@@ -81,25 +81,25 @@ Programmed by Wojciech Borkowski for... ????
  \attitude.cpp(310)       		cerr<<"\tMAPL=initL.gif (or BMP)- file with initialization map of attitudes (RANDOM)\n";
  \attitude.cpp(311)       		cerr<<"\tMAPP=initP.gif (or BMP)- file with initialization map of powers (RANDOM)\n";
  \attitude.cpp(312)       		cerr<<"\tMASK=mask.gif	(or BMP)- mask file for alive (not black) agents (ALL ALIVE)\n";
- \attitude.cpp(313)       		cerr<<"\tWIDTH=NN - matrix size ("<<iWidth<<")\n";
- \attitude.cpp(314)       		cerr<<"\tCLSS=NN - number of class. Must be power of 2. ("<<IloscKlas<<")\n";
- \attitude.cpp(315)       		cerr<<"\tMPOW=NN - max strength for initilization ("<<MaksymalnaSila<<")\n"	;
- \attitude.cpp(316)       		cerr<<"\tWPOW=N	- walking step of strenght	("<<RuchomaSila<<")\n";
- \attitude.cpp(317)       		cerr<<"\tTRSP=N - % of treshold of strenght ("<<TresProcent<<")\n";
- \attitude.cpp(318)       		cerr<<"\tSYNC=Y/N - synchronic (Y) or Monte-Carlo symulation mode ("<<(TypSymulacji==0?"Yes"       "No")<<")\n";
- \attitude.cpp(319)       		cerr<<"\tPRTR=2..WIDTH^2-1 - number of interaction partners (-1 = all neighbourhood) ("<<IleSasiadow<<")\n";
- \attitude.cpp(320)       		cerr<<"\tINDI=1..WIDTH/2-1 - interaction distance ("<<RozmiarSasiedztwa<<")\n";
- \attitude.cpp(321)       		cerr<<"\tSELF=N/Y -use self for calculations ("<<(BranieSiebie?"Yes"       "No")<<")\n";
- \attitude.cpp(322)       		cerr<<"\tNOIP=NN - percent of noise ("<<ProcentSzumu<<")\n";
- \attitude.cpp(323)       		cerr<<"\tSPCH=NN - percent of spontanic change of attitudes ("<<MutacjeSpon*100<<")\n";
- \attitude.cpp(324)       		cerr<<"\tMAX=NNNN - max simulation step ("<<iMaxIterations<<")\n";
- \attitude.cpp(325)       		cerr<<"\tILOG=NNNN - lenght of internal statistic logs ("<<internal_log<<")\n";
- \attitude.cpp(326)       		cerr<<"\tSTOP=N/Y - exit after MAX steps ("<<(iWychodzenie?"Yes"       "No")<<")\n";
- \attitude.cpp(327)       		cerr<<"\tVIEV=N - visualisation frequency ("<<iViewRatio<<")\n";
- \attitude.cpp(328)       		cerr<<"\tLOGC=N - log file saving frequency ("<<iLogRatio<<")\n";
+ \attitude.cpp(313)       		cerr<<"\tWIDTH=NN - matrix size ("<<WorldWidth<<")\n";
+ \attitude.cpp(314)       		cerr<<"\tCLSS=NN - number of class. Must be power of 2. ("<<NumberOfAttitudes<<")\n";
+ \attitude.cpp(315)       		cerr<<"\tMPOW=NN - max strength for initilization ("<<MaximalStrength<<")\n"	;
+ \attitude.cpp(316)       		cerr<<"\tWPOW=N	- walking step of strenght	("<<GrowingStrength<<")\n";
+ \attitude.cpp(317)       		cerr<<"\tTRSP=N - % of treshold of strenght ("<<ThresholdPercent<<")\n";
+ \attitude.cpp(318)       		cerr<<"\tSYNC=Y/N - synchronic (Y) or Monte-Carlo symulation mode ("<<(SimulationMode==0?"Yes"       "No")<<")\n";
+ \attitude.cpp(319)       		cerr<<"\tPRTR=2..WIDTH^2-1 - number of interaction partners (-1 = all neighbourhood) ("<<NeighborhoodD<<")\n";
+ \attitude.cpp(320)       		cerr<<"\tINDI=1..WIDTH/2-1 - interaction distance ("<<NeighborhoodR<<")\n";
+ \attitude.cpp(321)       		cerr<<"\tSELF=N/Y -use self for calculations ("<<(SelfTaking?"Yes"       "No")<<")\n";
+ \attitude.cpp(322)       		cerr<<"\tNOIP=NN - percent of noise ("<<NoisePercent<<")\n";
+ \attitude.cpp(323)       		cerr<<"\tSPCH=NN - percent of spontanic change of attitudes ("<<MutationProb*100<<")\n";
+ \attitude.cpp(324)       		cerr<<"\tMAX=NNNN - max simulation step ("<<MaxNumOfIterations<<")\n";
+ \attitude.cpp(325)       		cerr<<"\tILOG=NNNN - lenght of internal statistic logs ("<<InternalLogLen<<")\n";
+ \attitude.cpp(326)       		cerr<<"\tSTOP=N/Y - exit after MAX steps ("<<(AutoExit?"Yes"       "No")<<")\n";
+ \attitude.cpp(327)       		cerr<<"\tVIEV=N - visualisation frequency ("<<ScrViewRatio<<")\n";
+ \attitude.cpp(328)       		cerr<<"\tLOGC=N - log file saving frequency ("<<LogWriteRatio<<")\n";
  \attitude.cpp(329)       		cerr<<"\tLOGF=name.log - file for simulation log ("<<LogName<<")\n";
  \attitude.cpp(330)       		cerr<<"\tHIST=hist.otx - file for full history of symulation.\n";
- \attitude.cpp(331)       		cerr<<"\tWIDTHWIN,HEIGHTWIN=XXX - initial window size.("<<SWIDTH<<'x'<<SHEIGHT<<"\n";
+ \attitude.cpp(331)       		cerr<<"\tWIDTHWIN,HEIGHTWIN=XXX - initial window size.("<<SCR_WIDTH<<'x'<<SCR_HEIGHT<<"\n";
  \attitude.cpp(332)       		cerr<<"\nAUTO=XXX - number of auto-repetition of symulation.("<<AUTOSTART<<")\n";
  
  \attitude.cpp(345)       cout<<WINDOW_HEADER<<", compilation        "<<__DATE__<<' '<<__TIME__<<endl;
@@ -115,10 +115,10 @@ Programmed by Wojciech Borkowski for... ????
  \attitude.cpp(427)       cout<<WINDOW_HEADER<<"        CLOSING."<<endl;
  \attitude.cpp(432)       cout<<"----------> See you later!!! <--------------\n"<<endl<<flush;
  
- \aworld.cpp(113)       Firsts=Agenci.make_source("Attitude",&aagent              First);	
- \aworld.cpp(116)       Seconds=Agenci.make_source("Prev. attitude",&aagent              Second);
- \aworld.cpp(120)       Powers=Agenci.make_source("Power",&aagent              Power);
- \aworld.cpp(122)       //Classif=Agenci.make_source("Classification",&aagent              Classif);
+ \aworld.cpp(113)       Firsts=Agents.make_source("Attitude",&aagent              First);
+ \aworld.cpp(116)       Seconds=Agents.make_source("Prev. attitude",&aagent              Second);
+ \aworld.cpp(120)       Powers=Agents.make_source("Power",&aagent              Power);
+ \aworld.cpp(122)       //Classif=Agents.make_source("Classification",&aagent              Classif);
  
  \aworld.cpp(138)       //Rejestruje pochodne serie, tworzy domyslne "lufciki" i wklada w "Menager"
  \aworld.cpp(248)       pom1->settitle("HISTORY OF CLASSIFICATION");
@@ -140,10 +140,10 @@ Programmed by Wojciech Borkowski for... ????
  \aworld.cpp(431)       		Log.GetStream()<<"Invalid number of class (not power of 2). Using default.\n";
  
  \aworld.cpp(438)       		<<"\nMax Power="<<Log.separator()<<MaxSila
- \aworld.cpp(439)       		<<"\nTresh of Power="<<Log.separator()<<TrsSila
- \aworld.cpp(440)       		<<"\nNum of Kl="<<Log.separator()<<IleKate
+ \aworld.cpp(439)       		<<"\nTresh of Power="<<Log.separator()<<ThrsStr
+ \aworld.cpp(440)       		<<"\nNum of Kl="<<Log.separator()<<NofCateg
  \aworld.cpp(441)       		<<"\nNoise %="<<Log.separator()<<Noise*100
  \aworld.cpp(442)       		<<"\nSelf="<<Log.separator()<<UseSelf
- \aworld.cpp(443)       		<<"\nNaighborhood="<<Log.separator()<<IleSasiad<<"/("<<(1+2*OdlSasiad)<<"*"<<(1+2*OdlSasiad)<<")\n";
+ \aworld.cpp(443)       		<<"\nNaighborhood="<<Log.separator()<<NofNeigh<<"/("<<(1+2*NeighRadius)<<"*"<<(1+2*NeighRadius)<<")\n";
  
  \aworld.h(1)       //DECLARATION OF   W O R L D  FOR "attitudeS" SIMULATION

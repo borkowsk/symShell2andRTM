@@ -38,7 +38,7 @@ aagent::aagent(const aagent& ini)
         {
             First=ini.First;
             Second=ini.Second;
-            Power=RANDOM(max_sila+1);
+            Power=RANDOM(max_str + 1);
         }
         else
             _clean();
@@ -47,38 +47,38 @@ aagent::aagent(const aagent& ini)
 aagent::aagent()
     {
         _clean();
-        First=RANDOM(ile_kate);
+        First=RANDOM(n_of_cate);
         Second=0;
-        Power=RANDOM(max_sila+1);
+        Power=RANDOM(max_str + 1);
     }
 
 //Statyczne pola aagentow dla inicjalizacji
 // //////////////////////////////////////////////////////////////
-short	aagent::ruchsily=1;  //Maksymalny skok sily
-short	aagent::max_sila=256; //Maksymalna sila agenta
-short	aagent::ile_kate=256; //Ilosc kategori w mapach
-short	aagent::kate_shift=0; //Przesuniecie dla wczytywania gifa
-double	aagent::MutationLevel=0; //Prawd. spontanicznej zmiany pogladow (0..1)
+short	aagent::str_grow=1;  //Maksymalny skok sily
+short	aagent::max_str=256; //Maksymalna sila agenta
+short	aagent::n_of_cate=256; //Ilosc kategori w mapach
+short	aagent::cate_shift=0; //Przesuniecie dla wczytywania gifa
+double	aagent::mutation_prob=0; //Prawd. spontanicznej zmiany pogladow (0..1)
 
 //KONSTRUKCJA	SWIATA
 // //////////////////////////////////
-extern unsigned internal_log;
+extern unsigned InternalLogLen;
 
 aworld::aworld(size_t Width,		//Szerokosc torusa macierzy agentow
       char* log_name,	//Nazwa pliku do zapisywania histori
       char* mapl_name,	//Nazwa (bit)mapy inicjujacej "skladowe"
       char* mapp_name,	//Nazwa (bit)mapy inicjujacej "sily"
       char* live_mask,	//Czarne w tej mapie sa kasowane
-      double noise,		//Szum informacyjny
-      short	max_sila,	//Maksymalna sila agenta
-      short	ile_kate,	//Ilosc kategori w mapach
-      short	odl_sasiad,	//Rozmiar sasiedztwa
-      short	ile_sasiad, //8==Gestosc sasiedztwa
+      double noise_p,		//Szum informacyjny
+      short	max_str,	//Maksymalna sila agenta
+      short	n_of_cate,	//Ilosc kategori w mapach
+      short	neigh_radius,	//Rozmiar sasiedztwa
+      short	n_of_neigh, //8==Gestosc sasiedztwa
       short need_use_self, //Czy ma uzywac siebie
-      bool	synchronicly,
-      short walkpower,
-      short trespower,
-      double spontanic
+      bool	sync_update,
+      short walk_str,
+      short str_thres,
+      double spon_prob
         ):
         world(log_name,50),
         MaplName(clone_str(mapl_name)), //Nazwa (bit)mapy 1. inicjujacej agentow
@@ -86,27 +86,27 @@ aworld::aworld(size_t Width,		//Szerokosc torusa macierzy agentow
         MaskName(clone_str(live_mask)), //Nazwa bitmapy maskujacej (kasujacej agentow)
     //Sub-obiekty wlasciwe dla tej symulacji
         MyWidth(Width),
-        Agenci(Width,Width,NULL), //Initer == NULL wiec tworzone przez konstruktor a nie klonowanie
-        MaxSila(max_sila),	//Maksymalna sila agenta
-        TrsSila(trespower), //Sila dajaca odporosc na zmiany
-        IleKate(ile_kate),	//Ilosc kategori w mapach
-        IleSasiad(ile_sasiad),	//8==Gestosc sasiedztwa
-        OdlSasiad(odl_sasiad),	//Rozmiar sasiedztwa
-        Noise(noise),
+        Agents(Width, Width, NULL), //Initer == NULL wiec tworzone przez konstruktor a nie klonowanie
+        MaxSila(max_str),	//Maksymalna sila agenta
+        ThrsStr(str_thres), //Sila dajaca odporosc na zmiany
+        NofCateg(n_of_cate),	//Ilosc kategori w mapach
+        NofNeigh(n_of_neigh),	//8==Gestosc sasiedztwa
+        NeighRadius(neigh_radius),	//Rozmiar sasiedztwa
+        Noise(noise_p),
         UseSelf(need_use_self),
-        Synchronic(synchronicly),
-        BierzWszystko(0), //Sasiedztwo bez losowania
+        SyncChange(sync_update),
+        TakeAll(0), //Sasiedztwo bez losowania
         //Wskazniki do podstawowych seri danych
         Firsts(NULL),
         Seconds(NULL),
         Powers(NULL)//,Classif(NULL)
     {//!!!Niewiele mozna zrobic bo nie mozna tu jeszcze polegac na wirtualnych metodach klasy swiat
-        aagent::ruchsily=walkpower;
+        aagent::str_grow=walk_str;
         //set_simulation_name("attitudes_v02");
         set_simulation_name(SYMULATION_NAME);
-        aagent::MutationLevel=spontanic;
-        if(IleSasiad==-1)
-            BierzWszystko=1;
+        aagent::mutation_prob=spon_prob;
+        if(NofNeigh == -1)
+            TakeAll=1;
     }
 
 //Generuje podstawowe zrodla dla wbudowanego menagera danych lub innego
@@ -117,18 +117,18 @@ void aworld::make_basic_sources()
     world::make_basic_sources(); //Odziedziczone
 
     //Glowne serie
-    Firsts=Agenci.make_source("Attitude",&aagent::First);
+    Firsts=Agents.make_source("Attitude", &aagent::First);
     if(Firsts)
-        Firsts->setminmax(0,IleKate-1);
-    Seconds=Agenci.make_source("Prev. attitude",&aagent::Second);
+        Firsts->setminmax(0, NofCateg - 1);
+    Seconds=Agents.make_source("Prev. attitude", &aagent::Second);
     if(Seconds)
-        Seconds->setminmax(0,IleKate-1);
+        Seconds->setminmax(0, NofCateg - 1);
 
-    Powers=Agenci.make_source("Power",&aagent::Power);
+    Powers=Agents.make_source("Power", &aagent::Power);
 
-    //Classif=Agenci.make_source("Classification",&aagent::Classif);
+    //Classif=Agents.make_source("Classification",&aagent::Classif);
     //if(Classif)
-    //	Classif->setminmax(0,IleKate*IleKate*IleKate-1); //Max class ==IleKate^3 bo trzy niezalezne plaszczyzny
+    //	Classif->setminmax(0,NofCateg*NofCateg*NofCateg-1); //Max class ==NofCateg^3 bo trzy niezalezne plaszczyzny
 
     //Umieszczenie glownych serii w menagerze serii
     WhatSourMen.insert(Firsts);
@@ -180,40 +180,40 @@ void aworld::make_default_visualisation()
     if(!CorrFS) goto ERROR;
     Sources.insert(CorrFS); //Zeby zostala kiedys zwolniona, a poza tym moze ktos kiedys...
 
-    fifo_source<double>* EntropyFSLog=new fifo_source<double>(CorrFS->Entropy(),internal_log);
+    fifo_source<double>* EntropyFSLog=new fifo_source<double>(CorrFS->Entropy(), InternalLogLen);
     if(!EntropyFSLog) goto ERROR;
     int iEntropyFS=Sources.insert(EntropyFSLog);
 
-    fifo_source<double>* CorrFSLogR=new fifo_source<double>(CorrFS->Tau_a_Goodman_Kruskal(),internal_log); //Fifo korelacji pierwszych z drugimi
+    fifo_source<double>* CorrFSLogR=new fifo_source<double>(CorrFS->Tau_a_Goodman_Kruskal(), InternalLogLen); //Fifo korelacji pierwszych z drugimi
     if(!CorrFSLogR) goto ERROR;
     int iCorrFSR=Sources.insert(CorrFSLogR);
 
 
     //I utworzenie seri liczacych ich statystyki
 
-    fifo_source<double>* StressFirstLog=new fifo_source<double>(FirstStat->Stress(),internal_log); //Fifo ze stresu
+    fifo_source<double>* StressFirstLog=new fifo_source<double>(FirstStat->Stress(), InternalLogLen); //Fifo ze stresu
     if(!StressFirstLog) goto ERROR;
     int iSFirst=Sources.insert(StressFirstLog);
 
-    fifo_source<double>* StressSecondLog=new fifo_source<double>(SecondStat->Stress(),internal_log); //Fifo ze stresu
+    fifo_source<double>* StressSecondLog=new fifo_source<double>(SecondStat->Stress(), InternalLogLen); //Fifo ze stresu
     if(!StressSecondLog) goto ERROR;
     int iSSecond=Sources.insert(StressSecondLog);
 
     //iMainClassF,iWhichMainF,iNumClassF,
-    fifo_source<double>* NumClassLog=new fifo_source<double>(ClassStat->NumOfClass(),internal_log);
+    fifo_source<double>* NumClassLog=new fifo_source<double>(ClassStat->NumOfClass(), InternalLogLen);
     if(!NumClassLog) goto ERROR;
     int iNumClassF=Sources.insert(NumClassLog);
 
-    fifo_source<double>* ClassEntropyLog=new fifo_source<double>(ClassStat->Entropy(),internal_log);
+    fifo_source<double>* ClassEntropyLog=new fifo_source<double>(ClassStat->Entropy(), InternalLogLen);
     if(!ClassEntropyLog) goto ERROR;
     int iClassEntropy=Sources.insert(ClassEntropyLog);
 
-    fifo_source<double>* MainClassLog=new fifo_source<double>(ClassStat->MainClass(),internal_log);
+    fifo_source<double>* MainClassLog=new fifo_source<double>(ClassStat->MainClass(), InternalLogLen);
     if(!MainClassLog) goto ERROR;
     int iMainClassF=Sources.insert(MainClassLog);
 
 
-    fifo_source<double>* WhichMainLog=new fifo_source<double>(ClassStat->WhichMain(),internal_log);
+    fifo_source<double>* WhichMainLog=new fifo_source<double>(ClassStat->WhichMain(), InternalLogLen);
     if(!WhichMainLog) goto ERROR;
     int iWhichMainF=Sources.insert(WhichMainLog);
 
@@ -394,22 +394,22 @@ void aworld::make_default_visualisation()
 void aworld::after_read_from_image()
 //actions after read state from file. Aktualizacja pol static aagent'a!!!
 {
-    aagent::max_sila=MaxSila; //Maksymalna sila agenta
-    aagent::ile_kate=IleKate; //Ilosc kategori w mapach
+    aagent::max_str=MaxSila; //Maksymalna sila agenta
+    aagent::n_of_cate=NofCateg; //Ilosc kategori w mapach
 
-    switch(IleKate)
+    switch(NofCateg)
     {
-    case   2:aagent::kate_shift=7;break;
-    case   4:aagent::kate_shift=6;break;
-    case   8:aagent::kate_shift=5;break;
-    case  16:aagent::kate_shift=4;break;
-    case  32:aagent::kate_shift=3;break;
-    case  64:aagent::kate_shift=2;break;
-    case 128:aagent::kate_shift=1;break;
-    case 256:aagent::kate_shift=0;break;
+    case   2:aagent::cate_shift=7;break;
+    case   4:aagent::cate_shift=6;break;
+    case   8:aagent::cate_shift=5;break;
+    case  16:aagent::cate_shift=4;break;
+    case  32:aagent::cate_shift=3;break;
+    case  64:aagent::cate_shift=2;break;
+    case 128:aagent::cate_shift=1;break;
+    case 256:aagent::cate_shift=0;break;
     default:
-        aagent::ile_kate=IleKate=256;
-        aagent::kate_shift=0;
+        aagent::n_of_cate= NofCateg=256;
+        aagent::cate_shift=0;
         cerr<<"Invalid number of class (not power of 2 less than 256). Using default.\n";
         Log.GetStream()<<"Invalid number of class (not power of 2). Using default.\n";
         break;
@@ -425,22 +425,22 @@ void aworld::initialize_layers()
         Log.GetStream()<<"attitude SIMULATION:";
     //odl_sasiad=1, //Rozmiar sasiedztwa
     //ile_sasiad=8 //8==Gestosc sasiedztwa
-    aagent::max_sila=MaxSila; //Maksymalna sila agenta
-    aagent::ile_kate=IleKate; //Ilosc kategori w mapach
+    aagent::max_str=MaxSila; //Maksymalna sila agenta
+    aagent::n_of_cate=NofCateg; //Ilosc kategori w mapach
 
-    switch(IleKate)
+    switch(NofCateg)
     {
-    case   2:aagent::kate_shift=7;break;
-    case   4:aagent::kate_shift=6;break;
-    case   8:aagent::kate_shift=5;break;
-    case  16:aagent::kate_shift=4;break;
-    case  32:aagent::kate_shift=3;break;
-    case  64:aagent::kate_shift=2;break;
-    case 128:aagent::kate_shift=1;break;
-    case 256:aagent::kate_shift=0;break;
+    case   2:aagent::cate_shift=7;break;
+    case   4:aagent::cate_shift=6;break;
+    case   8:aagent::cate_shift=5;break;
+    case  16:aagent::cate_shift=4;break;
+    case  32:aagent::cate_shift=3;break;
+    case  64:aagent::cate_shift=2;break;
+    case 128:aagent::cate_shift=1;break;
+    case 256:aagent::cate_shift=0;break;
     default:
-        aagent::ile_kate=IleKate=256;
-        aagent::kate_shift=0;
+        aagent::n_of_cate= NofCateg=256;
+        aagent::cate_shift=0;
         cerr<<"Invalid number of class (not power of 2 less than 256). Using default.\n";
         Log.GetStream()<<"Invalid number of class (not power of 2). Using default.\n";
         break;
@@ -449,25 +449,25 @@ void aworld::initialize_layers()
     //...wydruk wartosci parametrow symulacji
     if(first)
       Log.GetStream()
-        <<"\nMax Power="<<Log.separator()<<MaxSila
-        <<"\nTresh of Power="<<Log.separator()<<TrsSila
-        <<"\nNum of Kl="<<Log.separator()<<IleKate
-        <<"\nNoise %="<<Log.separator()<<Noise*100
-        <<"\nSelf="<<Log.separator()<<UseSelf
-        <<"\nNaighborhood="<<Log.separator()<<IleSasiad<<"/("<<(1+2*OdlSasiad)<<"*"<<(1+2*OdlSasiad)<<")\n";
+              << "\nMax Power=" << Log.separator() << MaxSila
+              << "\nTresh of Power=" << Log.separator() << ThrsStr
+              << "\nNum of Kl=" << Log.separator() << NofCateg
+              << "\nNoise %=" << Log.separator() <<Noise*100
+              << "\nSelf=" << Log.separator() << UseSelf
+              << "\nNaighborhood=" << Log.separator() << NofNeigh << "/(" << (1 + 2 * NeighRadius) << "*" << (1 + 2 * NeighRadius) << ")\n";
 
     //			USTALANIE STAN�W AGENT�W
     //Wczytuje uzywajac konstruktora lub klonowania gdy niema, wiec inicjuje reszte p�l.
-    int from1= Agenci.init_from_bitmap(MappName.get_ptr_val(),&aagent::assignPow);
-    int from2= Agenci.init_from_bitmap(MaplName.get_ptr_val(),&aagent::assign123);
+    int from1= Agents.init_from_bitmap(MappName.get_ptr_val(), &aagent::assignPow);
+    int from2= Agents.init_from_bitmap(MaplName.get_ptr_val(), &aagent::assign123);
 
     //Jesli nie zainicjowane to prowizoryczna inicjacja przez konstruktory lub klonowanie
     if(from1!=1 && from2!=1)
-        Agenci.reallocate_all();
+        Agents.reallocate_all();
 
     //Zabija m jesli w masce jesc czarny kolor
-    if(Agenci.init_from_bitmap(MaskName.get_ptr_val(),&aagent::killBlack)==1 )
-        Agenci.deallocate_not_OK();
+    if(Agents.init_from_bitmap(MaskName.get_ptr_val(), &aagent::killBlack) == 1 )
+        Agents.deallocate_not_OK();
 
     first=0; //Koniec pierwszego wywolania //TYMCZASOWO!!!
 }
@@ -476,10 +476,10 @@ void aworld::initialize_layers()
 void aworld::simulate_one_step()
 //---------------------------------------
 {
-    const geometry_base* MyGeom=Agenci.get_geometry();
+    const geometry_base* MyGeom=Agents.get_geometry();
     assert(MyGeom);
 
-    if(Synchronic)
+    if(SyncChange)
     {
         //Idziemy po agentach pelnym iteratorem a stan agentow zmieniamy dopiero potem
         iteratorh Full=MyGeom->make_global_iterator();
@@ -489,12 +489,12 @@ void aworld::simulate_one_step()
 
             assert(index!=any_layer_base::FULL);				//... tutaj nie powinno sie zdarzyc
 
-            aagent& CenterAgent=*(Agenci.get_ptr(index).get_ptr_val()); // Uzyskujemy referencje do agenta omijajac asercje na NULL
+            aagent& CenterAgent=*(Agents.get_ptr(index).get_ptr_val()); // Uzyskujemy referencje do agenta omijajac asercje na NULL
 
-            if(Agenci.is_empty(CenterAgent))	// Sprawdzamy czy nie jest to pusta kom�rka (NULL)
+            if(Agents.is_empty(CenterAgent))	// Sprawdzamy czy nie jest to pusta kom�rka (NULL)
                 continue;						// bo wtedy robic dalej by�oby bez sensu.
 
-            if(CenterAgent.Power<=TrsSila)		// Czy nie ma juz immunitetu na zmiany
+            if(CenterAgent.Power <= ThrsStr)		// Czy nie ma juz immunitetu na zmiany
                 CheckChange(MyGeom,index,CenterAgent); //Sprawdzamy zmiane stanu
 
         }
@@ -509,13 +509,13 @@ void aworld::simulate_one_step()
 
             assert(index!=any_layer_base::FULL);				//... tutaj nie powinno sie zdarzyc
 
-            aagent& CenterAgent=*(Agenci.get_ptr(index).get_ptr_val()); // Uzyskujemy referencje do agenta omijajac asercje na NULL
+            aagent& CenterAgent=*(Agents.get_ptr(index).get_ptr_val()); // Uzyskujemy referencje do agenta omijajac asercje na NULL
 
-            if(Agenci.is_empty(CenterAgent))	// Sprawdzamy czy nie jest to pusta kom�rka (NULL)
+            if(Agents.is_empty(CenterAgent))	// Sprawdzamy czy nie jest to pusta kom�rka (NULL)
                 continue;
 
             wb_swap(CenterAgent.First,CenterAgent.Second);  //Ma nowy stan
-            CenterAgent.MakeOlder();						//Robi sie starszy
+            CenterAgent.make_older();						//Robi sie starszy
         }
 
         // upewniamy sie ze iterator zostanie usuniety
@@ -532,17 +532,17 @@ void aworld::simulate_one_step()
 
             assert(index!=any_layer_base::FULL);				//... tutaj nie powinno sie zdarzyc
 
-            aagent& CenterAgent=*(Agenci.get_ptr(index).get_ptr_val()); // Uzyskujemy referencje do agenta omijajac asercje na NULL
-            if(Agenci.is_empty(CenterAgent))	// Sprawdzamy czy nie jest to pusta kom�rka (NULL)
+            aagent& CenterAgent=*(Agents.get_ptr(index).get_ptr_val()); // Uzyskujemy referencje do agenta omijajac asercje na NULL
+            if(Agents.is_empty(CenterAgent))	// Sprawdzamy czy nie jest to pusta kom�rka (NULL)
                 continue;						// bo wtedy robic dalej by�oby bez sensu.
 
-            if(CenterAgent.Power<=TrsSila)		// Czy nie ma juz immunitedu na zmiany
+            if(CenterAgent.Power <= ThrsStr)		// Czy nie ma juz immunitedu na zmiany
                 if(CheckChange(MyGeom,index,CenterAgent)==1)//Czy zaszla zmiana stanu
                 {
                     wb_swap(CenterAgent.First,CenterAgent.Second);
                 }
 
-            CenterAgent.MakeOlder();			//Robi sie starszy
+            CenterAgent.make_older();			//Robi sie starszy
         }
 
         // upewniamy sie ze iterator zostanie usuniety
@@ -561,32 +561,32 @@ int aworld::CheckChange(const geometry_base* MyGeom,
 { 
     int testowanie=0;
 
-    if(DRAND()<=aagent::MutationLevel)//Rzadka, spontaniczna zmiana pogladu
+    if(DRAND()<=aagent::mutation_prob)//Rzadka, spontaniczna zmiana pogladu
     {
-        int atti=RANDOM(IleKate);       	assert(0<=atti && atti<IleKate);
+        int atti=RANDOM(NofCateg);       	assert(0 <= atti && atti < NofCateg);
         CenterAgent.Second=atti;			//zmieniamy w agencie centralnym
         return 1;
     }
 
 
     //TABLICA POMOCNICZA
-    wb_dynarray<int> Firsts(IleKate);               assert(Firsts.IsOK());
+    wb_dynarray<int> Firsts(NofCateg);               assert(Firsts.IsOK());
     //Czyszczenie licznika
-    memset(Firsts.get_ptr_val(),0,sizeof(int)*IleKate);
+    memset(Firsts.get_ptr_val(),0, sizeof(int) * NofCateg);
 
     // Alokujemy iterator sasiedztwa
     ::iteratorh Neigh=NULL;
 
-    if(BierzWszystko)
+    if(TakeAll)
     {
-        Neigh=MyGeom->make_neighbour_iterator(index,OdlSasiad);
+        Neigh=MyGeom->make_neighbour_iterator(index, NeighRadius);
     }
     else
     {
-        Neigh=MyGeom->make_random_neighbour_iterator(index,OdlSasiad,IleSasiad);
+        Neigh=MyGeom->make_random_neighbour_iterator(index, NeighRadius, NofNeigh);
     }
 
-    //iteratorh Neigh=MyGeom->make_neighbour_iterator(index,OdlSasiad);
+    //iteratorh Neigh=MyGeom->make_neighbour_iterator(index,NeighRadius);
     unsigned zliczanie=0; //Zliczanie sasiad�w
 
     while(Neigh)
@@ -595,8 +595,8 @@ int aworld::CheckChange(const geometry_base* MyGeom,
         if(index2==any_layer_base::FULL || index2==index)	//Jesli poza obszarem symulacji lub w
             continue;				//centrum obszaru to dalej byloby bez sensu.
 
-        aagent& PeryfAgent=*(Agenci.get_ptr(index2).get_ptr_val()); //Uzyskujemy referencje do sasiada omijajac asercje na NULL
-        if(Agenci.is_empty(PeryfAgent))		//Sprawdzamy czy nie jest to pusta kom�rka (NULL)
+        aagent& PeryfAgent=*(Agents.get_ptr(index2).get_ptr_val()); //Uzyskujemy referencje do sasiada omijajac asercje na NULL
+        if(Agents.is_empty(PeryfAgent))		//Sprawdzamy czy nie jest to pusta kom�rka (NULL)
             continue;					   // bo wtedy robic dalej by�oby bez sensu.
 
         zliczanie++;
@@ -617,13 +617,13 @@ int aworld::CheckChange(const geometry_base* MyGeom,
     //Szukanie maksimow
     int maxF=0,indF=-1;
 
-    int offset=RANDOM(IleKate);
-    assert(0<=offset && offset<IleKate); //Jak IleKate==2 to 0 albo 1 itd..
+    int offset=RANDOM(NofCateg);
+    assert(0<=offset && offset < NofCateg); //Jak NofCateg==2 to 0 albo 1 itd..
 
-    for(int g=0;g<IleKate;g++)
+    for(int g=0; g < NofCateg; g++)
     {
-        int h=(g+offset)%IleKate;
-        assert(h>=0 && h<IleKate);
+        int h= (g+offset) % NofCateg;
+        assert(h>=0 && h < NofCateg);
         //Dodawanie szumu
         if(Firsts[h]>0)
             Firsts[h]+=long(DRAND()*Noise*(4.5*MaxSila));

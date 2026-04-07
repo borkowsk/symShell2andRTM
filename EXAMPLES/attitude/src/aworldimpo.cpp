@@ -8,15 +8,15 @@ int aworld::implement_output(ostream& o) const
 {
     int ret=world::implement_output(o);
     if(ret!=1) return ret;
-    o<<separator;
-    o<<MyWidth<<separator;	//Obwod (?) torusa
-    o<<MaxSila<<separator;	//Maksymalna sila agenta
-    o<<IleKate<<separator;	//Ilosc kategori w mapach
-    o<<IleSasiad<<separator;	//8==Gestosc sasiedztwa
-    o<<OdlSasiad<<separator;	//Rozmiar sasiedztwa
-    o<<UseSelf<<separator;	//Czy ma brac siebie pod uwage
-    o<<Noise<<separator<<endl;		//Szum informacyjny
-    o<<Agenci<<endl;
+    o << separator;
+    o << MyWidth<<separator;	//Obwod (?) torusa
+    o << MaxSila<<separator;	//Maksymalna sila agenta
+    o << NofCateg << separator;	//Ilosc kategori w mapach
+    o << NofNeigh << separator;	//8==Gestosc sasiedztwa
+    o << NeighRadius << separator;	//Rozmiar sasiedztwa
+    o << UseSelf<<separator;	//Czy ma brac siebie pod uwage
+    o << Noise<<separator<<endl;		//Szum informacyjny
+    o << Agents << endl;
     return 1;
 }
 

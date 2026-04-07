@@ -8,11 +8,11 @@ class aagent:public agent_base
     friend class aworld; //Na razie tak - zeby uproscic dostep do skladowych.
 
     // STATYCZNE SKLADOWE - PARAMETRY INICJOWANIA AGENTÓW
-    static short ruchsily; //Czy sila sie zmienia (rosnie) z wiekiem
-    static short max_sila; //Maksymalna sila agenta
-    static short ile_kate; //Ilosc kategori w mapach
-    static short kate_shift; //Przesuniecie dla wczytywania gifa
-    static double MutationLevel; //Prawd. spontanicznej zmiany pogladow (0..1)
+    static short str_grow; //Czy sila sie zmienia (rosnie) z wiekiem
+    static short max_str; //Maksymalna sila agenta
+    static short n_of_cate; //Ilosc kategori w mapach
+    static short cate_shift; //Przesuniecie dla wczytywania gifa
+    static double mutation_prob; //Prawd. spontanicznej zmiany pogladow (0..1)
 
     // SKLADOWE DLA SYMULACJI
     short Power;	//Sila agenta
@@ -35,12 +35,12 @@ public:
         return First!=-1 && Second!=-1 && Power!=-1;
     }
 
-    void MakeOlder()//Sila jako wiek
+    void make_older() //Sila jako wiek
     {
-        if(aagent::ruchsily)
+        if(aagent::str_grow)
         {
-            Power+=aagent::ruchsily;
-            Power%=aagent::max_sila; //Nigdy nie przekracza sily maksymalnej
+            Power+=aagent::str_grow;
+            Power%=aagent::max_str; //Nigdy nie przekracza sily maksymalnej
         }
     }
 
@@ -59,13 +59,13 @@ public:
 
     void assign123(unsigned char Red,unsigned char Green,unsigned char Blue)
     {
-        First=Red>>kate_shift;
-        Second=Blue>>kate_shift;
+        First=Red >> cate_shift;
+        Second=Blue >> cate_shift;
     }
 
     void assignPow(unsigned char Red,unsigned char Green,unsigned char Blue)
     {
-        Power=short((int(Red)+int(Green)+int(Blue))/(3.*255)*max_sila);
+        Power=short((int(Red)+int(Green)+int(Blue)) / (3.*255) * max_str);
     }
 
     void killBlack(unsigned char Red,unsigned char Green,unsigned char Blue)
@@ -74,7 +74,7 @@ public:
             _clean();
     }
 
-    long Classif()
+    long classif()
     {
         return First;
     }
