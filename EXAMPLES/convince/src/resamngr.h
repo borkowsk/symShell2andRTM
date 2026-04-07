@@ -1,5 +1,5 @@
 /// @file
-/// Values for communication with menu.
+/// Values for communication with the simulation menu.
 // /////////////////////////////////////////////////////////////////////
 /// @date 2026-04-07 (modified)
 

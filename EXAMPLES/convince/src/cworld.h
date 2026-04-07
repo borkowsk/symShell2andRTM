@@ -1,74 +1,73 @@
 /// @file
-/// DECLARATION OF   W O R L D  FOR "attitudeS" SIMULATION.
+/// DECLARATION OF W O R L D FOR "convince" SIMULATION.
 // ////////////////////////////////////////////////////////////////////
 /// @date 2026-04-07 (modified)
 
-#include <climits> //SHRT_MAX
+#include <climits>
 #include "world.hpp"
 #include "layer.hpp"
-#include "cagent.h" //Definicja agenta
+#include "cagent.h" //A definition of an agent is here.
 
-class aWorld:public world	//Caly swiat symulacji
+/// //The Whole World of Simulations.
+class aWorld:public world
 //--------------------------------------------------
 {
-    //Parametry jednowartosciowe
-    // ///////////////////////////////
-    size_t				MyWidth;	//Obwod torusa
-    bool				Synchronic; //Synchroniczna zmiana pogladow
-    wb_pchar			MappName;	//nazwa pliku inicjujacej bitmapy
-    wb_pchar			MaplName;	//nazwa pliku inicjujacej bitmapy
-    wb_pchar			MaskName;	//nazwa pliku inicjujacej bitmapy
+    // Single-value parameters:
+    // ////////////////////////
 
-    //Warstwy symulacji (sa torusami)
-    // ///////////////////////////////
+    size_t				MyWidth;	//!< Circumference of a torus
 
-    rectangle_layer_of_ptr_to_agents<anAgent> Agenci;  //Właściwa warstwa agentow zasiedlajacych
+    wb_pchar			MappName;	//!< initialization bitmap file name (powers)
+    wb_pchar			MaplName;	//!< initialization bitmap file name (attitudes)
+    wb_pchar			MaskName;	//!< initialization bitmap file name (mask of habitable areas)
 
-    //Glowne serie - wygodniej miec wskazniki niz odszukiwac z Sources po nazwach
-    // //////////////////////////////////////////////////////////////////////////////
-    ptr_to_struct_matrix_source<anAgent,short>		*Firsts; //=Agenci.make_source("First mem",&anAgent::First);
-    ptr_to_struct_matrix_source<anAgent,short>		*Seconds; //=Agenci.make_source("Second mem",&anAgent::Second);
+    // Simulation layers (only one this time):
+    // ///////////////////////////////////////
 
-    ptr_to_struct_matrix_source<anAgent,short>		*Powers; //=Agenci.make_source("Power",&anAgent::Power);
+    rectangle_layer_of_ptr_to_agents<anAgent>	Agenci;	//!< The agent layer. It is a torus.
 
-    //int CheckChange(const geometry_base* MyGeom,size_t index,anAgent& CenterAgent);
+    // Main data series - it's more convenient to have pointers than to search from `Sources` by name:
+    // ///////////////////////////////////////////////////////////////////////////////////////////////
 
-    public:
-    //KONSTRUKCJA DESTRUKCJA
-        aWorld(
-            unsigned iWidth,			//Szerokosc torusa macierzy agentow
-            double iToBeNewProb=0.1,	//Prawd. spontanicznej zmiany pogladow samotnika na nowy typ rozrywki/sportu
-            double iReverseProb=0.9,	//Prawd. reversji pogladow na 0 - brak pomyslu na rozrywke
-            double iSupportLevel=0.5,	//Sila wsparcia gdy ma jakies towarzystwo
-            const char* ilog_name="convince.log",	//Nazwa pliku do zapisywania histori
-            const char* imapl_name=NULL,	//Nazwa (bit)mapy inicjujacej "skladowe"
-            const char* imapp_name=NULL,	//Nazwa (bit)mapy inicjujacej "sily"
-            const char* ilive_mask=NULL,	//Czarne w tej mapie sa kasowane
-            short imax_sila=100,	//Maksymalna sila agenta
-            short imin_sila=100	//Minimalna sila
+    ptr_to_struct_matrix_source<anAgent,short>		*Firsts;	//!< '=Agenci.make_source("First mem",&anAgent::First);'
+    ptr_to_struct_matrix_source<anAgent,short>		*Seconds;	//!< '=Agenci.make_source("Second mem",&anAgent::Second);'
+    ptr_to_struct_matrix_source<anAgent,short>		*Powers;	//!< '=Agenci.make_source("Power",&anAgent::Power);'
+
+public:
+    // CONSTRUCTION AND DESTRUCTION:
+    // /////////////////////////////
+    explicit aWorld(
+            unsigned		iWidth,			//!< Width of the torus of the agent matrix.
+            double	 iToBeNewProb=0.1,		//!< Likelihood of a loner spontaneously changing his views on a new type of entertainment.
+            double	 iReverseProb=0.9,		//!< Probability of reversal of views to 0 (means no idea for entertainment again).
+            double	iSupportLevel=0.5,		//!< The power of support when the agent has some company for a given game.
+            const char*	 iLog_name="convince.log",	//!< File name for saving history.
+            const char*	iMapL_name=NULL,	//!< The name of the "components" initialization map file.
+            const char*	iMapP_name=NULL,	//!< The filename of the "forces" initialization map.
+            const char*	iLive_mask=NULL,	//!< The name of the habitable areas mask file. The black areas in this map are forbidden areas.
+            short	 iMax_strength=100,		//!< Maximum agent strength.
+            short	 iMin_strength=100		//!< Minimum agent strength.
             );
 
-    ~aWorld(){}
+    ~aWorld() override {}
 
-    protected:
-    //AKCJE
-    void	initialize_layers();	//Stan startowy symulacji
-    void	after_read_from_image(); //Actions after read state from file. Aktualizacja pol static anAgent'a!!!
-    void	simulate_one_step();	//Wlasciwa implementacja kroku symulacji
+protected:
+    // TYPICAL ACTIONS:
+    // /////////////////
+    void	initialize_layers() override;		//!< Prepares the starting state of the simulation.
+    void	after_read_from_image() override;	//!< Actions after read state from map files.
+    void	simulate_one_step() override;		//!< Implementation of a single simulation step.
 
-    //Wspolpraca z menagerem wyswietlania
-    //---------------------------------------------
-    void	make_default_visualisation() override; //Tworzy domyslne "lufciki" i umieszcza w
-    //void actualize_out_area(); // aktualizacja zawartosci OutArea po n krokach symulacji
+    // Collaboration with display manager and data manager:
+    //-----------------------------------------------------
+    void	make_default_visualisation() override;	//!< Creates default display areas and places them.
+    //void actualize_out_area() override;			//!< Updates OutArea contents every `n` simulation steps.
+    void	make_basic_sources() override;			//!< Generates basic data sources for the built-in data manager.
 
-    //Generuje podstawowe zrodla dla wbudowanego menagera danych
-    void	make_basic_sources() override;
-
-    //Implementacja wejscia/wyjscia. Zwracaj 1 jesli sukces!
-    virtual
-    int		implement_output(ostream& o) const;
-    virtual
-    int		implement_input(istream& i);
+    // I/O implementation:
+    //--------------------
+    int		implement_output(ostream& o) const override;	//!< Serialization. @returns 1 when success!
+    int		implement_input(istream& i) override;			//!< Deserialization. @returns 1 when success!
 };
 
 /* **************************************************************** */

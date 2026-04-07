@@ -7,78 +7,80 @@
 
 class anAgent:public agent_base
 {
-    friend class aWorld;//Na razie tak - zeby uproscic dostep do skladowych.
+    friend class aWorld;	//!< To simplify access to the agent's components from the universe side.
 
-    // STATYCZNE SKLADOWE - PARAMETRY INICJOWANIA AGENTÓW
-    static short ruchsily;//Czy sila sie zmienia (rosnie) z wiekiem
-    static short min_sila;//Minimalna sila agenta
-    static short max_sila;//Maksymalna sila agenta
-    static short ile_kate;//Ilosc kategori w mapach
-    static short kate_shift;//Przesuniecie dla wczytywania gifa
+    // STATIC COMPONENTS - MAINLY AGENT INITIALISATION PARAMETERS:
+    // ///////////////////////////////////////////////////////////
 
-    static double ToBeNewProb;//Prawd. spontanicznej zmiany pogladow samotnika na nowy typ rozrywki/sportu
-    static double NewInfectProb;//Prawd. zainfekowania od pary zainfekowanych
-    static double ReverseProb;//Prawd. reversji pogladow na 0 - brak pomyslu na rozrywke
-    static double SupportLevel;//Sila wsparcia gdy ma jakies towarzystwo
+    static short	MinStrength;	//!< Minimum agent strength at initialization.
+    static short	MaxStrength;	//!< Maximum agent strength at initialization.
+    static short	NumOfCate;		//!< Number of categories (states/beliefs?)
+    static short	CateShift;		//!< Bit shift when loading category/state from a GIF file.
 
-    // SKLADOWE DLA SYMULACJI
-    short Power;	//Sila agenta
-    short First;	//Pierwsze przekonanie
-    short Second;	//Nowe przekonanie
+    static double	ToBeNewProb;	//!< How often a loner spontaneously changing his views on a new type of entertainment.
+    static double	NewInfectProb;	//!< Probability of infection based on a view from a pair of infected individuals.
+    static double	ReverseProb;	//!< Probability of reversal of views to 0, i.e: again lack of ideas for entertainment.
+    static double	SupportLevel;	//!< The power of support when you have some friends with the same belief.
+
+    // INDIVIDUAL AGENT ATTRIBUTES:
+    // ////////////////////////////
+
+    short	Power;		//!< The agent's power of persuasion.
+    short	First;		//!< First/previous belief.
+    short	Second;		//!< New belief.
 
 
-    void _clean()
+    void	_clean()	//!< Implementation of agent state clearing.
     {
         First=-1;
         Second=-1;
         Power=-1;
     }
 
-    // TO CO MUSI byc zdefiniowane
-    // /////////////////////////////////
+    // WHAT MUST be defined for each agent type:
+    // /////////////////////////////////////////
 public:
-    int IsOK()
+    int	IsOK() const 		//!< Integrity test.
     {
         return First!=-1 && Second!=-1 && Power!=-1;
     }
 
-    anAgent(const anAgent& ini);	//Konkretna implementacja w aWorld!
+    anAgent(const anAgent& ini);	//!< Copy constructor. Concrete implementation for by the world class!
+    anAgent();						//!< Default constructor.Concrete implementation for by the world class!
 
-    anAgent();					//Konkretna implementacja w aWorld!
-
-    anAgent* clone() const
+    anAgent*	clone() const		//!< Creating a dynamic copy on the heap.
     { return new anAgent(*this);}
 
-    ~anAgent()
+    ~anAgent() override				//!< Virtual destructor.
     {_clean();}
 
-    void clean()
+    void	clean() override		//!< Virtual cleaning of agent attributes.
     {_clean();}
 
-    void assign123(unsigned char Red,unsigned char Green,unsigned char Blue)
+    void	assign123(unsigned char Red,unsigned char Green,unsigned char Blue)	//!< Determines beliefs based on a bitmap pixel.
     {
-        First=Red>>kate_shift;
-        Second=Blue>>kate_shift;
+        First=Red >> CateShift;
+        Second=Blue >> CateShift;
     }
 
-    void assignPow(unsigned char Red,unsigned char Green,unsigned char Blue)
+    void	assignPow(unsigned char Red,unsigned char Green,unsigned char Blue)	//!< Determines the strength based on a bitmap pixel.
     {
-        Power=short((int(Red)+int(Green)+int(Blue))/(3.*255)*max_sila);
+        Power=short((int(Red)+int(Green)+int(Blue)) / (3.*255) * MaxStrength);
     }
 
-    void killBlack(unsigned char Red,unsigned char Green,unsigned char Blue)
+    void	killBlack(unsigned char Red,unsigned char Green,unsigned char Blue)	//!< Resets beliefs based on pixel color (when black).
     {
         if(Red==0 && Green==0 && Blue==0)
             _clean();
     }
 
-    long RGB() const
+    long	RGB() const		//!< Specifies the display color of the agent based on its status.
     {
         return (unsigned long) ( (unsigned char) (First) );
     }
 
     friend
-    ostream& operator << (ostream& o,const anAgent& a)
+    ostream&	operator << (ostream& o,const anAgent& a)	//!< Serialization.
     {
         o<<'{';
         o<<' '<<a.Power<<' '<<a.First<<' '<<a.Second<<' ';
@@ -87,12 +89,12 @@ public:
     }
 
     friend
-    istream& operator >> (istream& i,anAgent& a)
+    istream&	operator >> (istream& i,anAgent& a)		//!< Deserialization.
     {
         char pom;
-        i>>pom;		//ignoruje {
+        i>>pom;		//ignoring `{`
         i>>a.Power>>a.First>>a.Second;
-        i>>pom;		//ignoruje }
+        i>>pom;		//ignoring `}`
         return i;
     }
 

@@ -1,5 +1,5 @@
 /// @file
-/// A fairly simple simulation of a change of opinion implementing Professor Stauffer's model.
+/// A fairly simple simulation of a change of opinion implementing Professor D. Stauffer's model.
 /// (Obtained by simplifying the LANGUAGES program)
 // ///////////////////////////////////////////////////////////////////////////////////////////
 /// @date 2026-04-07 (modified)
@@ -13,38 +13,37 @@ const char* SIMULATION_NAME="convinces_v0.01";
 #include "crand.h"
 #include "cworld.h"
 
-unsigned iWidth=50;
+unsigned	WorldWidth=50;
+
 double	 NewProbability=0.01;
 double	 InfectionProb=0.5;
 double	 SupportLev=0.9;
 
-char  LogName[512]="attitude.log\0-------------------+--";
-char HistName[512]="\0--+---------convinces.otx----------";
-char MapLName[512]="\0--+---------convinces.gif----------";
-char MapPName[512]="\0--+---------powers.gif------------";
-char MaskName[512]="\0--+---------mask.gif--------------";
+char	LogName[512]="attitude.log\0-------------------+--";
+char	HistName[512]="\0--+---------convinces.otx----------";
+char	MapLName[512]="\0--+---------convinces.gif----------";
+char	MapPName[512]="\0--+---------powers.gif------------";
+char	MaskName[512]="\0--+---------mask.gif--------------";
+
+unsigned	ScreenWidth=750;
+unsigned	ScreenHeight=550;
+unsigned	InternalLogLen=7000;	//!< Length of internal history logs. NOTE!
+                                    //!< Not Object-wise passed to the source initialization method
+unsigned	LogWriteRatio=1;		//!< After how many simulation steps will a log be saved?
+unsigned	ScrViewRatio=1;			//!< After how many simulation steps is the visualization performed?
+unsigned	MaxIterations=0xffffffff;
+
+int	MaximumStrength=1;	//!< What is the agent's greatest strength?
+                        //!< If it's an integer, it's like 1, so there's no randomness.
+                        //!< Everyone has the same strength.
+int	MinimalStrength=1;	//!< The minimum force can't possibly be 0!
+
+int	NoOfClasses=2;
 
 
-unsigned SWIDTH=750;
-unsigned SHEIGHT=550;
-unsigned internal_log=7000; //Length of internal history logs. NOTE!
-                            //Not Object-wise passed to the source initialization method
-unsigned iLogRatio=1;
-unsigned iViewRatio=1;
-unsigned iMaxIterations=0xffffffff;
-
-
-int  MaximumStrength=1;		//What is the agent's greatest strength?
-                            //If it's an integer, it's like 1, so there's no random selection.
-                            //Everyone has the same result.
-int  MinimalStrength=1;		//The minimum force can't possibly be 0!
-
-int  NoOfClasses=2;
-
-
-int	 AUTOSTART=0;
-int  iWychodzenie=0;	//Technically very... ;-)
-int  Replay=0;			//Playback from a file instead of simulation?
+int	AUTOSTART=0;
+int	iWychodzenie=0;		//!< Technically very... ;-)
+int	Replay=0;			//!< Playback from a file instead of simulation?
 
 int parse_options(const int argc,const char* argv[])
 {
@@ -64,7 +63,7 @@ int parse_options(const int argc,const char* argv[])
 
         if((pom=strstr(rob,"CLSS="))!=NULL) //Not NULL, i.e. exists
         {
-        NoOfClasses=atol(pom + 5);
+        NoOfClasses=atoi(pom + 5);
         if(NoOfClasses < 2)
             {
             cerr << "Bad CLSS =" << NoOfClasses << " (must be >2)" << endl;
@@ -74,7 +73,7 @@ int parse_options(const int argc,const char* argv[])
         else
         if((pom=strstr(rob,"MPOW="))!=NULL) //Not NULL, i.e. exists
         {
-            MaximumStrength=atol(pom + 5);
+        MaximumStrength=atoi(pom + 5);
         if(MaximumStrength < 0) //0 czy 1???
             {
             cerr << "Bad MPOW =" << MaximumStrength << " (must be >=1 )" << endl;
@@ -84,52 +83,52 @@ int parse_options(const int argc,const char* argv[])
         else
         if((pom=strstr(rob,"WIDTH="))!=NULL) //Not NULL, i.e. exists
         {
-        iWidth=atol(pom+6);
-        if(iWidth<3 || iWidth>=SWIDTH)
+            WorldWidth=atol(pom + 6);
+        if(WorldWidth < 3 || WorldWidth >= ScreenWidth)
             {
-            cerr<<"Bad WIDTH = "<<iWidth<<"(must be in <3,"<<SWIDTH<<">"<<endl;
+            cerr << "Bad WIDTH = " << WorldWidth << "(must be in <3," << ScreenWidth << ">" << endl;
             return 0;
             }
         }
         else
         if((pom=strstr(rob,"WIDTHWIN="))!=NULL) //Not NULL, i.e. exists
         {
-        SWIDTH=atol(pom+9);
-        if(SWIDTH<50)
+            ScreenWidth=atol(pom + 9);
+        if(ScreenWidth < 50)
             {
-            cerr<<"Bad WIDTHWIN = "<<SWIDTH<<" (must be >50)"<<endl;
+            cerr << "Bad WIDTHWIN = " << ScreenWidth << " (must be >50)" << endl;
             return 0;
             }
         }
         else
         if((pom=strstr(rob,"HEIGHTWIN="))!=NULL) //Not NULL, i.e. exists
         {
-        SHEIGHT=atol(pom+10);
-        if(SHEIGHT<50)
+            ScreenHeight=atol(pom + 10);
+        if(ScreenHeight < 50)
             {
-            cerr<<"Bad HEIGHTWIN = "<<SHEIGHT<<" (must be >50)"<<endl;
+            cerr << "Bad HEIGHTWIN = " << ScreenHeight << " (must be >50)" << endl;
             return 0;
             }
         }
         else
         if((pom=strstr(rob,"MAX="))!=NULL) //Not NULL, i.e. exists
         {
-        iMaxIterations=atol(pom+4);
-        if(iMaxIterations<=0)
+            MaxIterations=atol(pom + 4);
+        if(MaxIterations <= 0)
             {
             cerr<<"Bad MAX iterations. Must be >0"<<endl;
             return 0;
             }
-            else
+        else
             {
-                internal_log=iMaxIterations+1;
+                InternalLogLen= MaxIterations + 1;
             }
         }
         else
         if((pom=strstr(rob,"LOGC="))!=NULL) //Not NULL, i.e. exists
         {
-        iLogRatio=atol(pom+5);
-        if(iLogRatio<=0)
+            LogWriteRatio=atol(pom + 5);
+        if(LogWriteRatio <= 0)
             {
             cerr<<"Bad LOGC (write to log frequency). Must be >0"<<endl;
             return 0;
@@ -138,8 +137,8 @@ int parse_options(const int argc,const char* argv[])
         else
         if((pom=strstr(rob,"VIEW="))!=NULL) //Not NULL, i.e. exists
         {
-        iViewRatio=atol(pom+5);
-        if(iViewRatio<=0)
+            ScrViewRatio=atol(pom + 5);
+        if(ScrViewRatio <= 0)
             {
             cerr<<"Bad VIEW (visualization frequency). Must be >0"<<endl;
             return 0;
@@ -148,7 +147,7 @@ int parse_options(const int argc,const char* argv[])
         else
         if((pom=strstr(rob,"AUTO="))!=NULL) //Not NULL, i.e. exists
         {
-        AUTOSTART=atol(pom+5);
+        AUTOSTART=atoi(pom+5);
         cerr<<"AUTO="<<AUTOSTART<<endl;
         if(AUTOSTART)
             {
@@ -165,11 +164,11 @@ int parse_options(const int argc,const char* argv[])
         else
         if((pom=strstr(rob,"ILOG="))!=NULL)  //Not NULL, i.e. exists
         {
-        internal_log=atoi(pom+5);
-        if(internal_log<50)
+            InternalLogLen=atoi(pom + 5);
+        if(InternalLogLen < 50)
                 {
-                internal_log=50;
-                cerr<<"An internal log to short. Reset to a default minimum ="<<internal_log<<endl;
+                    InternalLogLen=50;
+                cerr << "An internal log to short. Reset to a default minimum =" << InternalLogLen << endl;
                 }
         }
         else
@@ -217,17 +216,17 @@ int parse_options(const int argc,const char* argv[])
             cerr<<"\tMAPL=initL.gif (or BMP)- file with an initialization map of attitudes (RANDOM)\n";
             cerr<<"\tMAPP=initP.gif (or BMP)- file with an initialization map of powers (RANDOM)\n";
             cerr<<"\tMASK=mask.gif	(or BMP)- mask file for alive (not black) agents (ALL ALIVE)\n";
-            cerr<<"\tWIDTH=NN - matrix size ("<<iWidth<<")\n";
+            cerr << "\tWIDTH=NN - matrix size (" << WorldWidth << ")\n";
             cerr << "\tCLSS=NN - number of class. Must be power of 2. (" << NoOfClasses << ")\n";
             cerr << "\tMPOW=NN - max strength for initialization (" << MaximumStrength << ")\n"	;
-            cerr<<"\tMAX=NNNN - max simulation step ("<<iMaxIterations<<")\n";
-            cerr<<"\tILOG=NNNN - length of internal statistic logs ("<<internal_log<<")\n";
+            cerr << "\tMAX=NNNN - max simulation step (" << MaxIterations << ")\n";
+            cerr << "\tILOG=NNNN - length of internal statistic logs (" << InternalLogLen << ")\n";
             cerr<<"\tSTOP=N/Y - exit after MAX steps ("<<(iWychodzenie?"Yes":"No")<<")\n";
-            cerr<<"\tVIEV=N - visualisation frequency ("<<iViewRatio<<")\n";
-            cerr<<"\tLOGC=N - log file saving frequency ("<<iLogRatio<<")\n";
+            cerr << "\tVIEV=N - visualisation frequency (" << ScrViewRatio << ")\n";
+            cerr << "\tLOGC=N - log file saving frequency (" << LogWriteRatio << ")\n";
             cerr<<"\tLOGF=name.log - file for simulation log ("<<LogName<<")\n";
             cerr<<"\tHIST=hist.otx - file for full history of simulation.\n";
-            cerr<<"\tWIDTHWIN,HEIGHTWIN=XXX - initial window size.("<<SWIDTH<<'x'<<SHEIGHT<<"\n";
+            cerr << "\tWIDTHWIN,HEIGHTWIN=XXX - initial window size.(" << ScreenWidth << 'x' << ScreenHeight << "\n";
             cerr<<"\nAUTO=XXX - number of auto-repetition of simulation.("<<AUTOSTART<<")\n";
         return 0;
         }
@@ -242,14 +241,14 @@ int parse_options(const int argc,const char* argv[])
 int main(const int argc,const char* argv[])
 {
     cout<<WINDOW_HEADER<<", compilation: "<<__DATE__<<' '<<__TIME__<<endl;
-    cout<<"Programmed by W. Borkowski for A.Nowak & D.Stauffer"<<endl;
+    cout<<"Programmed by W. Borkowski for A. Nowak & D. Stauffer"<<endl;
     cout<<"=========================================================="<<endl;
     cout.flush();
 
     if(!parse_options(argc,argv))
             exit(1);
 
-    main_area_menager Lufciki(24,SWIDTH,SHEIGHT,28);
+    main_area_menager Lufciki(24, ScreenWidth, ScreenHeight, 28);
     if(!Lufciki.start(WINDOW_HEADER,argc,argv,1))
         {
         cerr<<"Can't initialize graphics"<<endl;
@@ -257,7 +256,7 @@ int main(const int argc,const char* argv[])
         }
 
     //INITIALIZATION OF THE SIMULATION WORLD:
-    aWorld& theWorld=*new aWorld(iWidth,
+    aWorld& theWorld=*new aWorld(WorldWidth,
                                  NewProbability,
                                  InfectionProb,
                                  SupportLev,
@@ -277,9 +276,9 @@ int main(const int argc,const char* argv[])
 
     //INICJALIZACJA
     RANDOMIZE() //Global Randomizer Initialization Macro
-    theWorld.set_max_iteration(iMaxIterations); //How many simulation steps at most?
-    theWorld.set_input_ratio(iViewRatio);
-    theWorld.set_log_ratio(iLogRatio);
+    theWorld.set_max_iteration(MaxIterations); //How many simulation steps at most?
+    theWorld.set_input_ratio(ScrViewRatio);
+    theWorld.set_log_ratio(LogWriteRatio);
     cout<<WINDOW_HEADER<<": LOADED."<<endl;
     theWorld.set_history_stream(HistName);
 
