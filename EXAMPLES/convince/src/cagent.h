@@ -41,16 +41,7 @@ public:
     {
         return First!=-1 && Second!=-1 && Power!=-1;
     }
-    /*
-    void MakeOlder() //Sila jako wiek
-    {
-        if(anAgent::ruchsily)
-        {
-            Power+=anAgent::ruchsily;
-            Power%=anAgent::max_sila;//Nigdy nie przekracza sily maksymalnej
-        }
-    }
-    */
+
     anAgent(const anAgent& ini);	//Konkretna implementacja w aWorld!
 
     anAgent();					//Konkretna implementacja w aWorld!
@@ -81,12 +72,7 @@ public:
             _clean();
     }
 
-    long Classif()
-    {
-        return First;
-    }
-
-    long RGB()
+    long RGB() const
     {
         return (unsigned long) ( (unsigned char) (First) );
     }

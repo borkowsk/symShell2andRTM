@@ -17,16 +17,6 @@
 const int RAMKA=4;
 extern const char* SYMULATION_NAME;
 
-/* //jest w "wbminmax.hpp"
-template <class T>
-inline void wb_swap(T& a,T& b)
-{
-    T c=a;
-    a=b;
-    b=c;
-}
-*/
-
 //Konstrukcja agentow
 // /////////////////////////////////
 anAgent::anAgent(const anAgent& ini)
@@ -62,16 +52,16 @@ anAgent::anAgent()
 
 //Statyczne pola Agentow dla inicjalizacji
 // //////////////////////////////////////////////////////////////
-short	anAgent::ruchsily=1;  //Maksymalny skok sily
+short	anAgent::ruchsily=1;	//Maksymalny skok sily
 short   anAgent::min_sila=10;
-short	anAgent::max_sila=100;//Maksymalna sila agenta
-short	anAgent::ile_kate=2;//Ilosc kategori w mapach	
-short	anAgent::kate_shift=0;//Przesuniecie dla wczytywania gifa
+short	anAgent::max_sila=100;	//Maksymalna sila agenta
+short	anAgent::ile_kate=2;	//Ilosc kategori w mapach
+short	anAgent::kate_shift=0;	//Przesuniecie dla wczytywania gifa
 
-double	anAgent::ToBeNewProb=0;//Prawd. spontanicznej zmiany pogladow samotnika na nowy typ rozrywki/sportu
-double  anAgent::NewInfectProb=0.01;//Prawd. zainfekowania od pary zainfekowanych
-double  anAgent::ReverseProb=1;//Prawd. reversji pogladow na 0 - brak pomyslu na rozrywke
-double  anAgent::SupportLevel=0.5;//Sila wsparcia gdy ma jakies towarzystwo
+double	anAgent::ToBeNewProb=0;	//Prawd. spontanicznej zmiany pogladow samotnika na nowy typ rozrywki/sportu
+double  anAgent::NewInfectProb=0.01;	//Prawd. zainfekowania od pary zainfekowanych
+double  anAgent::ReverseProb=1;	//Prawd. reversji pogladow na 0 - brak pomyslu na rozrywke
+double  anAgent::SupportLevel=0.5;	//Sila wsparcia gdy ma jakies towarzystwo
 
 //KONSTRUKCJA	SWIATA
 // //////////////////////////////////
@@ -79,60 +69,40 @@ extern unsigned internal_log;
 
 aWorld::aWorld(	
         unsigned iWidth,		//Szerokosc torusa macierzy agentow
-        double iToBeNewProb,//=0.1,//Prawd. spontanicznej zmiany pogladow samotnika na nowy typ rozrywki/sportu
-        double iInfectProb,//=0.9,//Prawd. reversji pogladow na 0 - brak pomyslu na rozrywke
-        double iSupportLevel,//=0.5,//Sila wsparcia gdy ma jakies towarzystwo
-        const char* ilog_name,//="convince.log",		//Nazwa pliku do zapisywania histori
-        const char* imapl_name,//=NULL,	//Nazwa (bit)mapy inicjujacej "skladowe"
-        const char* imapp_name,//=NULL,	//Nazwa (bit)mapy inicjujacej "sily"
-        const char* ilive_mask,//=NULL,	//Czarne w tej mapie sa kasowane
-        short imax_sila,//=100,	//Maksymalna sila agenta
-        short imin_sila//,=10	//Minimalna sila
-               /*,
-               double noise,		//Szum informacyjny
-               short ile_kate,		//Ilosc kategori w mapach
-               short odl_sasiad,	//Rozmiar sasiedztwa
-               short ile_sasiad,	//8==Gestosc sasiedztwa
-               bool	synchronicly,
-               short walkpower,
-               short trespower,
-               */
+        double iToBeNewProb,	//=0.1,//Prawd. spontanicznej zmiany pogladow samotnika na nowy typ rozrywki/sportu
+        double iInfectProb,		//=0.9,//Prawd. reversji pogladow na 0 - brak pomyslu na rozrywke
+        double iSupportLevel,	//=0.5,//Sila wsparcia gdy ma jakies towarzystwo
+        const char* ilog_name,	//="convince.log",		//Nazwa pliku do zapisywania histori
+        const char* imapl_name,	//=NULL,	//Nazwa (bit)mapy inicjujacej "skladowe"
+        const char* imapp_name,	//=NULL,	//Nazwa (bit)mapy inicjujacej "sily"
+        const char* ilive_mask,	//=NULL,	//Czarne w tej mapie sa kasowane
+        short imax_sila,		//=100,	//Maksymalna sila agenta
+        short imin_sila			//,=10	//Minimalna sila
                ):
         world(ilog_name,50),
-        MaplName(clone_str(imapl_name)),//Nazwa (bit)mapy 1. inicjujacej agentow
-        MappName(clone_str(imapp_name)),//Nazwa (bit)mapy 2. inicjujacej agentow
-        MaskName(clone_str(ilive_mask)),//Nazwa bitmapy maskujacej (kasujacej agentow)
-    //Sub-obiekty wlasciwe dla tej symulacji
+        MaplName(clone_str(imapl_name)), //Nazwa (bit)mapy 1. inicjujacej agentow
+        MappName(clone_str(imapp_name)), //Nazwa (bit)mapy 2. inicjujacej agentow
+        MaskName(clone_str(ilive_mask)), //Nazwa bitmapy maskujacej (kasujacej agentow)
+    //Sub-obiekty właściwe dla tej symulacji
         MyWidth(iWidth),
         Agenci(iWidth,iWidth,NULL),//Initer == NULL wiec tworzone przez konstruktor a nie klonowanie
-        //MaxSila(imax_sila),	//Maksymalna sila agenta
-        //TrsSila(trespower), //Sila dajaca odporosc na zmiany
-        //IleKate(ile_kate),	//Ilosc kategori w mapach
-        //IleSasiad(ile_sasiad),	//8==Gestosc sasiedztwa
-        //OdlSasiad(odl_sasiad),	//Rozmiar sasiedztwa
-        //Noise(noise),
-        //UseSelf(need_use_self),
-        //Synchronic(synchronicly),
-        //BierzWszystko(0), //Sasiedztwo bez losowania
         //Wskazniki do podstawowych seri danych
         Firsts(NULL),
         Seconds(NULL),
         Powers(NULL) //,Classif(NULL)
-        {//!!!Niewiele mozna zrobic bo nie mozna tu jeszcze polegac na wirtualnych metodach klasy swiat
+        {// Niewiele mozna zrobic bo nie mozna tu jeszcze polegac na wirtualnych metodach klasy swiat
             anAgent::ruchsily=1;  //Maksymalny skok sily
             anAgent::min_sila=imin_sila;
-            anAgent::max_sila=imax_sila;//Maksymalna sila agenta
-            anAgent::ile_kate=2;//Ilosc kategori w mapach
-            anAgent::kate_shift=0;//Przesuniecie dla wczytywania gifa
+            anAgent::max_sila=imax_sila; //Maksymalna sila agenta
+            anAgent::ile_kate=2; //Ilosc kategori w mapach
+            anAgent::kate_shift=0; //Przesuniecie dla wczytywania gifa
 
-            anAgent::ToBeNewProb=iToBeNewProb;//Prawd. spontanicznej zmiany pogladow samotnika na nowy typ rozrywki/sportu
+            anAgent::ToBeNewProb=iToBeNewProb; //Prawd. spontanicznej zmiany pogladow samotnika na nowy typ rozrywki/sportu
             anAgent::NewInfectProb=iInfectProb;
-            anAgent::ReverseProb=1-iToBeNewProb;//Prawd. reversji pogladow na 0 - brak pomyslu na rozrywke
-            anAgent::SupportLevel=iSupportLevel;//Sila wsparcia gdy ma jakies towarzystwo
+            anAgent::ReverseProb=1-iToBeNewProb; //Prawd. reversji pogladow na 0 - brak pomyslu na rozrywke
+            anAgent::SupportLevel=iSupportLevel; //Sila wsparcia gdy ma jakies towarzystwo
 
             set_simulation_name(SYMULATION_NAME);
-
-            //if(IleSasiad==-1)BierzWszystko=1;
         }
 
 //Generuje podstawowe zrodla dla wbudowanego menagera danych lub innego
@@ -140,7 +110,7 @@ aWorld::aWorld(
 void aWorld::make_basic_sources()
 {
     sources_menager& WhatSourMen=this->Sources;
-    world::make_basic_sources();//Odziedziczone
+    world::make_basic_sources(); //Odziedziczone
 
     //Glowne serie
     Firsts=Agenci.make_source("Attitude",&anAgent::First);
@@ -152,16 +122,10 @@ void aWorld::make_basic_sources()
 
     Powers=Agenci.make_source("Power",&anAgent::Power);
 
-    //Classif=Agenci.make_source("Classification",&anAgent::Classif);
-    //if(Classif)
-    //	Classif->setminmax(0,IleKate*IleKate*IleKate-1);//Max class ==IleKate^3 bo trzy niezalezne plaszczyzny
-
     //Umieszczenie glownych serii w menagerze serii
     WhatSourMen.insert(Firsts);
     WhatSourMen.insert(Seconds);
     WhatSourMen.insert(Powers);
-
-    //WhatSourMen.insert(Classif);
 }
 
 
@@ -204,24 +168,24 @@ if(!ClassStat) goto ERROR;
 //A takze utworzenie seri liczacych ich wzajemne ko-statystyki
 coincidention_source* CorrFS=new coincidention_source(Firsts,Seconds);
 if(!CorrFS) goto ERROR;
-Sources.insert(CorrFS);//Zeby zostala kiedys zwolniona, a poza tym moze ktos kiedys...
+Sources.insert(CorrFS); //Zeby zostala kiedys zwolniona, a poza tym moze ktos kiedys...
 
 fifo_source<double>* EntropyFSLog=new fifo_source<double>(CorrFS->Entropy(),internal_log);
 if(!EntropyFSLog) goto ERROR;
 int iEntropyFS=Sources.insert(EntropyFSLog);
 
-fifo_source<double>* CorrFSLogR=new fifo_source<double>(CorrFS->Tau_a_Goodman_Kruskal(),internal_log);//Fifo korelacji pierwszych z drugimi
+fifo_source<double>* CorrFSLogR=new fifo_source<double>(CorrFS->Tau_a_Goodman_Kruskal(),internal_log); //Fifo korelacji pierwszych z drugimi
 if(!CorrFSLogR) goto ERROR;
 int iCorrFSR=Sources.insert(CorrFSLogR);
  
  
 //I utworzenie seri liczacych ich statystyki
  
-fifo_source<double>* StressFirstLog=new fifo_source<double>(FirstStat->Stress(),internal_log);//Fifo ze stresu
+fifo_source<double>* StressFirstLog=new fifo_source<double>(FirstStat->Stress(),internal_log); //Fifo ze stresu
 if(!StressFirstLog) goto ERROR;
 int iSFirst=Sources.insert(StressFirstLog);
 
-fifo_source<double>* StressSecondLog=new fifo_source<double>(SecondStat->Stress(),internal_log);//Fifo ze stresu
+fifo_source<double>* StressSecondLog=new fifo_source<double>(SecondStat->Stress(),internal_log); //Fifo ze stresu
 if(!StressSecondLog) goto ERROR;
 int iSSecond=Sources.insert(StressSecondLog);
 
@@ -301,13 +265,13 @@ pom->setframe(128);
 pom->settitle("HISTORY OF STRESS");
 Manager.insert(pom);
 
-pom=new carpet_graph(1,wyso/2,szer/3,wyso-1,//domyslne wspolrzedne
+pom=new carpet_graph(1,wyso/2,szer/3,wyso-1, //domyslne wspolrzedne
                         Firsts); //I zrodlo danych
 pom->setdatacolors(0,255);
 pom->settitle("Map of current attitude");
 Manager.insert(pom);
 
-pom=new bars_graph(szer/3+1,wyso/2,szer/3*2,wyso-1,//domyslne wspolrzedne  szer-49,7*char_height('X')+7,szer,8*char_height('X')+9
+pom=new bars_graph(szer/3+1,wyso/2,szer/3*2,wyso-1, //domyslne wspolrzedne  szer-49,7*char_height('X')+7,szer,8*char_height('X')+9
                         ClassStat);
 pom->setdatacolors(0,255);
 pom->settitle("Histogram of attitude");
@@ -340,11 +304,11 @@ pom->setframe(0);
 pom->settitle("Map of power");
 Manager.insert(pom);
 
-pom=new manhattan_graph(szer-49, 7*(char_height('X')+RAMKA),szer,8*(char_height('X')+RAMKA),//domyslne wspolrzedne
-                        Powers,0,//I zrodlo danych o wysokosciach, miezazadzane
-                        Firsts,0,//Zrodlo danych o kolorach - niezazadzane
+pom=new manhattan_graph(szer-49, 7*(char_height('X')+RAMKA),szer,8*(char_height('X')+RAMKA), //domyslne wspolrzedne
+                        Powers,0, //I zrodlo danych o wysokosciach, miezazadzane
+                        Firsts,0, //Zrodlo danych o kolorach - niezazadzane
                         1,		//Slupki zaczynaja sie conajmniej od 0!
-                                    //Jesli 0 to zaczynaja sie od min>0
+                                        //Jesli 0 to zaczynaja sie od min>0
                         0.22,		//Ulamek szerokosci przeznaczony na perspektywe
                         0.77		//Ulamek wysokosci  przeznaczony na perspektywe
                         ); //I zrodlo danych
@@ -371,7 +335,7 @@ pom1=new sequence_graph(szer-49, 10*(char_height('X')+RAMKA),szer,11*(char_heigh
                                         iEntropyFS,
                                             -1
                                         ).get_ptr_val(),
-                               1/*Wspolne minimum/maximum*/);
+                               1 /*Wspolne minimum/maximum*/);
 if(!pom1) goto ERROR;
 pom1->setframe(128);
 pom1->settitle("HISTORY OF ENTROPY OF CHANGE");
@@ -416,7 +380,7 @@ ERROR://... tu akcja na niepogode
 
 //AKCJE SYMULACYJNE
 // ////////////////////
-// ////////////////////
+
 void aWorld::after_read_from_image()
 //actions after read state from file. Aktualizacja pol static anAgent'a!!!
 {	
@@ -468,21 +432,18 @@ void aWorld::initialize_layers()
     //...wydruk wartosci parametrow symulacji
     if(first)
       Log.GetStream()
-        <<"\n Change to new Pn="<<Log.separator()<<anAgent::ToBeNewProb//Prawd. spontanicznej zmiany pogladow samotnika na nowy typ rozrywki/sportu
-        <<"\n Reverse Pr="<<Log.separator()<<anAgent::ReverseProb//Prawd. reversji pogladow na 0 - brak pomyslu na rozrywke
-        <<"\n Infection Pr="<<Log.separator()<<anAgent::NewInfectProb//Prawd. reversji pogladow na 0 - brak pomyslu na rozrywke
-        <<"\n Nei. Support S="<<Log.separator()<<anAgent::SupportLevel//"Sila" wsparcia gdy ma jakies towarzystwo
+        <<"\n Change to new Pn="<<Log.separator()<<anAgent::ToBeNewProb //Prawd. spontanicznej zmiany pogladow samotnika na nowy typ rozrywki/sportu
+        <<"\n Reverse Pr="<<Log.separator()<<anAgent::ReverseProb //Prawd. reversji pogladow na 0 - brak pomyslu na rozrywke
+        <<"\n Infection Pr="<<Log.separator()<<anAgent::NewInfectProb //Prawd. reversji pogladow na 0 - brak pomyslu na rozrywke
+        <<"\n Nei. Support S="<<Log.separator()<<anAgent::SupportLevel //"Sila" wsparcia gdy ma jakies towarzystwo
 
         <<"\nMin Power="<<Log.separator()<<anAgent::min_sila
         <<"\nMax Power="<<Log.separator()<<anAgent::max_sila
         <<"\nMov. Power="<<Log.separator()<<anAgent::ruchsily
-        //<<"\nTresh of Power="<<Log.separator()<<anAgent::treshold
         <<"\nNum of Kl="<<Log.separator()<<anAgent::ile_kate;
-        //<<"\nNoise %="<<Log.separator()<<Noise*100
-        //<<"\nNaighborhood="<<Log.separator()<<IleSasiad<<"/("<<(1+2*OdlSasiad)<<"*"<<(1+2*OdlSasiad)<<")\n";
 
-    //			USTALANIE STAN�W AGENT�W
-    //Wczytuje uzywajac konstruktora lub klonowania gdy niema, wiec inicjuje reszte p�l.
+    //			USTALANIE STANÓW AGENTÓW
+    //Wczytuje uzywajac konstruktora lub klonowania gdy niema, wiec inicjuje reszte pól.
     int from1= Agenci.init_from_bitmap(MappName.get_ptr_val(),&anAgent::assignPow);
     int from2= Agenci.init_from_bitmap(MaplName.get_ptr_val(),&anAgent::assign123);
 
@@ -602,179 +563,6 @@ void aWorld::simulate_one_step()
             }
         }
     }
-    /*
-    const geometry_base* MyGeom=Agenci.get_geometry();			assert(MyGeom);
-    if(Synchronic)
-    {
-        //Idziemy po agentach pelnym iteratorem a stan agentow zmieniamy dopiero potem
-        iteratorh Full=MyGeom->make_global_iterator();
-        while(Full)
-        {
-            size_t index=MyGeom->get_next(Full); //Uzyskujemy index  agenta
-
-            assert(index!=any_layer_base::FULL);				//... tutaj nie powinno sie zdarzyc
-
-            anAgent& CenterAgent=*(Agenci.get_ptr(index).get_ptr_val()); // Uzyskujemy referencje do agenta omijajac asercje na NULL
-
-            if(Agenci.is_empty(CenterAgent))	// Sprawdzamy czy nie jest to pusta kom�rka (NULL)
-                continue;						// bo wtedy robic dalej by�oby bez sensu.
-
-            if(CenterAgent.Power<=TrsSila)		// Czy nie ma juz immunitetu na zmiany
-                CheckChange(MyGeom,index,CenterAgent); //Sprawdzamy zmiane stanu
-
-        }
-        // upewniamy sie ze iterator zostanie usuniety
-        MyGeom->destroy_iterator(Full);
-
-
-        Full=MyGeom->make_global_iterator(); //Tworzymy nowy iterator i iterujemy od poczatku
-        while(Full)
-        {
-            size_t index=MyGeom->get_next(Full); //Uzyskujemy index  agenta
-
-            assert(index!=any_layer_base::FULL);				//... tutaj nie powinno sie zdarzyc
-
-            anAgent& CenterAgent=*(Agenci.get_ptr(index).get_ptr_val()); // Uzyskujemy referencje do agenta omijajac asercje na NULL
-
-            if(Agenci.is_empty(CenterAgent))	// Sprawdzamy czy nie jest to pusta kom�rka (NULL)
-                continue;
-
-            wb_swap(CenterAgent.First,CenterAgent.Second);  //Ma nowy stan
-            CenterAgent.MakeOlder();						//Robi sie starszy
-        }
-
-        // upewniamy sie ze iterator zostanie usuniety
-        MyGeom->destroy_iterator(Full);
-
-    }
-    else
-    {
-        iteratorh Monte=MyGeom->make_random_global_iterator();	//Alokujemy iterator Monte-Carlo
-
-        while(Monte) //Idziemy po agentach iteratorem Monte-Carlo. Niekt�rzy moga sie powt�rzyc
-        {
-            size_t index=MyGeom->get_next(Monte); //Uzyskujemy index losowo wybranego agenta
-
-            assert(index!=any_layer_base::FULL);				//... tutaj nie powinno sie zdarzyc
-
-            anAgent& CenterAgent=*(Agenci.get_ptr(index).get_ptr_val()); // Uzyskujemy referencje do agenta omijajac asercje na NULL
-            if(Agenci.is_empty(CenterAgent))	// Sprawdzamy czy nie jest to pusta kom�rka (NULL)
-                continue;						// bo wtedy robic dalej by�oby bez sensu.
-
-            if(CenterAgent.Power<=TrsSila)		// Czy nie ma juz immunitedu na zmiany
-                if(CheckChange(MyGeom,index,CenterAgent)==1) //Czy zaszla zmiana stanu
-                {
-                    wb_swap(CenterAgent.First,CenterAgent.Second);
-                }
-
-            CenterAgent.MakeOlder();			//Robi sie starszy
-        }
-
-        // upewniamy sie ze iterator zostanie usuniety
-        MyGeom->destroy_iterator(Monte);
-    }
-
-    */
-}
-
-
-
-int aWorld::CheckChange(const geometry_base* MyGeom,
-                        size_t index,
-                        anAgent& CenterAgent
-                        ) //KOD NA SZUKANIE ZMIAN
-{ 
-    /*
-    int testowanie=0;
-
-    if(DRAND()<=anAgent::MutationLevel) //Rzadka, spontaniczna zmiana pogladu
-    {
-        int atti=RANDOM(IleKate);       	assert(0<=atti && atti<IleKate);
-        CenterAgent.Second=atti;			//zmieniamy w agencie centralnym
-        return 1;
-    }
-
-
-    //TABLICA POMOCNICZA
-    wb_dynarray<int> Firsts(IleKate);               assert(Firsts.IsOK());
-    //Czyszczenie licznika
-    memset(Firsts.get_ptr_val(),0,sizeof(int)*IleKate);
-
-    // Alokujemy iterator sasiedztwa
-    ::iteratorh Neigh=NULL;
-
-    if(BierzWszystko)
-    {
-        Neigh=MyGeom->make_neighbour_iterator(index,OdlSasiad);
-    }
-    else
-    {
-        Neigh=MyGeom->make_random_neighbour_iterator(index,OdlSasiad,IleSasiad);
-    }
-
-    //iteratorh Neigh=MyGeom->make_neighbour_iterator(index,OdlSasiad);
-    unsigned zliczanie=0; //Zliczanie sasiad�w
-
-    while(Neigh)
-    {
-        size_t index2=MyGeom->get_next(Neigh); //Uzyskujemy index sasiada
-        if(index2==any_layer_base::FULL || index2==index)	//Jesli poza obszarem symulacji lub w
-            continue;				//centrum obszaru to dalej byloby bez sensu.
-
-        anAgent& PeryfAgent=*(Agenci.get_ptr(index2).get_ptr_val()); //Uzyskujemy referencje do sasiada omijajac asercje na NULL
-        if(Agenci.is_empty(PeryfAgent))		//Sprawdzamy czy nie jest to pusta kom�rka (NULL)
-            continue;					   // bo wtedy robic dalej by�oby bez sensu.
-
-        zliczanie++;
-        //Dodawanie sil sasiadow do licznikow w tablicach
-        Firsts[PeryfAgent.First]+=PeryfAgent.Power;
-    }
-
-    MyGeom->destroy_iterator(Neigh);	// upewniamy sie ze iterator zostanie usuniety
-    //Zlicza wylosowanych agentow
-    testowanie++;
-
-    //Dodawanie wlasnych sil do licznikow w tablicach
-    if(UseSelf)
-    {
-        Firsts[CenterAgent.First]+=CenterAgent.Power;
-    }
-
-    //Szukanie maksimow
-    int maxF=0,indF=-1;
-
-    int offset=RANDOM(IleKate);
-    assert(0<=offset && offset<IleKate); //Jak IleKate==2 to 0 albo 1 itd..
-
-    for(int g=0;g<IleKate;g++)
-    {
-        int h=(g+offset)%IleKate;
-        assert(h>=0 && h<IleKate);
-        //Dodawanie szumu
-        if(Firsts[h]>0)
-            Firsts[h]+=long(DRAND()*Noise*(4.5*MaxSila));
-
-        //Testowanie
-        if(Firsts[h]>maxF)
-        {
-            maxF=Firsts[h];
-            indF=h;
-        }
-
-    }
-
-    if(indF!=-1)
-    {
-        CenterAgent.Second=indF;			//zmieniamy w agencie centralnym
-        return 1;
-    }
-    else
-    {
-        CenterAgent.Second=CenterAgent.First; //Albo nic nie zmieniamy
-        return 0;
-    }
-*/	
-    return 0;
 }
 
 /* **************************************************************** */

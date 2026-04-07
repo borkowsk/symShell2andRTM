@@ -15,10 +15,7 @@ int aWorld::implement_output(ostream& o) const
     o<<anAgent::max_sila<<separator;	//Maksymalna sila agenta
     o<<anAgent::min_sila<<separator;
     o<<anAgent::ile_kate<<separator;	//Ilosc kategori w mapach
-//	o<<IleSasiad<<separator;	//8==Gestosc sasiedztwa
-//	o<<OdlSasiad<<separator;	//Rozmiar sasiedztwa
-//	o<<UseSelf<<separator;	//Czy ma brac siebie pod uwage
-//	o<<Noise<<separator<<endl;		//Szum informacyjny
+
     o<<Agenci<<endl;
     return 1;
 }

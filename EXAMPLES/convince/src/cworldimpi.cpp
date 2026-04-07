@@ -14,10 +14,7 @@ int aWorld::implement_input(istream& i)
     i>>anAgent::max_sila;		//Maksymalna sila agenta
     i>>anAgent::min_sila;		//i minimalna sila agenta
     i>>anAgent::ile_kate;		//Ilosc kategori w mapach
-//	i>>IleSasiad;	//8==Gestosc sasiedztwa
-//	i>>OdlSasiad;	//Rozmiar sasiedztwa
-//	i>>UseSelf;		//Czy ma brac siebie pod uwage
-//	i>>Noise;		//Szum informacyjny
+
     rectangle_geometry* Geom=(rectangle_geometry*)Agenci.get_geometry();
                                 assert(Geom!=NULL);
     if(Geom->get_width()!=MyWidth||
