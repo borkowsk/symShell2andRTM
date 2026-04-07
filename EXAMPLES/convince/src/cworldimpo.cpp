@@ -12,9 +12,9 @@ int aWorld::implement_output(ostream& o) const
     if(ret!=1) return ret;
     o<<separator;
     o<<MyWidth<<separator;
-    o<<anAgent::max_sila<<separator;
-    o<<anAgent::min_sila<<separator;
-    o<<anAgent::ile_kate<<separator;
+    o << anAgent::MaxStrength << separator;
+    o << anAgent::MinStrength << separator;
+    o << anAgent::NumOfCate << separator;
 
     o<<Agenci<<endl;
     return 1;

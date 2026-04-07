@@ -26,8 +26,8 @@ anAgent::anAgent(const anAgent& ini)
     {
         First=ini.First;
         Second=ini.Second;
-        if(min_sila<max_sila)
-            Power=min_sila+RANDOM(max_sila-min_sila+1);
+        if(MinStrength < MaxStrength)
+            Power= MinStrength + RANDOM(MaxStrength - MinStrength + 1);
         else
             Power=ini.Power;
     }
@@ -40,25 +40,24 @@ anAgent::anAgent()
     _clean();
 
     if(DRAND()<ToBeNewProb)
-        First=1+RANDOM(ile_kate-1);
+        First=1+RANDOM(NumOfCate - 1);
     else
         First=0;
 
     Second=0;
-    if(min_sila<max_sila)
-        Power=min_sila+RANDOM(max_sila-min_sila+1);
+    if(MinStrength < MaxStrength)
+        Power= MinStrength + RANDOM(MaxStrength - MinStrength + 1);
     else
-        Power=max_sila;
+        Power=MaxStrength;
 }
 
 // Static Agent Fields for Initialization:
 // ///////////////////////////////////////
 
-short	anAgent::ruchsily=1;	//Maximum force jump.
-short   anAgent::min_sila=10;
-short	anAgent::max_sila=100;	//Maximum agent power/force.
-short	anAgent::ile_kate=2;	//Number of categories in maps.
-short	anAgent::kate_shift=0;	//Offset for loading states from a GIF file.
+short   anAgent::MinStrength=10;
+short	anAgent::MaxStrength=100;	//Maximum agent power/force.
+short	anAgent::NumOfCate=2;	//Number of categories in maps.
+short	anAgent::CateShift=0;	//Offset for loading states from a GIF file.
 
 double	anAgent::ToBeNewProb=0;	//The probability of a loner spontaneously changing his views on a new type of entertainment/sport.
 double  anAgent::NewInfectProb=0.01;	//Probability of "infection" from a pair of "infected" individuals.
@@ -68,24 +67,24 @@ double  anAgent::SupportLevel=0.5;	//The power of support when you have some com
 // CONSTRUCTION OF THE WORLD:
 // //////////////////////////
 
-extern unsigned internal_log;
+extern unsigned InternalLogLen;
 
 aWorld::aWorld(	
         unsigned iWidth,		//Width of the torus of the agent matrix.
         double iToBeNewProb,	//=0.1,//Likelihood of spontaneous change of opinion.
         double iInfectProb,		//=0.9,//Probability of reversal of views on 0.
         double iSupportLevel,	//=0.5,//The power of support when he has some friends.
-        const char* ilog_name,	//="convince.log", //File name for saving history.
-        const char* imapl_name,	//=NULL,	//The name of the bitmap initializing the "components".
-        const char* imapp_name,	//=NULL,	//The name of the agent force initialization bitmap.
-        const char* ilive_mask,	//=NULL,	//The name of the bitmap defining uninhabited areas.
-        short imax_sila,		//=100,	//Maximum agent power/strength.
-        short imin_sila			//,=10	//Minimum agent strength.
+        const char* iLog_name,	//="convince.log", //File name for saving history.
+        const char* iMapL_name,	//=NULL,	//The name of the bitmap initializing the "components".
+        const char* iMapP_name,	//=NULL,	//The name of the agent force initialization bitmap.
+        const char* iLive_mask,	//=NULL,	//The name of the bitmap defining uninhabited areas.
+        short iMax_strength,		//=100,	//Maximum agent power/strength.
+        short iMin_strength			//,=10	//Minimum agent strength.
                ):
-        world(ilog_name,50),
-        MaplName(clone_str(imapl_name)),
-        MappName(clone_str(imapp_name)),
-        MaskName(clone_str(ilive_mask)),
+        world(iLog_name, 50),
+        MaplName(clone_str(iMapL_name)),
+        MappName(clone_str(iMapP_name)),
+        MaskName(clone_str(iLive_mask)),
         //Sub-objects specific to this simulation:
         MyWidth(iWidth),
         Agenci(iWidth,iWidth,NULL),
@@ -94,11 +93,10 @@ aWorld::aWorld(
         Seconds(NULL),
         Powers(NULL)
 {// There is not too much that can be done because we cannot rely on virtual methods of the world class yet.
-    anAgent::ruchsily=1;
-    anAgent::min_sila=imin_sila;
-    anAgent::max_sila=imax_sila;
-    anAgent::ile_kate=2;
-    anAgent::kate_shift=0;
+    anAgent::MinStrength=iMin_strength;
+    anAgent::MaxStrength=iMax_strength;
+    anAgent::NumOfCate=2;
+    anAgent::CateShift=0;
 
     anAgent::ToBeNewProb=iToBeNewProb;
     anAgent::NewInfectProb=iInfectProb;
@@ -118,11 +116,11 @@ void aWorld::make_basic_sources()
     //Creation of the main data series:
     Firsts=Agenci.make_source("Attitude",&anAgent::First);
     if(Firsts)
-        Firsts->setminmax(0,anAgent::ile_kate-1);
+        Firsts->setminmax(0, anAgent::NumOfCate - 1);
 
     Seconds=Agenci.make_source("Prev. attitude",&anAgent::Second);
     if(Seconds)
-        Seconds->setminmax(0,anAgent::ile_kate-1);
+        Seconds->setminmax(0, anAgent::NumOfCate - 1);
 
     Powers=Agenci.make_source("Power",&anAgent::Power);
 
@@ -174,39 +172,39 @@ void aWorld::make_default_visualisation()
     if(!CorrFS) goto ERROR;
     Sources.insert(CorrFS); // Registered to be released at the end
 
-    fifo_source<double>* EntropyFSLog=new fifo_source<double>(CorrFS->Entropy(),internal_log);
+    fifo_source<double>* EntropyFSLog=new fifo_source<double>(CorrFS->Entropy(), InternalLogLen);
     if(!EntropyFSLog) goto ERROR;
     int iEntropyFS=Sources.insert(EntropyFSLog);
 
-    fifo_source<double>* CorrFSLogR=new fifo_source<double>(CorrFS->Tau_a_Goodman_Kruskal(),internal_log);
+    fifo_source<double>* CorrFSLogR=new fifo_source<double>(CorrFS->Tau_a_Goodman_Kruskal(), InternalLogLen);
     if(!CorrFSLogR) goto ERROR;
     int iCorrFSR=Sources.insert(CorrFSLogR);
 
 
     // Creating series counting statistics from basic series:
-    fifo_source<double>* StressFirstLog=new fifo_source<double>(FirstStat->Stress(),internal_log);
+    fifo_source<double>* StressFirstLog=new fifo_source<double>(FirstStat->Stress(), InternalLogLen);
     if(!StressFirstLog) goto ERROR;
     int iSFirst=Sources.insert(StressFirstLog);
 
-    fifo_source<double>* StressSecondLog=new fifo_source<double>(SecondStat->Stress(),internal_log);
+    fifo_source<double>* StressSecondLog=new fifo_source<double>(SecondStat->Stress(), InternalLogLen);
     if(!StressSecondLog) goto ERROR;
     int iSSecond=Sources.insert(StressSecondLog);
 
     //iMainClassF,iWhichMainF,iNumClassF,
-    fifo_source<double>* NumClassLog=new fifo_source<double>(ClassStat->NumOfClass(),internal_log);
+    fifo_source<double>* NumClassLog=new fifo_source<double>(ClassStat->NumOfClass(), InternalLogLen);
     if(!NumClassLog) goto ERROR;
     int iNumClassF=Sources.insert(NumClassLog);
 
-    fifo_source<double>* ClassEntropyLog=new fifo_source<double>(ClassStat->Entropy(),internal_log);
+    fifo_source<double>* ClassEntropyLog=new fifo_source<double>(ClassStat->Entropy(), InternalLogLen);
     if(!ClassEntropyLog) goto ERROR;
     int iClassEntropy=Sources.insert(ClassEntropyLog);
 
-    fifo_source<double>* MainClassLog=new fifo_source<double>(ClassStat->MainClass(),internal_log);
+    fifo_source<double>* MainClassLog=new fifo_source<double>(ClassStat->MainClass(), InternalLogLen);
     if(!MainClassLog) goto ERROR;
     int iMainClassF=Sources.insert(MainClassLog);
 
 
-    fifo_source<double>* WhichMainLog=new fifo_source<double>(ClassStat->WhichMain(),internal_log);
+    fifo_source<double>* WhichMainLog=new fifo_source<double>(ClassStat->WhichMain(), InternalLogLen);
     if(!WhichMainLog) goto ERROR;
     int iWhichMainF=Sources.insert(WhichMainLog);
 
@@ -389,19 +387,19 @@ void aWorld::make_default_visualisation()
 void aWorld::after_read_from_image()
 //Action after loading the initialization file. NOTE! Also updating the agent class's static fields!!!
 {
-    switch(anAgent::ile_kate)
+    switch(anAgent::NumOfCate)
     {
-    case   2:anAgent::kate_shift=7;break;
-    case   4:anAgent::kate_shift=6;break;
-    case   8:anAgent::kate_shift=5;break;
-    case  16:anAgent::kate_shift=4;break;
-    case  32:anAgent::kate_shift=3;break;
-    case  64:anAgent::kate_shift=2;break;
-    case 128:anAgent::kate_shift=1;break;
-    case 256:anAgent::kate_shift=0;break;
+    case   2:anAgent::CateShift=7;break;
+    case   4:anAgent::CateShift=6;break;
+    case   8:anAgent::CateShift=5;break;
+    case  16:anAgent::CateShift=4;break;
+    case  32:anAgent::CateShift=3;break;
+    case  64:anAgent::CateShift=2;break;
+    case 128:anAgent::CateShift=1;break;
+    case 256:anAgent::CateShift=0;break;
     default:
-        anAgent::ile_kate=256;
-        anAgent::kate_shift=0;
+        anAgent::NumOfCate=256;
+        anAgent::CateShift=0;
         cerr<<"Invalid number of class (not power of 2 less than 256). Using default.\n";
         Log.GetStream()<<"Invalid number of class (not power of 2). Using default.\n";
         break;
@@ -416,19 +414,19 @@ void aWorld::initialize_layers()
     if(first)
         Log.GetStream()<<"convince SIMULATION:";
 
-    switch(anAgent::ile_kate)
+    switch(anAgent::NumOfCate)
     {
-    case   2:anAgent::kate_shift=7;break;
-    case   4:anAgent::kate_shift=6;break;
-    case   8:anAgent::kate_shift=5;break;
-    case  16:anAgent::kate_shift=4;break;
-    case  32:anAgent::kate_shift=3;break;
-    case  64:anAgent::kate_shift=2;break;
-    case 128:anAgent::kate_shift=1;break;
-    case 256:anAgent::kate_shift=0;break;
+    case   2:anAgent::CateShift=7;break;
+    case   4:anAgent::CateShift=6;break;
+    case   8:anAgent::CateShift=5;break;
+    case  16:anAgent::CateShift=4;break;
+    case  32:anAgent::CateShift=3;break;
+    case  64:anAgent::CateShift=2;break;
+    case 128:anAgent::CateShift=1;break;
+    case 256:anAgent::CateShift=0;break;
     default:
-        anAgent::ile_kate=256;
-        anAgent::kate_shift=0;
+        anAgent::NumOfCate=256;
+        anAgent::CateShift=0;
         cerr<<"Invalid number of class (not power of 2 less than 256). Using default.\n";
         Log.GetStream()<<"Invalid number of class (not power of 2). Using default.\n";
         break;
@@ -442,10 +440,9 @@ void aWorld::initialize_layers()
         <<"\n Infection Pr="<<Log.separator()<<anAgent::NewInfectProb
         <<"\n Nei. Support S="<<Log.separator()<<anAgent::SupportLevel
 
-        <<"\nMin Power="<<Log.separator()<<anAgent::min_sila
-        <<"\nMax Power="<<Log.separator()<<anAgent::max_sila
-        <<"\nMov. Power="<<Log.separator()<<anAgent::ruchsily
-        <<"\nNum of Kl="<<Log.separator()<<anAgent::ile_kate;
+        <<"\nMin Power="<<Log.separator()<<anAgent::MinStrength
+        <<"\nMax Power="<<Log.separator()<<anAgent::MaxStrength
+        <<"\nNum of Kl="<<Log.separator()<<anAgent::NumOfCate;
 
     //	ACTUAL AGENT STATES DETERMINATION:
     // ///////////////////////////////////
@@ -481,7 +478,7 @@ void aWorld::simulate_one_step()
         if(CenterAgent.First==0) //no view on sports/entertainment
         {
             if(DRAND()<anAgent::ToBeNewProb)
-                CenterAgent.First=1+RANDOM(anAgent::ile_kate-1);
+                CenterAgent.First=1+RANDOM(anAgent::NumOfCate - 1);
             continue;
         }
         else

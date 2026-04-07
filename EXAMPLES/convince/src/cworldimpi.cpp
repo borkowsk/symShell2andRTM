@@ -11,9 +11,9 @@ int aWorld::implement_input(istream& i)
     int ret=world::implement_input(i);
     if(ret!=1) return ret;
     i>>MyWidth;
-    i>>anAgent::max_sila;
-    i>>anAgent::min_sila;
-    i>>anAgent::ile_kate;
+    i>>anAgent::MaxStrength;
+    i>>anAgent::MinStrength;
+    i>>anAgent::NumOfCate;
 
     rectangle_geometry* Geom=(rectangle_geometry*)Agenci.get_geometry();
                                 assert(Geom!=NULL);
