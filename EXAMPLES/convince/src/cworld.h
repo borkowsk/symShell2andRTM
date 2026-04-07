@@ -19,7 +19,7 @@ wb_pchar			MaskName;	//nazwa pliku inicjujacej bitmapy
 //Warstwy symulacji (sa torusami)
 /////////////////////////////////
 //rectangle_unilayer<unsigned char> zdatnosc;//Warstwa definiujaca zdatnosc do zasiedlenia
-rectangle_layer_of_ptr_to_agents<anAgent> Agenci;  //Wlaœciwa warstwa agentow zasiedlajacych
+rectangle_layer_of_ptr_to_agents<anAgent> Agenci;  //Wlaï¿½ciwa warstwa agentow zasiedlajacych
 
 //Glowne serie - wygodniej miec wskazniki niz odszukiwac z Sources po nazwach
 ////////////////////////////////////////////////////////////////////////////////
@@ -38,10 +38,10 @@ public:
 		double iToBeNewProb=0.1,//Prawd. spontanicznej zmiany pogladow samotnika na nowy typ rozrywki/sportu
 		double iReverseProb=0.9,//Prawd. reversji pogladow na 0 - brak pomyslu na rozrywke
 		double iSupportLevel=0.5,//Sila wsparcia gdy ma jakies towarzystwo	
-		char* ilog_name="convince.log",		//Nazwa pliku do zapisywania histori
-		char* imapl_name=NULL,	//Nazwa (bit)mapy inicjujacej "skladowe"
-		char* imapp_name=NULL,	//Nazwa (bit)mapy inicjujacej "sily"
-		char* ilive_mask=NULL,	//Czarne w tej mapie sa kasowane  		   			
+        const char* ilog_name="convince.log",		//Nazwa pliku do zapisywania histori
+        const char* imapl_name=NULL,	//Nazwa (bit)mapy inicjujacej "skladowe"
+        const char* imapp_name=NULL,	//Nazwa (bit)mapy inicjujacej "sily"
+        const char* ilive_mask=NULL,	//Czarne w tej mapie sa kasowane
 		short imax_sila=100,	//Maksymalna sila agenta
 		short imin_sila=100	//Minimalna sila 
 		);	
@@ -56,11 +56,11 @@ void	simulate_one_step();	//Wlasciwa implementacja kroku symulacji
 
 //Wspolpraca z menagerem wyswietlania
 //---------------------------------------------
-void	make_default_visualisation(area_menager_base& Menager);//Tworzy domyslne "lufciki" i umieszcza w 
+void	make_default_visualisation() override;//Tworzy domyslne "lufciki" i umieszcza w
 //void actualize_out_area(); // aktualizacja zawartosci OutArea po n krokach symulacji
 
-//Generuje podstawowe zrodla dla wbudowanego menagera danych lub innego
-void	make_basic_sources(sources_menager& WhatSourMen);
+//Generuje podstawowe zrodla dla wbudowanego menagera danych
+void	make_basic_sources() override;
 
 //Implementacja wejscia/wyjscia. Zwracaj 1 jesli sukces!
 virtual

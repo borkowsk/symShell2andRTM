@@ -81,10 +81,10 @@ aWorld::aWorld(
 		double iToBeNewProb,//=0.1,//Prawd. spontanicznej zmiany pogladow samotnika na nowy typ rozrywki/sportu
 		double iInfectProb,//=0.9,//Prawd. reversji pogladow na 0 - brak pomyslu na rozrywke
 		double iSupportLevel,//=0.5,//Sila wsparcia gdy ma jakies towarzystwo	
-		char* ilog_name,//="convince.log",		//Nazwa pliku do zapisywania histori
-		char* imapl_name,//=NULL,	//Nazwa (bit)mapy inicjujacej "skladowe"
-		char* imapp_name,//=NULL,	//Nazwa (bit)mapy inicjujacej "sily"
-		char* ilive_mask,//=NULL,	//Czarne w tej mapie sa kasowane  		   			
+		const char* ilog_name,//="convince.log",		//Nazwa pliku do zapisywania histori
+        const char* imapl_name,//=NULL,	//Nazwa (bit)mapy inicjujacej "skladowe"
+        const char* imapp_name,//=NULL,	//Nazwa (bit)mapy inicjujacej "sily"
+        const char* ilive_mask,//=NULL,	//Czarne w tej mapie sa kasowane
 		short imax_sila,//=100,	//Maksymalna sila agenta
 		short imin_sila//,=10	//Minimalna sila 
 			   /*,
@@ -135,39 +135,41 @@ aWorld::aWorld(
 		}
 
 //Generuje podstawowe zrodla dla wbudowanego menagera danych lub innego
-////////////////////////////////////////////////////////////////////////////
-void aWorld::make_basic_sources(sources_menager& WhatSourMen)
+// //////////////////////////////////////////////////////////////////////////
+void aWorld::make_basic_sources()
 {
-world::make_basic_sources(WhatSourMen);//Odziedziczone
+    sources_menager& WhatSourMen=this->Sources;
+    world::make_basic_sources();//Odziedziczone
 
-//Glowne serie 
-Firsts=Agenci.make_source("Attitude",&anAgent::First);	
-if(Firsts)
-Firsts->setminmax(0,anAgent::ile_kate-1);	
-Seconds=Agenci.make_source("Prev. attitude",&anAgent::Second);
-if(Seconds)
-	Seconds->setminmax(0,anAgent::ile_kate-1);
+    //Glowne serie
+    Firsts=Agenci.make_source("Attitude",&anAgent::First);
+    if(Firsts)
+    Firsts->setminmax(0,anAgent::ile_kate-1);
+    Seconds=Agenci.make_source("Prev. attitude",&anAgent::Second);
+    if(Seconds)
+        Seconds->setminmax(0,anAgent::ile_kate-1);
 
-Powers=Agenci.make_source("Power",&anAgent::Power);
+    Powers=Agenci.make_source("Power",&anAgent::Power);
 
-//Classif=Agenci.make_source("Classification",&anAgent::Classif);
-//if(Classif)
-//	Classif->setminmax(0,IleKate*IleKate*IleKate-1);//Max class ==IleKate^3 bo trzy niezalezne plaszczyzny
+    //Classif=Agenci.make_source("Classification",&anAgent::Classif);
+    //if(Classif)
+    //	Classif->setminmax(0,IleKate*IleKate*IleKate-1);//Max class ==IleKate^3 bo trzy niezalezne plaszczyzny
 
-//Umieszczenie glownych serii w menagerze serii
-WhatSourMen.insert(Firsts);
-WhatSourMen.insert(Seconds);
-WhatSourMen.insert(Powers);
+    //Umieszczenie glownych serii w menagerze serii
+    WhatSourMen.insert(Firsts);
+    WhatSourMen.insert(Seconds);
+    WhatSourMen.insert(Powers);
 
-//WhatSourMen.insert(Classif);
+    //WhatSourMen.insert(Classif);
 }
 
 
 //Wspolpraca z menagerem wyswietlania a takze logiem
 //------------------------------------------------------------------
-void aWorld::make_default_visualisation(area_menager_base& Menager)
+void aWorld::make_default_visualisation()
 //Rejestruje pochodne serie, tworzy domyslne "lufciki" i wklada w "Menager"
 {
+area_menager_base& Manager=this->MyAreaMenager();
 int iFirst=0,iSecond=0,iPower=0,iClassif=0;
 //Uzyskanie indeksow podstawowych serii z menagera
 {
@@ -260,16 +262,16 @@ Log.insert(CorrFS->Tau_a_Goodman_Kruskal());
 
 //PODSTAWOWA WIZUALIZACJA SERII DANYCH
 //WYMIARY DOMYSLNEGO OKNA
-unsigned szer=Menager.getwidth();
-unsigned wyso=Menager.getheight();
+unsigned szer=Manager.getwidth();
+unsigned wyso=Manager.getheight();
 assert(szer>50 && wyso>40);//Najmniejsze sensowne okno
 
-//Obszary domyœlne - np obszar STATUSU
-world::make_default_visualisation(Menager);
+//Obszary domyÅ›lne - np obszar STATUSU
+world::make_default_visualisation();
 if(OutArea) 
 {
 	OutArea->set(1,1,szer/2-1,wyso/2-1);
-	Menager.as_orginal(Menager.search(OutArea->name()));
+	Manager.as_orginal(Manager.search(OutArea->name()));
 }
 
 //WLASCIWE LUFCIKI
@@ -283,7 +285,7 @@ graph* pom1=new sequence_graph(szer/2-1,wyso/4,szer-50,wyso/2-1,
 if(!pom1) goto ERROR;
 pom1->setframe(128);
 pom1->settitle("HISTORY OF CLASSIFICATION");
-Menager.insert(pom1);
+Manager.insert(pom1);
 
 //inne mniej potrzebne
 graph* pom=new sequence_graph(szer/2-1,1,szer-50,wyso/4-1,	//domyslne wspolrzedne
@@ -296,19 +298,19 @@ graph* pom=new sequence_graph(szer/2-1,1,szer-50,wyso/4-1,	//domyslne wspolrzedn
 if(!pom) goto ERROR;
 pom->setframe(128);
 pom->settitle("HISTORY OF STRESS");
-Menager.insert(pom);
+Manager.insert(pom);
 
 pom=new carpet_graph(1,wyso/2,szer/3,wyso-1,//domyslne wspolrzedne
 						Firsts);//I zrodlo danych
 pom->setdatacolors(0,255);
 pom->settitle("Map of current attitude");
-Menager.insert(pom);
+Manager.insert(pom);
 
 pom=new bars_graph(szer/3+1,wyso/2,szer/3*2,wyso-1,//domyslne wspolrzedne  szer-49,7*char_height('X')+7,szer,8*char_height('X')+9
 						ClassStat);
 pom->setdatacolors(0,255);
 pom->settitle("Histogram of attitude");
-Menager.insert(pom);
+Manager.insert(pom);
 
 pom=new manhattan_graph(szer/3*2+1,wyso/2,szer,wyso-1,//domyslne wspolrzedne
 						    CorrFS,0,	//I zrodlo danych
@@ -319,7 +321,7 @@ pom=new manhattan_graph(szer/3*2+1,wyso/2,szer,wyso-1,//domyslne wspolrzedne
 pom->setdatacolors(0,255);
 pom->settextcolors(0);
 pom->settitle("Dynamism: curr. attit. vers. prev. attitude");
-Menager.insert(pom);
+Manager.insert(pom);
 
 //PRZYCISKI
 pom=new carpet_graph(szer-49,5*(char_height('X')+RAMKA),szer,6*(char_height('X')+RAMKA),//domyslne wspolrzedne 
@@ -327,7 +329,7 @@ pom=new carpet_graph(szer-49,5*(char_height('X')+RAMKA),szer,6*(char_height('X')
 pom->setdatacolors(0,255);
 pom->setframe(0);
 pom->settitle("Map of previous attitude");
-Menager.insert(pom);
+Manager.insert(pom);
 
 
 pom=new carpet_graph(szer-49,6*(char_height('X')+RAMKA),szer,7*(char_height('X')+RAMKA),//domyslne wspolrzedne
@@ -335,7 +337,7 @@ pom=new carpet_graph(szer-49,6*(char_height('X')+RAMKA),szer,7*(char_height('X')
 pom->setdatacolors(0,255);
 pom->setframe(0);
 pom->settitle("Map of power");
-Menager.insert(pom);
+Manager.insert(pom);
 
 pom=new manhattan_graph(szer-49, 7*(char_height('X')+RAMKA),szer,8*(char_height('X')+RAMKA),//domyslne wspolrzedne
 						Powers,0,//I zrodlo danych o wysokosciach, miezazadzane
@@ -348,7 +350,7 @@ pom=new manhattan_graph(szer-49, 7*(char_height('X')+RAMKA),szer,8*(char_height(
 pom->setdatacolors(0,255);
 pom->setframe(0);
 pom->settitle("Composed map of strength & attitude of agents");
-Menager.insert(pom);
+Manager.insert(pom);
 					
 pom1=new sequence_graph(szer-49, 9*(char_height('X')+RAMKA),szer,10*(char_height('X')+RAMKA),
 						
@@ -360,7 +362,7 @@ pom1=new sequence_graph(szer-49, 9*(char_height('X')+RAMKA),szer,10*(char_height
 if(!pom1) goto ERROR;
 pom1->setframe(128);
 pom1->settitle("HISTORY OF ENTROPY OF CLASIFICATION");
-Menager.insert(pom1);
+Manager.insert(pom1);
 
 
 pom1=new sequence_graph(szer-49, 10*(char_height('X')+RAMKA),szer,11*(char_height('X')+RAMKA),						
@@ -372,7 +374,7 @@ pom1=new sequence_graph(szer-49, 10*(char_height('X')+RAMKA),szer,11*(char_heigh
 if(!pom1) goto ERROR;
 pom1->setframe(128);
 pom1->settitle("HISTORY OF ENTROPY OF CHANGE");
-Menager.insert(pom1);
+Manager.insert(pom1);
 
 
 pom=new sequence_graph(szer-49, 11*(char_height('X')+RAMKA),szer,12*(char_height('X')+RAMKA),
@@ -385,7 +387,7 @@ pom=new sequence_graph(szer-49, 11*(char_height('X')+RAMKA),szer,12*(char_height
 if(!pom) goto ERROR;
 pom->setframe(128);
 pom->settitle("HISTORY OF Prev.TO Curr. CORRELATION");
-Menager.insert(pom);
+Manager.insert(pom);
 
 //Tworzenie obszaru sterujacego
 {
@@ -399,7 +401,7 @@ wb_dynarray<rectangle_source_base*> tmp(4,(rectangle_source_base*)Sources.get(iF
 drawable_base* pom=new steering_wheel(szer-49,0,szer,5*(char_height('X')+RAMKA),tmp);			
 assert(pom!=NULL);
 pom->setbackground(10);
-Menager.insert(pom);
+Manager.insert(pom);
 }
 
 }
@@ -478,8 +480,8 @@ void aWorld::initialize_layers()
 		//<<"\nNoise %="<<Log.separator()<<Noise*100		
 		//<<"\nNaighborhood="<<Log.separator()<<IleSasiad<<"/("<<(1+2*OdlSasiad)<<"*"<<(1+2*OdlSasiad)<<")\n";
 	
-	//			USTALANIE STANÓW AGENTÓW
-	//Wczytuje uzywajac konstruktora lub klonowania gdy niema, wiec inicjuje reszte pól.
+	//			USTALANIE STANï¿½W AGENTï¿½W
+	//Wczytuje uzywajac konstruktora lub klonowania gdy niema, wiec inicjuje reszte pï¿½l.
 	int from1= Agenci.init_from_bitmap(MappName.get_ptr_val(),&anAgent::assignPow);
 	int from2= Agenci.init_from_bitmap(MaplName.get_ptr_val(),&anAgent::assign123);
 	
@@ -529,14 +531,14 @@ void aWorld::simulate_one_step()
 				if( index2==index)	//Jesli w centrum obszaru to on sam i dalej byloby bez sensu.
 					continue;
 
-				unsigned nx,ny;
+				size_t nx,ny; //Na pobranie danych przez referencje.
 				MyGeom->WhatCoordinates(index2,nx,ny);
 				if(Agenci(nx,ny).First==Agenci(x,y).First)
 				{
 					koledzy[ilu][0]=nx;
 					koledzy[ilu][1]=ny;
 					ilu++;
-				}				
+				}
 			}
 			MyGeom->destroy_iterator(Neigh);
 			
@@ -564,7 +566,7 @@ void aWorld::simulate_one_step()
 					CenterAgent.First=0;
 					continue;
 				}
-				//A teraz najtrudniejsze - przekonywanie nieprzekonanych sasiadów
+				//A teraz najtrudniejsze - przekonywanie nieprzekonanych sasiadï¿½w
 
 				int Inni[20][2],innych=0;
 				for(int i=min(x,nx);i<=max(x,nx);i++)
@@ -613,8 +615,8 @@ void aWorld::simulate_one_step()
 
 			anAgent& CenterAgent=*(Agenci.get_ptr(index).get_ptr_val());// Uzyskujemy referencje do agenta omijajac asercje na NULL
 			
-			if(Agenci.is_empty(CenterAgent))	// Sprawdzamy czy nie jest to pusta komórka (NULL)
-				continue;						// bo wtedy robic dalej by³oby bez sensu.
+			if(Agenci.is_empty(CenterAgent))	// Sprawdzamy czy nie jest to pusta komï¿½rka (NULL)
+				continue;						// bo wtedy robic dalej byï¿½oby bez sensu.
 			
 			if(CenterAgent.Power<=TrsSila)		// Czy nie ma juz immunitetu na zmiany
 				CheckChange(MyGeom,index,CenterAgent); //Sprawdzamy zmiane stanu
@@ -633,7 +635,7 @@ void aWorld::simulate_one_step()
 
 			anAgent& CenterAgent=*(Agenci.get_ptr(index).get_ptr_val());// Uzyskujemy referencje do agenta omijajac asercje na NULL
 			
-			if(Agenci.is_empty(CenterAgent))	// Sprawdzamy czy nie jest to pusta komórka (NULL)
+			if(Agenci.is_empty(CenterAgent))	// Sprawdzamy czy nie jest to pusta komï¿½rka (NULL)
 				continue;
 
 			wb_swap(CenterAgent.First,CenterAgent.Second);  //Ma nowy stan
@@ -648,15 +650,15 @@ void aWorld::simulate_one_step()
 	{
 		iteratorh Monte=MyGeom->make_random_global_iterator();	//Alokujemy iterator Monte-Carlo
 		
-		while(Monte)//Idziemy po agentach iteratorem Monte-Carlo. Niektórzy moga sie powtórzyc
+		while(Monte)//Idziemy po agentach iteratorem Monte-Carlo. Niektï¿½rzy moga sie powtï¿½rzyc
 		{	
 			size_t index=MyGeom->get_next(Monte);//Uzyskujemy index losowo wybranego agenta	
 		
 			assert(index!=any_layer_base::FULL);				//... tutaj nie powinno sie zdarzyc
 			
 			anAgent& CenterAgent=*(Agenci.get_ptr(index).get_ptr_val());// Uzyskujemy referencje do agenta omijajac asercje na NULL
-			if(Agenci.is_empty(CenterAgent))	// Sprawdzamy czy nie jest to pusta komórka (NULL)
-				continue;						// bo wtedy robic dalej by³oby bez sensu.
+			if(Agenci.is_empty(CenterAgent))	// Sprawdzamy czy nie jest to pusta komï¿½rka (NULL)
+				continue;						// bo wtedy robic dalej byï¿½oby bez sensu.
 			
 			if(CenterAgent.Power<=TrsSila)		// Czy nie ma juz immunitedu na zmiany
 				if(CheckChange(MyGeom,index,CenterAgent)==1)//Czy zaszla zmiana stanu
@@ -710,7 +712,7 @@ int aWorld::CheckChange(const geometry_base* MyGeom,
 	}
 
 	//iteratorh Neigh=MyGeom->make_neighbour_iterator(index,OdlSasiad);
-	unsigned zliczanie=0;//Zliczanie sasiadów
+	unsigned zliczanie=0;//Zliczanie sasiadï¿½w
 	
 	while(Neigh)
 	{
@@ -719,8 +721,8 @@ int aWorld::CheckChange(const geometry_base* MyGeom,
 			continue;				//centrum obszaru to dalej byloby bez sensu.
 		
 		anAgent& PeryfAgent=*(Agenci.get_ptr(index2).get_ptr_val());//Uzyskujemy referencje do sasiada omijajac asercje na NULL
-		if(Agenci.is_empty(PeryfAgent))		//Sprawdzamy czy nie jest to pusta komórka (NULL)
-			continue;					   // bo wtedy robic dalej by³oby bez sensu.
+		if(Agenci.is_empty(PeryfAgent))		//Sprawdzamy czy nie jest to pusta komï¿½rka (NULL)
+			continue;					   // bo wtedy robic dalej byï¿½oby bez sensu.
 		
 		zliczanie++;
 		//Dodawanie sil sasiadow do licznikow w tablicach

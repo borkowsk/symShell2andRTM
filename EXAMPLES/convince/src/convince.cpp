@@ -1,17 +1,13 @@
-//Dosyc prosta symulacja zmiany pogladow - attitude
-//Uzyskana przez uproszczenie programu LANGUAGES
-/////////////////////////////////////////////////////////////////
-const char* WINDOW_HEADER="CONVINCE version 0.01a";
+/// Dosyć prosta symulacja zmiany poglądów (attitude).
+/// Uzyskana przez uproszczenie programu LANGUAGES.
+// ///////////////////////////////////////////////////////////////
+const char* WINDOW_HEADER="CONVINCE version 0.01c";
 const char* SYMULATION_NAME="convinces_v0.01";
 
-#include <stdlib.h>
-#include "platform.hpp"
-#ifdef NEW_FASHION_CPP
+#include <cstdlib>
+//#include "platform.h"
 #include <iostream>
-#else
-#include <iostream.h>
-#endif
-#include "wbminmax.hpp"
+#include <compatyb.h>
 #include "crand.h"
 #include "cworld.h"
 
@@ -64,7 +60,7 @@ for(int i=1;i<argc;i++)
 	if(pom==NULL) 
 			goto ERROR; //NA PEWNO ZLE
 	*pom='\0';
-	_strupr(rob);
+	strupr(rob);
 	*pom='=';
 	/*
 	if((pom=strstr(rob,"SPCH="))!=NULL) //Nie NULL czyli jest
@@ -302,14 +298,14 @@ for(int i=1;i<argc;i++)
 	if((pom=strstr(rob,"HIST="))!=NULL) //Nie NULL czyli jest
     {
     strcpy(HistName,pom+5);
-	cerr<<"History of the symulation will be saved to \""<<HistName<<"\"\n";
+	cerr<<"History of the simulation will be saved to \""<<HistName<<"\"\n";
     }
 	else
 	if((pom=strstr(rob,"REPL="))!=NULL) //Nie NULL czyli jest
     {
     strcpy(HistName,pom+5);
 	Replay=1;
-	cerr<<"The symulation will be replayed from \""<<HistName<<"\"\n";
+	cerr<<"The simulation will be replayed from \""<<HistName<<"\"\n";
     }
 	else
 	/* Ostatecznie wychodzi ze nie ma takiej opcji */
@@ -317,30 +313,30 @@ for(int i=1;i<argc;i++)
 ERROR:
 		cerr<<"Unknown parameter \""<<argv[i]<<"\"\n";
 		cerr<<"YOU CAN USE:\n";
-		cerr<<"\tREPL=hist.otx - not symulate but replay symulation history file.\n";
-		cerr<<"\tMAPL=initL.gif (or BMP)- file with initialization map of attitudes (RANDOM)\n";
-		cerr<<"\tMAPP=initP.gif (or BMP)- file with initialization map of powers (RANDOM)\n";
+		cerr<<"\tREPL=hist.otx - not simulate but replay simulation history file.\n";
+		cerr<<"\tMAPL=initL.gif (or BMP)- file with an initialization map of attitudes (RANDOM)\n";
+		cerr<<"\tMAPP=initP.gif (or BMP)- file with an initialization map of powers (RANDOM)\n";
 		cerr<<"\tMASK=mask.gif	(or BMP)- mask file for alive (not black) agents (ALL ALIVE)\n";
 		cerr<<"\tWIDTH=NN - matrix size ("<<iWidth<<")\n";
 		cerr<<"\tCLSS=NN - number of class. Must be power of 2. ("<<IloscKlas<<")\n";
-		cerr<<"\tMPOW=NN - max strength for initilization ("<<MaksymalnaSila<<")\n"	;
-//		cerr<<"\tWPOW=N	- walking step of strenght	("<<RuchomaSila<<")\n";
-//		cerr<<"\tTRSP=N - % of treshold of strenght ("<<TresProcent<<")\n";
-//		cerr<<"\tSYNC=Y/N - synchronic (Y) or Monte-Carlo symulation mode ("<<(TypSymulacji==0?"Yes":"No")<<")\n";
+		cerr<<"\tMPOW=NN - max strength for initialization ("<<MaksymalnaSila<<")\n"	;
+//		cerr<<"\tWPOW=N	- walking step of strength	("<<RuchomaSila<<")\n";
+//		cerr<<"\tTRSP=N - % of threshold of strength ("<<TresProcent<<")\n";
+//		cerr<<"\tSYNC=Y/N - synchronic (Y) or Monte-Carlo simulation mode ("<<(TypSymulacji==0?"Yes":"No")<<")\n";
 //		cerr<<"\tPRTR=2..WIDTH^2-1 - number of interaction partners (-1 = all neighbourhood) ("<<IleSasiadow<<")\n";
 //		cerr<<"\tINDI=1..WIDTH/2-1 - interaction distance ("<<RozmiarSasiedztwa<<")\n";
 //		cerr<<"\tSELF=N/Y -use self for calculations ("<<(BranieSiebie?"Yes":"No")<<")\n";
 //		cerr<<"\tNOIP=NN - percent of noise ("<<ProcentSzumu<<")\n";
-//		cerr<<"\tSPCH=NN - percent of spontanic change of attitudes ("<<MutacjeSpon*100<<")\n";
+//		cerr<<"\tSPCH=NN - percent of spontaneity change of attitudes ("<<MutacjeSpon*100<<")\n";
 		cerr<<"\tMAX=NNNN - max simulation step ("<<iMaxIterations<<")\n";
-		cerr<<"\tILOG=NNNN - lenght of internal statistic logs ("<<internal_log<<")\n";
+		cerr<<"\tILOG=NNNN - length of internal statistic logs ("<<internal_log<<")\n";
 		cerr<<"\tSTOP=N/Y - exit after MAX steps ("<<(iWychodzenie?"Yes":"No")<<")\n";
 		cerr<<"\tVIEV=N - visualisation frequency ("<<iViewRatio<<")\n";
 		cerr<<"\tLOGC=N - log file saving frequency ("<<iLogRatio<<")\n";
 		cerr<<"\tLOGF=name.log - file for simulation log ("<<LogName<<")\n";
-		cerr<<"\tHIST=hist.otx - file for full history of symulation.\n";
+		cerr<<"\tHIST=hist.otx - file for full history of simulation.\n";
 		cerr<<"\tWIDTHWIN,HEIGHTWIN=XXX - initial window size.("<<SWIDTH<<'x'<<SHEIGHT<<"\n";
-		cerr<<"\nAUTO=XXX - number of auto-repetition of symulation.("<<AUTOSTART<<")\n";
+		cerr<<"\nAUTO=XXX - number of auto-repetition of simulation.("<<AUTOSTART<<")\n";
 	return 0;
 	}
     }
@@ -348,8 +344,8 @@ return 1;
 }
 
 
-/*  OGOLNA FUNKCJA MAIN */
-/************************/
+/*  OGÓLNA FUNKCJA MAIN  */
+/* ********************* */
 
 int main(const int argc,const char* argv[])
 {
@@ -392,7 +388,7 @@ aWorld& tenSwiat=*new aWorld(iWidth,
 
 if(&tenSwiat==NULL)
     {
-    cerr<<"Can't allocate simulation world!\n"<<endl;
+    cerr<<"Can't allocate the simulation world!\n"<<endl;
     exit(1);
     }
 
@@ -429,9 +425,9 @@ else
 		for(int symulacja=0;symulacja<AUTOSTART;symulacja++)
 			{
 			//GLOWNA PETLA SYMULACJI
-			cout<<WINDOW_HEADER<<": SYMULATION "<<symulacja<<" STARTED ."<<endl;
+			cout<<WINDOW_HEADER<<": SIMULATION "<<symulacja<<" STARTED ."<<endl;
 			tenSwiat.simulation_loop(1);
-			cout<<WINDOW_HEADER<<": SYMULATION "<<symulacja<<" DONE ."<<endl;
+			cout<<WINDOW_HEADER<<": SIMULATION "<<symulacja<<" DONE ."<<endl;
 			if(symulacja<AUTOSTART-1)
 				{
 				//Reinicjalizacja
