@@ -10,10 +10,10 @@ int aWorld::implement_input(istream& i)
 {
     int ret=world::implement_input(i);
     if(ret!=1) return ret;
-    i>>MyWidth;		//Obwod torusa
-    i>>anAgent::max_sila;		//Maksymalna sila agenta
-    i>>anAgent::min_sila;		//i minimalna sila agenta
-    i>>anAgent::ile_kate;		//Ilosc kategori w mapach
+    i>>MyWidth;
+    i>>anAgent::max_sila;
+    i>>anAgent::min_sila;
+    i>>anAgent::ile_kate;
 
     rectangle_geometry* Geom=(rectangle_geometry*)Agenci.get_geometry();
                                 assert(Geom!=NULL);

@@ -1,14 +1,13 @@
 /// @file
-/// Dosyć prosta symulacja zmiany poglądów implementująca wersje prof. Stauffer-a.
-/// Uzyskana przez uproszczenie programu LANGUAGES.
-// ///////////////////////////////////////////////////////////////////////////////
+/// A fairly simple simulation of a change of opinion implementing Professor Stauffer's model.
+/// (Obtained by simplifying the LANGUAGES program)
+// ///////////////////////////////////////////////////////////////////////////////////////////
 /// @date 2026-04-07 (modified)
 
-const char* WINDOW_HEADER="CONVINCE version 0.01c";
+const char* WINDOW_HEADER="CONVINCE ver. 0.01c";
 const char* SIMULATION_NAME="convinces_v0.01";
 
 #include <cstdlib>
-//#include "platform.h"
 #include <iostream>
 #include <compatyb.h>
 #include "crand.h"
@@ -28,59 +27,62 @@ char MaskName[512]="\0--+---------mask.gif--------------";
 
 unsigned SWIDTH=750;
 unsigned SHEIGHT=550;
-unsigned internal_log=7000; //Nieobiektowo przekazywane do metody inicializacji zrodel 
+unsigned internal_log=7000; //Length of internal history logs. NOTE!
+                            //Not Object-wise passed to the source initialization method
 unsigned iLogRatio=1;
 unsigned iViewRatio=1;
 unsigned iMaxIterations=0xffffffff;
 
 
-int  MaksymalnaSila=1;		//Jaka najwieksza sila - integer wiec jak 1 to plasko
-int  MinimalnaSila=1;		//Nie moze byc 0! CHYBA?
+int  MaximumStrength=1;		//What is the agent's greatest strength?
+                            //If it's an integer, it's like 1, so there's no random selection.
+                            //Everyone has the same result.
+int  MinimalStrength=1;		//The minimum force can't possibly be 0!
 
-int  IloscKlas=2;
+int  NoOfClasses=2;
 
 
 int	 AUTOSTART=0;
-int  iWychodzenie=0; //Techniczne bardzo
-int  Replay=0;		//Czy odtwarzanie z pliku zamiast symulacji?
+int  iWychodzenie=0;	//Technically very... ;-)
+int  Replay=0;			//Playback from a file instead of simulation?
 
 int parse_options(const int argc,const char* argv[])
 {
     for(int i=1;i<argc;i++)
         {
-        if( *argv[i]=='-' ) /* Opcja X lub symshella */
+        if( *argv[i]=='-' ) /* This is an X11 or symshell option */
             continue;
         //Uppercasing
         wb_pchar hand( clone_str(argv[i]) );
         char*    rob=hand.get_ptr_val();
         char*    pom=strchr(rob,'=');
         if(pom==NULL)
-                goto ERROR; //NA PEWNO ZLE
+                goto ERROR; //IT'S DEFINITELY BAD. THIS CAN'T BE.
         *pom='\0';
         strupr(rob);
         *pom='=';
 
-        if((pom=strstr(rob,"CLSS="))!=NULL) //Nie NULL czyli jest
+        if((pom=strstr(rob,"CLSS="))!=NULL) //Not NULL, i.e. exists
         {
-        IloscKlas=atol(pom+5);
-        if(IloscKlas<2)
+        NoOfClasses=atol(pom + 5);
+        if(NoOfClasses < 2)
             {
-            cerr<<"Bad CLSS ="<<IloscKlas<<" (must be >2 )"<<endl;
+            cerr << "Bad CLSS =" << NoOfClasses << " (must be >2)" << endl;
             return 0;
             }
         }
         else
-        if((pom=strstr(rob,"MPOW="))!=NULL) //Nie NULL czyli jest
+        if((pom=strstr(rob,"MPOW="))!=NULL) //Not NULL, i.e. exists
         {
-        MaksymalnaSila=atol(pom+5);
-        if(MaksymalnaSila<0) //0 czy 1???
+            MaximumStrength=atol(pom + 5);
+        if(MaximumStrength < 0) //0 czy 1???
             {
-            cerr<<"Bad MPOW ="<<MaksymalnaSila<<" (must be >=1 )"<<endl;
+            cerr << "Bad MPOW =" << MaximumStrength << " (must be >=1 )" << endl;
             return 0;
             }
         }
         else
-        if((pom=strstr(rob,"WIDTH="))!=NULL) //Nie NULL czyli jest
+        if((pom=strstr(rob,"WIDTH="))!=NULL) //Not NULL, i.e. exists
         {
         iWidth=atol(pom+6);
         if(iWidth<3 || iWidth>=SWIDTH)
@@ -90,7 +92,7 @@ int parse_options(const int argc,const char* argv[])
             }
         }
         else
-        if((pom=strstr(rob,"WIDTHWIN="))!=NULL) //Nie NULL czyli jest
+        if((pom=strstr(rob,"WIDTHWIN="))!=NULL) //Not NULL, i.e. exists
         {
         SWIDTH=atol(pom+9);
         if(SWIDTH<50)
@@ -100,7 +102,7 @@ int parse_options(const int argc,const char* argv[])
             }
         }
         else
-        if((pom=strstr(rob,"HEIGHTWIN="))!=NULL) //Nie NULL czyli jest
+        if((pom=strstr(rob,"HEIGHTWIN="))!=NULL) //Not NULL, i.e. exists
         {
         SHEIGHT=atol(pom+10);
         if(SHEIGHT<50)
@@ -110,7 +112,7 @@ int parse_options(const int argc,const char* argv[])
             }
         }
         else
-        if((pom=strstr(rob,"MAX="))!=NULL) //Nie NULL czyli jest
+        if((pom=strstr(rob,"MAX="))!=NULL) //Not NULL, i.e. exists
         {
         iMaxIterations=atol(pom+4);
         if(iMaxIterations<=0)
@@ -124,7 +126,7 @@ int parse_options(const int argc,const char* argv[])
             }
         }
         else
-        if((pom=strstr(rob,"LOGC="))!=NULL) //Nie NULL czyli jest
+        if((pom=strstr(rob,"LOGC="))!=NULL) //Not NULL, i.e. exists
         {
         iLogRatio=atol(pom+5);
         if(iLogRatio<=0)
@@ -134,17 +136,17 @@ int parse_options(const int argc,const char* argv[])
             }
         }
         else
-        if((pom=strstr(rob,"VIEW="))!=NULL) //Nie NULL czyli jest
+        if((pom=strstr(rob,"VIEW="))!=NULL) //Not NULL, i.e. exists
         {
         iViewRatio=atol(pom+5);
         if(iViewRatio<=0)
             {
-            cerr<<"Bad VIEW (visualisation frequency). Must be >0"<<endl;
+            cerr<<"Bad VIEW (visualization frequency). Must be >0"<<endl;
             return 0;
             }
         }
         else
-        if((pom=strstr(rob,"AUTO="))!=NULL) //Nie NULL czyli jest
+        if((pom=strstr(rob,"AUTO="))!=NULL) //Not NULL, i.e. exists
         {
         AUTOSTART=atol(pom+5);
         cerr<<"AUTO="<<AUTOSTART<<endl;
@@ -155,69 +157,69 @@ int parse_options(const int argc,const char* argv[])
             }
         }
         else
-        if((pom=strstr(rob,"STOP="))!=NULL) //Nie NULL czyli jest
+        if((pom=strstr(rob,"STOP="))!=NULL) //Not NULL, i.e. exists
         {
         iWychodzenie=(toupper(pom[5])=='Y');
         cerr<<"STOP="<<(iWychodzenie?"Yes":"No")<<endl;
         }
         else
-        if((pom=strstr(rob,"ILOG="))!=NULL) //Nie NULL czyli jest
+        if((pom=strstr(rob,"ILOG="))!=NULL)  //Not NULL, i.e. exists
         {
         internal_log=atoi(pom+5);
         if(internal_log<50)
                 {
                 internal_log=50;
-                cerr<<"Internal log to short. Reset to default minimum ="<<internal_log<<endl;
+                cerr<<"An internal log to short. Reset to a default minimum ="<<internal_log<<endl;
                 }
         }
         else
-        if((pom=strstr(rob,"LOGF="))!=NULL) //Nie NULL czyli jest
+        if((pom=strstr(rob,"LOGF="))!=NULL) //Not NULL, i.e. exists
         {
         strcpy(LogName,pom+5);
         }else
-        if((pom=strstr(rob,"MAPL="))!=NULL) //Nie NULL czyli jest
+        if((pom=strstr(rob,"MAPL="))!=NULL) //Not NULL, i.e. exists
         {
         strcpy(MapLName,pom+5);
         cerr<<"Map of attitudes from file \""<<MapLName<<"\"\n";
         }
         else
-        if((pom=strstr(rob,"MAPP="))!=NULL) //Nie NULL czyli jest
+        if((pom=strstr(rob,"MAPP="))!=NULL) //Not NULL, i.e. exists
         {
         strcpy(MapPName,pom+5);
         cerr<<"Map of individual power from file \""<<MapPName<<"\"\n";
         }
         else
-        if((pom=strstr(rob,"MASK="))!=NULL) //Nie NULL czyli jest
+        if((pom=strstr(rob,"MASK="))!=NULL) //Not NULL, i.e. exists
         {
         strcpy(MaskName,pom+5);
-        cerr<<"Mask for alive agents from file \""<<MaskName<<"\"\n";
+        cerr<<"Mask for live agents from file \""<<MaskName<<"\"\n";
         }
         else
-        if((pom=strstr(rob,"HIST="))!=NULL) //Nie NULL czyli jest
+        if((pom=strstr(rob,"HIST="))!=NULL) //Not NULL, i.e. exists
         {
         strcpy(HistName,pom+5);
-        cerr<<"History of the simulation will be saved to \""<<HistName<<"\"\n";
+        cerr<<"The History of the simulation will be saved to \""<<HistName<<"\"\n";
         }
         else
-        if((pom=strstr(rob,"REPL="))!=NULL) //Nie NULL czyli jest
+        if((pom=strstr(rob,"REPL="))!=NULL) //Not NULL, i.e. exists
         {
         strcpy(HistName,pom+5);
         Replay=1;
         cerr<<"The simulation will be replayed from \""<<HistName<<"\"\n";
         }
         else
-        /* Ostatecznie wychodzi ze nie ma takiej opcji */
+        /* Ultimately, it turns out that there is no such option. */
         {
     ERROR:
             cerr<<"Unknown parameter \""<<argv[i]<<"\"\n";
             cerr<<"YOU CAN USE:\n";
-            cerr<<"\tREPL=hist.otx - not simulate but replay simulation history file.\n";
+            cerr<<"\tREPL=hist.otx - not simulate, but replay a simulation history file.\n";
             cerr<<"\tMAPL=initL.gif (or BMP)- file with an initialization map of attitudes (RANDOM)\n";
             cerr<<"\tMAPP=initP.gif (or BMP)- file with an initialization map of powers (RANDOM)\n";
             cerr<<"\tMASK=mask.gif	(or BMP)- mask file for alive (not black) agents (ALL ALIVE)\n";
             cerr<<"\tWIDTH=NN - matrix size ("<<iWidth<<")\n";
-            cerr<<"\tCLSS=NN - number of class. Must be power of 2. ("<<IloscKlas<<")\n";
-            cerr<<"\tMPOW=NN - max strength for initialization ("<<MaksymalnaSila<<")\n"	;
+            cerr << "\tCLSS=NN - number of class. Must be power of 2. (" << NoOfClasses << ")\n";
+            cerr << "\tMPOW=NN - max strength for initialization (" << MaximumStrength << ")\n"	;
             cerr<<"\tMAX=NNNN - max simulation step ("<<iMaxIterations<<")\n";
             cerr<<"\tILOG=NNNN - length of internal statistic logs ("<<internal_log<<")\n";
             cerr<<"\tSTOP=N/Y - exit after MAX steps ("<<(iWychodzenie?"Yes":"No")<<")\n";
@@ -234,13 +236,13 @@ int parse_options(const int argc,const char* argv[])
 }
 
 
-/*  OGÓLNA FUNKCJA MAIN  */
+/* GENERAL MAIN FUNCTION */
 /* ********************* */
 
 int main(const int argc,const char* argv[])
 {
     cout<<WINDOW_HEADER<<", compilation: "<<__DATE__<<' '<<__TIME__<<endl;
-    cout<<"Programmed by W.Borkowski for A.Nowak & D.Stauffer"<<endl;
+    cout<<"Programmed by W. Borkowski for A.Nowak & D.Stauffer"<<endl;
     cout<<"=========================================================="<<endl;
     cout.flush();
 
@@ -254,51 +256,49 @@ int main(const int argc,const char* argv[])
         exit(1);
         }
 
-    //INICJALIZACJA SYMULACJI
-    aWorld& tenSwiat=*new aWorld(iWidth,
+    //INITIALIZATION OF THE SIMULATION WORLD:
+    aWorld& theWorld=*new aWorld(iWidth,
                                  NewProbability,
                                  InfectionProb,
                                  SupportLev,
-                               LogName,
-                               MapLName,
-                               MapPName,
-                               MaskName,
-                               //ProcentSzumu/100.0,//Szum od 0-1
-                               MaksymalnaSila,//Zeby byla w przedziale
-                               MinimalnaSila
+                                 LogName,
+                                 MapLName,
+                                 MapPName,
+                                 MaskName,
+                                 MaximumStrength,
+                                 MinimalStrength
                                );
 
-    if(&tenSwiat==NULL)
+    if(&theWorld == NULL)
         {
         cerr<<"Can't allocate the simulation world!\n"<<endl;
         exit(1);
         }
 
     //INICJALIZACJA
-    RANDOMIZE() //Makro inicjalizacji globalnego randomizera
-    tenSwiat.set_max_iteration(iMaxIterations); //Ile najwiecej krokow
-    tenSwiat.set_input_ratio(iViewRatio);
-    tenSwiat.set_log_ratio(iLogRatio);
+    RANDOMIZE() //Global Randomizer Initialization Macro
+    theWorld.set_max_iteration(iMaxIterations); //How many simulation steps at most?
+    theWorld.set_input_ratio(iViewRatio);
+    theWorld.set_log_ratio(iLogRatio);
     cout<<WINDOW_HEADER<<": LOADED."<<endl;
-    tenSwiat.set_history_stream(HistName);
+    theWorld.set_history_stream(HistName);
 
     if(Replay)
     {
-        tenSwiat.initialize(&Lufciki,1); //inicjalizacja wizualizacji
+        theWorld.initialize(&Lufciki, 1); //visualization initialization
         cout<<WINDOW_HEADER<<": PREPARED FOR READING. WAITING!"<<endl;
-        Lufciki.process_input(); //Pierwsze zdazenia. Koncza sie po ctrl-B
-        tenSwiat.read_loop(iWychodzenie);
+        Lufciki.process_input(); //First interface events. Ends after ctrl-B
+        theWorld.read_loop(iWychodzenie); //Reading a previously saved simulation.
     }
     else
     {
-        tenSwiat.initialize(&Lufciki); //inicjalizacja wizualizacji i warst symulacji
+        theWorld.initialize(&Lufciki); //initialization of visualization and simulation layers
         cout<<WINDOW_HEADER<<": INITIALISED."<<endl;
         if(!AUTOSTART)
         {
-            Lufciki.process_input(); //Pierwsze zdazenia. Koncza sie po ctrl-B
-            //GLOWNA PETLA SYMULACJI
+            Lufciki.process_input(); //First interface events. Ends after ctrl-B
             cout<<WINDOW_HEADER<<": STARTED."<<endl;
-            tenSwiat.simulation_loop(iWychodzenie);
+            theWorld.simulation_loop(iWychodzenie); //MAIN SIMULATION LOOP
         }
         else
         {
@@ -306,14 +306,13 @@ int main(const int argc,const char* argv[])
             Lufciki.maximize(statusWin);
             for(int symulacja=0;symulacja<AUTOSTART;symulacja++)
                 {
-                //GLOWNA PETLA SYMULACJI
-                cout<<WINDOW_HEADER<<": SIMULATION "<<symulacja<<" STARTED ."<<endl;
-                tenSwiat.simulation_loop(1);
-                cout<<WINDOW_HEADER<<": SIMULATION "<<symulacja<<" DONE ."<<endl;
+                ////MAIN SIMULATION LOOP STEP BY STEP
+                cout<<WINDOW_HEADER<<": SIMULATION "<<symulacja<<" STARTED."<<endl;
+                theWorld.simulation_loop(1);
+                cout<<WINDOW_HEADER<<": SIMULATION "<<symulacja<<" DONE."<<endl;
                 if(symulacja<AUTOSTART-1)
                     {
-                    //Reinicjalizacja
-                    tenSwiat.restart();
+                    theWorld.restart(); //Reinitialize for the next pass.
                     }
                 }
         }
@@ -324,7 +323,7 @@ int main(const int argc,const char* argv[])
 
     cout.flush();
 
-    delete &tenSwiat; //Dealokacja swiata wraz ze wszystkimi skladowymi
+    delete &theWorld; //Deallocation of the world with all its components.
     cout<<"----------> See you later!!! <--------------\n"<<endl<<flush;
     return 0;
 }

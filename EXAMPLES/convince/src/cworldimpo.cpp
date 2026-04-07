@@ -11,10 +11,10 @@ int aWorld::implement_output(ostream& o) const
     int ret=world::implement_output(o);
     if(ret!=1) return ret;
     o<<separator;
-    o<<MyWidth<<separator;	//Obwod (?) torusa
-    o<<anAgent::max_sila<<separator;	//Maksymalna sila agenta
+    o<<MyWidth<<separator;
+    o<<anAgent::max_sila<<separator;
     o<<anAgent::min_sila<<separator;
-    o<<anAgent::ile_kate<<separator;	//Ilosc kategori w mapach
+    o<<anAgent::ile_kate<<separator;
 
     o<<Agenci<<endl;
     return 1;
