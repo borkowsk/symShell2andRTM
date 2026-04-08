@@ -3,7 +3,7 @@
  * @details
  *    Funkcji tych  brak w poszczególnych lub większości kompilatorów.
  *    Prawdopodobnie pochodzą z rozszerzeń Borland C++ albo MSVC
- * @date  2026-03-26 (last modification)
+ * @date  2026-04-08 (last modification)
  * **************************************************************************
  */
 #ifndef _COMPATYB_H_INCLUDED_
