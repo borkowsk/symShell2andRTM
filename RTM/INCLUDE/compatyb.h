@@ -10,10 +10,12 @@
 #define _COMPATYB_H_INCLUDED_
 
 #ifdef __cplusplus
+#include <cstdio>
 #include <cctype>
 #include <cstdlib>
 #include <cstring>
 #else
+#include <stdio.h>
 #include <ctype.h>
 #include <stdlib.h>
 #include <string.h>
@@ -48,6 +50,22 @@ extern "C" {
 	wb_unused_attr
 		/// \brief Przekształcenie łańcucha char* na wersję WIELKOLITEROWĄ "in place".
 		const char* strupr(char* what);
+
+	wb_unused_attr inline
+		/// \brief Konwersja funkcyjna liczby całkowitej na string.
+		///	\details Funkcja nie jest częścią standardu C, ale jest powszechna w systemach Windows/MSVC
+		const char* ltoa(long value, char* str, int radix)
+		{
+			if (radix == 10) {
+				sprintf(str, "%ld", value);
+			} else if (radix == 16) {
+				sprintf(str, "%lx", value);
+			} else {
+				// Opcjonalnie: obsługa innych podstaw, jeśli zaszłaby taka potrzeba
+				return "ltoa: bases other than 10 * 16 are not implemented!\0";
+			}
+			return str;
+		}
 
 #ifdef __cplusplus
 } //extern "C"

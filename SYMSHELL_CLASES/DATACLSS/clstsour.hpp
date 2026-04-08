@@ -1,9 +1,10 @@
 // /////////////////////////////////////////////////////////////////////////
-// Filtr liczπcy rozne rodzaje klasteringu dla serii  g e o m e t r i a!!!
+// Filtr liczƒÖcy rozne rodzaje klasteringu dla serii  g e o m e t r i a!!!
 // /////////////////////////////////////////////////////////////////////////
 #ifndef __CLSTSOUR_HPP__
 #define __CLSTSOUR_HPP__
 #include "statsour.hpp"
+#include "layer.hpp"
 
 template<class DATA_SOURCE>
 class clustering_source:public basic_statistics_source<DATA_SOURCE>
@@ -11,7 +12,7 @@ class clustering_source:public basic_statistics_source<DATA_SOURCE>
 {
 public:
     typedef basic_statistics_source<DATA_SOURCE> basics_;
-    using basics_::table; //skrÛcony dostÍp do tablicy danych klasy bazowej
+    using basics_::table; //skr√≥cony dostƒôp do tablicy danych klasy bazowej
 
 protected:
 
@@ -38,11 +39,11 @@ if(MyGeom!=NULL)
 		                                    assert(index!=any_layer_base::FULL);//... tutaj nie powinno sie zdarzyc
 		double CenterVal=basics_::Source->get(index);// Uzyskujemy referencje do agenta
 		if(basics_::Source->is_missing(CenterVal))	// Sprawdzamy czy nie jest miss.
-			continue;					// bo wtedy robic dalej by≥oby bez sensu.
+			continue;					// bo wtedy robic dalej by≈Çoby bez sensu.
 		
 		// Alokujemy iterator sasiedztwa
 		iteratorh Neigh=MyGeom->make_neighbour_iterator(index,1);
-		unsigned zliczanie=0;//Zliczanie sasiadÛw
+		unsigned zliczanie=0;//Zliczanie sasiad√≥w
 		unsigned tacysami=0; //Zliczanie takich samych sasiadow
 		unsigned inni=0; //Zliczanie innych samych sasiadow
 
@@ -54,7 +55,7 @@ if(MyGeom!=NULL)
 		
 			double PeryfVal=basics_::Source->get(index2); //Uzyskujemy referencje do sasiada
 			if(basics_::Source->is_missing(PeryfVal))		//Sprawdzamy czy nie jest miss.
-				continue;					// bo wtedy robic dalej by≥oby bez sensu.
+				continue;					// bo wtedy robic dalej by≈Çoby bez sensu.
 			
 			zliczanie++;
 			if(CenterVal==PeryfVal)
@@ -64,12 +65,12 @@ if(MyGeom!=NULL)
 			
 		}	
         
-		MyGeom->destroy_iterator(Neigh);	// upewniamy siÍ ze iterator zostanie usuniÍty
+		MyGeom->destroy_iterator(Neigh);	// upewniamy siƒô ze iterator zostanie usuniƒôty
 		
         if(zliczanie>0)
         {
             suma+=double(inni)/double(zliczanie);
-            //Zlicza ile by≥o wartoúci
+            //Zlicza ile by≈Ço warto≈õci
             testowanie++;					
         }
 	}
