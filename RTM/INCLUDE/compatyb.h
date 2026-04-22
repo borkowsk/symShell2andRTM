@@ -37,35 +37,43 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-	//Zdefiniowana w osobnym pliku z rozszerzeniem .c !!!
+    //Zdefiniowana w osobnym pliku z rozszerzeniem .c !!!
+    wb_unused_attr
+        /// \brief Porównanie stringów char* ignorujące wielkość liter.
+        int stricmp(const char* s1, const char* s2);
 
-	wb_unused_attr
-		/// \brief Porównanie stringów char* ignorujące wielkość liter.
-		int stricmp(const char* s1, const char* s2);
+    wb_unused_attr
+        /// \brief Przekształcenie łańcucha char* na wersję małoliterową "in place".
+        const char* strlwr(char* what);
 
-	wb_unused_attr
-		/// \brief Przekształcenie łańcucha char* na wersję małoliterową "in place".
-		const char* strlwr(char* what);
+    wb_unused_attr
+        /// \brief Przekształcenie łańcucha char* na wersję WIELKOLITEROWĄ "in place".
+        const char* strupr(char* what);
 
-	wb_unused_attr
-		/// \brief Przekształcenie łańcucha char* na wersję WIELKOLITEROWĄ "in place".
-		const char* strupr(char* what);
+    wb_unused_attr inline
+        /// \brief Konwersja funkcyjna liczby całkowitej na string.
+        ///	\details Funkcja nie jest częścią standardu C, ale jest powszechna w systemach Windows/MSVC
+        const char* ltoa(long value, char* str, int radix)
+        {
+            if (radix == 10) {
+                sprintf(str, "%ld", value);
+            } else if (radix == 16) {
+                sprintf(str, "%lx", value);
+            } else {
+                // Opcjonalnie: obsługa innych podstaw, jeśli zaszłaby taka potrzeba
+                return "ltoa: bases other than 10 * 16 are not implemented!\0";
+            }
+            return str;
+        }
 
-	wb_unused_attr inline
-		/// \brief Konwersja funkcyjna liczby całkowitej na string.
-		///	\details Funkcja nie jest częścią standardu C, ale jest powszechna w systemach Windows/MSVC
-		const char* ltoa(long value, char* str, int radix)
-		{
-			if (radix == 10) {
-				sprintf(str, "%ld", value);
-			} else if (radix == 16) {
-				sprintf(str, "%lx", value);
-			} else {
-				// Opcjonalnie: obsługa innych podstaw, jeśli zaszłaby taka potrzeba
-				return "ltoa: bases other than 10 * 16 are not implemented!\0";
-			}
-			return str;
-		}
+    wb_unused_attr inline
+        /// \brief Konwersja funkcyjna liczby zmiennoprzecinkowej na string.
+        ///	\details Funkcja nie jest częścią standardu C, ale jest użyteczna.
+        const char* dtoa(double value, char* str)
+        {
+            sprintf(str, "%g", value);
+            return str;
+        }
 
 #ifdef __cplusplus
 } //extern "C"
@@ -74,6 +82,10 @@ extern "C" {
 #endif
 
 #undef wb_unused_attr
+
+// #ifndef NULL
+// #define NULL nullptr
+// #endif
 
 /* ************************************************************* ** */
 /*                     WBRTM  version 2026                          */
