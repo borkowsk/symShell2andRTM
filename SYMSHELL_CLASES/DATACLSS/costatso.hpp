@@ -6,12 +6,13 @@
 
 #include "math.h" /*DLA FILTROW */
 #include "datasour.hpp"
+#include "scalsour.hpp"
 #include "bifilter.hpp"
 #include "sourmngr.hpp"
 
 //KLasa liczaca podstawowe parametry statystyczne dla dwu zrodel - np korelacje
 //Parametry sa podawne w arbitralnej kolejnosci lub poprzez jednowartosciowe
-//zrod≥a poúrednie.
+//zrod≈Ça po≈õrednie.
 //template<class DATA_SOURCE1,class DATA_SOURCE2>
 class co_statistics_source:public bi_filter_source_base//public template_bi_filter<DATA_SOURCE1,DATA_SOURCE2>
 //------------------------------------------------------------------------------
@@ -181,7 +182,7 @@ if(table[select]==NULL)//Jesli nie ma to alokuj
 	//Moze sie nie zaalokowac - trzeba zareagowac na NULL
 	//----------------------------------------------------
 	if(ptr!=NULL && sour_menager!=NULL )
-	//Jesli OK to trzeba zg≥osic menagerowi danych!
+	//Jesli OK to trzeba zg≈Çosic menagerowi danych!
 		sour_menager->insert(ptr,1/*NOT MENAGE MEMORY*/);
 	}
 return table[select];
