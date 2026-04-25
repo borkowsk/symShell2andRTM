@@ -27,8 +27,8 @@
 
 //int x,y,vx,vy;
 //ROZMIARY OKNA
-const int SWIDTH=390;
-const int SHEIGHT=280;
+const int SCR_WIDTH=390;
+const int SCR_HEIGHT=280;
 
 class tangens//Klasa funkcyjna opakowujaca tangens
 {
@@ -88,7 +88,7 @@ sources_menager Series  //Zarzadca danych i jego serie
 
 //void test_series(){}
 
-main_area_menager Lufciki(100,SWIDTH,SHEIGHT);
+main_area_menager Lufciki(100, SCR_WIDTH, SCR_HEIGHT);
 
 void tworz_lufciki_testowe() //Generowanie lufcikow demostracyjnych
 {

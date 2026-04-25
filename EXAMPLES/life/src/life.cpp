@@ -14,8 +14,8 @@ const char* SIMULATION_NAME="randlife_v1.01d";
 #include "lworld.h"
 
 
-unsigned short SWIDTH=750;
-unsigned short SHEIGHT=550;
+unsigned short SCR_WIDTH=750;
+unsigned short SCR_HEIGHT=550;
 
 unsigned internal_log=7000; //Nieobiektowo przekazywane do metody inicjalizacji źródeł
 char  LogName[512]="randlife.log\0-------------------+--";
@@ -95,29 +95,29 @@ int parse_options(const int argc,const char* argv[])
         if((pom=strstr(rob,"WIDTH="))!=nullptr) //Nie nullptr, czyli jest
         {
             iWidth=atol(pom+6);
-            if(iWidth<3 || iWidth>=SWIDTH)
+            if(iWidth<3 || iWidth >= SCR_WIDTH)
             {
-                cerr<<"Bad WIDTH = "<<iWidth<<"(must be in <3,"<<SWIDTH<<">"<<endl;
+                cerr << "Bad WIDTH = " << iWidth << "(must be in <3," << SCR_WIDTH << ">" << endl;
                 return 0;
             }
         }
         else
         if((pom=strstr(rob,"WIDTHWIN="))!=nullptr) //Nie nullptr, czyli jest
         {
-            SWIDTH=atol(pom+9);
-            if(SWIDTH<50)
+            SCR_WIDTH=atol(pom + 9);
+            if(SCR_WIDTH < 50)
                 {
-                cerr<<"Bad WIDTHWIN = "<<SWIDTH<<" (must be >50)"<<endl;
+                cerr << "Bad WIDTHWIN = " << SCR_WIDTH << " (must be >50)" << endl;
                 return 0;
                 }
         }
         else
         if((pom=strstr(rob,"HEIGHTWIN="))!=nullptr) //Nie nullptr, czyli jest
         {
-            SHEIGHT=atol(pom+10);
-            if(SHEIGHT<50)
+            SCR_HEIGHT=atol(pom + 10);
+            if(SCR_HEIGHT < 50)
                 {
-                cerr<<"Bad HEIGHTWIN = "<<SHEIGHT<<" (must be >50)"<<endl;
+                cerr << "Bad HEIGHTWIN = " << SCR_HEIGHT << " (must be >50)" << endl;
                 return 0;
                 }
         }
@@ -272,7 +272,7 @@ int parse_options(const int argc,const char* argv[])
             cerr<<" LOGC=N - log file saving frequency ("<<iLogRatio<<")\n";
             cerr<<" LOGF=name.log - file for simulation log ("<<LogName<<")\n";
             cerr<<" HIST=hist.otx - file for full history of simulation.\n";
-            cerr<<" WIDTHWIN,HEIGHTWIN=XXX - initial window size.("<<SWIDTH<<'x'<<SHEIGHT<<"\n";
+            cerr << " WIDTHWIN,HEIGHTWIN=XXX - initial window size.(" << SCR_WIDTH << 'x' << SCR_HEIGHT << "\n";
             cerr<<" AUTO=XXX - number of auto-repetition of simulation.("<<AUTOSTART<<")\n";
         return 0;
         }
@@ -291,7 +291,7 @@ int main(const int argc,const char* argv[])
     if(!parse_options(argc,argv))
             exit(1);
 
-    main_area_menager Lufciki(24,SWIDTH,SHEIGHT,28);
+    main_area_menager Lufciki(24, SCR_WIDTH, SCR_HEIGHT, 28);
     if(!Lufciki.start(WINDOW_HEADER,argc,argv,1))
         {
         cerr<<"Can't initialize graphics"<<endl;
