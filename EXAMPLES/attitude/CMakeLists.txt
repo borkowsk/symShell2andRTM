@@ -1,4 +1,4 @@
-# CMAKE configuration for LIFE simulation project
+# CMAKE configuration for ATTITUDE simulation project
 ######################################################################
 # @author	: Wojciech Borkowski
 # @date	: 2026-04-07 (last update)
@@ -24,22 +24,26 @@ ELSE()
   add_definitions( -DHAVE_X11 -DUSE_ZENITY ) # -DUSE_X11  DUSE_CONSOLE_ONLY -DDEF_MAXTHREADS=16 -DMULTITR
 ENDIF()
 
-set( WBSLIBS   "../../../../public/symShell2andRTM" )
-get_filename_component( WBRTM     "${WBSLIBS}/RTM" ABSOLUTE)
-get_filename_component( SYMSHELL  "${WBSLIBS}/SYMSHELL" ABSOLUTE)
-get_filename_component( SYMSCLSS  "${WBSLIBS}/SYMSHELL_CLASES" ABSOLUTE)
-message( "Assumed sources in\nWBRTM\t at ${WBRTM}\nSYMSHELL\t at ${SYMSHELL}\nAnd classes at ${SYMSCLSS}\n")
+if (SYMSHELL2_ALREADY_IMPORTED)
+    message( "Symshell2 libraries already imported from master CMakeLists.txt" )
+else ()
+    set( WBSLIBS   "../../../../public/symShell2andRTM" )
+    get_filename_component( WBRTM     "${WBSLIBS}/RTM" ABSOLUTE)
+    get_filename_component( SYMSHELL  "${WBSLIBS}/SYMSHELL" ABSOLUTE)
+    get_filename_component( SYMSCLSS  "${WBSLIBS}/SYMSHELL_CLASES" ABSOLUTE)
+    message( "Assumed sources in\nWBRTM\t at ${WBRTM}\nSYMSHELL\t at ${SYMSHELL}\nAnd classes at ${SYMSCLSS}\n")
 
-#add_subdirectory( ${} ${} )
-add_subdirectory( "${SYMSHELL}/" "${SYMSHELL}/" )
-add_subdirectory( "${SYMSCLSS}/" "${SYMSCLSS}/" )
-add_subdirectory( "${WBRTM}/"   "${WBRTM}/"  )
+    #add_subdirectory( ${} ${} )
+    add_subdirectory( "${SYMSHELL}/" "${SYMSHELL}/" )
+    add_subdirectory( "${SYMSCLSS}/" "${SYMSCLSS}/" )
+    add_subdirectory( "${WBRTM}/"   "${WBRTM}/"  )
 
-include_directories( "${WBRTM}/INCLUDE"  "${SYMSHELL}/INCL/"
-                     "${SYMSCLSS}/DATACLSS"
-                     "${SYMSCLSS}/SIMULCLSS"
-                     "${SYMSCLSS}/VISUALCLSS"
-                    )
+    include_directories( "${WBRTM}/INCLUDE"  "${SYMSHELL}/INCL/"
+            "${SYMSCLSS}/DATACLSS"
+            "${SYMSCLSS}/SIMULCLSS"
+            "${SYMSCLSS}/VISUALCLSS"
+    )
+endif ()
 
 IF (WIN32)
     #set( WINDOWS_ONLY_SRC  "${WBRTM}/BASE/wb_assert.c" )
