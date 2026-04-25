@@ -74,10 +74,11 @@ TYP_POLA  skladowa;//Wskaznik do skladowej indywiduum
 public:
 
 // Constructor 
-struct_array_source(size_t iN,
-                    STRUCT_T* iarray,
-                    TYP_POLA iskladowa,
-                    const char* itit):
+struct_array_source(size_t          iN, //!< Rozmiar podawanej tablicy struktur.
+                    STRUCT_T*   iarray, //!< Wskaźnik do tablicy struktur.
+                    TYP_POLA iskladowa, //!< Selektor pola (wskaźnik do składowej struktury).
+                    const char*   itit  //!< Nazwa źródła.
+                    ):
 	linear_source_base(iN,itit),arra(iarray),skladowa(iskladowa)
 	{
         miss=default_missing<FIELD_T>();//!!! BARDZO WAZNE DLA SZABLON�W
