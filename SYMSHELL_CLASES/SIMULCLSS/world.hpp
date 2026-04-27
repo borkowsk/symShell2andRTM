@@ -1,8 +1,8 @@
 /// @file world.hpp
-/// Interface for the base world-class.
-// ////////////////////////////////////////////////////////////////////
-/// @date 2026-03-30 (modified)
-
+/// @brief Interface for the base world-class. / Interfejs dla bazy światowej klasy.
+/// @date 2026-04-27 (modified)
+// ********************************************************************************************************************
+//
 #if !defined(WORLD_HPP_INCLUDED_)
 #define WORLD_HPP_INCLUDED_
 
@@ -18,7 +18,7 @@
 
 /// Podstawy użytkowe dla całego świata symulacji.
 class world
-//---------------------------------------------------------
+//---------
 {
     /// @brief NA RAZIE NIE WOLNO TAKIEJ FUNKCJI! CHOĆ MUSI BYĆ ZDEFINIOWANA.
     /// Pomysł zewnętrznego manager-a danych okazał się niesprawdzony.
@@ -203,19 +203,17 @@ area_menager&		world::MyAreaMenager()
     return *AreaMenager;
 }
 
+/* ***************************************************************** */
+/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                  */
+/*            W O J C I E C H   B O R K O W S K I                    */
+/* Zakład Systematyki i Geografii Roślin Uniwersytetu Warszawskiego  */
+/*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego        */
+/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk              */
+/*        MAIL: borkowsk@iss.uw.edu.pl                               */
+/*                               (Don't change or remove this note)  */
+/* ***************************************************************** */
 #endif // !defined(WORLD_HPP_INCLUDED_)
 
-/********************************************************************/
-/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
-/*            W O J C I E C H   B O R K O W S K I                   */
-/*                                                                  */
-/*      Instytut Studiów Społecznych Uniwersytetu Warszawskiego     */
-/*                                                                  */
-/*        WWW:  http://www.iss.uw.edu.pl/~borkowsk                  */
-/*        MAIL: borkowsk@samba.iss.uw.edu.pl                        */
-/*                                                                  */
-/*                               (Don't change or remove this note) */
-/********************************************************************/
 
 
 

@@ -1,5 +1,8 @@
-//Komendy menagera obszarów dla shell'a symulacji
-/////////////////////////////////////////////////////
+/// @file
+/// @brief Komendy manager obszarÃ³w dla shell'a symulacji.
+/// @date 2026-04-27 (modified)
+// ********************************************************************************************************************
+
 #if 1
 #define SSH_ONESTEP                      50001
 #define SSH_STARTSTOP                    50002

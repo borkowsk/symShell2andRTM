@@ -1,11 +1,15 @@
-// /////////////////////////////////////////////////////////////////////////
-// Filtr liczacy liczebnosc dyskretnych klas serii i pochodne statystyki
-// /////////////////////////////////////////////////////////////////////////
+/// @file
+/// @brief Filtr liczący liczebność dyskretnych klas serii i pochodne statystyki.
+/// @date 2026-04-27 (modified)
+// ********************************************************************************************************************
+//
 #ifndef __DISCR_HISTOGRAM_SOUR_HPP__
 #define __DISCR_HISTOGRAM_SOUR_HPP__
 #include "statsour.hpp"
 
-template<class DATA_SOURCE> //UWAGA NA DZIEDZICZENIE - N jest zmienne wiec ilosc serii pochodnych tez!
+/// @brief Filtr liczący liczebność dyskretnych klas serii i pochodne statystyki.
+/// @note UWAGA NA DZIEDZICZENIE! N jest zmienne wiec ilosc serii pochodnych tez.
+template<class DATA_SOURCE>
 class discrete_histogram_source:public basic_statistics_source<DATA_SOURCE>
 //------------------------------------------------------------------------------------------------------
 {
@@ -296,14 +300,14 @@ double get(size_t index)//Przetwarza index uzyskany z geometri
 
 typedef discrete_histogram_source<data_source_base> generic_discrete_histogram_source;
 
-
+/* *******************************************************************/
+/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                  */
+/*            W O J C I E C H   B O R K O W S K I                    */
+/*  Zakład Systematyki i Geografii Roslin Uniwersytetu Warszawskiego */
+/*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego        */
+/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk              */
+/*        MAIL: borkowsk@iss.uw.edu.pl                               */
+/*                               (Don't change or remove this note)  */
+/* *******************************************************************/
 #endif
-/********************************************************************/
-/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
-/*            W O J C I E C H   B O R K O W S K I                   */
-/* Zaklad Systematyki i Geografii Roslin Uniwersytetu Warszawskiego */
-/*  & Instytut Studiow Spolecznych Uniwersytetu Warszawskiego       */
-/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk             */
-/*        MAIL: borkowsk@iss.uw.edu.pl                              */
-/*                               (Don't change or remove this note) */
-/********************************************************************/
+

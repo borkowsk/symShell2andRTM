@@ -1,7 +1,9 @@
 /// @file
-///	RECTANGULAR GEOMETRY.
-//*/////////////////////////////////////////////////////////////
-/// @date 2026-04-02 (modified)
+/// @brief GEOMETRIA PROSTOKĄTNA. / RECTANGULAR GEOMETRY.
+/// @date 2026-04-27 (modified)
+///      Pierwsza i główna specjalizacja. Heksagonalnej i sieciowej nigdy nie napisałem, choć były w planie.
+// ********************************************************************************************************************
+//
 #ifndef RECT_GEOM_HPP_DEFINED_
 #define RECT_GEOM_HPP_DEFINED_
 
@@ -449,15 +451,15 @@ public:
 
 };
 
-
+/* ***************************************************************** */
+/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                  */
+/*            W O J C I E C H   B O R K O W S K I                    */
+/* Zakład Systematyki i Geografii Roślin Uniwersytetu Warszawskiego  */
+/*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego        */
+/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk              */
+/*        MAIL: borkowsk@iss.uw.edu.pl                               */
+/*                               (Don't change or remove this note)  */
+/* ***************************************************************** */
 #endif
-/* **************************************************************** */
-/*           THIS CODE IS DESIGNED & COPYRIGHT BY:                  */
-/*            W O J C I E C H   B O R K O W S K I                   */
-/* Zakład Systematyki i Geografii Roślin Uniwersytetu Warszawskiego */
-/*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego       */
-/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk             */
-/*        MAIL: borkowsk@iss.uw.edu.pl                              */
-/*                               (Don't change or remove this note) */
-/* **************************************************************** */
+
 

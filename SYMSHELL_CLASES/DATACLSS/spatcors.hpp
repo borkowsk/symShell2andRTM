@@ -1,12 +1,16 @@
-///////////////////////////////////////////////////////////////////////////
-// Filtr liczacy liczebnosc klas serii i pochodne statystyki
-///////////////////////////////////////////////////////////////////////////
+/// @file
+/// @brief Filtr liczący liczebność klas serii i pochodne statystyki przestrzenne, w tym korelacje przestrzenne.
+/// @date 2026-04-27 (modified)
+// ********************************************************************************************************************
+//
 #ifndef __SPATIAL_CORRELATION_SOUR_HPP__
 #define __SPATIAL_CORRELATION_SOUR_HPP__
+
 #include <cmath>
 #include "multfils.hpp"
 #include "wb_rand.hpp"
 
+/// @brief Filtr liczący  pochodne statystyki przestrzenne, w tym korelacje przestrzenne, ale też liczebność klas serii(?).
 template<class DATA_SOURCE>
 class spatial_correlation_source:public multi_filter_source_base<DATA_SOURCE>
 //------------------------------------------------------------------------------
@@ -308,14 +312,13 @@ double get(size_t index)//Przetwarza index uzyskany z geometri
 
 typedef spatial_correlation_source<data_source_base> generic_spatial_correlation_source;
 
-
+/* *******************************************************************/
+/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                  */
+/*            W O J C I E C H   B O R K O W S K I                    */
+/*  Zakład Systematyki i Geografii Roslin Uniwersytetu Warszawskiego */
+/*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego        */
+/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk              */
+/*        MAIL: borkowsk@iss.uw.edu.pl                               */
+/*                               (Don't change or remove this note)  */
+/* *******************************************************************/
 #endif
-/********************************************************************/
-/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
-/*            W O J C I E C H   B O R K O W S K I                   */
-/* Zaklad Systematyki i Geografii Roslin Uniwersytetu Warszawskiego */
-/*  & Instytut Studiow Spolecznych Uniwersytetu Warszawskiego       */
-/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk             */
-/*        MAIL: borkowsk@iss.uw.edu.pl                              */
-/*                               (Don't change or remove this note) */
-/********************************************************************/

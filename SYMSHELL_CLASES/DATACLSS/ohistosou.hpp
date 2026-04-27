@@ -1,16 +1,21 @@
-///////////////////////////////////////////////////////////////////////////
-// Filtr liczacy liczebnosc klas serii i pochodne statystyki
-// WERSJA PIERWOTNA - LICZY TYLKO HISTOGRAMY CALKOWITO-LICZBOWE 
-// Z RUCHOM� LICZB� KLAS wiec nie jest przystosowana do wspolpracy z 
-// plikiem logu symuylacji :(
-///////////////////////////////////////////////////////////////////////////
+/// @file
+/// @brief Stary filtr liczący liczebność klas serii i pochodne statystyki.
+/// @date 2026-04-27 (modified)
+// ********************************************************************************************************************
+//
 #ifndef __OLD_HISTOGRAM_SOUR_HPP__
 #define __OLD_HISTOGRAM_SOUR_HPP__
+
 #include "statsour.hpp"
 
+/// @brief Filtr liczący liczebność klas serii i pochodne statystyki.
+/// @details
+///     WERSJA PIERWOTNA - LICZY TYLKO HISTOGRAMY CAŁKOWITO-LICZBOWE
+///     Z RUCHOMĄ LICZBĄ KLAS, więc nie jest przystosowana do współpracy z
+///     plikiem logu symulacji.
 template<class DATA_SOURCE>
 class flex_histogram_source:public basic_statistics_source<DATA_SOURCE>
-//------------------------------------------------------------------------------
+//---------------------------------------------------------------------
 {
 protected:
 size_t N;//Number of Class;
@@ -19,233 +24,233 @@ wb_dynarray<unsigned long> arra;
 // Przemieszcza iterator o jednostke. Zeruje jesli koniec tablicy
 size_t _next(iteratorh& p)
 {
-	assert(p!=NULL);//Nie wolno wywolac dla NULL
-	size_t pom=((size_t)p)-1;
-	if(pom+1>=N)
-		p=NULL;
-	else
-		p=(iteratorh)(pom+2);
-	return pom;	
+    assert(p!=NULL);//Nie wolno wywolac dla NULL
+    size_t pom=((size_t)p)-1;
+    if(pom+1>=N)
+        p=NULL;
+    else
+        p=(iteratorh)(pom+2);
+    return pom;
 }
 
 
 int _calculate() //Zwraca 1 jesli musial przeliczyc
 {
-	if(!basic_statistics_source<DATA_SOURCE>::_calculate()) 
-		return 0;
-	
-	double Entropy=0;
-	
-	{//OBLICZANIE HISTOGRAMU
-	assert(N==-1);//Tylko tryb integerowy zaimplementowany
+    if(!basic_statistics_source<DATA_SOURCE>::_calculate())
+        return 0;
 
-	size_t i;
-	size_t SN,KL;
-	double smin,smax;	
-	Source->bounds(SN,smin,smax);
-	
-	if(smax-smin<=double(size_t(-1)))//Czy w zakresie size_t
-		KL=size_t(smax-smin)+1;//Ile jednostek calkowitych zakresu
-		else
-		goto ERROR;
+    double Entropy=0;
 
-	arra.alloc(KL);
-	if(!arra.IsOK()) //blad alokacji - za malo/za duzo?
-		goto ERROR;
+    {//OBLICZANIE HISTOGRAMU
+    assert(N==-1);//Tylko tryb integerowy zaimplementowany
 
-	for(i=0;i<KL;i++)
-		arra[i]=0;
-	/*//.....ATRAPA.....
-	for(...
-		arra[i]=smin+i;
-	ymin=smin;
-	ymax=smax;
-	*/
+    size_t i;
+    size_t SN,KL;
+    double smin,smax;
+    Source->bounds(SN,smin,smax);
 
-	//PETLA ZLICZANIA
-	iteratorh Ind=Source->reset();
-	source_miss=Source->get_missing();	
-	size_t Licz=0;
-	for(i=0;i<SN;i++)
-		{
-		double pom=Source->get(Ind);
-		if(!FromSourceIsMissing(pom))
-			{	
-			Licz++;
-			pom-=smin;//Przesuniecie
-			arra[pom]++;//Takie to sobie. Trzeba przetrawic i poprawic. WARNING jak najbardziej.
-			}
-		}
-	Source->close(Ind);	
+    if(smax-smin<=double(size_t(-1)))//Czy w zakresie size_t
+        KL=size_t(smax-smin)+1;//Ile jednostek calkowitych zakresu
+        else
+        goto ERROR;
 
-	//PETLA	MIN/MAX
-	ymin=DBL_MAX;
-	ymax=0;	
-	size_t licz_klasy=0;
-	size_t minp=0,maxp=0;
+    arra.alloc(KL);
+    if(!arra.IsOK()) //blad alokacji - za malo/za duzo?
+        goto ERROR;
 
-	for(i=0;i<KL;i++)
-	{
-		double pom=arra[i];
-		
-		if(pom>0)
-			licz_klasy++;
+    for(i=0;i<KL;i++)
+        arra[i]=0;
+    /*//.....ATRAPA.....
+    for(...
+        arra[i]=smin+i;
+    ymin=smin;
+    ymax=smax;
+    */
 
-		if(pom>ymax) 
-		{
-			ymax=pom;
-			maxp=i;
-		}
+    //PETLA ZLICZANIA
+    iteratorh Ind=Source->reset();
+    source_miss=Source->get_missing();
+    size_t Licz=0;
+    for(i=0;i<SN;i++)
+        {
+        double pom=Source->get(Ind);
+        if(!FromSourceIsMissing(pom))
+            {
+            Licz++;
+            pom-=smin;//Przesuniecie
+            arra[pom]++;//Takie to sobie. Trzeba przetrawic i poprawic. WARNING jak najbardziej.
+            }
+        }
+    Source->close(Ind);
 
-		if(pom<ymin) 
-		{
-			ymin=pom;
-			minp=i;
-		}
+    //PETLA	MIN/MAX
+    ymin=DBL_MAX;
+    ymax=0;
+    size_t licz_klasy=0;
+    size_t minp=0,maxp=0;
 
-		//Liczenie skladowych entropi
-		double qi=pom/double(Licz);
+    for(i=0;i<KL;i++)
+    {
+        double pom=arra[i];
 
-		//Powiekrzenie sumy, tam gdzie nie jest to puste skrzyzowanie
-		if(qi>0)
-			Entropy+=qi*log(qi);
-	}
+        if(pom>0)
+            licz_klasy++;
 
-	if(table[6]!=NULL)
-		{
-		table[6]->change_val(ymax);
-		}
+        if(pom>ymax)
+        {
+            ymax=pom;
+            maxp=i;
+        }
 
-	if(table[7]!=NULL)
-		{
-		table[7]->change_val(licz_klasy);
-		}
+        if(pom<ymin)
+        {
+            ymin=pom;
+            minp=i;
+        }
 
-	if(table[8]!=NULL)
-		{
-		table[8]->change_val(maxp+smin+0.5);//0.5 bo srodek przedzialu calkowitego
-		}
+        //Liczenie skladowych entropi
+        double qi=pom/double(Licz);
 
-	if(table[9]!=NULL)
-		{
-		table[9]->change_val(-Entropy);
-		}
+        //Powiekrzenie sumy, tam gdzie nie jest to puste skrzyzowanie
+        if(qi>0)
+            Entropy+=qi*log(qi);
+    }
 
-	if(table[10]!=NULL)
-		{
-		table[10]->change_val(-Entropy/log(KL));
-		}
+    if(table[6]!=NULL)
+        {
+        table[6]->change_val(ymax);
+        }
 
-	return 1;
-	}//Musial przeliczyc
-	
+    if(table[7]!=NULL)
+        {
+        table[7]->change_val(licz_klasy);
+        }
+
+    if(table[8]!=NULL)
+        {
+        table[8]->change_val(maxp+smin+0.5);//0.5 bo srodek przedzialu calkowitego
+        }
+
+    if(table[9]!=NULL)
+        {
+        table[9]->change_val(-Entropy);
+        }
+
+    if(table[10]!=NULL)
+        {
+        table[10]->change_val(-Entropy/log(KL));
+        }
+
+    return 1;
+    }//Musial przeliczyc
+
 ERROR:
-	if(table[10]=NULL)
-		table[10]->change_val(table[9]->get_missing());	
-	if(table[9]=NULL)
-		table[9]->change_val(table[9]->get_missing());
-	if(table[8]!=NULL)
-		table[8]->change_val(table[8]->get_missing());
-	if(table[7]!=NULL)
-		table[7]->change_val(table[7]->get_missing());
-	if(table[6]!=NULL)
-		table[6]->change_val(table[6]->get_missing());
-	arra.dispose();
-	ymin=ymax=0;
-	return 1;
+    if(table[10]=NULL)
+        table[10]->change_val(table[9]->get_missing());
+    if(table[9]=NULL)
+        table[9]->change_val(table[9]->get_missing());
+    if(table[8]!=NULL)
+        table[8]->change_val(table[8]->get_missing());
+    if(table[7]!=NULL)
+        table[7]->change_val(table[7]->get_missing());
+    if(table[6]!=NULL)
+        table[6]->change_val(table[6]->get_missing());
+    arra.dispose();
+    ymin=ymax=0;
+    return 1;
 }
 
 public:
 scalar_source<double>*      MainClass(const char* format="MainClass(%s)")	
 {
-	return GetMonoSource(6,format);
+    return GetMonoSource(6,format);
 }
 
 scalar_source<double>*      NumOfClass(const char* format="NumOfClass(%s)")	
 {
-	return GetMonoSource(7,format);
+    return GetMonoSource(7,format);
 }
 
 scalar_source<double>*      WhichMain(const char* format="WhichMain(%s)")	
 {
-	return GetMonoSource(8,format);
+    return GetMonoSource(8,format);
 }
 
 scalar_source<double>*      Entropy(const char* format="S(%s)")	
 {
-	return GetMonoSource(9,format);
+    return GetMonoSource(9,format);
 }
 
 scalar_source<double>*      NormEntropy(const char* format="nS(%s)")	
 {
-	return GetMonoSource(10,format);
+    return GetMonoSource(10,format);
 }
 
-	
-	flex_histogram_source(DATA_SOURCE* ini=NULL,
-		size_t NumberOfClass=-1,//-1 oznacza tryb calkowitoliczbowy
-		sources_menager_base* MyMenager=NULL,
-		size_t table_size=11/*BEZ ZAPASU*/,
-		const char* format="HISTOGRAM(%s)"):
-	        N(NumberOfClass),
-		basic_statistics_source<DATA_SOURCE>(ini,MyMenager,table_size,format) 
-	{}
-	
-	~flex_histogram_source(){}
+
+    flex_histogram_source(DATA_SOURCE* ini=NULL,
+        size_t NumberOfClass=-1,//-1 oznacza tryb calkowitoliczbowy
+        sources_menager_base* MyMenager=NULL,
+        size_t table_size=11/*BEZ ZAPASU*/,
+        const char* format="HISTOGRAM(%s)"):
+            N(NumberOfClass),
+        basic_statistics_source<DATA_SOURCE>(ini,MyMenager,table_size,format)
+    {}
+
+    ~flex_histogram_source(){}
 
 // Methods
 size_t get_size()
 { 
-	check_version();//Uaktualnia tez wersje podzrodla jesli trzeba
-	_calculate();//Sprawdza czy nie trzeba policzyc i ewentualnie liczy	
-	return arra.get_size();
+    check_version();//Uaktualnia tez wersje podzrodla jesli trzeba
+    _calculate();//Sprawdza czy nie trzeba policzyc i ewentualnie liczy
+    return arra.get_size();
 }	
 
 void all_subseries_required()//Alokuje i ewentualnie rejestruje w menagerze wszystkie serie
 {
-	basic_statistics_source<DATA_SOURCE>::all_subseries_required();
-	//MAX CLASS
-	MainClass();
-	WhichMain();
-	NumOfClass();
-	Entropy();
+    basic_statistics_source<DATA_SOURCE>::all_subseries_required();
+    //MAX CLASS
+    MainClass();
+    WhichMain();
+    NumOfClass();
+    Entropy();
 }
 
 iteratorh  reset()
 //Umozliwia czytanie od poczatku
 { 
-	check_version();//Uaktualnia tez wersje podzrodla jesli trzeba
-	_calculate();//Sprawdza czy nie trzeba policzyc i ewentualnie liczy
-	return (iteratorh)1;
+    check_version();//Uaktualnia tez wersje podzrodla jesli trzeba
+    _calculate();//Sprawdza czy nie trzeba policzyc i ewentualnie liczy
+    return (iteratorh)1;
 }
 
 void close(iteratorh& p)
 {
-	p=NULL;
+    p=NULL;
 }
 
 void  bounds(size_t& num,double& min,double& max)
 //Ile elementow,wartosc minimalna i maksymalna
 {
-	check_version();//Uaktualnia tez wersje podzrodla jesli trzeba
-	_calculate();//Sprawdza czy nie trzeba policzyc i ewentualnie liczy
-	num=get_size();	
-	min=ymin;max=ymax;
+    check_version();//Uaktualnia tez wersje podzrodla jesli trzeba
+    _calculate();//Sprawdza czy nie trzeba policzyc i ewentualnie liczy
+    num=get_size();
+    min=ymin;max=ymax;
 }
 
 double get(iteratorh& ptr_to_iterator)
 //Daje nastepna z N liczb!!! 
 {
-	assert(ptr_to_iterator!=NULL);
-	return arra[ _next(ptr_to_iterator) ];
+    assert(ptr_to_iterator!=NULL);
+    return arra[ _next(ptr_to_iterator) ];
 }
 
 double get(size_t index)//Przetwarza index uzyskany z geometri
 { //na wartosc z serii, o ile jest mozliwe czytanie losowe	
-	check_version();//Uaktualnia tez wersje podzrodla jesli trzeba
-	_calculate();//Sprawdza czy nie trzeba policzyc i ewentualnie liczy	
-	assert(index<get_size());
-	return arra[ index ];
+    check_version();//Uaktualnia tez wersje podzrodla jesli trzeba
+    _calculate();//Sprawdza czy nie trzeba policzyc i ewentualnie liczy
+    assert(index<get_size());
+    return arra[ index ];
 }	
 
 
@@ -253,14 +258,13 @@ double get(size_t index)//Przetwarza index uzyskany z geometri
 
 typedef flex_histogram_source<data_source_base> generic_flex_histogram_source;
 
-
+/* *******************************************************************/
+/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                  */
+/*            W O J C I E C H   B O R K O W S K I                    */
+/*  Zakład Systematyki i Geografii Roslin Uniwersytetu Warszawskiego */
+/*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego        */
+/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk              */
+/*        MAIL: borkowsk@iss.uw.edu.pl                               */
+/*                               (Don't change or remove this note)  */
+/* *******************************************************************/
 #endif
-/********************************************************************/
-/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
-/*            W O J C I E C H   B O R K O W S K I                   */
-/* Zaklad Systematyki i Geografii Roslin Uniwersytetu Warszawskiego */
-/*  & Instytut Studiow Spolecznych Uniwersytetu Warszawskiego       */
-/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk             */
-/*        MAIL: borkowsk@iss.uw.edu.pl                              */
-/*                               (Don't change or remove this note) */
-/********************************************************************/

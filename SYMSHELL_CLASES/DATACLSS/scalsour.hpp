@@ -1,11 +1,14 @@
+/// @file
+/// @brief  Konkretne klasy źródeł — dostęp do danych w tablicach i zmiennych
+/// @date 2026-04-27 (modified)
+// ********************************************************************************************************************
+//
 #ifndef __SCALAR_SOUR_HPP__
 #define __SCALAR_SOUR_HPP__
-// Konkretne klasy zrodel - dostep do danych w tablicach i zmiennych
-//--------------------------------------------------------------------
-//--------------------------------------------------------------------
+
 #include "datasour.hpp"
 
-//Klasa zrodla przechowujacego i dajacego pojedyncza wartosc
+/// Klasa zrodla przechowujacego i dajacego pojedyncza wartosc.
 template<class Typek>
 class scalar_source:public  template_scalar_source_base<Typek>
 //-----------------------------------------------------------------
@@ -163,17 +166,17 @@ const double   get()  //Uproszczona wersja get() bo i tak jest tylko jedna warto
 
 };
 
-
+/* *******************************************************************/
+/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                  */
+/*            W O J C I E C H   B O R K O W S K I                    */
+/*  Zakład Systematyki i Geografii Roslin Uniwersytetu Warszawskiego */
+/*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego        */
+/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk              */
+/*        MAIL: borkowsk@iss.uw.edu.pl                               */
+/*                               (Don't change or remove this note)  */
+/* *******************************************************************/
 #endif
-/********************************************************************/
-/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
-/*            W O J C I E C H   B O R K O W S K I                   */
-/* Zaklad Systematyki i Geografii Roslin Uniwersytetu Warszawskiego */
-/*  & Instytut Studiow Spolecznych Uniwersytetu Warszawskiego       */
-/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk             */
-/*        MAIL: borkowsk@iss.uw.edu.pl                              */
-/*                               (Don't change or remove this note) */
-/********************************************************************/
+
 
 
 

@@ -1,14 +1,17 @@
-///////////////////////////////////////////////////////////////
-//	LINEAR GEOMETRY 
-///////////////////////////////////////////////////////////////
-#error NOT IMPLEMENTED YET!!! //W trakcie przerobki z rectangular geom
+/// @file
+/// @brief GEOMETRIA LINIOWA. / LINEAR GEOMETRY.
+/// @date 2026-04-27 (modified)
+///      W trakcie przeróbki z rectangular geometry. Nigdy nie zakończonej.
+// ********************************************************************************************************************
+//
+#error NOT IMPLEMENTED YET!!!
 
 #ifndef __LINEAR_GEOM_HPP__
 #define __LINEAR_GEOM_HPP__
 #include "geombase.hpp"
 //#include "wb_ptr.hpp"
 //#include "wbminmax.hpp"
-#include "wb_rand.h"
+#include "wb_rand.hpp"
 
 
 class linear_geometry:public geometry_base
@@ -61,7 +64,7 @@ public:
 //Struktura do losowej iteracji po tablicy
 	struct monte_carlo_iterator:public geometry_base::iterator_base
 	{
-	size_t	ile;//Do zliczania w d�l
+	size_t	ile;//Do zliczania w d�l
 	size_t	sub_width;//Parametry zaznaczonego wycinka
 	long	horiz_start;
 	monte_carlo_iterator(size_t ii,long hors,size_t subw):
@@ -271,15 +274,15 @@ linear_geometry(	size_t iN,			//Szerokosc pelnego obszaru
 };
 
 
-
+/* ***************************************************************** */
+/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                  */
+/*            W O J C I E C H   B O R K O W S K I                    */
+/* Zakład Systematyki i Geografii Roślin Uniwersytetu Warszawskiego  */
+/*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego        */
+/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk              */
+/*        MAIL: borkowsk@iss.uw.edu.pl                               */
+/*                               (Don't change or remove this note)  */
+/* ***************************************************************** */
 #endif
-/********************************************************************/
-/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
-/*            W O J C I E C H   B O R K O W S K I                   */
-/* Zaklad Systematyki i Geografii Roslin Uniwersytetu Warszawskiego */
-/*  & Instytut Studiow Spolecznych Uniwersytetu Warszawskiego       */
-/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk             */
-/*        MAIL: borkowsk@iss.uw.edu.pl                              */
-/*                               (Don't change or remove this note) */
-/********************************************************************/
+
 

@@ -1,5 +1,8 @@
-//Definicja bazy i szablonow  warstwy symulacji
-//////////////////////////////////////////////////////////////////////
+/// @file
+/// @brief Definicja bazy i szablonów warstw symulacji. / Definition of the base class and simulation layer templates.
+/// @date 2026-04-27 (modified)
+///      ...
+// ********************************************************************************************************************
 #ifndef __LAYER_HPP__
 #define __LAYER_HPP__
 
@@ -1208,15 +1211,15 @@ public:
 
 };
 
-
+/* ***************************************************************** */
+/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                  */
+/*            W O J C I E C H   B O R K O W S K I                    */
+/* Zakład Systematyki i Geografii Roślin Uniwersytetu Warszawskiego  */
+/*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego        */
+/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk              */
+/*        MAIL: borkowsk@iss.uw.edu.pl                               */
+/*                               (Don't change or remove this note)  */
+/* ***************************************************************** */
 #endif
-/********************************************************************/
-/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
-/*            W O J C I E C H   B O R K O W S K I                   */
-/* Zaklad Systematyki i Geografii Roslin Uniwersytetu Warszawskiego */
-/*  & Instytut Studiow Spolecznych Uniwersytetu Warszawskiego       */
-/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk             */
-/*        MAIL: borkowsk@iss.uw.edu.pl                              */
-/*                               (Don't change or remove this note) */
-/********************************************************************/
+
 

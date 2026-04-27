@@ -1,6 +1,8 @@
-//			Definitions of basic data_sources class
-//------------------------------------------------------------------------
-//*////////////////////////////////////////////////////////////////////////
+/// @file
+/// @brief Definitions of basic (interface) data source class
+/// @date 2026-04-27 (modified)
+// ********************************************************************************************************************
+//
 #ifndef __DATA_SOURCE_BASE_HPP__
 #define __DATA_SOURCE_BASE_HPP__
 
@@ -18,10 +20,10 @@
 
 const unsigned ZAPAS_NA_CYFRY=(DBL_DIG*2); //Do wyświetlania: DBL_DIG+zapas na znaki i wykładnik
 
-//Definicja INTERFACE'u źródła danych. Każde źródło musi mieć
-//zaimplementowane takie metody, ale może mieć też inne.
+/// Definicja INTERFACE'u źródła danych.
+/// Każde źródło musi mieć zaimplementowane takie metody, ale może mieć też inne.
 class data_source_base
-//-----------------------------------------------------------
+//--------------------
 {
 long cur_step;	//Numer kolejnej wersji danych
 long no_change;	//Od ilu kroków nie było zmiany
@@ -127,14 +129,14 @@ void	close(iteratorh&)=0;
 
 //Constructor
 data_source_base():
-		cur_step(-1),no_change(0),
-		ymin(0),ymax(0),
-		miss(default_missing<double>())
-		{}
+        cur_step(-1),no_change(0),
+        ymin(0),ymax(0),
+        miss(default_missing<double>())
+        {}
 
 //Destructor
 virtual ~data_source_base()
-		{}
+        {}
 
 };
 
@@ -145,7 +147,7 @@ virtual ~data_source_base()
 inline
 void  data_source_base::set_missing(double imiss)
 {
-	miss=imiss;
+    miss=imiss;
 }
 
 // Sprawdzanie, czy get() nie dało missing.
@@ -168,10 +170,10 @@ inline
 double data_source_base::get_missing()
 {
     double tmp=default_missing<double>(); //Klasy szablonowe muszą to reimplementować
-	if(memcmp(&miss,&tmp,sizeof(miss))!=0) // Jeśli ustawione lub już domyślne
-		return miss;
-		else
-		return miss=tmp; //Zapewnia, że będzie ustawione na default_missing<...>()
+    if(memcmp(&miss,&tmp,sizeof(miss))!=0) // Jeśli ustawione lub już domyślne
+        return miss;
+        else
+        return miss=tmp; //Zapewnia, że będzie ustawione na default_missing<...>()
 }
 
 // Ustala arbitralne min i max, żeby uniknąć próbkowania (dedukowania).
@@ -179,9 +181,9 @@ double data_source_base::get_missing()
 inline
 void  data_source_base::setminmax(double imin,double imax)
 {
-	assert( imin <= imax ); //Podanie równych włącza znowu próbkowanie (dedukcję)!!!
-	ymin=imin;
-	ymax=imax;
+    assert( imin <= imax ); //Podanie równych włącza znowu próbkowanie (dedukcję)!!!
+    ymin=imin;
+    ymax=imax;
 }
 
 
@@ -192,10 +194,10 @@ void  data_source_base::setminmax(double imin,double imax)
 inline
 void  data_source_base::new_data_version(int change,unsigned increment)
 {
-	cur_step+=increment;
-	if(change) no_change=0;
-		  else no_change+=increment;
-	assert(cur_step>=no_change);
+    cur_step+=increment;
+    if(change) no_change=0;
+          else no_change+=increment;
+    assert(cur_step>=no_change);
 }
 
 //Uaktualnia wersje wg podanego źródła i wtedy zwraca 1.
@@ -203,16 +205,16 @@ void  data_source_base::new_data_version(int change,unsigned increment)
 inline
 int   data_source_base::update_version_from(data_source_base* Source)
 {
-	if(Source->data_version()>data_source_base::data_version()) //Tu może startować ewentualna propagacja
-	{
-		new_data_version(
-			Source->how_old_data()==0?1:0,
-			Source->data_version()-data_source_base::data_version()	//Żeby nie było rekurencji nie wprost
-			);
-		return 1;
-	}
-	else
-		return 0;
+    if(Source->data_version()>data_source_base::data_version()) //Tu może startować ewentualna propagacja
+    {
+        new_data_version(
+            Source->how_old_data()==0?1:0,
+            Source->data_version()-data_source_base::data_version()	//Żeby nie było rekurencji nie wprost
+            );
+        return 1;
+    }
+    else
+        return 0;
 }
 
 
@@ -224,17 +226,19 @@ int   data_source_base::update_version_from(data_source_base* Source)
 inline
 double data_source_base::get(size_t index_from_geometry)
 {
-	assert(!"Random access get() not implemented");
-	return miss;
+    assert(!"Random access get() not implemented");
+    return miss;
 }
 
-#endif
 /* *******************************************************************/
 /*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                  */
 /*            W O J C I E C H   B O R K O W S K I                    */
-/*    Instytut Studiow Spolecznych Uniwersytetu Warszawskiego        */
-/*        WWW:  http://www.iss.uw.edu.pl/~borkowsk/                  */
+/*  Zakład Systematyki i Geografii Roslin Uniwersytetu Warszawskiego */
+/*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego        */
+/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk              */
 /*        MAIL: borkowsk@iss.uw.edu.pl                               */
 /*                               (Don't change or remove this note)  */
 /* *******************************************************************/
+#endif
+
 

@@ -1,11 +1,16 @@
-//////////////////////////////////////////////////////////////////////////////
-// Filtr liczacy liczebnosc okre�lonej liczby klas serii i pochodne statystyki
-//////////////////////////////////////////////////////////////////////////////
+/// @file
+/// @brief Filtr liczący liczebność określonej liczby klas serii i pochodne statystyki.
+/// @date 2026-04-27 (modified)
+// ********************************************************************************************************************
+//
 #ifndef __FIXED_CLAS_HISTOGRAM_SOUR_HPP__
 #define __FIXED_CLAS_HISTOGRAM_SOUR_HPP__
+
 #include "statsour.hpp"
 
-template<class DATA_SOURCE> //UWAGA NA DZIEDZICZENIE - N jest zmienne wiec ilosc serii pochodnych tez!
+/// @brief Filtr liczący liczebność określonej liczby klas serii i pochodne statystyki.
+/// @note UWAGA NA DZIEDZICZENIE! N jest zmienne wiec liczba serii pochodnych też.
+template<class DATA_SOURCE>
 class fix_histogram_source:public basic_statistics_source<DATA_SOURCE>
 //------------------------------------------------------------------------------------------------------
 {
@@ -14,7 +19,7 @@ protected:
 size_t Num;     //Number of Class;
 double FixMin;  //Ustalone z gory minimum
 double FixMax;  //Ustalone z gory maximum
-unsigned SubRange:1; //Jezeli zakres realny wykracza poza zadany to robi hist z czesci danych
+unsigned SubRange:1; //Jezeli zakres realny wykracza poza zadany to robi hist z części danych
 
 wb_dynarray<unsigned long> arra;
 
@@ -177,27 +182,27 @@ ERROR:
 public:
 scalar_source<double>*      MainClass(const char* format="MainClass(%s)")	
 {
-	return base_class::GetMonoSource(6,format);
+    return base_class::GetMonoSource(6,format);
 }
 
 scalar_source<double>*      NumOfClass(const char* format="NumOfClass(%s)")	
 {
-	return base_class::GetMonoSource(7,format);
+    return base_class::GetMonoSource(7,format);
 }
 
 scalar_source<double>*      WhichMain(const char* format="WhichMain(%s)")	
 {
-	return base_class::GetMonoSource(8,format);
+    return base_class::GetMonoSource(8,format);
 }
 
 scalar_source<double>*      Entropy(const char* format="S(%s)")	
 {
-	return base_class::GetMonoSource(9,format);
+    return base_class::GetMonoSource(9,format);
 }
 
 scalar_source<double>*      NormEntropy(const char* format="nS(%s)")	
 {
-	return base_class::GetMonoSource(10,format);
+    return base_class::GetMonoSource(10,format);
 }
 
 scalar_source<double>*      Class(size_t number,const char* format="C<%g,%g)(%s)")
@@ -210,47 +215,47 @@ scalar_source<double>*      Class(size_t number,const char* format="C<%g,%g)(%s)
     return base_class::GetMonoSource(10+1+number,bufor);//+1 bo "number" moze byc 0!!!
 }	
 
-	fix_histogram_source(
-		size_t HowManyClass,    //Number of Class;
+    fix_histogram_source(
+        size_t HowManyClass,    //Number of Class;
         double iFixMin,         //Ustalone z gory minimum
         double iFixMax,         //Ustalone z gory maximum        
         DATA_SOURCE* ini=NULL,  //Klasa zrodlowa
                                 //Jesli nie pokrywa sie z minX-maxX to faktycznie liczony jest wycinek
         const char* format="DISTR_%d_CLASS(%s[%g..%g])",
         bool iSubRange=false, //Jezeli zakres realny wykracza poza zadany to robi hist z czesci danych
-		sources_menager_base* MyMenager=NULL,
-		size_t table_size=11/*BEZ ZAPASU*/
-		):
-	    Num(HowManyClass),
+        sources_menager_base* MyMenager=NULL,
+        size_t table_size=11/*BEZ ZAPASU*/
+        ):
+        Num(HowManyClass),
         FixMin(iFixMin),FixMax(iFixMax),SubRange(iSubRange),
         basic_statistics_source<DATA_SOURCE>(ini,MyMenager,
                                              table_size+HowManyClass,//Alokuje miejsce na zrodelka klasowe
                                              format) 
-	{
+    {
             wb_pchar bufor(strlen(format)+2*100);//Z za duzym zapasem jak na dwa integery, ale...
             bufor.prn(format,Num,"%s",FixMin,FixMax);
             basic_statistics_source<DATA_SOURCE>::settitle(bufor.get());
             arra.alloc(Num);//Liczba klas zafiksowana
         }
-	
-	~fix_histogram_source(){}
+
+    ~fix_histogram_source(){}
 
 // Methods
 size_t get_size()
 { 
-	base_class::check_version();//Uaktualnia tez wersje podzrodla jesli trzeba
-	_calculate();//Sprawdza czy nie trzeba policzyc i ewentualnie liczy	
-	return arra.get_size();
+    base_class::check_version();//Uaktualnia tez wersje podzrodla jesli trzeba
+    _calculate();//Sprawdza czy nie trzeba policzyc i ewentualnie liczy
+    return arra.get_size();
 }	
 
 void all_subseries_required()//Alokuje i ewentualnie rejestruje w menagerze wszystkie serie
 {
-	basic_statistics_source<DATA_SOURCE>::all_subseries_required();
-	//MAX CLASS
-	MainClass();
-	WhichMain();
-	NumOfClass();
-	Entropy();
+    basic_statistics_source<DATA_SOURCE>::all_subseries_required();
+    //MAX CLASS
+    MainClass();
+    WhichMain();
+    NumOfClass();
+    Entropy();
     for(size_t i=0;i<Num;i++)
         Class(i); //Alokacja zrodel liczebnosci klas
 }
@@ -258,10 +263,10 @@ void all_subseries_required()//Alokuje i ewentualnie rejestruje w menagerze wszy
 void  bounds(size_t& num,double& min,double& max)
 //Ile elementow,wartosc minimalna i maksymalna
 {
-	base_class::check_version();//Uaktualnia tez wersje podzrodla jesli trzeba
-	_calculate();//Sprawdza czy nie trzeba policzyc i ewentualnie liczy
-	num=get_size();	
-	min=base_class::ymin;max=base_class::ymax;
+    base_class::check_version();//Uaktualnia tez wersje podzrodla jesli trzeba
+    _calculate();//Sprawdza czy nie trzeba policzyc i ewentualnie liczy
+    num=get_size();
+    min=base_class::ymin;max=base_class::ymax;
 }
 
 iteratorh  reset();//Umozliwia czytanie po iteratorze od poczatku
@@ -274,14 +279,14 @@ double get(size_t index);//Przetwarza index uzyskany z geometri
 template<class DATA_SOURCE> 
 size_t fix_histogram_source<DATA_SOURCE>::_next(iteratorh& p)
 {
-	assert(p!=NULL);//Nie wolno wywolac dla NULL
-	size_t pom=((size_t)p)-1;
+    assert(p!=NULL);//Nie wolno wywolac dla NULL
+    size_t pom=((size_t)p)-1;
 
-	if(pom+1>=Num)
-		p=NULL;
-	else
-		p=(iteratorh)(pom+2);
-	return pom;	
+    if(pom+1>=Num)
+        p=NULL;
+    else
+        p=(iteratorh)(pom+2);
+    return pom;
 }
 
 //Przetwarza index uzyskany z geometri
@@ -289,47 +294,47 @@ size_t fix_histogram_source<DATA_SOURCE>::_next(iteratorh& p)
 template<class DATA_SOURCE> inline
 double fix_histogram_source<DATA_SOURCE>::get(size_t index)
 { //na wartosc z serii, o ile jest mozliwe czytanie losowe	
-	base_class::check_version();//Uaktualnia tez wersje podzrodla jesli trzeba
-	_calculate();//Sprawdza czy nie trzeba policzyc i ewentualnie liczy	
-	assert(index<get_size());
-	return arra[ index ];
+    base_class::check_version();//Uaktualnia tez wersje podzrodla jesli trzeba
+    _calculate();//Sprawdza czy nie trzeba policzyc i ewentualnie liczy
+    assert(index<get_size());
+    return arra[ index ];
 }	
 
 //Daje nastepna z N liczb!!! 
 template<class DATA_SOURCE> inline
 double fix_histogram_source<DATA_SOURCE>::get(iteratorh& ptr_to_iterator)
 {
-	assert(ptr_to_iterator!=NULL);
-	return arra[ _next(ptr_to_iterator) ];
+    assert(ptr_to_iterator!=NULL);
+    return arra[ _next(ptr_to_iterator) ];
 }
 
 
 template<class DATA_SOURCE> inline
 void  fix_histogram_source<DATA_SOURCE>::close(iteratorh& p)
 {
-	p=NULL;
+    p=NULL;
 }
 
 
 template<class DATA_SOURCE> inline
 iteratorh  fix_histogram_source<DATA_SOURCE>::reset()//Umozliwia czytanie po iteratorze od poczatku
 { 
-	base_class::check_version();//Uaktualnia tez wersje podzrodla jesli trzeba
-	_calculate();//Sprawdza czy nie trzeba policzyc i ewentualnie liczy
-	return (iteratorh)1;
+    base_class::check_version();//Uaktualnia tez wersje podzrodla jesli trzeba
+    _calculate();//Sprawdza czy nie trzeba policzyc i ewentualnie liczy
+    return (iteratorh)1;
 }
 
 
 typedef fix_histogram_source<data_source_base> generic_fix_histogram_source;
 
-
+/* *******************************************************************/
+/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                  */
+/*            W O J C I E C H   B O R K O W S K I                    */
+/*  Zakład Systematyki i Geografii Roslin Uniwersytetu Warszawskiego */
+/*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego        */
+/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk              */
+/*        MAIL: borkowsk@iss.uw.edu.pl                               */
+/*                               (Don't change or remove this note)  */
+/* *******************************************************************/
 #endif
-/********************************************************************/
-/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
-/*            W O J C I E C H   B O R K O W S K I                   */
-/* Zaklad Systematyki i Geografii Roslin Uniwersytetu Warszawskiego */
-/*  & Instytut Studiow Spolecznych Uniwersytetu Warszawskiego       */
-/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk             */
-/*        MAIL: borkowsk@iss.uw.edu.pl                              */
-/*                               (Don't change or remove this note) */
-/********************************************************************/
+

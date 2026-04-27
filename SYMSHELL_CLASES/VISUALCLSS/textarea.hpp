@@ -1,3 +1,8 @@
+/// @file
+/// @brief OBSZAR OKNA ("LUFCIK") NAŚLADUJĄCY TERMINAL
+/// @date 2026-04-27 (modified)
+// ********************************************************************************************************************
+//
 #ifndef __TEXT_AREA_HPP__
 #define __TEXT_AREA_HPP__
 #ifndef __cplusplus
@@ -6,11 +11,10 @@
 
 #include "drawable.hpp"
 
-//				KLASA ABSZARU TELETYPE
-//--------------------------------------------------------------------
-class text_area:public drawable_base //Obsluguje tekst. 
-//Moga byc w nim znaki \n oraz %@R^L^C zaraz po nich.
-//---------------------------------------------------
+/// @brief KLASA OBSZARU "TELETYPE".
+/// Obsługuje tylko tekst. Mogą być w nim znaki \n oraz %@R^L^C zaraz po nich.
+class text_area:public drawable_base
+//----------------------------------
 {
 protected:
 
@@ -20,14 +24,14 @@ wb_color			  curr_col;//Aktualny kolor tekstu
 wb_dynarray< wb_dynarray<char> >  linie;//Bufor z liniami.
 public:
 //KONSTRUKCJA / DESTRUKCJA
-	text_area(int ix1,int iy1,int ix2,int iy2,
-			const char* itext,		//TEXT inicjujacy
-			unsigned icolor=default_black,
-			unsigned ibackground=default_white,
-			unsigned iframe=128,
+    text_area(int ix1,int iy1,int ix2,int iy2,
+            const char* itext,		//TEXT inicjujacy
+            unsigned icolor=default_black,
+            unsigned ibackground=default_white,
+            unsigned iframe=128,
                         size_t   buffsize=size_t(-1)	//Inicjalny rozmiar bufora.
-			);
-	~text_area(){clean();}
+            );
+    ~text_area(){clean();}
 
 //AKCESORY
 wb_color	gettextcolor(){return curr_col;}
@@ -38,17 +42,17 @@ int			add_line(const char* ln); //dodaje linie na koncu. W razie co przesuwa do 
 void		_replot();//Wypisuje i juz
 };
 
-
+/* ***************************************************************** */
+/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                  */
+/*            W O J C I E C H   B O R K O W S K I                    */
+/* Zakład Systematyki i Geografii Roślin Uniwersytetu Warszawskiego  */
+/*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego        */
+/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk              */
+/*        MAIL: borkowsk@iss.uw.edu.pl                               */
+/*                               (Don't change or remove this note)  */
+/* ***************************************************************** */
 #endif
 
 
-/********************************************************************/
-/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
-/*            W O J C I E C H   B O R K O W S K I                   */
-/* Zaklad Systematyki i Geografii Roslin Uniwersytetu Warszawskiego */
-/*  & Instytut Studiow Spolecznych Uniwersytetu Warszawskiego       */
-/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk             */
-/*        MAIL: borkowsk@iss.uw.edu.pl                              */
-/*                               (Don't change or remove this note) */
-/********************************************************************/
+
 

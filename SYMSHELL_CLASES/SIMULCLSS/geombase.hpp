@@ -1,10 +1,10 @@
 /// @file
-/// GEOMETRIA - SPOSÓB ORGANIZACJI AGENTÓW W WARSTWIE.
-// ////////////////////////////////////////////////////
-/// @date 2026-03-31 (modified)
-/// Geometria jest obiektem, który potrafi opisać położenie agentów w warstwie,
-/// a także wzajemnie względem siebie i przetworzyć je na liniowy indeks tablicy.
-/// /////////////////////////////////////////////////////////////////////////////
+/// @brief GEOMETRIA - SPOSÓB ORGANIZACJI AGENTÓW W WARSTWIE./ GEOMETRY - THE WAY OF ORGANIZING AGENTS IN A LAYER.
+/// @date 2026-04-27 (modified)
+///     Geometria jest obiektem, który potrafi opisać położenie agentów w warstwie,
+///     a także wzajemnie względem siebie i przetworzyć je na liniowy indeks tablicy.
+// *********************************************************************************************************************
+//
 #ifndef __GEOMBASE_HPP__
 #define __GEOMBASE_HPP__
 
@@ -270,14 +270,15 @@ double     geometry_base::get_distance(size_t first,size_t second) const
     return 0;
 }
 
+/* ***************************************************************** */
+/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                  */
+/*            W O J C I E C H   B O R K O W S K I                    */
+/* Zakład Systematyki i Geografii Roślin Uniwersytetu Warszawskiego  */
+/*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego        */
+/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk              */
+/*        MAIL: borkowsk@iss.uw.edu.pl                               */
+/*                               (Don't change or remove this note)  */
+/* ***************************************************************** */
 #endif
-/* **************************************************************** */
-/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
-/*            W O J C I E C H   B O R K O W S K I                   */
-/* Zakład Systematyki i Geografii Roślin Uniwersytetu Warszawskiego */
-/*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego       */
-/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk             */
-/*        MAIL: borkowsk@iss.uw.edu.pl                              */
-/*                               (Don't change or remove this note) */
-/* **************************************************************** */
+
 

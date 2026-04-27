@@ -1,10 +1,14 @@
-///////////////////////////////////////////////////////////////////////////////
-// Filtr liczacy koincydencje klas dwu serii i pochodne statystyki (Hi^2 itp)
-///////////////////////////////////////////////////////////////////////////////
+/// @file
+/// @brief Filtr licz膮cy koincydencje klas dwu serii i pochodne statystyki (Hi^2 itp)
+/// @date 2026-04-27 (modified)
+// ********************************************************************************************************************
+//
 #ifndef __COINCIDENTION_SOUR_HPP__
 #define __COINCIDENTION_SOUR_HPP__
+
 #include "costatso.hpp"
 
+/// @brief Filtr licz膮cy koincydencje klas dwu serii i pochodne statystyki (Hi^2 itp)
 template<class DATA_SOURCE>
 class coincidention_source:public co_statistics_source<DATA_SOURCE>
 //------------------------------------------------------------------------------
@@ -28,231 +32,231 @@ return my_geometry.get_next(p);
 double _get(size_t index)
 //Bezposrednio siega do tablicy arra
 {
-	double pom;
-	assert(arra);
-	i=index/nn;//Kt髍y wiersz
-	assert(arra[i]);
-	j=index%nn;//Kt髍a kolumna
-	return arra[i][j];
+    double pom;
+    assert(arra);
+    i=index/nn;//Kt贸ry wiersz
+    assert(arra[i]);
+    j=index%nn;//Kt贸ra kolumna
+    return arra[i][j];
 }
 
 
 int _calculate() //Zwraca 1 jesli musial przeliczyc
 {
-	if(!basic_statistics_source<DATA_SOURCE>::_calculate()) 
-		return 0;
+    if(!basic_statistics_source<DATA_SOURCE>::_calculate())
+        return 0;
 
-	size_t nn,mm;//Real numbers of classes
+    size_t nn,mm;//Real numbers of classes
 /*	
-	{//OBLICZANIE HISTOGRAMU
-	assert(N==-1);//Tylko tryb integerowy zaimplementowany
+    {//OBLICZANIE HISTOGRAMU
+    assert(N==-1);//Tylko tryb integerowy zaimplementowany
 
-	size_t i;
-	size_t SN,KL;
-	double smin,smax;	
-	Source->bounds(SN,smin,smax);
-	
-	if(smax-smin<=double(size_t(-1)))//Czy w zakresie size_t
-		KL=size_t(smax-smin)+1;//Ile jednostek calkowitych zakresu
-		else
-		goto ERROR;
+    size_t i;
+    size_t SN,KL;
+    double smin,smax;
+    Source->bounds(SN,smin,smax);
 
-	arra.alloc(KL);
-	if(!arra) //blad alokacji - za malo/za duzo?
-		goto ERROR;
+    if(smax-smin<=double(size_t(-1)))//Czy w zakresie size_t
+        KL=size_t(smax-smin)+1;//Ile jednostek calkowitych zakresu
+        else
+        goto ERROR;
 
-	for(i=0;i<KL;i++)
-		arra[i]=0;
+    arra.alloc(KL);
+    if(!arra) //blad alokacji - za malo/za duzo?
+        goto ERROR;
 
-	//PETLA ZLICZANIA
-	iteratorh Ind=Source->reset();
-	source_miss=Source->get_missing();	
-	for(i=0;i<SN;i++)
-		{
-		double pom=Source->get(Ind);
-		if(!FromSourceIsMissing(pom))
-			{	
-			pom-=smin;//Przesuniecie
-			arra[pom]++;
-			}
-		}
-	Source->close(Ind);	
+    for(i=0;i<KL;i++)
+        arra[i]=0;
 
-	//PETLA	MIN/MAX
-	ymin=DBL_MAX;
-	ymax=0;
-	size_t licz=0,minp=0,maxp=0;
+    //PETLA ZLICZANIA
+    iteratorh Ind=Source->reset();
+    source_miss=Source->get_missing();
+    for(i=0;i<SN;i++)
+        {
+        double pom=Source->get(Ind);
+        if(!FromSourceIsMissing(pom))
+            {
+            pom-=smin;//Przesuniecie
+            arra[pom]++;
+            }
+        }
+    Source->close(Ind);
 
-	for(i=0;i<KL;i++)
-	{
-		double pom=arra[i];
-		
-		if(pom>0)
-			licz++;
+    //PETLA	MIN/MAX
+    ymin=DBL_MAX;
+    ymax=0;
+    size_t licz=0,minp=0,maxp=0;
 
-		if(pom>ymax) 
-		{
-			ymax=pom;
-			maxp=i;
-		}
+    for(i=0;i<KL;i++)
+    {
+        double pom=arra[i];
 
-		if(pom<ymin) 
-		{
-			ymin=pom;
-			minp=i;
-		}
-	}
+        if(pom>0)
+            licz++;
 
-	if(table[6]!=NULL)
-		{
-		table[6]->change_val(ymax);
-		}
+        if(pom>ymax)
+        {
+            ymax=pom;
+            maxp=i;
+        }
 
-	if(table[7]!=NULL)
-		{
-		table[7]->change_val(licz);
-		}
+        if(pom<ymin)
+        {
+            ymin=pom;
+            minp=i;
+        }
+    }
 
-	if(table[8]!=NULL)
-		{
-		table[8]->change_val(maxp+smin+0.5);//0.5 bo srodek przedzialu calkowitego
-		}
+    if(table[6]!=NULL)
+        {
+        table[6]->change_val(ymax);
+        }
 
-	return 1;
-	}//Musial przeliczyc
+    if(table[7]!=NULL)
+        {
+        table[7]->change_val(licz);
+        }
+
+    if(table[8]!=NULL)
+        {
+        table[8]->change_val(maxp+smin+0.5);//0.5 bo srodek przedzialu calkowitego
+        }
+
+    return 1;
+    }//Musial przeliczyc
 */	
 ERROR:
-	arra.dispose();
-	ymin=ymax=0;
-	return 1;
+    arra.dispose();
+    ymin=ymax=0;
+    return 1;
 }
 
 public:
 virtual size_t number_of_subseries()
-	{
-	return co_statistics_source::number_of_subseries()+
-			4;//Ma cztery podzrodla
-	}
+    {
+    return co_statistics_source::number_of_subseries()+
+            4;//Ma cztery podzrodla
+    }
 
 void all_subseries_required()//Alokuje i ewentualnie rejestruje w menagerze wszystkie serie
 {
-	co_statistics_source<DATA_SOURCE>::all_subseries_required();
-	//MAX CLASS
-	Hi();
+    co_statistics_source<DATA_SOURCE>::all_subseries_required();
+    //MAX CLASS
+    Hi();
 }
 
 //Acces to "childrens"
 scalar_source<double>*      Hi(const char* format="Hi(%s)")	
 {
-	iHi=co_statistics_source::number_of_subsseries();
-	return GetMonoSource(iHi,format);
+    iHi=co_statistics_source::number_of_subsseries();
+    return GetMonoSource(iHi,format);
 }
 
 
 //Construction
-	coincidention_source(DATA_SOURCE* ini1=NULL,
-						 DATA_SOURCE* ini2=NULL,
-						size_t NumberOfClass1=-1,//-1 oznacza tryb calkowitoliczbowy
-						size_t NumberOfClass2=-1,//-1 oznacza tryb calkowitoliczbowy
-						sources_menager_base* MyMenager=NULL,
-						size_t table_size=1/*ZAPAS*/,
-						const char* format="COINCIDENT(%s,%s)"):
-	N(NumberOfClass1),
-	M(NumberOfClass2),
-	iHi(-1),
-	co_statistics_source<DATA_SOURCE>(ini1,ini2,
-						MyMenager,
-						4+table_size,//4 wlasne + z klas potomych
-						format) 
-	{}
-	
-	~coincidention_source(){}
+    coincidention_source(DATA_SOURCE* ini1=NULL,
+                         DATA_SOURCE* ini2=NULL,
+                        size_t NumberOfClass1=-1,//-1 oznacza tryb calkowitoliczbowy
+                        size_t NumberOfClass2=-1,//-1 oznacza tryb calkowitoliczbowy
+                        sources_menager_base* MyMenager=NULL,
+                        size_t table_size=1/*ZAPAS*/,
+                        const char* format="COINCIDENT(%s,%s)"):
+    N(NumberOfClass1),
+    M(NumberOfClass2),
+    iHi(-1),
+    co_statistics_source<DATA_SOURCE>(ini1,ini2,
+                        MyMenager,
+                        4+table_size,//4 wlasne + z klas potomych
+                        format)
+    {}
+
+    ~coincidention_source(){}
 
 // Accession Methods
 void  bounds(size_t& num,double& min,double& max)
 //Ile elementow,wartosc minimalna i maksymalna
 {
-	check_version();//Uaktualnia tez wersje podzrodla jesli trzeba
-	_calculate();//Sprawdza czy nie trzeba policzyc i ewentualnie liczy
-	num=get_size();	
-	min=ymin;max=ymax;
+    check_version();//Uaktualnia tez wersje podzrodla jesli trzeba
+    _calculate();//Sprawdza czy nie trzeba policzyc i ewentualnie liczy
+    num=get_size();
+    min=ymin;max=ymax;
 }
 
 size_t get_size()
-//ile element體
+//ile element贸w
 { 
-	check_version();//Uaktualnia tez wersje podzrodla jesli trzeba
-	_calculate();//Sprawdza czy nie trzeba policzyc i ewentualnie liczy	
-	if(!my_geometry)
-			return 0;
-	return my_geometry->get_size();//Prawdziwy rozmiar tablicy koincydencji
+    check_version();//Uaktualnia tez wersje podzrodla jesli trzeba
+    _calculate();//Sprawdza czy nie trzeba policzyc i ewentualnie liczy
+    if(!my_geometry)
+            return 0;
+    return my_geometry->get_size();//Prawdziwy rozmiar tablicy koincydencji
 }	
 
 //Zwraca wskaznik do obowiazujacej geometri danych. NULL oznacza dane nie-zgeometryzowane	
 geometry_base* getgeometry()
-	{ 
-	check_version();//Uaktualnia tez wersje podzrodla jesli trzeba
-	_calculate();//Sprawdza czy nie trzeba policzyc i ewentualnie liczy	
-	return my_geometry.get_ptr_val(); 
-	}		  
+    {
+    check_version();//Uaktualnia tez wersje podzrodla jesli trzeba
+    _calculate();//Sprawdza czy nie trzeba policzyc i ewentualnie liczy
+    return my_geometry.get_ptr_val();
+    }
 
 iteratorh  reset()
 //Umozliwia czytanie od poczatku
 //tablicy lub wycinka
-	{ 
-	check_version();//Uaktualnia tez wersje podzrodla jesli trzeba
-	_calculate();//Sprawdza czy nie trzeba policzyc i ewentualnie liczy	
-	if(my_geometry)
-		return my_geometry->make_global_iterator();
-		else
-		return NULL;
-	}
+    {
+    check_version();//Uaktualnia tez wersje podzrodla jesli trzeba
+    _calculate();//Sprawdza czy nie trzeba policzyc i ewentualnie liczy
+    if(my_geometry)
+        return my_geometry->make_global_iterator();
+        else
+        return NULL;
+    }
 
 void close(iteratorh& p)
 //Wymuszony koniec iteracji
-	{ 
-	if(my_geometry)
-		my_geometry->destroy_iterator(p);
-	}
+    {
+    if(my_geometry)
+        my_geometry->destroy_iterator(p);
+    }
 
 double get(iteratorh& p)
 //Daje nastepna z nn*mm liczb!!! 
-	{
-	double ret=0;
-	assert(p!=NULL);
-	size_t pom=my_geometry->get_next(p);
+    {
+    double ret=0;
+    assert(p!=NULL);
+    size_t pom=my_geometry->get_next(p);
 
-	if(pom!=ULONG_MAX)
-		ret=_get(pom);
-		else
-		ret=miss;
-	
-	return ret;
-	}
+    if(pom!=ULONG_MAX)
+        ret=_get(pom);
+        else
+        ret=miss;
+
+    return ret;
+    }
 
 double get(size_t index)
 //Przetwarza index uzyskany z geometri na jedna z nn*mm liczb
-	{ 
+    {
 #ifdef CAREFULLY_GET //Raczej niepotrzebne bo robi to juz i get_geometry() i bounds() i get_size();
-	check_version();//Uaktualnia tez wersje podzrodla jesli trzeba
-	_calculate();//Sprawdza czy nie trzeba policzyc i ewentualnie liczy			
+    check_version();//Uaktualnia tez wersje podzrodla jesli trzeba
+    _calculate();//Sprawdza czy nie trzeba policzyc i ewentualnie liczy
 #endif
-	assert(index<get_size());
-	return _get( index );
-	}	
+    assert(index<get_size());
+    return _get( index );
+    }
 
 };
 
 typedef coincidention_source<data_source_base> generic_coincidention_source;
 
 
+/* *******************************************************************/
+/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                  */
+/*            W O J C I E C H   B O R K O W S K I                    */
+/*  Zak艂ad Systematyki i Geografii Roslin Uniwersytetu Warszawskiego */
+/*  & Instytut Studi贸w Spo艂ecznych Uniwersytetu Warszawskiego        */
+/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk              */
+/*        MAIL: borkowsk@iss.uw.edu.pl                               */
+/*                               (Don't change or remove this note)  */
+/* *******************************************************************/
 #endif
-/********************************************************************/
-/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
-/*            W O J C I E C H   B O R K O W S K I                   */
-/* Zaklad Systematyki i Geografii Roslin Uniwersytetu Warszawskiego */
-/*  & Instytut Studiow Spolecznych Uniwersytetu Warszawskiego       */
-/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk             */
-/*        MAIL: borkowsk@iss.uw.edu.pl                              */
-/*                               (Don't change or remove this note) */
-/********************************************************************/
