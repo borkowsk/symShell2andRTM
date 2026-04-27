@@ -1,13 +1,13 @@
-// /////////////////////////////////////////////////////////////////////////////////////////
-//							Przykladowy program SYMSHELLA
-//-----------------------------------------------------------------------------------------
-// Demonstracja stosowania obiektowego pietra SYMSHELLa
-// Tworzy kilka przykladowych seri danych i umieszcza je w menagerze danych.
-// Tworzy kilka obszarow i umieszcza je pod zarzadem menagera obszarow.
-// Oddaje sterowanie menagerowi obszarow opartemu na SYMSHELU
-// /////////////////////////////////////////////////////////////////////////////////////////
+/// @file
+/// @brief Przykładowy program SYMSHELL-z z klasami.
+/// @date 2026-04-27 (modified)
+///     Demonstracja stosowania obiektowego pietra SYMSHELLa
+///     Tworzy kilka przykładowych seri danych i umieszcza je w zarządcy danych.
+///     Tworzy kilka obszarów i umieszcza je pod zarządem managera obszarów.
+///     Ostatecznie oddaje sterowanie zarządcy obszarów opartemu na SYMSHELL-u.
+// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <math.h> //cos jest potrzebne
+#include <cmath> //cos tam jest potrzebne
 
 #include <cstdio>
 #include <cstdlib>
@@ -20,43 +20,43 @@
 #include "sourmngr.hpp"
 #include "gadgets.hpp"
 #include "graphs.hpp"
+
 //#include "areamngr.hpp"
 #include "mainmngr.hpp"
 
-//#include "symshell.h" - niepotrzebne - juz opakowane obiektami
+//#include "symshell.h" - niepotrzebne — juz opakowane obiektami
 
 //int x,y,vx,vy;
 //ROZMIARY OKNA
 const int SCR_WIDTH=390;
 const int SCR_HEIGHT=280;
 
-class tangens//Klasa funkcyjna opakowujaca tangens
+// Klasa funkcyjna opakowująca tangens.
+class tangens
 {
 public:
-double operator () (double x)
-	{ return tan(x);}
+    double operator () (double x)
+        { return tan(x);}
 };
-
-
 
 
 // Tablice przykladowych danych
 int dane1[25]={1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,25,26};
 double dane2[25]={-2.1,-1.8,-1.2,-0.96,-0.45,
-				 -0.1, 0.1,0.48, 0.88, 1.33,
-				  1.8, 2.3, 3.1,  4.5,  6.6,
-				  7.8, 6.7, 3.6,  2.3,  1.9,
-				  1.1, 0.5,-0.1, -0.9,-1.99};
+                 -0.1, 0.1,0.48, 0.88, 1.33,
+                  1.8, 2.3, 3.1,  4.5,  6.6,
+                  7.8, 6.7, 3.6,  2.3,  1.9,
+                  1.1, 0.5,-0.1, -0.9,-1.99};
 int dane3[25]={	0,1,0,1,0,
-    			1,0,1,0,1,
-				0,1,0,1,0,
-				1,0,1,0,1,
-				0,1,0,1,0};
+                1,0,1,0,1,
+                0,1,0,1,0,
+                1,0,1,0,1,
+                0,1,0,1,0};
 float dane4[25]={15.7f,13.8f,33.33f,18.1f,18.8f,
-				  1.1f,0.88f,0.11f,0.11f,0.87f,
-				  0.99f,17.0f,19.0f,22.0f,11.4f,
-				  14.5f,0.86f,0.14f,0.15f,0.89f,
-				  15.33f,11.1f,32.13f,15.78f,19.9f,};
+                  1.1f,0.88f,0.11f,0.11f,0.87f,
+                  0.99f,17.0f,19.0f,22.0f,11.4f,
+                  14.5f,0.86f,0.14f,0.15f,0.89f,
+                  15.33f,11.1f,32.13f,15.78f,19.9f,};
 int dane5[]={64,49,36,25,16,9,4,1,0};
 
 int connections_s[]=      {1,1,2,2,2,3,4,5,5,5,7, 8, 8, 8,9,10,11,20};
@@ -66,20 +66,20 @@ float arrows[conlen]=       {0,1,0,1,0,1,1,1,1,1,1, 1, 1, 1,1,1,1,0.5};
 float aweights[conlen]=     {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18};
 
 sources_menager Series  //Zarzadca danych i jego serie
-			(16,
-			new matrix_source<int>("A-matrix",5,5,dane1),
-			new array_source<int>(sizeof(dane1)/sizeof(*dane1),dane1,"A-data"),
-			new matrix_source<double>("B-matrix",5,5,dane2),
-			new array_source<int>(sizeof(dane3)/sizeof(*dane3),dane3,"C-data"),
-			new array_source<float>(sizeof(dane4)/sizeof(*dane4),dane4,"D-data"),
-			new function_source<sinus>(25,0,2*3.141595,"Sin(x)"),
-			new function_source<cosinus>(25,0,2*3.141595,"Cos(x) ",-1,1),//Podane dokladne min i max
-			//new array_source<int>(sizeof(dane5)/sizeof(*dane5),dane5,"Parabola ");
+            (16,
+            new matrix_source<int>("A-matrix",5,5,dane1),
+            new array_source<int>(sizeof(dane1)/sizeof(*dane1),dane1,"A-data"),
+            new matrix_source<double>("B-matrix",5,5,dane2),
+            new array_source<int>(sizeof(dane3)/sizeof(*dane3),dane3,"C-data"),
+            new array_source<float>(sizeof(dane4)/sizeof(*dane4),dane4,"D-data"),
+            new function_source<sinus>(25,0,2*3.141595,"Sin(x)"),
+            new function_source<cosinus>(25,0,2*3.141595,"Cos(x) ",-1,1),//Podane dokladne min i max
+            //new array_source<int>(sizeof(dane5)/sizeof(*dane5),dane5,"Parabola ");
             new array_source<int>(conlen,connections_s,"Sources"),
             new array_source<int>(conlen,connections_t,"Targets"),
             new array_source<float>(conlen,arrows,"Directed"),
             new array_source<float>(conlen,aweights,"Weights"),
-			NULL);
+            NULL);
 
 //Menagera danych nie sortuje serii i trzyma je w takiej 
 //kolejnosci jak programista je wkladal w konstruktorze i pozniej.
@@ -98,7 +98,7 @@ int ret=0;
 //Przyklejenie do niektorych seri nie-domyslnych atrybutow
 ret=Series.set_info(Series.search("A-data"),default_color,new hash_point);
 ret=Series.set_info(Series.search("C-data"),default_color,new circle_point);
-		
+
 //Tworzenie obszarow z wykresami
 pom=new carpet_graph(1,1,89,89,5,5,Series.get(1));      assert(pom!=NULL);
 pom->settitle("CARPET GRAPH");
@@ -120,7 +120,7 @@ pom->settitle("");
 */
 /*{
 int subtab[]={0,0,3,3};//Wiemy ze to jest seria maciezowa!
-					   //W przeciwnym wypadku trzeba by sprawdzic metoda box()	
+                       //W przeciwnym wypadku trzeba by sprawdzic metoda box()
 int ret=Series.get(0)->sub(subtab);//Ustalenie wycinka tablicy
 assert(ret==0);//Wycinek prawidlowy
 }*/
@@ -177,9 +177,9 @@ pom->configure(&confstruct);
 }*/
 
 pom=new scatter_graph(270,90,359,179,          Series.get(4),0,
-								               Series.get(2),0,
-											   Series.get(1),0,
-											   Series.get(3),0);    assert(pom!=NULL);
+                                               Series.get(2),0,
+                                               Series.get(1),0,
+                                               Series.get(3),0);    assert(pom!=NULL);
 pom->setdatacolors(1,254);
 pom->settitle("CROSS POINT SCATTER PLOT");
 Lufciki.insert(pom);
@@ -190,9 +190,9 @@ pom->settitle("TIME SERIES");
 Lufciki.insert(pom);
 
 pom=new sequence_graph(90,180,179,269,4,Series.make_series_info(0,2,3,4,-1).get_ptr_val(),
-															  1,-5/*Wspolne min/max*/);    assert(pom!=NULL);
-															//2,-10,40/*Fixed min/max*/);															
-															//2,-0.0001,18/*Za maly zakres min/max */);    assert(pom!=NULL);
+                                                              1,-5/*Wspolne min/max*/);    assert(pom!=NULL);
+                                                            //2,-10,40/*Fixed min/max*/);
+                                                            //2,-0.0001,18/*Za maly zakres min/max */);    assert(pom!=NULL);
 pom->settitle("OTHER TIME SERIES");
 pom->setframe(253);
 Lufciki.insert(pom);
@@ -204,7 +204,7 @@ Lufciki.insert(pom);
 
 //Tworzenie obszaru sterujacego
 wb_dynarray<rectangle_source_base*> tmp(2,(rectangle_source_base*)Series.get(0),
-										  (rectangle_source_base*)Series.get(2));
+                                          (rectangle_source_base*)Series.get(2));
 drawable_base* pom2=new steering_wheel(270,1,360,89,tmp);			    assert(pom2!=NULL);
 
 pom2->setbackground(10);
@@ -231,10 +231,10 @@ printf("Ctrl-I for HELP, Ctrl-Q to quit.\n");
 RANDOMIZE();
 */
 if(!Lufciki.start("SYMSHELL's AREA MENAGER TEST",argc,argv))
-		{
-		 printf("%s\n","Can't initialize graphics");
-		 exit(1);
-		}
+        {
+         printf("%s\n","Can't initialize graphics");
+         exit(1);
+        }
 tworz_lufciki_testowe();
 
 Lufciki.run_input_loop();//ODDAJE STEROWANIE! NIE MOZNA W TEN SPOSOB ROBIC SYMULACJI
@@ -244,3 +244,12 @@ return 0;
 //Gdzies tu,albo troche dalej destruktory...
 }
 
+/* ***************************************************************** */
+/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                  */
+/*            W O J C I E C H   B O R K O W S K I                    */
+/* Zakład Systematyki i Geografii Roślin Uniwersytetu Warszawskiego  */
+/*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego        */
+/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk              */
+/*        MAIL: borkowsk@iss.uw.edu.pl                               */
+/*                               (Don't change or remove this note)  */
+/* ***************************************************************** */
