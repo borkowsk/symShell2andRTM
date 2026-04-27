@@ -70,7 +70,7 @@ void test_series()
 {
 }
 
-void tworz_lufciki_testowe()
+void make_test_areas()
 {
 graph* pom;
 
