@@ -125,7 +125,7 @@ return pos;
 int    sources_menager::set_info(size_t index,
 			wb_color	  ico,//Czy kolor ustalony
 			config_point* fig)//Obiekt rysujacy punkty	
-//Zapamientuje informacje o wizualizacji serii						
+// Zapamiętuje informacje o wizualizacji serii.
 {
 if(index<tab.get_size())
 	{
@@ -157,36 +157,38 @@ return todo;
 }
 
 wb_dynarray<graph::series_info> sources_menager::make_series_info(int start,.../* ostatnia -1*/)
-//Tworza dynamicznie tablice serii
+// Tworzenie dynamicznie tablice serii
 {
-va_list list;
-//va_list(list);
-size_t siz=1;
+    va_list list;
+    //va_list(list);
+    size_t siz=1;
 
-//zliczanie pozostalych parametrow
-va_start(list,start);
-while(va_arg(list,int)!=-1) siz++;
-va_end(list);
+    //Zliczanie pozostałych parametrów:
+    va_start(list,start);
+    while(va_arg(list,int)!=-1) siz++;
+    va_end(list);
 
-wb_dynarray<graph::series_info> todo(siz+1);//Musi byc jedna pusta na koncu
+    wb_dynarray<graph::series_info> todo(siz+1); //Musi byc jedna pusta na końcu.
 
-//Wypelnianie tablicy seri.
-va_start(list,start);
-size_t i,index;//Index odczytany z parametru. i - pozycja w tod
-for(index=start,i=0;i<siz;index=va_arg(list,int),i++)
-	{
-	data_source_base* gcc_pom=tab[index].get();
-	config_point* gcc_pom2=tab[index].fig?tab[index].fig.get_ptr_val():NULL;
-	graph::series_info pom(		
-			gcc_pom,	//Wskaznik do zrodla danych
-			0,									//Nie zarzadzaj!
-			tab[index].col,	//Jesli !=-1, ustala kolor
-			gcc_pom2,	//Wsaznik rysika.Jesli NULL to laczy liniami
-			0);									//Nie zarzadzaj!
-	todo[i]=pom;//Zywcem przepisanie razem ze wskaznikami
-	}
-va_end(list);
-return todo;
+    //Wypełnianie tablicy seri.
+    va_start(list,start);
+    size_t i,index; //Index odczytany z parametru. i - pozycja w tod(?)
+    for(index=start,i=0;i<siz;index=va_arg(list,int),i++)
+        {
+        data_source_base* gcc_pom=tab[index].get();
+        config_point* gcc_pom2=tab[index].fig?tab[index].fig.get_ptr_val():NULL;
+
+        graph::series_info pom(
+                gcc_pom,		//Wskaźnik do zrodla danych
+                0,				//Nie zarządzaj!
+                tab[index].col,	//Jesli !=-1, ustala kolor
+                gcc_pom2,		//Wskaźnik rysika.Jesli NULL to laczy liniami
+                0);			//Nie zarządzaj!
+
+        todo[i]=pom; //przepisanie razem ze wskaźnikami (shallow copy).
+        }
+    va_end(list);
+    return todo;
 }
 
 data_source_base/*const*/* sources_menager::get(size_t index) //Nie wolno zwalniac!!!			

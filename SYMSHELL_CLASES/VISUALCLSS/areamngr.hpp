@@ -15,15 +15,16 @@
 #include "drawable.hpp"
 
 /// INTERFACE DO DOWOLNEGO ZARZĄDCY OBSZARU.
-/// Dobrze żeby mozna było zestawiać zarządców w hierarchie.
+/// Dobrze, żeby można było zestawiać zarządców w hierarchie.
 class area_menager_base:public drawable_base
 //------------------------------------------
 {
-    int		cont_actions;	//Flaga kontynuacji. Jesli 0 to wypada kiedy moze.
-    public:
-    virtual ~area_menager_base(){} //Pusty destruktor dla wymuszenia wirtualnosci destruktorow
+    int		cont_actions;	///< Flaga kontynuacji. Gdy 0 to wypada z pętli, kiedy może.
 
-    /// Konieczny jakis konstruktor do przekazania parametrów drawable_base i żeby był default.
+    public:
+    ~area_menager_base() override= default; //Pusty destruktor, bo wymuszenie wirtualności destruktorów w klasie bazowej.
+
+    /// Konieczny jakikolwiek konstruktor do przekazania parametrów `drawable_base` i żeby był default.
     area_menager_base(
                     int ix1=0,int iy1=0,int ix2=0,int iy2=0,
                     unsigned ibkg=default_color,
