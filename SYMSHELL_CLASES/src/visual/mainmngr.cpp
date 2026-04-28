@@ -1,7 +1,7 @@
 //	Zarządca obszaru ekranu zaimplementowany bezpośrednio na bazie funkcji SYMSHELL'a
 //   do obsługi całego ekranu/okna SYMSHELL'a.
 //*/////////////////////////////////////////////////////////////////////////////////////////
-
+/// @date 2026-04-28 (modified)
 
 //#include "INCLUDE/platform.hpp"
 
@@ -81,12 +81,12 @@ idle_must_work=1;
 int  main_area_menager::set_marker(wb_color newmark)
 //zwraca 1 jesli OK, lub 0
 {
-if(newmark>=0 && newmark<255)
-	{
-	Marker=newmark;
-	return 1;
-	}
-return 0;
+    if(newmark>=0 && newmark<255)
+        {
+        Marker=newmark;
+        return 1;
+        }
+    return 0;
 }
 
 //KONSTRUKTORY
@@ -99,11 +99,12 @@ main_area_menager::main_area_menager( size_t size, //Konstruktor dający zarząd
 				area_menager(size,0,0,width-1,height-1,ibkg)
 {
     if(initialized || counter>0)
-        {
+    {
         fprintf(stderr,"One main_area_menager already constructed!\n");
         fprintf(stderr,"Process will be aborted!\n");
         abort();
-        }
+    }
+
     counter++;
 }
 
@@ -246,54 +247,54 @@ int     main_area_menager::restore(/*ALL*/)
 void main_area_menager::need_confirmation_before_clean(int yes)
 //Metoda ukrywajaca dostep do WB_error_enter_bofore_clean
 {
-WB_error_enter_before_clean=yes;
+    WB_error_enter_before_clean=yes;
 }
 
 void main_area_menager::make_help_area(const char* text)
 {
-if(text==nullptr)
-	{
-	text=                "%@C AREA MENAGER CONTROL KEYS \n"
-		"%@C--------------------------------------------------------------------\n"
-        "ctrl-A: do one step of backround processing\n"
-		"ctrl-B: start/stop background processing\n"
-		"ctrl-E: exclude (hide) marked areas from window\n"
-		"ctrl-H: reserved - mouse event\n"
-		"ctrl-I: make/restore/minimize HELP window\n"
-		"ctrl-J: replot all\n"
-		"ctrl-K: mark all areas\n"
-		"ctrl-L: reserved (deletion of areas not implemented)\n"
-		"ctrl-M: reserved - replot event\n"
-		"ctrl-O: move marked areas to orginal position\n"
-		"ctrl-Q: exit\n"
-		"ctrl-R: restore all areas to window\n"
-		"ctrl-S: save screen\n"
-		"ctrl-T: tile marked areas\n"
-		"ctrl-U: unmark all areas\n";
-	}
+    if(text==nullptr)
+    {
+        text=                "%@C AREA MENAGER CONTROL KEYS \n"
+            "%@C--------------------------------------------------------------------\n"
+            "ctrl-A: do one step of backround processing\n"
+            "ctrl-B: start/stop background processing\n"
+            "ctrl-E: exclude (hide) marked areas from window\n"
+            "ctrl-H: reserved - mouse event\n"
+            "ctrl-I: make/restore/minimize HELP window\n"
+            "ctrl-J: replot all\n"
+            "ctrl-K: mark all areas\n"
+            "ctrl-L: reserved (deletion of areas not implemented)\n"
+            "ctrl-M: reserved - replot event\n"
+            "ctrl-O: move marked areas to orginal position\n"
+            "ctrl-Q: exit\n"
+            "ctrl-R: restore all areas to window\n"
+            "ctrl-S: save screen\n"
+            "ctrl-T: tile marked areas\n"
+            "ctrl-U: unmark all areas\n";
+    }
 
-int ile=0;
-//Zliczenie znakow \n w tekscie
-{
-const char* pom=text;
-while(*pom++){if(*pom=='\n')ile++;}
-}
+    int ile=0;
+    //Zliczenie znakow \n w tekscie
+    {
+        const char* pom=text;
+        while(*pom++){if(*pom=='\n')ile++;}
+    }
 
-ile+=3;//Na tytul i pusta linie i zapas
-int maxy=getheight()/5+ile*char_height('X');
+    ile+=3;//Na tytul i pusta linie i zapas
+    int maxy=getheight()/5+ile*char_height('X');
 
-text_area* pom=new text_area(
-				getwidth()/4,getheight()/5,
-				getwidth()/4*3,(maxy<getheight()?maxy:getheight()-1),
-				text,
-				default_black,default_white,250);
+    text_area* pom=new text_area(
+                    getwidth()/4,getheight()/5,
+                    getwidth()/4*3,(maxy<getheight()?maxy:getheight()-1),
+                    text,
+                    default_black,default_white,250);
 
-if(pom)//Zaalokowane OK
-	{
-	pom->settitle("HELP");
-	int helpind=insert(pom);   //Zabiera zawartość w zarzad!!!
-	pom->replot();
-	}
+    if(pom)//Zaalokowane OK
+    {
+        pom->settitle("HELP");
+        int helpind=insert(pom);   //Zabiera zawartość w zarzad!!!
+        pom->replot();
+    }
 }
 
 /// Obsługa wszelkich zdarzeń z zewnątrz
@@ -558,8 +559,8 @@ int main_area_menager::_post_process_input(int input_char)
 int main_area_menager::_on_idle()
 //Uruchamiane przez run_input_loop() gdy nie ma zdarzen.
 {
-    delay_ms(0);//Tu nie ma nic do roboty
-               //Wiec trzeba dac szanse systemowi
+    delay_ms(0); //Tu nie ma nic do roboty
+                 //Wiec trzeba dac szanse systemowi
 	return 0;
 }
 
@@ -568,9 +569,9 @@ int main_area_menager::_on_idle()
 main_area_menager::~main_area_menager()
 //Wirtualny destruktor
 {
-if(initialized)
-		::close_plot();
-counter--;																		//assert( heapcheck() != _HEAPCORRUPT );
+    if(initialized)
+            ::close_plot();
+    counter--;														// assert( heapcheck() != _HEAPCORRUPT );
 }
 
 

@@ -1,6 +1,6 @@
 /// @file
 /// @brief INTERFACE'y najbardziej podstawowych klas źródeł.
-/// @date 2026-04-27 (modified)
+/// @date 2026-04-28 (modified)
 // *********************************************************************************************************************
 //
 #ifndef __DATA_SOURCES_HPP__
@@ -287,8 +287,8 @@ class rectangle_source_base:public data_source_base,public title_util
 //--------------------------------------------------------------
 {
 private:
-rectangle_geometry* my_geometry;
-bool             local_geometry;
+    rectangle_geometry* my_geometry;
+    bool             local_geometry;
 
 protected:
 

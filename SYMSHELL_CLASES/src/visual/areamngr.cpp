@@ -1,12 +1,15 @@
-// Implementacja podstawowego mengera obszarow i...
-//------------------------------------------------
+/// @file
+/// @brief Implementacja podstawowego mengera obszarow i...
+/// @date 2026-04-28 (modified)
+//---------------------------------------------------------------------------
 //  Wersja z kosmetyką XI 2012
 //*///////////////////////////////////////////////////////////////////////////
+
 #include "areamngr.hpp"
 
 area_menager::~area_menager()  //Wirtualny destruktor
 {
-maximized=-1;grabbed=-1;  
+    maximized=-1;grabbed=-1;
 }
 
 area_menager::area_menager(size_t size, //Konstruktor dający zarządcę o określonym rozmiarze listy
@@ -19,8 +22,9 @@ area_menager::area_menager(size_t size, //Konstruktor dający zarządcę o okre�
 {
 }
 	
-//	AKCESORY OGOLNE
-//----------------------------
+//	AKCESORY OGOLNE:
+//------------------
+
  size_t area_menager::get_size()
 //Podaje po prostu aktualny rozmiar listy lacznie z pozycjami pustymi
  {
@@ -68,7 +72,7 @@ area_menager::area_menager(size_t size, //Konstruktor dający zarządcę o okre�
 
  int area_menager::as_orginal(size_t    index)
  {
- if(index>=tab.get_size()) return -1;//bledny parametr
+ if(index>=tab.get_size()) return -1; //bledny parametr
 	
  if(tab[index].ptr)
 		tab[index].orginal.load(*tab[index].ptr);
@@ -88,6 +92,8 @@ area_menager::area_menager(size_t size, //Konstruktor dający zarządcę o okre�
 
 
 // AKCESORY poszczegolnych obszarow
+//---------------------------------
+
  drawable_base /*const*/* area_menager::get_ptr(size_t index)
 //Bez mozliwosci modyfikacji i zwolnienia
  {
@@ -105,8 +111,9 @@ area_menager::area_menager(size_t size, //Konstruktor dający zarządcę o okre�
 	return tab[index].ptr;
  }
 
- //	REAKCJE NA ZDAZENIA
-//--------------------------------
+//	REAKCJE NA ZDAZENIA
+//---------------------
+
  int    area_menager::on_click(int x,int y,int click)
 //Przepytuje obszary z reakcji na punkt.
 //Jesli on_click() zwraca 1 to mozna sie dowiedziec, kt�ry obszar wywo�ujac:
@@ -163,9 +170,9 @@ area_menager::area_menager(size_t size, //Konstruktor dający zarządcę o okre�
 	 //Jesli nie ma glownego to odbieraja wszyscy
 	 for(int i=tab.get_size()-1;i>=0;i--)
 		if( tab[i].ptr  && !tab[i].minimized)			
-				{
-				on_input_ret=tab[i].ptr->on_input(input_char);
-				}
+        {
+            on_input_ret=tab[i].ptr->on_input(input_char);
+        }
 
 	 return 1;//Obsluzone
  }
@@ -214,8 +221,9 @@ area_menager::area_menager(size_t size, //Konstruktor dający zarządcę o okre�
 //  MANIPULATORY
 //----------------
 
-//Zaznacza obszar
+
  int    area_menager::mark(size_t index,wb_color frame)
+ //Zaznacza obszar
  {
 	if( index>=0 && index<tab.get_size() && !tab[index].minimized)
     {
@@ -239,127 +247,127 @@ area_menager::area_menager(size_t size, //Konstruktor dający zarządcę o okre�
 	 }
 	 else
      {
-	 for(size_t i=0;i<tab.get_size();i++)
-		if( tab[i].ptr && !tab[i].minimized)
-				mark(i,frame);
-	 return 0;
-	 }
+     for(size_t i=0;i<tab.get_size();i++)
+        if( tab[i].ptr && !tab[i].minimized)
+                mark(i,frame);
+     return 0;
+     }
  return -1;
  }
 
  int    area_menager::unmark(size_t index)
 //i odznacza obszar
  {
-	if( /*index>=0 &&*/ index<tab.get_size() )
-		{
-		tab[index].mark=0;
-		tab[index].ptr->setframe(tab[index].org_frame);
-		tab[index].ptr->replot();
-		return 0;
-		}
-	return -1;
+    if( /*index>=0 &&*/ index<tab.get_size() )
+        {
+        tab[index].mark=0;
+        tab[index].ptr->setframe(tab[index].org_frame);
+        tab[index].ptr->replot();
+        return 0;
+        }
+    return -1;
  }
 
 int    area_menager::refresh(size_t index)
 //i odznacza obszar
  {
-	if( /*index>=0 &&*/ index<tab.get_size() )
-		{
-		if(maximized==index || tab[index].minimized)		
-					tab[index].ptr->replot();
-		return 0;
-		}
-	return -1;
+    if( /*index>=0 &&*/ index<tab.get_size() )
+        {
+        if(maximized==index || tab[index].minimized)
+                    tab[index].ptr->replot();
+        return 0;
+        }
+    return -1;
  }
 
 
 int    area_menager::is_marked(size_t index)
 //Informuje czy jest zaznaczony
 {
-	if( /*index>=0 &&*/ index<tab.get_size() && tab[index].mark )
-		{
-		return 1;
-		}
-	return 0;
+    if( /*index>=0 &&*/ index<tab.get_size() && tab[index].mark )
+        {
+        return 1;
+        }
+    return 0;
 }
 
 int    area_menager::is_minimized(size_t index)
 //Informuje czy jest zaznaczony
 {
-	if( /*index>=0 &&*/ index<tab.get_size() && tab[index].minimized )
-		{
-		return 1;
-		}
-	return 0;
+    if( /*index>=0 &&*/ index<tab.get_size() && tab[index].minimized )
+        {
+        return 1;
+        }
+    return 0;
 }
 
  wb_dynarray<int> area_menager::get_marked(wb_color what,int unm)
-//Zwraca liste zaznaczonych obszarow. 
+//Zwraca liste zaznaczonych obszarow.
 //Jesli what=default color to wszystkie zaznaczone.
 // i opcjonalnie zdejmuje zaznaczenie
  {
-	 wb_dynarray<int> pom(get_size());//z duzym zapasem
-	 size_t ok=0;
-	 //Odszukuje wszystkie zamarkowane zgodnie z what
-	 //i odmarkowuje jesli trzeba
-	 for(size_t i=0;i<tab.get_size();i++)
-		if( tab[i].ptr && tab[i].mark)
-		  if( what==default_color || tab[i].ptr->getframe()==what )
-			{
-			if(unm) unmark(i);
-			pom[ok]=i;
-			ok++;
-			}
+     wb_dynarray<int> pom(get_size());//z duzym zapasem
+     size_t ok=0;
+     //Odszukuje wszystkie zamarkowane zgodnie z what
+     //i odmarkowuje jesli trzeba
+     for(size_t i=0;i<tab.get_size();i++)
+        if( tab[i].ptr && tab[i].mark)
+          if( what==default_color || tab[i].ptr->getframe()==what )
+            {
+            if(unm) unmark(i);
+            pom[ok]=i;
+            ok++;
+            }
 
-	 wb_dynarray<int> ret(ok);
-	 for(size_t j=0;j<ok;j++)
-		{
-		ret[j]=pom[j];
-		}	
-	 
-	 return ret;
+     wb_dynarray<int> ret(ok);
+     for(size_t j=0;j<ok;j++)
+        {
+        ret[j]=pom[j];
+        }
+
+     return ret;
  }
 
  int    area_menager::set_input(size_t index)
 //Ustala obszar jako pierwszy do wejscia z klawiatury lub zdarzen menu
  {
-	int pom=grabbed;
-	if(index<0)
-		{
-		grabbed=-1; //TODO, bo to jest podejrzane. unsigned(-1) jest markerem, ale kompilator mo�e tu to wyoptymalizowa�
-		return pom;
-		}
-		else
-		if(index<tab.get_size())
-			{
-			grabbed=index;
-			return pom;
-			}
-			else 
-			return -1;
+    int pom=grabbed;
+    if(index<0)
+        {
+        grabbed=-1; //TODO, bo to jest podejrzane. unsigned(-1) jest markerem, ale kompilator mo�e tu to wyoptymalizowa�
+        return pom;
+        }
+        else
+        if(index<tab.get_size())
+            {
+            grabbed=index;
+            return pom;
+            }
+            else
+            return -1;
  }
 
  int    area_menager::maximize(size_t index)
 //Oddaje podobszarowi caly zarzadzany obszar
  {
-	if( index>=0 && index<tab.get_size() && 
-		index!=maximized //Jeszcze nie jest
-	   )
-		if(tab[index].ptr->on_change(*this)==1)//Jesli akceptuje transformacje
-			{
-			tab[index].saved.load(*tab[index].ptr);
-			tab[index].ptr->load(*this);//Caly obszar oddac
-			tab[index].ptr->replot();//i narysowac w nowym polozeniu
-			maximized=index;
-			return 0;
-			}
-	 return -1;
+    if( index>=0 && index<tab.get_size() &&
+        index!=maximized //Jeszcze nie jest
+       )
+        if(tab[index].ptr->on_change(*this)==1)//Jesli akceptuje transformacje
+            {
+            tab[index].saved.load(*tab[index].ptr);
+            tab[index].ptr->load(*this);//Caly obszar oddac
+            tab[index].ptr->replot();//i narysowac w nowym polozeniu
+            maximized=index;
+            return 0;
+            }
+     return -1;
  }
 
  int    area_menager::minimize(size_t index)
 //Ukrywa podobszar
  {
-	if( index>=0 && index<tab.get_size() && !tab[index].minimized )
+    if( index>=0 && index<tab.get_size() && !tab[index].minimized )
     {
         if(index==maximized)//Jest zmaksymalizowany
         {
@@ -371,238 +379,239 @@ int    area_menager::is_minimized(size_t index)
             tab[index].saved.load(*pom);//Zapamientac poprzednia pozycje
         }
 
-        //Likwiduje obszar	
+        //Likwiduje obszar
         tab[index].ptr->clear();
         tab[index].minimized=1;//Juz sie nie odrysuje
         replot(*tab[index].ptr);//odrysowuje wszystkie dotyczczas zasloniete
-        
+
         tab[index].ptr->set(0,0,0,0);//Zeruje rozmiar, ale nie informuje o tym
-								//boby to grozilo calkowita degeneracja informacji
+                                //boby to grozilo calkowita degeneracja informacji
         return 0;
     }
-	return -1;
+    return -1;
  }
 
  int    area_menager::restore(size_t  index)
 //Odtwarza poprzednie polozenie i rozmiar obszaru
  {
-	 if( index>=0 && index<tab.get_size() )
-		 {
-		 if(index==maximized)
-			{
-			if(tab[index].ptr->on_change(tab[index].saved)==1)//Jesli akceptuje transformacje
-				{
-				tab[index].ptr->clear();
-				maximized=-1;				
-				tab[index].minimized=1;//Tymczasowa deaktywacja i przekazanie ze byla flaga	
-				replot(*tab[index].ptr);//odrysowuje wszystkie dotyczczas zasloniete	
-				}
-			}
+     if( index>=0 && index<tab.get_size() )
+         {
+         if(index==maximized)
+            {
+            if(tab[index].ptr->on_change(tab[index].saved)==1)//Jesli akceptuje transformacje
+                {
+                tab[index].ptr->clear();
+                maximized=-1;
+                tab[index].minimized=1;//Tymczasowa deaktywacja i przekazanie ze byla flaga
+                replot(*tab[index].ptr);//odrysowuje wszystkie dotyczczas zasloniete
+                }
+            }
 
-		 if(tab[index].minimized)//Jesli byla flaga
-			{
-			tab[index].minimized=0;
-			tab[index].ptr->load(tab[index].saved);
-			tab[index].ptr->replot();
-			return 0;
-			}
-		 }
-	 return -1;
+         if(tab[index].minimized)//Jesli byla flaga
+            {
+            tab[index].minimized=0;
+            tab[index].ptr->load(tab[index].saved);
+            tab[index].ptr->replot();
+            return 0;
+            }
+         }
+     return -1;
  }
- 
+
  int    area_menager::restore()
  {
- for(size_t i=0;i<tab.get_size();i++)
-	if( tab[i].ptr )
-		if( i==maximized || tab[i].minimized)
-				restore(i);
- return 0;
+     for(size_t i=0;i<tab.get_size();i++)
+        if( tab[i].ptr )
+            if( i==maximized || tab[i].minimized)
+                restore(i);
+     return 0;
  }
 
  int    area_menager::orginal(size_t  index)
 //Odtwarza pierwotne  polozenie i rozmiar obszaru
  {
-	 if( index>=0 && index<tab.get_size() && tab[index].ptr )
-		{
-		if(tab[index].minimized)
-			{
-			tab[index].ptr->load(tab[index].saved);
-			}
-			else
-			{
-			if(index==maximized)
-					maximized=-1;
-				
-			tab[index].ptr->clear();			
-			tab[index].minimized=1;//Tymczasowa deaktywacja i przekazanie ze byla flaga
-			replot(*tab[index].ptr);//odrysowuje wszystkie dotyczczas zasloniete
-			}
+     if( index>=0 && index<tab.get_size() && tab[index].ptr )
+        {
+        if(tab[index].minimized)
+            {
+            tab[index].ptr->load(tab[index].saved);
+            }
+            else
+            {
+            if(index==maximized)
+                    maximized=-1;
 
-		tab[index].minimized=0;
-		if(tab[index].ptr->on_change(tab[index].orginal)==1)
-			{
-			tab[index].ptr->load(tab[index].orginal);//Laduje orginalne polozenie
-			tab[index].ptr->replot();
-			}
-		return 0;
-		}
+            tab[index].ptr->clear();
+            tab[index].minimized=1;//Tymczasowa deaktywacja i przekazanie ze byla flaga
+            replot(*tab[index].ptr);//odrysowuje wszystkie dotyczczas zasloniete
+            }
 
-	 return -1;
+        tab[index].minimized=0;
+        if(tab[index].ptr->on_change(tab[index].orginal)==1)
+            {
+            tab[index].ptr->load(tab[index].orginal);//Laduje orginalne polozenie
+            tab[index].ptr->replot();
+            }
+        return 0;
+        }
+
+     return -1;
  }
 
  int    area_menager::restore(const wb_dynarray<int>& lst)
 //Robi restore dla wszystkich obszarow
  {
-	 if(lst.get_size()<=0)
-			return -1;
-	 size_t i;
-	 for(size_t j=0;j<lst.get_size();j++)
-		{
-		i=lst[j];
-		if(i<tab.get_size() )
-		  if( tab[i].ptr )
-			if(i==maximized && tab[i].minimized)
-				{
-				//Po takiej operacji nie moze zostac bez ramki
-				//if(tab[i].ptr->getframe()==default_color)
-		 		//	tab[i].org_frame=tab[i].ptr->setframe(default_black);
-				restore(i);
-				}
-		}
+     if(lst.get_size()<=0)
+            return -1;
+     size_t i;
+     for(size_t j=0;j<lst.get_size();j++)
+        {
+        i=lst[j];
+        if(i<tab.get_size() )
+          if( tab[i].ptr )
+            if(i==maximized && tab[i].minimized)
+                {
+                //Po takiej operacji nie moze zostac bez ramki
+                //if(tab[i].ptr->getframe()==default_color)
+                //	tab[i].org_frame=tab[i].ptr->setframe(default_black);
+                restore(i);
+                }
+        }
 
-	 return 0;
+     return 0;
  }
- 
+
 int    area_menager::minimize(const wb_dynarray<int>& lst)
 //Robi orginal dla wszystkich obszarow
  {
-	if(lst.get_size()<=0)
-			return -1;
-	size_t i;
-	for(size_t j=0;j<lst.get_size();j++)
-	  if((i=lst[j])>=0 && i<tab.get_size() )
-		if( tab[i].ptr )
-				minimize(i);
-	 
-	return 0;
+    if(lst.get_size()<=0)
+            return -1;
+    size_t i;
+    for(size_t j=0;j<lst.get_size();j++)
+      if((i=lst[j])>=0 && i<tab.get_size() )
+        if( tab[i].ptr )
+                minimize(i);
+
+    return 0;
  }
 
 int    area_menager::orginal(const wb_dynarray<int>& lst)
 //Robi orginal dla wszystkich obszarow
  {
-	if(lst.get_size()<=0)
-			return -1;
-	minimize(lst);
+    if(lst.get_size()<=0)
+            return -1;
+    minimize(lst);
 
-	size_t i;
-	for(size_t j=0;j<lst.get_size();j++)
-	  if((i=lst[j])>=0 && i<tab.get_size() )
-		if( tab[i].ptr )	
-				orginal(i);
-	 
-	return 0;
+    size_t i;
+    for(size_t j=0;j<lst.get_size();j++)
+      if((i=lst[j])>=0 && i<tab.get_size() )
+        if( tab[i].ptr )
+                orginal(i);
+
+    return 0;
  }
 
 static wb_dynarray<int> tworz_uzupelnienie(int beg,int end,const wb_dynarray<int>& lst)
-//Tworzy list� lufcik�w uzupe�niaj�c� do danej
+//Tworzy listę obszarów uzupełniającą do zadanej.
 {
-																assert(beg<end);
-																assert(lst.IsOK());
+                                                                assert(beg<end);
+                                                                assert(lst.IsOK());
 wb_dynarray<int> ret( (end-beg+1)-lst.get_size() );
-																assert(lst.IsOK());
+                                                                assert(lst.IsOK());
 int i,ind=0;
 size_t j;
 for(i=beg;i<=end;i++)
-	{
-	for(j=0;j<lst.get_size();j++)
-	  if(i==lst[j]) goto JEST;
-	ret[ind++]=i;
-	JEST:;
-	}	
-																				assert(lst.IsOK());
+    {
+    for(j=0;j<lst.get_size();j++)
+      if(i==lst[j]) goto JEST;
+    ret[ind++]=i;
+    JEST:;
+    }
+                                                                                assert(lst.IsOK());
 return ret;
 }
 
 int    area_menager::tile(const wb_dynarray<int>& lst)
 //...na chama, czyli po rowno, albo -1 jak nie da sie
- {  
-	if(lst.get_size()<=0)
-			return -1;															assert(lst.IsOK());
-	{
-	wb_dynarray<int> poz=tworz_uzupelnienie(0,tab.get_size()-1,lst);			assert(lst.IsOK());
-	if(poz.IsOK()) //Jak s� jakie� do zminimalizowania
-			minimize(poz);
-	}
+ {
+    if(lst.get_size()<=0)
+            return -1;															assert(lst.IsOK());
+    {
+    wb_dynarray<int> poz=tworz_uzupelnienie(0,tab.get_size()-1,lst);			assert(lst.IsOK());
+    if(poz.IsOK()) //Jak s� jakie� do zminimalizowania
+            minimize(poz);
+    }
 
-	size_t dzielX=1;
-	size_t dzielY=1;
-	//Ustalanie sposobu podzialu
-	for(size_t swit=0;dzielX*dzielY<lst.get_size();swit=!swit)
-		//Mysi byc tyle obszarow ile okien
-		{
-		if(swit==0)
-			dzielX++;
-			else
-			dzielY++;
-		}
-	//Dzielenie
-	size_t skokX=getwidth()/dzielX;
-	size_t skokY=getheight()/dzielY;
-	size_t licz=0;																assert(lst.IsOK());
-	  for(size_t a=0;a<dzielX;a++)
-		for(size_t b=0;b<dzielY;b++)
-			{
-			gps_area pom(getstartx()+a*skokX,
-						 getstarty()+b*skokY,
-						 getstartx()+(a+1)*skokX-1,
-						 getstarty()+(b+1)*skokY-1);
-			size_t index=lst[licz++];
-																				assert(lst.IsOK());
-																				assert(index<tab.get_size());
-			if(tab[index].ptr)
-				{
-				if(tab[index].ptr->on_change(pom)==1)
-					tab[index].ptr->clear(0);
-					else
-					minimize(index);
-				tab[index].ptr->load(pom);
-				}
-			if(licz>=lst.get_size())
-				goto KONIEC;
-			}
+    size_t dzielX=1;
+    size_t dzielY=1;
+    //Ustalanie sposobu podzialu
+    for(size_t swit=0;dzielX*dzielY<lst.get_size();swit=!swit)
+        //Mysi byc tyle obszarow ile okien
+        {
+        if(swit==0)
+            dzielX++;
+            else
+            dzielY++;
+        }
+    //Dzielenie
+    size_t skokX=getwidth()/dzielX;
+    size_t skokY=getheight()/dzielY;
+    size_t licz=0;																assert(lst.IsOK());
+      for(size_t a=0;a<dzielX;a++)
+        for(size_t b=0;b<dzielY;b++)
+            {
+            gps_area pom(getstartx()+a*skokX,
+                         getstarty()+b*skokY,
+                         getstartx()+(a+1)*skokX-1,
+                         getstarty()+(b+1)*skokY-1);
+            size_t index=lst[licz++];
+                                                                                assert(lst.IsOK());
+                                                                                assert(index<tab.get_size());
+            if(tab[index].ptr)
+                {
+                if(tab[index].ptr->on_change(pom)==1)
+                    tab[index].ptr->clear(0);
+                    else
+                    minimize(index);
+                tab[index].ptr->load(pom);
+                }
+            if(licz>=lst.get_size())
+                goto KONIEC;
+            }
 KONIEC:
-	drawable_base::replot();
-	return 0;
+    drawable_base::replot();
+    return 0;
  }
 
 int    area_menager::arrange(const wb_dynarray<int>& lst)
 // albo zracaja -1, jesli sie nie udalo
  {
-	if(lst.get_size()<=0)
-			return -1;
-	//wb_dynarray<int> poz;//pozostale
-	wb_dynarray<int> poz=tworz_uzupelnienie(0,tab.get_size()-1,lst);
-	minimize(poz);
-	//....
-	return -1;
+    if(lst.get_size()<=0)
+            return -1;
+    //wb_dynarray<int> poz;//pozostale
+    wb_dynarray<int> poz=tworz_uzupelnienie(0,tab.get_size()-1,lst);
+    minimize(poz);
+    //....
+    return -1;
  }
 
 int    area_menager::on_change(const gps_area& ar)
 //Reguje na zmiane rozmiarow lub polozenia wlasnego obszaru
  {
-	gps_area old=*this;
-	
-	return -1;
+    gps_area old=*this;
+
+    return -1;
  }
-/********************************************************************/
-/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
-/*            W O J C I E C H   B O R K O W S K I                   */
-/* Zaklad Systematyki i Geografii Roslin Uniwersytetu Warszawskiego */
-/*  & Instytut Studiow Spolecznych Uniwersytetu Warszawskiego       */
-/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk             */
-/*        MAIL: borkowsk@iss.uw.edu.pl                              */
-/*                               (Don't change or remove this note) */
-/********************************************************************/
+
+/* ***************************************************************** */
+/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                  */
+/*            W O J C I E C H   B O R K O W S K I                    */
+/* Zaklad Systematyki i Geografii Roslin Uniwersytetu Warszawskiego  */
+/*  & Instytut Studiow Spolecznych Uniwersytetu Warszawskiego        */
+/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk              */
+/*        MAIL: borkowsk@iss.uw.edu.pl                               */
+/*                               (Don't change or remove this note)  */
+/* ***************************************************************** */
 
 
 
