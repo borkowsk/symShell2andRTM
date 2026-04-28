@@ -1,6 +1,6 @@
 /** @file
  * @brief  A control value/field template with a given length and uniq value.
- * @date 2024-10-31 (last modification)
+ * @date 2026-04-28 (last modification)
  */
 #ifndef MEMORY_GUARD_H
 #define MEMORY_GUARD_H

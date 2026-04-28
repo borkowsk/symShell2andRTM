@@ -1,6 +1,6 @@
 /// @file
 /// @brief Definitions of basic (interface) data source class
-/// @date 2026-04-27 (modified)
+/// @date 2026-04-28 (modified)
 // ********************************************************************************************************************
 //
 #ifndef __DATA_SOURCE_BASE_HPP__
@@ -16,7 +16,8 @@
 #include "wb_clone.hpp"
 
 #include "titleuti.hpp"
-#include "rectgeom.hpp" //GEOMETRY INTERFACE
+#include "rectgeom.hpp" /* GEOMETRY INTERFACE */
+#include "mem_guard.h"  /* Pomocnik do szukania przedwczesnych destrukcji obiektów! */
 
 const unsigned ZAPAS_NA_CYFRY=(DBL_DIG*2); //Do wyświetlania: DBL_DIG+zapas na znaki i wykładnik
 
@@ -25,19 +26,24 @@ const unsigned ZAPAS_NA_CYFRY=(DBL_DIG*2); //Do wyświetlania: DBL_DIG+zapas na 
 class data_source_base
 //--------------------
 {
-long cur_step;	//Numer kolejnej wersji danych
-long no_change;	//Od ilu kroków nie było zmiany
-#if __GNUC__ >= 3
+public:
+    MEMORY_GUARD(unsigned,0xAB0C0DAD);
+private:
+    long cur_step;	//Numer kolejnej wersji danych
+    long no_change;	//Od ilu kroków nie było zmiany
+#if __GNUC__ >= 3   //Dziwne...
 public:
 #else
 protected:
 #endif
-double miss;	//Missing value
-double ymin;	//dany lub wydedukowany zakres Y.
-double ymax;	//Jeśli jest dany, to nie należy go dedukować.
+    double miss;	//Missing value
+    double ymin;	//dany lub wydedukowany zakres Y.
+    double ymax;	//Jeśli jest dany, to nie należy go dedukować.
 
 public:
-typedef ::iteratorh iteratorh; //Skrót dla typu uchwytu iteratora.
+    rectangle_geometry* my_geometry;
+    bool             local_geometry;
+    typedef ::iteratorh iteratorh; //Skrót dla typu uchwytu iteratora.
 
 //Liczy -INF wg IEEE -jako znacznik braku (może generować SIGPFE na części platform)
 //static double inf();
