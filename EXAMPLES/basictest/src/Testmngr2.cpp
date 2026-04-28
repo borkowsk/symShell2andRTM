@@ -1,6 +1,6 @@
 /// @file
 /// @brief Przykładowy program SYMSHELL-z z klasami.
-/// @date 2026-04-27 (modified)
+/// @date 2026-04-28 (modified)
 ///     Demonstracja stosowania obiektowego pietra SYMSHELL-a
 ///     Tworzy kilka przykładowych seri danych i umieszcza je w zarządcy danych.
 ///     Tworzy kilka obszarów i umieszcza je pod zarządem managera obszarów.
@@ -215,10 +215,14 @@ void make_test_areas()
     pom->settitle("MANHATTAN PLOT");
     Lufciki.insert(pom);
 
-    //Tworzenie obszaru sterującego
-    wb_dynarray<rectangle_source_base*> tmp(2,(rectangle_source_base*)Series.get(0),
-                                              (rectangle_source_base*)Series.get(2));
-    drawable_base* pom2=new steering_wheel(270,1,360,89,tmp);						assert(pom2!=NULL);
+    //Tworzenie obszaru sterującego - na raty dla debugingu
+    auto* ser1=Series.get(0);                                                   assert(ser1->valid_memory());
+    auto* ser2=Series.get(2);                                                   assert(ser2->valid_memory());
+    auto* rer1=(rectangle_source_base*)ser1;                                    assert(rer1->valid_memory());
+    auto* rer2=(rectangle_source_base*)ser2;                                    assert(rer2->valid_memory());
+    wb_dynarray<rectangle_source_base*> tmp_lst(2,rer1,rer2);
+
+    drawable_base* pom2=new steering_wheel(270,1,360,89,tmp_lst);				assert(pom2!=NULL);
 
     pom2->setbackground(10);
     Lufciki.insert(pom2);
