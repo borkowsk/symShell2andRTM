@@ -1,13 +1,14 @@
 /// \file wb_ptr.hpp
 /// \brief Proste szablony inteligentnych wskaźników oraz tablic dynamicznych.
+/// @date 2026-04-28 (last modification)
 ///        ===================================================================
 ///
 /// \details
 ///     ZAWARTOŚĆ:
 ///	        - wb_sptr     : scalar only ptr
-///	        - wb_ptr	   : struct/class ptr
+///	        - wb_ptr      : struct/class ptr
 ///	        - wb_pchar    : ptr to char[]
-///	        - wb_dynarray : dynamic 1D array of something
+///	        - wb_dynarray : dynamic 1D array of something (był błąd w konstruktorze)
 ///	        - wb_dynmatrix: dynamic matrix of something
 ///
 ///     Trochę na wzór wczesnego STL, ale inne i raczej mało kompatybilne.
@@ -17,7 +18,6 @@
 ///     muszą być zawsze przekazywane przez REFERENCJE!
 ///
 /// \copyright Wojciech Borkowski wborkowski (_at_) uw.edu.pl
-/// \date 2023-01-23 (last modification)
 /// \author    borkowsk
 ///
 
@@ -465,27 +465,28 @@ public:
     /// \brief Konstruktor "kopiujący" - musi byc forsowany z const wiec jest niebezpieczny
     //explicit? (TODO TEST!)
     wb_dynarray(const wb_dynarray& nini/*,bool copy=false*/):size(nini.size),ptr(nini.ptr)
-        {
+    {
         WBPTRLOG( "wb_dynarray::COPY CONSTRUCTOR("<<((void*)&nini)<<")" )                               assert(size!=0);
         const_cast<wb_dynarray<T>&>(nini).ptr=NULL;
         const_cast<wb_dynarray<T>&>(nini).size=0;
-        }
+    }
 
     /// \brief Konstruktor wieloparametrowy inicjujący itemy
-    explicit wb_dynarray(size_t s, T /* first,second,...*/ ...):size(s)
+    explicit wb_dynarray(size_t s, T first /*,second,...*/ ...):size(s)
     {
         WBPTRLOG( "wb_dynarray::CONSTRUCTOR("<<size<<",T ...)" )                                        assert(size>=1);
         ptr=new T[s];                                                             /*After allocation*/assert(ptr!=NULL);
 
         va_list list;
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wvarargs"
-        va_start(list,s);
-#pragma GCC diagnostic pop
-        for(size_t i=0;i<s;i++)
+        va_start(list,first);
+        ptr[0]=first;
+
+        for(size_t i=1;i<s;i++)
         {
-            ptr[i]=va_arg(list,T);
+            T tmp=va_arg(list,T);
+            ptr[i]=tmp;
         }
+
         va_end(list);
     }
 
