@@ -1,3 +1,4 @@
 [submodule "SYMSHELL"]
 	path = SYMSHELL
 	url = https://github.com/borkowsk/symShellLight.git
+	branch = main
