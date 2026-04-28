@@ -1,5 +1,6 @@
 /** \file wb_clone.hpp
 *	\brief WB CLONING SUPPORT FOR ANY C++ OBJECTS
+*   @date 2026-04-28 (last modification)
 *          --------------------------------------
 *
 * \details
@@ -10,7 +11,6 @@
 *                     In the class pointers to char could be handled intuitively - by contents, not by pointer value.
 *
 * \author borkowsk
-* \date    2022-11-16 (last modification)
 */
 
 #ifndef _WB_CLONE_HPP_
@@ -22,7 +22,7 @@
 
 #include <string.h>
 
-///\namespace wbrtm \brief WOJCIECH BORKOWSKI RUN TIME LIBRARY
+/// \brief WOJCIECH BORKOWSKI RUN TIME LIBRARY
 namespace wbrtm {
 
 /// \brief Kopiuje stały łańcuch znaków na stertę
