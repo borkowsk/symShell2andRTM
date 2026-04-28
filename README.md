@@ -7,9 +7,38 @@ In those days, wide deficiencies in the language standard necessitated additions
 available, and minor differences in syntax and library extensions necessitated conditional compilation.
 Many traces of those ancient ideas still remain in the library.
 
-Adaptation of the library to the C++11 standard is slow, as most of the simulation applications based on it 
-are no longer used. Unchecked codes are placed in the documentation in the **OBSOLETE** group and marked with 
-a warning when compiling.
+Adaptation of the library to the C++11 standard is slow, as most of the simulation applications based on it are no longer used. Unchecked codes are placed in the documentation in the **OBSOLETE** group and marked with a warning when compiling.
+
+
+Submodule SymShell
+------------------
+
+Use recusion when cloning:
+
+```bash
+$ git clone --recursive <url-of-this-repo>
+```
+
+If You cloned this repository witout submodule go to main directory of this project and run:
+
+```bash
+$ git submodule update --init --recursive
+
+```
+
+When You want update the SymShell submodule go to main directory of this project and run:
+
+```bash
+$ git submodule update --remote --merge
+```
+
+If You are owner of the master project you can fix such change using:
+
+```bash
+$ git add .
+$ git commit -m "SymShell module actualisation."
+$ git push
+```
 
 Requirements
 ------------
@@ -39,6 +68,7 @@ Lib X11: Apple?
 Lib X11: Windows
    
         Not needed. Native graphics supported.        
+
 
 LICENCE
 -------
