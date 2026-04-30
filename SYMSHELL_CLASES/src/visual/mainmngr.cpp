@@ -1,7 +1,7 @@
 //	Zarządca obszaru ekranu zaimplementowany bezpośrednio na bazie funkcji SYMSHELL'a
 //   do obsługi całego ekranu/okna SYMSHELL'a.
 //*/////////////////////////////////////////////////////////////////////////////////////////
-/// @date 2026-04-28 (modified)
+/// @date 2026-04-30 (modified)
 
 //#include "INCLUDE/platform.hpp"
 
@@ -27,6 +27,7 @@ T c=a;a=b;b=c;
 }
 
 //int WB_error_enter_before_clean=1;/* For close_plot() */
+ssh_menu_item_definition* TopPopup=context_menu_default; //Próba wymuszenia linkowania modułu z biblioteki klas.
 
 int		main_area_menager::initialized=0;
 int		main_area_menager::counter=0;//Licznik obiektow tego typu. Ma byc 1

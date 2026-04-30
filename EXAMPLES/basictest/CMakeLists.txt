@@ -53,6 +53,7 @@ ENDIF()
 
 add_executable( testmngr2
                 src/Testmngr2.cpp
+                ../../SYMSHELL_CLASES/src/visual/mainpopmenu.c
                 # $WINDOWS_ONLY_SRC
                 # $X_ONLY_SRC
               )

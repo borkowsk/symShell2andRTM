@@ -1,7 +1,7 @@
 # CMAKE configuration for SYMSHELL CLASSES library wbsyshclss
 ##################################################################################
 # @author Wojciech Borkowski
-# @date 2026-03-26 (last update)
+# @date 2026-04-30 (last update)
 ######################################################
 
 cmake_minimum_required(VERSION 3.20)
@@ -50,6 +50,7 @@ add_library( wbsyshclss STATIC
         "./src/visual/rgb_graphs.cpp"
         "./src/visual/gadgets.cpp"
         "./src/visual/mainmngr.cpp"
+        "./src/visual/mainpopmenu.c"
         "../third_party/GD2/ext/gdbmpread.cpp"
         "../third_party/GD2/ext/gdpcxread.cpp"
         "../third_party/GD2/gd.c"

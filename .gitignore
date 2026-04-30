@@ -1,5 +1,6 @@
 # Prerequisites
 *.d
+._bak/
 
 # Compiled Object files
 *.slo
@@ -51,6 +52,7 @@ CMakeLists.txt.user
 
 #Doxygen
 doxDocs
+doxDocsEN
 
 #products
 *.zip
