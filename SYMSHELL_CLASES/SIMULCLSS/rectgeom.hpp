@@ -1,6 +1,6 @@
 /// @file
 /// @brief GEOMETRIA PROSTOKĄTNA. / RECTANGULAR GEOMETRY.
-/// @date 2026-04-27 (modified)
+/// @date 2026-04-30 (modified)
 ///      Pierwsza i główna specjalizacja. Heksagonalnej i sieciowej nigdy nie napisałem, choć były w planie.
 // ********************************************************************************************************************
 //
@@ -11,6 +11,10 @@
 #include "wb_ptr.hpp"
 #include "wb_rand.hpp"
 #include "geombase.hpp"
+
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "modernize-use-nullptr"
+#pragma ide diagnostic ignored "modernize-use-auto"
 
 using namespace wbrtm;
 //using wbrtm::wb_dynmatrix;
@@ -105,9 +109,13 @@ public:
         /// Implementacja pobrania następnego elementu.
         void _next(const geometry_base& geo,size_t& ret,size_t& end) override
         {
-            rectangle_geometry* MyGeo=(rectangle_geometry*)&geo; //Dostęp do pól
-            size_t i=MyGeo->get_rnd().Random(sub_width);  assert(i<sub_width);// Gdy wycinek wybiega za tablice, to może...
-            size_t j=MyGeo->get_rnd().Random(sub_height); assert(i<sub_height);// ...nie być wewnątrz tablicy elementów.
+            rectangle_geometry* MyGeo=(rectangle_geometry*)&geo;
+                                                            assert(MyGeo!=NULL); //Dostęp do pól
+            RandomGenerator& rnd=MyGeo->get_rnd();
+            size_t i=rnd.Random(sub_width);
+                                                            assert(i<sub_width); // Gdy wycinek wybiega za tablice, to może...
+            size_t j=rnd.Random(sub_height);
+                                                            assert(j<sub_height); // ...nie być wewnątrz tablicy elementów.
                                                                                             //    assert(horiz_start>=0);
             long I_S=horiz_start+i;                                                         //            assert(I_S>=0);
                                                                                             //     assert(vert_start>=0);
@@ -451,6 +459,7 @@ public:
 
 };
 
+#pragma clang diagnostic pop
 /* ***************************************************************** */
 /*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                  */
 /*            W O J C I E C H   B O R K O W S K I                    */
@@ -461,5 +470,4 @@ public:
 /*                               (Don't change or remove this note)  */
 /* ***************************************************************** */
 #endif
-
 

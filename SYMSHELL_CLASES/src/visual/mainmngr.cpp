@@ -517,8 +517,8 @@ while((!background_enabled()) || input_ready())
 			{
 			 if(_post_process_input(inp)!=1)
 			 {
-				if(cerr)
-					cerr<<"\b unknown command"<<endl;
+				if(cerr && inp != 0 ) //Zero jest dozwolonym kodem na nic nierobienie (np. kliknięcie etykiety menu)
+					cerr<<"\n\b unknown command "<<inp<<endl;
              }
 			}
 		}

@@ -1,35 +1,39 @@
+/// @file
+/// @brief Selektor języka komunikatów ekranowych.
+/// @date 2026-04-30 (modified)
+//  Poprawiony z bardzo starej wersji.
 #ifndef _WBRTM_LINGO_HPP_
 #define _WBRTM_LINGO_HPP_
 
 namespace wbrtm { //WOJCIECH BORKOWSKI RUN TIME LIBRARY
 
+    extern "C" {
+        /// Selektor języka komunikatów. 0-Polski, 1-Angielski.
+        /// To jest zadeklarowane w "sshutils", ale trzeba gdzieś zdefiniować z wartością.
+        extern unsigned lang_selector;
+    }
 
-extern unsigned _lingo_selector;
-
-inline
-const char* _lingo(const char* _PL,const char* _IN)
-{
-	if(_lingo_selector==0)//LOCAL_VERSION
-		return _PL;
-	else
-		return _IN;
-}
+    inline
+    const char* _lingo(const char* _PL,const char* _IN)
+    {
+        if(lang_selector==0)
+            return _PL;
+        else
+            return _IN;
+    }
 
 } //namespace
 
+#ifndef _LPL
 #define _LPL  (wbrtm::_lingo)
-#define lang  (wbrtm::_lingo)
-
-/*  //Insert this where you want:
-#ifndef LOCAL_VERSION
-	unsigned wbrtm::_lingo_selector=0;
-#else
-	unsigned wbrtm::_lingo_selector=1;
 #endif
-*/
+
+#ifndef lang
+#define lang  (wbrtm::_lingo)
+#endif
 
 /* ******************************************************************/
-/*                WBRTM  version 2022 for GuestXR                   */
+/*                     WBRTM  version 2026                          */
 /* ******************************************************************/
 /*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
 /*            W O J C I E C H   B O R K O W S K I                   */

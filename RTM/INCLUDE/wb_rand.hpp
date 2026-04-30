@@ -59,11 +59,11 @@ namespace wbrtm {
         ///Returned unsigned long from 0 to RandomMax.
         virtual unsigned long Rand() = 0;
 
-        ///Returned unsigned long from 0 to i.
-        virtual unsigned long Random(unsigned long i) = 0;
-
         ///Returned double from <0 to 1).
         virtual double DRand() = 0;
+        
+        ///Returned unsigned long from 0 to i.
+        virtual unsigned long Random(unsigned long i) = 0;
 
         ///Initialisation for well defined repeatable sequence.
         virtual void Seed(unsigned long i) = 0;
@@ -72,7 +72,7 @@ namespace wbrtm {
         virtual void Reset() = 0;
 
         ///Required for abstract classes.
-        virtual ~RandomGenerator() {}
+        virtual ~RandomGenerator() = default;
     };
 
     /// \brief Random generator specialization using the randg() function.
@@ -90,12 +90,16 @@ namespace wbrtm {
         unsigned long Random(unsigned long i) override
         {
             unsigned long ret = (unsigned long) (((double) (::randg)() * (i)));
-            if (ret >= i) ret = i - 1;
+            if (ret >= i)
+                ret = i - 1;
             return ret;
         }
 
         /// \brief Returned double from <0 to 1).
-        double DRand() override { return ((::randg)()); }
+        double DRand() override
+        {
+            return ((::randg)());
+        }
 
         /// \brief Generation of normal distribution. Defined only for this class.
         double NormRand() { return ::randnorm(); }
@@ -110,8 +114,13 @@ namespace wbrtm {
         void Reset() override { ::srandg((unsigned) time(NULL)); }
 
         /// \brief DEFAULT CONSTRUCTOR.
-        RandG() { RandG::Reset();}
-        ~RandG() override {}
+        RandG()
+        {
+            RandG::Reset();
+        }
+
+         /// Empty destructor.
+        ~RandG() override = default;
     };
 
     /// \brief A random generator specialization that uses the standard C language generator.
@@ -125,10 +134,19 @@ namespace wbrtm {
         unsigned long Rand() override { return my_rand(); }
 
         /// \brief Returned ulong from 0 to i
-        unsigned long Random(unsigned long i) override { return (int) (((double) (my_rand)() * (i)) / ((double) RAND_MAX + 1)); }
+        unsigned long Random(unsigned long i) override
+        {
+            unsigned long ret=(unsigned long) (((double) (my_rand)() * (i)) / ((double) RAND_MAX + 1));
+            if (ret >= i)
+                ret = i - 1;
+            return  ret;
+        }
 
         /// \brief Returned double from <0 to 1)
-        double DRand() override { return ((double) (my_rand)()) / (double) RAND_MAX; }
+        double DRand() override
+        {
+            return ((double) (my_rand)()) / (double) RAND_MAX;
+        }
 
         /// \brief Initialisation for well defined repeatable sequence
         void Seed(unsigned long i) override { (::srand)(i); }
@@ -138,7 +156,9 @@ namespace wbrtm {
 
         /// \brief DEFAULT CONSTRUCTOR.
         RandSTDC() { RandSTDC::Reset(); }
-        ~RandSTDC() override {}
+
+        /// Empty destructor.
+        ~RandSTDC() override = default;
     };
 
 } //namespace
