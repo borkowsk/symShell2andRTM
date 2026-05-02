@@ -1,7 +1,7 @@
 # CMAKE configuration for SYMSHELL CLASSES library wbsyshclss
 ##################################################################################
 # @author Wojciech Borkowski
-# @date 2026-04-30 (last update)
+# @date 2026-05-02 (last update)
 ######################################################
 
 cmake_minimum_required(VERSION 3.20)
@@ -30,7 +30,6 @@ include_directories( "SIMULCLSS/" "DATACLSS/" "VISUALCLSS/" "${WBRTMINC}/" "${SY
 add_library( wbsyshclss STATIC
         "./src/data/datalog.cpp"
         "./src/data/sourmngr.cpp"
-        "./src/data/_ikeycon.cpp"
         "./src/data/sourbase.cpp"
         "./src/simul/worldistr.cpp"
         "./src/simul/world.cpp"
