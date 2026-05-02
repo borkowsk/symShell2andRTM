@@ -1,8 +1,9 @@
 /** \file
-* \bref    Historic _obsolete things
+* \bref    Doxygen group for historically _obsolete things.
+* @date 2026-05-02 (last modification)
 * \details Created by borkowsk on 13.10.22.
-* \date    2022-10-19 (last modification)
 */
+
 /**
  * @defgroup OBSOLETE Zbyt stare fragmenty biblioteki jeszcze nie w pełni przystosowane do C++11
  * \brief    Niektóre powoli są przystosowywane

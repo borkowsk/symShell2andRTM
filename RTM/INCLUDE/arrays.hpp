@@ -1,18 +1,17 @@
 /** @file
-*  \brief    Dynamic arrays - some resizable
-*====================================================================================================================
+*  \brief    Dynamic arra-s - some resizable
 *  \details Obsolete and not improved part of the wb_rtm library.
 *           It was established before 2000.
 *  \copyright Wojciech T. Borkowski
 *  \date 2022-11-31 (last modification)
-*  @ingroup OBSOLETE
 */
+#ifndef _ARRAY_HPP_
+#define _ARRAY_HPP_
+///  @ingroup OBSOLETE
+
 #ifndef _MSC_VER //# warning still not work under Microsoft C++
 //#warning  "This code is OBSOLETE and not tested in C++11 standard"
 #endif
-
-#ifndef _ARRAY_HPP_
-#define _ARRAY_HPP_
 
 #include <iostream>
 #include <cstring>
@@ -26,11 +25,11 @@
 
 namespace wbrtm { //WOJCIECH BORKOWSKI RUN TIME LIBRARY
 
-/// \brief Obsolete class
+/// \brief Obsolete class template for const size array.
+/// Not RESIZEABLE. User must set size in construction.
+/// For scalar & class with << & >> operators;
 template<class T>
 class array_constsize:public array_base<T>
-	// Not RESIZEABLE. User must set size in construction.
-    // For scalar & class with << & >> operators;
 {
     using vobject::Raise;
     using int_key_container_base::NewMaxIndex;
@@ -40,21 +39,21 @@ class array_constsize:public array_base<T>
     VIRTUAL_NECESSARY_AND_IO( array_constsize<T> )
 public:
     array_constsize(const array_base<T>& a):array_base<T>(a){}
-    array_constsize(size_t N=1):array_base<T>(N)//1 zeby byl jakis bezparametrowy
+    array_constsize(size_t N=1):array_base<T>(N) //1 zeby byl jakis bezparametrowy
     { // Alloc array of N items
                                                 assert(N>0);
           NewMaxIndex(N-1); // save index for iterators & High function
     }
     ~array_constsize(){}                  // destroy array
     T&   operator  () (size_t i);		 // raise exception if "i" not into
-    int Expand(size_t nsize);// Tu faktycznie nie powieksza, ale sprawdza czy jest jeszcze miejsce w ramach alokacji
+    int Expand(size_t nsize); // Tu faktycznie nie powiększa, ale sprawdza, czy jest jeszcze miejsce w ramach alokacji
 };
 
-/// \brief Obsolete class
+/// \brief Obsolete base class template for resizable arrays.
+/// Defines index operator and basic reallocation service
+/// for derived array types.
 template<class T>
 class array_template:public array_base<T>
-	// Define index operator and basic realloc
-	// for derived array types
 {
 public:
 	~array_template() {}
@@ -65,7 +64,7 @@ public:
 	int Insert(size_t posit);// Insert empty element at posit(ion). Move the rest of table.
 };
 
-/// \brief For no class types - construction/destruction maybe not handled properly
+/// \brief A dynamic array for no class types - construction/destruction maybe not handled properly.
 template<class T>
 class array_of:public array_template<T>
 {
@@ -77,16 +76,16 @@ public:
 	//int Expand(size_t nsize);
 };
 
-/// \brief Obsolete class
+/// \brief Obsolete class template of a dynamic array of class.
+/// For class types - with construction/destruction handling
+/// \note: Objects must be position independent!
+/// Array can move any from its non-active components to new
+/// position in memory without use of a construction/destruction sequence.
 template<class T>
 class array_of_class:public array_template<T>
-	// For class types - with construction/destruction handling
-	// NOTE: Objects must be position independent! Array can move
-	// any from its non active components to new position in memory
-	// without construction/destruction sequention
 {
 	VIRTUAL_NECESSARY_AND_IO( array_of_class<T> )
-		void force_init_table(void* mem,size_t items);
+    void force_init_table(void* mem,size_t items);
 public:
 	~array_of_class(); // special handling destruction!
 	// Special handling construction because special behavior of expand

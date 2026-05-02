@@ -1,10 +1,10 @@
 /// @file
 /// @brief Definitions of basic (interface) data source class
-/// @date 2026-04-28 (modified)
+/// @date 2026-05-02 (modified)
 // ********************************************************************************************************************
 //
-#ifndef __DATA_SOURCE_BASE_HPP__
-#define __DATA_SOURCE_BASE_HPP__
+#ifndef SYMSHELL2_DATA_SOURCE_BASE_HPP_INCLUDED_
+#define SYMSHELL2_DATA_SOURCE_BASE_HPP_INCLUDED_
 
 #include <cassert>
 #include <climits>
@@ -19,146 +19,151 @@
 #include "rectgeom.hpp" /* GEOMETRY INTERFACE */
 #include "mem_guard.h"  /* Pomocnik do szukania przedwczesnych destrukcji obiektów! */
 
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "modernize-use-auto"
+#pragma ide diagnostic ignored "modernize-use-nullptr"
+
 const unsigned ZAPAS_NA_CYFRY=(DBL_DIG*2); //Do wyświetlania: DBL_DIG+zapas na znaki i wykładnik
 
-/// Definicja INTERFACE'u źródła danych.
+/// Definicja INTERFACE-u źródła danych.
 /// Każde źródło musi mieć zaimplementowane takie metody, ale może mieć też inne.
 class data_source_base
 //--------------------
 {
 public:
     MEMORY_GUARD(unsigned,0xAB0C0DAD);
+
 private:
-    long cur_step;	//Numer kolejnej wersji danych
-    long no_change;	//Od ilu kroków nie było zmiany
+    long cur_step;	///< Numer kolejnej wersji danych
+    long no_change;	///< Od ilu kroków nie było zmiany
+
 #if __GNUC__ >= 3   //Dziwne...
 public:
 #else
 protected:
 #endif
-    double miss;	//Missing value
-    double ymin;	//dany lub wydedukowany zakres Y.
-    double ymax;	//Jeśli jest dany, to nie należy go dedukować.
+    double miss;	///< Missing value
+    double ymin;	///< Dany lub wydedukowany zakres Y.
+    double ymax;	///< Jeśli jest dany, to nie należy go dedukować.
 
 public:
-    rectangle_geometry* my_geometry;
-    bool             local_geometry;
-    typedef ::iteratorh iteratorh; //Skrót dla typu uchwytu iteratora.
+    rectangle_geometry* my_geometry; ///< Wskaźnik do geometrii danych.
+    bool             local_geometry; ///< Czy geometria należy do tego obiektu.
+    typedef   ::iteratorh iteratorh; ///< Skrót dla typu uchwytu iterator-a.
 
 //Liczy -INF wg IEEE -jako znacznik braku (może generować SIGPFE na części platform)
 //static double inf();
 //Liczy NAN wg IEEE -jako znacznik braku (użycie może generować SIGPFE na części platform)
 //static double nan();
 
-// accesors
-//---------------------------------------
+// accessors:
+//-----------
 
-//Ustala missing value takie jakie chce user
+/// Ustala "missing value" takie, jakie chce użytkownik klasy.
 void	set_missing(double imiss);
 
-// Sprawdzanie czy Source->get nie dało missing
-int		is_missing(double val);
+/// Sprawdzanie, czy `Source->get` nie dało `missing`.
+int		is_missing(double val) const;
 
-// Zapewnia właściwa inicjacje i obsługę wartości "miss"
-// Wystarczy wywołać raz, przed iteracją, a potem używać tylko
-// is_missing() lub po prostu miss.
+/// Zapewnia właściwa inicjacje i obsługę wartości "miss".
+/// Wystarczy wywołać raz, przed iteracją, a potem używać tylko
+/// `is_missing()` lub po prostu `miss`.
 double	get_missing();
 
-// Ustala min i max, żeby uniknął próbkowania danych.
-// Podanie równych może ponownie włączać próbkowanie.
+/// Ustala `min` i `max`, żeby uniknąć próbkowania danych.
+/// Podanie równych może ponownie włączać próbkowanie.
 void	setminmax(double imin,double imax);
 
 // OBSŁUGA WERSJI DANYCH
 //----------------------------------
 
-// Ustalanie informacji o wersji danych
+/// Ustalanie informacji o wersji danych.
 virtual
 void	new_data_version(int change=1,unsigned increment=1);
 
-// Uaktualnia wersje wg podanego źródła i wtedy zwraca 1.
-// Jeśli wersje są zgodne, to zwraca 0.
+/// Uaktualnia wersje wg podanego źródła i wtedy zwraca 1.
+/// Jeśli wersje są zgodne, to zwraca 0.
 virtual
 int		update_version_from(data_source_base* Source);
 
-// numer wersji danych
-virtual /* Czy virtual potrzebne ? */
+/// Numer wersji danych.
+virtual
 long	data_version()		{ return cur_step; }
 
-// Podaje, odd ilu wersji dane się nie zmieniły.
-virtual /* Czy potrzebne ? */
+/// Podaje, od ilu wersji dane się nie zmieniły.
+virtual
 long	how_old_data()		{ return no_change;}
 
-// Restartuje versioning źródeł. W wypadku pod-źródeł powinna byc reimplementacja!
+/// Restartuje "versioning" źródeł. W wypadku pod-źródeł powinna byc reimplementacja!
 virtual
 void	restart_counting()	{ cur_step=-1;no_change=0;}
 
 // OBSŁUGA GEOMETRII SERII
 //----------------------------------------
 
-// Zwraca wskaźnik do obowiązującej geometrii danych.
-// NULL oznacza dane nie-zgeometryzowane, wyłącznie z dostępem sukcesywnym.
+/// Zwraca wskaźnik do obowiązującej geometrii danych.
+/// `NULL` oznacza dane nie-zgeometryzowane, wyłącznie z dostępem sukcesywnym.
 virtual
 geometry_base* getgeometry()	{ return NULL; }
 
-//Przetwarza index uzyskany z geometrii
-//na wartość z serii, o ile jest możliwe czytanie losowe.
-//Domyślnie NIE JEST MOŻLIWE! - powoduje błąd wykonania.
+/// Przetwarza index uzyskany z geometrii na wartość z serii.
+/// O ile jest możliwe czytanie w losowej kolejności, które domyślnie NIE JEST MOŻLIWE i powoduje błąd wykonania.
 virtual
 double	get(size_t index_from_geometry);
 
-//PURE virtual INTERFACE - need defined!!!
-//-------------------------------------------
+// PURE virtual INTERFACE - need to be defined:
+//---------------------------------------------
 
-//Musi zwracać nazwę serii albo "" - NIE NULL!
+/// Musi zwracać nazwę serii albo pusty tekst "" - NIE NULL.
 virtual
 const char* name()=0;
 
-// Ile elementów, wartość minimalna i maksymalna
+/// Musi ustawić na parametrach, ile jest elementów, jaka jest wartość minimalna i jaka maksymalna.
 virtual
 void	bounds(size_t& N,double& min,double& max)=0;
 
-// Umożliwia czytanie sukcesywne od początku -
-// 'iteratorh' jest uchwytem dla 'iterator'
+/// Umożliwia czytanie sukcesywne od początku.
+/// Wynik `iteratorh` jest uchwytem dla `iterator`.
 virtual
 iteratorh   reset()=0;
 
-// Daje następną z N liczb!!! Po N-tej zwalnia iterator!
+/// Daje następną z N liczb. Po N-tej zwalnia iterator.
 virtual
 double	get(iteratorh&)=0;
 
-// Zwalnia iterator, jeśli nie został zwolniony przez get(N)
+/// Zwalnia iterator, jeśli nie został zwolniony przez `get(N)`.
 virtual
 void	close(iteratorh&)=0;
 
-//CONSTRUCTION/DESTRUCTION
-//---------------------------------
+//CONSTRUCTION/DESTRUCTION:
+//-------------------------
 
-//Constructor
+/// Constructor.
 data_source_base():
         cur_step(-1),no_change(0),
         ymin(0),ymax(0),
         miss(default_missing<double>())
         {}
 
-//Destructor
+/// Destructor.
 virtual ~data_source_base()
-        {}
+        = default;
 
 };
 
-//ACCESSORS
-//---------------------------------------
+// ACCESSORS INLINE IMPLEMENTATIONS:
+//----------------------------------
 
-// Ustala missing value takie jakie chce user.
+// Ustala "missing value" takie jakie chce user.
 inline
 void  data_source_base::set_missing(double imiss)
 {
     miss=imiss;
 }
 
-// Sprawdzanie, czy get() nie dało missing.
+// Sprawdzanie, czy "get()" nie dało "missing".
 inline
-int data_source_base::is_missing(double val)
+int data_source_base::is_missing(double val) const
 {
     if(val==miss)
     {
@@ -193,10 +198,10 @@ void  data_source_base::setminmax(double imin,double imax)
 }
 
 
-// OBSŁUGA WERSJI DANYCH
-// ///////////////////////////////////////////////
+// OBSŁUGA WERSJI DANYCH:
+// //////////////////////
 
-//Ustalanie informacji o wersji danych
+// Ustalanie informacji o wersji danych.
 inline
 void  data_source_base::new_data_version(int change,unsigned increment)
 {
@@ -206,8 +211,8 @@ void  data_source_base::new_data_version(int change,unsigned increment)
     assert(cur_step>=no_change);
 }
 
-//Uaktualnia wersje wg podanego źródła i wtedy zwraca 1.
-//Jeśli wersje są zgodne, to zwraca 0.
+// Uaktualnia wersje wg podanego źródła i wtedy zwraca 1.
+// Jeśli wersje są zgodne, to zwraca 0.
 inline
 int   data_source_base::update_version_from(data_source_base* Source)
 {
@@ -215,7 +220,7 @@ int   data_source_base::update_version_from(data_source_base* Source)
     {
         new_data_version(
             Source->how_old_data()==0?1:0,
-            Source->data_version()-data_source_base::data_version()	//Żeby nie było rekurencji nie wprost
+            Source->data_version()-data_source_base::data_version() //Żeby nie było rekurencji nie wprost
             );
         return 1;
     }
@@ -224,11 +229,11 @@ int   data_source_base::update_version_from(data_source_base* Source)
 }
 
 
-// OBSŁUGA GEOMETRYZOWANYCH SERII
-// ///////////////////////////////////
+// OBSŁUGA GEOMETRYZOWANYCH SERII:
+// ///////////////////////////////
 
-//Przetwarza index uzyskany z geometrii
-//na wartość z serii, o ile jest możliwe czytanie losowe
+// Przetwarza index uzyskany z geometrii
+// na wartość z serii, o ile jest możliwe czytanie losowe.
 inline
 double data_source_base::get(size_t index_from_geometry)
 {
@@ -236,15 +241,19 @@ double data_source_base::get(size_t index_from_geometry)
     return miss;
 }
 
-/* *******************************************************************/
-/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                  */
-/*            W O J C I E C H   B O R K O W S K I                    */
-/*  Zakład Systematyki i Geografii Roslin Uniwersytetu Warszawskiego */
-/*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego        */
-/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk              */
-/*        MAIL: borkowsk@iss.uw.edu.pl                               */
-/*                               (Don't change or remove this note)  */
-/* *******************************************************************/
-#endif
+#pragma clang diagnostic pop
+/* ****************************************************************** */
+/*               SYMSHELL2  version 2006/2022/2026                    */
+/* ****************************************************************** */
+/*           THIS CODE IS DESIGNED & COPYRIGHT BY:                    */
+/*            W O J C I E C H   B O R K O W S K I                     */
+/*  Zakład Systematyki i Geografii Roslin Uniwersytetu Warszawskiego  */
+/*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego         */
+/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk               */
+/*        MAIL: borkowsk@iss.uw.edu.pl                                */
+/*                               (Don't change or remove this note)   */
+/* ****************************************************************** */
+#endif //SYMSHELL2_DATA_SOURCE_BASE_HPP_INCLUDED_
+
 
 

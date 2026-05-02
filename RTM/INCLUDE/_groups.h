@@ -1,12 +1,15 @@
-/**
+/** @file
+* @brief DEFINICJE GRUP DOXYGENA.
+* @date 2026-05-02 (modified)
+*
 * @defgroup	TypesService Informacja o typach i nazewnictwo
 * @brief	Ładne i przenośne nazwy typów itp.
 * @details  
 *	Informacje o nazwach typów
 * 	--------------------------
-* 	  To w C++ zawsze było problemem! 
+* 	To w C++ zawsze było problemem!
 * 	Nawet jeżeli gdy istniała obsługa informacji o typach, to ich nazwy
-* 	były zalezne od kompilatora, i często mało czytelne dla człowieka.
+* 	były zależne od kompilatora, i często mało czytelne dla człowieka.
 * 	Dziwne rzeczy dzieją się też z typami prostymi.
 *          
 *	  Te problemy pozostał do dziś, stąd przydatność własnej obsługi nazw 
@@ -14,13 +17,13 @@
 *
 * 	Informacja o limitach
 * 	---------------------
-*	  Podobnym problemem była informacja o limitach wartości typów 
+*	Podobnym problemem była informacja o limitach wartości typów
 *	prostych. Dziś ten problem jest rozwiązany, ale już kwestia 
 *	dobrania wartości dla "missing value" w różnych typach nadal 
 *	nie jest oczywista i przenośna.
 * 
 *
-* @defgroup	ERRORHANDLING Błędne i wyjątkowe sytuacje    
+* @defgroup	ERRORHANDLING Błędne i wyjątkowe sytuacje
 * @brief	Obsługa wyjątków jako błędów czasu wykonania.
 * @details 
 *	Funkcje i klasy do obsługi sytuacji błędnych i wyjątkowych
@@ -36,10 +39,10 @@
 * @details   
 * 	Inteligentne wskaźniki i proste dynamiczne tablice i macierze
 *	-------------------------------------------------------------
-* 	  Trochę na wzór wczesnego STL lub jakiś pomysłów Strostroupa, ale całkiem
+* 	Trochę na wzór wczesnego STL lub jakiś pomysłów Strostroupa, ale całkiem
 * 	inne i raczej mało kompatybilne.
 *
-* 	  Zawartość wskazywana jest "sztefetowana" pomiędzy obiektami powyższych typów,
+* 	Zawartość wskazywana jest "sztefetowana" pomiędzy obiektami powyższych typów,
 * 	co oznacza, że w konstruktorze kopiującym albo przypisaniu jest przenoszona,
 * 	a nie kopiowana. Obiekt donor staje się PUSTY! Dlatego obiekty te do funkcji
 * 	muszą być zawsze przekazywane przez REFERENCJE!
@@ -47,11 +50,10 @@
 *
 * @defgroup	VirtualConstruction Wirtualne konstruktory dla obiektów heterogenicznych
 * @brief	Narzędzia do definiowania wirtualnych konstruktorów.
-* 		
 *
 * ---------------------------------------------------------------------------------------------------------------
-* 	
+*
 * @copyright Wojciech Borkowski wborkowski (_at_) uw.edu.pl
-* @date 2022-10-13 (last modification)
+* @date 2026-05-02 (last modification)
 * 
-*/	
+*/

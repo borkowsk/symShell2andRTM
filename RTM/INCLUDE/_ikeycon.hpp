@@ -1,11 +1,11 @@
 /// @file
 /// @brief Private base for an array class family.
-/// @date 2026-04-27 (modified)
+/// @date 2026-05-02 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_INT_KEY_CON_HPP_INCLUDED_
 #define SYMSHELL2_INT_KEY_CON_HPP_INCLUDED_
-
+///  @ingroup OBSOLETE
 //  Implement size_t key support
 //#include "pix.hpp"
 //#include "tnames.h"
@@ -78,8 +78,8 @@ protected:
 
 /* IMPLEMENTATION OF SEARCHING SUPPORT */
 
-/// @return pix to first object in the collection, or NULL if empty.
-/// @note `pix` is declared as `void*` but more often it plays the role of an integer
+/// @return `pix` to first object in the collection, or @c NULL if empty.
+/// @note `pix` is declared as `void*` but more often it plays the role of an `integer`
 ///       (e.g., index) hidden from the user of the class.
 pix 	_first() const
     {
@@ -89,7 +89,7 @@ pix 	_first() const
         return reinterpret_cast<pix>(0);
     }
 
-/// @return pix to a previous object from the collection.
+/// @return `pix` to a previous object from the collection.
 pix     _previous(pix p) const
     {
     size_t pom=(size_t)p;
@@ -104,7 +104,7 @@ pix     _previous(pix p) const
     return reinterpret_cast<pix>(pom);
     }
 
-/// @return next object from the collection, or NULL if no more.
+/// @return next object from the collection, or @c NULL if no more.
 pix     _next(pix p) const
     {
     size_t pom=(size_t)p;
@@ -115,7 +115,7 @@ pix     _next(pix p) const
         return reinterpret_cast<pix>(pom);
     }
 
-/// It destroys pix after usage.
+/// It destroys `pix` after usage.
 void 	_destroy(pix& p) const
     {
     p=reinterpret_cast<pix>(0);
@@ -132,7 +132,7 @@ const  size_t&  _key(pix p) const
 
 /* DELETE SUPPORT */
 
-/// It deletes the current object, return 1 if success.
+/// It deletes the current object. @return 1 if success.
 int  _remove(pix)
     { return 0; }
 
@@ -274,7 +274,7 @@ int Truncate(object_size_t i)
 
 #pragma clang diagnostic pop
 /* ****************************************************************** */
-/*               SYMSHELL2  version 2006/2022/2026                    */
+/*                 RTM version 2006/2022/2026                         */
 /* ****************************************************************** */
 /*            THIS CODE IS DESIGNED & COPYRIGHT BY:                   */
 /*            W O J C I E C H   B O R K O W S K I                     */

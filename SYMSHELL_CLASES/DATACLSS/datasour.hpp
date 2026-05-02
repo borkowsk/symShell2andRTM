@@ -1,10 +1,10 @@
 /// @file
-/// @brief INTERFACE'y najbardziej podstawowych klas źródeł.
-/// @date 2026-04-28 (modified)
+/// @brief INTERFACE-y najbardziej podstawowych klas źródeł.
+/// @date 2026-05-02 (modified)
 // *********************************************************************************************************************
 //
-#ifndef __DATA_SOURCES_HPP__
-#define __DATA_SOURCES_HPP__
+#ifndef SYMSHELL2_DATA_SOURCES_HPP_INCLUDED_
+#define SYMSHELL2_DATA_SOURCES_HPP_INCLUDED_
 
 #ifndef __cplusplus
 #error C++ required
@@ -13,11 +13,15 @@
 #include "sourbase.hpp" //Podstawowy interface
 using wbrtm::wb_dynarray;
 
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "modernize-use-auto"
+#pragma ide diagnostic ignored "modernize-use-nullptr"
+
 /// Klasa źródła przekazującego pojedynczą daną.
 class scalar_source_base:public data_source_base,public title_util
 //-----------------------------------------------------------------
 {
-#if __GNUC__ >= 3 //Problemy z widocznoscia ponizszej zmiennej, ale i tak nie pomaga!!!
+#if __GNUC__ >= 3 //Problemy z widocznością poniższej zmiennej, ale i tak nie pomaga!!!
 public:
 #else
 protected:
@@ -25,18 +29,18 @@ protected:
 int CheckMinMax;
 
 public:
-//Constructor
-scalar_source_base(const char* nam,double min=0,double max=0):
+/// Constructor.
+explicit scalar_source_base(const char* nam,double min=0,double max=0):
       title_util(nam)
     {
      ymin=min;ymax=max;
      CheckMinMax=!(ymin==0 && ymax==0);
     }
 
-virtual const char* name()//Musi zwracac nazwe serii albo "" - NIE NULL!!!
+const char* name() override //Musi zwracac nazwe serii albo "" - NIE NULL!!!
     { return title_util::name();}
 
-virtual void  bounds(size_t& N,double& min,double& max)
+void  bounds(size_t& N,double& min,double& max) override
     //Ile elementow,wartosc minimalna i maksymalna
     //sczytane z wewnetrznych pol.UWAGA! Moze byc min==max==0
     {
@@ -45,9 +49,9 @@ virtual void  bounds(size_t& N,double& min,double& max)
      max=ymax;
     }
 
-virtual iteratorh   reset()
-    //Umozliwia czytanie od poczatku - iteratorh jest uchwytem iteratora
-    // domyslnie z obiektu Source, ale czasem nie
+/// Umożliwia czytanie od początku — `iteratorh` jest uchwytem iterator-a.
+/// Domyślnie z obiektu Source, ale czasem nie.
+iteratorh   reset() override
     { return (iteratorh)1;}
 
 virtual double get(iteratorh& I)=0;
@@ -55,35 +59,35 @@ virtual double get(iteratorh& I)=0;
     //Po czym obiekt zrodlowy zwalnia iterator!
     //Ta metoda do podstawienia
 
-virtual void  close(iteratorh& I)
-    //Obiekt zrodlowy zwalnia iterator jesli nie zostal zwolniony przez get(N)
+void  close(iteratorh& I) override
+    //Obiekt źródłowy zwalnia iterator, jeśli nie został zwolniony przez `get(N)`
     { I=0; }
 
 };
 
-//KLasa podstawowa dla utypowionych zrodel jedno-elementowych
+/// Klasa podstawowa dla utypowionych źródeł jedno-elementowych.
 template<class T>
 class template_scalar_source_base:public scalar_source_base
 //---------------------------------------------------------
 {
 public:
 //Constructor
- template_scalar_source_base(const char* nam,double min=0,double max=0):
+explicit template_scalar_source_base(const char* nam,double min=0,double max=0):
       scalar_source_base(nam,min,max)
       { miss=default_missing<T>(); }
 
-double get(iteratorh& I) override //"Zwalnia"(?) iterator i wywoluje wirtualne get()
-        {               assert(I!=nullptr);//Jak juz zwolniony to nie powinien byc wywolany
+double get(iteratorh& I) override //"Zwalnia"(?) iterator i wywołuje wirtualne `get()`
+        {               assert(I!=nullptr);//Jak juz zwolniony to nie powinien byc wywołany.
             I=nullptr;
             return get();
         }
 
-//const T&  - - - TU ZMIENIC GDY source_base stanie szablonem
-virtual const double get()=0;//Ma zawsze jedna wartosc wiec mozna tedy uproscic dostep
+//const T&  - - - TU TRZEBA ZMIENIĆ GDY `source_base` stanie szablonem
+virtual const double get()=0; //Ma zawsze jedna wartość, więc można tędy uprościć dostęp.
 
 };
 
-//Zrodlo filtrujace dane z innego zrodla
+/// Zrodlo filtrujace dane z innego zrodla.
 class filter_source_base:public data_source_base,public title_util
 //-----------------------------------------------------------------
 {
@@ -102,8 +106,8 @@ virtual int check_version()
     }
 
 public:
-//Constructor
-filter_source_base(data_source_base* ini=NULL,const char* format="F(%s)"):
+/// Constructor.
+explicit filter_source_base(data_source_base* ini=NULL,const char* format="F(%s)"):
       title_util(format)
       {
          set_source(ini);
@@ -118,23 +122,23 @@ const data_source_base* get_source()//Zwraca wskaznik do seri zrodlowej
     { return Source;}
 
 //Virtual accessors
-virtual long data_version()
+long data_version() override
     //numer wersji danych
     { check_version();return data_source_base::data_version();}
 
-virtual long how_old_data()
-    //od ilu wersji dane sie nie zmienily
+long how_old_data() override
+    //od ilu wersji dane sie nie zmieniły
     { check_version();return data_source_base::how_old_data();}
 
-virtual const char* name();//Musi zwracac nazwe serii albo "" - NIE NULL!!!
+const char* name() override;//Musi zwracac nazwe serii albo "" - NIE NULL!!!
 
 
-virtual geometry_base* getgeometry()//Zwraca wskaznik do obowiazujacej geometri danych
+geometry_base* getgeometry() override//Zwraca wskaznik do obowiazujacej geometri danych
     { return Source->getgeometry(); }//domyslnie taka jak w zrodle.
 
 
 //DOSTEP DO DANYCH
-virtual void  bounds(size_t& N,double& min,double& max)
+void  bounds(size_t& N,double& min,double& max) override
     //Ile elementow,wartosc minimalna i maksymalna
     //Byc moze wartosci te trzeba przekonwertowac
     {
@@ -144,7 +148,7 @@ virtual void  bounds(size_t& N,double& min,double& max)
         {min=ymin;max=ymax;}
     }
 
-virtual iteratorh   reset()
+iteratorh   reset() override
     //Umozliwia czytanie od poczatku - iteratorh jest uchwytem iteratora
     // domyslnie z obiektu Source, ale czasem nie
     {
@@ -171,30 +175,32 @@ virtual double get(size_t index_from_geometry)
     return Source->get(index_from_geometry);
     }
 
-virtual void  close(iteratorh& I)
+void  close(iteratorh& I) override
     //Obiekt zrodlowy zwalnia iterator jesli nie zostal zwolniony przez get(N)
     { Source->close(I);}
 
-//Uzupelnienie o sprawdzanie czy Source->get nie dalo missing
+/// Uzupełnienie o sprawdzanie, czy Source->get nie dało missing.
 virtual int FromSourceIsMissing(double val)
     {
-    if(val==source_miss) return 1;
-       else return 0;
+    if(val==source_miss)
+        return 1;
+    else
+        return 0;
     }
 };
 
-//Szablon zrodla filtrujace dane z innego zrodla - dla wiekszej efektywnosci
+/// Szablon zrodla filtrujace dane z innego zrodla - dla wiekszej efektywnosci.
 template< class SOURCE_TYPE  >
 class template_filter_source_base:public filter_source_base
 //---------------------------------------------------
 {
 public:
-//Constructor
-template_filter_source_base(SOURCE_TYPE* ini=NULL,const char* format="F(%s)"):
+/// Constructor.
+explicit template_filter_source_base(SOURCE_TYPE* ini=NULL,const char* format="F(%s)"):
       filter_source_base(ini,format)
       { }
 
-void  bounds(size_t& N,double& min,double& max)
+void  bounds(size_t& N,double& min,double& max) override
     //Ile elementow,wartosc minimalna i maksymalna
     //Byc moze wartosci te trzeba przekonwertowac
     {
@@ -204,7 +210,7 @@ void  bounds(size_t& N,double& min,double& max)
         {min=ymin;max=ymax;}
     }
 
-iteratorh   reset()
+iteratorh   reset() override
     //Umozliwia czytanie od poczatku - iteratorh jest uchwytem iteratora
     // domyslnie z obiektu Source, ale czasem nie
     { check_version();return ((SOURCE_TYPE*)Source)->reset();}
@@ -226,28 +232,28 @@ double get(size_t index_from_geometry)
     return ((SOURCE_TYPE*)Source)->get(index_from_geometry);
     }
 
-void  close(iteratorh& I)
-    //Obiekt zrodlowy zwalnia iterator jesli nie zostal zwolniony przez get(N)
+void  close(iteratorh& I) override
+    //Obiekt źródłowy zwalnia iterator jesli nie zostal zwolniony przez get(N)
     { ((SOURCE_TYPE*)Source)->close(I);}
 
 };
 
-//Klasa bazowa dla zrodel przekazujacych dane liniowo
+/// Klasa bazowa dla zrodel przekazujących dane liniowo.
 class linear_source_base:public data_source_base,public title_util
 //--------------------------------------------------------
 {
 protected:
-size_t N;//Ile elementow
+size_t N; ///< Ile elementów.
 
 // Constructor
 linear_source_base(size_t iN,const char* itit):
     N(iN),title_util(itit)
     {}
 
-// Przemieszcza iterator o jednostke. Zeruje jesli koniec tablicy
+// Przemieszcza iterator o jednostkę. Zeruje jesli koniec tablicy.
 size_t _next(iteratorh& p)
 {
-assert(p!=NULL);//Nie wolno wywolac dla NULL
+assert(p!=NULL); //Nie wolno wywołać dla NULL
 size_t pom=((size_t)p)-1;
 if(pom+1>=N)
     p=NULL;
@@ -257,32 +263,33 @@ return pom;
 }
 
 public:
-// Methods
-virtual
-void _change_size(size_t NewN)//Be carefull!!!
+// Methods:
+//=========
+
+virtual void _change_size(size_t NewN) //Be carefull!!!
     { //WYMUSZA ZMIANĘ ROZMIARU SERII. PRZYDAJE SIĘ TYLKO GDY SERIA
-      //JEST UCHWYTEM DO ZEWNETRZNYCH DANYCH!
+      //JEST UCHWYTEM DO ZEWNĘTRZNYCH DANYCH!
         N=NewN;
     }
 
 size_t get_size()
     { return N;}
 
-const char* name()	//Zwraca nazwe serii
+const char* name() override	//Zwraca nazwe serii
     { return title_util::name();}
 
-iteratorh  reset()
+iteratorh  reset() override
 //Umozliwia czytanie od poczatku
     { return (iteratorh)1;}
 
-void close(iteratorh& p)
+void close(iteratorh& p) override
     {
       p=NULL;
     }
 
 };
 
-//Klasa bazowa dla zrodel udostepniajacych dane prostokatne wraz z wycinkami
+/// Klasa bazowa dla zrodel udostepniajacych dane prostokatne wraz z wycinkami.
 class rectangle_source_base:public data_source_base,public title_util
 //--------------------------------------------------------------
 {
@@ -292,7 +299,7 @@ private:
 
 protected:
 
-// Constructor  with private my_geometry
+/// Constructor with private my_geometry.
 rectangle_source_base(
               const char* itit,
               size_t iA,size_t iB,
@@ -311,7 +318,7 @@ rectangle_source_base(
     //my_geometry.set_view_info(NULL);//Reset an default
     }
 
-//Constructor with borrowed geometry
+/// Constructor with borrowed geometry.
 rectangle_source_base(
               const char* itit,
               rectangle_geometry& geom,  //Geometria z zewnatrz - dealokacja nie bedzie zarządzana //obsolete: int*		subs=NULL,	 //Ustala wycinek tablicy. startX,lenX,startY,lenY
@@ -382,7 +389,7 @@ int box(int* outtab)
 
 
 
-//Podstawa zrodla funkcyjnego - zeby zminimalizowac ilosc powtarzajacych sie metod
+/// Podstawa zrodla funkcyjnego - zeby zminimalizowac ilosc powtarzajacych sie metod.
 class function_source_base:public data_source_base,public title_util
 //-----------------------------------------------------------------------------------
 {
@@ -440,14 +447,15 @@ void close(iteratorh& p)
 //class function_source:function_source_base  --- #include "funcsour.hpp"
 
 //		IMPLEMENTATION
-////////////////////////////////////////
+// //////////////////////////////////////
+
 inline
 const char* filter_source_base::name()
-//Musi zwracac nazwe serii albo "" - NIE NULL!!!
+//Musi zwracać nazwę serii albo "" - NIE NULL!!!
     {
     const char* pom=Source->name();
     if(!_name.IsOK() || strstr(_name.get_ptr_val(),pom)==NULL)
-    //Jesli jeszcze nie ma albo zmienilo sie w obiekcie zrodla
+    //Jeśli jeszcze nie ma albo zmieniło się w obiekcie źródła.
         {
         _name.alloc(strlen(title_util::name())+strlen(pom)+1);
         sprintf(_name.get_ptr_val(),title_util::name(),pom);
@@ -455,17 +463,19 @@ const char* filter_source_base::name()
     return _name.get_ptr_val();
     }
 
-
-/* *******************************************************************/
-/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                  */
-/*            W O J C I E C H   B O R K O W S K I                    */
-/*  Zakład Systematyki i Geografii Roslin Uniwersytetu Warszawskiego */
-/*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego        */
-/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk              */
-/*        MAIL: borkowsk@iss.uw.edu.pl                               */
-/*                               (Don't change or remove this note)  */
-/* *******************************************************************/
-#endif
+#pragma clang diagnostic pop
+/* ****************************************************************** */
+/*               SYMSHELL2  version 2006/2022/2026                    */
+/* ****************************************************************** */
+/*           THIS CODE IS DESIGNED & COPYRIGHT BY:                    */
+/*            W O J C I E C H   B O R K O W S K I                     */
+/*  Zakład Systematyki i Geografii Roslin Uniwersytetu Warszawskiego  */
+/*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego         */
+/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk               */
+/*        MAIL: borkowsk@iss.uw.edu.pl                                */
+/*                               (Don't change or remove this note)   */
+/* ****************************************************************** */
+#endif //SYMSHELL2_DATA_SOURCES_HPP_INCLUDED_
 
 
 

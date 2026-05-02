@@ -1,10 +1,10 @@
 /** @file
-*  \brief    Base class for dynamic resizable arrays
-*====================================================================================================================
+*  \brief Base class for dynamic resizable arrays
+*  @date 2026-05-02 (last modification)
 *  \details Obsolete and not improved part of the wb_rtm library.
 *           It was established before 2000.
 *  \copyright Wojciech T. Borkowski
-*  \date 2022-12-31 (last modification)
+* ====================================================================================================================
 *  @ingroup OBSOLETE
 */
 #ifndef _MSC_VER //# warning still not work under Microsoft C++
@@ -30,7 +30,7 @@ class array_base:public key_container<size_t,T>,public int_key_container_base
 {
 protected:
 T* tab;
-wb_pchar Separator;//Musi byc wypisywany jako const char* bo wiekszosc typowych separatorow klasa wb_pchar wypisuje w cudzyslowie
+wb_pchar Separator;//Musi byc wypisywany jako const char* bo większości typowych separatorow klasa wb_pchar wypisuje w cudzyslowie
 const char* separator() const   { return Separator.get(); }
 public:
 /* CONTAINER SEARCHING SUPPORT & DELETE SUPPORT */
