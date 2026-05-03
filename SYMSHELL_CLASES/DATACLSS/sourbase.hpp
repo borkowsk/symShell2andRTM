@@ -1,6 +1,6 @@
 /// @file
 /// @brief Definitions of basic (interface) data source class
-/// @date 2026-05-02 (modified)
+/// @date 2026-05-03 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_DATA_SOURCE_BASE_HPP_INCLUDED_
@@ -22,6 +22,7 @@
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "modernize-use-auto"
 #pragma ide diagnostic ignored "modernize-use-nullptr"
+#pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
 
 const unsigned ZAPAS_NA_CYFRY=(DBL_DIG*2); //Do wyświetlania: DBL_DIG+zapas na znaki i wykładnik
 
@@ -48,19 +49,19 @@ protected:
 
 public:
     rectangle_geometry* my_geometry; ///< Wskaźnik do geometrii danych.
-    bool             local_geometry; ///< Czy geometria należy do tego obiektu.
+    bool             local_geometry; ///< Określa, czy geometria należy do tego obiektu.
     typedef   ::iteratorh iteratorh; ///< Skrót dla typu uchwytu iterator-a.
 
-//Liczy -INF wg IEEE -jako znacznik braku (może generować SIGPFE na części platform)
+// / Liczy @c `INF.` (wg. `IEEE`) — jako znacznik braku (może generować SIGFPE na części platform).
 //static double inf();
-//Liczy NAN wg IEEE -jako znacznik braku (użycie może generować SIGPFE na części platform)
+// / Liczy @c NAN (wg IEEE) — jako znacznik braku (użycie może generować SIGFPE na części platform).
 //static double nan();
 
 // accessors:
 //-----------
 
 /// Ustala "missing value" takie, jakie chce użytkownik klasy.
-void	set_missing(double imiss);
+void	set_missing(double i_miss);
 
 /// Sprawdzanie, czy `Source->get` nie dało `missing`.
 int		is_missing(double val) const;
@@ -70,12 +71,12 @@ int		is_missing(double val) const;
 /// `is_missing()` lub po prostu `miss`.
 double	get_missing();
 
-/// Ustala `min` i `max`, żeby uniknąć próbkowania danych.
+/// Ustala minimum i maksimum, żeby uniknąć próbkowania danych.
 /// Podanie równych może ponownie włączać próbkowanie.
-void	setminmax(double imin,double imax);
+void	setminmax(double i_min, double i_max);
 
-// OBSŁUGA WERSJI DANYCH
-//----------------------------------
+// OBSŁUGA WERSJI DANYCH:
+//-----------------------
 
 /// Ustalanie informacji o wersji danych.
 virtual
@@ -140,6 +141,7 @@ void	close(iteratorh&)=0;
 
 /// Constructor.
 data_source_base():
+        my_geometry(NULL),local_geometry(false),
         cur_step(-1),no_change(0),
         ymin(0),ymax(0),
         miss(default_missing<double>())
@@ -156,9 +158,9 @@ virtual ~data_source_base()
 
 // Ustala "missing value" takie jakie chce user.
 inline
-void  data_source_base::set_missing(double imiss)
+void  data_source_base::set_missing(double i_miss)
 {
-    miss=imiss;
+    miss=i_miss;
 }
 
 // Sprawdzanie, czy "get()" nie dało "missing".
@@ -176,25 +178,26 @@ int data_source_base::is_missing(double val) const
 }
 
 // Zapewnia właściwą inicjację i obsługę wartości "miss"
-// A le czy to "really" potrzebne?
+// Ale czy to "really" potrzebne?
 inline
 double data_source_base::get_missing()
 {
     double tmp=default_missing<double>(); //Klasy szablonowe muszą to reimplementować
-    if(memcmp(&miss,&tmp,sizeof(miss))!=0) // Jeśli ustawione lub już domyślne
-        return miss;
-        else
-        return miss=tmp; //Zapewnia, że będzie ustawione na default_missing<...>()
+    // Używamy `memcmp` bo niekoniecznie tmp musi być poprawną liczbą typu double.
+    if(memcmp(&miss,&tmp,sizeof(miss))!=0) //TODO A TU NIE POWINNO BYĆ == zamiast != ???
+        return miss; // Jeśli ustawione lub już domyślne.
+    else
+        return miss=tmp; //Zapewnia, że będzie ustawione tak jak default_missing<...>()
 }
 
-// Ustala arbitralne min i max, żeby uniknąć próbkowania (dedukowania).
+// Ustala arbitralne minimum i maksimum, żeby uniknąć próbkowania (dedukowania).
 // Podanie równych włącza znowu próbkowanie.
 inline
-void  data_source_base::setminmax(double imin,double imax)
+void  data_source_base::setminmax(double i_min, double i_max)
 {
-    assert( imin <= imax ); //Podanie równych włącza znowu próbkowanie (dedukcję)!!!
-    ymin=imin;
-    ymax=imax;
+    assert(i_min <= i_max ); //Podanie równych włącza znowu próbkowanie (dedukcję)!!!
+    ymin=i_min;
+    ymax=i_max;
 }
 
 
@@ -206,8 +209,10 @@ inline
 void  data_source_base::new_data_version(int change,unsigned increment)
 {
     cur_step+=increment;
-    if(change) no_change=0;
-          else no_change+=increment;
+    if(change)
+        no_change=0;
+    else
+        no_change+=increment;
     assert(cur_step>=no_change);
 }
 
@@ -254,6 +259,3 @@ double data_source_base::get(size_t index_from_geometry)
 /*                               (Don't change or remove this note)   */
 /* ****************************************************************** */
 #endif //SYMSHELL2_DATA_SOURCE_BASE_HPP_INCLUDED_
-
-
-
