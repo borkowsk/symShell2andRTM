@@ -73,7 +73,8 @@ Lib X11: Windows
 LICENCE
 -------
 
-Currently only for compilation my publicly available simulation programs
+Currently only for compilation my publicly available simulation programs.
+I'm trying to update this code for "modernity", though some motivation to do so would be very helpful.
 
 [Coffee](https://buycoffee.to/adalbertus)
  
