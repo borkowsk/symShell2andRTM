@@ -1,6 +1,6 @@
 /// @file
 /// @brief  Konkretne klasy źródeł — dostęp do danych w tablicach i zmiennych
-/// @date 2026-04-27 (modified)
+/// @date 2026-05-04 (modified)
 // ********************************************************************************************************************
 //
 #ifndef __SCALAR_SOUR_HPP__
@@ -8,7 +8,7 @@
 
 #include "datasour.hpp"
 
-/// Klasa zrodla przechowujacego i dajacego pojedyncza wartosc.
+/// Klasa źródła przechowujacego i dajacego pojedyncza wartość.
 template<class Typek>
 class scalar_source:public  template_scalar_source_base<Typek>
 //-----------------------------------------------------------------
@@ -27,8 +27,8 @@ scalar_source(const Typek& ini,const char* title,
 //Accesors
 void  change_val(const Typek& next);
 
-//const T&  - - - TU ZMIENIC GDY source_base stanie szablonem - moga byc klopoty z MISSING VALUE
-const double   get()  //Uproszczona wersja get() bo i tak jest tylko jedna wartosc
+//const T&  - - - TU ZMIENIC GDY source_base stanie szablonem - mogą być klopoty z MISSING VALUE
+double   get()  //Uproszczona wersja get() bo i tak jest tylko jedna wartość
     { return val;}
 
 };
@@ -45,7 +45,7 @@ void  scalar_source<Typek>::change_val(const Typek& next)
         }
     }
 
-//Klasa zrodla dajacego pojedyncza wartosc czytana przez wskaznik
+//Klasa źródła dajacego pojedyncza wartość czytana przez wskaźnik
 template<class T>
 class ptr_to_scalar_source:public  template_scalar_source_base<T>
 //-----------------------------------------------------------------
@@ -60,15 +60,15 @@ ptr_to_scalar_source(const T* ini,const char* title,const T& min=0,const T& max=
 
 //Accesors
 virtual void  bounds(size_t& N,double& min,double& max)
-    //Ile elementow 0 czy 1,wartosc minimalna i maksymalna
+    //Ile elementów 0, czy1,wartość minimalna i maksymalna
     //sczytane z wewnetrznych pol, w razie koniecznosci rozszerzone
-    //o wartosc aktualna. Jesli pominie sie wywolanie bounds to
-    //zakres min-max moze nie odzwierciedlac prawdziwej zmiennosci
+    //o wartość aktualna. Jeśli pominie się wywołanie bounds to
+    //zakres min-max może nie odzwierciedlac prawdziwej zmiennosci
     {
       if(ptr)
         {
         N=1;
-        if(this->CheckMinMax)//this-> dodane ze względu na problemy z GCC (07.2011)
+        if(this->CheckMinMax)	//this-> dodane ze względu na problemy z GCC (07.2011)
             {
             if(*ptr>this->ymax) this->ymax=*ptr;
             if(*ptr<this->ymin) this->ymin=*ptr;
@@ -81,15 +81,15 @@ virtual void  bounds(size_t& N,double& min,double& max)
 
 virtual iteratorh   reset()
     //Umozliwia czytanie od poczatku - iteratorh jest uchwytem iteratora
-    //domyslnie z obiektu Source, ale czasem nie
+    //domyślnie z obiektu Source, ale czasem nie
     { return (ptr?(iteratorh)1:(iteratorh)0);}
 
 void  change_ptr(T* next)
-    //Zmienia wskaznik a wartosci moga sie zmieniac niezaleznie
+    //Zmienia wskaźnik a wartości mogą się zmieniać niezaleznie
     { ptr=next; }
 
 //const T&  - - - TU ZMIENIC GDY source_base stanie szablonem
-const double   get()  //Uproszczona wersja get() bo i tak jest tylko jedna wartosc. Musi byc double a nie T bo miss jest typu double!!!
+double   get()  //Uproszczona wersja get() bo i tak jest tylko jedna wartość. Musi być double a nie T bo miss jest typu double!!!
     {
     if(ptr==NULL)
         return data_source_base::get_missing();
@@ -102,7 +102,7 @@ const double   get()  //Uproszczona wersja get() bo i tak jest tylko jedna warto
 
 };
 
-//Klasa zrodla dajacego pojedyncza wartosc czytana przez wywolanie
+//Klasa źródła dajacego pojedyncza wartość czytana przez wywołanie
 //bezparametrowej funkcji lub statycznej metody
 template<class RET>
 class ptr_to_fuction_source:public  template_scalar_source_base<RET>
@@ -110,7 +110,7 @@ class ptr_to_fuction_source:public  template_scalar_source_base<RET>
 {
 typedef RET (*F)(void);
 protected:
-F ptr;//Jest wskaznikiem do funkcji bezparametrowej
+F ptr; //Jest wskaźnikiem do funkcji bezparametrowej
 public:
 //Constructor
 ptr_to_fuction_source(F ini,const char* title,const RET& min=0,const RET& max=0):
@@ -120,10 +120,10 @@ ptr_to_fuction_source(F ini,const char* title,const RET& min=0,const RET& max=0)
 
 //Accesors
 virtual void  bounds(size_t& N,double& min,double& max)
-    //Ile elementow 0 czy 1,wartosc minimalna i maksymalna
+    //Ile elementów 0, czy1,wartość minimalna i maksymalna
     //sczytane z wewnetrznych pol, w razie koniecznosci rozszerzone
-    //o wartosc aktualna. Jesli pominie sie wywolanie bounds to
-    //zakres min-max moze nie odzwierciedlac prawdziwej zmiennosci
+    //o wartość aktualna. Jeśli pominie się wywołanie bounds to
+    //zakres min-max może nie odzwierciedlac prawdziwej zmiennosci
     {
       if(ptr)
         {
@@ -142,15 +142,15 @@ virtual void  bounds(size_t& N,double& min,double& max)
 
 virtual iteratorh   reset()
     //Umozliwia czytanie od poczatku - iteratorh jest uchwytem iteratora
-    //domyslnie z obiektu Source, ale czasem nie
+    //domyślnie z obiektu Source, ale czasem nie
     { return (ptr?(iteratorh)1:(iteratorh)0);}
 
 void  change_ptr(F next)
-    //Zmienia wskaznik a wartosci moga sie zmieniac niezaleznie
+    //Zmienia wskaźnik a wartości mogą się zmieniać niezaleznie
     { ptr=next; }
 
 //const T&  - - - TU ZMIENIC GDY source_base stanie szablonem
-const double   get()  //Uproszczona wersja get() bo i tak jest tylko jedna wartosc. Musi byc double a nie T bo miss jest typu double!!!
+const double   get()  //Uproszczona wersja get() bo i tak jest tylko jedna wartość. Musi być double a nie T bo miss jest typu double!!!
 {
     if(ptr==NULL)
         return data_source_base::get_missing();

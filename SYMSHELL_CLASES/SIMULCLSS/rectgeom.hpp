@@ -1,6 +1,6 @@
 /// @file
 /// @brief GEOMETRIA PROSTOKĄTNA. / RECTANGULAR GEOMETRY.
-/// @date 2026-04-30 (modified)
+/// @date 2026-05-04 (modified)
 ///      Pierwsza i główna specjalizacja. Heksagonalnej i sieciowej nigdy nie napisałem, choć były w planie.
 // ********************************************************************************************************************
 //
@@ -81,7 +81,6 @@ public:
                     }
         }
 #pragma clang diagnostic pop
-
     }; //koniec definicji iterator-a globalnego
 
     /// Struktura do losowej iteracji po tablicy.
@@ -247,37 +246,37 @@ public:
 
     /// Tworzy iterator po całości. Umożliwia następnie czytanie od początku całej tablicy lub wycinka.
     iteratorh make_global_iterator() const override
-        {
-            return new iterator(0, 0, columns, rows);
-        }
+    {
+        return new iterator(0, 0, columns, rows);
+    }
 
     /// Tworzy iterator po obszarze wizualizacji. Umożliwia następnie czytanie wycinka wybranego do wizualizacji.
     iteratorh make_view_iterator() const override
-        {
-            return new iterator(sSZER,sWYS,lSZER,lWYS);
-        }
+    {
+        return new iterator(sSZER,sWYS,lSZER,lWYS);
+    }
 
     /// Tworzy globalny iterator monte-carlo.
     iteratorh make_random_global_iterator(size_t how_many/*=-1*/) const override
-        {
+    {
          if(how_many==size_t(-1))
             how_many= columns * rows; //Dla pełnego kroku monte-carlo
          return new monte_carlo_iterator(how_many, 0, 0, columns, rows);
-        }
+    }
 
     /// Tworzy iterator po sąsiadach.
     iteratorh make_neighbour_iterator(size_t center,size_t dist/*=1*/)  const override
-        {
+    {
         long x= center % columns - dist;
         long lenX= 1 + 2 * dist;
         long y= center / columns - dist;
         long lenY= 1 + 2 * dist;
         return new iterator(x, y, lenX, lenY);
-        }
+    }
 
     /// Tworzy losowy iterator po sąsiadach.
     iteratorh make_random_neighbour_iterator(size_t center,size_t dist/*=1*/,size_t how_many/*=-1*/)  const override
-        {
+    {
         long x= center % columns - dist;
         long lenX= 1 + 2 * dist;
         long y= center / columns - dist;
@@ -285,7 +284,7 @@ public:
         if(how_many==size_t(-1)) //-1 jako marker domyślnego rozmiaru
             how_many= lenX * lenY; //Dla pełnego kroku monte-carlo	sąsiedztwa
         return new monte_carlo_iterator(how_many, x, y, lenX, lenY);
-        }
+    }
 
     // METODY SPECYFICZNE TYLKO DLA GEOMETRII PROSTOKĄTNEJ:
     //*////////////////////////////////////////////////////
@@ -319,7 +318,7 @@ public:
                 {
                     if(x<0) x= columns + x;
                     if(y<0) y= rows + y;
-                                                             assert(x>=0 && y>=0); //Sprawdzanie, czy od dołu jest w tablicy
+                                                             assert(x>=0 && y>=0); //Sprawdzanie,, czyod dołu jest w tablicy
                     ret= (y % rows) * columns + (x % columns); //da się obliczyć index
                 }
 
@@ -333,8 +332,8 @@ public:
 
     rectangle_geometry(	size_t iA,				//!< Szerokość pełnego obszaru.
                         size_t iB,				//!< Wysokość pełnego obszaru.
-                        int  iTorus=1,			//!< Ustala, czy włączyć geometrie torusa.
-                        bool eDistMat=false,	//!< Informuje, czy będzie potrzebna macierz odległości (która jest duża!).
+                        int  iTorus=1,			//!< Ustala,, czywłączyć geometrie torusa.
+                        bool eDistMat=false,	//!< Informuje,, czybędzie potrzebna macierz odległości (która jest duża!).
                         RandomGenerator& RndIni	//!< Generator do losowania elementów.
                                         =TheRandG	//!< Domyślnie z całości i sąsiedztwa! RÓWNOMIERNIE!
                         )
@@ -344,13 +343,13 @@ public:
                   sSZER(0), sWYS(0),
                   lSZER(iA), lWYS(iB),
                   RndSel(RndIni)
-        {
-            assert(columns > 0);
-            assert(rows > 0);
-            if(eDistMat)
-                enable_distance_matrix();
-            _currSize=iA*iB;
-        }
+    {
+        assert(columns > 0);
+        assert(rows > 0);
+        if(eDistMat)
+            enable_distance_matrix();
+        _currSize=iA*iB;
+    }
 
     void enable_distance_matrix(bool yes=true)
     {
@@ -367,21 +366,21 @@ public:
 
     void  set(	size_t	iA,				//!< Szerokość pełnego obszaru.
                 size_t	iB,				//!< Wysokość pełnego obszaru.
-                int		iTorus=1,			//!< Określa, czy włączyć geometrie torusa.
+                int		iTorus=1,			//!< Określa,, czywłączyć geometrie torusa.
                 RandomGenerator& RndIni 	//!< Generator do losowania elementów.
                                         =TheRandG 	//!< Domyślnie z całości i sąsiedztwa! RÓWNOMIERNIE!
             )
-        {
-            columns=iA;
-            rows=iB;
-            torus=iTorus;
-            sSZER=0;
-            sWYS=0;
-            lSZER=iA;
-            lWYS=iB;
-            RndSel=RndIni;
-            _currSize=iA*iB;
-        }
+    {
+        columns=iA;
+        rows=iB;
+        torus=iTorus;
+        sSZER=0;
+        sWYS=0;
+        lSZER=iA;
+        lWYS=iB;
+        RndSel=RndIni;
+        _currSize=iA*iB;
+    }
 
 
     /// Informacja o odległości dwóch obiektów o określonych indeksach. Dla "Spatial correlation" i ważenia oddziaływań.
@@ -460,14 +459,16 @@ public:
 };
 
 #pragma clang diagnostic pop
-/* ***************************************************************** */
-/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                  */
-/*            W O J C I E C H   B O R K O W S K I                    */
-/* Zakład Systematyki i Geografii Roślin Uniwersytetu Warszawskiego  */
-/*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego        */
-/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk              */
-/*        MAIL: borkowsk@iss.uw.edu.pl                               */
-/*                               (Don't change or remove this note)  */
-/* ***************************************************************** */
+/* ****************************************************************** */
+/*               SYMSHELL2  version 2006/2022/2026                    */
+/* ****************************************************************** */
+/*           THIS CODE IS DESIGNED & COPYRIGHT BY:                    */
+/*            W O J C I E C H   B O R K O W S K I                     */
+/*  Zakład Systematyki i Geografii Roślin Uniwersytetu Warszawskiego  */
+/*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego         */
+/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk               */
+/*        MAIL: borkowsk@iss.uw.edu.pl                                */
+/*                               (Don't change or remove this note)   */
+/* ****************************************************************** */
 #endif
 

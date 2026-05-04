@@ -111,7 +111,7 @@ class assoc_base//:pure virtual base implementation class for assoc_tables
 private:
 int      _remove( size_t i ); //Uzywana do usuwania i-temu z tab
 int      _insert( size_t i ); //Uzywana do zrobienia miejsca w tab
-int      _search( const unitype, size_t& index );// Ustawia index do assoitem z tab,ret=1 jesli jest faktycznie
+int      _search( const unitype, size_t& index );// Ustawia index do assoitem z tab,ret=1 jeśli jest faktycznie
 protected:
 /* IMPLEMENTATION OF SEARCHING SUPPORT -  */
 /* DIRECTLY FROM ARRAY_OF. DON't CHANGE */
@@ -130,8 +130,8 @@ return   &(pom->val);
 
 protected:
 array_of_class< assoitem > tab;// Tablica lacznikow
-int    sorted;		       // jesli ==1 to tablica zawsze posortowana
-int    reverse;	       // jesli ==1 to malejaco (Reverse order)
+int    sorted;		       // jeśli ==1 to tablica zawsze posortowana
+int    reverse;	       // jeśli ==1 to malejaco (Reverse order)
 
 // M E T O D Y
 size_t	  CurrSize() const 
@@ -141,7 +141,7 @@ size_t	  CurrSize() const
 
 void	  Truncate() 
 {
-	tab.Truncate(0); //Ale pozostaje juz zaalokowana i nie wywoluje destruktorow
+	tab.Truncate(0); //Ale pozostaje już zaalokowana i nie wywoluje destruktorow
 }
 
 // znajduje item lub go tworzy (make==1), zwraca NULL
@@ -167,7 +167,7 @@ assoc_base(int isrt,int irev):
 assoc_base(size_t Lenght,int isrt,int irev):
 	tab(Lenght),sorted(isrt),reverse(irev) 
 	{
-		tab.Truncate(0); //Ale pozostaje juz zaalokowana
+		tab.Truncate(0); //Ale pozostaje już zaalokowana
 	}
 
 virtual ~assoc_base();// Call before deletion for all items

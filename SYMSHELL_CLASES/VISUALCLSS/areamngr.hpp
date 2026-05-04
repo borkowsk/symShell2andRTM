@@ -1,6 +1,6 @@
 /// @file
 /// @brief KLASY ZARZĄDCÓW OBSZARÓW EKRANU
-/// @date 2026-04-28 (modified)
+/// @date 2026-05-04 (modified)
 // ********************************************************************************************************************
 //
 #ifndef __AREAMNGR_HPP__
@@ -34,7 +34,7 @@ class area_menager_base:public drawable_base
                     cont_actions(1)
                         {}
 
-    // Sterowanie przerywaniem dziaŁania menagera
+    // Sterowanie przerywaniem dziaŁania zarządcy
     //*///////////////////////////////////////////
 
     /// Ustawianie wymagania zakończenia.
@@ -47,21 +47,21 @@ class area_menager_base:public drawable_base
     //-------------------------
     /// @{
 
-    /// Dodaje obszar do listy. Zwraca pozycje albo -1(blad).
+    /// Dodaje obszar do listy. Zwraca pozycje albo -1(błąd).
     virtual int    insert(wb_ptr<drawable_base>	drw)=0;
 
-    /// Zabiera w zarzad zwykły wskaźnik.
+    /// Zabiera w zarząd zwykły wskaźnik.
     virtual int    insert(drawable_base* drw)
     {
         wb_ptr<drawable_base> temp(drw);
-        //Inteligentny wskaznik tymczasowy od razu przekazuje "w głąb"
+        //Inteligentny wskaźnik tymczasowy od razu przekazuje "w głąb"
         return insert(temp);
     }
 
-    /// Wymienia obszar na liscie. Jak nie znajdzie to zwraca -1.
+    /// Wymienia obszar na liście. Jak nie znajdzie, to zwraca -1.
     virtual int    replace(const char* nam, wb_ptr<drawable_base> drw)=0;
 
-    /// Wymienia obszar na liscie. Jak bledne parametry to zwraca -1.
+    /// Wymienia obszar na liście. Jak błędne parametry to zwraca -1.
     virtual int    replace(size_t    index, wb_ptr<drawable_base> drw)=0;
 
     /// Usuwa obszar z listy.
@@ -71,20 +71,20 @@ class area_menager_base:public drawable_base
             return replace(size_t(index),Empty);
     }
 
-    /// Odnajduje obszar na liscie. @returns index albo -1 jak nie znajdzie.
+    /// Odnajduje obszar na liście. @returns index albo -1 jak nie znajdzie.
     virtual int    search(const char* nam)=0;
 
-    /// Podaje po prostu aktualny rozmiar listy lacznie z pozycjami pustymi.
+    /// Podaje po prostu aktualny rozmiar listy łącznie z pozycjami pustymi.
     virtual size_t get_size()=0;
 
-    // AKCESORY poszczegolnych obszarow:
+    // AKCESORY poszczególnych obszarów:
 
-    /// Dostęp z mozliwoscią modyfikacji.
-    /// Trzeba pamietac ze pewne informacje sa zapisywane w zarzadcy w zwiazku z pozycja!
+    /// Dostęp z możliwością modyfikacji.
+    /// Trzeba pamiętać, że pewne informacje są zapisywane w zarządcy w związku z pozycją!
     /// @note NIE WOLNO ZROBIĆ `delete`, chyba że obszar nie jest zarządzany.
     virtual wb_ptr<drawable_base>& get(size_t index)=0;
 
-    /// Bez mozliwosci modyfikacji.
+    /// Bez możliwości modyfikacji.
     virtual drawable_base /*const*/* get_ptr(size_t index)=0;
 
     ///@}
@@ -98,14 +98,14 @@ class area_menager_base:public drawable_base
     virtual int    on_click(int x,int y,int click)=0;
 
     /// Który obszar wymaga odświeżenia lub innej uwagi.
-    /// \note  Jeśli on_click() zwraca 1 to można sie dowiedzieć, który obszar znalazł wywołując właśnie to.
-    /// \return  -1 jeśli już ten obszar był wzięty, lub powstał jakiś inny błąd.
+    /// \note  Jeśli on_click() zwraca 1 to można się dowiedzieć, który obszar znalazł wywołując właśnie to.
+    /// \return  -1, jeśli już ten obszar był wzięty, lub powstał jakiś inny błąd.
     virtual int    get_last_lazy_area()=0;
 
-    /// Akcja, gdy kliknięto w tlo menagera.
+    /// Akcja, gdy kliknięto w tło zarządcy.
     virtual int    on_margin_click(int x,int y,int click) {return 2;}
 
-    /// Przepytuje obszary czy chcą znak z wejścia (... zwykle okna graficznego).
+    /// Przepytuje obszary, czychcą znak z wejścia (... zwykle okna graficznego).
     virtual int    on_input(int input_char)=0;
 
     /// Reaguje na zmianę rozmiarów lub położenia własnego obszaru.
@@ -121,13 +121,13 @@ class area_menager_base:public drawable_base
 
     /// @name MANIPULATORY NA OBSZARACH LUB ICH GRUPACH
     //-------------------------------------------------
-    /// @param index to zawsze pozycja obszaru na liście menagera.
-    /// @param lst to lista pośrednia - indeksów obszarów  na liście menagera.
+    /// @param index to zawsze pozycja obszaru na liście zarządcy.
+    /// @param lst to lista pośrednia - indeksów obszarów  na liście zarządcy.
     /// @{
-    //...DLA POJEDYNCZYCH OBSZAROW
+    //...DLA POJEDYNCZYCH OBSZARÓW
     //----------------------------
 
-    /// Odrysowuje obszar jeśli nie jest zminimalizowany.
+    /// Odrysowuje obszar, jeśli nie jest zminimalizowany.
     virtual int    refresh(size_t index)=0;
 
     /// Zaznacza obszar.
@@ -136,16 +136,16 @@ class area_menager_base:public drawable_base
     /// Odznacza obszar.
     virtual int    unmark(size_t index)=0;
 
-    /// Informuje czy obszar jest zminimalizowany.
+    /// Informuje, czy obszar jest zminimalizowany.
     virtual int    is_minimized(size_t index)=0;
 
-    /// Informuje czy jest zaznaczony.
+    /// Informuje, czy jest zaznaczony.
     virtual int    is_marked(size_t index)=0;
 
-    /// Ustala obszar jako pierwszy do wejscia z klawiatury lub zdarzen menu.
+    /// Ustala obszar jako pierwszy do wejścia z klawiatury lub zdarzeń menu.
     virtual int    set_input(size_t index)=0;
 
-    /// Oddaje podobszarowi caly zarzadzany obszar.
+    /// Oddaje podobszarówi cały zarządzany obszar.
     virtual int    maximize(size_t index)=0;
 
     /// Podaje `index` zmaksymalizowanego okna lub -1.
@@ -154,43 +154,43 @@ class area_menager_base:public drawable_base
     /// Ukrywa obszar.
     virtual int    minimize(size_t index)=0;
 
-    /// Odtwarza poprzednie polozenie i rozmiar obszaru.
+    /// Odtwarza poprzednie położenie i rozmiar obszaru.
     virtual int    restore(size_t  index)=0;
 
     /// Odtwarza pierwotne  połozenie i rozmiar obszaru.
     virtual int    orginal(size_t  index)=0;
 
-    /// Uznaje aktualne polozenie obszaru za orginalne (czyli to które będzie uzywane przez `oryginal`).
+    /// Uznaje aktualne położenie obszaru za orginalne (czyli to które będzie używane przez `oryginal`).
     virtual int    as_orginal(size_t index)=0;
 
 
-    //...DLA GRUP OBSZAROW
+    //...DLA GRUP OBSZARÓW
     //--------------------
 
-    /// Zaznacza wszystkie widoczne OBSZARY. Można zmienić kolor zanzaczenia ramki (?).
+    /// Zaznacza wszystkie widoczne OBSZARY. Można zmienić kolor zaznaczenia ramki (?).
     virtual int    mark_all(wb_color frame=default_color)=0;
 
     /// Zwraca listę zaznaczonych obszarów.
-    /// Filtruje po kolorach ramek. Jesli `what=default color` to wszystkie zaznaczone...
+    /// Filtruje po kolorach ramek. Jeśli `what=default color` to wszystkie zaznaczone...
     /// I opcjonalnie zdejmuje zaznaczenie (`unm=1`).
     virtual wb_dynarray<int> get_marked(wb_color filtr=default_color,int unm=0)=0;
 
     /// Ukrywa (`minimize`) obszary z listy `lst`.
     virtual int    minimize(const wb_dynarray<int>& lst)=0;
 
-    /// Robi `restore` dla obszarow z listy `lst`.
+    /// Robi `restore` dla obszarów z listy `lst`.
     virtual int    restore(const wb_dynarray<int>& lst)=0;
 
-    /// Robi `restore` dla wszystkich obszarow.
+    /// Robi `restore` dla wszystkich obszarów.
     virtual int    restore(/*ALL*/)=0;
 
-    /// Robi `orginal` dla obszarow z listy `lst`.
+    /// Robi `orginal` dla obszarów z listy `lst`.
     virtual int    orginal(const wb_dynarray<int>& lst)=0;
 
-    /// Rearanzuje obszary z listy `lst` brutalnie, czyli na rowne kafelki. @return -1 jak nie da sie.
+    /// Rearanzuje obszary z listy `lst` brutalnie, czyli na równe kafelki. @return -1 jak nie da się.
     virtual int    tile(const wb_dynarray<int>& lst)=0;
 
-    /// Inteligentnie rearanzuje obszary z listy `lst`. @return -1 jak nie da sie.
+    /// Inteligentnie rearanzuje obszary z listy `lst`. @return -1 jak nie da się.
     virtual int    arrange(const wb_dynarray<int>& lst)=0;
 
     /// @}
@@ -198,9 +198,9 @@ class area_menager_base:public drawable_base
 
 
 
-/// Klasa najprostrzego, nieagresywnego, zarzadcy obszarow.
+/// Klasa najprostszego, nieagresywnego, zarządcy obszarów.
 /// @details
-/// Zaklada pelna wladze nad obszarami, a w szczegolnosci nad ich pamiecia.
+/// Zakłada pełna wladze nad obszarami, a w szczegolnosci nad ich pamięcią.
 /// Zdarzenia zewnetrzne trzeba przekazac explicite -
 ///  - zarządca nie zawlaszcza ich samodzielnie, a tym bardziej nie
 /// zabiera watku sterowania.
@@ -210,13 +210,13 @@ protected:
     /// Wewnętrzna struktura przechowywania informacji o obszarach.
     struct internal
     {
-        wb_ptr<drawable_base> ptr; //!< wskaznik do obszaru.
+        wb_ptr<drawable_base> ptr; //!< wskaźnik do obszaru.
         gps_area          orginal; //!< parametry obszaru przy wstawieniu.
-        gps_area            saved; //!< i w wersji sredniowymiarowej.
+        gps_area            saved; //!< i w wersji średniowymiarowej.
         wb_color        org_frame; //!< orginalny kolor ramki gdy markowany.
         int                mark:1; //!< flaga zamarkowania obszaru.
         int			  minimized:1; //!< flaga zminimalizowania obszaru.
-        int				  locking; //!< Nie wolno usunac poza destruktorem menagera.
+        int				  locking; //!< Nie wolno usunac poza destruktorem zarządcy.
         /// Konstruktor.
         internal():
             mark(0),
@@ -225,11 +225,11 @@ protected:
             org_frame(default_color){}
     };
 
-    wb_dynarray<internal> tab; //!< tablica obszarow.
+    wb_dynarray<internal> tab; //!< tablica obszarów.
 
     int maximized;  //!< obszar "zasłaniający" wszystko.
     int   grabbed;  //!< obszar w pierwszym rzedzie obslugujacy wejscie.
-    int      lazy;  //!< obszar ktory ostatnio NIE obsluzyl myszy.
+    int      lazy;  //!< obszar który ostatnio NIE obslużyl myszy.
 
 public:
         /// Wirtualny destruktor.
@@ -243,25 +243,25 @@ public:
 
     //	AKCESORY OGOLNE
     //------------------
-     size_t get_size();		//Podaje po prostu aktualny rozmiar listy lacznie z pozycjami pustymi
-     int    insert(drawable_base*	drw){ wb_ptr<drawable_base> H(drw);return insert(H);} //Zabiera w zarzad!
-     int    insert(wb_ptr<drawable_base>	drw); //Dodaje obszar do listy. Zwraca pozycje albo -1(blad)
-     int    replace(const char* nam,wb_ptr<drawable_base> drw); //Wymienia na liscie. Jak nie znajdzie to zwraca -1.
-     int    replace(size_t    index,wb_ptr<drawable_base> drw); //Wymienia na liscie. Jak bledne parametry to zwraca -1.
-     int    search(const char* nam);	//Odnajduje na liscie. Zwraca -----//----
+     size_t get_size();		//Podaje po prostu aktualny rozmiar listy łącznie z pozycjami pustymi
+     int    insert(drawable_base*	drw){ wb_ptr<drawable_base> H(drw);return insert(H);} //Zabiera w zarząd!
+     int    insert(wb_ptr<drawable_base>	drw); //Dodaje obszar do listy. Zwraca pozycje albo -1(błąd)
+     int    replace(const char* nam,wb_ptr<drawable_base> drw); //Wymienia na liście. Jak nie znajdzie to zwraca -1.
+     int    replace(size_t    index,wb_ptr<drawable_base> drw); //Wymienia na liście. Jak błędne parametry to zwraca -1.
+     int    search(const char* nam);	//Odnajduje na liście. Zwraca -----//----
 
-     // AKCESORY poszczegolnych obszarow
-     wb_ptr<drawable_base>&  get(size_t index); //Mozliwosci modyfikacji, ale trzeba pamietac
-         //ze pewne informacje sa zapisywane w zarzadcy w zwiazku z pozycja
-     drawable_base /*const*/* get_ptr(size_t index); //Bez mozliwosci modyfikacji i zwolnienia
+     // AKCESORY poszczególnych obszarów
+     wb_ptr<drawable_base>&  get(size_t index); //Możliwości modyfikacji, ale trzeba pamiętać
+         //ze pewne informacje są zapisywane w zarządcy w związku z pozycja
+     drawable_base /*const*/* get_ptr(size_t index); //Bez możliwości modyfikacji i zwolnienia
 
     //	REAKCJE NA ZDAZENIA
     //--------------------------
      int    on_click(int x,int y,int click); //Przepytuje obszary z reakcji na punkt.
-                                             //Jesli on_click() zwraca 1 to mozna sie dowiedziec, który obszar wywołujac:
-     int    get_last_lazy_area(); //zwroci -1 jesli juz raz wziete, lub inny blad
+                                             //Jeśli on_click() zwraca 1 to można się dowiedziec, który obszar wywołujac:
+     int    get_last_lazy_area(); //zwroci -1, jeśli już raz wziete, lub inny błąd
      int    on_input(int input_char); //Przepytuje obszary z chca znak
-     int    on_change(const gps_area& ar); //Reguje na zmiane rozmiarow lub polozenia wlasnego obszaru
+     int    on_change(const gps_area& ar); //Reguje na zmiane rozmiarów lub położenia wlasnego obszaru
      void   replot(int flus=1) {drawable_base::replot(flus);} //Odrysuj wszystko
      void   replot(const gps_area& ar); //Odrysowuje obszary "nadepniete" przez "ar"
      void   _replot();	//Odrysowuje wszystkie (widoczne) obszary
@@ -271,42 +271,44 @@ public:
      int    mark(size_t index,wb_color frame=default_color); //Zaznacza obszar
      int    mark_all(wb_color frame=default_color); //Zaznacza wszytkie widoczne
      int    unmark(size_t index);	//i odznacza obszar
-     int    is_marked(size_t index); //Informuje czy jest zaznaczony
-     int    is_minimized(size_t index); //Informuje czy jest zminimalizowany
-     wb_dynarray<int> get_marked(wb_color filtr=default_color,int unm=0); //Zwraca liste zaznaczonych obszarow.
-                                            // Jesli what=default color to wszystkie zaznaczone.
+     int    is_marked(size_t index); //Informuje, czyjest zaznaczony
+     int    is_minimized(size_t index); //Informuje, czyjest zminimalizowany
+     wb_dynarray<int> get_marked(wb_color filtr=default_color,int unm=0); //Zwraca liste zaznaczonych obszarów.
+                                            // Jeśli what=default color to wszystkie zaznaczone.
                                             // i opcjonalnie zdejmuje zaznaczenie
 
-    //...DLA POJEDYNCZYCH OBSZAROW
+    //...DLA POJEDYNCZYCH OBSZARÓW
      int	get_maximized(){return maximized;}; //Zwraca idex zmaksymalizowanego okna lub -1
 
 
-     int    set_input(size_t index); //Ustala obszar jako pierwszy do wejscia z klawiatury lub zdarzen menu
-     int    maximize(size_t index); //Oddaje podobszarowi caly zarzadzany obszar
+     int    set_input(size_t index); //Ustala obszar jako pierwszy do wejścia z klawiatury lub zdarzeń menu
+     int    maximize(size_t index); //Oddaje podobszarówi cały zarządzany obszar
      int    minimize(size_t index); //Ukrywa podobszar
-     int    restore(size_t  index); //Odtwarza poprzednie polozenie i rozmiar obszaru
-     int    orginal(size_t  index); //Odtwarza pierwotne  polozenie i rozmiar obszaru
-     int    as_orginal(size_t index); //Uznaje aktualne polozenie obszaru za orginalne
+     int    restore(size_t  index); //Odtwarza poprzednie położenie i rozmiar obszaru
+     int    orginal(size_t  index); //Odtwarza pierwotne  położenie i rozmiar obszaru
+     int    as_orginal(size_t index); //Uznaje aktualne położenie obszaru za orginalne
 
-    //...DLA GRUP OBSZAROW
-     int	refresh(size_t index); //Odrysowuje obszar jesli nie zminimalizowany
+    //...DLA GRUP OBSZARÓW
+     int	refresh(size_t index); //Odrysowuje obszar jeśli nie zminimalizowany
      int    minimize(const wb_dynarray<int>& lst); //Ukrywa podobszary
-     int    restore(const wb_dynarray<int>& lst); //Robi restore dla pod-obszarow
-     int    restore(/*ALL*/); //Robi restore dla wszystkich pod-obszarow
-     int    orginal(const wb_dynarray<int>& lst); //Robi orginal dla pod-obszarow
-     int    tile(const wb_dynarray<int>& lst);    //Rearanzuje na chama, czyli po rowno, albo -1 jak nie da sie
+     int    restore(const wb_dynarray<int>& lst); //Robi restore dla pod-obszarów
+     int    restore(/*ALL*/); //Robi restore dla wszystkich pod-obszarów
+     int    orginal(const wb_dynarray<int>& lst); //Robi orginal dla pod-obszarów
+     int    tile(const wb_dynarray<int>& lst);    //Rearanzuje na chama, czyli po równo, albo -1 jak nie da się
      int    arrange(const wb_dynarray<int>& lst); //Inteligentnie rearanzuje.
 };
 
-/* ***************************************************************** */
-/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                  */
-/*            W O J C I E C H   B O R K O W S K I                    */
-/* Zakład Systematyki i Geografii Roślin Uniwersytetu Warszawskiego  */
-/*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego        */
-/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk              */
-/*        MAIL: borkowsk@iss.uw.edu.pl                               */
-/*                               (Don't change or remove this note)  */
-/* ***************************************************************** */
+/* ****************************************************************** */
+/*               SYMSHELL2  version 2006/2022/2026                    */
+/* ****************************************************************** */
+/*           THIS CODE IS DESIGNED & COPYRIGHT BY:                    */
+/*            W O J C I E C H   B O R K O W S K I                     */
+/*  Zakład Systematyki i Geografii Roślin Uniwersytetu Warszawskiego  */
+/*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego         */
+/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk               */
+/*        MAIL: borkowsk@iss.uw.edu.pl                                */
+/*                               (Don't change or remove this note)   */
+/* ****************************************************************** */
 #endif
 
 

@@ -1,6 +1,6 @@
 /// @file
 /// @brief  Klasa pomocnicza zarządzająca nazwą obiektu serii danych i nie tylko.
-/// @date 2026-04-27 (modified)
+/// @date 2026-05-04 (modified)
 // ********************************************************************************************************************
 //
 #ifndef __TITLEUTIL_HPP__
@@ -17,53 +17,55 @@ class title_util
 //--------------
 {
 protected:
-char* title;
+    char *title;
 public:
 //Destructor 
-~title_util()
+    ~title_util()
     {
-    if(title)
-        delete title;
+        if(title)
+            delete title;
     }
 
 //Constructor
-title_util(const char* tit=NULL)
+    title_util(const char *tit = NULL)
     {
-    if(tit!=NULL)
-        title=clone_str(tit);
+        if(tit != NULL)
+            title = clone_str(tit);
         else
-        title=NULL;
+            title = NULL;
     }
 
-void settitle(const char* tit)			
+    void settitle(const char *tit)
     {
-    if(title)
-        delete title;
-    if(tit!=NULL)
-        title=clone_str(tit);
+        if(title)
+            delete title;
+        if(tit != NULL)
+            title = clone_str(tit);
         else
-        title=NULL;
+            title = NULL;
     }
 
-const char* gettitle()	//Zwraca nazwę albo NULL
+    const char *gettitle()    //Zwraca nazwę albo NULL
     {
-    return title;
+        return title;
     }
 
-const char* name()	//Zwraca nazwę albo pusty łańcuch
+    const char *name()    //Zwraca nazwę albo pusty łańcuch
     {
-    return title!=NULL?title:"";
+        return title != NULL?title:"";
     }
 
 };
 
-/* *******************************************************************/
-/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                  */
-/*            W O J C I E C H   B O R K O W S K I                    */
-/*  Zakład Systematyki i Geografii Roslin Uniwersytetu Warszawskiego */
-/*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego        */
-/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk              */
-/*        MAIL: borkowsk@iss.uw.edu.pl                               */
-/*                               (Don't change or remove this note)  */
-/* *******************************************************************/
+/* ****************************************************************** */
+/*               SYMSHELL2  version 2006/2022/2026                    */
+/* ****************************************************************** */
+/*           THIS CODE IS DESIGNED & COPYRIGHT BY:                    */
+/*            W O J C I E C H   B O R K O W S K I                     */
+/*  Zakład Systematyki i Geografii Roślin Uniwersytetu Warszawskiego  */
+/*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego         */
+/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk               */
+/*        MAIL: borkowsk@iss.uw.edu.pl                                */
+/*                               (Don't change or remove this note)   */
+/* ****************************************************************** */
 #endif

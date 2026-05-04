@@ -82,7 +82,7 @@ namespace wbrtm {
     }
 
     /// \brief Zjada ze strumienia znaki, jeśli są w zadanym \p 'charset'.
-    inline int eat_chars(std::istream& file,const char* charset) //Zjada znaki jesli są w charset
+    inline int eat_chars(std::istream& file,const char* charset) //Zjada znaki jeśli są w charset
     {
         int znak=0;
 
@@ -132,7 +132,7 @@ inline int eat_blanks_2(istream& file) //nakladka na istream::eatwhite w starym 
 
 namespace wbrtm {
 
-    inline int eat_chars(std::istream& file, const char* charset) //Zjada znaki jesli sa w charset
+    inline int eat_chars(std::istream& file, const char* charset) //Zjada znaki jeśli sa w charset
     {
         int znak = 0;
 

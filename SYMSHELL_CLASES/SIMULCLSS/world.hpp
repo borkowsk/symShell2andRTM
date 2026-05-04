@@ -1,6 +1,6 @@
 /// @file world.hpp
 /// @brief Interface for the base world-class. / Interfejs dla bazy światowej klasy.
-/// @date 2026-04-27 (modified)
+/// @date 2026-05-04 (modified)
 // ********************************************************************************************************************
 //
 #if !defined(WORLD_HPP_INCLUDED_)
@@ -76,7 +76,7 @@ public:
             OutArea(nullptr),AreaMenager(nullptr),
             Sources(max_sources),Log(max_sources,log_name),
             Out(nullptr)
-            { SimulName="TheBasicSimulationWorld"; }
+    { SimulName="TheBasicSimulationWorld"; }
 
     /// Wirtualny destruktor.
     virtual  ~world();
@@ -125,7 +125,7 @@ public:
     /// Po osiągnięciu tej wartości symulacja zostaje zatrzymana.
     void			set_max_iteration(unsigned long iMaxIter){MaxIterations=iMaxIter;}
     /// Czyta licznik kroków symulacji.
-    unsigned long	get_current_step() const {return Licznik;}
+    unsigned long	get_current_step() const { return Licznik; }
 
     /// Co ile kroków symulacji zapisuje na wyjście.
     void			set_log_ratio(unsigned ratio){LogRatio=ratio;}
@@ -134,7 +134,7 @@ public:
 
     /// Aktualny zarządca ekranu podłączony do tego świata.
     area_menager&	MyAreaMenager();
-    /// Sprawdzenie, czy ma już podłączonego zarządcę okien.
+    /// Sprawdzenie,, czyma już podłączonego zarządcę okien.
     int 			HasAreaMenager() { return AreaMenager!=nullptr; }
     ///Jak trzeba KONIECZNIE coś dopisać do logu.
     ostream&		MyLogStream();
@@ -181,7 +181,7 @@ public:
     istream& operator >> (istream& i,world& w);
 
     ///Implementacja zapisu stanu symulacji w formacie NET lub NET2 (z atrybutami).
-    virtual //Domyślnie puste, nie wiem, czy kiedykolwiek używane.
+    virtual //Domyślnie puste, nie wiem,, czykiedykolwiek używane.
     void dump_net_file(const char* core_name,unsigned long Step){}
 };
 
@@ -203,15 +203,17 @@ area_menager&		world::MyAreaMenager()
     return *AreaMenager;
 }
 
-/* ***************************************************************** */
-/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                  */
-/*            W O J C I E C H   B O R K O W S K I                    */
-/* Zakład Systematyki i Geografii Roślin Uniwersytetu Warszawskiego  */
-/*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego        */
-/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk              */
-/*        MAIL: borkowsk@iss.uw.edu.pl                               */
-/*                               (Don't change or remove this note)  */
-/* ***************************************************************** */
+/* ****************************************************************** */
+/*               SYMSHELL2  version 2006/2022/2026                    */
+/* ****************************************************************** */
+/*           THIS CODE IS DESIGNED & COPYRIGHT BY:                    */
+/*            W O J C I E C H   B O R K O W S K I                     */
+/*  Zakład Systematyki i Geografii Roślin Uniwersytetu Warszawskiego  */
+/*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego         */
+/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk               */
+/*        MAIL: borkowsk@iss.uw.edu.pl                                */
+/*                               (Don't change or remove this note)   */
+/* ****************************************************************** */
 #endif // !defined(WORLD_HPP_INCLUDED_)
 
 

@@ -97,7 +97,7 @@ BRAK_PAMIECI: //???
 if(pom!=NULL)
 	delete[] pom; // Żeby pamięć nie wyciekała
 caller.Raise(OutOfMemoryExcp(jednostek * MINLEN + 1, __FILE__, __LINE__));
-return NULL;// Może coś być juz wczytane, ale bufor zwolniono
+return NULL;// Może coś być już wczytane, ale bufor zwolniono
 }
 
 /// \brief Zapisuje łańcuch w cudzysłowie lub czymś zamiast niego.

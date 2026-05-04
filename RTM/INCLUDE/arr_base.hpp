@@ -1,6 +1,6 @@
 /** @file
 *  \brief Base class for dynamic resizable arrays
-*  @date 2026-05-02 (last modification)
+*  @date 2026-05-04 (last modification)
 *  \details Obsolete and not improved part of the wb_rtm library.
 *           It was established before 2000.
 *  \copyright Wojciech T. Borkowski
@@ -180,7 +180,7 @@ void array_base<T>::operator  =  (const array_base& a)
 //Uzywa () 
 {
 size_t asiz=a.CurrSize();
-(*this)(asiz-1);//Zaczyna od ostatniego zeby wymusic alokacje jesli trzeba
+(*this)(asiz-1);//Zaczyna od ostatniego zeby wymusic alokacje jeśli trzeba
 for(size_t i=asiz;i>0;i--)
 	{
 	(*this)[i-1]=a[i-1];

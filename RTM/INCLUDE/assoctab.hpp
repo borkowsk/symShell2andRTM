@@ -15,7 +15,7 @@
 *         implementacje I/O.
 *         "assoc_table_of_ptr" ma mozliwosc wyboru trybu pracy - wskazniki statyczne
 *         lub dynamiczne. Przy wczytywaniu jednak wszystkie dane sa realokowane na
-*         sterte poniewaz operacja ta moze alokowac nowe dane. Jesli dane sa dynamiczne
+*         sterte poniewaz operacja ta moze alokowac nowe dane. jeśli dane sa dynamiczne
 *         to sa dealokowane w destruktorze.
 *         Dla typu char* mozna uzywac jedynie assoc_template albo typow z rodziny
 *         "dictionary*" ze wzgledu na niestandardowe traktowanie w jezyku C++
@@ -165,7 +165,7 @@ assert(sizeof(T)<=sizeof(unitype));
 new (&pom)T(key);//Klasa T musi miec operacje inicjacji z obiektu tego samego typu
 // /////////////////
 
-return pom;//Tu juz przepisanie binarne
+return pom;//Tu już przepisanie binarne
 }
 
 /// \brief Obsolete class
@@ -237,7 +237,7 @@ template<class K,class V>
 void	assoc_template<K,V>::RemoveAll()
 //clean assoc_table. May be calling "delete".
 {
-	assoc_base::Truncate();//Zapomina ze mial juz elementy, ale nie dealokuje
+	assoc_base::Truncate();//Zapomina ze mial już elementy, ale nie dealokuje
 }
 
 /// \brief Obsolete class
@@ -352,7 +352,7 @@ template<class K,class V>
 void      assoc_table_of_ptr<K,V>::BeforeDeletion( assoitem& a )
 //Wywolywana zawsze przed usunieciem i-temu z tab.
 //UWAGA .ptr o wartosci NULL lub FULL oznacza oczyszczony unitype!
-//Tu dealokuje zmienna wskazywana przez val jesli nie jest juz pusta.
+//Tu dealokuje zmienna wskazywana przez val jeśli nie jest już pusta.
 {
 if(!DataAreStatic() && a.val.ptr!=NULL && a.val.ptr!=FULL)
 	{
