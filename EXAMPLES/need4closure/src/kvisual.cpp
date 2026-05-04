@@ -1,7 +1,7 @@
 /// @file
 /// @brief ... (old example for SymShell implementing Kruglanskis like model)
 // //////////////////////////////////////////////////////////////////////////
-/// @date 2026-03-31 (modified)
+/// @date 2026-05-04 (modified)
 #include <cstring>
 #include <cmath>
 
@@ -34,10 +34,10 @@ void kworld::make_basic_sources()
     //Glowne serie 
     Firsts=Agenci.make_source("Attitude",&kagent::First);	
     if(Firsts)
-        Firsts->setminmax(-1,1);	
+        Firsts->set_min_max(-1, 1);
     Seconds=Agenci.make_source("Prev. attitude",&kagent::Second);
     if(Seconds)
-        Seconds->setminmax(-1,1);
+        Seconds->set_min_max(-1, 1);
     
     ForLeft=Agenci.make_source("For left",&kagent::ForLeft);
     ForRight=Agenci.make_source("For right",&kagent::ForRight);
@@ -48,7 +48,7 @@ void kworld::make_basic_sources()
     MaxPressure=long(MaxSila)*WeightOfSelf;
     MaxPressure+=long(MaxSila)*NeedForClosure * (IleSasiad>0 ? IleSasiad : sqr(OdlSasiad*2+1)-1   ); //Prymitywna implementacja
     Pressure->set_missing(-1);
-    Pressure->setminmax(0, MaxPressure  );
+    Pressure->set_min_max(0, MaxPressure  );
     */
     
     ptrLastChanged=new ptr_to_scalar_source<int>(nullptr,"Change cnt.");
@@ -62,7 +62,7 @@ void kworld::make_basic_sources()
     
     //Classif=Agenci.make_source("Classification",&kagent::classif); //Z PIERWOWZORU "LANGUAGES"
     //if(classif)
-    //	classif->setminmax(0,IleKate*IleKate*IleKate-1); //Max class ==IleKate^3 bo trzy niezalezne plaszczyzny
+    //	classif->set_min_max(0,IleKate*IleKate*IleKate-1); //Max class ==IleKate^3 bo trzy niezalezne plaszczyzny
     
     //Umieszczenie glownych serii w menagerze serii
     WhatSourMen.insert(Firsts);
@@ -249,7 +249,7 @@ void kworld::make_default_visualisation()
             );
         if(!pom1) goto ERROR;
         pom1->setframe(128);
-        pom1->settitle("HISTORY OF CLASSIFICATION");
+        pom1->set_title("HISTORY OF CLASSIFICATION");
         Menager.insert(pom1);
         
         //inne mniej potrzebne
@@ -267,33 +267,33 @@ void kworld::make_default_visualisation()
             );
         if(!pom) goto ERROR;
         pom->setframe(128);
-        pom->settitle("HISTORY OF CLUSTERISATION");
+        pom->set_title("HISTORY OF CLUSTERISATION");
         Menager.insert(pom);
         
         pom=new carpet_graph(1,wyso/2,szer/3,wyso-1,//domyslne wspolrzedne
             Firsts); //I zrodlo danych
         pom->setdatacolors(0,255);
-        pom->settitle("Map of current attitude");
+        pom->set_title("Map of current attitude");
         Menager.insert(pom);
         
         
         pom=new carpet_graph(szer/3+1,wyso/2,szer/3*2,wyso-1,//domyslne wspolrzedne
             ForLeft);
         pom->setdatacolors(0,255);
-        pom->settitle("Map of left counters");
+        pom->set_title("Map of left counters");
         Menager.insert(pom);
         
         pom=new carpet_graph(szer/3*2+1,wyso/2,szer,wyso-1,//domyslne wspolrzedne
             ForRight);
         pom->setdatacolors(0,255);
-        pom->settitle("Map of right counters");
+        pom->set_title("Map of right counters");
         Menager.insert(pom);
         
         /*
         pom=new carpet_graph(szer/3*2+1,wyso/2,szer,wyso-1,//domyslne wspolrzedne,//domyslne wspolrzedne  szer-49,7*char_height('X')+7,szer,8*char_height('X')+9
         Pressure);
         pom->setdatacolors(0,255);
-        pom->settitle("Map of instantaneous social pressure");
+        pom->set_title("Map of instantaneous social pressure");
         Menager.insert(pom);
         */
         
@@ -302,7 +302,7 @@ void kworld::make_default_visualisation()
             Seconds); //I zrodlo danych
         pom->setdatacolors(0,255);
         pom->setframe(32);
-        pom->settitle("Map of previous attitude");
+        pom->set_title("Map of previous attitude");
         Menager.insert(pom);
         
         
@@ -310,7 +310,7 @@ void kworld::make_default_visualisation()
             Powers); //I zrodlo danych
         pom->setdatacolors(0,255);
         pom->setframe(32);
-        pom->settitle("Map of power");
+        pom->set_title("Map of power");
         Menager.insert(pom);
         
         pom=new manhattan_graph(szer-49, 7*(char_height('X')+RAMKA),szer,8*(char_height('X')+RAMKA),//domyslne wspolrzedne
@@ -323,14 +323,14 @@ void kworld::make_default_visualisation()
             ); //I zrodlo danych
         pom->setdatacolors(0,255);
         pom->setframe(32);
-        pom->settitle("Composed map of strength & attitude of agents");
+        pom->set_title("Composed map of strength & attitude of agents");
         Menager.insert(pom);
         
         pom=new bars_graph(szer-49, 8*(char_height('X')+RAMKA),szer,9*(char_height('X')+RAMKA),
             ClassStat);
         pom->setdatacolors(0,255);
         pom->setframe(128+64);
-        pom->settitle("Histogram of attitude");
+        pom->set_title("Histogram of attitude");
         Menager.insert(pom);
         
         pom=new manhattan_graph(szer-49, 9*(char_height('X')+RAMKA),szer,10*(char_height('X')+RAMKA),//domyslne wspolrzedne //
@@ -342,7 +342,7 @@ void kworld::make_default_visualisation()
         pom->setdatacolors(0,255);
         pom->settextcolors(0);
         pom->setframe(128+64);
-        pom->settitle("Dynamism: curr. attit. vers. prev. attitude");
+        pom->set_title("Dynamism: curr. attit. vers. prev. attitude");
         Menager.insert(pom);
         
         
@@ -354,7 +354,7 @@ void kworld::make_default_visualisation()
             1/*Wspolne minimum/maximum*/);
         if(!pom1) goto ERROR;
         pom1->setframe(128);
-        pom1->settitle("HISTORY OF ENTROPY OF CLASIFICATION");
+        pom1->set_title("HISTORY OF ENTROPY OF CLASIFICATION");
         Menager.insert(pom1);
         
         pom1=new sequence_graph(szer-49,11*(char_height('X')+RAMKA),szer,12*(char_height('X')+RAMKA),  						
@@ -365,7 +365,7 @@ void kworld::make_default_visualisation()
             1/*Wspolne minimum/maximum*/);
         if(!pom1) goto ERROR;
         pom1->setframe(128);
-        pom1->settitle("HISTORY OF ENTROPY OF CHANGE");
+        pom1->set_title("HISTORY OF ENTROPY OF CHANGE");
         Menager.insert(pom1);
         
         /*
@@ -378,7 +378,7 @@ void kworld::make_default_visualisation()
                                 );
                                 if(!pom) goto ERROR;
                                 pom->setframe(128);
-                                pom->settitle("HISTORY OF Prev.TO Curr. CORRELATION");
+                                pom->set_title("HISTORY OF Prev.TO Curr. CORRELATION");
                                 Menager.insert(pom);
         */
         /*
@@ -391,7 +391,7 @@ void kworld::make_default_visualisation()
         
         */ 
         
-        function_source_base* Linear=new function_source<yeqx>(SpatialCorr->get_size(),0,SpatialCorr->get_size(),"lenght");
+        function_source_base* Linear=new function_source<y_eq_x>(SpatialCorr->get_size(), 0, SpatialCorr->get_size(), "lenght");
         Sources.insert(Linear);
         pom1=new scatter_graph(szer-49, 12*(char_height('X')+RAMKA),szer,13*(char_height('X')+RAMKA),
             Linear,0,
@@ -399,7 +399,7 @@ void kworld::make_default_visualisation()
         
         if(!pom1) goto ERROR;
         pom1->setframe(128);
-        pom1->settitle("SPATIAL CORRELATION");
+        pom1->set_title("SPATIAL CORRELATION");
         Menager.insert(pom1);
         
         //Tworzenie obszaru sterujacego
@@ -415,7 +415,7 @@ void kworld::make_default_visualisation()
             assert(pom!=nullptr);
             pom->setbackground(10);
             Menager.insert(pom);
-            pom->settitle(" ");
+            pom->set_title(" ");
         }
         
 }

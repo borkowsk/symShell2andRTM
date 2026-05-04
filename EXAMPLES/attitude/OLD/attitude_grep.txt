@@ -129,7 +129,7 @@ Programmed by Wojciech Borkowski for... ????
  \aworld.cpp(292)       pom->settitle("Map of previous attitude");
  \aworld.cpp(300)       pom->settitle("Map of power");
  \aworld.cpp(313)       pom->settitle("Composed map of strength & attitude of agents");
- \aworld.cpp(325)       pom1->settitle("HISTORY OF ENTROPY OF CHANGE");
+ \aworld.cpp(325)       pom1->set_title("HISTORY OF ENTROPY OF CHANGE");
  \aworld.cpp(337)       pom1->settitle("HISTORY OF ENTROPY OF CHANGE");
  \aworld.cpp(350)       pom->settitle("HISTORY OF Prev.TO Curr. CORRELATION");
  

@@ -1,7 +1,7 @@
 /// @file
 /// @brief IMPLEMENTATION OF THE WORLD FOR "attitudeS" SIMULATION (kattitude old example for SymShell)
 // /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @date 2026-04-03 (modified)
+/// @date 2026-05-04 (modified)
 ///
 
 //#include <limits.h>
@@ -155,10 +155,10 @@ void aworld::make_basic_sources()
 //Główne serie:
 Firsts=Agenci.make_source("Attitude",&aagent::First);	
 if(Firsts)
-    Firsts->setminmax(0,IleKate-1);
+    Firsts->set_min_max(0, IleKate - 1);
 Seconds=Agenci.make_source("Prev. attitude",&aagent::Second);
 if(Seconds)
-    Seconds->setminmax(0,IleKate-1);
+    Seconds->set_min_max(0, IleKate - 1);
 
 Powers=Agenci.make_source("Power",&aagent::Power);
 Pressure=Agenci.make_source("Pressure",&aagent::Press);
@@ -166,7 +166,7 @@ Pressure=Agenci.make_source("Pressure",&aagent::Press);
 MaxPressure= long(MaxPower) * WeightOfSelf;
 MaxPressure+= long(MaxPower) * NeedForClosure * (NeiDens > 0 ? NeiDens : sqr(NeiSize * 2 + 1) - 1   );
 Pressure->set_missing(-1);
-Pressure->setminmax(0, MaxPressure  );
+    Pressure->set_min_max(0, MaxPressure);
 
 ptrLastChanged=new ptr_to_scalar_source<int>(nullptr,"Change cnt.");
 ptrLastMigration=new ptr_to_scalar_source<int>(nullptr,"Migration cnt.");
@@ -179,7 +179,7 @@ CountMig=ptrLastMigration->get_missing();
 
 //Classif=Agenci.make_source("Classification",&aagent::Classif); //Z PIERWOWZORU "LANGUAGES"
 //if(Classif)
-//	Classif->setminmax(0,IleKate*IleKate*IleKate-1); //Max class ==IleKate^3 bo trzy niezależne płaszczyzny
+//	Classif->set_min_max(0,IleKate*IleKate*IleKate-1); //Max class ==IleKate^3 bo trzy niezależne płaszczyzny
 
 //Umieszczenie głównych serii w zarządcy serii
 WhatSourMen.insert(Firsts);
@@ -364,7 +364,7 @@ void aworld::make_default_visualisation()
                                    );
     //if(!pom1) goto ERROR; //Zbędne!
     pom1->setframe(128);
-    pom1->settitle("HISTORY OF CLASSIFICATION");
+        pom1->set_title("HISTORY OF CLASSIFICATION");
     manager.insert(pom1);
 
     //inne mniej potrzebne
@@ -382,27 +382,27 @@ void aworld::make_default_visualisation()
                                    );
     //if(!pom) goto ERROR; //Zbędne
     pom->setframe(128);
-    pom->settitle("HISTORY OF CLUSTERIZATION");
+        pom->set_title("HISTORY OF CLUSTERIZATION");
     manager.insert(pom);
 
     pom=new carpet_graph(1, w_height / 2, w_width / 3, w_height - 1,//domyślne współrzędne
                             Firsts); //I źródło danych...
 
     pom->setdatacolors(0,255);
-    pom->settitle("Map of current attitude");
+        pom->set_title("Map of current attitude");
     manager.insert(pom);
 
     pom=new bars_graph(w_width / 3 + 1, w_height / 2, w_width / 3 * 2, w_height - 1,//domyślne współrzędne  w_width-49,7*char_height('X')+7,w_width,8*char_height('X')+9
                             ClassStat);
     pom->setdatacolors(0,255);
-    pom->settitle("Histogram of attitude");
+        pom->set_title("Histogram of attitude");
     manager.insert(pom);
 
 
     pom=new carpet_graph(w_width / 3 * 2 + 1, w_height / 2, w_width, w_height - 1,//domyślne współrzędne:  w_width-49,7*char_height('X')+7,w_width,8*char_height('X')+9
                             Pressure);
     pom->setdatacolors(0,255);
-    pom->settitle("Map of instantaneous social pressure");
+        pom->set_title("Map of instantaneous social pressure");
     manager.insert(pom);
 
     //PRZYCISKI
@@ -410,7 +410,7 @@ void aworld::make_default_visualisation()
                             Seconds); //I źródło danych...
     pom->setdatacolors(0,255);
     pom->setframe(0);
-    pom->settitle("Map of previous attitude");
+        pom->set_title("Map of previous attitude");
     manager.insert(pom);
 
 
@@ -418,7 +418,7 @@ void aworld::make_default_visualisation()
                             Powers); //I źródło danych...
     pom->setdatacolors(0,255);
     pom->setframe(0);
-    pom->settitle("Map of power");
+        pom->set_title("Map of power");
     manager.insert(pom);
 
     pom=new manhattan_graph(w_width - 49, 7 * (char_height('X') + RAMKA), w_width, 8 * (char_height('X') + RAMKA),//domyślne współrzędne
@@ -431,7 +431,7 @@ void aworld::make_default_visualisation()
                             );
     pom->setdatacolors(0,255);
     pom->setframe(0);
-    pom->settitle("A composed map of strength and attitude of agents");
+        pom->set_title("A composed map of strength and attitude of agents");
     manager.insert(pom);
 
     pom=new manhattan_graph(w_width - 49, 8 * (char_height('X') + RAMKA), w_width, 9 * (char_height('X') + RAMKA),//domyślne współrzędne
@@ -442,7 +442,7 @@ void aworld::make_default_visualisation()
                                 0.77);	//Ułamek wysokości  przeznaczony na perspektywę
     pom->setdatacolors(0,255);
     pom->settextcolors(0);
-    pom->settitle("Dynamism: curr. attitude vs. prev. attitude");
+        pom->set_title("Dynamism: curr. attitude vs. prev. attitude");
     manager.insert(pom);
 
 
@@ -455,7 +455,7 @@ void aworld::make_default_visualisation()
                             1/*Wspólne minimum/maximum*/);
     //if(!pom1) goto ERROR; //Zbędne sprawdzenie.
     pom1->setframe(128);
-    pom1->settitle("HISTORY OF ENTROPY OF CLASSIFICATION");
+        pom1->set_title("HISTORY OF ENTROPY OF CLASSIFICATION");
     manager.insert(pom1);
 
 
@@ -467,7 +467,7 @@ void aworld::make_default_visualisation()
                             1/*Wspólne minimum/maximum*/);
     //if(!pom1) goto ERROR; //Po co? Od C++11 już niepotrzebne.
     pom1->setframe(128);
-    pom1->settitle("HISTORY OF ENTROPY OF CHANGE");
+        pom1->set_title("HISTORY OF ENTROPY OF CHANGE");
     manager.insert(pom1);
 
     pom=new sequence_graph(w_width - 49, 11 * (char_height('X') + RAMKA), w_width, 12 * (char_height('X') + RAMKA),
@@ -479,7 +479,7 @@ void aworld::make_default_visualisation()
                                    );
     //if(!pom) goto ERROR; //Zbędne!
     pom->setframe(128);
-    pom->settitle("HISTORY OF Prev.TO Curr. CORRELATION");
+        pom->set_title("HISTORY OF Prev.TO Curr. CORRELATION");
     manager.insert(pom);
 
     /*
@@ -491,7 +491,7 @@ void aworld::make_default_visualisation()
                                    0);
 
     */
-    function_source_base* Linear=new function_source<yeqx>(SpatialCorr->get_size(),0,SpatialCorr->get_size(),"lenght");
+    function_source_base* Linear=new function_source<y_eq_x>(SpatialCorr->get_size(), 0, SpatialCorr->get_size(), "lenght");
     Sources.insert(Linear);
     pom1=new scatter_graph(w_width - 49, 12 * (char_height('X') + RAMKA), w_width, 13 * (char_height('X') + RAMKA),
                            Linear, 0,
@@ -499,7 +499,7 @@ void aworld::make_default_visualisation()
 
     //if(!pom1) goto ERROR;
     pom1->setframe(128);
-    pom1->settitle("SPATIAL CORRELATION");
+        pom1->set_title("SPATIAL CORRELATION");
     manager.insert(pom1);
 
     //Tworzenie obszaru sterującego

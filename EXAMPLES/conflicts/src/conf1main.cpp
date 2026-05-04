@@ -1,7 +1,7 @@
 /// @file
 /// @brief SYMULACJA KONFLIKTÓW BOCA 2005 (plik główny)
 //-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @date 2026-04 (last update)
+/// @date 2026-05-04 (last update)
 /// @details
 /// UZUPEŁNIONY 10-11.2005, 9-2010, 02-2014, 04-2026
 /// ## HISTORIA
@@ -402,7 +402,7 @@ void LocalWorld::_MakeCircle(double cx, double cy, double r, unsigned start, uns
         end=agents.get_size();
     int ile=end-start;
     double krok=(2*M_PI)/ile;
-    double ar=1;	//domyślny promień agenta - trzeba `setminmax()` dla seri "R" !!!
+    double ar=1;	//domyślny promień agenta - trzeba `set_min_max()` dla seri "R" !!!
     
     for(double angle=0;angle<(2*M_PI) && start<end;angle+=krok)
     {
@@ -605,14 +605,14 @@ void LocalWorld::AllocSources() //Tworzy źródła danych
     pNodeX=new struct_array_source<Agent,double>(agents.get_size(),agents.get_ptr_val(),&Agent::x,"X" );      //Współrzędne węzłów w aranżacji
     pNodeY=new struct_array_source<Agent,double>(agents.get_size(),agents.get_ptr_val(),&Agent::y,"Y");      //------------//----------------
     pNodeR=new struct_array_source<Agent,double>(agents.get_size(),agents.get_ptr_val(),&Agent::r,"R");	//Rozmiar węzła w aranżacji
-    pNodeR->setminmax(0,1);	//Dla DEBUG — promień jest stały na razie
+    pNodeR->set_min_max(0, 1);	//Dla DEBUG — promień jest stały na razie
 
     pNodeState=new struct_array_source<Agent,double>(agents.get_size(),agents.get_ptr_val(),&Agent::state,lang("Stan","State"));  //Aktywność węzłów
     pNodePreState=new struct_array_source<Agent,double>(agents.get_size(), agents.get_ptr_val(), &Agent::p_state, lang("Pop.Stan", "PrevSt"));  //Dawna aktywność węzłów
     if(FixMinState<FixMaxState)
     {
-        pNodeState->setminmax(FixMinState,FixMaxState);
-        pNodePreState->setminmax(FixMinState,FixMaxState);
+        pNodeState->set_min_max(FixMinState, FixMaxState);
+        pNodePreState->set_min_max(FixMinState, FixMaxState);
     }
     pNodeDelta=new struct_array_source<Agent,double>(agents.get_size(),agents.get_ptr_val(),&Agent::delta,"Delta");  //Dawna aktywność węzłów
     
@@ -714,7 +714,7 @@ void LocalWorld::make_default_visualisation() // area_menager_base& Lufciki     
     }
 
     pom->setframe(128);
-    pom->settitle(lang("MAPA SIECI","NETWORK MAPP"));
+    pom->set_title(lang("MAPA SIECI", "NETWORK MAPP"));
     this->MyAreaMenager().insert(pom);
 
     //Zależności stanów nowych od poprzednich dla każdego węzła
@@ -728,7 +728,7 @@ void LocalWorld::make_default_visualisation() // area_menager_base& Lufciki     
             );
     pom->setframe(64);
     pom->setbackground(default_light_gray);
-    pom->settitle("Xn-i vs. Xn");
+    pom->set_title("Xn-i vs. Xn");
     //pom->series_info->setminmx();
     this->MyAreaMenager().insert(pom);
 
@@ -741,7 +741,7 @@ void LocalWorld::make_default_visualisation() // area_menager_base& Lufciki     
                                 1/*Wspólne minimum/maximum*/);
     assert(pom);
     pom->setframe(128);
-    pom->settitle(lang("HISTORIA STAN�W",HISTofSTATES));
+        pom->set_title(lang("HISTORIA STAN�W", HISTofSTATES));
     this->MyAreaMenager().insert(pom);
     }
 
@@ -754,7 +754,7 @@ void LocalWorld::make_default_visualisation() // area_menager_base& Lufciki     
                                 1/*Wspólne minimum/maximum*/);
     assert(pom);
     pom->setframe(128);
-    pom->settitle(lang("HISTORIA AKTYWNOŚCI",HISTofACCT));
+        pom->set_title(lang("HISTORIA AKTYWNOŚCI", HISTofACCT));
     this->MyAreaMenager().insert(pom);
     }
 
@@ -944,10 +944,10 @@ void MetaExperiment::make_areas(area_menager& Lufciki) //Generowanie lufcików d
 
         Sources.insert(_X=new struct_array_source<Point,double>(points.get_size(),points.get_ptr_val(),&Point::X,"X"));
         assert(_X->get_missing()==-DBL_MAX);
-        _X->setminmax(-1.2,1.2);
+        _X->set_min_max(-1.2, 1.2);
         Sources.insert(_Y=new struct_array_source<Point,double>(points.get_size(),points.get_ptr_val(),&Point::Y,"Y"));
         assert(_Y->get_missing()==-DBL_MAX);
-        _Y->setminmax(-1.1,1.1);
+        _Y->set_min_max(-1.1, 1.1);
         Sources.insert(_Z=new struct_array_source<Point,double>(points.get_size(),points.get_ptr_val(),&Point::Z,"Z"));
         assert(_Z->get_missing()==-DBL_MAX);
         
@@ -976,7 +976,7 @@ void MetaExperiment::make_areas(area_menager& Lufciki) //Generowanie lufcików d
             new rhomb_point(0.00001f,DIAM_SIZE),1 
             );
         //png->setbackground(default_light_gray);
-        png->settitle(META_GRAPH);
+        png->set_title(META_GRAPH);
         Lufciki.insert(png);
     }
     
@@ -1001,17 +1001,17 @@ void MetaExperiment::make_areas(area_menager& Lufciki) //Generowanie lufcików d
         );    
     
     assert(pom!=NULL);
-    pom->settitle(lang("FUNKCJE","FUNCTIONS"));
+    pom->set_title(lang("FUNKCJE", "FUNCTIONS"));
     pom->setframe(20);
     Lufciki.insert(pom);
     
     pom=new bars_graph(SCR_WIDTH - BUTWIDTH, BUTHEIGHT, SCR_WIDTH, 2 * BUTHEIGHT, Sources.get(_5));            assert(pom != NULL);
-    pom->settitle("TEST RND");
+    pom->set_title("TEST RND");
     pom->setframe(20);
     Lufciki.insert(pom);
     
     pom=new bars_graph(SCR_WIDTH - BUTWIDTH, 2 * BUTHEIGHT, SCR_WIDTH, 3 * BUTHEIGHT, Sources.get(_6));     assert(pom != NULL);
-    pom->settitle("TEST PSEUDO-GAUSS");
+    pom->set_title("TEST PSEUDO-GAUSS");
     pom->setframe(20);
     Lufciki.insert(pom);
     

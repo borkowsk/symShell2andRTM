@@ -1,6 +1,6 @@
 /// @file
 /// @brief Przykładowy program SYMSHELL-z z klasami.
-/// @date 2026-04-28 (modified)
+/// @date 2026-05-04 (modified)
 ///     Demonstracja stosowania obiektowego pietra SYMSHELL-a
 ///     Tworzy kilka przykładowych seri danych i umieszcza je w zarządcy danych.
 ///     Tworzy kilka obszarów i umieszcza je pod zarządem managera obszarów.
@@ -107,12 +107,12 @@ void make_test_areas()
 
     //Tworzenie obszarów z wykresami
     pom=new carpet_graph(1,1,89,89,5,5,Series.get(1));				assert(pom!=NULL);
-    pom->settitle("CARPET GRAPH");
+    pom->set_title("CARPET GRAPH");
     //pom->setdatacolors(16,255); //Jeśli zoom jest bez torusa, to rezerwuje czarny na miss-value {????????}
     Lufciki.insert(pom);
 
     pom=new carpet_graph(90,1,179,89,Series.get(0));						assert(pom!=NULL);
-    pom->settitle("ZOOM-TORUS");
+    pom->set_title("ZOOM-TORUS");
     pom->setbackground(default_half_gray);
     Lufciki.insert(pom);
 
@@ -122,7 +122,7 @@ void make_test_areas()
     pom->setframe(150);
     pom->settitle("FIXED SIZE CARPET GRAPH");
     Lufciki.insert(pom);
-    pom->settitle("");
+    pom->set_title("");
     */
     /*{
     int subtab[] = {0,0,3,3}; //Wiemy, że to jest seria macierzowa!
@@ -132,7 +132,7 @@ void make_test_areas()
     } */
 
     //pom=new carpet_graph(270,1,359,89,4,4,Series.get(3));
-    //pom->settitle("CHESS-BOARD");
+    //pom->set_title("CHESS-BOARD");
     //pom->setframe(200);
     //pom->setdatacolors(254,255);
     //Lufciki.insert(pom);
@@ -145,7 +145,7 @@ void make_test_areas()
                                    Series.get(9),0, //Arrows heads
                                    Series.get(10),0 //Arrows weights
                                    );																assert(pom!=NULL);
-    pom->settitle("NETWORK GRAPH");
+    pom->set_title("NETWORK GRAPH");
     pom->setframe(200);
     pom->setdatacolors(0,255);
     Lufciki.insert(pom);
@@ -153,19 +153,19 @@ void make_test_areas()
 
     pom=new bars_graph(1,90,89,179,Series.get(4),0,
                        Series.get(1),0,0);							assert(pom!=NULL);
-    pom->settitle("2D BARS GRAPH");
+    pom->set_title("2D BARS GRAPH");
     pom->setframe(200);
     pom->setdatacolors(0,255);
     Lufciki.insert(pom);
 
     pom=new bars_graph(90,90,179,179,Series.get(2));						assert(pom!=NULL);
-    pom->settitle("BLUE 2D BARS");
+    pom->set_title("BLUE 2D BARS");
     Lufciki.insert(pom);
-    pom->settitle("");
+    pom->set_title("");
 
     pom=new rainbow_graph(300/*270*/,180,359,269,Series.get(4),0,
                           Series.get(1),0,"%@C%8.2f %%");				assert(pom!=NULL);
-    pom->settitle("RAINBOW GRAPH");
+    pom->set_title("RAINBOW GRAPH");
     pom->setframe(88);
     Lufciki.insert(pom);
 
@@ -173,7 +173,7 @@ void make_test_areas()
                                          Series.get(2),
                                          0,0,0,0,0,
                                          new circle_point,1);							assert(pom!=NULL);
-    pom->settitle("SCATTER PLOT");
+    pom->set_title("SCATTER PLOT");
     pom->setframe(180);
     pom->setbackground(default_light_gray);
     Lufciki.insert(pom);
@@ -190,13 +190,13 @@ void make_test_areas()
                                                    Series.get(1),0,
                                                    Series.get(3),0);			assert(pom!=NULL);
     pom->setdatacolors(1,254);
-    pom->settitle("CROSS POINT SCATTER PLOT");
+    pom->set_title("CROSS POINT SCATTER PLOT");
     Lufciki.insert(pom);
-    pom->settitle("");
+    pom->set_title("");
 
     pom=new sequence_graph(1,180,89,269,4,
                            Series.make_series_info(3,4,5,6,-1).get_ptr_val());			assert(pom!=NULL);
-    pom->settitle("TIME SERIES");
+    pom->set_title("TIME SERIES");
     Lufciki.insert(pom);
 
     pom=new sequence_graph(90,180,179,269,4,
@@ -204,15 +204,15 @@ void make_test_areas()
                            1,-5/*Wspólne min/max*/);										assert(pom!=NULL);
                                                                 //2,-10,40/*Fixed min/max*/);
                                                                 //2,-0.0001,18/*Za mały zakres min/max */);    assert(pom!=NULL);
-    pom->settitle("OTHER TIME SERIES");
+    pom->set_title("OTHER TIME SERIES");
     pom->setframe(253);
     Lufciki.insert(pom);
-    pom->settitle("");
+    pom->set_title("");
 
     pom=new manhattan_graph(180,180,299,269,
                             Series.get(2),0,
                             Series.get(0),0);									assert(pom!=NULL);
-    pom->settitle("MANHATTAN PLOT");
+    pom->set_title("MANHATTAN PLOT");
     Lufciki.insert(pom);
 
     //Tworzenie obszaru sterującego - na raty dla debugingu
@@ -226,7 +226,7 @@ void make_test_areas()
 
     pom2->setbackground(10);
     Lufciki.insert(pom2);
-    pom2->settitle("");
+    pom2->set_title("");
 }
 
 

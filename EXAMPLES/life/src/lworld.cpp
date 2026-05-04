@@ -1,7 +1,7 @@
 /// @file
 /// IMPLEMENTATION OF   W O R L D  FOR "Conways Life" SIMULATION.
 // //////////////////////////////////////////////////////////////
-/// @date 2026-03-27 (modified)
+/// @date 2026-05-04 (modified)
 
 //#include <limits.h>
 //#include <assert.h>
@@ -123,11 +123,11 @@ void lifeworld::make_basic_sources()
     //Główne serie
     Firsts=Agenci.make_source("State",&lifeagent::First);
     if(Firsts)
-        Firsts->setminmax(0,IleKate-1);
+        Firsts->set_min_max(0, IleKate - 1);
 
     Seconds=Agenci.make_source("Prev. state",&lifeagent::Second);
     if(Seconds)
-        Seconds->setminmax(0,IleKate-1);
+        Seconds->set_min_max(0, IleKate - 1);
 
     //Umieszczenie głównych serii w managerze serii
     WhatSourMen.insert(Firsts);
@@ -259,7 +259,7 @@ void lifeworld::make_default_visualisation()
             goto ERROR;
 
         pom1->setframe(128);
-        pom1->settitle("HISTORY OF CLASSIFICATION");
+        pom1->set_title("HISTORY OF CLASSIFICATION");
         Menager.insert(pom1);
 
         //inne mniej potrzebne
@@ -272,20 +272,20 @@ void lifeworld::make_default_visualisation()
                                         1); //Wspólne minimum/maximum
         if (!pom) goto ERROR;
         pom->setframe(128);
-        pom->settitle("HISTORY OF STRESS");
+        pom->set_title("HISTORY OF STRESS");
         Menager.insert(pom);
 
         pom = new carpet_graph(1, wyso / 2, szer / 3, wyso - 1,//domyślne współrzędne
                                Firsts); //I  //TODO!!! danych
         pom->setdatacolors(0, 255);
-        pom->settitle("Map of current state");
+        pom->set_title("Map of current state");
         Menager.insert(pom);
 
         pom = new bars_graph(szer / 3 + 1, wyso / 2, szer / 3 * 2,
                              wyso - 1,//domyślne współrzędne  szer-49,7*char_height('X')+7,szer,8*char_height('X')+9
                              ClassStat);
         pom->setdatacolors(0, 255);
-        pom->settitle("Histogram of state");
+        pom->set_title("Histogram of state");
         Menager.insert(pom);
 
         pom = new manhattan_graph(szer / 3 * 2 + 1, wyso / 2, szer, wyso - 1,//domyślne współrzędne
@@ -296,7 +296,7 @@ void lifeworld::make_default_visualisation()
                                   0.77);    //Ułamek wysokości  przeznaczony na perspektywę
         pom->setdatacolors(0, 255);
         pom->settextcolors(0);
-        pom->settitle("Determination of curr. state by prev. state");
+        pom->set_title("Determination of curr. state by prev. state");
         Menager.insert(pom);
 
         //PRZYCISKI
@@ -305,7 +305,7 @@ void lifeworld::make_default_visualisation()
                                Seconds); //I źródło danych
         pom->setdatacolors(0, 255);
         pom->setframe(0);
-        pom->settitle("Map of previous state");
+        pom->set_title("Map of previous state");
         Menager.insert(pom);
 
 
@@ -318,7 +318,7 @@ void lifeworld::make_default_visualisation()
                                   1 /*Wspólne minimum/maximum*/);
         if (!pom1) goto ERROR;
         pom1->setframe(128);
-        pom1->settitle("HISTORY OF ENTROPY OF DETERMINATION");
+        pom1->set_title("HISTORY OF ENTROPY OF DETERMINATION");
         Menager.insert(pom1);
 
 
@@ -331,7 +331,7 @@ void lifeworld::make_default_visualisation()
         );
         if (!pom) goto ERROR;
         pom->setframe(128);
-        pom->settitle("HISTORY OF Prev. TO Curr. CORRELATION");
+        pom->set_title("HISTORY OF Prev. TO Curr. CORRELATION");
         Menager.insert(pom);
 
         //Tworzenie obszaru sterującego:

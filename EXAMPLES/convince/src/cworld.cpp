@@ -1,7 +1,7 @@
 /// @file
 /// Implementation of the world of the convinced (D. Stauffer idea).
 // /////////////////////////////////////////////////////////////////////
-/// @date 2026-04-07 (modified)
+/// @date 2026-05-04 (modified)
 
 #include <cstring>
 #include <cmath>
@@ -116,11 +116,11 @@ void aWorld::make_basic_sources()
     //Creation of the main data series:
     Firsts=Agenci.make_source("Attitude",&anAgent::First);
     if(Firsts)
-        Firsts->setminmax(0, anAgent::NumOfCate - 1);
+        Firsts->set_min_max(0, anAgent::NumOfCate - 1);
 
     Seconds=Agenci.make_source("Prev. attitude",&anAgent::Second);
     if(Seconds)
-        Seconds->setminmax(0, anAgent::NumOfCate - 1);
+        Seconds->set_min_max(0, anAgent::NumOfCate - 1);
 
     Powers=Agenci.make_source("Power",&anAgent::Power);
 
@@ -253,7 +253,7 @@ void aWorld::make_default_visualisation()
                                    );
     if(!pom1) goto ERROR;
     pom1->setframe(128);
-    pom1->settitle("HISTORY OF CLASSIFICATION");
+        pom1->set_title("HISTORY OF CLASSIFICATION");
     Manager.insert(pom1);
 
     //inne mniej potrzebne
@@ -265,19 +265,19 @@ void aWorld::make_default_visualisation()
                                    1); // This 1 means that the minimum and maximum are common.
     if(!pom) goto ERROR;
     pom->setframe(128);
-    pom->settitle("HISTORY OF STRESS");
+        pom->set_title("HISTORY OF STRESS");
     Manager.insert(pom);
 
     pom=new carpet_graph(1,wyso/2,szer/3,wyso-1,	//default area coordinates
                             Firsts);	// Pointer to data source.
     pom->setdatacolors(0,255);
-    pom->settitle("Map of current attitude");
+        pom->set_title("Map of current attitude");
     Manager.insert(pom);
 
     pom=new bars_graph(szer/3+1,wyso/2,szer/3*2,wyso-1,	//default area coordinates
                             ClassStat);	// Pointer to data source.
     pom->setdatacolors(0,255);
-    pom->settitle("Histogram of attitude");
+        pom->set_title("Histogram of attitude");
     Manager.insert(pom);
 
     pom=new manhattan_graph(szer/3*2+1,wyso/2,szer,wyso-1,	//default area coordinates
@@ -288,7 +288,7 @@ void aWorld::make_default_visualisation()
                                 0.77);	//A fraction of the height is dedicated to perspective
     pom->setdatacolors(0,255);
     pom->settextcolors(0);
-    pom->settitle("Dynamism: curr. attit. vers. prev. attitude");
+        pom->set_title("Dynamism: curr. attit. vers. prev. attitude");
     Manager.insert(pom);
 
     //PRZYCISKI
@@ -296,7 +296,7 @@ void aWorld::make_default_visualisation()
                             Seconds);	// Pointer to data source.
     pom->setdatacolors(0,255);
     pom->setframe(0);
-    pom->settitle("Map of previous attitude");
+        pom->set_title("Map of previous attitude");
     Manager.insert(pom);
 
 
@@ -304,7 +304,7 @@ void aWorld::make_default_visualisation()
                             Powers);	// Pointer to data source.
     pom->setdatacolors(0,255);
     pom->setframe(0);
-    pom->settitle("Map of power");
+        pom->set_title("Map of power");
     Manager.insert(pom);
 
     pom=new manhattan_graph(szer-49, 7*(char_height('X')+RAMKA),szer,8*(char_height('X')+RAMKA),	//default area coordinates
@@ -317,7 +317,7 @@ void aWorld::make_default_visualisation()
                             );	// Pointer to data source.
     pom->setdatacolors(0,255);
     pom->setframe(0);
-    pom->settitle("The composed map of strength & attitude of agents");
+        pom->set_title("The composed map of strength & attitude of agents");
     Manager.insert(pom);
 
     pom1=new sequence_graph(szer-49, 9*(char_height('X')+RAMKA),szer,10*(char_height('X')+RAMKA),
@@ -329,7 +329,7 @@ void aWorld::make_default_visualisation()
                                    1 /*Common minimum and maximum*/);
     if(!pom1) goto ERROR;
     pom1->setframe(128);
-    pom1->settitle("HISTORY OF ENTROPY OF CLASSIFICATION");
+        pom1->set_title("HISTORY OF ENTROPY OF CLASSIFICATION");
     Manager.insert(pom1);
 
 
@@ -341,7 +341,7 @@ void aWorld::make_default_visualisation()
                                    1 /*Common minimum and maximum*/);
     if(!pom1) goto ERROR;
     pom1->setframe(128);
-    pom1->settitle("HISTORY OF ENTROPY OF CHANGE");
+        pom1->set_title("HISTORY OF ENTROPY OF CHANGE");
     Manager.insert(pom1);
 
 
@@ -354,7 +354,7 @@ void aWorld::make_default_visualisation()
                                    );
     if(!pom) goto ERROR;
     pom->setframe(128);
-    pom->settitle("HISTORY OF Prev.TO Curr. CORRELATION");
+        pom->set_title("HISTORY OF Prev.TO Curr. CORRELATION");
     Manager.insert(pom);
 
     // Creating a control area:
