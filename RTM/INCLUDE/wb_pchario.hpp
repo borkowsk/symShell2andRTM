@@ -27,7 +27,7 @@ namespace wbrtm { //WOJCIECH BORKOWSKI RUN TIME LIBRARY
 extern const char* WB_PCHAR_VERBOTEN_CHARS;//=" \t\n\r\'\"\0\01\02\03\04\05\06\07\010";
 
 /// \brief Czyta łańcuch zamknięty w cudzysłowie lub czymś zamiast niego.
-/// \return NULL, jeśli błąd - np. brak pamięci lub brak znaku zamknięcia.
+/// \return NULL, jeśli błąd — np. brak pamięci lub brak znaku zamknięcia.
 template<class Caller>
 char* ReadEnclosedString(istream& file, const Caller& caller, char delimiter)
 {

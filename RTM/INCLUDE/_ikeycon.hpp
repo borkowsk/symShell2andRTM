@@ -1,6 +1,6 @@
 /// @file
 /// @brief Private base for an array class family.
-/// @date 2026-05-02 (modified)
+/// @date 2026-05-04 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_INT_KEY_CON_HPP_INCLUDED_
@@ -25,7 +25,7 @@ namespace wbrtm {
 /// Private base for an array class family.
 class int_key_container_base
 {
-/* PIX SUPPORT - pix == size_t in this class & RANGE & SIZE CHECKING */
+/* PIX SUPPORT — pix == size_t in this class & RANGE & SIZE CHECKING */
 static size_t index; //!< ??????
 size_t        rsize; //!< current size.
 size_t first_unused; //!< max already used index + 1.
@@ -151,7 +151,7 @@ int Truncate(size_t i)
 
 };
 
-/* PIX SUPPORT - pix == object_size_t in this class */
+/* PIX SUPPORT — pix == object_size_t in this class */
 /* & RANGE & SIZE CHECKING		*/
 class long_key_container_base
 {

@@ -77,7 +77,7 @@ void PrintTo( ostream& o ) const ;
 
 /*
 /// \brief Obsolete class
-//Szablon wyjatku dla dowolnego klucza - za kosztowny
+//Szablon wyjatku dla dowolnego klucza — za kosztowny
 template<class K>
 class AnyKeyNotFoundExcp:public AssocKeyNotFoundExcp
 /////////////////////////////////////////////////////

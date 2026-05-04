@@ -1,5 +1,5 @@
 /** @file
-*  \brief    Dynamic arra-s - some resizable
+*  \brief    Dynamic arra-s — some resizable
 *  \details Obsolete and not improved part of the wb_rtm library.
 *           It was established before 2000.
 *  \copyright Wojciech T. Borkowski
@@ -64,7 +64,7 @@ public:
 	int Insert(size_t posit);// Insert empty element at posit(ion). Move the rest of table.
 };
 
-/// \brief A dynamic array for no class types - construction/destruction maybe not handled properly.
+/// \brief A dynamic array for no class types — construction/destruction maybe not handled properly.
 template<class T>
 class array_of:public array_template<T>
 {
@@ -77,7 +77,7 @@ public:
 };
 
 /// \brief Obsolete class template of a dynamic array of class.
-/// For class types - with construction/destruction handling
+/// For class types — with construction/destruction handling
 /// \note: Objects must be position independent!
 /// Array can move any from its non-active components to new
 /// position in memory without use of a construction/destruction sequence.
