@@ -23,10 +23,10 @@ public:
     //ktore to wartości trzeba przekonwertowac
     {
         template_filter_source_base<SOURCE_TYPE>::bounds(N, min, max);
-        if(this->ymin < this->ymax)
+        if(this->y_min < this->y_max)
         {
-            min = this->ymin;
-            max = this->ymax;
+            min = this->y_min;
+            max = this->y_max;
         } else
         {
             assert(min < max);
@@ -92,10 +92,10 @@ public:
     {
         template_filter_source_base<SOURCE_TYPE>::bounds(N, min, max);
 
-        if(this->ymin < this->ymax)
+        if(this->y_min < this->y_max)
         {
-            min = this->ymin;
-            max = this->ymax;
+            min = this->y_min;
+            max = this->y_max;
         } else
         {
             //assert(min<max);???Chyba niepotrzebne - po prostu "Invalid data"

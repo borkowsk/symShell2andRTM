@@ -1,52 +1,57 @@
 /// @file
-/// @brief Klasa  filtru korelacji - dwuzrodlowego, jednowartosciowego filtru danych
+/// @brief UNUSED correlation filter class - a two-source, single-value data filter/
+///        NIEUŻYWANA klasa  filtru korelacji — dwuźródłowego, jednowartościowego filtru danych.
 /// @date 2026-05-04 (modified)
 // ********************************************************************************************************************
 //
-#error - ZA SKOMPLIKOWANE W IMPLEMENTACJI
+//#error SKOMPLIKOWANE W IMPLEMENTACJI, ALE MOŻNA BY KIEDYŚ SPRÓBOWAĆ.
 
-#ifndef    __CORRSOUR_HPP__
-#define __CORRSOUR_HPP__
+#ifndef SYMSHELL2_CORR_SOUR_HPP_INCLUDED_
+#define SYMSHELL2_CORR_SOUR_HPP_INCLUDED_
 
 #include "bifilter.hpp"
 
-/// Klasa  filtru korelacji — dwuźródłowego, jednowartosciowego filtru danych.
+/// Klasa  filtru korelacji — dwuźródłowego, jednowartościowego filtru danych.
 class correlation_source : public template_scalar_source_base<double>,
                            public bi_filter_source_base
 //---------------------------------------------------------------------
 {
-    double CorrVal; //Cache na wartość
+    double corr_value; ///< Cache na wartość korelacji.
+
 protected:
-    virtual void _calculate(); //Liczy korelacje i zapisuje w CorrVal
+    /// Liczy korelacje i zapisuje w `corr_value`.
+    virtual void _calculate();
+
 public:
-    correlation_source(data_source_base *ini1 = NULL,
-                       data_source_base *ini2 = NULL,
+    correlation_source(data_source_base *ini1,
+                       data_source_base *ini2,
                        const char *format = "CORR(%s , %s)") :
             bi_filter_source_base(ini1, ini2, format),
-            template_scalar_source_base<double>("",/*min*/-1,/*max*/1)
+            template_scalar_source_base<double>("",/*min*/-1,/*max*/1),
+            corr_value(0)
     {}
 
-//Raczej nieużywana implementacja decyzji o wartości minimalnej i maksymalnej
+    //Raczej nieużywana implementacja decyzji o wartości minimalnej i maksymalnej
     virtual void _bounds(double &min1, double &max1,
                          double &min2, double &max2,
                          double &min, double &max)
     {
-        //jeśli nie ustawione, to przyjmujemy typowy zakres korelacji
+        //jeśli nie ustawione, to przyjmujemy typowy zakres korelacji.
         min = -1;
         max = 1;
     }
 
-//Raczej nieużywane. Zawsze  zwraca tylko raz policzona korelacje, chyba że dane się zmieniły.
+    //Raczej nieużywane. Zawsze  zwraca tylko raz policzona korelacje, chyba że dane się zmieniły.
     virtual double _get(double val1, double val2)
     {
-        return CorrVal;
+        return corr_value;
     }
 
-    virtual const double &get()
+    virtual double get()
     {
-        if(check_version())
+        if(check_version_())
             _calculate();
-        return CorrVal;
+        return corr_value;
     }
 };
 
@@ -61,4 +66,4 @@ public:
 /*        MAIL: borkowsk@iss.uw.edu.pl                                */
 /*                               (Don't change or remove this note)   */
 /* ****************************************************************** */
-#endif
+#endif //SYMSHELL2_CORR_SOUR_HPP_INCLUDED_

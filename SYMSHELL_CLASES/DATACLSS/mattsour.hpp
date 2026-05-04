@@ -65,25 +65,25 @@ public:
     void bounds(size_t &num, double &min, double &max)
 //Ile elementów,wartość minimalna i maksymalna
     {
-        num = getrectgeometry()->get_width() * getrectgeometry()->get_height();
-        if(ymin < ymax)	//Sa dane
+        num = get_rect_geometry()->get_width() * get_rect_geometry()->get_height();
+        if(y_min < y_max)	//Sa dane
         {
-            min = ymin;
-            max = ymax;
+            min = y_min;
+            max = y_max;
             return;
         }
 
         //Nie są dane wiec próbkujemy - co troche kosztuje
         min = wbrtm::limit<T>::Max();
         max = wbrtm::limit<T>::Min();
-        iteratorh iterator = getrectgeometry()->make_global_iterator();
+        iteratorh iterator = get_rect_geometry()->make_global_iterator();
         while(iterator)
         {
-            size_t i = getrectgeometry()->get_next(iterator);
+            size_t i = get_rect_geometry()->get_next(iterator);
             if(min > arra[i]) min = arra[i];
             if(max < arra[i]) max = arra[i];
         }
-        getrectgeometry()->destroy_iterator(iterator);
+        get_rect_geometry()->destroy_iterator(iterator);
     }
 
     double get(iteratorh &p)
@@ -100,7 +100,7 @@ public:
 
     double get(size_t index)	//Przetwarza index uzyskany z geometrii
     { //na wartość z serii, o ile jest możliwe czytanie losowe
-        assert(index < getrectgeometry()->get_size());
+        assert(index < get_rect_geometry()->get_size());
         return arra[index];
     }
 
@@ -158,7 +158,7 @@ public:
     {
         assert(p != NULL);
         size_t pom = _next(p);
-        if(pom < this->getrectgeometry()->get_size())
+        if(pom < this->get_rect_geometry()->get_size())
         {                                                                               // cerr<<this->name()<<' '<<pom<<endl; // DEBUG get()
             double val = arra[pom].*skladowa;
             return val;
@@ -170,33 +170,33 @@ public:
     { //na wartość z serii, o ile jest możliwe czytanie losowe
         assert(arra);
         assert(skladowa != NULL);
-        assert(index < getrectgeometry()->get_size());
+        assert(index < get_rect_geometry()->get_size());
         return arra[index].*skladowa;
     }
 
     void bounds(size_t &num, double &min, double &max)
 //Ile elementów, wartość minimalna i maksymalna
     {
-        num = getrectgeometry()->get_width() * getrectgeometry()->get_height();
-        if(ymin < ymax)	//Sa dane
+        num = get_rect_geometry()->get_width() * get_rect_geometry()->get_height();
+        if(y_min < y_max)	//Sa dane
         {
-            min = ymin;
-            max = ymax;
+            min = y_min;
+            max = y_max;
             return;
         }
 
         //Nie są dane, wiec próbkujemy, co trochę kosztuje.
         min = wbrtm::limit<FIELD_T>::Max();
         max = wbrtm::limit<FIELD_T>::Min();
-        iteratorh iterator = getrectgeometry()->make_global_iterator();
+        iteratorh iterator = get_rect_geometry()->make_global_iterator();
         while(iterator)
         {
-            size_t i = getrectgeometry()->get_next(iterator);
+            size_t i = get_rect_geometry()->get_next(iterator);
             double pom = arra[i].*skladowa;
             if(min > pom) min = pom;
             if(max < pom) max = pom;
         }
-        getrectgeometry()->destroy_iterator(iterator);
+        get_rect_geometry()->destroy_iterator(iterator);
     }
 
 };
@@ -250,7 +250,7 @@ public:
     {
         assert(p != NULL);
         size_t pom1 = _next(p);
-        if(pom1 < this->getrectgeometry()->get_size())
+        if(pom1 < this->get_rect_geometry()->get_size())
         {
             STRUCT_T *pom2 = arra[pom1];
             if(pom2)
@@ -262,8 +262,8 @@ public:
 
     double get(size_t index)	//Przetwarza index uzyskany z geometrii
     { //na wartość z serii, o ile jest możliwe czytanie losowe
-        size_t s = getrectgeometry()->get_size();
-        assert(index < getrectgeometry()->get_size());
+        size_t s = get_rect_geometry()->get_size();
+        assert(index < get_rect_geometry()->get_size());
         if(index < s /*&& index!=ULONG_MAX*/)
         {
             STRUCT_T *pom2 = arra[index];
@@ -277,21 +277,21 @@ public:
     void bounds(size_t &num, double &min, double &max)
 //Ile elementów,wartość minimalna i maksymalna
     {
-        num = getrectgeometry()->get_width() * getrectgeometry()->get_height();
-        if(ymin < ymax)	//Sa dane
+        num = get_rect_geometry()->get_width() * get_rect_geometry()->get_height();
+        if(y_min < y_max)	//Sa dane
         {
-            min = ymin;
-            max = ymax;
+            min = y_min;
+            max = y_max;
             return;
         }
 
         //Nie są dane wiec próbkujemy - co troche kosztuje
         min = wbrtm::limit<FIELD_T>::Max();
         max = wbrtm::limit<FIELD_T>::Min();
-        iteratorh iterator = getrectgeometry()->make_global_iterator();
+        iteratorh iterator = get_rect_geometry()->make_global_iterator();
         while(iterator)
         {
-            size_t i = getrectgeometry()->get_next(iterator);
+            size_t i = get_rect_geometry()->get_next(iterator);
             STRUCT_T *pom1 = arra[i];
             if(pom1 == NULL)
                 continue; //Nie ma szans na wartość, wiec ignorujemy
@@ -299,7 +299,7 @@ public:
             if(min > pom) min = pom;
             if(max < pom) max = pom;
         }
-        getrectgeometry()->destroy_iterator(iterator);
+        get_rect_geometry()->destroy_iterator(iterator);
     }
 
 };
@@ -390,32 +390,32 @@ public:
 
     double get(size_t index)	//Przetwarza index uzyskany z geometrii
     { //na wartość z serii, o ile jest możliwe czytanie losowe
-        assert(index < getrectgeometry()->get_size());
+        assert(index < get_rect_geometry()->get_size());
         return _get(index);
     }
 
     void bounds(size_t &num, double &min, double &max)
 //Ile elementów,wartość minimalna i maksymalna
     {
-        num = getrectgeometry()->get_width() * getrectgeometry()->get_height();
-        if(ymin < ymax)	//Sa dane
+        num = get_rect_geometry()->get_width() * get_rect_geometry()->get_height();
+        if(y_min < y_max)	//Sa dane
         {
-            min = ymin;
-            max = ymax;
+            min = y_min;
+            max = y_max;
             return;
         }
 
         //Nie są dane wiec próbkujemy - co troche kosztuje
         min = wbrtm::limit<METHOD_T>::Max();
         max = wbrtm::limit<METHOD_T>::Min();
-        iteratorh iterator = getrectgeometry()->make_global_iterator();
+        iteratorh iterator = get_rect_geometry()->make_global_iterator();
 
         //assert(miss!=???);
         //missing(); //Aktualizacja wartości "miss" ???? DEBUG THIS
 
         while(iterator)
         {
-            size_t i = getrectgeometry()->get_next(iterator);
+            size_t i = get_rect_geometry()->get_next(iterator);
             double pom = _get(i); //Dostęp liniowy
             if(!is_missing(pom))
             {
@@ -425,7 +425,7 @@ public:
         }
 
         cache_ok = 1; //Wszystkie przeszły wiec cache pełny
-        getrectgeometry()->destroy_iterator(iterator);
+        get_rect_geometry()->destroy_iterator(iterator);
     }
 
     void new_data_version(int change = 1, unsigned increment = 1)	//Ustalanie informacji o wersji danych
@@ -512,7 +512,7 @@ public:
 
     double get(size_t index)	//Przetwarza index uzyskany z geometrii
     { //na wartość z serii, o ile jest możliwe czytanie losowe
-        assert(index < getrectgeometry()->get_size());
+        assert(index < get_rect_geometry()->get_size());
         return _get(index);
     }
 
@@ -538,23 +538,23 @@ public:
     void bounds(size_t &num, double &min, double &max)
 //Ile elementów, wartość minimalna i maksymalna
     {
-        num = getrectgeometry()->get_width() * getrectgeometry()->get_height();
-        if(ymin < ymax)	//Sa dane
+        num = get_rect_geometry()->get_width() * get_rect_geometry()->get_height();
+        if(y_min < y_max)	//Sa dane
         {
-            min = ymin;
-            max = ymax;
+            min = y_min;
+            max = y_max;
             return;
         }
 
         //Nie są dane wiec próbkujemy - co troche kosztuje
         min = wbrtm::limit<METHOD_T>::Max();
         max = wbrtm::limit<METHOD_T>::Min();
-        iteratorh iterator = getrectgeometry()->make_global_iterator();
+        iteratorh iterator = get_rect_geometry()->make_global_iterator();
 
         get_missing();//Aktualizacja wartości "miss"
         while(iterator)
         {
-            size_t i = getrectgeometry()->get_next(iterator);
+            size_t i = get_rect_geometry()->get_next(iterator);
             double pom = _get(i);//Dostęp liniowy
             if(!is_missing(pom))
             {
@@ -563,7 +563,7 @@ public:
             }
         }
         cache_ok = 1;//Wszystkie przeszły wiec cache pełny
-        getrectgeometry()->destroy_iterator(iterator);
+        get_rect_geometry()->destroy_iterator(iterator);
     }
 
     void new_data_version(int change = 1, unsigned increment = 1)	//Ustalanie informacji o wersji danych

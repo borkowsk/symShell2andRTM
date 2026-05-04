@@ -84,12 +84,12 @@ class drawable_base:public gps_area,public title_util
 {
     int frame_width;
     wb_color frame_col;	//Kolor ramki. Jeśli == default_transparent to ramka wyłączona
-    wb_color titbck;    //Kolor tła tytułu - jeśli DEFCOLOR to domyślne
-    wb_color titcol;    //Kolor tytułu - jeśli DEFCOLOR to domyślne
+    wb_color titbck;    //Kolor tła tytułu — jeśli DEFCOLOR to domyślne
+    wb_color titcol;    //Kolor tytułu — jeśli DEFCOLOR to domyślne
     wb_color background; //kolor tła. Jeśli == default_transparent to tło przezroczyste!!!
                         //w metodzie replot() => można nakładać obszary.
     public:
-    virtual  ~drawable_base(){settitle(NULL);}
+    virtual  ~drawable_base(){ set_title(NULL);}
     //CONSTRUCTOR
             drawable_base(int ix1,int iy1,int ix2,int iy2,wb_color ibkg=default_half_gray,wb_color ifr=default_white):
             gps_area(ix1,iy1,ix2,iy2),background(ibkg),frame_col(ifr),title_util(NULL),titbck(ibkg),titcol(default_transparent),frame_width(def_frame_width)
@@ -132,7 +132,7 @@ class drawable_base:public gps_area,public title_util
                 //return 1 if point is inside area, but is not embedded action
                 //return 0 if point is NOT inside area
                 //For a subarea managing.
-                //Default action - test only.
+                //Default action — test only.
     { return is_inside(x,y);}
 
     virtual int on_change(const gps_area& /*new_position*/)	//Need to call this if want to resize or move area.

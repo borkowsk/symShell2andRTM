@@ -44,10 +44,10 @@ public:
     void bounds(size_t &num, double &min, double &max) override
     {
         num = N;
-        if(ymin < ymax) //Sa podane.
+        if(y_min < y_max) //Sa podane.
         {
-            min = ymin;
-            max = ymax;
+            min = y_min;
+            max = y_max;
             return;
         }
 
@@ -113,10 +113,10 @@ public:
     {
         num = N;
         //cerr<<this->name()<<" ?\n";
-        if(ymin < ymax)	//Sa dane
+        if(y_min < y_max)	//Sa dane
         {//cerr<<"???\n";
-            min = ymin;
-            max = ymax;
+            min = y_min;
+            max = y_max;
             return;
         }
         //Nie są dane, wiec próbkujemy...
@@ -189,10 +189,10 @@ public:
     void bounds(size_t &num, double &min, double &max) override
     {
         num = N;
-        if(ymin < ymax)	//Sa dane
+        if(y_min < y_max)	//Sa dane
         {
-            min = ymin;
-            max = ymax;
+            min = y_min;
+            max = y_max;
             return;
         }
         //Nie są dane, wiec próbkujemy...

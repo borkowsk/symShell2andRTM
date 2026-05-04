@@ -1,114 +1,165 @@
 /// @file
-/// @brief Klasy źródeł funkcyjnych i ich parametrów
+/// @brief Classes of functional sources and their parameters/
+///        Klasy źródeł funkcyjnych i ich parametrów.
 /// @date 2026-05-04 (modified)
 // ********************************************************************************************************************
 //                       Zmodyfikowana znacząco 05.04.2008
 //
-#ifndef __FUNCTION_SOURCES_HPP__
-#define __FUNCTION_SOURCES_HPP__
+#ifndef SYMSHELL2_FUNCTION_SOURCES_HPP_INCLUDED_
+#define SYMSHELL2_FUNCTION_SOURCES_HPP_INCLUDED_
+
 #ifndef __cplusplus
 #error C++ required
 #endif
 
 #include "datasour.hpp" //Podstawowy interface
 
-/// @name Przykładowe funkcje dla źródła funkcyjnego.
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "modernize-use-auto"
+#pragma ide diagnostic ignored "modernize-use-nullptr"
+
+/// @name Przykładowe funkcje dla źródła funkcyjnego/Example functions for the function data source.
+/// @param x to wartość argumentu funkcji.
 /// @{
 
-/// Klasa funkcyjna definiująca funkcję stałą czyli zwracajaca zawsze te sama wartość.
+#ifdef USE_ENGLISH_IF_POSSIBLE
+/// A function class defining a constant function, i.e. one that always returns the same value.
+#else
+/// Klasa funkcyjna definiująca funkcję stałą, czyli zwracająca zawsze te sama wartość.
+#endif
 template<int VDef>
 class constans
 {
-    double Val;
+    double value; ///< Wartość tej "stałej".
+
 public:
-    constans(double IniVal) : Val(IniVal)
+    explicit constans(double IniVal) : value(IniVal)
     {}
 
-    constans() : Val(VDef)
+    constans() : value(VDef)
     {}
 
+    /// Operator obliczeniowy. @return stałą wartość `value`.
     double operator()(double x)
-    { return Val; }
+    { return value; }
 };
 
-/// Klasa funkcyjna opakowujaca funkcje liniowa y=x - potrzebna np do zrobienia scaterplot'a dla jednej serii.
-class yeqx
+#ifdef USE_ENGLISH_IF_POSSIBLE
+/// A functional class wrapping the linear function `y = x` — needed e.g. to make a scatterplot for one series.
+#else
+/// Klasa funkcyjna opakowująca funkcje liniowa `y = x` — potrzebna np. do zrobienia scatterplot-a dla jednej serii.
+#endif
+class y_eq_x
 {
 public:
+    /// Operator obliczeniowy. @returns x.
     double operator()(double x)
     { return x; }
 };
 
-/// Klasa funkcyjna opakowujaca cosinus.
+#ifdef USE_ENGLISH_IF_POSSIBLE
+/// A functional class wrapping cosine.
+#else
+/// Klasa funkcyjna opakowująca cosinus.
+#endif
 class cosinus
 {
 public:
+    /// Operator obliczeniowy. @returns `cos(x)`.
     double operator()(double x)
     { return cos(x); }
 };
 
-/// Klasa funkcyjna opakowujaca sinus.
+#ifdef USE_ENGLISH_IF_POSSIBLE
+/// A functional class that wraps the sine.
+#else
+/// Klasa funkcyjna opakowująca sinus.
+#endif
 class sinus
 {
 public:
+    /// Operator obliczeniowy. @returns `sin(x)`.
     double operator()(double x)
     { return sin(x); }
 };
 /// @}
 
+#ifdef USE_ENGLISH_IF_POSSIBLE
+/// A function source template parameterized by a function type.
+/// @tparam F must be a class with a parameterless constructor and a main method defined as `double operator () (double)`.
+#else
 /// Szablon źródła funkcyjnego sparametryzowany typem funkcyjnym.
 /// @tparam F musi być klasą z bezparametrowym konstruktorem i główną metodą o definicji `double operator () (double)`.
+#endif
 template<class F>
 class function_source : public function_source_base
-//----------------------------------------------------------------------
+//-------------------------------------------------
 {
 protected:
-    F f; //Obiekt klasy funkcyjnej
+    F f; ///< Obiekt klasy funkcyjnej.
 
 public:
-// Constructor 
-    function_source(size_t iN = 10,                  //Gestosc próbkowania zakresu X-ow
-                    double ixmin = 0, double ixmax = 1, //Zakres po X-ach
-                    const char *itit = "f(x)",       //Nazwa funkcji, do podpisu na wykresie
-                    double iymin = 0, double iymax = 0) ://Zakres na y-kach. Oszczedza liczenia minimum i maksimum
-            function_source_base(iN, ixmin, ixmax, itit, iymin, iymax)
+    /// Constructor.
+    /// \param i_N to gęstość próbkowania zakresu X-ow.
+    /// \param i_x_min, i_x_max określają zakres po X-ach.
+    /// \param i_tit to nazwa funkcji, do podpisu na wykresie.
+    /// \param i_y_min, i_y_max określają zakres na y-ach. Oszczędza to czas liczenia minimum i maksimum.
+    explicit function_source(size_t i_N = 10,
+                             double i_x_min = 0, double i_x_max = 1,
+                             const char *i_tit = "f(x)",
+                             double i_y_min = 0, double i_y_max = 0) :
+            function_source_base(i_N, i_x_min, i_x_max, i_tit, i_y_min, i_y_max)
     {
-        //Jeśli nie podano ograniczenia po Y-kach albo podano zle
-        if(ymin == ymax)	//to jest szukane
+        //Jeśli nie podano ograniczenia po Y-ach albo podano źle.
+        if(y_min == y_max)	//to jest szukane
         {
-            ymin = DBL_MAX;
-            ymax = -DBL_MAX;
+            y_min = DBL_MAX;
+            y_max = -DBL_MAX;
             for(size_t i = 0; i < N; i++)
             {
-                double pom = f(xmin + i * step);
-                if(pom < ymin) ymin = pom;
-                if(pom > ymax) ymax = pom;
+                double pom = f(x_min + i * step);
+                if(pom < y_min) y_min = pom;
+                if(pom > y_max) y_max = pom;
             }
         }
-        assert(ymin < ymax);
+        assert(y_min < y_max);
     }
 
-    double get(iteratorh &p)
-//Daje następną z N liczb!!!
-    {
-        size_t pom = (size_t) p;
-        if(pom + 1 >= N)
-            p = NULL;
-        else
-            p = (iteratorh) (pom + 1);
-        return f(xmin + step * pom);
-    }
+    double get(iteratorh &p) override;
 
-    double get(size_t i)
-//Daje któras z N liczb!!! 
-    {
-        if(i > N)
-            return miss;
-        else
-            return f(xmin + step * i);
-    }
+    double get(size_t i) override;
 };
 
+// IMPLEMENTACJE INLINE:
+//----------------------
+
+template<class F>
+double function_source<F>::get(iteratorh &p) //Daje następną z N liczb!!!
+{
+    size_t pom = reinterpret_cast<size_t>(p);
+    if(pom + 1 >= N)
+    {
+        p = NULL;
+    }
+    else
+    {
+        p = (iteratorh) (pom + 1); //kolejny krok.
+    }
+    return f(x_min + step * pom);
+}
+
+template<class F>
+double function_source<F>::get(size_t i) //Daje którąś z N liczb!!!
+{
+    if(i > N)
+        return miss;
+    else
+        return f(x_min + step * i);
+}
+
+
+
+#pragma clang diagnostic pop
 /* ****************************************************************** */
 /*               SYMSHELL2  version 2006/2022/2026                    */
 /* ****************************************************************** */
@@ -120,7 +171,7 @@ public:
 /*        MAIL: borkowsk@iss.uw.edu.pl                                */
 /*                               (Don't change or remove this note)   */
 /* ****************************************************************** */
-#endif
+#endif //SYMSHELL2_FUNCTION_SOURCES_HPP_INCLUDED_
 
 
 

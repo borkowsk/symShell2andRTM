@@ -74,7 +74,7 @@ protected:
                my_geometry->get_height() != NNHeight ||
                my_geometry->get_width() != MMWidth)
             {
-                if(arra.alloc(NNHeight, MMWidth) == 0)	//błąd alokacji - za malo/za duzo?
+                if(arra.alloc(NNHeight, MMWidth) == 0)	//błąd alokacji — za malo/za duzo?
                     goto ERROR;
 
                 my_geometry = new rectangle_geometry(MMWidth, NNHeight, 0);
@@ -124,8 +124,8 @@ protected:
             if(Pairs == 0) //Nie ma wspowystepowania np z powodu missing values
                 goto ERROR;
 
-            ymin = DBL_MAX;
-            ymax = 0;
+            y_min = DBL_MAX;
+            y_max = 0;
             size_t licz = 0, minp = 0, maxp = 0;
 
             for(i = 0; i < NNHeight; i++)
@@ -146,15 +146,15 @@ protected:
 
                     //if(pom>0) licz++;
 
-                    if(pom > ymax)
+                    if(pom > y_max)
                     {
-                        ymax = pom;
+                        y_max = pom;
                         maxp = i;
                     }
 
-                    if(pom < ymin)
+                    if(pom < y_min)
                     {
-                        ymin = pom;
+                        y_min = pom;
                         minp = i;
                     }
 
@@ -171,12 +171,12 @@ protected:
                     if(qij > 0)
                         Entropy += qij * log(qij);
 
-                    //SKŁADOWE Tau_b - ilość bledów przy znajomosci cechy A
+                    //SKŁADOWE Tau_b — ilość bledów przy znajomosci cechy A
                     double SumaWiersza = KolumnaSumm[i];
                     if(SumaWiersza > 0) //W niepustym wierszu
                         Za += pom * ((SumaWiersza - pom) / SumaWiersza);
 
-                    //SKŁADOWE Tau_a - ilość bledów przy znajomosci cechy B
+                    //SKŁADOWE Tau_a — ilość bledów przy znajomosci cechy B
                     double SumaKolumn = WierszSumm[j];
                     if(SumaKolumn > 0) //W niepustym wierszu
                         Zb += pom * ((SumaKolumn - pom) / SumaKolumn);
@@ -261,7 +261,7 @@ protected:
             table[iHi + 7]->change_val(table[iHi + 7]->get_missing());
         arra.dispose();
         my_geometry = NULL;
-        ymin = ymax = 0;
+        y_min = y_max = 0;
         return 1;
     }
 
@@ -366,17 +366,17 @@ public:
     void bounds(size_t &num, double &min, double &max)
 //Ile elementów,wartość minimalna i maksymalna
     {
-        check_version(); //Uaktualnia tez wersje podzrodla, jeśli trzeba
+        check_version_(); //Uaktualnia tez wersje podzrodla, jeśli trzeba
         _calculate(); //Sprawdza, czynie trzeba policzyc i ewentualnie liczy
         num = get_size();
-        min = ymin;
-        max = ymax;
+        min = y_min;
+        max = y_max;
     }
 
     size_t get_size()
 //ile elementów
     {
-        check_version(); //Uaktualnia tez wersje podzrodla, jeśli trzeba
+        check_version_(); //Uaktualnia tez wersje podzrodla, jeśli trzeba
         _calculate(); //Sprawdza, czynie trzeba policzyc i ewentualnie liczy
         if(!my_geometry)
             return 0;
@@ -384,9 +384,9 @@ public:
     }
 
 //Zwraca wskaźnik do obowiazujacej geometrii danych. NULL oznacza dane nie-zgeometryzowane
-    geometry_base *getgeometry()
+    geometry_base *get_geometry()
     {
-        check_version(); //Uaktualnia tez wersje podzrodla, jeśli trzeba
+        check_version_(); //Uaktualnia tez wersje podzrodla, jeśli trzeba
         _calculate(); //Sprawdza, czynie trzeba policzyc i ewentualnie liczy
         return my_geometry.get_ptr_val();
     }
@@ -395,7 +395,7 @@ public:
 //Umozliwia czytanie od poczatku
 //tablicy lub wycinka
     {
-        check_version(); //Uaktualnia tez wersje podzrodla, jeśli trzeba
+        check_version_(); //Uaktualnia tez wersje podzrodla, jeśli trzeba
         _calculate(); //Sprawdza, czynie trzeba policzyc i ewentualnie liczy
         if(my_geometry)
             return my_geometry->make_global_iterator();

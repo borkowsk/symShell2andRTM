@@ -40,8 +40,8 @@ void  scalar_source<Typek>::change_val(const Typek& next)
       //Uaktualnienie zakresu min-max
       if(this->CheckMinMax) //this-> dodane ze względu na problemy z GCC (07.2011)
         {
-        if(val>this->ymax) this->ymax=val;
-        if(val<this->ymin) this->ymin=val;
+        if(val>this->y_max) this->y_max=val;
+        if(val<this->y_min) this->y_min=val;
         }
     }
 
@@ -70,13 +70,13 @@ virtual void  bounds(size_t& N,double& min,double& max)
         N=1;
         if(this->CheckMinMax)	//this-> dodane ze względu na problemy z GCC (07.2011)
             {
-            if(*ptr>this->ymax) this->ymax=*ptr;
-            if(*ptr<this->ymin) this->ymin=*ptr;
+            if(*ptr>this->y_max) this->y_max=*ptr;
+            if(*ptr<this->y_min) this->y_min=*ptr;
             }
         }
         else N=0;
-      min=this->ymin;
-      max=this->ymax;
+      min=this->y_min;
+      max=this->y_max;
     }
 
 virtual iteratorh   reset()
@@ -131,13 +131,13 @@ virtual void  bounds(size_t& N,double& min,double& max)
         RET r=ptr();
         if(this->CheckMinMax)
             {
-            if(r>this->ymax) this->ymax=r;
-            if(r<this->ymin) this->ymin=r;
+            if(r>this->y_max) this->y_max=r;
+            if(r<this->y_min) this->y_min=r;
             }
         }
         else N=0;
-      min=this->ymin;
-      max=this->ymax;
+      min=this->y_min;
+      max=this->y_max;
     }
 
 virtual iteratorh   reset()

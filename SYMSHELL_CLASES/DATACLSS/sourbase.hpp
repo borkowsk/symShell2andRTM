@@ -1,5 +1,6 @@
 /// @file
-/// @brief Definitions of basic (interface) data source class
+/// @brief Definitions of basic (interface) data source class /
+///        Definicje podstawowej klasy źródła danych (interfejsu).
 /// @date 2026-05-04 (modified)
 // ********************************************************************************************************************
 //
@@ -26,8 +27,13 @@
 
 const unsigned ZAPAS_NA_CYFRY = (DBL_DIG * 2); //Do wyświetlania: DBL_DIG+zapas na znaki i wykładnik
 
-/// Definicja INTERFACE-u źródła danych.
+#ifdef USE_ENGLISH_IF_POSSIBLE
+/// @brief Definition of the data source's interface.
+/// Each data source must implement these methods, but may also have others.
+#else
+/// @brief Definicja INTERFACE-u źródła danych.
 /// Każde źródło musi mieć zaimplementowane takie metody, ale może mieć też inne.
+#endif
 class data_source_base
 //--------------------
 {
@@ -35,22 +41,23 @@ public:
     MEMORY_GUARD(unsigned, 0xAB0C0DAD);
 
 private:
-    long cur_step;    ///< Numer kolejnej wersji danych
-    long no_change;    ///< Od ilu kroków nie było zmiany
+    long  cur_step;    ///< Numer kolejnej wersji danych.
+    long no_change;    ///< Od ilu kroków nie było zmiany.
 
 #if __GNUC__ >= 3   //Dziwne...
 public:
 #else
     protected:
 #endif
-    double miss;    ///< Missing value
-    double ymin;    ///< Dany lub wydedukowany zakres Y.
-    double ymax;    ///< Jeśli jest dany, to nie należy go dedukować.
+    double  miss;    ///< Missing value/wartość symbolizująca brak danych.
+    double y_min;    ///< Dany lub wydedukowany zakres Y.
+    double y_max;    ///< Jeśli jest dany, to nie należy go dedukować.
+
+    rectangle_geometry *my_geometry; ///< Wskaźnik do geometrii danych.
+    bool             local_geometry; ///< Określa, czy geometria należy do tego obiektu.
 
 public:
-    rectangle_geometry *my_geometry; ///< Wskaźnik do geometrii danych.
-    bool local_geometry; ///< Określa,, czygeometria należy do tego obiektu.
-    typedef ::iteratorh iteratorh; ///< Skrót dla typu uchwytu iterator-a.
+    typedef ::iteratorh   iteratorh; ///< Skrót dla typu uchwytu iterator-a. TODO inna nazwa?
 
 // / Liczy @c `INF.` (wg. `IEEE`) — jako znacznik braku (może generować SIGFPE na części platform).
 //static double inf();
@@ -60,131 +67,141 @@ public:
 // accessors:
 //-----------
 
-/// Ustala "missing value" takie, jakie chce użytkownik klasy.
+    /// Ustala "missing value" takie, jakie chce użytkownik klasy.
     void set_missing(double i_miss);
 
-/// Sprawdzanie,, czy`Source->get` nie dało `missing`.
+    /// Sprawdzanie, czy`Source->get` nie dało `missing`.
     int is_missing(double val) const;
 
-/// Zapewnia właściwa inicjacje i obsługę wartości "miss".
-/// Wystarczy wywołać raz, przed iteracją, a potem używać tylko
-/// `is_missing()` lub po prostu `miss`.
+    /// Zapewnia właściwa inicjacje i obsługę wartości "miss".
+    /// Wystarczy wywołać raz, przed iteracją, a potem używać tylko
+    /// `is_missing()` lub po prostu `miss`.
     double get_missing();
 
-/// Ustala minimum i maksimum, żeby uniknąć próbkowania danych.
-/// Podanie równych może ponownie włączać próbkowanie.
-    void setminmax(double i_min, double i_max);
+    /// Ustala minimum i maksimum, żeby uniknąć próbkowania danych.
+    /// Podanie równych wartości, np. 0 i 0 może ponownie włączać próbkowanie.
+    void set_min_max(double i_min, double i_max);
 
-// OBSŁUGA WERSJI DANYCH:
-//-----------------------
+    /// @name OBSŁUGA VERSIONING-u DANYCH
+    /// @details DATA VERSIONING SUPPORT
+    //----------------------------------
+    /// @{
 
-/// Ustalanie informacji o wersji danych.
+    /// Ustalanie informacji o wersji danych.
     virtual
     void new_data_version(int change = 1, unsigned increment = 1);
 
-/// Uaktualnia wersje wg podanego źródła i wtedy zwraca 1.
-/// Jeśli wersje są zgodne, to zwraca 0.
+    /// Uaktualnia wersje wg podanego źródła i wtedy zwraca 1.
+    /// Jeśli wersje są zgodne, to zwraca 0.
     virtual
     int update_version_from(data_source_base *Source);
 
-/// Numer wersji danych.
+    /// Numer wersji danych.
     virtual
     long data_version()
     { return cur_step; }
 
-/// Podaje, od ilu wersji dane się nie zmieniły.
+    /// Podaje, od ilu wersji dane się nie zmieniły.
     virtual
     long how_old_data()
     { return no_change; }
 
-/// Restartuje "versioning" źródeł. W wypadku pod-źródeł powinna być reimplementacja!
+    /// Restartuje "versioning" źródeł. W wypadku pod-źródeł powinna być reimplementacja!
     virtual
     void restart_counting()
-    {
-        cur_step = -1;
-        no_change = 0;
-    }
+    { cur_step = -1; no_change = 0; }
+    /// @}
 
-// OBSŁUGA GEOMETRII SERII
-//----------------------------------------
+    /// @name OBSŁUGA GEOMETRII SERII
+    /// @details SERIES GEOMETRY SUPPORT
+    //----------------------------------
+    /// @{
 
-/// Zwraca wskaźnik do obowiązującej geometrii danych.
-/// `NULL` oznacza dane nie-zgeometryzowane, wyłącznie z dostępem sukcesywnym.
+    /// Zwraca wskaźnik do obowiązującej geometrii danych.
+    /// `NULL` oznacza dane nie-zgeometryzowane, wyłącznie z dostępem sukcesywnym.
     virtual
-    geometry_base *getgeometry()
+    geometry_base *get_geometry()
     { return NULL; }
 
-/// Przetwarza index uzyskany z geometrii na wartość z serii.
-/// O ile jest możliwe czytanie w losowej kolejności, które domyślnie NIE JEST MOŻLIWE i powoduje błąd wykonania.
+    /// Przetwarza index uzyskany z geometrii na wartość z serii.
+    /// O ile jest geometria i możliwe jest czytanie w losowej kolejności
+    /// , które domyślnie NIE JEST MOŻLIWE i powoduje błąd wykonania.
     virtual
     double get(size_t index_from_geometry);
+    /// @}
 
-// PURE virtual INTERFACE - need to be defined:
-//---------------------------------------------
+    /// @name METODY CZYSTO WIRTUALNE — DO ZDEFINIOWANIA
+    /// @details PURE virtual INTERFACE — need to be defined
+    //------------------------------------------------------
+    /// @{
 
-/// Musi zwracać nazwę serii albo pusty tekst "" - NIE NULL.
+    /// Musi zwracać nazwę serii albo pusty tekst "" — NIE NULL.
+    /// Może nie być tym samym tekstem, które zwróciłoby `title_util`, zazwyczaj używane w klasach potomnych.
     virtual
     const char *name() = 0;
 
-/// Musi ustawić na parametrach, ile jest elementów, jaka jest wartość minimalna i jaka maksymalna.
+    /// Musi ustawić na parametrach, ile jest elementów, jaka jest wartość minimalna i jaka maksymalna.
     virtual
     void bounds(size_t &N, double &min, double &max) = 0;
 
-/// Umożliwia czytanie sukcesywne od początku.
-/// Wynik `iteratorh` jest uchwytem dla `iterator`.
+    /// Umożliwia czytanie od początku poprzez iterator.
+    /// @return `iteratorh` jest uchwytem dla jakiegoś obiektu `iterator`.
+    /// @note Implementacja iteratora całkowicie zależy od implementatora i nie trzeba w niej grzebać ani nawet zaglądać.
     virtual
     iteratorh reset() = 0;
 
-/// Daje następną z N liczb. Po N-tej zwalnia iterator.
+    /// Daje następną z N liczb na podstawie iteratora. Po N-tej zwalnia iterator.
     virtual
     double get(iteratorh &) = 0;
 
-/// Zwalnia iterator, jeśli nie został zwolniony przez `get(N)`.
+    /// Zwalnia/niszczy iterator. O ile nie został zwolniony przez końcowe wywołanie `get`.
     virtual
     void close(iteratorh &) = 0;
+    /// @}
 
-//CONSTRUCTION/DESTRUCTION:
-//-------------------------
+    /// @name CONSTRUCTION/DESTRUCTION
+    //--------------------------------
+    /// @{
 
-/// Constructor.
+    /// Constructor.
     data_source_base() :
             my_geometry(NULL), local_geometry(false),
             cur_step(-1), no_change(0),
-            ymin(0), ymax(0),
+            y_min(0), y_max(0),
             miss(default_missing<double>())
     {}
 
-/// Destructor.
-    virtual ~data_source_base()
-    = default;
-
+    /// Destructor. Wymuszenie wirtualności.
+    virtual ~data_source_base() = default;
+    /// @}
 };
 
 // ACCESSORS INLINE IMPLEMENTATIONS:
 //----------------------------------
 
-// Ustala "missing value" takie jakie chce user.
+// Ustala "missing value" takie, jakie chce użytkownik klasy.
 inline
 void data_source_base::set_missing(double i_miss)
 {
     miss = i_miss;
 }
 
-// Sprawdzanie,, czy"get()" nie dało "missing".
+// Sprawdzanie, czy"get()" nie dało "missing".
 inline
 int data_source_base::is_missing(double val) const
 {
     if(val == miss)
     {
         return 1;
-    } else
+    }
+    else
     {
         return 0;
     }
 }
 
 // Zapewnia właściwą inicjację i obsługę wartości "miss"
-// Ale, czyto "really" potrzebne?
+// Ale, czy to "really" potrzebne?
 inline
 double data_source_base::get_missing()
 {
@@ -199,11 +216,11 @@ double data_source_base::get_missing()
 // Ustala arbitralne minimum i maksimum, żeby uniknąć próbkowania (dedukowania).
 // Podanie równych włącza znowu próbkowanie.
 inline
-void data_source_base::setminmax(double i_min, double i_max)
+void data_source_base::set_min_max(double i_min, double i_max)
 {
     assert(i_min <= i_max); //Podanie równych włącza znowu próbkowanie (dedukcję)!!!
-    ymin = i_min;
-    ymax = i_max;
+    y_min = i_min;
+    y_max = i_max;
 }
 
 
@@ -248,7 +265,7 @@ inline
 double data_source_base::get(size_t index_from_geometry)
 {
     assert(!"Random access get() not implemented");
-    return miss;
+    return miss; //To jest używane w kompilacji Release!!!
 }
 
 #pragma clang diagnostic pop

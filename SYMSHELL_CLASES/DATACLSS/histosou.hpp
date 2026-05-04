@@ -63,8 +63,8 @@ protected:
             /*//.....ATRAPA.....
             for(...
                 arra[i]=smin+i;
-            ymin=smin;
-            ymax=smax;
+            y_min=smin;
+            y_max=smax;
             */
 
             //PĘTLA ZLICZANIA
@@ -74,7 +74,7 @@ protected:
             for(i = 0; i < SN; i++)
             {
                 double pom = this->Source->get(Ind);
-                if(!this->FromSourceIsMissing(pom))
+                if(!this->from_source_is_missing_(pom))
                 {
                     Licz++;
                     pom -= smin; //Przesuniecie
@@ -86,8 +86,8 @@ protected:
             this->Source->close(Ind);
 
             //PĘTLA MIN/MAX
-            this->ymin = DBL_MAX;
-            this->ymax = 0;
+            this->y_min = DBL_MAX;
+            this->y_max = 0;
 
             size_t licz_klasy = 0;
             size_t minp = 0, maxp = 0;
@@ -99,15 +99,15 @@ protected:
                 if(pom > 0)
                     licz_klasy++;
 
-                if(pom > this->ymax)
+                if(pom > this->y_max)
                 {
-                    this->ymax = pom;
+                    this->y_max = pom;
                     maxp = i;
                 }
 
-                if(pom < this->ymin)
+                if(pom < this->y_min)
                 {
-                    this->ymin = pom;
+                    this->y_min = pom;
                     minp = i;
                 }
 
@@ -121,7 +121,7 @@ protected:
 
             if(basics_::table[6] != NULL)
             {
-                table[6]->change_val(this->ymax);
+                table[6]->change_val(this->y_max);
             }
 
             if(table[7] != NULL)
@@ -159,7 +159,7 @@ protected:
         if(table[6] != NULL)
             table[6]->change_val(table[6]->get_missing());
         arra.dispose();
-        basics_::ymin = basics_::ymax = 0;
+        basics_::y_min = basics_::y_max = 0;
         return 1;
     }
 
@@ -205,8 +205,8 @@ public:
 // Methods
     size_t get_size()
     {
-        basics_::check_version(); //Uaktualnia też wersje pod-źródła, jeśli trzeba
-        _calculate(); //Sprawdza,, czynie trzeba policzyć i ewentualnie liczy
+        basics_::check_version_(); //Uaktualnia też wersje pod-źródła, jeśli trzeba
+        _calculate(); //Sprawdza, czynie trzeba policzyć i ewentualnie liczy
         return arra.get_size();
     }
 
@@ -224,7 +224,7 @@ public:
     iteratorh reset()
 //Umozliwia czytanie od poczatku
     {
-        basics_::check_version(); //Uaktualnia tez wersje podzrodla, jeśli trzeba
+        basics_::check_version_(); //Uaktualnia tez wersje podzrodla, jeśli trzeba
         _calculate(); //Sprawdza, czynie trzeba policzyc i ewentualnie liczy
         return (iteratorh) 1;
     }
@@ -237,11 +237,11 @@ public:
     void bounds(size_t &num, double &min, double &max)
 //Ile elementów,wartość minimalna i maksymalna
     {
-        basics_::check_version(); //Uaktualnia też wersje podzrodla, jeśli trzeba
+        basics_::check_version_(); //Uaktualnia też wersje podzrodla, jeśli trzeba
         _calculate(); //Sprawdza, czynie trzeba policzyc i ewentualnie liczy
         num = get_size();
-        min = basics_::ymin;
-        max = basics_::ymax;
+        min = basics_::y_min;
+        max = basics_::y_max;
     }
 
     double get(iteratorh &ptr_to_iterator)
@@ -253,8 +253,8 @@ public:
 
     double get(size_t index) //Przetwarza index uzyskany z geometrii
     { //na wartość z serii, o ile jest możliwe czytanie losowe
-        basics_::check_version(); //Uaktualnia tez wersje podzrodla, jeśli trzeba
-        _calculate(); //Sprawdza,, czynie trzeba policzyc i ewentualnie liczy
+        basics_::check_version_(); //Uaktualnia tez wersje podzrodla, jeśli trzeba
+        _calculate(); //Sprawdza, czynie trzeba policzyc i ewentualnie liczy
         assert(index < get_size());
         return arra[index];
     }

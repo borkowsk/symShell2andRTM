@@ -110,7 +110,7 @@ public:
             return val2;
     }
 
-    virtual geometry_base *getgeometry()
+    virtual geometry_base *get_geometry()
 //Powinien zwracać wskaźnik do obowiazujacej geometrii danych
 //Oba źródła musz mieć ta sama geometrie
     {

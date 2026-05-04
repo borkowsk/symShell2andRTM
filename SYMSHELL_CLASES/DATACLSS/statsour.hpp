@@ -56,7 +56,7 @@ protected:
             for(i = 0; i < N; i++)
             {
                 double pom = this->Source->get(Ind);
-                if(!filter_source_base::FromSourceIsMissing(pom))
+                if(!filter_source_base::from_source_is_missing_(pom))
                 {
                     licz++;
                     if(pom > max)

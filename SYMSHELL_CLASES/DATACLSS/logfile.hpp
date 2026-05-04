@@ -85,7 +85,7 @@ public:
 //Wirtualny destruktor
     ~logfile();
 
-//Akcesor strumienia - na wypadek koniecznosci dopisania czegos - używac ostroznie!
+//Akcesor strumienia — na wypadek koniecznosci dopisania czegos — używac ostroznie!
     ostream &GetStream()
     { return log_stream; }
 
@@ -102,7 +102,7 @@ public:
 //to wypluwa tez wiersz nagłówków.
     int try_writing();
 
-//Inteligentnie "Zeruje" (tzn -1!!!) wersje źródeł - wszystkich niewyzerowanych,
+//Inteligentnie "Zeruje" (tzn -1!!!) wersje źródeł — wszystkich niewyzerowanych,
 //ale ze wzgledu na te którymi nie zarządza właściwy menager(np podzrodla)
     void restart_data_version();
 };

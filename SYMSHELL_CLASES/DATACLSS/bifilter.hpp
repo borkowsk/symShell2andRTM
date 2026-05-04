@@ -17,7 +17,7 @@ protected:
     data_source_base *Source2;
     double source2_miss;
 
-    virtual int check_version()
+    virtual int check_version_()
     //Sprawdza, czyi jak zmienily się dane w zrodlach
     //W filtrach cache'ujacych może powodowac oproznienie
     //lub ponowne napełnienie. Zwraca 1, jeśli zmienilo wersje.
@@ -81,7 +81,7 @@ public:
 //Sposob tworzenia nazwy musi być przedefiniowany
     virtual const char *name(); //Musi zwracać nazwe serii albo "" - NIE NULL!!!
 
-    virtual geometry_base *getgeometry()
+    virtual geometry_base *get_geometry()
 //Powinien zwracać wskaźnik do obowiazujacej geometrii danych
 //domyślnie nie można ustalic geometrii bo są dwie alternatywne,
 //ale klasy potomne mogą zadecydowac ktora wziac.
@@ -96,7 +96,7 @@ public:
     //Ile elementów,wartość minimalna i maksymalna
     //Być może wartości te trzeba przekonwertowac
     {
-        check_version();
+        check_version_();
 
         size_t N1 = 0, N2 = 0;
         double min1 = 0, min2 = 0, max1 = 0, max2 = 0;
@@ -109,7 +109,7 @@ public:
     virtual iteratorh reset()
     //Umozliwia czytanie od poczatku - iteratorh jest uchwytem iteratora zlozonego
     {
-        check_version();  //Żeby źródła mialo szanse na update
+        check_version_();  //Żeby źródła mialo szanse na update
 
         //Tworzenie zlozonego indeksu:
         indexes *pom = new indexes(Source->reset(), Source2->reset());

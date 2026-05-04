@@ -48,13 +48,13 @@ protected:
 
             //PETLA ZLICZANIA
             iteratorh Ind = base_class::Source->reset();
-            base_class::source_miss = base_class::Source->get_missing(); //Trzeba to zrobi� żeby FromSourceIsMissing działalo poprawnie!
+            base_class::source_miss = base_class::Source->get_missing(); //Trzeba to zrobi� żeby from_source_is_missing_ działalo poprawnie!
 
             size_t Licz = 0, Poza = 0;
             for(size_t j = 0; j < SN; j++)
             {
                 double pom = base_class::Source->get(Ind);
-                if(!base_class::FromSourceIsMissing(pom))
+                if(!base_class::from_source_is_missing_(pom))
                 {
                     if(FixMin <= pom && pom < FixMax)
                     {
@@ -81,8 +81,8 @@ protected:
             if(Licz > 0)	//Jest cokolwiek do liczenia
             {
                 size_t minp = 0;
-                base_class::ymin = DBL_MAX;
-                base_class::ymax = 0;
+                base_class::y_min = DBL_MAX;
+                base_class::y_max = 0;
 
                 for(size_t i = 0; i < Num; i++)
                 {
@@ -91,15 +91,15 @@ protected:
                     if(pom > 0)
                         licz_klasy++;
 
-                    if(pom > base_class::ymax)
+                    if(pom > base_class::y_max)
                     {
-                        base_class::ymax = pom;
+                        base_class::y_max = pom;
                         maxp = i;
                     }
 
-                    if(pom < base_class::ymin)
+                    if(pom < base_class::y_min)
                     {
-                        base_class::ymin = pom;
+                        base_class::y_min = pom;
                         minp = i;
                     }
 
@@ -116,7 +116,7 @@ protected:
             //AKTUALIZACJA AKTYWNYCH ŹRÓDEŁ STATYSTYCZNYCH
             if(base_class::table[6] != NULL)
             {
-                base_class::table[6]->change_val(base_class::ymax);
+                base_class::table[6]->change_val(base_class::y_max);
             }
 
             if(base_class::table[7] != NULL)
@@ -171,7 +171,7 @@ protected:
         if(base_class::table[6] != NULL)
             base_class::table[6]->change_val(base_class::table[6]->get_missing());
         arra.dispose();
-        base_class::ymin = base_class::ymax = 0;
+        base_class::y_min = base_class::y_max = 0;
         return 1;
     }
 
@@ -230,7 +230,7 @@ public:
     {
         wb_pchar bufor(strlen(format) + 2 * 100); //Z za dużym zapasem jak na dwa integery, ale...
         bufor.prn(format, Num, "%s", FixMin, FixMax);
-        basic_statistics_source<DATA_SOURCE>::settitle(bufor.get());
+        basic_statistics_source<DATA_SOURCE>::set_title(bufor.get());
         arra.alloc(Num); //Liczba klas zafiksowana
     }
 
@@ -240,7 +240,7 @@ public:
 // Methods
     size_t get_size()
     {
-        base_class::check_version(); //Uaktualnia tez wersje podzrodla, jeśli trzeba
+        base_class::check_version_(); //Uaktualnia tez wersje podzrodla, jeśli trzeba
         _calculate(); //Sprawdza, czynie trzeba policzyc i ewentualnie liczy
         return arra.get_size();
     }
@@ -260,11 +260,11 @@ public:
     void bounds(size_t &num, double &min, double &max)
 //Ile elementów,wartość minimalna i maksymalna
     {
-        base_class::check_version();//Uaktualnia tez wersje podzrodla jeśli trzeba
+        base_class::check_version_();//Uaktualnia tez wersje podzrodla jeśli trzeba
         _calculate();//Sprawdza, czynie trzeba policzyc i ewentualnie liczy
         num = get_size();
-        min = base_class::ymin;
-        max = base_class::ymax;
+        min = base_class::y_min;
+        max = base_class::y_max;
     }
 
     iteratorh reset();//Umozliwia czytanie po iteratorze od poczatku
@@ -293,7 +293,7 @@ template<class DATA_SOURCE>
 inline
 double fix_histogram_source<DATA_SOURCE>::get(size_t index)
 { //na wartość z serii, o ile jest możliwe czytanie losowe
-    base_class::check_version();//Uaktualnia tez wersje podzrodla jeśli trzeba
+    base_class::check_version_();//Uaktualnia tez wersje podzrodla jeśli trzeba
     _calculate();//Sprawdza, czynie trzeba policzyc i ewentualnie liczy
     assert(index < get_size());
     return arra[index];
@@ -321,7 +321,7 @@ template<class DATA_SOURCE>
 inline
 iteratorh fix_histogram_source<DATA_SOURCE>::reset()	//Umozliwia czytanie po iteratorze od poczatku
 {
-    base_class::check_version();//Uaktualnia tez wersje podzrodla jeśli trzeba
+    base_class::check_version_();//Uaktualnia tez wersje podzrodla jeśli trzeba
     _calculate();//Sprawdza, czynie trzeba policzyc i ewentualnie liczy
     return (iteratorh) 1;
 }

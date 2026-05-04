@@ -173,7 +173,7 @@ public:
     //int	save(ostream& script); //Zapisuje się w formacie skryptu łączenia danych.
 
     /// Ustalanie informacji o wersji obsługiwanych danych.
-    /// Pierwsza serie na sile, potem w pętli najpierw sprawdza,, czysamo się zmieni,
+    /// Pierwsza serie na sile, potem w pętli najpierw sprawdza, czysamo się zmieni,
     /// , jeśli się nie zgadza, to wymusza.
     void new_data_version(int change = 1, unsigned increment = 1);
 

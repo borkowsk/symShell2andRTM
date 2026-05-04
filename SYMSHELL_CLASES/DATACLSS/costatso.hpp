@@ -12,7 +12,7 @@
 #include "bifilter.hpp"
 #include "sourmngr.hpp"
 
-//KLasa liczaca podstawowe parametry statystyczne dla dwu źródeł - np korelacje
+//KLasa liczaca podstawowe parametry statystyczne dla dwu źródeł — np korelacje
 //Parametry są podawne w arbitralnej kolejnosci lub poprzez jednowartosciowe
 //zrodła pośrednie.
 //template<class DATA_SOURCE1,class DATA_SOURCE2>
@@ -40,21 +40,21 @@ protected:
         //-----------------------------------------------------------------
         void bounds(size_t &N, double &min, double &max)
         {
-            Father->check_version(); //Uaktualnia tez wersje podzrodla, jeśli trzeba
+            Father->check_version_(); //Uaktualnia tez wersje podzrodla, jeśli trzeba
             Father->_calculate(); //Sprawdza, czynie trzeba policzyc u ojca i ewentualnie liczy
             scalar_source<double>::bounds(N, min, max);
         }
 
         iteratorh reset()
         {
-            Father->check_version(); //Uaktualnia tez wersje podzrodla, jeśli trzeba
+            Father->check_version_(); //Uaktualnia tez wersje podzrodla, jeśli trzeba
             Father->_calculate(); //Sprawdza, czynie trzeba policzyc i ewentualnie liczy
             return scalar_source<double>::reset();
         }
 
         double get()
         {
-            Father->check_version(); //Uaktualnia tez wersje podzrodla, jeśli trzeba
+            Father->check_version_(); //Uaktualnia tez wersje podzrodla, jeśli trzeba
             Father->_calculate(); //Sprawdza, czynie trzeba policzyc i ewentualnie liczy
             return scalar_source<double>::get();
         }
@@ -72,12 +72,12 @@ private:
 
 protected:
     wb_dynarray<scalar_source<double> *> table; //Tablica źródeł jednowartosciowych
-    int check_version()
+    int check_version_()
     //Nadpisuje virtualna metodę klasy macierzystej:
     //Sprawdza, czyzmienily się dane w zrodle
     //i znakuje koniecznosc liczenia aktualnej wartości w metodzie _calculate()
     {
-        int ret = bi_filter_source_base::check_version();
+        int ret = bi_filter_source_base::check_version_();
         if(ret == 1)	//Nowe dane
         {
             need_calculation = 1; //Znacznik liczenia
@@ -282,7 +282,7 @@ public:
 
     void bounds(size_t &N, double &min, double &max)
     {
-        check_version(); //Tu może być update
+        check_version_(); //Tu może być update
         //bi_filter_source_base::bounds(N,min,max);
         min = max = 0;
         N = 0; //Nie można siegac do tych danych bezposrednio jako do seri
@@ -290,7 +290,7 @@ public:
 
     iteratorh reset()	//Nie ma możliwości bezposredniego czytania
     {
-        check_version();
+        check_version_();
         return NULL;
     }
 

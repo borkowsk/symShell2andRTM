@@ -27,7 +27,7 @@ protected:
 
         unsigned testowanie = 0; //Licznik wartości centralnych
         double Stress = basics_::miss;      //Suma stresow
-        geometry_base *MyGeom = basics_::Source->getgeometry(); //Wskaźnik do geometrii
+        geometry_base *MyGeom = basics_::Source->get_geometry(); //Wskaźnik do geometrii
 
         if(MyGeom != NULL)
         {//Jest znana geometriia - da się policzyc

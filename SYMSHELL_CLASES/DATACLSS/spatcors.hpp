@@ -43,7 +43,7 @@ protected:
         if(Min == Max || HowManyCells < 2)
             return false; //W kazdym razie nie ma czego liczyc
 
-        geometry_base *MyGeom = this->Source->getgeometry(); //Wskaźnik do geometrii
+        geometry_base *MyGeom = this->Source->get_geometry(); //Wskaźnik do geometrii
         for(unsigned int i = 0; i < HowManyCells; i++) //Dla kazdej z komorek
         {
             double CenterVal = this->Source->get(i);         //Uzyskujemy wartość dla centralnego
@@ -59,7 +59,7 @@ protected:
 
                 double dist = MyGeom->get_distance(i, j);
                 size_t d = size_t(dist);
-                assert(d < NN); //Index kategori odleglosci - w sposob uproszczony
+                assert(d < NN); //Index kategori odleglosci — w sposob uproszczony
 
                 if(CenterVal == PeryfVal)
                     zgodne[d]++;
@@ -96,7 +96,7 @@ protected:
             HowManyDrawings *= RndMult; //Co Najmniej tyle losowan co obiektów w serii, ale można tez powielic liczbe losowan pare razy
         }
 
-        geometry_base *MyGeom = this->Source->getgeometry(); //Wskaźnik do geometrii
+        geometry_base *MyGeom = this->Source->get_geometry(); //Wskaźnik do geometrii
         iteratorh RndIter = MyGeom->make_random_global_iterator(HowManyDrawings); //Alokujemy iterator
         while(RndIter)
         {
@@ -106,14 +106,14 @@ protected:
             if(this->Source->is_missing(CenterVal))    // Sprawdzamy, czynie jest miss.
                 continue;                        // bo wtedy robic dalej by�oby bez sensu.
 
-            // Alokujemy iterator sasiedztwa - o różnym rozmiarze, żeby wyrównac prawdopodobienstwa poszczególnych odleglosci - ale to nietrywialne
+            // Alokujemy iterator sasiedztwa — o różnym rozmiarze, żeby wyrównac prawdopodobienstwa poszczególnych odleglosci — ale to nietrywialne
 
             //size_t radius=size_t(   (1-TheRandG.DRand()*TheRandG.DRand()*TheRandG.DRand() ) * NN   );       //Rozklad trafien wychodzi jednomodalny z maksimum w srodku
             //size_t radius=size_t(TheRandG.DRand()*NN/2)+((1-TheRandG.DRand()*TheRandG.DRand())*NN/2);       //tu podobnie
             //size_t radius=size_t(TheRandG.Random(NN);                                                       //A tu niemal liniowy spadek trafien wraz z odlegloscia
             //size_t radius=NN;                                                                               //Jednomodalny z 0 przy odleglosci 1
             size_t radius = (TheRandG.DRand() > 0.5?size_t(TheRandG.Random(NN))
-                                                   :NN);                         //Troche lepiej, ale nie idealnie - ma�o dla odleglosci najwiekszych
+                                                   :NN);                         //Troche lepiej, ale nie idealnie — ma�o dla odleglosci najwiekszych
 
             iteratorh Neigh = MyGeom->make_random_neighbour_iterator(index, radius,
                                                                      1);  //Po ilus (1,2,?) sasiadow każdego wylosowanego
@@ -129,7 +129,7 @@ protected:
 
                 double dist = MyGeom->get_distance(index, index2);
                 size_t i = size_t(dist);
-                assert(i < NN);   //Index kategori odleglosci - w sposob uproszczony
+                assert(i < NN);   //Index kategori odleglosci — w sposob uproszczony
 
                 if(CenterVal == PeryfVal)
                     zgodne[i]++;
@@ -152,7 +152,7 @@ protected:
         //OBLICZANIE KORELACJI DLA RÓŻNYCH ODLEGLOSCI
         assert(N == -1);  //Tylko tryb "integerowy" - tyle klas ile liczb calkowitych
         // miesci się w maksymalnej odleglosci
-        geometry_base *MyGeom = this->Source->getgeometry(); //Wskaźnik do geometrii
+        geometry_base *MyGeom = this->Source->get_geometry(); //Wskaźnik do geometrii
 
         if(MyGeom != NULL && MyGeom->get_dimension() > 0) //Musi być dostepna realna i co najmniej jednowymiarowa
             //geometria symulacji - inaczej dupa blada
@@ -190,8 +190,8 @@ protected:
             }
 
             //OBLICZANIE FUNKCJI KORELACJI I SZUKANIE PIERWSZEGO PIERWIASTKA FUNKCJI KORELACJI
-            this->ymin = DBL_MAX;
-            this->ymax = -DBL_MAX;
+            this->y_min = DBL_MAX;
+            this->y_max = -DBL_MAX;
             for(unsigned int i = 0; i < NN; i++)
             {
                 //double pom=arra[i]=zgodne[i]+niezgodne[i]; //DEBUGING ROZKLADU TRAFIEN
@@ -204,11 +204,11 @@ protected:
                     if(pierwiastek == NN && pom <= 0)
                         pierwiastek = i; //Pierwsza odleglosc z korelacja ponizej 0
 
-                    if(pom < this->ymin)
-                        this->ymin = pom;
+                    if(pom < this->y_min)
+                        this->y_min = pom;
 
-                    if(pom > this->ymax)
-                        this->ymax = pom;
+                    if(pom > this->y_max)
+                        this->y_max = pom;
 
                     arra[i] = pom;
                 } else
@@ -219,8 +219,8 @@ protected:
             }
 
             //if()
-            this->ymin = -1;
-            this->ymax = 1; //Jeśli nie interesuje nas max i min
+            this->y_min = -1;
+            this->y_max = 1; //Jeśli nie interesuje nas max i min
 
             //ZAPAMIETANIE WYNIKU
             if(this->table[0] != NULL)
@@ -239,7 +239,7 @@ protected:
         zgodne.dispose();
         niezgodne.dispose();
 
-        this->ymin = this->ymax = 0;
+        this->y_min = this->y_max = 0;
         return 1;
     }
 
@@ -267,7 +267,7 @@ public:
 //--------------------------------------------------------------------
     size_t get_size()
     {
-        this->check_version(); //Uaktualnia tez wersje podzrodla, jeśli trzeba
+        this->check_version_(); //Uaktualnia tez wersje podzrodla, jeśli trzeba
         _calculate(); //Sprawdza, czynie trzeba policzyc i ewentualnie liczy
         return arra.get_size();
     }
@@ -282,7 +282,7 @@ public:
     iteratorh reset()
 //Umozliwia czytanie od poczatku
     {
-        this->check_version(); //Uaktualnia tez wersje podzrodla, jeśli trzeba
+        this->check_version_(); //Uaktualnia tez wersje podzrodla, jeśli trzeba
         _calculate(); //Sprawdza, czynie trzeba policzyc i ewentualnie liczy
         return (iteratorh) 1;
     }
@@ -295,11 +295,11 @@ public:
     void bounds(size_t &num, double &min, double &max)
 //Ile elementów,wartość minimalna i maksymalna
     {
-        this->check_version(); //Uaktualnia tez wersje podzrodla, jeśli trzeba
+        this->check_version_(); //Uaktualnia tez wersje podzrodla, jeśli trzeba
         _calculate();//Sprawdza, czynie trzeba policzyc i ewentualnie liczy
         num = get_size();
-        min = this->ymin;
-        max = this->ymax;
+        min = this->y_min;
+        max = this->y_max;
     }
 
     double get(iteratorh &ptr_to_iterator)
@@ -311,7 +311,7 @@ public:
 
     double get(size_t index)	//Przetwarza index uzyskany z geometrii
     { //na wartość z serii, o ile jest możliwe czytanie losowe
-        this->check_version();//Uaktualnia tez wersje podzrodla, jeśli trzeba
+        this->check_version_();//Uaktualnia tez wersje podzrodla, jeśli trzeba
         _calculate();//Sprawdza, czynie trzeba policzyc i ewentualnie liczy
         assert(index < get_size());
         return arra[index];

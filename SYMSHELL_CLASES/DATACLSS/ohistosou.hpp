@@ -10,7 +10,7 @@
 
 /// @brief Filtr liczący liczebność klas serii i pochodne statystyki.
 /// @details
-///     WERSJA PIERWOTNA - LICZY TYLKO HISTOGRAMY CAŁKOWITOLICZBOWE
+///     WERSJA PIERWOTNA — LICZY TYLKO HISTOGRAMY CAŁKOWITOLICZBOWE
 ///     Z RUCHOMĄ LICZBĄ KLAS, więc nie jest przystosowana do współpracy z
 ///     plikiem logu symulacji.
 template<class DATA_SOURCE>
@@ -55,7 +55,7 @@ protected:
                 goto ERROR;
 
             arra.alloc(KL);
-            if(!arra.IsOK()) //błąd alokacji - za malo/za duzo?
+            if(!arra.IsOK()) //błąd alokacji — za malo/za duzo?
                 goto ERROR;
 
             for(i = 0; i < KL; i++)

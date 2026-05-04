@@ -57,13 +57,13 @@ protected:
 
             //PETLA ZLICZANIA
             iteratorh Ind = this->Source->reset();
-            this->source_miss = this->Source->get_missing(); //Trzeba to zrobić żeby FromSourceIsMissing działalo poprawnie!
+            this->source_miss = this->Source->get_missing(); //Trzeba to zrobić żeby from_source_is_missing_ działalo poprawnie!
 
             size_t Licz = 0, Poza = 0;
             for(size_t j = 0; j < SN; j++)
             {
                 double pom = this->Source->get(Ind);
-                if(!filter_source_base::FromSourceIsMissing(pom))
+                if(!filter_source_base::from_source_is_missing_(pom))
                 {
                     pom = std::trunc(pom); //Wlasne trunc?
 
@@ -86,8 +86,8 @@ protected:
             if(Licz > 0)	//Jest cokolwiek do liczenia
             {
                 size_t minp = 0;
-                this->ymin = DBL_MAX;
-                this->ymax = 0;
+                this->y_min = DBL_MAX;
+                this->y_max = 0;
 
                 for(size_t i = 0; i < Num; i++)
                 {
@@ -96,15 +96,15 @@ protected:
                     if(pom > 0)
                         licz_klasy++;
 
-                    if(pom > this->ymax)
+                    if(pom > this->y_max)
                     {
-                        this->ymax = pom;
+                        this->y_max = pom;
                         maxp = i;
                     }
 
-                    if(pom < this->ymin)
+                    if(pom < this->y_min)
                     {
-                        this->ymin = pom;
+                        this->y_min = pom;
                         minp = i;
                     }
 
@@ -121,7 +121,7 @@ protected:
             //AKTUALIZACJA AKTYWNYCH ŹRÓDEŁ STATYSTYCZNYCH
             if(this->table[6] != NULL)
             {
-                this->table[6]->change_val(this->ymax);
+                this->table[6]->change_val(this->y_max);
             }
 
             if(this->table[7] != NULL)
@@ -176,7 +176,7 @@ protected:
         if(this->table[6] != NULL)
             this->table[6]->change_val(this->table[6]->get_missing());
         arra.dispose();
-        this->ymin = this->ymax = 0;
+        this->y_min = this->y_max = 0;
         return 1;
     }
 
@@ -231,7 +231,7 @@ public:
     {
         wb_pchar bufor(strlen(format) + 2 * 100); //Z za dużym zapasem jak na dwa integery, ale...
         bufor.prn(format, "%s", Sta, Sta + Num - 1);
-        basic_statistics_source<DATA_SOURCE>::settitle(bufor.get());
+        basic_statistics_source<DATA_SOURCE>::set_title(bufor.get());
         arra.alloc(Num); //Liczba klas zafiksowana
     }
 
@@ -241,7 +241,7 @@ public:
 // Methods
     size_t get_size()
     {
-        this->check_version(); //Uaktualnia tez wersje podzrodla, jeśli trzeba
+        this->check_version_(); //Uaktualnia tez wersje podzrodla, jeśli trzeba
         _calculate(); //Sprawdza, czynie trzeba policzyc i ewentualnie liczy
         return arra.get_size();
     }
@@ -261,7 +261,7 @@ public:
     iteratorh reset()
 //Umozliwia czytanie od poczatku
     {
-        this->check_version(); //Uaktualnia tez wersje podzrodla, jeśli trzeba
+        this->check_version_(); //Uaktualnia tez wersje podzrodla, jeśli trzeba
         _calculate();//Sprawdza, czynie trzeba policzyc i ewentualnie liczy
         return (iteratorh) 1;
     }
@@ -274,11 +274,11 @@ public:
     void bounds(size_t &num, double &min, double &max)
 //Ile elementów,wartość minimalna i maksymalna
     {
-        this->check_version();//Uaktualnia tez wersje podzrodla, jeśli trzeba
+        this->check_version_();//Uaktualnia tez wersje podzrodla, jeśli trzeba
         _calculate();//Sprawdza, czynie trzeba policzyc i ewentualnie liczy
         num = get_size();
-        min = this->ymin;
-        max = this->ymax;
+        min = this->y_min;
+        max = this->y_max;
     }
 
     double get(iteratorh &ptr_to_iterator)
@@ -290,7 +290,7 @@ public:
 
     double get(size_t index)	//Przetwarza index uzyskany z geometrii
     { //na wartość z serii, o ile jest możliwe czytanie losowe
-        this->check_version();//Uaktualnia tez wersje podzrodla, jeśli trzeba
+        this->check_version_();//Uaktualnia tez wersje podzrodla, jeśli trzeba
         _calculate();//Sprawdza, czynie trzeba policzyc i ewentualnie liczy
         assert(index < get_size());
         return arra[index];

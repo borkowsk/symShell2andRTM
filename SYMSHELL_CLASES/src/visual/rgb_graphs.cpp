@@ -115,11 +115,11 @@ const geometry_base* true_color_carpet_graph::read_dim(size_t& aa,size_t& bb)
 	int posit=0;
 
 	if(data[0])
-		MyGeometry[posit++]=data[0]->getgeometry(); 
+		MyGeometry[posit++]= data[0]->get_geometry();
 	if(data[1])
-		MyGeometry[posit++]=data[1]->getgeometry();
+		MyGeometry[posit++]= data[1]->get_geometry();
 	if(data[2])
-		MyGeometry[posit++]=data[2]->getgeometry();
+		MyGeometry[posit++]= data[2]->get_geometry();
 
     if( MyGeometry[0]==nullptr || //Gdyby nie bylo wcale albo byla wadliwa
 		MyGeometry[0]->get_dimension()<2 )
@@ -554,7 +554,7 @@ Hoffs(iHoffs),Voffs(iVoffs)
 //-----------------------------------------------------
 const geometry_base* true_color_manhattan_graph::read_dim(size_t& aa,size_t& bb)
 {
-	geometry_base* MyGeometry=datas->getgeometry();
+	geometry_base* MyGeometry= datas->get_geometry();
     if( MyGeometry==nullptr ||
 		MyGeometry->get_dimension()<2 )
 	{
@@ -571,7 +571,7 @@ const geometry_base* true_color_manhattan_graph::read_dim(size_t& aa,size_t& bb)
 		//Sprawdzenie czy serie sie nie zgadzaja - czy maja dokladnie ta sama geometrie
         if(colors[0]!=nullptr)
 		{
-			geometry_base* ColGeom=colors[0]->getgeometry();
+			geometry_base* ColGeom= colors[0]->get_geometry();
 			if(*MyGeometry!=*ColGeom)
 			{//jesli nie to pozbywany sie skladowej
 				if(c_menage[0]) delete colors[0];
@@ -581,7 +581,7 @@ const geometry_base* true_color_manhattan_graph::read_dim(size_t& aa,size_t& bb)
 		}
         if(colors[1]!=nullptr)
 		{
-			geometry_base* ColGeom=colors[1]->getgeometry();
+			geometry_base* ColGeom= colors[1]->get_geometry();
 			if(*MyGeometry!=*ColGeom)
 			{//jesli nie to pozbywany sie skladowej
 				if(c_menage[1]) delete colors[1];
@@ -591,7 +591,7 @@ const geometry_base* true_color_manhattan_graph::read_dim(size_t& aa,size_t& bb)
 		}
         if(colors[2]!=nullptr)
 		{
-			geometry_base* ColGeom=colors[2]->getgeometry();
+			geometry_base* ColGeom= colors[2]->get_geometry();
 			if(*MyGeometry!=*ColGeom)
 			{//jesli nie to pozbywany sie skladowej
 				if(c_menage[2]) delete colors[2];

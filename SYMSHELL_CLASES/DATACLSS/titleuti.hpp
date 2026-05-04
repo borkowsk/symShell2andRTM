@@ -3,11 +3,15 @@
 /// @date 2026-05-04 (modified)
 // ********************************************************************************************************************
 //
-#ifndef __TITLEUTIL_HPP__
-#define __TITLEUTIL_HPP__
+#ifndef SYMSHELL2_TITLE_UTIL_HPP_INCLUDED_
+#define SYMSHELL2_TITLE_UTIL_HPP_INCLUDED_
 
 #include <cstddef>
 #include "wb_clone.hpp"
+
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "modernize-use-auto"
+#pragma ide diagnostic ignored "modernize-use-nullptr"
 
 //using namespace wbrtm;
 using wbrtm::clone_str;
@@ -17,46 +21,58 @@ class title_util
 //--------------
 {
 protected:
-    char *title;
+    char *title; ///< Wskaźnik do treści tytułu/nazwy.
 public:
-//Destructor 
+    /// Destructor.
     ~title_util()
     {
-        if(title)
-            delete title;
+        //if(title)
+        delete title; //Deleting NULL pointer has no effect.
     }
 
-//Constructor
-    title_util(const char *tit = NULL)
+    /// Sole constructor.
+    explicit title_util(const char *i_tit = NULL)
     {
-        if(tit != NULL)
-            title = clone_str(tit);
+        if(i_tit != NULL)
+            title = clone_str(i_tit);
         else
             title = NULL;
     }
 
-    void settitle(const char *tit)
+    /// Zmiana tytułu/nazwy.
+    void set_title(const char *i_tit)
     {
-        if(title)
-            delete title;
-        if(tit != NULL)
-            title = clone_str(tit);
+        //if(title)
+        delete title;
+
+        if(i_tit != NULL)
+            title = clone_str(i_tit);
         else
             title = NULL;
     }
 
-    const char *gettitle()    //Zwraca nazwę albo NULL
+    /// Aktualny tytuł bez sprawdzania, czy nie NULL.
+    const char *get_title()
     {
-        return title;
+        return title;   //Zwraca nazwę albo NULL
     }
 
-    const char *name()    //Zwraca nazwę albo pusty łańcuch
+    // Aktualny tytuł bez sprawdzania, czy nie NULL.
+    // Kłóci się aktualnie z get zawracającym wartość z jednoelementowej seri danych.
+//    const char *get()
+//    {
+//        return title;    //Zwraca nazwę albo NULL
+//    }
+
+    /// Zwraca tytuł/nazwę albo pusty łańcuch. Nigdy NULL.
+    const char *name()
     {
         return title != NULL?title:"";
     }
 
 };
 
+#pragma clang diagnostic pop
 /* ****************************************************************** */
 /*               SYMSHELL2  version 2006/2022/2026                    */
 /* ****************************************************************** */
@@ -68,4 +84,4 @@ public:
 /*        MAIL: borkowsk@iss.uw.edu.pl                                */
 /*                               (Don't change or remove this note)   */
 /* ****************************************************************** */
-#endif
+#endif //SYMSHELL2_TITLE_UTIL_HPP_INCLUDED_

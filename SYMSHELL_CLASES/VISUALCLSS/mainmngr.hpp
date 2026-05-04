@@ -25,7 +25,7 @@ class main_area_menager:public area_menager
     static wb_color Marker;		//Kolor do znakowania przez usera
     static int		idle_must_work;	//Flaga wywoływania on_idle
     static wb_pchar	def_dump_name;  //Baza nazwy pliku zrzutu
-    static wb_pchar old_win_title;  //Zapamiętana poprzednia nazwa okna ustalona przez settitle
+    static wb_pchar old_win_title;  //Zapamiętana poprzednia nazwa okna ustalona przez set_title
     static size_t	screen_number;  //Numer pliku zrzutu
     static int 		screen_number_precision; //=7; //Z ilu cyfr będzie maksymalny numer?
     static void*    WindowMenu;     //Uchwyt do odpowiedniego submenu
@@ -51,10 +51,10 @@ public:
     // Konstruktor z lista częściowo wypełnioną (PO CO?)
     //main_area_menager(size_t size,
     //				  int width,int height,
-    //				  //bkg i frm domyślne - można zmienić potem
+    //				  //bkg i frm domyślne — można zmienić potem
     //				  drawable_base* /*first...NULL*/);
 
-    // AKCESORY OGÓLNE - MUSZĄ BYĆ INNE BO GŁÓWNY MANAGER SPRZĘŻONY Z MENU
+    // AKCESORY OGÓLNE — MUSZĄ BYĆ INNE BO GŁÓWNY MANAGER SPRZĘŻONY Z MENU
     //----------------------------------------------------------------------
     int    remove(size_t index) override {return -1;} //Usuwanie z listy jest zabronione. Zwraca -1
 
@@ -98,7 +98,7 @@ public:
     virtual int start(const char* wintitle,int argc,const char* argv[],int double_buffering=-1);
 
     // Zmiana tytułu okna
-    const char* gettitle(); //Poprzedni tytuł lub NULL jak nie był ustalony
+    const char* get_title(); //Poprzedni tytuł lub NULL jak nie był ustalony
     int settitle(const char* wintitle);
 
     // Metoda ukrywająca dostęp do WB_error_enter_before_clean

@@ -1,7 +1,7 @@
 //	Zarządca obszaru ekranu zaimplementowany bezpośrednio na bazie funkcji SYMSHELL'a
 //   do obsługi całego ekranu/okna SYMSHELL'a.
 //*/////////////////////////////////////////////////////////////////////////////////////////
-/// @date 2026-04-30 (modified)
+/// @date 2026-05-04 (modified)
 
 //#include "INCLUDE/platform.hpp"
 
@@ -167,7 +167,7 @@ int main_area_menager::start(const char* wintitle,int argc,const char* argv[],in
     return 1;
 }
 
-const char* main_area_menager::gettitle()
+const char* main_area_menager::get_title()
 //Poprzedni tytuł lub nullptr jak nie był ustalony
 {
 	if(old_win_title)
@@ -292,7 +292,7 @@ void main_area_menager::make_help_area(const char* text)
 
     if(pom)//Zaalokowane OK
     {
-        pom->settitle("HELP");
+        pom->set_title("HELP");
         int helpind=insert(pom);   //Zabiera zawartość w zarzad!!!
         pom->replot();
     }

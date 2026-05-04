@@ -134,7 +134,7 @@ public:
 
     /// Aktualny zarządca ekranu podłączony do tego świata.
     area_menager&	MyAreaMenager();
-    /// Sprawdzenie,, czyma już podłączonego zarządcę okien.
+    /// Sprawdzenie, czyma już podłączonego zarządcę okien.
     int 			HasAreaMenager() { return AreaMenager!=nullptr; }
     ///Jak trzeba KONIECZNIE coś dopisać do logu.
     ostream&		MyLogStream();
@@ -181,7 +181,7 @@ public:
     istream& operator >> (istream& i,world& w);
 
     ///Implementacja zapisu stanu symulacji w formacie NET lub NET2 (z atrybutami).
-    virtual //Domyślnie puste, nie wiem,, czykiedykolwiek używane.
+    virtual //Domyślnie puste, nie wiem, czykiedykolwiek używane.
     void dump_net_file(const char* core_name,unsigned long Step){}
 };
 

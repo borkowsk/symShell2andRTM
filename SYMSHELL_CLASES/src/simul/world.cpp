@@ -1,7 +1,7 @@
 /// @file world.cpp
 /// implementation of the world-class.
 // ////////////////////////////////////////////////////////////////////
-/// @date 2026-03-28 (modified)
+/// @date 2026-05-04 (modified)
 
 #include "world.hpp"
 #include "wb_cpucl.hpp"
@@ -42,7 +42,7 @@ void world::make_default_visualisation()
 
    // if(!OutArea) goto ERROR; //To się już nie może zdarzyć od C++11
 
-    OutArea->settitle("STATUS");
+    OutArea->set_title("STATUS");
 
     this->MyAreaMenager().insert(/*dynamic_cast<drawable_base*>*/(OutArea));
     //MyAreaMenager().insert(OutArea);//!!! Tak powinno dzialac! ANSI ???

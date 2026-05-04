@@ -1,5 +1,5 @@
 /// @file
-/// @brief GEOMETRIA - SPOSÓB ORGANIZACJI AGENTÓW W WARSTWIE./ GEOMETRY - THE WAY OF ORGANIZING AGENTS IN A LAYER.
+/// @brief GEOMETRIA — SPOSÓB ORGANIZACJI AGENTÓW W WARSTWIE./ GEOMETRY — THE WAY OF ORGANIZING AGENTS IN A LAYER.
 /// @date 2026-05-04 (modified)
 ///     Geometria jest obiektem, który potrafi opisać położenie agentów w warstwie,
 ///     a także wzajemnie względem siebie i przetworzyć je na liniowy indeks tablicy.
@@ -59,7 +59,7 @@ public:
         double& T(){ return C[3];}
         double& U(){ return C[4];}
         double& V(){ return C[5];}
-        /* TODO Kompilator ma niekiedy problem, którą wybrać - `const`, czynie `const`. Może zmienić na setX itp?! */
+        /* TODO Kompilator ma niekiedy problem, którą wybrać — `const`, czynie `const`. Może zmienić na setX itp?! */
         double X()const { return C[0];}
         double Y()const { return C[1];}
         double Z()const { return C[2];}
@@ -105,7 +105,7 @@ public:
         /// Destruktor, na wszelki wypadek wirtualny. Zeruje `marker`.
         virtual	~iterator_base()	{ marker=0;}
 
-        /// Sprawdza,, czyto na pewno iterator. Np. dla asercji.
+        /// Sprawdza, czyto na pewno iterator. Np. dla asercji.
         int is_iterator() const	{ return marker==0xfedcba00;}
 
         /// Podaje ile jest elementów do iteracji.
@@ -119,7 +119,7 @@ private:
     int dimension;	//!< Liczba wymiarów geometrii — żeby móc użyć typu `coord`.
 
 protected:
-    /// Sprawdza,, czyVMT i dimension są takie same.
+    /// Sprawdza, czyVMT i dimension są takie same.
     int _compare_geometry_base(geometry_base* second);
 
 public:
@@ -194,7 +194,7 @@ public:
     // CONSTRUCTION/DESTRUCTION:
     //--------------------------
 
-    /// Konstruktor z liczbą wymiarów. @param dims - liczba wymiarów.
+    /// Konstruktor z liczbą wymiarów. @param dims — liczba wymiarów.
     geometry_base(int dims):dimension(dims){}
 
     virtual ~geometry_base()= default;
@@ -210,7 +210,7 @@ typedef geometry_base geometry;
 
 inline
 int geometry_base::_compare_geometry_base(geometry_base* second)
-//Sprawdza,, czyVMT i dimension są takie same.
+//Sprawdza, czyVMT i dimension są takie same.
 {
     return memcmp((void*)this, second, sizeof(geometry_base)); // NOLINT(*-suspicious-memory-comparison)
 }
@@ -248,7 +248,7 @@ void    geometry_base::destroy_iterator(iteratorh& p) const
         return; // Czy to się zdarza?
     }
     void* ptr=p; //Uwolnić samą wartość.
-    iterator_base* pom=(iterator_base*)ptr ; //NIEŁADNY CHWYT, ALE DZIAŁA, choc dobrze sprawdzić,, czyfaktycznie
+    iterator_base* pom=(iterator_base*)ptr ; //NIEŁADNY CHWYT, ALE DZIAŁA, choc dobrze sprawdzić, czyfaktycznie
                                                                                      assert(pom->is_iterator());
     delete pom; //Usuwany iterator
     p=nullptr;

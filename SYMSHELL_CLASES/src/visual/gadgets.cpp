@@ -1,6 +1,6 @@
 /// @file
 /// @brief IMPLEMENTACJA ROZNYCH TYPOW OBSZAROW NIE BEDACYCH GRAFAMI.
-/// @date 2026-04-28 (last modification)
+/// @date 2026-05-04 (last modification)
 //==============================================================================
 /// Wersja z kosmetyką XI 2012 i późniejszymi.
 //*//////////////////////////////////////////////////////////////////////////////
@@ -207,7 +207,7 @@ leftrigt_button::leftrigt_button(int ix1,int iy1,int ix2,int iy2):
     int b=char_height('X');
     left	=new arrow_button(ix1+1	,iy1+b,a-1,	iy2-1,		2/*mode left*/	);
     right	=new arrow_button(a+1,iy1+b,ix2-1,iy2-1,		4/*mode right*/);
-    settitle("Left-Right control");
+    set_title("Left-Right control");
 }
 
 void leftrigt_button::_replot()
@@ -241,7 +241,7 @@ steering_wheel::steering_wheel( int ix1,int iy1,int ix2,int iy2,
     down	=new arrow_button(ix1+a/2+1,iy1+b/2+1,ix2,		iy2-b/4,	3/*mode down*/);
     left	=new arrow_button(ix1+1	,iy2-b/4+1,ix2-a/2,	iy2,		2/*mode left*/	);
     right	=new arrow_button(ix1+a/2+1,iy2-b/4+1,ix2,		iy2,		4/*mode right*/);
-    settitle("STEERING WHEELL");
+    set_title("STEERING WHEELL");
 }
 
 
@@ -265,7 +265,7 @@ steering_wheel::steering_wheel(
     add(*left);
     add(*down);
     add(*right);
-    settitle("STEERING WHEELL");
+    set_title("STEERING WHEELL");
 }
 
 steering_wheel::steering_wheel(
@@ -292,7 +292,7 @@ steering_wheel::steering_wheel(
     add(*left);
     add(*down);
     add(*right);
-    settitle("STEERING WHEELL");
+    set_title("STEERING WHEELL");
 }
 
 //steering_wheel( int ix1,int iy1,int ix2,int iy2,
@@ -400,7 +400,7 @@ int steering_wheel::on_click(int x,int y,int click)
 	int Mnoznik=1;
     geometry::view_info subtab; //Struktura na informacje o "kamerze":.
 	geometry::MD_info	md;
-	geometry_base* geom=data[0]->getgeometry();
+	geometry_base* geom= data[0]->get_geometry();
 
     if(geom==nullptr) goto ERROR;
 	dim=geom->get_dimension();
@@ -479,7 +479,7 @@ int steering_wheel::on_click(int x,int y,int click)
         {
         rectangle_source_base* pom=data[i];                    assert(pom!=nullptr);
 
-        geometry_base* sec_geom=pom->getgeometry();
+        geometry_base* sec_geom= pom->get_geometry();
         if(sec_geom==nullptr)
                     continue;
         if(*geom!=*sec_geom)

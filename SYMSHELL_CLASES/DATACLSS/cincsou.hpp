@@ -63,7 +63,7 @@ protected:
         goto ERROR;
 
     arra.alloc(KL);
-    if(!arra) //błąd alokacji - za malo/za duzo?
+    if(!arra) //błąd alokacji — za malo/za duzo?
         goto ERROR;
 
     for(i=0;i<KL;i++)
@@ -196,10 +196,10 @@ public:
     }
 
 //Zwraca wskaźnik do obowiazujacej geometrii danych. NULL oznacza dane nie-zgeometryzowane
-    geometry_base *getgeometry()
+    geometry_base *get_geometry()
     {
         check_version(); //Uaktualnia też wersje podzrodla, jeśli trzeba
-        _calculate(); //Sprawdza,, czynie trzeba policzyc i ewentualnie liczy
+        _calculate(); //Sprawdza, czynie trzeba policzyc i ewentualnie liczy
         return my_geometry.get_ptr_val();
     }
 

@@ -24,11 +24,11 @@ class fifo_source : public linear_source_base
 //Ładuje wartość do bufora
 //i ewentualnie zmienia N.
 //Zależne od sprawdzania MISSING VALUE wiec musi być z `double`.
-//const T& - TO DO ZMIANY, GDY `data_source_base` będzie SZABLONEM
+//const T& — TO DO ZMIANY, GDY `data_source_base` będzie SZABLONEM
     void add(const double &val);
 
     int check_version()
-    //Sprawdza,, czyi jak zmieniły się dane w źródle
+    //Sprawdza, czyi jak zmieniły się dane w źródle
     //i ładuje następną z wartości
     {
         if(Source->data_version() == -1)
@@ -57,15 +57,15 @@ public:
         assert(Source != NULL);
         size_t dummy; //Nie istotne
         linear_source_base::set_missing(Source->get_missing()); //Tu przenosimy "na żywca"
-        Source->bounds(dummy, ymin, ymax);
-        if(ymin == ymax) //Nieustalone
+        Source->bounds(dummy, y_min, y_max);
+        if(y_min == y_max) //Nieustalone
         {
-            ymin = imin;
-            ymax = imax;
+            y_min = imin;
+            y_max = imax;
         } else
         {
-            if(ymin > imin) ymin = imin;
-            if(ymax < imax) ymax = imax;
+            if(y_min > imin) y_min = imin;
+            if(y_max < imax) y_max = imax;
         }
         check_version();
     }
@@ -132,12 +132,12 @@ public:
         Source->bounds(num, min, max);
         if(min < max)	//Ustawione przez kogos
         {
-            if(ymin > min) ymin = min;
-            if(ymax < max) ymax = max;
+            if(y_min > min) y_min = min;
+            if(y_max < max) y_max = max;
         }
         num = N;
-        min = ymin;
-        max = ymax;
+        min = y_min;
+        max = y_max;
     }
 
     iteratorh reset() //Rozpoczęcie czytania bufora
@@ -236,12 +236,12 @@ inline void fifo_source<T>::add(const double &val)
 
     if(!Source->is_missing(val))
     {
-        if(ymax < val)
-            ymax = val;
-        if(ymin > val)
-            ymin = val;
+        if(y_max < val)
+            y_max = val;
+        if(y_min > val)
+            y_min = val;
         //Zapamiętanie
-        bufor[Nastepny] = T(val); //Uwaga - `bufor` typu `T`, a `val` typu `double`!
+        bufor[Nastepny] = T(val); //Uwaga — `bufor` typu `T`, a `val` typu `double`!
     } else
         bufor[Nastepny] = T(get_missing());
 
@@ -270,12 +270,12 @@ inline void fifo_source<T>::force_last(double val)
 
     if(!Source->is_missing(val))
     {
-        if(ymax < val)
-            ymax = val;
-        if(ymin > val)
-            ymin = val;
+        if(y_max < val)
+            y_max = val;
+        if(y_min > val)
+            y_min = val;
         //Zapamiętanie
-        bufor[ind] = T(val); //Uwaga - bufor typu T,  a val typu double
+        bufor[ind] = T(val); //Uwaga — bufor typu T,  a val typu double
     } else
         bufor[ind] = T(get_missing());
 }

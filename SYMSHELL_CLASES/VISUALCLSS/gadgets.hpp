@@ -30,7 +30,7 @@ public:
             drawable_base(ix1,iy1,ix2,iy2,ibkg,ifr),draw_color(icolor)
                 {}
 
-    virtual void _replot()=0; //Rysuje - np X. Do reimplementacji w klasach potomnych
+    virtual void _replot()=0; //Rysuje — np X. Do reimplementacji w klasach potomnych
 
     /// Obsługa reakcji na klikniecie.
     /// Bazowa wersja sprawdza, czy klik "is_inside" i rysuje za pomocą `replot`, ewentualnie w inwersji.
@@ -60,7 +60,7 @@ public:
             gadget(ix1,iy1,ix2,iy2,icolor,ibkg,ifr)
     {}
 
-    void _replot() override; //!< Rysuje gadżet - np X. Do reimplementacji w klasach potomnych
+    void _replot() override; //!< Rysuje gadżet — np X. Do reimplementacji w klasach potomnych
 
     // TODO Poniżej chyba pozostałość po starym projekcie?
     //int _on_click(int /*x*/,int /*y*/,int /*click*/)	//Prawdziwa akcja klasy potomnej powinna być w środku tej metody
@@ -77,7 +77,7 @@ class button:public sensitive_area
 //---------------------------------------------
 {
 protected:
-    unsigned vhmode:1;		//!< vert(0)/hor(1) - tryb wyświetlania.
+    unsigned vhmode:1;		//!< vert(0)/hor(1) — tryb wyświetlania.
     unsigned reserved:15;	//!< co najmniej 15 bitów i tak będzie zajęte.
 
 public:
@@ -90,7 +90,7 @@ public:
             ):
         sensitive_area(ix1,iy1,ix2,iy2,icolor,ibackground,iframe),vhmode(imode),reserved(0)
         {
-            settitle(iprompt); //Prompt jest pamiętany jako tytuł okna, ale wyświetlany ręcznie.
+            set_title(iprompt); //Prompt jest pamiętany jako tytuł okna, ale wyświetlany ręcznie.
             settitlecolor(default_transparent); // Wiec domyślnie ten tytuł...
             settitleback(default_transparent);  // ...jest niewidoczny (bo by się wyświetlał nie tak i nie tam).
         }
@@ -104,11 +104,11 @@ public:
 
 /// Klasa gadżetu implementująca strzałkę w jednym z czterech kierunków lub tarcze (jako 3 wymiar albo coś).
 /// Znaczenie `mode` lub parametru `imode` konstruktora:
-/// 0 - print target (-(+)-)
-/// 1 - print up arrow
-/// 2 - print left arrow
-/// 3 - print down arrow
-/// 4 - print right arrow
+/// 0 — print target (-(+)-)
+/// 1 — print up arrow
+/// 2 — print left arrow
+/// 3 — print down arrow
+/// 4 — print right arrow
 class arrow_button:public sensitive_area
 //---------------------------------------------
 {
@@ -240,7 +240,7 @@ public:
                     ):
         leftrigt_button(ix1,iy1,ix2,iy2)
     {										assert(min<max);
-        settitle(Title);
+        set_title(Title);
         this->valptr=valptr;
         this->max=max;
         this->min=min;

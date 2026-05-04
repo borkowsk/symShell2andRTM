@@ -318,7 +318,7 @@ public:
                 {
                     if(x<0) x= columns + x;
                     if(y<0) y= rows + y;
-                                                             assert(x>=0 && y>=0); //Sprawdzanie,, czyod dołu jest w tablicy
+                                                             assert(x>=0 && y>=0); //Sprawdzanie, czyod dołu jest w tablicy
                     ret= (y % rows) * columns + (x % columns); //da się obliczyć index
                 }
 
@@ -332,8 +332,8 @@ public:
 
     rectangle_geometry(	size_t iA,				//!< Szerokość pełnego obszaru.
                         size_t iB,				//!< Wysokość pełnego obszaru.
-                        int  iTorus=1,			//!< Ustala,, czywłączyć geometrie torusa.
-                        bool eDistMat=false,	//!< Informuje,, czybędzie potrzebna macierz odległości (która jest duża!).
+                        int  iTorus=1,			//!< Ustala, czywłączyć geometrie torusa.
+                        bool eDistMat=false,	//!< Informuje, czybędzie potrzebna macierz odległości (która jest duża!).
                         RandomGenerator& RndIni	//!< Generator do losowania elementów.
                                         =TheRandG	//!< Domyślnie z całości i sąsiedztwa! RÓWNOMIERNIE!
                         )
@@ -366,7 +366,7 @@ public:
 
     void  set(	size_t	iA,				//!< Szerokość pełnego obszaru.
                 size_t	iB,				//!< Wysokość pełnego obszaru.
-                int		iTorus=1,			//!< Określa,, czywłączyć geometrie torusa.
+                int		iTorus=1,			//!< Określa, czywłączyć geometrie torusa.
                 RandomGenerator& RndIni 	//!< Generator do losowania elementów.
                                         =TheRandG 	//!< Domyślnie z całości i sąsiedztwa! RÓWNOMIERNIE!
             )

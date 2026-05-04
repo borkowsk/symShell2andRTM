@@ -32,7 +32,7 @@ public:
         size_t sub_width; //Parametry zaznaczonego wycinka
         long horiz_start;
 
-        //Konstruktor - sSZER,sWYS,lSZER,lWYS
+        //Konstruktor — sSZER,sWYS,lSZER,lWYS
         iterator(long hors,size_t subw):
                     i(0),
                     geometry_base::iterator_base(subh*subw),
@@ -165,7 +165,7 @@ public:
                 goto ERROR;
             }
 
-        //Ostateczne przypisanie - UWAGA OBCINANIE:  DOUBLE->INT !!!
+        //Ostateczne przypisanie — UWAGA OBCINANIE:  DOUBLE->INT !!!
         lSZER=long(dlSZER);
 
         if( torus )

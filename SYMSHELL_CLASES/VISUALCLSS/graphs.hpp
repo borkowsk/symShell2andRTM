@@ -22,7 +22,7 @@
 #include "datasour.hpp"
 #include "drawable.hpp"
 
-//INTERFACE DO GRAFU - KLASY WYPROWADZONE POWINNY TYLKO IMPLEMENTOWAĆ
+//INTERFACE DO GRAFU — KLASY WYPROWADZONE POWINNY TYLKO IMPLEMENTOWAĆ
 //--------------------------------------------------------------------------
 
 //Klasa bazowa dla konfiguracji punktów
@@ -141,7 +141,7 @@ public://Metody do zaimplementowania w klasach potomnych
 
     //INTERFACE IMPLEMENTATORA KLAS POTOMNYCH
     //---------------------------------------------
-    // reals[] zawiera współrzędne (wartości serii głównych) oraz wartość ustalająca kolor (seria koloru - jeśli jest)
+    // reals[] zawiera współrzędne (wartości serii głównych) oraz wartość ustalająca kolor (seria koloru — jeśli jest)
     // Wymaga się by działał prawidłowo po wywołaniu funkcji _replot() !!!
     protected:
     virtual int _rescale_data_point(const double reals[],long in_area[])=0; //zwraca -1, jeśli błąd. Np
@@ -423,7 +423,7 @@ public:
     rainbow_graph(int x1,int y1,int x2,int y2,		//Położenie obszaru
                  data_source_base* idatas,int menage_d=0,		//datas-dane==wartości
                  data_source_base* icolors=NULL,int menage_c=0,		//colors-źródło danych o kolorach
-                 const char* format="%g"//format liczby - nie może być więcej niż 1 parametr!
+                 const char* format="%g"//format liczby — nie może być więcej niż 1 parametr!
                  );
 
     // IMPLEMENTATION OF VIRTUAL METHODS

@@ -1,5 +1,6 @@
-// /////////////////////////////////////////////////////////////////////////////////////////
-//IMPLEMENTACJA PODSTAWOWYCH KLAS GRAFOW
+/// @file
+/// @brief IMPLEMENTACJA PODSTAWOWYCH KLAS GRAFOW
+/// @date 2026-05-04 (modified)
 // /////////////////////////////////////////////////////////////////////////////////////////
 
 #include <stdarg.h>
@@ -433,7 +434,7 @@ carpet_graph::carpet_graph(int ix1,int iy1,int ix2,int iy2,//Polozenie obszaru
 //-----------------------------------------------------
 const geometry_base* carpet_graph::read_dim(size_t& aa,size_t& bb)
 {
-geometry_base* MyGeometry=data->getgeometry();
+geometry_base* MyGeometry= data->get_geometry();
 if( MyGeometry==nullptr ||
     MyGeometry->get_dimension()<2 )
 	{
@@ -1012,7 +1013,7 @@ manhattan_graph::manhattan_graph(int ix1,int iy1,int ix2,int iy2,//Polozenie obs
 //-----------------------------------------------------
 const geometry_base* manhattan_graph::read_dim(size_t& aa,size_t& bb)
 {
-geometry_base* MyGeometry=datas->getgeometry();
+geometry_base* MyGeometry= datas->get_geometry();
 if( MyGeometry==nullptr ||
     MyGeometry->get_dimension()<2 )
 	{
@@ -1029,7 +1030,7 @@ if( MyGeometry==nullptr ||
 	//Sprawdzenie czy serie sie nie zgadzaja - czy maja ta sama geometrie
     if(colors!=nullptr)
 		{
-		geometry_base* ColGeom=colors->getgeometry();
+		geometry_base* ColGeom= colors->get_geometry();
 		if(*MyGeometry!=*ColGeom)
 			{//jesli nie to pozbywany sie koloru
 			if(c_menage) delete colors;
@@ -1250,7 +1251,7 @@ if(gruboscH>=1 && gruboscV>=1 && offsetH>=1 )
 
 	if(colors)//Jesli jest kolor to
 		{
-		color_geom=colors->getgeometry();//Wez z niego geometrie
+		color_geom= colors->get_geometry();//Wez z niego geometrie
 		if(color_geom)					//Jesli jest geometria to stwórz iterator
 			c=color_geom->make_view_iterator();
 		}
