@@ -1,20 +1,12 @@
 /// \file wb_limits.hpp
-/// \brief    LIMITS FOR SCALAR TYPES in wbrtm::
-///          -----------------------------------
-///
-/// \details Szablon klas implementujących limity dla skalarów
-///          z możliwością dodania własnych specjalizacji.
-///          Ten jest w przestrzeni nazw 'wbrtm::'.
-///          Pomysł z czasów gdy nie było tego jeszcze w standardzie C++
-///          W przypadku konfliktu specjalizacji  zdefiniuj
-///          ADD_OWN_SPECIALISATION_TO_WB_LIMITS_H przed włączeniem
-///          tego pliku
+/// \brief LIMITS FOR SCALAR TYPES in `wbrtm`/ Limity dla skalarów w "wbrtm".
+/// @date 2026-05-05 (last modification)
+///       -----------------------------------
 ///
 /// \author borkowsk
-/// @date   2022-10-12 (last modification)
 /// @ingroup OBSOLETE
-#ifndef _WB_LIMITS_H_INCLUDED_
-#define _WB_LIMITS_H_INCLUDED_
+#ifndef WBRTM_WB_LIMITS_H_INCLUDED_
+#define WBRTM_WB_LIMITS_H_INCLUDED_
 
 //#ifndef _MSC_VER //# warning still not work under Microsoft C++
 //#warning  "This code is OBSOLETE and not tested in C++11 standard"
@@ -31,93 +23,116 @@
 
 namespace wbrtm { // Przestrzeń nazw biblioteki WBRTM
 
+    /// Klasa do sprawdzania minimum i maksimum dla wszystkich typów skalarnych.
+    /// \details Szablon klas implementujących limity dla skalarów
+    ///          z możliwością dodania własnych specjalizacji.
+    ///          Pomysł z czasów gdy nie było tego jeszcze w standardzie C++
+    ///          W przypadku konfliktu specjalizacji  zdefiniuj
+    ///          ADD_OWN_SPECIALISATION_TO_WB_LIMITS_H przed włączeniem
+    ///          tego pliku.
+    /// @note Teraz są w przestrzeni nazw 'wbrtm::'.
     template<class Scalar>
     class limit {
     public:
-        static Scalar Max();
-
-        static Scalar Min();
+        constexpr static Scalar Max();
+        constexpr static Scalar Min();
     };
 
+    /// @name SPECJALIZACJE DLA MAKSIMÓW.
+    /// @{
     template<>
-    inline double limit<double>::Max() { return DBL_MAX; }
+    constexpr inline double limit<double>::Max() { return DBL_MAX; }
 
     template<>
-    inline float limit<float>::Max() { return FLT_MAX; }
+    constexpr inline float limit<float>::Max() { return FLT_MAX; }
 
     template<>
-    inline long limit<long>::Max() { return LONG_MAX; }
+    constexpr inline long limit<long>::Max() { return LONG_MAX; }
 
     template<>
-    inline unsigned long limit<unsigned long>::Max() { return ULONG_MAX; }
+    constexpr inline unsigned long limit<unsigned long>::Max() { return ULONG_MAX; }
 
     template<>
-    inline int limit<int>::Max() { return INT_MAX; }
+    constexpr inline long long limit<long long>::Max() { return LONG_LONG_MAX; }
 
     template<>
-    inline unsigned int limit<unsigned int>::Max() { return UINT_MAX; }
+    constexpr inline unsigned long long limit<unsigned long long>::Max() { return ULONG_LONG_MAX; }
 
     template<>
-    inline short limit<short>::Max() { return SHRT_MAX; }
+    constexpr inline int limit<int>::Max() { return INT_MAX; }
 
     template<>
-    inline unsigned short limit<unsigned short>::Max() { return USHRT_MAX; }
+    constexpr inline unsigned int limit<unsigned int>::Max() { return UINT_MAX; }
 
     template<>
-    inline signed char limit<signed char>::Max() { return CHAR_MAX; }
+    constexpr inline short limit<short>::Max() { return SHRT_MAX; }
 
     template<>
-    inline unsigned char limit<unsigned char>::Max() { return UCHAR_MAX; }
+    constexpr inline unsigned short limit<unsigned short>::Max() { return USHRT_MAX; }
 
     template<>
-    inline bool limit<bool>::Max() { return true; }
-
-
-    template<>
-    inline double limit<double>::Min() { return -DBL_MAX; }
+    constexpr inline signed char limit<signed char>::Max() { return CHAR_MAX; }
 
     template<>
-    inline float limit<float>::Min() { return -FLT_MAX; }
+    constexpr inline unsigned char limit<unsigned char>::Max() { return UCHAR_MAX; }
 
     template<>
-    inline long limit<long>::Min() { return LONG_MIN; }
+    constexpr inline bool limit<bool>::Max() { return true; }
+    /// @}
+
+    /// @name SPECJALIZACJE DLA MINIMÓW
+    /// @{
+    template<>
+    constexpr inline double limit<double>::Min() { return -DBL_MAX; }
 
     template<>
-    inline unsigned long limit<unsigned long>::Min() { return 0; }
+    constexpr inline float limit<float>::Min() { return -FLT_MAX; }
 
     template<>
-    inline int limit<int>::Min() { return INT_MIN; }
+    constexpr inline long limit<long>::Min() { return LONG_MIN; }
 
     template<>
-    inline unsigned int limit<unsigned int>::Min() { return 0; }
+    constexpr inline unsigned long limit<unsigned long>::Min() { return 0; }
 
     template<>
-    inline short limit<short>::Min() { return SHRT_MIN; }
+    constexpr inline long long limit<long long>::Min() { return LONG_LONG_MIN; }
 
     template<>
-    inline unsigned short limit<unsigned short>::Min() { return 0; }
+    constexpr inline unsigned long long limit<unsigned long long>::Min() { return 0; }
 
     template<>
-    inline signed char limit<signed char>::Min() { return CHAR_MIN; }
+    constexpr inline int limit<int>::Min() { return INT_MIN; }
 
     template<>
-    inline unsigned char limit<unsigned char>::Min() { return 0; }
+    constexpr inline unsigned int limit<unsigned int>::Min() { return 0; }
 
     template<>
-    inline bool limit<bool>::Min() { return false; }
+    constexpr inline short limit<short>::Min() { return SHRT_MIN; }
+
+    template<>
+    constexpr inline unsigned short limit<unsigned short>::Min() { return 0; }
+
+    template<>
+    constexpr inline signed char limit<signed char>::Min() { return CHAR_MIN; }
+
+    template<>
+    constexpr inline unsigned char limit<unsigned char>::Min() { return 0; }
+
+    template<>
+    constexpr inline bool limit<bool>::Min() { return false; }
+    /// @}
 
 #ifndef ADD_OWN_SPECIALISATION_TO_WB_LIMITS_H
 
     template<class Scalar>
-    inline Scalar limit<Scalar>::Max() { return DBL_MAX; }
+    constexpr inline Scalar limit<Scalar>::Max() { return DBL_MAX; }
 
     template<class Scalar>
-    inline Scalar limit<Scalar>::Min() { return DBL_MIN; }
+    constexpr inline Scalar limit<Scalar>::Min() { return DBL_MIN; }
 
 #endif
 
-//Klasa do tworzenia sensownego "missing values" oraz 
-//sprawdzania minimum i maksimum dla wszystkich typów skalarnych
+    /// Klasa do tworzenia sensownego "missing values".
     template<class Scalar>
     class default_missing
     {
@@ -125,7 +140,7 @@ namespace wbrtm { // Przestrzeń nazw biblioteki WBRTM
     public:
         default_missing();
 
-        operator Scalar() {
+        constexpr operator Scalar() const {
             return miss;
         }
     };
@@ -141,6 +156,12 @@ namespace wbrtm { // Przestrzeń nazw biblioteki WBRTM
 
     template<>
     inline default_missing<unsigned long>::default_missing() { miss = ULONG_MAX; }
+
+    template<>
+    inline default_missing<long long>::default_missing() { miss = LONG_LONG_MIN; }
+
+    template<>
+    inline default_missing<unsigned long long>::default_missing() { miss = ULONG_LONG_MAX; }
 
     template<>
     inline default_missing<int>::default_missing() { miss = INT_MIN; }
@@ -162,10 +183,11 @@ namespace wbrtm { // Przestrzeń nazw biblioteki WBRTM
 #endif
 
 } //namespace wbrtm
-///@}
+/// @}
+
 
 /* ******************************************************************/
-/*                WBRTM  version 2022 for GuestXR                   */
+/*                    WBRTM  version 2026                           */
 /* ******************************************************************/
 /*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
 /*            W O J C I E C H   B O R K O W S K I                   */
