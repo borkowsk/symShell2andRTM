@@ -1,6 +1,6 @@
 /// @file
 /// @brief GEOMETRIA PROSTOKĄTNA. / RECTANGULAR GEOMETRY.
-/// @date 2026-05-04 (modified)
+/// @date 2026-05-05 (modified)
 ///      Pierwsza i główna specjalizacja. Heksagonalnej i sieciowej nigdy nie napisałem, choć były w planie.
 // ********************************************************************************************************************
 //
@@ -66,7 +66,7 @@ public:
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "modernize-use-auto"
         /// Implementacja pobrania następnego elementu.
-        void _next(const geometry_base& geo,size_t& ret,size_t& end) override
+        void _next(const geometry_base& geo,index_t& ret,index_t& end) override
         {
             rectangle_geometry* MyGeo=(rectangle_geometry*)&geo; //Dostęp do pól
             long I_S=horiz_start+i;
@@ -106,7 +106,7 @@ public:
         }
 
         /// Implementacja pobrania następnego elementu.
-        void _next(const geometry_base& geo,size_t& ret,size_t& end) override
+        void _next(const geometry_base& geo,index_t& ret,index_t& end) override
         {
             rectangle_geometry* MyGeo=(rectangle_geometry*)&geo;
                                                             assert(MyGeo!=NULL); //Dostęp do pól

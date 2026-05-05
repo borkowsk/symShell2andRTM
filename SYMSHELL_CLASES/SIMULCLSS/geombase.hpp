@@ -1,8 +1,6 @@
 /// @file
 /// @brief GEOMETRIA — SPOSÓB ORGANIZACJI AGENTÓW W WARSTWIE./ GEOMETRY — THE WAY OF ORGANIZING AGENTS IN A LAYER.
-/// @date 2026-05-04 (modified)
-///     Geometria jest obiektem, który potrafi opisać położenie agentów w warstwie,
-///     a także wzajemnie względem siebie i przetworzyć je na liniowy indeks tablicy.
+/// @date 2026-05-05 (modified)
 // *********************************************************************************************************************
 //
 #ifndef __GEOMBASE_HPP__
@@ -16,13 +14,14 @@
 //#include "platform.hpp"
 #include <cstdint>
 #include <iostream>
+#include "wb_limits.hpp"
 
 /// Typ uchwytowy do iteratorów geometrii.
 //---------------------------------------
 typedef void* iteratorh; //Wersja stara, ale jara TODO NADAL???
 
 /*
-class geometry_base::iterator_base; //???Pomys�y na wersj� zabezpieczon�?
+class geometry_base::iterator_base; //???Pomysły na wersję zabezpieczoną?
 class iteratorh
 //----------------
 {
@@ -37,11 +36,16 @@ operator void* () {return (void*)val;}
 */
 
 /// INTERFACE dla geometrii świata symulacji.
+/// @details
+///    Geometria jest obiektem, który potrafi opisać położenie agentów w warstwie,
+///    a także wzajemnie względem siebie i przetworzyć je na liniowy indeks tablicy.
 class geometry_base 
 //-----------------
 {
 public:
-    enum my_full:uintptr_t {FULL=(UINTPTR_MAX)}; //!< Wartość największego możliwego wskaźnika. Zamiast #define FULL
+    typedef uintptr_t index_t; //!< Typ całkowity rownoważny rozmiarem z typem wskaźnikowym.
+
+    enum my_full:index_t {FULL=wbrtm::limit<index_t>::Max()}; //!< Wartość największego możliwego wskaźnika i indeksu.
 
     //LOKALNE KLASY i STRUKTURY
     //-------------------------------------
@@ -59,7 +63,7 @@ public:
         double& T(){ return C[3];}
         double& U(){ return C[4];}
         double& V(){ return C[5];}
-        /* TODO Kompilator ma niekiedy problem, którą wybrać — `const`, czynie `const`. Może zmienić na setX itp?! */
+        /* TODO Kompilator ma niekiedy problem, którą wybrać — `const`, czy nie `const`. Może zmienić na setX itp?! */
         double X()const { return C[0];}
         double Y()const { return C[1];}
         double Z()const { return C[2];}
@@ -89,7 +93,7 @@ public:
     //------------------
     {
     protected:
-        size_t    items;	//!< Ile elementów — trzeba to ustawić!!!
+        index_t   items;	//!< Ile elementów — trzeba to ustawić!!!
         unsigned marker;	//!< Dla sprawdzania, że to faktycznie iterator.
 
     public:
@@ -106,20 +110,20 @@ public:
         virtual	~iterator_base()	{ marker=0;}
 
         /// Sprawdza, czyto na pewno iterator. Np. dla asercji.
-        int is_iterator() const	{ return marker==0xfedcba00;}
+        bool is_iterator() const	{ return marker==0xfedcba00;}
 
         /// Podaje ile jest elementów do iteracji.
-        size_t number_of_items() const { return items;}
+        index_t number_of_items() const { return items;}
 
         /// Implementacja pobrania następnego elementu.
-        virtual void _next(const geometry_base&,size_t& ret,size_t& end)=0;
+        virtual void _next(const geometry_base&,index_t& ret,index_t& end)=0;
     };
 
 private:
     int dimension;	//!< Liczba wymiarów geometrii — żeby móc użyć typu `coord`.
 
 protected:
-    /// Sprawdza, czyVMT i dimension są takie same.
+    /// Sprawdza, czy VMT i dimension są takie same.
     int _compare_geometry_base(geometry_base* second);
 
 public:
@@ -186,10 +190,10 @@ public:
 
     /// Jawna iteracja zwraca indeks do aktualnego agenta i przesuwa iterator.
     /// Zeruje iterator, jeśli koniec danych. Zwraca `FULL` jeżeli nie ma w tym miejscu agenta (missing).
-    size_t			get_next(iteratorh& p) const;
+    virtual index_t		get_next(iteratorh& p) const;
 
     /// Likwiduje już niepotrzebny iterator. Np. taki któremu nie dano dojść do konca.
-    virtual void	destroy_iterator(iteratorh& p) const;
+    virtual void		destroy_iterator(iteratorh& p) const;
 
     // CONSTRUCTION/DESTRUCTION:
     //--------------------------
@@ -216,12 +220,12 @@ int geometry_base::_compare_geometry_base(geometry_base* second)
 }
 
 inline
-size_t geometry_base::get_next(iteratorh& p) const
+geometry_base::index_t geometry_base::get_next(iteratorh& p) const
 //Zwraca indeks do aktualnego i przesuwa iterator.
 //Zeruje iterator, gdy koniec danych. Zwraca uFULL, gdy missing...
 {                 static_assert( sizeof(size_t) == sizeof(uintptr_t) ,"sizeof(size_t) must be equal sizeof(uintptr_t)");
-    size_t ret=FULL; //TODO rozważyć użycie `uintptr_t`
-    size_t end=0; //
+    index_t ret=FULL; //TODO rozważyć użycie `uintptr_t`
+    index_t end=0;
     
     iterator_base* pom=(iterator_base*)p; //NIEŁADNY CHWYT ALE DZIAŁA
     //iterator_base* pom1=(iterator_base*)(&p); assert(pom1==pom); --> A TAK NIE DZIAŁA (
