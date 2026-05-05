@@ -67,7 +67,7 @@ target_link_libraries( testmngr2
         ${CMAKE_THREAD_LIBS_INIT}
      )
 ELSE()
-target_compile_options( testmngr2  PRIVATE "${CMAKE_CXX_FLAGS}" "-std=c++11" "-pthread" "-fpermissive")
+target_compile_options( testmngr2  PRIVATE "${CMAKE_CXX_FLAGS}" "-pthread" "-fpermissive")
 target_link_libraries( testmngr2
 #        "-L ${MYLIBS}"
         wbsyshclss wbsyshLight  wbrtm
