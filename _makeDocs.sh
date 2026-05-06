@@ -1,7 +1,7 @@
 #!/bin/sh
 #      DOXUMENTATION "MANAGER"
 # =================================
-# @date 2026-04-29 (modification)
+# @date 2026-05-06 (modification)
 #
 # Instalation of prerequisities under Ubuntu:
 # ===========================================
