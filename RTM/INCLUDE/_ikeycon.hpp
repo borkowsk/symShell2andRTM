@@ -1,6 +1,6 @@
 /// @file
 /// @brief Private base for an array class family.
-/// @date 2026-05-04 (modified)
+/// @date 2026-05-06 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_INT_KEY_CON_HPP_INCLUDED_
@@ -26,7 +26,7 @@ namespace wbrtm {
 class int_key_container_base
 {
 /* PIX SUPPORT — pix == size_t in this class & RANGE & SIZE CHECKING */
-static size_t index; //!< ??????
+static size_t index; //!< GŁUPIO ZROBIONE. Trzeba dostarczyć tą zmienną.
 size_t        rsize; //!< current size.
 size_t first_unused; //!< max already used index + 1.
 
