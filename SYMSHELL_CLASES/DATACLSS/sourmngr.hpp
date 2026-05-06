@@ -1,7 +1,7 @@
 /// @file
-/// @brief KLASA ZARZĄDCY SERI DANYCH.
-/// @date 2026-05-04 (modified)
-// ********************************************************************************************************************
+/// @brief DATA SERIES MANAGER CLASS/KLASA ZARZĄDCY SERI DANYCH.
+/// @date 2026-05-06 (modified)
+//*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 #ifndef __SOURMNGR_HPP__
 #define __SOURMNGR_HPP__
@@ -13,10 +13,14 @@
 #include "datasour.hpp"
 #include "graphs.hpp"
 
+//+using namespace symshell2;
+//using ssh2 = symshell2; //C++17
+
 /// Interface zarządcy danych.
 class sources_menager_base
 //------------------------
 {
+    //using symshell2::config_point;
 public:
     virtual ~sources_menager_base() = default;         ///< Destruktor wirtualny z uwagi na klasy potomne
 
@@ -39,7 +43,7 @@ public:
     /// Zapamiętuje informacje o wizualizacji serii.
     virtual int set_info(size_t index, //!< Pozycja na liście.
                          wb_color ico = default_color, //!< Kolor ustalony lub domyślny.
-                         config_point *fig = NULL //!< Obiekt rysujący punkty serii.
+                         symshell2::config_point *fig = NULL //!< Obiekt rysujący punkty serii.
     ) = 0;
 
     /// Udostępnianie samych seri. Bez możliwości modyfikacji i zwolnienia.
@@ -48,8 +52,8 @@ public:
 
     /// @name Metody, które tworzą dynamicznie tablice serii — potrzebne dla złożonych wykresów.
     /// @{
-    virtual wb_dynarray<graph::series_info> make_series_info(int start, .../* ostatnia -1*/) = 0; //Z listy parametrów
-    virtual wb_dynarray<graph::series_info>
+    virtual wb_dynarray<symshell2::graph::series_info> make_series_info(int start, .../* ostatnia -1*/) = 0; //Z listy parametrów
+    virtual wb_dynarray<symshell2::graph::series_info>
     make_series_info(wb_dynarray<int>) = 0;                //Z tablicy dynamicznej
     //wb_dynarray<graph::series_info> make_series_info(const int* first/*ostatnia -1*/); //Z tablicy typu C zakonczonej -1
     /// @}
@@ -80,7 +84,7 @@ private:
         unsigned not_menage: 1;   //!< Określa, czyzwalniać.
     public:
         wb_color col;   //!< Ewentualny kolor ustalony.
-        wb_ptr<config_point> fig;   //!< Obiekt wizualizujący punkty danych.
+        wb_ptr<symshell2::config_point> fig;   //!< Obiekt wizualizujący punkty danych.
 
         /// @name MANIPULATORY
         /// @{
@@ -150,7 +154,7 @@ public:
     /// Zapamiętuje informacje o wizualizacji serii. @return -1, gdy jakiś błąd.
     int set_info(size_t index,
                  wb_color ico = default_color, //!< Czy kolor ustalony.
-                 config_point *fig = NULL      //!< Obiekt rysujący punkty.
+                 symshell2::config_point *fig = NULL      //!< Obiekt rysujący punkty.
     ) override;
 
     /// Udostępnianie samych seri. Nie wolno zwalniać !!!
@@ -160,9 +164,9 @@ public:
     /// @name Funkcje tworzące dynamicznie tablice serii — potrzebne dla wykresów.
     /// @details Nie jest jasne, dlaczego są wirtualne, gdy pewnie mogłyby być `static`!
     /// @{
-    wb_dynarray<graph::series_info>
+    wb_dynarray<symshell2::graph::series_info>
     make_series_info(int start, .../* ostatnia -1*/) override;    ///< Z listy parametrów.
-    wb_dynarray<graph::series_info>
+    wb_dynarray<symshell2::graph::series_info>
     make_series_info(wb_dynarray<int>) override;                ///< Z tablicy dynamicznej.
     //wb_dynarray<graph::series_info> make_series_info(const int* first/*ostatnia -1*/); ///< Z tablicy typu C zakończonej -1.
     /// @}

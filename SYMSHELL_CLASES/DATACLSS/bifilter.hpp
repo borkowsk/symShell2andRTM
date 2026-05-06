@@ -13,6 +13,10 @@
 #pragma ide diagnostic ignored "modernize-use-auto"
 #pragma ide diagnostic ignored "modernize-use-nullptr"
 
+/// @defgroup GrupaDATACLSS System źródeł danych
+/// @brief	Różne źródła danych bazujące na wspólnym interfejsie i z możliwościami czerpania od siebie.
+/// @{
+
 /// Baza źródła danych filtrującego dane łączone z dwóch innych źródeł.
 class bi_filter_source_base : public filter_source_base
 //-----------------------------------------------------------------
@@ -151,6 +155,8 @@ protected:
     /// @}
 };
 
+/// @}
+
 // INLINE IMPLEMENTATIONS:
 //========================
 
@@ -238,7 +244,6 @@ void bi_filter_source_base::bounds(size_t &N, double &min, double &max)
 
     _bounds(min1, max1, min2, max2, min, max);
 }
-
 
 #pragma clang diagnostic pop
 /* ****************************************************************** */

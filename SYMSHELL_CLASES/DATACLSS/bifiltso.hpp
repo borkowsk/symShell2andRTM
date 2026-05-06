@@ -31,10 +31,10 @@ public:
                          double &min, double &max)
     {
         //jeśli jest ustawione to zostawiamy
-        if(ymin < ymax)
+        if(y_min < y_max)
         {
-            min = ymin;
-            max = ymax;
+            min = y_min;
+            max = y_max;
             return;
         }
         //jeśli nie ustawione to liczymy
@@ -48,7 +48,7 @@ public:
 //któraś z wartości lub obie nie są "missing"
     virtual double _get(double val1, double val2)
     {
-        if(FromFirstIsMissing(val1) || FromSecondIsMissing(val2))
+        if(from_first_is_missing(val1) || from_second_is_missing(val2))
             return miss;
         else
             return val1 + val2;
@@ -56,7 +56,7 @@ public:
 
 };
 
-//Klasa zwracajaca wartości z drugiego źródła, jeśli pierwsze,
+//Klasa zwracająca wartości z drugiego źródła, jeśli pierwsze,
 //traktowane jako warunek zwraca wartość nie "missing"
 class if_then_source : public bi_filter_source_base
 //---------------------------------------------------
@@ -79,10 +79,10 @@ public:
                          double &min, double &max)
     {
         //jeśli jest ustawione to zostawiamy
-        if(ymin < ymax)
+        if(y_min < y_max)
         {
-            min = ymin;
-            max = ymax;
+            min = y_min;
+            max = y_max;
             return;
         }
 
@@ -99,13 +99,13 @@ public:
     {
         //jeśli pierwsza seria ma "missing" to zwracamy missing
         //==Realizacja warunku
-        if(FromFirstIsMissing(val1))
+        if(from_first_is_missing(val1))
             return miss;
 
         //jeśli druga seria ma i tak missing to konwertujemy
         //wartość na lokalne "miss", a, jeśli wartość jest właściwa
         //to ja zwracamy
-        if(FromSecondIsMissing(val2))
+        if(from_second_is_missing(val2))
             return miss;
         else
             return val2;
@@ -120,7 +120,7 @@ public:
             return the_geom;
         } else
         {
-            if((the_geom = Source2->getgeometry()) == Source->getgeometry())
+            if((the_geom = source2->get_geometry()) == Source->get_geometry())
                 return the_geom;
             else
                 return the_geom = NULL;

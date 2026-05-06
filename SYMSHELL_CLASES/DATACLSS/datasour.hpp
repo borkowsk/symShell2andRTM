@@ -20,6 +20,10 @@ using wbrtm::wb_dynarray;
 #pragma ide diagnostic ignored "modernize-use-nullptr"
 #pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
 
+/// @defgroup GrupaDATACLSS System źródeł danych
+/// @brief	Różne źródła danych bazujące na wspólnym interfejsie i z możliwościami czerpania od siebie.
+/// @{
+
 #ifdef USE_ENGLISH_IF_POSSIBLE
 /// A base class of data source passing a single data/value.
 class scalar_source_base : public data_source_base, public title_util
@@ -513,6 +517,8 @@ public:
     void close(iteratorh &p) override {  p = NULL; }
 
 };
+
+/// @}
 
 // TODO Szablon źródła funkcyjnego. Sparametryzowany typem funkcyjnym.
 // @parametr F musi być klasą z bezparametrowym konstruktorem i

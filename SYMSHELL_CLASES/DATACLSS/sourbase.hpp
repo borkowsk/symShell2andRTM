@@ -27,20 +27,25 @@
 // --checks=-google-default-arguments.
 #pragma ide diagnostic ignored "google-default-arguments"
 
-const unsigned ZAPAS_NA_CYFRY = (DBL_DIG * 2); ///< Do wyświetlania: DBL_DIG+zapas na znaki i wykładnik
+/// @defgroup GrupaDATACLSS System źródeł danych
+/// @brief	Różne źródła danych bazujące na wspólnym interfejsie i z możliwościami czerpania od siebie.
+/// @{
+
+constexpr unsigned ZAPAS_NA_CYFRY = (DBL_DIG * 2); ///< Do wyświetlania: DBL_DIG+zapas na znaki i wykładnik
 
 #ifdef USE_ENGLISH_IF_POSSIBLE
+/// @class data_source_base
 /// @brief Definition of the data source's interface.
-/// Each data source must implement these methods, but may also have others.
-class data_source_base
-#else
-/// @brief Definicja INTERFACE-u źródła danych.
-/// Każde źródło musi mieć zaimplementowane takie metody, ale może mieć też inne.
-class data_source_base
+/// @details Each data source must implement these methods, but may also have others.
 #endif
+
+/// @brief Definicja INTERFACE-u źródła danych.
+/// @details Każde źródło musi mieć zaimplementowane takie metody, ale może mieć też inne.
+class data_source_base
 //--------------------
 {
 public:
+    /// Makro definiujące testowanie czy dany blok pamięci jest źródłem danych.
     MEMORY_GUARD(unsigned, 0xAB0C0DAD);
 
 private:
@@ -66,19 +71,19 @@ public:
 // accessors:
 //-----------
 
-    /// Ustala "missing value" takie, jakie chce użytkownik klasy.
+    /// @brief Ustala "missing value" takie, jakie chce użytkownik klasy.
     void set_missing(double i_miss);
 
-    /// Sprawdzanie, czy`Source->get` nie dało `missing`.
-    int is_missing(double val) const;
-
-    /// Zapewnia właściwa inicjacje i obsługę wartości "miss".
-    /// Wystarczy wywołać raz, przed iteracją, a potem używać tylko
-    /// `is_missing()` lub po prostu `miss`.
+    /// @brief Zapewnia właściwa inicjacje i obsługę wartości "miss".
+    /// @details Wystarczy wywołać raz, przed iteracją, a potem używać tylko
+    ///         `is_missing()` lub po prostu `miss`.
     double get_missing();
 
-    /// Ustala minimum i maksimum, żeby uniknąć próbkowania danych.
-    /// Podanie równych wartości, np. 0 i 0 może ponownie włączać próbkowanie.
+    /// @brief Sprawdzanie, czy`Source->get` nie dało `missing`.
+    int is_missing(double val) const;
+
+    /// @brief Ustala minimum i maksimum, żeby uniknąć próbkowania danych.
+    /// @details Podanie równych wartości, np. 0 i 0 może ponownie włączać próbkowanie.
     void set_min_max(double i_min, double i_max);
 
     /// @name OBSŁUGA VERSIONING-u DANYCH
@@ -86,20 +91,20 @@ public:
     //----------------------------------
     /// @{
 
-    /// Ustalanie informacji o wersji danych.
+    /// @brief Ustalanie informacji o wersji danych.
     virtual void new_data_version(int change = 1, unsigned increment = 1);
 
-    /// Uaktualnia wersje wg podanego źródła i wtedy zwraca 1.
-    /// Jeśli wersje są zgodne, to zwraca 0.
+    /// @brief Uaktualnia wersje wg. podanego źródła i wtedy zwraca 1.
+    /// @returns Jeśli wersje są zgodne, to zwraca 0.
     virtual int update_version_from(data_source_base *Source);
 
-    /// Numer wersji danych. Domyślnie prosty akcesor "ro".
+    /// @brief Numer wersji danych. Domyślnie prosty akcesor "ro".
     virtual long data_version() { return cur_step; }
 
-    /// Podaje, od ilu wersji dane się nie zmieniły.
+    /// @brief Podaje, od ilu wersji dane się nie zmieniły.
     virtual long how_old_data() { return no_change; }
 
-    /// Restartuje "versioning" źródeł. W wypadku pod-źródeł powinna być reimplementacja!
+    /// @brief Restartuje "versioning" źródeł. W wypadku pod-źródeł powinna być reimplementacja!
     virtual void restart_counting() { cur_step = -1; no_change = 0; }
     /// @}
 
@@ -108,13 +113,13 @@ public:
     //----------------------------------
     /// @{
 
-    /// Zwraca wskaźnik do obowiązującej geometrii danych.
-    /// Domyślne `NULL` oznacza dane nie-zgeometryzowane, wyłącznie z dostępem sukcesywnym.
+    /// @brief Zwraca wskaźnik do obowiązującej geometrii danych.
+    /// @details Domyślne `NULL` oznacza dane nie-zgeometryzowane, wyłącznie z dostępem sukcesywnym.
     virtual geometry_base *get_geometry() { return NULL; }
 
-    /// WYMAGANA IMPLEMENTACJA przetwarzania indeksu z geometrii na wartość z serii.
-    /// O ile jest geometria i możliwe jest czytanie w losowej kolejności
-    /// , które domyślnie NIE JEST MOŻLIWE i powoduje błąd wykonania.
+    /// @brief WYMAGANA IMPLEMENTACJA przetwarzania indeksu z geometrii na wartość z serii.
+    /// @details O ile jest geometria i możliwe jest czytanie w losowej kolejności
+    ///          , które domyślnie NIE JEST MOŻLIWE i powoduje błąd wykonania.
     virtual double get(size_t index_from_geometry)=0;
     /// @}
 
@@ -123,25 +128,25 @@ public:
     // ------------------------------------------------------
     /// @{
 
-    /// WYMAGANA IMPLEMENTACJA musi zwracać nazwę serii albo pusty tekst "" — NIE NULL.
-    /// Może nie być tym samym tekstem, które zwróciłoby `title_util`, zazwyczaj używane w klasach potomnych.
+    /// @brief WYMAGANA IMPLEMENTACJA musi zwracać nazwę serii albo pusty tekst "" — NIE NULL.
+    /// @details Może nie być tym samym tekstem, które zwróciłoby `title_util`, zazwyczaj używane w klasach potomnych.
     virtual const char *name() = 0;
 
-    /// WYMAGANA IMPLEMENTACJA musi ustawić na parametrach, ile jest elementów, jaka jest wartość minimalna i jaka maksymalna.
+    /// @brief WYMAGANA IMPLEMENTACJA musi ustawić na parametrach, ile jest elementów, jaka jest wartość minimalna i jaka maksymalna.
     virtual void bounds(size_t &N, double &min, double &max) = 0;
 
-    /// WYMAGANA IMPLEMENTACJA dostarcza iterator do odczytywania kolejnych wartości ustawiony na start.
+    /// @brief WYMAGANA IMPLEMENTACJA dostarcza iterator do odczytywania kolejnych wartości ustawiony na start.
     /// @return `iteratorh` jest uchwytem dla jakiegoś obiektu `iterator`.
     /// @note Implementacja iteratora całkowicie zależy od implementatora i nie trzeba w niej grzebać ani nawet zaglądać.
     virtual iteratorh reset() = 0;
 
-    /// WYMAGANA IMPLEMENTACJA ma dać następną z N liczb na podstawie iteratora.
-    /// Po ostatniej (N-ej) powinna zwalniać iterator.
+    /// @brief WYMAGANA IMPLEMENTACJA ma dać następną z N liczb na podstawie iteratora.
+    /// @details Po ostatniej (N-ej) powinna zwalniać iterator.
     virtual double get(iteratorh &) = 0;
 
-    /// WYMAGANA IMPLEMENTACJA ma zwalniać/niszczyć iterator.
-    /// O ile nie został zwolniony przez końcowe wywołanie `get`
-    /// , ale nadmiarowe użycie nie powinno nic uszkadzać (jak w przypadku delete NULL).
+    /// @brief WYMAGANA IMPLEMENTACJA ma zwalniać/niszczyć iterator.
+    /// @details O ile nie został zwolniony przez końcowe wywołanie `get`
+    ///          , ale nadmiarowe użycie nie powinno nic uszkadzać (jak w przypadku delete NULL).
     virtual void close(iteratorh &) = 0;
     /// @}
 
@@ -159,6 +164,8 @@ public:
     virtual ~data_source_base() = default;
     /// @}
 };
+
+/// @}
 
 // ACCESSORS INLINE IMPLEMENTATIONS:
 //----------------------------------
