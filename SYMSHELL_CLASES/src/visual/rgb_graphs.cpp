@@ -1,6 +1,8 @@
-///////////////////////////////////////////////////////////////////////////////////////////
-//IMPLEMENTACJA KLAS GRAFOW UZYWAJACYCH KOLORAWANIA RGB
-///////////////////////////////////////////////////////////////////////////////////////////
+/// @file
+/// @brief Implementation of graph classes using RGB coloring/
+///        IMPLEMENTACJA KLAS GRAFÓW UŻYWAJĄCYCH KOLOROWANIA RGB.
+/// @date 2026-05-06 (modification)
+// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include <stdarg.h>
 #include <ctype.h>
@@ -17,6 +19,7 @@
 #include "symshell.h"
 #include "graphs.hpp"
 
+using namespace symshell2;
 
 //void rect(int x1,int y1,int x2,int y2,wb_color frame_c);
 
@@ -972,16 +975,17 @@ int true_color_manhattan_graph::_rescale_data_point(const double reals[],long in
 }
 
 
-
-/********************************************************************/
-/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
-/*            W O J C I E C H   B O R K O W S K I                   */
-/* Zaklad Systematyki i Geografii Roslin Uniwersytetu Warszawskiego */
-/*  & Instytut Studiow Spolecznych Uniwersytetu Warszawskiego       */
-/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk             */
-/*        MAIL: borkowsk@iss.uw.edu.pl                              */
-/*                               (Don't change or remove this note) */
-/********************************************************************/
+/* ****************************************************************** */
+/*               SYMSHELL2  version 2006/2022/2026                    */
+/* ****************************************************************** */
+/*           THIS CODE IS DESIGNED & COPYRIGHT BY:                    */
+/*            W O J C I E C H   B O R K O W S K I                     */
+/*  Zakład Systematyki i Geografii Roślin Uniwersytetu Warszawskiego  */
+/*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego         */
+/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk               */
+/*        MAIL: borkowsk@iss.uw.edu.pl                                */
+/*                               (Don't change or remove this note)   */
+/* ****************************************************************** */
 
 
 

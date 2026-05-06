@@ -1,15 +1,17 @@
 /// @file
-/// @brief IMPLEMENTACJA ROZNYCH TYPOW OBSZAROW NIE BEDACYCH GRAFAMI.
-/// @date 2026-05-04 (last modification)
-//==============================================================================
-/// Wersja z kosmetyką XI 2012 i późniejszymi.
-//*//////////////////////////////////////////////////////////////////////////////
+/// @brief IMPLEMENTATION OF DIFFERENT TYPES OF NON-GRAPH AREAS/
+///        IMPLEMENTACJA ROŻNYCH TYPóW OBSZARóW NIE BĘDĄCYCH GRAFAMI.
+/// @date 2026-05-06 (last modification)
+//*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Wersja z kosmetyką XI 2012 i późniejszymi zmianami.
 
 #include "wb_clone.hpp"
 #include "symshell.h"
 #include "drawable.hpp"
 #include "gadgets.hpp"
 #include "textarea.hpp"
+
+using namespace symshell2;
 
 //void rect(int x1,int y1,int x2,int y2,unsigned int frame_c);
 
@@ -642,14 +644,16 @@ int text_area::add_text(const char* ini)//ret 1 jesli OK
     return 1;
 }
 
-
-/* ***************************************************************** */
-/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                  */
-/*            W O J C I E C H   B O R K O W S K I                    */
-/*    Instytut Studiow Spolecznych Uniwersytetu Warszawskiego        */
-/*        WWW:  http://www.iss.uw.edu.pl/borkowski                   */
-/*        MAIL: wborkowski@uw.edu.pl                                 */
-/*                               (Don't change or remove this note)  */
-/* ***************************************************************** */
+/* ****************************************************************** */
+/*               SYMSHELL2  version 2006/2022/2026                    */
+/* ****************************************************************** */
+/*           THIS CODE IS DESIGNED & COPYRIGHT BY:                    */
+/*            W O J C I E C H   B O R K O W S K I                     */
+/*  Zakład Systematyki i Geografii Roślin Uniwersytetu Warszawskiego  */
+/*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego         */
+/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk               */
+/*        MAIL: borkowsk@iss.uw.edu.pl                                */
+/*                               (Don't change or remove this note)   */
+/* ****************************************************************** */
 
 

@@ -1,7 +1,7 @@
 /// @file
 /// IMPLEMENTATION OF   W O R L D  FOR "Conways Life" SIMULATION.
 // //////////////////////////////////////////////////////////////
-/// @date 2026-05-04 (modified)
+/// @date 2026-05-06 (modified)
 
 //#include <limits.h>
 //#include <assert.h>
@@ -18,6 +18,8 @@
 #include "gadgets.hpp" 
 #include "wb_ptrio.h"
 #include "wb_swap.hpp"
+
+using namespace symshell2;
 
 const int RAMKA=4;
 extern const char* SIMULATION_NAME;

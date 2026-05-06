@@ -1,11 +1,14 @@
 /// @file
-/// @brief Implementacja podstawowego mengera obszarow i...
-/// @date 2026-04-28 (modified)
+/// @brief Implementation of the base area manager/
+///        Implementacja bazowego zarządcy obszarów.
+/// @date 2026-05-06 (modified)
 //---------------------------------------------------------------------------
 //  Wersja z kosmetyką XI 2012
-//*///////////////////////////////////////////////////////////////////////////
+//*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include "areamngr.hpp"
+
+using namespace symshell2;
 
 area_menager::~area_menager()  //Wirtualny destruktor
 {
@@ -603,15 +606,17 @@ int    area_menager::on_change(const gps_area& ar)
     return -1;
  }
 
-/* ***************************************************************** */
-/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                  */
-/*            W O J C I E C H   B O R K O W S K I                    */
-/* Zaklad Systematyki i Geografii Roslin Uniwersytetu Warszawskiego  */
-/*  & Instytut Studiow Spolecznych Uniwersytetu Warszawskiego        */
-/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk              */
-/*        MAIL: borkowsk@iss.uw.edu.pl                               */
-/*                               (Don't change or remove this note)  */
-/* ***************************************************************** */
+/* ****************************************************************** */
+/*               SYMSHELL2  version 2006/2022/2026                    */
+/* ****************************************************************** */
+/*           THIS CODE IS DESIGNED & COPYRIGHT BY:                    */
+/*            W O J C I E C H   B O R K O W S K I                     */
+/*  Zakład Systematyki i Geografii Roślin Uniwersytetu Warszawskiego  */
+/*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego         */
+/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk               */
+/*        MAIL: borkowsk@iss.uw.edu.pl                                */
+/*                               (Don't change or remove this note)   */
+/* ****************************************************************** */
 
 
 

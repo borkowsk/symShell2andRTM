@@ -1,7 +1,7 @@
 /// @file
 /// @brief IMPLEMENTATION OF THE WORLD FOR "attitudeS" SIMULATION (kattitude old example for SymShell)
 // /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @date 2026-05-04 (modified)
+/// @date 2026-05-06 (modified)
 ///
 
 //#include <limits.h>
@@ -20,6 +20,8 @@
 #include "funcsour.hpp" 
 #include "gadgets.hpp" 
 #include "wb_ptrio.h"
+
+using namespace symshell2;
 
 const int RAMKA=4;
 extern const char* SIMULATION_NAME;

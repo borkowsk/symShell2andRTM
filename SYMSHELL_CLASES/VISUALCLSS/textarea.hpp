@@ -1,6 +1,6 @@
 /// @file
 /// @brief OBSZAR OKNA ("LUFCIK") NAŚLADUJĄCY TERMINAL
-/// @date 2026-05-04 (modified)
+/// @date 2026-05-06 (modified)
 // ********************************************************************************************************************
 //
 #ifndef __TEXT_AREA_HPP__
@@ -10,6 +10,10 @@
 #endif
 
 #include "drawable.hpp"
+
+/// Zmodernizowane klasy do symulacji w C++
+namespace symshell2
+{
 
 /// @brief KLASA OBSZARU "TELETYPE".
 /// Obsługuje tylko tekst. Mogą być w nim znaki \n oraz %@R^L^C zaraz po nich.
@@ -41,6 +45,8 @@ public:
     int			add_line(const char* ln); //dodaje linie na końcu. W razie co przesuwa do gory bufor.
     void		_replot(); //Wypisuje i już
 };
+
+} // namespace symshell2
 
 /* ****************************************************************** */
 /*               SYMSHELL2  version 2006/2022/2026                    */

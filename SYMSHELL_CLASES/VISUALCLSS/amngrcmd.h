@@ -1,6 +1,6 @@
 /// @file
-/// @brief Komendy manager obszarów dla shell'a symulacji.
-/// @date 2026-04-27 (modified)
+/// @brief Komendy managera obszarów dla shell'a symulacji.
+/// @date 2026-05-06 (modified)
 // ********************************************************************************************************************
 
 #if 1

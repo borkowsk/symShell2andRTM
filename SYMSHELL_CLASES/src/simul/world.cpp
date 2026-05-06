@@ -1,7 +1,7 @@
 /// @file world.cpp
 /// implementation of the world-class.
 // ////////////////////////////////////////////////////////////////////
-/// @date 2026-05-04 (modified)
+/// @date 2026-05-06 (modified)
 
 #include "world.hpp"
 #include "wb_cpucl.hpp"
@@ -35,7 +35,7 @@ void world::make_default_visualisation()
     }
 
     //UTWORZENIE OBOWIĄZKOWEGO LUFCIKA NA INFORMACJE TEKSTOWE.
-    OutArea=new text_area(0,0,8*80,25*16,
+    OutArea=new symshell2::text_area(0,0,8*80,25*16,
         "Initialising in progress..."
         ,
         default_white,default_black,128,40);
@@ -53,7 +53,7 @@ ERROR://...akcja na niepogode
 }
 
 
-void world::initialize(main_area_menager* Menager,int Replay)
+void world::initialize(symshell2::main_area_menager* Menager,int Replay)
 // Ustawia stan startowy symulacji.
 {
     wb_cpu_clock timer;

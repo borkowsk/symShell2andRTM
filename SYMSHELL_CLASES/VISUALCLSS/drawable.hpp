@@ -1,6 +1,6 @@
 /// @file
 /// @brief DEKLARACJE SPRZĘGU DLA OBSZARÓW EKRANU. / COUPLING DECLARATIONS FOR SCREEN AREAS
-/// @date 2026-05-04 (modified)
+/// @date 2026-05-06 (modified)
 // ********************************************************************************************************************
 //
 #ifndef _DRAWABLE_HPP_
@@ -17,6 +17,9 @@ using namespace wbrtm;
 #include "sshutils.hpp"
 #include "titleuti.hpp" //title_util
 
+/// Zmodernizowane klasy do symulacji w C++
+namespace symshell2
+{
 
 //Parametry obszaru wydzielonego na ekranie
 //--------------------------------------------
@@ -200,6 +203,8 @@ inline void     drawable_base::settitlecolo(wb_color color,wb_color back)
     titcol=color;
     titbck=back;
 }
+
+} // namespace symshell2
 
 /* ****************************************************************** */
 /*               SYMSHELL2  version 2006/2022/2026                    */

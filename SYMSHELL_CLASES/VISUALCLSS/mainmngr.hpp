@@ -1,6 +1,6 @@
 /// @file
 /// @brief KLASA GŁÓWNEGO ZARZĄDCY OBSZARÓW EKRANU
-/// @date 2026-05-04 (modified)
+/// @date 2026-05-06 (modified)
 // ********************************************************************************************************************
 //
 #ifndef __MAINMNGR_HPP__
@@ -10,6 +10,10 @@
 #endif
 
 #include "areamngr.hpp"
+
+/// Zmodernizowane klasy do symulacji w C++
+namespace symshell2
+{
 
 //J e d n o w c i e l e n i o w a  klasa głównego zarządcy obszarów aplikacji jednookiennych.
 //przeznaczona dla przenośnej platformy graficznej SYMSHELL'a .
@@ -131,6 +135,8 @@ protected:
     virtual int _post_process_input(int input_char); //Po obsłudze domyślnej. Zwraca 1, jeśli obsłużył.
     virtual int _on_idle(); //Uruchamiane przez run_input_loop() gdy nie ma zdarzeń.
 };
+
+} // namespace symshell2
 
 /* ****************************************************************** */
 /*               SYMSHELL2  version 2006/2022/2026                    */

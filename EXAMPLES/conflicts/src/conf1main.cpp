@@ -1,7 +1,7 @@
 /// @file
 /// @brief SYMULACJA KONFLIKTÓW BOCA 2005 (plik główny)
 //-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @date 2026-05-04 (last update)
+/// @date 2026-05-06 (last update)
 /// @details
 /// UZUPEŁNIONY 10-11.2005, 9-2010, 02-2014, 04-2026
 /// ## HISTORIA
@@ -33,6 +33,8 @@
 
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "modernize-use-nullptr"
+
+using namespace symshell2;
 
 const char* SIMULATION_NAME= "CONFLICTS 1.22b BOCA/WARSZAWA: " __DATE__;
 const char* SCREEN_DUMP_NAME="CONFLICTS_v1.22_";

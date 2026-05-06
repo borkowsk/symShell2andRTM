@@ -1,6 +1,6 @@
 /// @file world.hpp
 /// @brief Interface for the base world-class. / Interfejs dla bazy światowej klasy.
-/// @date 2026-05-04 (modified)
+/// @date 2026-05-06 (modified)
 // ********************************************************************************************************************
 //
 #if !defined(WORLD_HPP_INCLUDED_)
@@ -24,14 +24,14 @@ class world
     /// Pomysł zewnętrznego manager-a danych okazał się niesprawdzony.
     virtual void   make_basic_sources(sources_menager& WhatSourMen);
     /// Uchwyt do aktualnego manager danych.
-    main_area_menager*		AreaMenager;
+    symshell2::main_area_menager*		AreaMenager;
     /// Data/Czas aktualnego kroku.
     wb_pchar				TimeStamp;
 
 protected:
     /// Obszar bezpośredniego wyświetlania do wypisywania statusu.
     /// Jest zarządzany przez zarządcę obszarów i może być NULL!!!
-    text_area*				OutArea;
+    symshell2::text_area*				OutArea;
     /// Zarządzanie źródłami danych. Czyli WBUDOWANY zarządca serii danych.
     sources_menager			Sources;
     /// Obiekt rządzący zapisem historii.
@@ -133,7 +133,7 @@ public:
     void			set_input_ratio(unsigned ratio){InputRatio=ratio;}
 
     /// Aktualny zarządca ekranu podłączony do tego świata.
-    area_menager&	MyAreaMenager();
+    symshell2::area_menager&	MyAreaMenager();
     /// Sprawdzenie, czyma już podłączonego zarządcę okien.
     int 			HasAreaMenager() { return AreaMenager!=nullptr; }
     ///Jak trzeba KONIECZNIE coś dopisać do logu.
@@ -149,7 +149,7 @@ public:
     ///     - i opcjonalnie podstawowe grafy
     /// jeśli z `Replay!=0` to inicjalizuje warstwy z zerowego kroku
     /// pliku historii za pomocą funkcji "initialize_from_image".
-    void		initialize(main_area_menager* Menager=nullptr,int Replay=0);
+    void		initialize(symshell2::main_area_menager* Menager=nullptr,int Replay=0);
 
     /// Powtórzenie inicjalizacji dla powtórnego przebiegu symulacji.
     /// Nie odtwarza strony wizualizacyjnej.
@@ -196,7 +196,7 @@ ostream& world::MyLogStream()
 }
 
 inline
-area_menager&		world::MyAreaMenager()
+symshell2::area_menager&		world::MyAreaMenager()
 //Aktualny zarządca ekranu podłączony do świata
 {
                                                 assert(AreaMenager!=nullptr);

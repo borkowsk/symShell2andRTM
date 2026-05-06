@@ -1,7 +1,9 @@
-//	Zarządca obszaru ekranu zaimplementowany bezpośrednio na bazie funkcji SYMSHELL'a
-//   do obsługi całego ekranu/okna SYMSHELL'a.
-//*/////////////////////////////////////////////////////////////////////////////////////////
-/// @date 2026-05-04 (modified)
+/// @file
+/// @brief A screen or window area manager, implemented directly based on SYMSHELL functions.
+///        Zarządca obszarów ekranu lub okna, zaimplementowany bezpośrednio na bazie funkcji SYMSHELL-a.
+/// @date 2026-05-06 (last modification)
+//*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//  Do obsługi całego ekranu/okna SYMSHELL'a.
 
 //#include "INCLUDE/platform.hpp"
 
@@ -19,6 +21,7 @@
 #include "viewHtml.hpp"
 
 using namespace std;
+using namespace symshell2;
 
 template<class T>
 static inline void swap(T& a,T& b)
@@ -575,16 +578,15 @@ main_area_menager::~main_area_menager()
     counter--;														// assert( heapcheck() != _HEAPCORRUPT );
 }
 
-
-/********************************************************************/
-/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
-/*            W O J C I E C H   B O R K O W S K I                   */
-/*                                                                  */
-/*      Instytut Studiow Spolecznych Uniwersytetu Warszawskiego     */
-/*                                                                  */
-/*        WWW:  http://www.iss.uw.edu.pl/~borkowsk                  */
-/*        MAIL: borkowsk@samba.iss.uw.edu.pl                        */
-/*                                                                  */
-/*                               (Don't change or remove this note) */
-/********************************************************************/
+/* ****************************************************************** */
+/*               SYMSHELL2  version 2006/2022/2026                    */
+/* ****************************************************************** */
+/*           THIS CODE IS DESIGNED & COPYRIGHT BY:                    */
+/*            W O J C I E C H   B O R K O W S K I                     */
+/*  Zakład Systematyki i Geografii Roślin Uniwersytetu Warszawskiego  */
+/*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego         */
+/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk               */
+/*        MAIL: borkowsk@iss.uw.edu.pl                                */
+/*                               (Don't change or remove this note)   */
+/* ****************************************************************** */
 

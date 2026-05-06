@@ -1,6 +1,6 @@
 /// @file
 /// @brief KLASY DEFINIUJĄCE RÓŻNORODNE TYPY WYKRESÓW. / CLASSES DEFINING VARIOUS TYPES OF CHARTS.
-/// @date 2026-05-04 (modified)
+/// @date 2026-05-06 (modified)
 // ********************************************************************************************************************
 //
 #ifndef __GRAPHS_HPP__
@@ -21,6 +21,10 @@
 #include "sshutils.hpp"
 #include "datasour.hpp"
 #include "drawable.hpp"
+
+/// Zmodernizowane klasy do symulacji w C++
+namespace symshell2
+{
 
 //INTERFACE DO GRAFU — KLASY WYPROWADZONE POWINNY TYLKO IMPLEMENTOWAĆ
 //--------------------------------------------------------------------------
@@ -980,6 +984,8 @@ void fast_carpet_graph<DATA_SOURCE, DIRECT_COLOR>::_replot()
 /*
 class scatter3D_graph:public graph//Punkty w trzech wymiarach (dowolne X,Y,Z)
 */
+
+} // namespace symshell2
 
 /* ****************************************************************** */
 /*               SYMSHELL2  version 2006/2022/2026                    */

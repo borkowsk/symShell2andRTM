@@ -1,6 +1,7 @@
 /// @file
-/// @brief IMPLEMENTACJA PODSTAWOWYCH KLAS GRAFOW
-/// @date 2026-05-04 (modified)
+/// @brief IMPLEMENTATION OF BASIC GRAPH CLASSES/
+///        IMPLEMENTACJA PODSTAWOWYCH KLAS GRAFÓW.
+/// @date 2026-05-06 (modified)
 // /////////////////////////////////////////////////////////////////////////////////////////
 
 #include <stdarg.h>
@@ -20,6 +21,7 @@
 #include "sshutils.hpp"
 #include "graphs.hpp"
 
+using namespace symshell2;
 
 //void rect(int x1,int y1,int x2,int y2,wb_color frame_c);
 

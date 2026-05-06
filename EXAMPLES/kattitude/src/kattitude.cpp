@@ -1,7 +1,7 @@
 /// @file
 /// @brief Symulacja zmiany poglądów - attitudes (kattitude old example for SymShell)
 // //////////////////////////////////////////////////////////////////////////////////
-/// @date 2026-04-03 (modified)
+/// @date 2026-05-06 (modified)
 /// @details
 ///     Uzyskana niegdyś przez uproszczenie programu LANGUAGES.
 ///     Uzupełniona o wagi opinii innych, jako fragmentaryczna implementacja teorii Arie Kruglanskiego.
@@ -24,6 +24,8 @@ const char* SIMULATION_NAME="attitudes_k_v0.71c";
 //#include "wbminmax.hpp"
 #include "arand.h"
 #include "aworld.h"
+
+using namespace symshell2;
 
 unsigned SCR_WIDTH=750;
 unsigned SCR_HEIGHT=550;

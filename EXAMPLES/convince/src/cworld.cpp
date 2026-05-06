@@ -1,7 +1,7 @@
 /// @file
 /// Implementation of the world of the convinced (D. Stauffer idea).
 // /////////////////////////////////////////////////////////////////////
-/// @date 2026-05-04 (modified)
+/// @date 2026-05-06 (modified)
 
 #include <cstring>
 #include <cmath>
@@ -13,6 +13,8 @@
 #include "coincsou.hpp"
 #include "gadgets.hpp" 
 #include "wb_ptrio.h"
+
+using namespace symshell2;
 
 const int RAMKA=4;
 extern const char* SIMULATION_NAME;

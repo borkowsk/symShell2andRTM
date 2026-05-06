@@ -1,5 +1,8 @@
-// IMPLEMENTACJA PODSTAWOWYCH KLAS GRAFÓW
-//*/////////////////////////////////////////////////////////////////////////////////////////
+/// @file
+/// @brief IMPLEMENTATION OF BASIC PRIMITIVES CLASSES/
+///        IMPLEMENTACJA PODSTAWOWYCH KLAS PRYMITYWÓW GRAFICZNYCH.
+/// @date 2026-05-06 (modification)
+// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include <stdarg.h>
 #include <ctype.h>
@@ -13,6 +16,8 @@
 //#include "platform.hpp"
 #include "symshell.h"
 #include "graphs.hpp"
+
+using namespace symshell2;
 
 void config_point::plot(int /*x*/,int /*y*/,unsigned short /*s*/,wb_color /*c*/)//KLASA BAZOWA?
 {
@@ -59,15 +64,17 @@ void rhomb_point::plot(int x,int y,unsigned short s,wb_color c)
 }
 
 
-
-/********************************************************************/
-/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
-/*            W O J C I E C H   B O R K O W S K I                   */
-/*    Instytut Studiow Spolecznych Uniwersytetu Warszawskiego       */
-/*          WWW:  http://www.iss.uw.edu.pl/borkowski                */
-/*          MAIL: wborkowski@uw.edu.pl                              */
-/*                               (Don't change or remove this note) */
-/********************************************************************/
+/* ****************************************************************** */
+/*               SYMSHELL2  version 2006/2022/2026                    */
+/* ****************************************************************** */
+/*           THIS CODE IS DESIGNED & COPYRIGHT BY:                    */
+/*            W O J C I E C H   B O R K O W S K I                     */
+/*  Zakład Systematyki i Geografii Roślin Uniwersytetu Warszawskiego  */
+/*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego         */
+/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk               */
+/*        MAIL: borkowsk@iss.uw.edu.pl                                */
+/*                               (Don't change or remove this note)   */
+/* ****************************************************************** */
 
 
 
