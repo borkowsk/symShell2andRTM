@@ -1,6 +1,7 @@
 /// @file
-/// @brief Różne klasy dwuzrodlowych filtrow danych
-/// @date 2026-05-04 (modified)
+/// @brief Different classes of dual-source data filters/
+///        Różne klasy dwuźródłowych filtrów danych.
+/// @date 2026-05-06 (modified)
 // ********************************************************************************************************************
 //
 #ifndef __BIFILTSOUR_HPP__

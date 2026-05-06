@@ -1,6 +1,6 @@
 /// @file
 /// @brief Filtr liczący koincydencje klas dwu serii i pochodne statystyki (Hi^2 itp).
-/// @date 2026-05-04 (modified)
+/// @date 2026-05-06 (modified)
 // ********************************************************************************************************************
 //
 #ifndef __COINCIDENTION_SOUR_HPP__
@@ -103,8 +103,8 @@ protected:
             {
                 double pom1 = source1->get(Ind1);
                 double pom2 = source2->get(Ind2);
-                if((!FromFirstIsMissing(pom1)) &&
-                   (!FromSecondIsMissing(pom2))
+                if((!from_first_is_missing(pom1)) &&
+                   (!from_second_is_missing(pom2))
                         )
                 {
                     Pairs++;   //Suma zdarzeń!!!

@@ -1,6 +1,6 @@
 /// @file
 /// @brief Podstawowa klasa dla ko-filtrów statystycznych — statystyk z dwu serii.
-/// @date 2026-05-04 (modified)
+/// @date 2026-05-06 (modified)
 // ********************************************************************************************************************
 //
 #ifndef __CO_STATSOUR_HPP__
@@ -116,8 +116,8 @@ protected:
             {
                 double pom1 = source1->get(Ind1);
                 double pom2 = source2->get(Ind2);
-                if((!FromFirstIsMissing(pom1)) &&
-                   (!FromSecondIsMissing(pom2))
+                if((!from_first_is_missing(pom1)) &&
+                   (!from_second_is_missing(pom2))
                         )
                 {
                     Pairs++;
@@ -139,8 +139,8 @@ protected:
             {
                 double pom1 = source1->get(Ind1);
                 double pom2 = source2->get(Ind2);
-                if((!FromFirstIsMissing(pom1)) &&
-                   (!FromSecondIsMissing(pom2))
+                if((!from_first_is_missing(pom1)) &&
+                   (!from_second_is_missing(pom2))
                         )
                 {
                     summ1 += (X_s - pom1) * (Y_s - pom2);

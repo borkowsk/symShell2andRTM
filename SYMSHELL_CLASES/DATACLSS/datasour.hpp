@@ -1,7 +1,7 @@
 /// @file
 /// @brief INTERFACES of the most basic data source classes /
 ///        INTERFACE-y najbardziej podstawowych klas źródeł danych.
-/// @date 2026-05-04 (modified)
+/// @date 2026-05-06 (modified)
 // *********************************************************************************************************************
 //
 #ifndef SYMSHELL2_DATA_SOURCES_HPP_INCLUDED_
@@ -22,25 +22,22 @@ using wbrtm::wb_dynarray;
 
 #ifdef USE_ENGLISH_IF_POSSIBLE
 /// A base class of data source passing a single data/value.
+class scalar_source_base : public data_source_base, public title_util
 #else
 /// Klasa bazowa źródła danych przekazującego pojedynczą daną/wartość.
-#endif
 class scalar_source_base : public data_source_base, public title_util
+#endif
 //-----------------------------------------------------------------
 {
-#if __GNUC__ >= 3 //Problemy z widocznością poniższej zmiennej, ale i tak nie pomaga!!!
-public:
-#else
 protected:
-#endif
     int CheckMinMax; ///< Określa, czy należy sprawdzić min i max., czy są/będą podane.
 
     /// Constructor.
     /// @param nam to nazwa źródła.
     /// @param min to wymuszone minimum zakresu.
     /// @param max to wymuszone maksimum zakresu.
-    explicit scalar_source_base(const char *nam, double min = 0, double max = 0) :
-            title_util(nam)
+    explicit scalar_source_base(const char *nam, double min = 0, double max = 0)
+    : title_util(nam)
     {
         y_min = min;
         y_max = max;
@@ -51,7 +48,8 @@ protected:
     ~scalar_source_base() override = default;
 
 public:
-    /// Nazwa serii przechowywana w `title_util`. @return zwracać nazwę serii albo "" — NIE NULL!!!
+    /// Nazwa serii przechowywana w `title_util`.
+    /// @return zwracać nazwę serii albo "" — NIE NULL!!!
     const char *name() override
     { return title_util::name(); }
 
@@ -59,43 +57,39 @@ public:
     /// Zakres może być większy niż ta jedyna pamiętana liczba, bo użytkownik klasy może go zmienić.
     /// Zakres MOŻE też być pamięcią poprzednich wartości przechowywanych w tym obiekcie.
     void bounds(size_t &N, double &min, double &max) override
-    {
-        N = 1;
-        min = y_min;
-        max = y_max;
-    }
+    { N = 1; min = y_min; max = y_max; }
 
     /// Umożliwia iteracje od początku.
     /// W tym przypadku iterator może zawierać tylko `1' albo NULL.
     iteratorh reset() override
     { return (iteratorh) 1; }
 
-    /// Zwalnia, czyli w tym przypadku zeruje iterator.
+    /// Zwalnia iterator, czyli w tym przypadku zeruje go.
     void close(iteratorh &I) override
-    { I = 0; }
+    { I = NULL; }
 
-    /// Daje następną, czyli w tym przypadku jedyną liczbę.
-    /// Ta metoda do podstawienia w klasach potomnych.
-    /// Poza podaniem liczby metoda powinna zwolnić, czyli wyzerować iterator!
-    double get(iteratorh &I) override = 0;
+
+    double get(iteratorh &I) override = 0; /// @internal Nadal WYMAGA IMPLEMENTACJA.
 };
 
 #ifdef USE_ENGLISH_IF_POSSIBLE
 /// Template class for typed single-element sources.
-#else
-/// Szablon klasa dla utypowionych źródeł jedno-elementowych.
-#endif
 template<class T>
 class template_scalar_source_base : public scalar_source_base
-//---------------------------------------------------------
+#else
+/// Szablon klasa dla utypowionych źródeł jedno-elementowych.
+template<class T>
+class template_scalar_source_base : public scalar_source_base
+#endif
+//-----------------------------------------------------------
 {
 protected:
-    /// Constructor
+    /// Constructor.
     /// @param nam to nazwa źródła.
     /// @param min to wymuszone minimum zakresu.
     /// @param max  to wymuszone maksimum zakresu.
-    explicit template_scalar_source_base(const char *nam, double min = 0, double max = 0) :
-            scalar_source_base(nam, min, max)
+    explicit template_scalar_source_base(const char *nam, double min = 0, double max = 0)
+    : scalar_source_base(nam, min, max)
     { miss = default_missing<T>(); }
 
     /// Destructor.
@@ -111,17 +105,25 @@ public:
         return get();
     }
 
-    /// Mamy zawsze jedną wartość, więc można uprościć dostęp.
+    /// Przetwarzanie indeksu uzyskanego z geometrii dla źródła skalarnego daje zawsze tę samą wartość.
+    double get(geometry::index_t ) override
+    {
+        return get();
+    }
+
+    /// WYMAGANA IMPLEMENTACJA dostępu do wartości. Mamy zawsze jedną wartość, więc można to uprościć.
     // TODO @return const T& albo T — TU TRZEBA ZMIENIĆ GDY `source_base` stanie się szablonem.
     virtual double get() = 0;
+
 };
 
 #ifdef USE_ENGLISH_IF_POSSIBLE
 /// A data source that filters data from another source.
+class filter_source_base : public data_source_base, public title_util
 #else
 /// Źródło filtrujące dane z innego źródła.
-#endif
 class filter_source_base : public data_source_base, public title_util
+#endif
 //-------------------------------------------------------------------
 {
 protected:
@@ -150,10 +152,10 @@ protected:
     }
 
     /// Constructor.
-    explicit filter_source_base( data_source_base *ini = NULL, ///< Źródło, z którego ma czerpać filtr.
-                                 const char *format = "F(%s)"  ///< Wzorzec budowania nazwy filtra z nazwy źródła.
-        ) :
-            title_util(format), Source(NULL), source_miss(INFINITY)
+    /// \param ini to źródło, z którego ma czerpać filtr.
+    /// \param format to wzorzec budowania nazwy filtra z nazwy źródła.
+    explicit filter_source_base( data_source_base *ini = NULL, const char *format = "F(%s)" )
+    : title_util(format), Source(NULL), source_miss(INFINITY)
     {
         set_source(ini);
     }
@@ -170,34 +172,38 @@ public:
     }
 
     /// Zwraca wskaźnik do seri źródłowej.
-    const data_source_base *get_source()
-    { return Source; }
+    const data_source_base *get_source() { return Source; }
 
 // Virtual accessors:
 // ------------------
 
-    long data_version() override //numer wersji danych.
+    /// Sprawdza aktualność serii źródłowej i zwraca jej `data_version`.
+    long data_version() override
     {
-        check_version_(); // Wewnętrzne sprawdzenie, czy i jak zmieniły się dane w źródle.
+        check_version_();
         return data_source_base::data_version();
     }
 
-    long how_old_data() override //od ilu wersji dane się nie zmieniły.
+    /// Sprawdza aktualność serii źródłowej i podaje, od ilu wersji dane się nie zmieniły.
+    long how_old_data() override
     {
-        check_version_(); // Wewnętrzne sprawdzenie, czy i jak zmieniły się dane w źródle.
+        check_version_();
         return data_source_base::how_old_data();
     }
 
-    const char *name() override; //Musi zwracać nazwę serii albo "" — NIE NULL!!!
+    /// Podaje nazwę tego filtra utworzoną na podstawie formatu i nazwy jego źródła danych.
+    const char *name() override;
 
-    geometry_base *get_geometry() override //Zwraca wskaźnik do obowiązującej geometrii danych
-    { return Source->get_geometry(); } //domyślnie taka jak w źródle.
+    /// Zwraca wskaźnik do obowiązującej geometrii danych, która domyślnie taka jak w źródle danych.
+    geometry_base *get_geometry() override
+    { return Source->get_geometry(); }
 
-    // DOSTĘP DO DANYCH:
-    // -----------------
+// DOSTĘP DO DANYCH:
+// -----------------
 
-    void bounds(size_t &N, double &min, double &max) override //Ile elementów, wartość minimalna i maksymalna
-    {                                                    //Być może wartości te trzeba przekonwertować (?)
+    /// Implementacja domyślna sprawdza aktualność źródła danych i podaje jego bounds.
+    void bounds(size_t &N, double &min, double &max) override
+    {                 //Być może wartości te trzeba przekonwertować (?)
         check_version_();
         Source->bounds(N, min, max);
         if(y_min < y_max) //Jeśli ustawiono poprawnie to "overwrite"
@@ -207,7 +213,9 @@ public:
         }
     }
 
-    iteratorh reset() override // Umożliwia czytanie od początku — `iteratorh` jest uchwytem iteratora.
+    /// Implementacja domyślna sprawdza aktualność źródła danych i podaje jego iterator.
+    /// Dla pewności aktualizuje też `source_miss`.
+    iteratorh reset() override
     {
         check_version_();  //Żeby źródło miało szanse na "update" wersji danych.
         iteratorh pom = Source->reset();
@@ -215,31 +223,35 @@ public:
         return pom;
     }
 
-    void close(iteratorh &I) override //Obiekt źródłowy zwalnia iterator, jeśli nie został zwolniony przez `get`.
-    { Source->close(I); }
+    /// Implementacja domyślna zwalnia iterator, używając `close` ze źródła danych.
+    void close(iteratorh &I) override { Source->close(I); }
 
-    /// Implementacja iteracji z filtrowanie.
+    /// WYMAGANA implementacja iteracji z filtrowaniem.
+    /// Najczęściej wystarczy przeliczyć wartość źródłową lub przekazać ją alno "missing".
     double get(iteratorh &I) override=0;
 
-    /// Ta metoda jest też do podstawienia, bo też musi filtrować.
-    double get(size_t index_from_geometry) override=0;
+    /// WYMAGANA implementacja dostępu do wartości na podstawie indeksu z geometrii.
+    /// Najczęściej wystarczy przeliczyć wartość źródłową lub przekazać ją alno "missing".
+    double get(geometry::index_t index) override=0;
 };
 
 #ifdef USE_ENGLISH_IF_POSSIBLE
 /// Data source template filtering data from another source — for greater efficiency (reducing virtual calls?)
-#else
-/// Szablon źródła filtrujące dane z innego źródła — dla większej efektywności (ograniczenie wywołań wirtualnych?)
-#endif
 template<class SOURCE_TYPE>
 class template_filter_source_base : public filter_source_base
+#else
+/// Szablon źródła filtrujące dane z innego źródła — dla większej efektywności (ograniczenie wywołań wirtualnych?)
+template<class SOURCE_TYPE>
+class template_filter_source_base : public filter_source_base
+#endif
 //-----------------------------------------------------------
 {
 protected:
     /// Constructor.
     /// @param ini to źródło, z którego ma czerpać filtr.
     /// @param format to sposób budowania nazwy filtra z nazwy źródła.
-    explicit template_filter_source_base(SOURCE_TYPE *ini = NULL, const char *format = "F(%s)") :
-            filter_source_base(ini, format)
+    explicit template_filter_source_base(SOURCE_TYPE *ini = NULL, const char *format = "F(%s)")
+    : filter_source_base(ini, format)
     {}
 
     /// Virtual destructor.
@@ -266,33 +278,26 @@ public:
     void close(iteratorh &I) override
     { reinterpret_cast<SOURCE_TYPE*>(Source)->close(I); }
 
-    double get(iteratorh &I) override
-    // Wymaga realnego zaimplementowania w klasach potomnych.
-    // Przy kompilacji "Release" ta metoda po prostu kopiuje wynik ze źródła
-    //, a przy debug wyrzuca asercje.
-    {
-        assert(!"Linear access get() not implemented");
-        return reinterpret_cast<SOURCE_TYPE*>(Source)->get(I);
-    }
+    /// Pobieranie danej za pomocą iteratora WYMAGA zaimplementowania w klasach potomnych.
+    /// Przy kompilacji "Release" ta implementacja po prostu kopiuje wynik ze źródła
+    /// , a przy "Debug" wyrzuca asercje.
+    double get(iteratorh &I) override;
 
-    double get(size_t index_from_geometry) override
-    // Wymaga realnego zaimplementowania w klasach potomnych.
-    // Przy kompilacji "Release" ta metoda po prostu kopiuje wynik ze źródła
-    //, a przy debug wyrzuca asercje.
-    {
-        assert(!"Random access get() not implemented"); //DEBUG
-        return reinterpret_cast<SOURCE_TYPE*>(Source)->get(index_from_geometry);
-    }
+    /// Pobieranie danej za pomocą geometrii WYMAGA zaimplementowania w klasach potomnych.
+    /// Przy kompilacji "Release" ta implementacja po prostu wywołuje czytanie z geometrii w źródle
+    ///, a przy "Debug" wyrzuca asercje.
+    double get(size_t index_from_geometry) override;
 
 };
 
 #ifdef USE_ENGLISH_IF_POSSIBLE
 /// Base class for sources passing data linearly.
+class linear_source_base : public data_source_base, public title_util
 #else
 /// Klasa bazowa dla źródeł przekazujących dane liniowo.
-#endif
 class linear_source_base : public data_source_base, public title_util
-//--------------------------------------------------------
+#endif
+//-------------------------------------------------------------------
 {
 protected:
     size_t N; ///< Ile elementów. Chronione, a nie prywatne, bo np. `fifo_source<> modyfikuje`.
@@ -300,11 +305,12 @@ protected:
     /// Constructor only for derived classes.
     /// @param i_N to oczekiwana liczba elementów (do sprawdzeń).
     /// @param i_tit to nazwa tego źródła danych.
-    linear_source_base(size_t i_N, const char *i_tit) :
-            N(i_N), title_util(i_tit)
+    linear_source_base(size_t i_N, const char *i_tit)
+    : N(i_N), title_util(i_tit)
     {}
 
-    /// Wewnętrzna implementacja przemieszczenia iteratora o jednostkę. Zeruje, jeśli koniec tablicy.
+    /// Wewnętrzna implementacja przemieszczenia iteratora o jednostkę.
+    /// Zeruje, jeśli koniec tablicy.
     size_t _next(iteratorh &p) const
     {
         assert(p != NULL); //Nie wolno wywołać dla NULL
@@ -331,23 +337,18 @@ public:
     //=========
 
     /// Akcesor dostępu do oczekiwanego rozmiaru ciągu danych.
-    size_t get_size() const
-    { return N; }
+    size_t get_size() const { return N; }
 
-    /// Akcesor nazwy serii.
-    const char *name() override
-    { return title_util::name(); }
+    const char *name() override { return title_util::name(); }
 
-    iteratorh reset() override
-    { return (iteratorh) 1; }
+    iteratorh reset() override { return (iteratorh) 1; }
 
-    void close(iteratorh &p) override
-    { p = NULL; }
+    void close(iteratorh &p) override { p = NULL; }
 
-    /// Implementacja iteracji liniowej.
+    /// Wymagana implementacja iteracji liniowej.
     double get(iteratorh &I) override=0;
 
-    /// Ta metoda jest też do podstawienia.
+    /// Wymagana implementacja pobierania danej na podstawie indeksu z geometrii.
     double get(size_t index_from_geometry) override=0;
 };
 
@@ -372,11 +373,10 @@ protected:
     /// \param i_miss to nietypowa wartość podawana przy skanowaniu wycinka wychodzącego poza macierz.
     /// @note `i_subs` tutaj nie działa! TODO!
     rectangle_source_base(
-            const char *i_tit,
-            size_t i_A, size_t i_B, int i_torus,
-            int *i_subs = NULL,double i_miss = default_missing<double>()
-            ) :
-            title_util(i_tit), my_geometry(NULL), local_geometry(false)
+            const char *i_tit,size_t i_A, size_t i_B, int i_torus,
+            int *i_subs = NULL, double i_miss = default_missing<double>()
+            )
+    : title_util(i_tit), my_geometry(NULL), local_geometry(false)
     {
         set_missing(i_miss);
         my_geometry = new rectangle_geometry(i_A, i_B, i_torus);
@@ -388,15 +388,14 @@ protected:
 
     /// Constructor with borrowed geometry/Konstruktor z zapożyczoną geometrią.
     /// \param i_tit to nazwa serii danych.
-    /// \param geom to referencja do geometrii. Jest zapamiętywany adres!!!
+    /// \param geom to referencja do geometrii. Jest zapamiętywany adres!!! Nie będzie dealokowany.
     /// \param i_miss to nietypowa wartość podawana przy skanowaniu wycinka wychodzącego poza macierz.
     rectangle_source_base(
             const char *i_tit,
             rectangle_geometry &geom,  //Geometria z zewnątrz — dealokacja nie będzie zarządzana
-            double i_miss = default_missing<double>()	//Wartość podawana przy
-            //skanowaniu wycinka wychodzącego poza macierz
-            ) :
-            title_util(i_tit), my_geometry(NULL), local_geometry(false) //Nie będzie zarządzać dealokacją geometrii.
+            double i_miss = default_missing<double>()
+            )
+    : title_util(i_tit), my_geometry(NULL), local_geometry(false) //Nie będzie zarządzać dealokacją geometrii.
     {
         set_missing(i_miss);
         my_geometry = &geom;
@@ -405,12 +404,13 @@ protected:
     }
 
     /// Korzystając z geometrii, zwraca indeks do aktualnego elementu i przesuwa iterator.
-    /// @returns `ULONG_MAX`/`FULL`, jeśli brak danej... @note Zeruje iterator, jeśli koniec danych.
+    /// @returns `FULL`, jeśli brak danej... @note Zeruje iterator, jeśli koniec danych.
     size_t _next(iteratorh &p)
     {
         return my_geometry->get_next(p);
     }
 
+    /// Destruktor zwalnia geometrię, jeśli nie jest pożyczona.
     ~rectangle_source_base() override
     {
         if(local_geometry) //Czy to własna geometria, czy "pożyczona"?
@@ -418,22 +418,26 @@ protected:
     }
 
 public:
-    const char *name() override    //Zwraca nazwę serii.
-    { return title_util::name(); }
+    /// Zwraca nazwę serii, po prostu czytając z bazowego `title_util`.
+    const char *name() override { return title_util::name(); }
 
-    geometry_base *get_geometry() override // Zwraca wskaźnik do obowiązującej geometrii danych.
+    /// Czyta wskaźnik do obowiązującej geometrii danych.
+    /// @return NULL, jeśli dane nie mają znanej geometrii.
+    geometry_base *get_geometry() override
     {
         assert(my_geometry != NULL); // NULL oznaczałby dane nie-zgeometryzowane
         return my_geometry;
     }
 
-    rectangle_geometry *get_rect_geometry() //Non virtual (!!!) shortcut
+    /// Non-virtual (!!!) shortcut.
+    /// @returns geom-ptr `my_geometry`.
+    rectangle_geometry *get_rect_geometry()
     {
         assert(my_geometry != NULL);
         return my_geometry;
     }
 
-    /// Korzystając z geometrii, tworzy iterator.
+    /// Korzystając z geometrii, tworzy iterator po wszystkich obiektach/agentach.
     iteratorh reset() override
     { return my_geometry->make_global_iterator(); }
 
@@ -457,11 +461,12 @@ public:
 
 #ifdef USE_ENGLISH_IF_POSSIBLE
 /// Base class for the function source. To minimize the number of duplicate methods.
+class function_source_base : public data_source_base, public title_util
 #else
 /// Klasa podstawowa źródła funkcyjnego. Żeby zminimalizować liczbę powtarzających się metod.
-#endif
 class function_source_base : public data_source_base, public title_util
-//-----------------------------------------------------------------------------------
+#endif
+//---------------------------------------------------------------------
 {
 protected:
     double x_min; ///< Początek zadanego zakresu X.
@@ -475,13 +480,10 @@ protected:
     /// \param i_x_min, i_x_max to zakres po X-ach.
     /// \param i_tit to nazwa funkcji, do podpisu na wykresie.
     /// \param i_y_min, i_y_max to oczekiwany zakres na Y-ach. Oszczędza liczenia.
-    function_source_base(size_t iN,
-                         double i_x_min, double i_x_max,
+    function_source_base(size_t iN, double i_x_min, double i_x_max,
                          const char *i_tit,
-                         double i_y_min, double i_y_max
-            ) :
-            N(iN), title_util(i_tit),
-            x_min(i_x_min), x_max(i_x_max) //pola własne.
+                         double i_y_min, double i_y_max)
+    : N(iN), title_util(i_tit),x_min(i_x_min), x_max(i_x_max) //pola własne.
     {
         y_min = i_y_min;
         y_max = i_y_max; //pola dziedziczone.
@@ -490,33 +492,32 @@ protected:
         step = (x_max - x_min) / double(N - 1); // Obliczenie długości kroku próbkowania.
     }
 
+    /// Destructor.
+    ~function_source_base() override = default;
 
 public:
+    /// Zwraca nazwę serii, po prostu czytając z bazowego `title_util`.
+    const char *name() override { return title_util::name(); }
 
-    const char *name() override    // Zwraca nazwę serii.
-    { return title_util::name(); }
-
+    /// Ta implementacja po prostu czyta to co ma zapisane w atrybutach.
     void bounds(size_t &num, double &min, double &max) override
-    {
-        num = N;
-        min = y_min;
-        max = y_max;
-    }
+    { num = N; min = y_min; max = y_max; }
 
-    iteratorh reset() override
-    { return 0; }
+    /// Dostarcza iterator ustawiony na 0.
+    /// Nie należy sprawdzać, aby, czy nie zwrócił NULL, bo właśnie to jest to samo!
+    /// Jednakże dla funkcji to po prostu oznaczenie początku.
+    iteratorh reset() override { return 0; }
 
-    void close(iteratorh &p) override
-    {  p = NULL; }
+    /// Po prostu zeruje iterator. Co przypadkiem pozwala zacząć od początku.
+    /// Taki efekt nie był zamierzony, ale tak wyszło.
+    void close(iteratorh &p) override {  p = NULL; }
 
 };
 
-// Szablon źródła funkcyjnego.
-// Sparametryzowany typem funkcyjnym.
+// TODO Szablon źródła funkcyjnego. Sparametryzowany typem funkcyjnym.
 // @parametr F musi być klasą z bezparametrowym konstruktorem i
 // metodą: `double operator () (double) `.
 // Może mieć natomiast dowolne pola pomocnicze.
-
 //template<class F>
 //class function_source:function_source_base  --- #include "func-sour.hpp"
 //{...};
@@ -554,6 +555,20 @@ double filter_source_base::get(size_t index_from_geometry)
 {
     assert(!"Random access get() not implemented");
     return Source->get(index_from_geometry); //Używane w trybie "Release.
+}
+
+template<class SOURCE_TYPE> inline
+double template_filter_source_base<SOURCE_TYPE>::get(size_t index_from_geometry)
+{
+    assert(!"Random access get() not implemented"); //DEBUG
+    return reinterpret_cast<SOURCE_TYPE*>(Source)->get(index_from_geometry);
+}
+
+template<class SOURCE_TYPE> inline
+double template_filter_source_base<SOURCE_TYPE>::get(iteratorh &I)
+{
+    assert(!"Linear access get() not implemented");
+    return reinterpret_cast<SOURCE_TYPE*>(Source)->get(I);
 }
 
 #pragma clang diagnostic pop
