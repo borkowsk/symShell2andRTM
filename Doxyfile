@@ -32,7 +32,7 @@ DOXYFILE_ENCODING      = UTF-8
 # title of most generated pages and in a few other places.
 # The default value is: My Project.
 
-PROJECT_NAME           = "SymShell2 and WB WTM"
+PROJECT_NAME           = "SymShell2 and WB RTM"
 
 # The PROJECT_NUMBER tag can be used to enter a project or revision number. This
 # could be handy for archiving the generated documentation or if some version
@@ -867,7 +867,6 @@ WARN_LOGFILE           =
 
 INPUT                  = SYMSHELL_CLASES \
                          RTM \
-                         EXAMPLES \
                          Accessories \
                          docs/links
 
