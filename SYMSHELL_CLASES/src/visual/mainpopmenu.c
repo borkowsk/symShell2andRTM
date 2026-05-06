@@ -1,7 +1,7 @@
 /// @file
 /// @brief Default context menu definition for area manager class /
 ///        Domyślna definicja menu kontekstowego dla zarządcy obszarów.
-/// @date 2026-04-30 (last modification)
+/// @date 2026-05-06 (last modification)
 //        ============================================================
 //  Created by borkowsk on 17.04.26.
 
@@ -15,15 +15,14 @@
 /* Domyślna definicja menu kontekstowego dla zarządcy obszarów z biblioteki klas SymShell-a.
  * Default context menu definition for area manager class. */
 ssh_menu_item_definition  context_menu_default[]= {
-        { "One step", SSH_ONESTEP }, //50001
-        { "Start/Stop", SSH_STARTSTOP }, //                    50002
-
-        { "Dump screen", SSH_FILE_DUMPSCREEN }, //              50011
         { "QUIT", SSH_FILE_EXIT }, //                    50012
-
         { "HELP", SSH_HELP_SHORTCUTHELP  }, //           50091
         { "ABOUT", SSH_HELP_AUTHORSWWWPAGE }, //          50092
 
+        { "One step", SSH_ONESTEP }, //50001
+        { "Start/Stop", SSH_STARTSTOP }, //                    50002
+        { "Dump screen", SSH_FILE_DUMPSCREEN }, //              50011
+        { "-----------", 0 },
         { "Tile All", SSH_WINDOWS_TILE_ALL }, //             50020
         { "Mark All", SSH_WINDOWS_MARKALLAREAS }, //         50025
         { "Unmark All", SSH_WINDOWS_UNMARKALLAREAS }, //       50026
@@ -32,7 +31,7 @@ ssh_menu_item_definition  context_menu_default[]= {
         { "Uncover hidden", SSH_WINDOWS_UNCOVERHIDDENAREAS }, //   50022
         { "Restore original", SSH_WINDOWS_RESTORETOORGINALPOSITION }, // 50024
 
-        {"... ", -1 }, //Oddaj obsługę programowi (jak prawy klawisz myszy)
+        {"... ", -1 } //Oddaj obsługę programowi (jak prawy klawisz myszy)
     };
 
 unsigned context_menu_default_size= sizeof(context_menu_default) / sizeof(context_menu_default[0]);
