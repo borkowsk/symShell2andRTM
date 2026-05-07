@@ -1,9 +1,10 @@
 /// @file
-/// Implementation of the lifeworld class - virtual Input method
-//--------------------------------------------------------------
-/// Its is rather simply implementation. You can replace it if you need.
+/// @brief Implementation of the lifeworld class - virtual Input method
+/// @date 2026-05-07 (modified)
+//---------------------------------------------------------------------
+// Its is rather simply implementation. You can replace it if you need.
 // /////////////////////////////////////////////////////////////////////
-/// @date 2026-03-27 (modified)
+
 
 #include "lworld.h"
 
@@ -18,7 +19,7 @@ int lifeworld::implement_input(istream& i)
     i>>OdlSasiad;	//Rozmiar sąsiedztwa
 
     i>>Noise;		//Szum informacyjny
-    rectangle_geometry* Geom=(rectangle_geometry*)Agenci.get_geometry();                          assert(Geom!=nullptr);
+    symshell2::rectangle_geometry* Geom=(symshell2::rectangle_geometry*)Agenci.get_geometry();    assert(Geom!=nullptr);
     if(Geom->get_width()!=MyWidth||
        Geom->get_height()!=MyWidth )
             Geom->set(MyWidth,MyWidth,1);

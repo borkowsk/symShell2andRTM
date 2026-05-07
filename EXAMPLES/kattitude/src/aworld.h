@@ -1,8 +1,8 @@
 /// @file
 /// @brief DECLARATION OF THE WORLD FOR "attitudeS" SIMULATION (kattitude old example for SymShell)
-// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @date 2026-04-03 (modified)
-//
+/// @date 2026-05-07 (modified)
+// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 //#include <limits.h> //SHRT_MAX
 #pragma once
 
@@ -11,7 +11,7 @@
 #include "aagent.h" //Definicja agenta
 
 /// Cały świat symulacji `kattitude`.
-class aworld:public world
+class aworld:public symshell2::world
 //--------------------------------------------------
 {
 // Parametry jednowartościowe
@@ -37,7 +37,7 @@ wb_pchar			MaskName;			//!< Nazwa pliku bitmapy inicjującej maskę obszarów zd
 // ////////////////////////////////
 
 //rectangle_unilayer<unsigned char> suitability;		//!< Warstwa definiująca zdatność do zasiedlenia (suitability or usefulness)
-rectangle_layer_of_ptr_to_agents<aagent> Agenci;		//!< Właściwa warstwa agentów zasiedlających.
+symshell2::rectangle_layer_of_ptr_to_agents<aagent> Agenci;		//!< Właściwa warstwa agentów zasiedlających.
 
 // Główne serie danych. Wygodniej i efektywniej mieć wskaźniki niż odszukiwać z Sources po nazwach:
 // ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -61,8 +61,8 @@ double MaxPressure; //Do zapamiętania teoretycznie największej wartości "pres
 
 // Właściwa implementacja symulacji:
 // /////////////////////////////////
-int CheckChange(const rectangle_geometry* MyGeom,size_t index,aagent& CenterAgent);		//!< Sprawdzenie zmiany stanów.
-int DoMigration(const rectangle_geometry* MyGeom,size_t index,aagent& CenterAgent);		//!< Sprawdzenie możliwości migracji.
+int CheckChange(const symshell2::rectangle_geometry* MyGeom,size_t index,aagent& CenterAgent);		//!< Sprawdzenie zmiany stanów.
+int DoMigration(const symshell2::rectangle_geometry* MyGeom,size_t index,aagent& CenterAgent);		//!< Sprawdzenie możliwości migracji.
 
 public:
 //KONSTRUKCJA DESTRUKCJA

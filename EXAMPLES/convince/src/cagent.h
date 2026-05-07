@@ -1,11 +1,11 @@
 /// @file
 /// DECLARATION OF A G E N T FOR this SIMULATION.
 // /////////////////////////////////////////////////////////////////////
-/// @date 2026-04-07 (modified)
+/// @date 2026-05-07 (modified)
 
 #include "layer.hpp"
 
-class anAgent:public agent_base
+class anAgent:public symshell2::agent_base
 {
     friend class aWorld;	//!< To simplify access to the agent's components from the universe side.
 

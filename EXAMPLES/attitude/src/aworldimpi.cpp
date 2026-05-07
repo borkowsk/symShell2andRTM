@@ -1,12 +1,13 @@
 // Virtual Input methods  implementation of the aworld class.
 // Its is rather simply implementation. You can replace it if you need.
 // ////////////////////////////////////////////////////////////////////
-// @date 2026-04-07 (modification)
+// @date 2026-05-07 (modification)
+
 #include "aworld.h"
 
 int aworld::implement_input(istream& i)
 {
-    int ret=world::implement_input(i);
+    int ret=symshell2::world::implement_input(i);
     if(ret!=1) return ret;
     i >> MyWidth;		//Obwod torusa
     i >> MaxSila;		//Maksymalna siła agenta
@@ -15,7 +16,7 @@ int aworld::implement_input(istream& i)
     i >> NeighRadius;	//Rozmiar sąsiedztwa
     i >> UseSelf;		//Czy ma brac siębie pod uwage
     i >> Noise;		//Szum informacyjny
-    rectangle_geometry* Geom=(rectangle_geometry*)Agents.get_geometry();
+    symshell2::rectangle_geometry* Geom=(symshell2::rectangle_geometry*)Agents.get_geometry();
     assert(Geom!=NULL);
     if(Geom->get_width()!=MyWidth||
        Geom->get_height()!=MyWidth )
@@ -24,14 +25,16 @@ int aworld::implement_input(istream& i)
     return 0;
 }
 
-/* **************************************************************** */
-/*           THIS CODE IS DESIGNED & COPYRIGHT BY:                  */
-/*            W O J C I E C H   B O R K O W S K I                   */
-/* Zakład Systematyki i Geografii Roślin Uniwersytetu Warszawskiego */
-/*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego       */
-/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk             */
-/*        MAIL: borkowsk@iss.uw.edu.pl                              */
-/*                               (Don't change or remove this note) */
-/* **************************************************************** */
+/* ****************************************************************** */
+/*               SYMSHELL2  version 2006/2022/2026                    */
+/* ****************************************************************** */
+/*           THIS CODE IS DESIGNED & COPYRIGHT BY:                    */
+/*            W O J C I E C H   B O R K O W S K I                     */
+/*  Zakład Systematyki i Geografii Roślin Uniwersytetu Warszawskiego  */
+/*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego         */
+/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk               */
+/*        MAIL: borkowsk@iss.uw.edu.pl                                */
+/*                               (Don't change or remove this note)   */
+/* ****************************************************************** */
 
 

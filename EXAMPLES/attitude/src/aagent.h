@@ -1,9 +1,9 @@
 // DECLARATION OF   , A G E N T   FOR "attitudes" SIMULATION.
 // /////////////////////////////////////////////////////////
-// @date 2026-04-07 (modification)
+// @date 2026-05-07 (modification)
 #include "layer.hpp"
 
-class aagent:public agent_base
+class aagent:public symshell2::agent_base
 {
     friend class aworld; //Na razie tak — żeby uprościć dostęp do składowych.
 
@@ -105,14 +105,16 @@ public:
 
 };
 
-/* **************************************************************** */
-/*           THIS CODE IS DESIGNED & COPYRIGHT BY:                  */
-/*            W O J C I E C H   B O R K O W S K I                   */
-/* Zakład Systematyki i Geografii Roślin Uniwersytetu Warszawskiego */
-/*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego       */
-/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk             */
-/*        MAIL: borkowsk@iss.uw.edu.pl                              */
-/*                               (Don't change or remove this note) */
-/* **************************************************************** */
+/* ****************************************************************** */
+/*        SYMSHELL2 EXAMPLE  version 2006/2022/2026                   */
+/* ****************************************************************** */
+/*           THIS CODE IS DESIGNED & COPYRIGHT BY:                    */
+/*            W O J C I E C H   B O R K O W S K I                     */
+/*  Zakład Systematyki i Geografii Roślin Uniwersytetu Warszawskiego  */
+/*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego         */
+/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk               */
+/*        MAIL: borkowsk@iss.uw.edu.pl                                */
+/*                               (Don't change or remove this note)   */
+/* ****************************************************************** */
 
 

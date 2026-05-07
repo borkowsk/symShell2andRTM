@@ -1,12 +1,14 @@
-// DECLARATION OF   W O R L D  FOR "attitudes" SIMULATION.
-// ///////////////////////////////////////////////////////
-// @date 2026-04-07 (modification)
+/// @file
+/// @brief DECLARATION OF   W O R L D  FOR "attitudes" SIMULATION.
+/// @date 2026-05-07 (modification)
+// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #include <climits> //SHRT_MAX
 #include "world.hpp"
 #include "layer.hpp"
 #include "aagent.h" //Definicja agenta
 
-class aworld:public world	//Caly świat symulacji
+class aworld:public symshell2::world	//Caly świat symulacji
 //--------------------------------------------------
 {
     // Parametry jednowartosciowe:
@@ -29,7 +31,7 @@ class aworld:public world	//Caly świat symulacji
     // ///////////////////////////////
     
     //rectangle_unilayer<unsigned char> zdatnosc; //Warstwa definiujaca zdatnosc do zasiędlenia
-    rectangle_layer_of_ptr_to_agents<aagent> Agents;  //Wlaściwa warstwa agentów zasiędlajacych
+    symshell2::rectangle_layer_of_ptr_to_agents<aagent> Agents;  //Wlaściwa warstwa agentów zasiędlajacych
 
     //Glowne serie - wygodniej miec wskazniki niz odszukiwac z Sources po nazwach
     // //////////////////////////////////////////////////////////////////////////////
@@ -39,13 +41,13 @@ class aworld:public world	//Caly świat symulacji
 
     ptr_to_struct_matrix_source<aagent,short>		*Powers; //=Agents.make_source("Power",&aagent::Power);
 
-    int CheckChange(const geometry_base* MyGeom,size_t index,aagent& CenterAgent);
+    int CheckChange(const symshell2::geometry_base* MyGeom,size_t index,aagent& CenterAgent);
 
 public:
     // KONSTRUKCJA DESTRUKCJA:
     // ///////////////////////
     aworld(size_t Width,	//Szerokość torusa macierzy agentów
-          char* log_name,	//Nazwa pliku do zapisywania histori
+          char* log_name,	//Nazwa pliku do zapisywania historii
           char* mapl_name,	//Nazwa (bit)mapy inicjującej "składowe"
           char* mapp_name,	//Nazwa (bit)mapy inicjującej "sily"
           char* live_mask,	//Czarne w tej mapie są kasowane

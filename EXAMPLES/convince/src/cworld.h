@@ -1,7 +1,7 @@
 /// @file
 /// DECLARATION OF W O R L D FOR "convince" SIMULATION.
+/// @date 2026-05-07 (modified)
 // ////////////////////////////////////////////////////////////////////
-/// @date 2026-04-07 (modified)
 
 #include <climits>
 #include "world.hpp"
@@ -9,7 +9,7 @@
 #include "cagent.h" //A definition of an agent is here.
 
 /// //The Whole World of Simulations.
-class aWorld:public world
+class aWorld:public symshell2::world
 //--------------------------------------------------
 {
     // Single-value parameters:
@@ -24,7 +24,7 @@ class aWorld:public world
     // Simulation layers (only one this time):
     // ///////////////////////////////////////
 
-    rectangle_layer_of_ptr_to_agents<anAgent>	Agenci;	//!< The agent layer. It is a torus.
+    symshell2::rectangle_layer_of_ptr_to_agents<anAgent>	Agenci;	//!< The agent layer. It is a torus.
 
     // Main data series - it's more convenient to have pointers than to search from `Sources` by name:
     // ///////////////////////////////////////////////////////////////////////////////////////////////

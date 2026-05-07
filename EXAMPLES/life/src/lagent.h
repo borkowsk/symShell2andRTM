@@ -1,14 +1,13 @@
 /// @file
 /// DECLARATION OF    A G E N T   FOR "life" SIMULATION.
+/// @date 2026-05-07 (modified)
 //---------------------------------------------------------------
-/// Its is rather simply implementation. You can replace it if you need.
-// /////////////////////////////////////////////////////////////////////
-/// @date 2026-03-27 (modified)
+//
 
 #include "layer.hpp"
 
 /// Klasa agenta do implementacji Life.
-class lifeagent:public agent_base
+class lifeagent:public symshell2::agent_base
 {
     friend class lifeworld; //!< Na razie tak, żeby uprościć dostęp do składowych.
 
@@ -97,7 +96,7 @@ class lifeagent:public agent_base
 };
 
 // /////////////////////////////////////////////
-// Example for SYMSHELL CLASSES library.
+// Example for SYMSHELL2 CLASSES library.
 /// @author Wojciech Borkowski, iss.uw.edu.pl
 // https://github.com/borkowsk/symShell2andRTM
 /// @copyright 2000 - 2026

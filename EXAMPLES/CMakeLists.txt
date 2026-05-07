@@ -1,5 +1,5 @@
 ## Symshell2 examples
-## @date 2026-05-06 (modified)
+## @date 2026-05-07 (modified)
 cmake_minimum_required(VERSION 3.10)
 
 # Nazwa całego projektu zbiorczego
@@ -44,6 +44,9 @@ add_subdirectory("../../../archivals/Languages_model" "../../../archivals/Langua
 
 #COEVO2 przestało działać ze względu na hakowane wskaźniki do pól. Wymaga ostrożnych zmian...
 add_subdirectory("../../../archivals/Coevo2_model" "../../../archivals/Coevo2_model")
+
+#DYNEGO kiedys zostanie uwolnione...
+add_subdirectory("../../../private/DYNEGO_model" "../../../private/DYNEGO_model")
 
 # Lista przykładów do zdefiniowania metatargetu
 set(EXAMPLES_LIST
