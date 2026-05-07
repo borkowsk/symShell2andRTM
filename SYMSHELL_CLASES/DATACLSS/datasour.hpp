@@ -1,7 +1,7 @@
 /// @file
 /// @brief INTERFACES of the most basic data source classes /
 ///        INTERFACE-y najbardziej podstawowych klas źródeł danych.
-/// @date 2026-05-06 (modified)
+/// @date 2026-05-07 (modified)
 // *********************************************************************************************************************
 //
 #ifndef SYMSHELL2_DATA_SOURCES_HPP_INCLUDED_
@@ -326,19 +326,19 @@ protected:
         return pom;
     }
 
-    /// Do WYMUSZANIA ZMIANY ROZMIARU SERII.
-    /// PRZYDAJE SIĘ TYLKO, GDY SERIA JEST UCHWYTEM DO ZEWNĘTRZNYCH DANYCH!
-    virtual void _change_size(size_t New_N) //Be careful!!!
-    {
-        N = New_N;
-    }
-
     /// Virtual destructor.
     ~linear_source_base() override = default;
 
 public:
     // Methods:
     //=========
+
+    /// Do WYMUSZANIA ZMIANY ROZMIARU SERII.
+    /// @note STOSOWAĆ Z WIELKĄ OSTROŻNOŚCIĄ. PRZYDAJE SIĘ TYLKO, GDY SERIA JEST UCHWYTEM DO ZEWNĘTRZNYCH DANYCH!
+    virtual void _change_size(size_t New_N) //Be careful!!!
+    {
+        N = New_N;
+    }
 
     /// Akcesor dostępu do oczekiwanego rozmiaru ciągu danych.
     size_t get_size() const { return N; }
