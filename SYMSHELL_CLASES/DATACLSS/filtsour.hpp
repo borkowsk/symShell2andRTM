@@ -9,6 +9,8 @@
 #include "cmath" /*DLA FILTROW */
 #include "datasour.hpp"
 
+namespace sym2 { namespace data {
+
 template<class SOURCE_TYPE> //Szablon filtru - log 10
 class log_F_filter : public template_filter_source_base<SOURCE_TYPE>
 //-----------------------------------------------------------------------
@@ -332,6 +334,8 @@ const char *treshold_filter_base<SOURCE_TYPE>::name()
     }
     return this->_name.get_ptr_val();
 }
+
+}} // end of namespaces sym2::data
 
 /* ****************************************************************** */
 /*               SYMSHELL2  version 2006/2022/2026                    */

@@ -11,6 +11,8 @@
 #include "simpsour.hpp"
 #include "sourmngr.hpp"
 
+namespace sym2 { namespace data {
+
 //KLasa liczaca podstawowe parametry statystyczne innego źródła.
 //Parametry są podawne w arbitralnej kolejnosci lub poprzez jednowartosciowe
 //zrodła pośrednie
@@ -193,6 +195,8 @@ public:
 };
 
 typedef multi_filter_source_base<data_source_base> generic_multi_filter_source_base;
+
+}} // end of namespaces sym2::data
 
 /* ****************************************************************** */
 /*               SYMSHELL2  version 2006/2022/2026                    */

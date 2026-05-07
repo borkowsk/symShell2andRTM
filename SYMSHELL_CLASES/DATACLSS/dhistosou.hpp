@@ -8,6 +8,8 @@
 
 #include "statsour.hpp"
 
+namespace sym2 { namespace data {
+
 /// @brief Filtr liczący liczebność dyskretnych klas serii i pochodne statystyki.
 /// @note UWAGA NA DZIEDZICZENIE! N jest zmienne wiec ilość serii pochodnych tez.
 template<class DATA_SOURCE>
@@ -300,6 +302,8 @@ public:
 };
 
 typedef discrete_histogram_source<data_source_base> generic_discrete_histogram_source;
+
+}} // end of namespaces sym2::data
 
 /* ****************************************************************** */
 /*               SYMSHELL2  version 2006/2022/2026                    */

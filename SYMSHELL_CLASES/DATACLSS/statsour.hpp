@@ -12,8 +12,10 @@
 #include "sourmngr.hpp"
 #include "multfils.hpp"
 
+namespace sym2 { namespace data {
+
 /// KLasa licząca podstawowe parametry statystyczne innego źródła.
-/// Parametry są podawane w arbitralnej kolejności lub poprzez jednowartościowe źrodła pośrednie
+/// Parametry są podawane w arbitralnej kolejności lub poprzez jednowartościowe źródła pośrednie
 template<class DATA_SOURCE>
 class basic_statistics_source : public multi_filter_source_base<DATA_SOURCE>
 //------------------------------------------------------------------------------
@@ -145,6 +147,8 @@ public:
 
 typedef basic_statistics_source<data_source_base> generic_basic_statistics_source;
 typedef basic_statistics_source<data_source_base> generic_statistics_source;
+
+}} // end of namespaces sym2::data
 
 /* ****************************************************************** */
 /*               SYMSHELL2  version 2006/2022/2026                    */

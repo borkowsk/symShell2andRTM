@@ -1,6 +1,6 @@
 /// @file
 /// @brief Podstawowa klasa dla ko-filtrów statystycznych — statystyk z dwu serii.
-/// @date 2026-05-06 (modified)
+/// @date 2026-05-07 (modified)
 // ********************************************************************************************************************
 //
 #ifndef __CO_STATSOUR_HPP__
@@ -11,6 +11,8 @@
 #include "scalsour.hpp"
 #include "bifilter.hpp"
 #include "sourmngr.hpp"
+
+namespace sym2 { namespace data {
 
 //KLasa liczaca podstawowe parametry statystyczne dla dwu źródeł — np korelacje
 //Parametry są podawne w arbitralnej kolejnosci lub poprzez jednowartosciowe
@@ -297,6 +299,8 @@ public:
 };
 
 typedef co_statistics_source generic_co_statistics_source;
+
+}} // end of namespaces sym2::data
 
 /* ****************************************************************** */
 /*               SYMSHELL2  version 2006/2022/2026                    */

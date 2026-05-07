@@ -1,6 +1,6 @@
 /// @file
 /// @brief Filtr liczący koincydencje klas dwu serii i pochodne statystyki (Hi^2 itp) WADLIWY PLIK?
-/// @date 2026-05-04 (modified)
+/// @date 2026-05-07 (modified)
 // ********************************************************************************************************************
 //
 #ifndef __COINCIDENTION_SOUR_HPP__
@@ -8,6 +8,8 @@
 
 #include "costatso.hpp"
 #include <cassert>
+
+namespace sym2 { namespace data {
 
 /// @brief Filtr liczący koincydencje klas dwu serii i pochodne statystyki (Hi^2 itp.)
 template<class DATA_SOURCE>
@@ -251,6 +253,8 @@ public:
 };
 
 typedef coincidention_source<data_source_base> generic_coincidention_source;
+
+}} // end of namespaces sym2::data
 
 /* ****************************************************************** */
 /*               SYMSHELL2  version 2006/2022/2026                    */

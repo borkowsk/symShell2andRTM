@@ -8,6 +8,8 @@
 
 #include "datasour.hpp"
 
+namespace sym2 { namespace data {
+
 /// Klasa udostępniająca dowolną tablicę prostokątną oraz jej wycinki.
 /// @details
 ///     Jeśli zdefiniowany wycinek wykracza poza tablicę źródłową, to funkcja
@@ -578,6 +580,8 @@ public:
 /*
 class file_source:public data_source_base;
 */
+
+}} // end of namespaces sym2::data
 
 /* ****************************************************************** */
 /*               SYMSHELL2  version 2006/2022/2026                    */

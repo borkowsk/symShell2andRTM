@@ -8,6 +8,8 @@
 
 #include "datasour.hpp"
 
+namespace sym2 { namespace data {
+
 /// @brief Klasa kolejkująca wartości ze źródła skalarnego.
 /// @tparam T — typ wartości w buforze. Nie koniecznie `double` !!!
 template<class T>
@@ -318,6 +320,8 @@ inline const char *fifo_source<T>::name()
     }
     return _name.get_ptr_val();
 }
+
+}} // end of namespaces sym2::data
 
 /* ****************************************************************** */
 /*               SYMSHELL2  version 2006/2022/2026                    */

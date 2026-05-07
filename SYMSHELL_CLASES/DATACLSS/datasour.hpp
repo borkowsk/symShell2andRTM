@@ -16,6 +16,8 @@ using wbrtm::wb_dynarray;
 #pragma ide diagnostic ignored "modernize-use-nullptr"
 #pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
 
+namespace sym2 { namespace data {
+
 /// @defgroup GrupaDATACLSS System źródeł danych
 /// @brief	Różne źródła danych bazujące na wspólnym interfejsie i z możliwościami czerpania od siebie.
 /// @{
@@ -577,6 +579,8 @@ double template_filter_source_base<SOURCE_TYPE>::get(iteratorh &I)
     assert(!"Linear access get() not implemented");
     return reinterpret_cast<SOURCE_TYPE*>(Source)->get(I);
 }
+
+}} // end of namespaces sym2::data
 
 #pragma clang diagnostic pop
 /* ****************************************************************** */

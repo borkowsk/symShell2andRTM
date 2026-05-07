@@ -8,6 +8,8 @@
 
 #include "costatso.hpp"
 
+namespace sym2 { namespace data {
+
 #ifndef SIZE_MAX
 #define SIZE_MAX (ULONG_MAX)
 #endif
@@ -439,6 +441,8 @@ public:
     }
 
 };
+
+}} // end of namespaces sym2::data
 
 /* ****************************************************************** */
 /*               SYMSHELL2  version 2006/2022/2026                    */

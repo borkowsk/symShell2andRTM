@@ -1,7 +1,7 @@
 /// @file
 /// @brief UNUSED correlation filter class - a two-source, single-value data filter/
 ///        NIEUŻYWANA klasa  filtru korelacji — dwuźródłowego, jednowartościowego filtru danych.
-/// @date 2026-05-04 (modified)
+/// @date 2026-05-07 (modified)
 // ********************************************************************************************************************
 //
 //#error SKOMPLIKOWANE W IMPLEMENTACJI, ALE MOŻNA BY KIEDYŚ SPRÓBOWAĆ.
@@ -10,6 +10,8 @@
 #define SYMSHELL2_CORR_SOUR_HPP_INCLUDED_
 
 #include "bifilter.hpp"
+
+namespace sym2 { namespace data {
 
 /// Klasa  filtru korelacji — dwuźródłowego, jednowartościowego filtru danych.
 class correlation_source : public template_scalar_source_base<double>,
@@ -54,6 +56,8 @@ public:
         return corr_value;
     }
 };
+
+}} // end of namespaces sym2::data
 
 /* ****************************************************************** */
 /*               SYMSHELL2  version 2006/2022/2026                    */

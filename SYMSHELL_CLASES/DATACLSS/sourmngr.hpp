@@ -1,6 +1,6 @@
 /// @file
 /// @brief DATA SERIES MANAGER CLASS/KLASA ZARZĄDCY SERI DANYCH.
-/// @date 2026-05-06 (modified)
+/// @date 2026-05-07 (modified)
 //*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 #ifndef __SOURMNGR_HPP__
@@ -12,6 +12,8 @@
 
 #include "datasour.hpp"
 #include "graphs.hpp"
+
+namespace sym2 { namespace data {
 
 //+using namespace symshell2;
 //using ssh2 = symshell2; //C++17
@@ -185,8 +187,9 @@ public:
     void restart_data_version();
 };
 
-#pragma clang diagnostic pop
+}} // end of namespaces sym2::data
 
+#pragma clang diagnostic pop
 /* ****************************************************************** */
 /*               SYMSHELL2  version 2006/2022/2026                    */
 /* ****************************************************************** */

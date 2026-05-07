@@ -1,12 +1,14 @@
 /// @file
 /// @brief Stary filtr liczący liczebność klas serii i pochodne statystyki.
-/// @date 2026-05-04 (modified)
+/// @date 2026-05-07 (modified)
 // ********************************************************************************************************************
 //
 #ifndef __OLD_HISTOGRAM_SOUR_HPP__
 #define __OLD_HISTOGRAM_SOUR_HPP__
 
 #include "statsour.hpp"
+
+namespace sym2 { namespace data {
 
 /// @brief Filtr liczący liczebność klas serii i pochodne statystyki.
 /// @details
@@ -259,6 +261,8 @@ public:
 };
 
 typedef flex_histogram_source<data_source_base> generic_flex_histogram_source;
+
+}} // end of namespaces sym2::data
 
 /* ****************************************************************** */
 /*               SYMSHELL2  version 2006/2022/2026                    */

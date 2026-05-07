@@ -9,6 +9,8 @@
 #include "statsour.hpp"
 #include "layer.hpp"
 
+namespace sym2 { namespace data {
+
 /// @brief Filtr liczący różne rodzaje klasteringu dla serii  g e o m e t r i a!!!
 template<class DATA_SOURCE>
 class clustering_source : public basic_statistics_source<DATA_SOURCE>
@@ -116,6 +118,8 @@ public:
 };
 
 typedef clustering_source<data_source_base> generic_clustering_source;
+
+}} // end of namespaces sym2::data
 
 /* ****************************************************************** */
 /*               SYMSHELL2  version 2006/2022/2026                    */

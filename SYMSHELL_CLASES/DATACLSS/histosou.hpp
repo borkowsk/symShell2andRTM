@@ -8,6 +8,8 @@
 
 #include "statsour.hpp"
 
+namespace sym2 { namespace data {
+
 /// @brief Starszy filtr liczący liczebności klas serii i pochodne statystyki.
 /// WERSJA PIERWOTNA — LICZY TYLKO HISTOGRAMY CAŁKOWITOLICZBOWE Z RUCHOMĄ LICZBĄ KLAS.
 template<class DATA_SOURCE>
@@ -266,6 +268,8 @@ public:
 };
 
 typedef histogram_source<data_source_base> generic_histogram_source;
+
+}} // end of namespaces sym2::data
 
 /* ****************************************************************** */
 /*               SYMSHELL2  version 2006/2022/2026                    */

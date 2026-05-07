@@ -8,6 +8,8 @@
 
 #include "statsour.hpp"
 
+namespace sym2 { namespace data {
+
 /// @brief Filtr liczący liczebność określonej liczby klas serii i pochodne statystyki.
 /// @note UWAGA NA DZIEDZICZENIE! N jest zmienne wiec liczba serii pochodnych też.
 template<class DATA_SOURCE>
@@ -326,8 +328,9 @@ data_source_base::iteratorh fix_histogram_source<DATA_SOURCE>::reset()	//Umozliw
     return (data_source_base::iteratorh) 1;
 }
 
-
 typedef fix_histogram_source<data_source_base> generic_fix_histogram_source;
+
+}} // end of namespaces sym2::data
 
 /* ****************************************************************** */
 /*               SYMSHELL2  version 2006/2022/2026                    */

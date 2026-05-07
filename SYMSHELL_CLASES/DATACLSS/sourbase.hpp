@@ -31,6 +31,9 @@
 // --checks=-google-default-arguments.
 #pragma ide diagnostic ignored "google-default-arguments"
 
+/// SymShell2 library.
+namespace sym2 { namespace data {
+
 /// @defgroup GrupaDATACLSS System źródeł danych
 /// @brief	Różne źródła danych bazujące na wspólnym interfejsie i z możliwościami czerpania od siebie.
 /// @{
@@ -268,6 +271,8 @@ double data_source_base::get(size_t index_from_geometry)
     assert(!"Random access get() not implemented");
     return miss; //To jest używane w kompilacji Release!!!
 }
+
+}} // end of namespaces sym2::data
 
 #pragma clang diagnostic pop
 /* ****************************************************************** */

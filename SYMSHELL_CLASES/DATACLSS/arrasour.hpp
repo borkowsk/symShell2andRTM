@@ -18,6 +18,8 @@
 // --checks=-google-default-arguments.
 #pragma ide diagnostic ignored "google-default-arguments"
 
+namespace sym2 { namespace data {
+
 #if USE_ENGLISH_IF_POSSIBLE
 /// @brief Data source class passing subsequent values from a linear array.
 /// Data in the array can change, but probably not during iteration ;)
@@ -298,6 +300,8 @@ void ptr_to_struct_array_source<STRUCT_T, FIELD_T>::bounds(size_t &num, double &
         if(max < arra[i]->*member_ptr) max = arra[i]->*member_ptr;
     }
 }
+
+}} // end of namespaces sym2::data
 
 #pragma clang diagnostic pop
 /* ****************************************************************** */

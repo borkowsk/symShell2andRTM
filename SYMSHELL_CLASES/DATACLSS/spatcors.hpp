@@ -10,6 +10,8 @@
 #include "multfils.hpp"
 #include "wb_rand.hpp"
 
+namespace sym2 { namespace data {
+
 /// @brief Filtr liczący  pochodne statystyki przestrzenne, w tym korelacje przestrzenne, ale też liczebność klas serii(?).
 template<class DATA_SOURCE>
 class spatial_correlation_source : public multi_filter_source_base<DATA_SOURCE>
@@ -321,6 +323,8 @@ public:
 };
 
 typedef spatial_correlation_source<data_source_base> generic_spatial_correlation_source;
+
+}} // end of namespaces sym2::data
 
 /* ****************************************************************** */
 /*               SYMSHELL2  version 2006/2022/2026                    */

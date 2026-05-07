@@ -1,7 +1,7 @@
 /// @file
 /// @brief Different classes of dual-source data filters/
 ///        Różne klasy dwuźródłowych filtrów danych.
-/// @date 2026-05-06 (modified)
+/// @date 2026-05-07 (modified)
 // ********************************************************************************************************************
 //
 #ifndef __BIFILTSOUR_HPP__
@@ -9,6 +9,8 @@
 
 //#include "math.h" /*DLA FILTROW */
 #include "bifilter.hpp"
+
+namespace sym2 { namespace data {
 
 /// Prosta klasa SUMUJACA dwa źródła bez użycia cache'a.
 class summ_source : public bi_filter_source_base
@@ -128,6 +130,8 @@ public:
     }
 
 };
+
+}} // end of namespaces sym2::data
 
 /* ****************************************************************** */
 /*               SYMSHELL2  version 2006/2022/2026                    */

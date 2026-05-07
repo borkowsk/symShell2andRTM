@@ -1,7 +1,7 @@
 /// @file
 /// @brief Klasa bazowa interface-u zapisywania do pliku danych ze źródeł jednowartościowych
 ///        oraz najprostsza klasa implementująca taki interface.
-/// @date 2026-05-04 (modified)
+/// @date 2026-05-07 (modified)
 // ********************************************************************************************************************
 //
 #ifndef __LOGFILE_HPP__
@@ -15,6 +15,8 @@
 using namespace std;
 
 #include "datasour.hpp"
+
+namespace sym2 { namespace data {
 
 /// INTERFACE bazowy zapisywania do pliku danych ze źródeł jednowartościowych.
 class data_logfile_base
@@ -106,6 +108,8 @@ public:
 //ale ze wzgledu na te którymi nie zarządza właściwy menager(np podzrodla)
     void restart_data_version();
 };
+
+}} // end of namespaces sym2::data
 
 /* ****************************************************************** */
 /*               SYMSHELL2  version 2006/2022/2026                    */

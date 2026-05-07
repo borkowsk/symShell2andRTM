@@ -17,6 +17,8 @@
 // --checks=-google-default-arguments.
 #pragma ide diagnostic ignored "google-default-arguments"
 
+namespace sym2 { namespace data {
+
 /// Klasa źródła przechowującego i dającego pojedyncza wartość.
 template<class Typek>
 class scalar_source:public  template_scalar_source_base<Typek>
@@ -192,6 +194,8 @@ void  scalar_source<Typek>::change_val(const Typek& next)
         if(val<this->y_min) this->y_min=val;
     }
 }
+
+}} // end of namespaces sym2::data
 
 #pragma clang diagnostic pop
 /* ****************************************************************** */

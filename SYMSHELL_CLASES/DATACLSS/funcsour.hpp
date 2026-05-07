@@ -1,7 +1,7 @@
 /// @file
 /// @brief Classes of functional sources and their parameters/
 ///        Klasy źródeł funkcyjnych i ich parametrów.
-/// @date 2026-05-04 (modified)
+/// @date 2026-05-07 (modified)
 // ********************************************************************************************************************
 //                       Zmodyfikowana znacząco 05.04.2008
 //
@@ -17,6 +17,8 @@
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "modernize-use-auto"
 #pragma ide diagnostic ignored "modernize-use-nullptr"
+
+namespace sym2 { namespace data {
 
 /// @name Przykładowe funkcje dla źródła funkcyjnego/Example functions for the function data source.
 /// @param x to wartość argumentu funkcji.
@@ -157,7 +159,7 @@ double function_source<F>::get(size_t i) //Daje którąś z N liczb!!!
         return f(x_min + step * i);
 }
 
-
+}} // end of namespaces sym2::data
 
 #pragma clang diagnostic pop
 /* ****************************************************************** */
