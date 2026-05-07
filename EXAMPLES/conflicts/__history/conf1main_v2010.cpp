@@ -1,17 +1,17 @@
 //SYMULACJA KONFLIKTOW BOCA 2005 - UZUPELNIONY 10-11.2005
 ////////////////////////////////////////////////////////////
 //1.1 Dodano obsluge wczytywania sieci z pliku
-//1.2 Dodano obsluge parametrów wywolania 
+//1.2 Dodano obsluge parametrï¿½w wywolania 
 //      i symetryczne traktowanie polaczen wczytanych z pliku
-//1.21 Poprawiono obsluge parametrów - blad dla stringów
-//     Dodano parametry kontroli wydruku oraz Min-Max dla skali stanów 
+//1.21 Poprawiono obsluge parametrï¿½w - blad dla stringï¿½w
+//     Dodano parametry kontroli wydruku oraz Min-Max dla skali stanï¿½w 
 
 const char* SYMULATION_NAME="CONFLICTS 1.21 BOCA/WARSZAWA: "__DATE__;
 const char* SCREENDUMPNAME="CONFLICTS_v1.21_";
 
 const char* LogName="conf.log";  //Nazwa tego logu
 const char* MetaExpFileName="metaconf.out";//Nazwa logu meta-eksperymentu
-const char* DefaultNetFileName="conflicts1.net"; //Nazwa pliku z definicj¹ sieci
+const char* DefaultNetFileName="conflicts1.net"; //Nazwa pliku z definicjï¿½ sieci
 
 //ROZMIARY OKNA
 unsigned SWIDTH=750;//1200;
@@ -43,11 +43,11 @@ double defm_end_mean_state=1.1;
 double defm_start_noise_mean=-0.5;
 double defm_end_noise_mean=0.5;
 //Te na razie zafiksowane:
-double def_m_of_weight=0.1; //Srednia waga krawedzi
+double def_m_of_weight=0.1; //Åšrednia waga krawedzi
 double def_r_of_weight=0.0001; //Odchylenie od sred. wagi krawedzi
 double def_asymmetry=1;   //Asymetria przekazywania komunikatow dodatnich wzgledem ujemnych    
 
-//'Nazwy niektorych lufcików
+//'Nazwy niektorych lufcikï¿½w
 const char* HISTofSTATES="HISTORY OF THE STATE";
 const char* HISTofACCT="HISTORY OF THE ACTIVITY";
 const char* META_GRAPH="INPUT vs. MEAN STATE";
@@ -148,13 +148,13 @@ public:
     public:
         Agent():x(0),y(0),r(1),state(0),pstate(0)
             {}
-        void _setstate(double state);        //Bezposrednie nadawanie stanu - bez funkcji mapujacych
+        void _setstate(double state);        //BezpoÅ›rednie nadawanie stanu - bez funkcji mapujacych
         void setpos(double x,double y,double r=-1);//Ustawianie pozycji i promienia. r=-1 --> pozostawia stary promien    
         void prepare_to_step();
         void add_to_delta(double input);
         void add_the_delta();
         void add_directly(double noise);
-    friend class Swiat; //Musi miec bezposredni dostep do pol, zeby przypiac zrodla danych
+    friend class Swiat; //Musi miec bezpoÅ›redni dostep do pol, zeby przypiac zrodla danych
     };
 
     class Connection
@@ -172,7 +172,7 @@ public:
     };
 
 private:
-    wb_dynarray<Agent> agents;  //Lista agentów
+    wb_dynarray<Agent> agents;  //Lista agentï¿½w
     wb_dynarray<Connection> connections; //Lista polaczen
     unsigned mode;//0 - bez polaczen , 1 - symetrycznie 2-niesymetryczne polaczenia
     unsigned dlugosc_logow; //Dlugosc buforow na statystyki symulacji
@@ -182,7 +182,7 @@ private:
     double r_init_st;   //Odchylenie od sredniego stanu poczatkowego
     double m_of_noise;  //Sredni poziom szumu/sygnalu dodawanego do wezlow
     double r_of_noise;  //Odchylenie od sred. szumu/sygnalu dodawanego do wezlow
-    double m_of_weight; //Srednia waga krawedzi
+    double m_of_weight; //Åšrednia waga krawedzi
     double r_of_weight; //Odchylenie od sred. wagi krawedzi
     double asymmetry;   //Asymetria przekazywania komunikatow dodatnich wzgledem ujemnych
     
@@ -193,7 +193,7 @@ private:
     struct_array_source<Agent,double>* pNodePreState;//Poprzednia aktywnosc wezlow
     struct_array_source<Agent,double>* pNodeDelta;  //Ostatni wplyw od innych
 
-    struct_array_source<Connection,size_t>* pConnStart;//Indeksy pocz¹tków linii laczacych wezly sieci
+    struct_array_source<Connection,size_t>* pConnStart;//Indeksy poczï¿½tkï¿½w linii laczacych wezly sieci
     struct_array_source<Connection,size_t>* pConnEnd;//Indeksy koncow linii laczacych wezly sieci
     struct_array_source<Connection,double>* pConnWeight;//Waga polaczenia
     struct_array_source<Connection,double>* pConnAcct;//Aktywnosc polaczenia
@@ -226,7 +226,7 @@ public:
         double ir_init_st,   //Odchylenie od sredniego stanu poczatkowego
         double im_of_noise,  //Sredni poziom szumu/sygnalu dodawanego do wezlow
         double ir_of_noise,  //Odchylenie od sred. szumu/sygnalu dodawanego do wezlow
-        double im_of_weight=0.5, //Srednia waga krawedzi
+        double im_of_weight=0.5, //Åšrednia waga krawedzi
         double ir_of_weight=0.1, //Odchylenie od sred. wagi krawedzi
         double iasymmetry=1   //Asymetria przekazywania komunikatow dodatnich wzgledem ujemnych    
         ):
@@ -237,7 +237,7 @@ public:
         r_init_st(ir_init_st),   //Odchylenie od sredniego stanu poczatkowego
         m_of_noise(im_of_noise),  //Sredni poziom szumu/sygnalu dodawanego do wezlow
         r_of_noise(ir_of_noise),  //Odchylenie od sred. szumu/sygnalu dodawanego do wezlow
-        m_of_weight(im_of_weight), //Srednia waga krawedzi  
+        m_of_weight(im_of_weight), //Åšrednia waga krawedzi
         r_of_weight(ir_of_weight), //Odchylenie od sred. wagi krawedzi
         asymmetry(iasymmetry),      //Asymetria przekazywania komunikatow dodatnich wzgledem ujemnych
         world(LogName,50)   
@@ -254,7 +254,7 @@ public:
         double ir_init_st,   //Odchylenie od sredniego stanu poczatkowego
         double im_of_noise,  //Sredni poziom szumu/sygnalu dodawanego do wezlow
         double ir_of_noise,  //Odchylenie od sred. szumu/sygnalu dodawanego do wezlow
-        double im_of_weight=0.5, //Srednia waga krawedzi
+        double im_of_weight=0.5, //Åšrednia waga krawedzi
         double ir_of_weight=0.1, //Odchylenie od sred. wagi krawedzi
         double iasymmetry=1   //Asymetria przekazywania komunikatow dodatnich wzgledem ujemnych    
         )
@@ -263,7 +263,7 @@ public:
         r_init_st=ir_init_st;   //Odchylenie od sredniego stanu poczatkowego
         m_of_noise=im_of_noise;  //Sredni poziom szumu/sygnalu dodawanego do wezlow
         r_of_noise=ir_of_noise;  //Odchylenie od sred. szumu/sygnalu dodawanego do wezlow
-        m_of_weight=im_of_weight; //Srednia waga krawedzi  
+        m_of_weight=im_of_weight; //Åšrednia waga krawedzi
         r_of_weight=ir_of_weight; //Odchylenie od sred. wagi krawedzi
         asymmetry=iasymmetry;      //Asymetria przekazywania komunikatow dodatnich wzgledem ujemnych
     }
@@ -480,7 +480,7 @@ void Swiat::InitialiseFromWiesiekFile(const char* FileName)
                 double X=-DBL_MAX;
                 double Y=-DBL_MAX;
                 double S=0;
-                double R=1; //Mozna by uzalezniæ od tekstu albo od wartoœci za tekstem (na razie ignorowanej)
+                double R=1; //Mozna by uzalezniï¿½ od tekstu albo od wartoï¿½ci za tekstem (na razie ignorowanej)
                 wb_pchar TmpStr;
                 Input>>X>>Y>>S>>TmpStr;
                 cerr<<X<<' '<<Y<<' '<<S<<' '<<TmpStr<<endl;
@@ -493,7 +493,7 @@ void Swiat::InitialiseFromWiesiekFile(const char* FileName)
                     return;
                 }
 
-                if(1)//Tylko wtedy gdy stany nie s¹ dane w pliku. Na razie nie ma takiej mozliwosci
+                if(1)//Tylko wtedy gdy stany nie sï¿½ dane w pliku. Na razie nie ma takiej mozliwosci
                 _MakeStates(m_init_st,r_init_st); //Ustala agentom stany z rozkladu
             }
             Input.eatwhite();
@@ -507,7 +507,7 @@ void Swiat::InitialiseFromWiesiekFile(const char* FileName)
                 Input>>S>>E>>W;
                 cerr<<S<<"-->"<<E<<' '<<W<<endl;
                 Input.ignore(INT_MAX,'\n');
-                Input.eatwhite();//Jest nadzieja :) , ¿e bedzie EOF a nie \r na koncu czytania
+                Input.eatwhite();//Jest nadzieja :) , ï¿½e bedzie EOF a nie \r na koncu czytania
                 connections[countcon++].set(S,E,W);
             }
             connections.trunc(countcon);
@@ -592,10 +592,10 @@ void Swiat::AllocSources() //Tworzy zrodla danych
     }
     pNodeDelta=new struct_array_source<Agent,double>(agents.get_size(),agents.get_ptr_val(),&Agent::delta,"Delta");  //Dawna aktywnosc wezlow
     
-    pConnStart=new struct_array_source<Connection,size_t>(connections.get_size(),connections.get_ptr_val(),&Connection::start_node,_LO("Pocz¹tki","Starts"));//Indeksy pocz¹tków linii laczacych wezly sieci
-    pConnEnd=new struct_array_source<Connection,size_t>(connections.get_size(),connections.get_ptr_val(),&Connection::end_node,_LO("Koñce","Ends"));//Indeksy koncow linii laczacych wezly sieci
+    pConnStart=new struct_array_source<Connection,size_t>(connections.get_size(),connections.get_ptr_val(),&Connection::start_node,_LO("Poczï¿½tki","Starts"));//Indeksy poczï¿½tkï¿½w linii laczacych wezly sieci
+    pConnEnd=new struct_array_source<Connection,size_t>(connections.get_size(),connections.get_ptr_val(),&Connection::end_node,_LO("Koï¿½ce","Ends"));//Indeksy koncow linii laczacych wezly sieci
     pConnWeight=new struct_array_source<Connection,double>(connections.get_size(),connections.get_ptr_val(),&Connection::weight,_LO("Wagi","Weights"));//Wagi polaczen
-    pConnAcct=new struct_array_source<Connection,double>(connections.get_size(),connections.get_ptr_val(),&Connection::lastact,_LO("Aktywnoœæ","Acctivity"));//Aktywnosci polaczen
+    pConnAcct=new struct_array_source<Connection,double>(connections.get_size(),connections.get_ptr_val(),&Connection::lastact,_LO("Aktywnoï¿½ï¿½","Acctivity"));//Aktywnosci polaczen
 
     StateStat=new generic_basic_statistics_source(pNodeState);  assert(StateStat!=NULL);//Statystyka stanow wezlow
     MeanStateLog=new fifo_source<double>(StateStat->Mean(),dlugosc_logow);assert(MeanStateLog!=NULL);//Fifo ze sredniej
@@ -690,7 +690,7 @@ void Swiat::make_default_visualisation(area_menager_base& Lufciki)
     pom->settitle(_LO("MAPA SIECI","NETWORK MAPP"));
     Lufciki.insert(pom);
 
-    //Zaleznosc stanow nowych od poprzednich dla kazdego wez³a
+    //Zaleznosc stanow nowych od poprzednich dla kazdego wezï¿½a
     pom=new scatter_graph(Lufciki.getwidth()-249,
                           Lufciki.getheight()-250-3*char_height('X'),
                           Lufciki.getwidth()-1,Lufciki.getheight()-1,
@@ -704,7 +704,7 @@ void Swiat::make_default_visualisation(area_menager_base& Lufciki)
     //pom->series_info->setminmx();
     Lufciki.insert(pom);
 
-    //STATYSTYKA STANÓW 
+    //STATYSTYKA STANï¿½W 
     {
     data_source_base* data[4]={MinStateLog,MeanStateLog,MaxStateLog,NULL};
     pom=new sequence_graph(1,250,250,550,//domyslne wspolrzedne
@@ -713,7 +713,7 @@ void Swiat::make_default_visualisation(area_menager_base& Lufciki)
 							    1/*Wspolne minimum/maximum*/);
     assert(pom);
     pom->setframe(128);
-    pom->settitle(_LO("HISTORIA STANÓW",HISTofSTATES));
+    pom->settitle(_LO("HISTORIA STANï¿½W",HISTofSTATES));
     Lufciki.insert(pom);
     }
 
@@ -726,7 +726,7 @@ void Swiat::make_default_visualisation(area_menager_base& Lufciki)
 							    1/*Wspolne minimum/maximum*/);
     assert(pom);
     pom->setframe(128);
-    pom->settitle(_LO("HISTORIA AKTYWNOŒCI",HISTofACCT));
+    pom->settitle(_LO("HISTORIA AKTYWNOï¿½CI",HISTofACCT));
     Lufciki.insert(pom);
     }
 
@@ -734,7 +734,7 @@ void Swiat::make_default_visualisation(area_menager_base& Lufciki)
 }
 
 inline void Swiat::Agent::_setstate(double istate)     
-//Bezposrednie nadawanie stanu - bez funkcji mapujacych
+//BezpoÅ›rednie nadawanie stanu - bez funkcji mapujacych
 {
     state=istate;
 }
@@ -773,7 +773,7 @@ class MetaExperyment
         double operator () (double x){ return tanh(x);}
     };
     
-    class sigmoida//Klasa funkcyjna opakowujaca funkcje sigmoidaln¹
+    class sigmoida//Klasa funkcyjna opakowujaca funkcje sigmoidalnï¿½
     {
     public:
         double operator () (double x) { return 1/(1+exp(-x));}
@@ -923,9 +923,9 @@ void MetaExperyment::tworz_lufciki(area_menager& Lufciki) //Generowanie lufcikow
         Sources.insert(_Z=new struct_array_source<Point,double>(points.get_size(),points.get_ptr_val(),&Point::Z,"Z"));
         assert(_Z->get_missing()==-DBL_MAX);
         
-        Sources.insert(_S=new struct_array_source<Arrow,size_t>(arrows.get_size(),arrows.get_ptr_val(),&Arrow::S,_LO("Pocz¹tki","Starts")));//Indeksy pocz¹tków linii laczacych wezly sieci
+        Sources.insert(_S=new struct_array_source<Arrow,size_t>(arrows.get_size(),arrows.get_ptr_val(),&Arrow::S,_LO("Poczï¿½tki","Starts")));//Indeksy poczï¿½tkï¿½w linii laczacych wezly sieci
         assert(_S->get_missing()==UINT_MAX);
-        Sources.insert(_E=new struct_array_source<Arrow,size_t>(arrows.get_size(),arrows.get_ptr_val(),&Arrow::E,_LO("Koñce","Ends")));//Indeksy koncow linii laczacych wezly sieci
+        Sources.insert(_E=new struct_array_source<Arrow,size_t>(arrows.get_size(),arrows.get_ptr_val(),&Arrow::E,_LO("Koï¿½ce","Ends")));//Indeksy koncow linii laczacych wezly sieci
         assert(_E->get_missing()==UINT_MAX);
         Sources.insert(_Ayes=new function_source<constans<10> >(arrows.get_size(),0,1000000,"10",0,10));
         
@@ -999,7 +999,7 @@ void MetaExperyment::fill_rnds()
     }
 }
 
-/*  G£ÓWNE OBIEKTY I OGOLNA FUNKCJA MAIN  */
+/*  Gï¿½ï¿½WNE OBIEKTY I OGOLNA FUNKCJA MAIN  */
 /******************************************/
 
 
@@ -1020,7 +1020,7 @@ Swiat MojSwiat( //Model symulacyjny z roznymi parametrami
                def_r_init_st,//=0.5,   //Odchylenie od sredniego stanu poczatkowego
                def_m_of_noise,//=0,  //Sredni poziom szumu/sygnalu dodawanego do wezlow
                def_r_of_noise,//=0.5,  //Odchylenie od sred. szumu/sygnalu dodawanego do wezlow
-               def_m_of_weight,//=0.5, //Srednia waga krawedzi
+               def_m_of_weight,//=0.5, //Åšrednia waga krawedzi
                def_r_of_weight,//=0.1 //Odchylenie od sred. wagi krawedzi
                def_asymmetry
                );
@@ -1032,7 +1032,7 @@ if(!Lufciki.start(SYMULATION_NAME,argc,argv,1))
     exit(1);
 }
 else
-//Utworzenie sensownej nazwy pliku(-ów) do zrzutow ekranu
+//Utworzenie sensownej nazwy pliku(-ï¿½w) do zrzutow ekranu
 {
     wb_pchar buf(strlen(SCREENDUMPNAME)+20);
     buf.prn("%s_%ld",SCREENDUMPNAME,time(NULL));
@@ -1041,7 +1041,7 @@ else
 
 //Przygotowanie danych i Swiata symulacji
 ///////////////////////////////////////////
-//inicjalizacja globalnego randomizerów 
+//inicjalizacja globalnego randomizerï¿½w 
 TheRandG.Reset();
 TheRandSTDC.Reset();
 
@@ -1089,7 +1089,7 @@ else
                 def_r_init_st,//Odchylenie od sredniego stanu poczatkowego
                 NoiseMean,//Sredni poziom szumu/sygnalu dodawanego do wezlow
                 def_r_of_noise,//Odchylenie od sred. szumu/sygnalu dodawanego do wezlow
-                def_m_of_weight,//=0.5, //Srednia waga krawedzi
+                def_m_of_weight,//=0.5, //Åšrednia waga krawedzi
                 def_r_of_weight,//=0.1 //Odchylenie od sred. wagi krawedzi
                 def_asymmetry
                 );   

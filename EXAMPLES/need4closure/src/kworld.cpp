@@ -1,12 +1,16 @@
 /// @file
 /// @brief IMPLEMENTATION OF THE "KWORLD" (old example for SymShell implementing Kruglansky like model)
 // /////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @date 2026-04-02 (modified)
+/// @date 2026-05-07 (modified)
+
 #include <cstring>
 #include <cmath>
 #include "krand.h"
 #include "kworld.h"
 #include "wb_ptrio.h"
+
+using namespace symshell2;
+using namespace sym2::data;
 
 extern const int RAMKA=4;
 extern const char* SIMULATION_NAME;

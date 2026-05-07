@@ -1,7 +1,7 @@
 /// @file
 /// @brief DECLARATION OF THE WORLD FOR "need 4 closure" SIMULATION (old example for SymShell implementing Kruglanskis like model)
 // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @date 2026-04-02 (modified)
+/// @date 2026-05-07 (modified)
 //
 #pragma once
 #include <climits> //SHRT_MAX
@@ -10,54 +10,54 @@
 #include "kagent.h" //Definicja agenta
 
 /// Cały świat symulacji "need for closure".
-class kworld:public world
+class kworld:public symshell2::world
 //--------------------------------------------------
 {
-// Single-value model parameters:
-// //////////////////////////////
+    // Single-value model parameters:
+    // //////////////////////////////
 
-size_t			MyWidth;		///< Obwód torusa.
-short			MaxSila;		///< Maksymalna siła agenta.
-short			Treshold;		///< Próg siły powyżej którego nie ma zmian.
-short			IleSasiad;		///< 8 == Gęstość sąsiedztwa.
-//short			OdlSasiad;		///< Rozmiar sasiedztwa.
-double			WeightOfSelf;	///< Z jaka waga brac siebie pod uwage (0..1).
-double			NeedForClosure;	///< Znaczenie może byc różne, zależnie od implementacji.
-double			Noise;			///< Szum informacyjny.
-double			Fill;			///< Udział żywych na początku.
-double			Migr;			///< Prawdopodobieństwo migracji.
-bool			Synchronic;		///< Synchroniczna zmiana poglądów.
-wb_pchar		MappName;		///< Nazwa pliku inicjującej bitmapy.
-wb_pchar		MaplName;		///< Nazwa pliku inicjującej bitmapy.
-wb_pchar		MaskName;		///< Nazwa pliku inicjującego maskę zdatności (?).
+    size_t			MyWidth;		///< Obwód torusa.
+    short			MaxSila;		///< Maksymalna siła agenta.
+    short			Treshold;		///< Próg siły powyżej którego nie ma zmian.
+    short			IleSasiad;		///< 8 == Gęstość sąsiedztwa.
+    //short			OdlSasiad;		///< Rozmiar sasiedztwa.
+    double			WeightOfSelf;	///< Z jaka waga brac siebie pod uwage (0..1).
+    double			NeedForClosure;	///< Znaczenie może byc różne, zależnie od implementacji.
+    double			Noise;			///< Szum informacyjny.
+    double			Fill;			///< Udział żywych na początku.
+    double			Migr;			///< Prawdopodobieństwo migracji.
+    bool			Synchronic;		///< Synchroniczna zmiana poglądów.
+    wb_pchar		MappName;		///< Nazwa pliku inicjującej bitmapy.
+    wb_pchar		MaplName;		///< Nazwa pliku inicjującej bitmapy.
+    wb_pchar		MaskName;		///< Nazwa pliku inicjującego maskę zdatności (?).
 
 // Simulation layers (are tori):
 // /////////////////////////////
 
-//rectangle_unilayer<unsigned char> zdatnosc; //Warstwa definiująca zdatność do zasiedlenia
-rectangle_layer_of_ptr_to_agents<kagent> Agenci;		///< Właściwa warstwa agentów zasiedlających.
+    //rectangle_unilayer<unsigned char> zdatnosc; //Warstwa definiująca zdatność do zasiedlenia
+    symshell2::rectangle_layer_of_ptr_to_agents<kagent> Agenci;		///< Właściwa warstwa agentów zasiedlających.
 
 // Main data series. It's convenient to have pointers rather than searching for them in Sources by name:
 // /////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ptr_to_struct_matrix_source<kagent,short>		*Firsts;	///< =Agenci.make_source("First mem",&kagent::First);
-ptr_to_struct_matrix_source<kagent,short>		*Seconds;	///< =Agenci.make_source("Second mem",&kagent::Second);
+    sym2::data::ptr_to_struct_matrix_source<kagent,short>		*Firsts;	///< =Agenci.make_source("First mem",&kagent::First);
+    sym2::data::ptr_to_struct_matrix_source<kagent,short>		*Seconds;	///< =Agenci.make_source("Second mem",&kagent::Second);
 
-ptr_to_struct_matrix_source<kagent,short>		*Powers;	///< =Agenci.make_source("Power",&kagent::Power);
-ptr_to_struct_matrix_source<kagent,unsigned>    *ForLeft;	///< =Agenci.make_source("Power",&kagent::ForLeft);
-ptr_to_struct_matrix_source<kagent,unsigned>    *ForRight;	///< =Agenci.make_source("Power",&kagent::ForRight);
+    sym2::data::ptr_to_struct_matrix_source<kagent,short>		*Powers;	///< =Agenci.make_source("Power",&kagent::Power);
+    sym2::data::ptr_to_struct_matrix_source<kagent,unsigned>    *ForLeft;	///< =Agenci.make_source("Power",&kagent::ForLeft);
+    sym2::data::ptr_to_struct_matrix_source<kagent,unsigned>    *ForRight;	///< =Agenci.make_source("Power",&kagent::ForRight);
 
 //ptr_to_struct_matrix_source<kagent,short>		*Pressure;	///<  =Agenci.make_source("Pressure",&kagent::Press);
 //method_by_ptr_matrix_source<kagent,long>		*Classify;	///< =Agenci.make_source("Classification",&kagent::classif);
 
-scalar_source<double>*       ptrStres;	///< Do przekazywania aktualnie najważniejszych danych na okno statusu.
-scalar_source<double>*       ptrClsSize;
+    sym2::data::scalar_source<double>*       ptrStres;	///< Do przekazywania aktualnie najważniejszych danych na okno statusu.
+    sym2::data::scalar_source<double>*       ptrClsSize;
 
 int  CountCh;	///< Ilu ostatnio zmieniło pogląd. Do celów statystyki.
 int  CountMig;	///< Ilu ostatnio migrowało. Do celów statystyki, o ile jest zaimplementowana migracja.
-    
-ptr_to_scalar_source<int>*       ptrLastChanged;	///< Do przekazywania liczników zmian.
-ptr_to_scalar_source<int>*       ptrLastMigration;	///< Do przekazywania liczników migracji.
+
+    sym2::data::ptr_to_scalar_source<int>*       ptrLastChanged;	///< Do przekazywania liczników zmian.
+    sym2::data::ptr_to_scalar_source<int>*       ptrLastMigration;	///< Do przekazywania liczników migracji.
 
 double MaxPressure; 	///< Do zapamiętania teoretycznie największej wartości "presji".
 
@@ -65,10 +65,10 @@ double MaxPressure; 	///< Do zapamiętania teoretycznie największej wartości "
 // /////////////////////////////////////////////
 
 /// Zmiana stanów.
-int CheckChange(const rectangle_geometry* MyGeom,size_t index,kagent& CenterAgent);
+int CheckChange(const symshell2::rectangle_geometry* MyGeom,size_t index,kagent& CenterAgent);
 
 /// Ewentualna migracja.
-int DoMigration(const rectangle_geometry* MyGeom,size_t index,kagent& CenterAgent);
+int DoMigration(const  symshell2::rectangle_geometry* MyGeom,size_t index,kagent& CenterAgent);
 
 public:
 // CONSTRUCTION AND DESTRUCTION:

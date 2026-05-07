@@ -1,13 +1,14 @@
 /// @file
 /// @brief Przykładowy program SYMSHELL-z z klasami.
-/// @date 2026-05-04 (modified)
+/// @date 2026-05-07 (modified)
+///       ------------------------------------------
+/// @details
 ///     Demonstracja stosowania obiektowego pietra SYMSHELL-a
 ///     Tworzy kilka przykładowych seri danych i umieszcza je w zarządcy danych.
 ///     Tworzy kilka obszarów i umieszcza je pod zarządem managera obszarów.
 ///     Ostatecznie oddaje sterowanie zarządcy obszarów opartemu na SYMSHELL-u.
 // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma clang diagnostic push
-#pragma ide diagnostic ignored "modernize-use-nullptr"
+
 
 #include <cmath> //cos tam jest potrzebne
 
@@ -25,7 +26,11 @@
 
 //#include "areamngr.hpp"
 #include "mainmngr.hpp"
+using namespace symshell2;
+using namespace sym2::data;
 
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "modernize-use-nullptr"
 //#include "symshell.h" - niepotrzebne — juz opakowane obiektami
 //int x,y,vx,vy;
 

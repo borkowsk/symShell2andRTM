@@ -1,6 +1,8 @@
-// IMPLEMENTATION OF   W O R L D  FOR "attitudes" SIMULATION.
-// //////////////////////////////////////////////////////////
-// @date 2026-05-06 (modification)
+/// @file
+/// @brief IMPLEMENTATION OF   W O R L D  FOR "attitudes" SIMULATION.
+/// @date 2026-05-07 (modification)
+// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 //#include <limits.h>
 //#include <assert.h>
 //#include <string.h>
@@ -448,8 +450,8 @@ void aworld::initialize_layers()
 
     //			USTALANIE STANÓW AGENTÓW:
     // Wczytuje używając konstruktora lub klonowania, gdy go niema, wiec inicjuje resztę pól.
-    int from1= Agents.init_from_bitmap(MappName.get_ptr_val(), &aagent::assignPow);
-    int from2= Agents.init_from_bitmap(MaplName.get_ptr_val(), &aagent::assign123);
+    int from1= Agents.init_from_bitmap(MappName.get_ptr_val(),&aagent::assignPow);
+    int from2= Agents.init_from_bitmap(MaplName.get_ptr_val(),&aagent::assign123);
 
     //Gdy nie zainicjowane, to prowizoryczna inicjacja przez konstruktory lub klonowanie
     if(from1!=1 && from2!=1)

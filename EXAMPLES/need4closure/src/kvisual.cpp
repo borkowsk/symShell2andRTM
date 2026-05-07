@@ -1,7 +1,8 @@
 /// @file
 /// @brief ... (old example for SymShell implementing Kruglanskis like model)
 // //////////////////////////////////////////////////////////////////////////
-/// @date 2026-05-04 (modified)
+/// @date 2026-05-07 (modified)
+
 #include <cstring>
 #include <cmath>
 
@@ -15,6 +16,9 @@
 #include "gadgets.hpp" 
 #include "wb_ptrio.h"
 
+using namespace symshell2;
+using namespace sym2::data;
+
 const int RAMKA=4;
 extern const char* SIMULATION_NAME;
 
@@ -24,7 +28,7 @@ extern unsigned internal_log;
 extern unsigned spatial_correlation_mode;
 
 
-// Generuje podstawowe zrodla dla wbudowanego menagera danych lub innego
+// Generuje podstawowe źródła dla wbudowanego zarządcy danych lub innego
 // //////////////////////////////////////////////////////////////////////////
 void kworld::make_basic_sources()
 {

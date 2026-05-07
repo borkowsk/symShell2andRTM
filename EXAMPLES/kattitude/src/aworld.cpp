@@ -1,8 +1,7 @@
 /// @file
 /// @brief IMPLEMENTATION OF THE WORLD FOR "attitudeS" SIMULATION (kattitude old example for SymShell)
+/// @date 2026-05-07 (modified)
 // /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @date 2026-05-06 (modified)
-///
 
 //#include <limits.h>
 //#include <assert.h>

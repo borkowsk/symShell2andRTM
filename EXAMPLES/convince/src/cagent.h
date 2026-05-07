@@ -1,8 +1,8 @@
 /// @file
-/// DECLARATION OF A G E N T FOR this SIMULATION.
-// /////////////////////////////////////////////////////////////////////
+/// @brief DECLARATION OF A G E N T FOR this SIMULATION.
 /// @date 2026-05-07 (modified)
-
+// /////////////////////////////////////////////////////////////////////
+//
 #include "layer.hpp"
 
 class anAgent:public symshell2::agent_base
@@ -29,8 +29,8 @@ class anAgent:public symshell2::agent_base
     short	First;		//!< First/previous belief.
     short	Second;		//!< New belief.
 
-
-    void	_clean()	//!< Implementation of agent state clearing.
+    /// Implementation of agent state clearing.
+    void	_clean()
     {
         First=-1;
         Second=-1;
