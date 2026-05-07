@@ -99,7 +99,7 @@ bool	wb_smartlog::Disconnect()
 	}
 	else
 	{
-		if(ptrToMyStream) //Moze nie byc bo nie uzywany
+		if(ptrToMyStream) //Moze nie byc bo nie używany
 		{
 			ofstream* pom=dynamic_cast<ofstream*>(ptrToMyStream);
             assert(pom!=nullptr);
@@ -120,7 +120,7 @@ ostream& wb_smartlog::MyStream()
             cerr<<"LOG NOT SET (nullptr)."<<endl;
 			exit(-1);//NA RAZIE - PROWIZORKA
 			//powinien zglosic Exception!!!
-            return *(ostream*)nullptr;//Bo uzycie tego na pewno zle sie skonczy
+            return *(ostream*)nullptr;//Bo użycie tego na pewno zle sie skonczy
 		}
     }
     else
@@ -130,7 +130,7 @@ ostream& wb_smartlog::MyStream()
 	        cerr<<"LOG IS IN BAD STATE."<<endl;
 			exit(-1);//NA RAZIE - PROWIZORKA
 			//powinien zglosic Exception!!!
-            return *(ostream*)nullptr;//Bo uzycie tego na pewno zle sie skonczy
+            return *(ostream*)nullptr;//Bo użycie tego na pewno zle sie skonczy
         }
     }
 

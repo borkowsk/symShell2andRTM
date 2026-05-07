@@ -1,6 +1,6 @@
 /** @file
 *  \brief Base class for dynamic resizable arrays
-*  @date 2026-05-04 (last modification)
+*  @date 2026-05-07 (last modification)
 *  \details Obsolete and not improved part of the wb_rtm library.
 *           It was established before 2000.
 *  \copyright Wojciech T. Borkowski
@@ -53,7 +53,7 @@ const T&              operator[] (size_t i) const    {assert(i>=0 && i<CurrSize(
 
 /* Safe indexing with always range checking OR expansion */
 virtual T&            operator  () (size_t i)=0;
-virtual void          operator  =  (const array_base& a);//Uzywa () 
+virtual void          operator  =  (const array_base& a);//Używa ()
 
 /* CONSTRUCTION/DESTRUCTION */
 protected: //Use only as base class
@@ -177,7 +177,7 @@ if(tab)
 
 template<class T>
 void array_base<T>::operator  =  (const array_base& a)
-//Uzywa () 
+//Używa ()
 {
 size_t asiz=a.CurrSize();
 (*this)(asiz-1);//Zaczyna od ostatniego zeby wymusic alokacje jeśli trzeba

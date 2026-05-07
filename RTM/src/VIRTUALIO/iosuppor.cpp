@@ -38,7 +38,7 @@ ReadDynamicVal<vobject>::ReadDynamicVal(istream& file,const vobject* user)
   file>>*ptr;//Wczytywanie
 }
 
-//Obiekty do uruchamiania Raise jesli uzywa sie
+//Obiekty do uruchamiania Raise jesli używa sie
 //funkcji iosupportu z poziomu bez dostepu do
 //jakiegos obiektu pochodnego od vobject
 _io_default_raiser IO_default_raiser;

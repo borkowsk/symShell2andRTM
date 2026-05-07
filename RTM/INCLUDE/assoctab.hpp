@@ -17,7 +17,7 @@
 *         lub dynamiczne. Przy wczytywaniu jednak wszystkie dane sa realokowane na
 *         sterte poniewaz operacja ta moze alokowac nowe dane. jeśli dane sa dynamiczne
 *         to sa dealokowane w destruktorze.
-*         Dla typu char* mozna uzywac jedynie assoc_template albo typow z rodziny
+*         Dla typu char* mozna używac jedynie assoc_template albo typow z rodziny
 *         "dictionary*" ze wzgledu na niestandardowe traktowanie w jezyku C++
 *
 *  \copyright Wojciech T. Borkowski
@@ -55,9 +55,9 @@ int 	  Compare(const unitype first,const unitype second);
 //Wywolywana zawsze przed usunieciem i-temu z tab.
 //UWAGA .ptr o wartosci NULL lub FULL oznacza oczyszczony unitype!
 void      BeforeDeletion( assoitem& ){}//W tym wypadku nic nie robia
-//Uzywany do wyprowadzania
+//Używany do wyprowadzania
 int       AssoOutput(ostream&,const assoitem& /*what*/) const {return 0;} //KLASA BEZ I/O
-//Uzywany do wprowadzania
+//Używany do wprowadzania
 int       AssoInput(istream&,assoitem& /*what*/) {return 0;} //KLASA BEZ I/O
 
 public:
@@ -99,9 +99,9 @@ class assoc_table: public assoc_template<K,V>
 {
 VIRTUAL_NECESSARY( assoc_table<K _COMA_ V> )
 protected:
-//Uzywany do wyprowadzania
+//Używany do wyprowadzania
 int		  AssoOutput(ostream&,const assoitem& what) const;
-//Uzywany do wprowadzania
+//Używany do wprowadzania
 int       AssoInput(istream&,assoitem& what);
 public:
 assoc_table(int sorted=container_base::SORTED,
@@ -124,14 +124,14 @@ protected:
 //Wywolywana zawsze przed usunieciem i-temu z tab.
 //UWAGA .ptr o wartosci NULL lub FULL oznacza oczyszczony unitype!
 void      BeforeDeletion( assoitem& );
-//Uzywany do wyprowadzania
+//Używany do wyprowadzania
 int       AssoOutput(ostream&,const assoitem& what) const;
-//Uzywany do wprowadzania
+//Używany do wprowadzania
 int       AssoInput(istream&,assoitem& what);
 public:
 int		DataAreStatic(){ return v_mem_mode!=cbase::DYNAMIC_VAL;}
 void	ReallocData();	//move user data to current heap
-virtual //Dla pewnosci
+virtual //Dla pewności
 void	RemoveAll();	//clean assoc_table. May be calling "delete".
 assoc_table_of_ptr(	int sorted=cbase::SORTED,
 					int rev=cbase::NORMAL_ORDER,
@@ -286,7 +286,7 @@ assoc_base::implement_output(o);
 /// \brief Obsolete class
 template<class K,class V>
 int   assoc_table<K,V>::AssoOutput(ostream& o,const assoitem& what) const
-//Uzywany do wyprowadzania
+//Używany do wyprowadzania
 {
 o<<*(K*)&(what.key)<<' ';
 o<<*(V*)&(what.val);
@@ -296,7 +296,7 @@ return !o.fail();
 /// \brief Obsolete class
 template<class K,class V>
 int   assoc_table<K,V>::AssoInput(istream& inp,assoitem& what)
-//Uzywany do wprowadzania
+//Używany do wprowadzania
 {
 K k;V v;
 inp>>k;
@@ -336,7 +336,7 @@ v_mem_mode=container_base::DYNAMIC_VAL;//Zrobil z niego dynamic.
 /// \brief Obsolete class
 template<class K,class V>
 int   assoc_table_of_ptr<K,V>::AssoOutput(ostream& o,const assoitem& what) const
-//Uzywany do wyprowadzania
+//Używany do wyprowadzania
 {
 o<<*(K*)&(what.key)<<' ';
 V* pom=(V*)(what.val.ptr);
@@ -364,7 +364,7 @@ if(!DataAreStatic() && a.val.ptr!=NULL && a.val.ptr!=FULL)
 /// \brief Obsolete class
 template<class K,class V>
 int   assoc_table_of_ptr<K,V>::AssoInput(istream& inp,assoitem& what)
-//Uzywany do wprowadzania
+//Używany do wprowadzania
 {
 K k;
 V* v=NULL;

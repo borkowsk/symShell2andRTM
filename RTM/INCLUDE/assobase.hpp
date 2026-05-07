@@ -6,7 +6,7 @@
 *           <br>
 *           Klasa bazowa do wykonywania tablic asocjacyjnych.
 *           Zarządza tablica rekordów asocjujących dwie unie "unitype"
-*           W klasach potomnych wystarczy inteligentnie uzyc tych pol
+*           W klasach potomnych wystarczy inteligentnie użyć tych pol
 *           w najprostszy sposób do przechowywania skalarów i wskaźników.
 *
 *  \copyright Wojciech T. Borkowski
@@ -109,8 +109,8 @@ void PrintTo( ostream& o ) const
 class assoc_base//:pure virtual base implementation class for assoc_tables
 {
 private:
-int      _remove( size_t i ); //Uzywana do usuwania i-temu z tab
-int      _insert( size_t i ); //Uzywana do zrobienia miejsca w tab
+int      _remove( size_t i ); //Używana do usuwania i-temu z tab
+int      _insert( size_t i ); //Używana do zrobienia miejsca w tab
 int      _search( const unitype, size_t& index );// Ustawia index do assoitem z tab,ret=1 jeśli jest faktycznie
 protected:
 /* IMPLEMENTATION OF SEARCHING SUPPORT -  */
@@ -155,9 +155,9 @@ int 	  Compare(const unitype first,const unitype second)=0;
 virtual //Wywolywana zawsze przed usunieciem i-temu z tab.
 	//UWAGA .ptr o wartosci NULL lub FULL oznacza oczyszczony unitype!
 void      BeforeDeletion( assoitem& )=0;
-virtual //Uzywany do wyprowadzania
+virtual //Używany do wyprowadzania
 int       AssoOutput(ostream& o,const assoitem& what) const=0;
-virtual //Uzywany do wprowadzania
+virtual //Używany do wprowadzania
 int       AssoInput(istream& o,assoitem& what)=0;
 
 /* C O N S T R U C T O R (S) */

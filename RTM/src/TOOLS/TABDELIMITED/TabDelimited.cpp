@@ -156,7 +156,7 @@ void TabelaTabDelimited::PrzekopiujZ(const TabelaTabDelimited& Zrodlo,
 
 /// \details Zapisuje do pliku. Bierze domyślny delimiter, chyba że podano inny.
 /// \param _Nazwa - nazwa pliku. Jeśli pusta to użyta zostaje nazwa poprzednio ustawiona.
-/// \param Delimiter - separator pól. Jeśli -1 to to zostaje uzyty poprzednio ustawiony.
+/// \param Delimiter - separator pól. Jeśli -1 to to zostaje użyty poprzednio ustawiony.
 bool TabelaTabDelimited::ZapiszDoPliku(const char* _Nazwa,char Delimiter)
 {
 	if(*_Nazwa!='\0') //Podano jakąś nazwę

@@ -199,7 +199,7 @@ return NULL;// Moze cos byc juz wczytane
                     delete pom;
                     return NULL;
                 }
-            if(znak=='\\' && (znak=file.get())==EOF)//Zeby moc uzyc znaku "delimitera"
+            if(znak=='\\' && (znak=file.get())==EOF)//Zeby moc użyć znaku "delimitera"
                 if(user.Raise(ExcpIO(NULL,file.tellg(),
                                      "Syntax error or EOF"))==1)
                 {
