@@ -41,21 +41,21 @@ symshell2::rectangle_layer_of_ptr_to_agents<aagent> Agenci;		//!< Właściwa war
 
 // Główne serie danych. Wygodniej i efektywniej mieć wskaźniki niż odszukiwać z Sources po nazwach:
 // ////////////////////////////////////////////////////////////////////////////////////////////////
-ptr_to_struct_matrix_source<aagent,short>		*Firsts;		//!< =Agenci.make_source("First mem",&aagent::First);
-ptr_to_struct_matrix_source<aagent,short>		*Seconds;		//!< =Agenci.make_source("Second mem",&aagent::Second);
+    sym2::data::ptr_to_struct_matrix_source<aagent,short>		*Firsts;		//!< =Agenci.make_source("First mem",&aagent::First);
+    sym2::data::ptr_to_struct_matrix_source<aagent,short>		*Seconds;		//!< =Agenci.make_source("Second mem",&aagent::Second);
 
-ptr_to_struct_matrix_source<aagent,short>		*Powers;		//!< =Agenci.make_source("Power",&aagent::Power);
-ptr_to_struct_matrix_source<aagent,short>		*Pressure;		//!< =Agenci.make_source("Pressure",&aagent::Press);
-//method_by_ptr_matrix_source<aagent,long>		*Classif;		//!< =Agenci.make_source("Classification",&aagent::classif);
+    sym2::data::ptr_to_struct_matrix_source<aagent,short>		*Powers;		//!< =Agenci.make_source("Power",&aagent::Power);
+    sym2::data::ptr_to_struct_matrix_source<aagent,short>		*Pressure;		//!< =Agenci.make_source("Pressure",&aagent::Press);
+  //sym2::data::method_by_ptr_matrix_source<aagent,long>		*Classif;		//!< =Agenci.make_source("Classification",&aagent::classif);
 
-scalar_source<double>*       ptrStres;			//!< Do przekazywania aktualnie najważniejszych danych na okno statusu
-scalar_source<double>*       ptrClsSize;		//!< ...
+    sym2::data::scalar_source<double>*       ptrStres;			//!< Do przekazywania aktualnie najważniejszych danych na okno statusu
+    sym2::data::scalar_source<double>*       ptrClsSize;		//!< ...
 
 int  CountCh;			//!< Ilu ostatnio zmieniło pogląd (do celów statystycznych).
 int  CountMig;			//!< Ilu ostatnio migrowało (do celów statystycznych).
-    
-ptr_to_scalar_source<int>*       ptrLastChanged;			//!< Do przekazywania liczników zmian.
-ptr_to_scalar_source<int>*       ptrLastMigration;			//!< Do przekazywania liczników zmian.
+
+    sym2::data::ptr_to_scalar_source<int>*       ptrLastChanged;			//!< Do przekazywania liczników zmian.
+    sym2::data::ptr_to_scalar_source<int>*       ptrLastMigration;			//!< Do przekazywania liczników zmian.
 
 double MaxPressure; //Do zapamiętania teoretycznie największej wartości "presji".
 

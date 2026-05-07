@@ -36,10 +36,10 @@ class aworld:public symshell2::world	//Caly świat symulacji
     //Glowne serie - wygodniej miec wskazniki niz odszukiwac z Sources po nazwach
     // //////////////////////////////////////////////////////////////////////////////
     
-    ptr_to_struct_matrix_source<aagent,short>		*Firsts; //=Agents.make_source("First mem",&aagent::First);
-    ptr_to_struct_matrix_source<aagent,short>		*Seconds; //=Agents.make_source("Second mem",&aagent::Second);
+    sym2::data::ptr_to_struct_matrix_source<aagent,short>		*Firsts; //=Agents.make_source("First mem",&aagent::First);
+    sym2::data::ptr_to_struct_matrix_source<aagent,short>		*Seconds; //=Agents.make_source("Second mem",&aagent::Second);
 
-    ptr_to_struct_matrix_source<aagent,short>		*Powers; //=Agents.make_source("Power",&aagent::Power);
+    sym2::data::ptr_to_struct_matrix_source<aagent,short>		*Powers; //=Agents.make_source("Power",&aagent::Power);
 
     int CheckChange(const symshell2::geometry_base* MyGeom,size_t index,aagent& CenterAgent);
 

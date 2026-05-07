@@ -29,9 +29,9 @@ class aWorld:public symshell2::world
     // Main data series - it's more convenient to have pointers than to search from `Sources` by name:
     // ///////////////////////////////////////////////////////////////////////////////////////////////
 
-    ptr_to_struct_matrix_source<anAgent,short>		*Firsts;	//!< '=Agenci.make_source("First mem",&anAgent::First);'
-    ptr_to_struct_matrix_source<anAgent,short>		*Seconds;	//!< '=Agenci.make_source("Second mem",&anAgent::Second);'
-    ptr_to_struct_matrix_source<anAgent,short>		*Powers;	//!< '=Agenci.make_source("Power",&anAgent::Power);'
+    sym2::data::ptr_to_struct_matrix_source<anAgent,short>		*Firsts;	//!< '=Agenci.make_source("First mem",&anAgent::First);'
+    sym2::data::ptr_to_struct_matrix_source<anAgent,short>		*Seconds;	//!< '=Agenci.make_source("Second mem",&anAgent::Second);'
+    sym2::data::ptr_to_struct_matrix_source<anAgent,short>		*Powers;	//!< '=Agenci.make_source("Power",&anAgent::Power);'
 
 public:
     // CONSTRUCTION AND DESTRUCTION:

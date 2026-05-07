@@ -36,8 +36,8 @@ class lifeworld:public symshell2::world
     // Główne serie — wygodniej miec wskaźniki niż odszukiwać z Sources po nazwach:
     // //////////////////////////////////////////////////////////////////////////////
 
-    struct_matrix_source<lifeagent,short>		*Firsts; //=Agenci.make_source("First mem",&lifeagent::First);
-    struct_matrix_source<lifeagent,short>		*Seconds; //=Agenci.make_source("Second mem",&lifeagent::Second);
+    sym2::data::struct_matrix_source<lifeagent,short>		*Firsts; //=Agenci.make_source("First mem",&lifeagent::First);
+    sym2::data::struct_matrix_source<lifeagent,short>		*Seconds; //=Agenci.make_source("Second mem",&lifeagent::Second);
 
 
     int CheckChange(const symshell2::geometry_base* MyGeom,size_t index,lifeagent& CenterAgent);
