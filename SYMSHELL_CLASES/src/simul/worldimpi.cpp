@@ -37,7 +37,7 @@ void symshell2::world::initialize_from_image(const char* FileName)
 
 	if(!FileName && !int(OutName))
 	{
-		cerr<<"Undefined name for reading."<<endl;
+		cerr<<"An undefined name for reading."<<endl;
 		return;
 	}
 
@@ -73,7 +73,7 @@ void symshell2::world::initialize_from_image(const char* FileName)
 // petla wczytywania symulacji
 void world::read_loop(int ret_after)
 {                            //Ta mo�liwo�� zdawna nie u�ywana. TODO rekatywacja?
-	if(!AreaMenager->should_continue())
+	if(!AreaManager->should_continue())
 			return; //NIESTETY OD RAZU KONIEC!
 
 	if(Sources.get(0)==NULL)		//jesli jeszcze nie inicjowano zrodel
@@ -113,30 +113,30 @@ void world::read_loop(int ret_after)
 		}
 	}
 
-	//Wstepne dzialania
-	////////////////////
-	if(AreaMenager)
+	// Wstepne działania
+	// //////////////////
+	if(AreaManager)
 	{
-		AreaMenager->enable_background();//Dla pewności
+        AreaManager->enable_background();//Dla pewności
 //		actualize_out_area();			 //Aktualizacja informacji
 	}
 
 	do{
 		//CZY DALEJ SYMULUJEMY?
 		if(get_current_step()>=MaxIterations )
-			if(ret_after || AreaMenager==NULL)
+			if(ret_after || AreaManager==NULL)
 				break;//KONIEC PETLI
 			else
 			{
-				AreaMenager->disable_background();	//WYLACZA SYMULOWANIE
+                AreaManager->disable_background();	//WYŁĄCZA SYMULOWANIE
 				MaxIterations=LONG_MAX;
 			}
 
-		//Wczytanie kolejnego kroku symulacji z zapisu
-		/////////////////////////////////////////
-		if(AreaMenager==NULL || AreaMenager->background_enabled())
+		// Wczytanie kolejnego kroku symulacji z zapisu
+		// //////////////////////////////////////
+		if(AreaManager==NULL || AreaManager->background_enabled())
 		{
-			unsigned long OldLicznik=Licznik;//Dostep do pola protected, fuj!
+			unsigned long OldLicznik=Licznik; //Dostep do pola protected, fuj!
 
 			char cpom;
 			do{
@@ -147,27 +147,27 @@ void world::read_loop(int ret_after)
 					break; //Gdyby byly puste linie na koncu pliku
 			Out->putback(cpom);	   //A jesli nie to oddajemy znak
 			(*Out)>>(*this);
-			after_read_from_image();//actions after read state from file.
+			after_read_from_image();//actions after read state from a file.
 
-			if(Licznik!=OldLicznik)	//Bo na poczatku wczytuje juz wczytany stan z kroku 0
-				Sources.new_data_version(1,1);//Oznajmia seriom ze dane sie uaktualnily
+			if(Licznik!=OldLicznik)	//Bo na początku wczytuje już wczytany stan z kroku 0
+				Sources.new_data_version(1,1);//Oznajmia seriom, że dane się uaktualniły
 		}
 
-		//Obsluga okna przed krokiem symulacji
-		////////////////////////////////////////
-		if(AreaMenager)
+		// Obsluga okna przed krokiem symulacji
+		// //////////////////////////////////////
+		if(AreaManager)
 		{
 			actualize_out_area();		//Aktualizacja informacji
-			AreaMenager->_replot();			//Wizualizacja
-			AreaMenager->flush();
+            AreaManager->_replot();			//Wizualizacja
+            AreaManager->flush();
 		}
 
-		//Obsluga okna po kroku symulacji lub bez niej
-		////////////////////////////////////////////////
-		if(AreaMenager)
+		// Obsluga okna po kroku symulacji lub bez niej
+		// //////////////////////////////////////////////
+		if(AreaManager)
 		{
-			AreaMenager->process_input();//Obsluga zdarzen zewnetrznych
-			if(!AreaMenager->should_continue() )	//CZY NIE KONIEC?
+            AreaManager->process_input(); //Obsluga zdarzen zewnetrznych
+			if(!AreaManager->should_continue() )	//CZY NIE KONIEC?
 					break;//Koniec zabawy!!!
 		}
 

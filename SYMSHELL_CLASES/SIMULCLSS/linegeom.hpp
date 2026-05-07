@@ -19,14 +19,14 @@ class linear_geometry:public geometry_base
 //---------------------------------------------
 {
 protected:
-    size_t N;			//ile elementów
-    int		torus;
+    size_t      N;	///< Liczba elementów.
+    int		torus;	///< Określa czy zawinięte w torus.
 
-    //Parametry aktualnego wycinka używanego dla wizualizacji
+    /// Parametry aktualnego wycinka używanego dla wizualizacji.
     size_t start,len;
 
 public:
-    //Struktora do globalnej iteracji po tablicy
+    /// Struktura do globalnej iteracji po tablicy.
     struct iterator:public geometry_base::iterator_base
     {
         size_t i; //Iteracja
@@ -36,7 +36,7 @@ public:
         //Konstruktor — sSZER,sWYS,lSZER,lWYS
         iterator(long hors,size_t subw):
                     i(0),
-                    geometry_base::iterator_base(subh*subw),
+                    geometry_base::iterator_base(subw), ///???
                     horiz_start(hors),sub_width(subw)
         {}
 

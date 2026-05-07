@@ -19,8 +19,6 @@
 namespace symshell2 {
 
 using namespace wbrtm;
-//using wbrtm::wb_dynmatrix;
-//using wbrtm::round;
 
 /// Klasa geometrii komórkowej 2D.
 class rectangle_geometry:public geometry_base
@@ -28,10 +26,10 @@ class rectangle_geometry:public geometry_base
 {
     wb_dynmatrix<float> distances;	//!< Macierz odległości. Oczywiście nie zawsze potrzebna.
 
-    long	columns;			//!< Ile ogólnie kolumn obszaru.
-    long	rows;				//!< Ile ogólnie wierszy obszaru.
-    unsigned long _currSize=0;	//!< Liczba itemów do leniwego obliczania rozmiaru (?).
-    int		torus;				//!< flaga geometrii torusa.
+    long			  columns;		//!< Ile ogólnie kolumn obszaru.
+    long				 rows;		//!< Ile ogólnie wierszy obszaru.
+    unsigned long	_currSize=0;	//!< Liczba itemów do leniwego obliczania rozmiaru (?).
+    bool				torus;		//!< flaga geometrii torusa.
 
 protected:
     //Parametry aktualnego wycinka używanego dla wizualizacji:
@@ -53,20 +51,16 @@ public:
         long horiz_start,vert_start;	//!< ...
 
         /// Konstruktor inicjujący wycinek danych.
-        iterator(long hors,long vers,size_t subw,size_t subh):
-                    i(0),j(0),
-                    geometry_base::iterator_base(subh*subw),
-                    horiz_start(hors),sub_width(subw),
-                    vert_start(vers),sub_height(subh)
-                        {}
+        iterator(long hors,long vers,size_t sub_w,size_t sub_h)
+        : i(0),j(0), geometry_base::iterator_base(sub_h*sub_w),
+          horiz_start(hors),sub_width(sub_w),vert_start(vers),sub_height(sub_h)
+        {}
 
         ~iterator() override
         {
             //	cerr<<"rectangle_geometry::~iterator() ";
         }
 
-#pragma clang diagnostic push
-#pragma ide diagnostic ignored "modernize-use-auto"
         /// Implementacja pobrania następnego elementu.
         void _next(const geometry_base& geo,index_t& ret,index_t& end) override
         {
@@ -74,30 +68,35 @@ public:
             long I_S=horiz_start+i;
             long J_W=vert_start+j;
 
-            ret=MyGeo->get(I_S,J_W); //FULL, gdy nie w tablicy
+            ret=MyGeo->get(I_S,J_W); // zwraca FULL, gdy nie w tablicy
 
             if((i=(i+1)%sub_width)==0) //Inkrementacja kolumn
                 if((j=j+1)==sub_height) //i czasami wierszy
-                    { //Gdy j == lb to jesteśmy za oknem
+                { //Gdy j == lb to jesteśmy za oknem
                     end=1; //Kończymy z tym iterator-em
-                    }
+                }
         }
-#pragma clang diagnostic pop
+
     }; //koniec definicji iterator-a globalnego
 
     /// Struktura do losowej iteracji po tablicy.
     struct monte_carlo_iterator:public geometry_base::iterator_base
     {
-        size_t ile;	//!< Do zliczania w dół
-        size_t sub_width,sub_height;	//!< Parametry zaznaczonego wycinka
-        long horiz_start,vert_start;	//!< ...
+        size_t			how_many;	//!< Do zliczania w dół
+        /// @name Parametry zaznaczonego wycinka
+        /// @{
+        size_t		  sub_width;
+        size_t		 sub_height;
+        long		horiz_start;
+        long		 vert_start;	//!< ...
+        /// @}
 
         /// Konstruktor.
-        monte_carlo_iterator(size_t ii,long hors,long vers,size_t subw,size_t subh):
-                    ile(ii),
+        monte_carlo_iterator(size_t ii,long hors,long vers,size_t sub_w,size_t sub_h):
+                    how_many(ii),
                     geometry_base::iterator_base(ii),
-                    horiz_start(hors),sub_width(subw),
-                    vert_start(vers),sub_height(subh)
+                    horiz_start(hors),sub_width(sub_w),
+                    vert_start(vers),sub_height(sub_h)
         {
             // cerr<<"monte_carlo_iterator:"<<ile<<"["<<horiz_start<<"+"<<sub_width<<"|"<<vert_start<<"+"<<sub_width<<"]"<<endl;
         }
@@ -116,7 +115,7 @@ public:
             size_t i=rnd.Random(sub_width);
                                                             assert(i<sub_width); // Gdy wycinek wybiega za tablice, to może...
             size_t j=rnd.Random(sub_height);
-                                                            assert(j<sub_height); // ...nie być wewnątrz tablicy elementów.
+                                                            assert(j<sub_height); // Może nie być wewnątrz tablicy elementów.
                                                                                             //    assert(horiz_start>=0);
             long I_S=horiz_start+i;                                                         //            assert(I_S>=0);
                                                                                             //     assert(vert_start>=0);
@@ -124,8 +123,8 @@ public:
 
             ret=MyGeo->get(I_S,J_W); //FULL, gdy nie w tablicy
 
-            ile--; //Już zaliczony
-            if(ile==0)
+            how_many--; //Już zaliczony
+            if(how_many==0)
                 end=1; //Kończymy z tym iterator-em.
         }
     }; //koniec klasy iterator-a monte-carlo
@@ -133,17 +132,20 @@ public:
     // METODY IMPLEMENTUJĄCE OGÓLNE WŁAŚCIWOŚCI GEOMETRII:
     //*///////////////////////////////////////////////////
 
-    int  compare(geometry_base& bsec) override
+    /// Porównanie geometrii z założeniem, że ta dryga też jest prostokątna.
+    /// Najpierw jednak używa `geometry_base::_compare_geometry_base`.
+    int  compare(geometry_base& b_sec) override
     {
-        if( _compare_geometry_base(&bsec)==0 ) //Czy jest tego samego typu i wymiaru
+        if( _compare_geometry_base(&b_sec)==0 ) //Czy jest tego samego typu i wymiaru
             {
-            rectangle_geometry& sec=*(rectangle_geometry*)&bsec; //Można zrzutować.
-            if(sec.columns == columns && //Wiersze i kolumny
-                    sec.rows == rows &&
-                    sec.sSZER==sSZER &&	//Parametry zaznaczonego wycinka
-                    sec.sWYS==sWYS &&
-                    sec.lSZER==lSZER &&
-                    sec.lWYS==lWYS) return 0;
+            rectangle_geometry& sec=*(rectangle_geometry*)&b_sec; //Można zrzutować.
+            if( sec.columns == columns && //Wiersze i kolumny
+                   sec.rows == rows &&
+                  sec.sSZER == sSZER &&	//Parametry zaznaczonego wycinka
+                   sec.sWYS == sWYS &&
+                  sec.lSZER == lSZER &&
+                   sec.lWYS == lWYS)
+                return 0;
             }
         return -1;
     }
@@ -151,7 +153,8 @@ public:
     /// Informacja o rozmiarze użytecznej przestrzeni.
     /// @note W wersji bezparametrowej zwraca coś zaalokowanego, co trzeba potem zdealokować!
     MD_info* get_info(MD_info* Info/* =nullptr */) const override
-    {
+    {                                                                                  assert(columns>0);assert(rows>0);
+
         if(Info==nullptr)
             Info=new MD_info; //Teraz już nie może być pusty.
         //Set information:
@@ -291,15 +294,17 @@ public:
     // METODY SPECYFICZNE TYLKO DLA GEOMETRII PROSTOKĄTNEJ:
     //*////////////////////////////////////////////////////
 
-    // bezpośrednie akcesory rozmiarowe
-    size_t get_size() const { return _currSize;}
-    size_t get_height() const { return rows;}
-    size_t get_width() const { return columns;}
-    size_t get_sub_height() const { return lWYS;}
-    size_t get_sub_width() const { return lSZER;}
-    size_t get_sub_vert_start() const { return sWYS;}
-    size_t get_sub_horiz_start() const { return sSZER;}
-    int	   is_torus() const { return torus;}
+    /// @name bezpośrednie akcesory rozmiarowe
+    /// @{
+    size_t	get_size() const { return _currSize;}
+    size_t	get_height() const { return rows;}
+    size_t	get_width() const { return columns;}
+    size_t	get_sub_height() const { return lWYS;}
+    size_t	get_sub_width() const { return lSZER;}
+    size_t	get_sub_vert_start() const { return sWYS;}
+    size_t	get_sub_horiz_start() const { return sSZER;}
+    bool	is_torus() const { return torus;}
+    /// @}
 
     /// Specyficzna dla tej geometrii transformacja do indeksu liniowego.
     /// Gwarantuje poprawna prace dla zakresu:
@@ -316,13 +321,14 @@ public:
         {
             ret = y * columns + x; //Można obliczyć index
         }
-        else if(torus)	//Gdy nie to jak torus
-                {
-                    if(x<0) x= columns + x;
-                    if(y<0) y= rows + y;
-                                                             assert(x>=0 && y>=0); //Sprawdzanie, czyod dołu jest w tablicy
-                    ret= (y % rows) * columns + (x % columns); //da się obliczyć index
-                }
+        else
+            if(torus)	//Gdy nie to jak torus
+            {
+                if(x<0) x= columns + x;
+                if(y<0) y= rows + y;
+                                                         assert(x>=0 && y>=0); //Sprawdzanie, czy od dołu jest w tablicy
+                ret= (y % rows) * columns + (x % columns); //da się obliczyć index
+            }
 
         //Zwrot wyniku
         return ret;
@@ -334,8 +340,8 @@ public:
 
     rectangle_geometry(	size_t iA,				//!< Szerokość pełnego obszaru.
                         size_t iB,				//!< Wysokość pełnego obszaru.
-                        int  iTorus=1,			//!< Ustala, czywłączyć geometrie torusa.
-                        bool eDistMat=false,	//!< Informuje, czybędzie potrzebna macierz odległości (która jest duża!).
+                        int  iTorus=1,			//!< Ustala, czy włączyć geometrie torusa.
+                        bool eDistMat=false,	//!< Informuje, czy będzie potrzebna macierz odległości (która jest duża!).
                         RandomGenerator& RndIni	//!< Generator do losowania elementów.
                                         =TheRandG	//!< Domyślnie z całości i sąsiedztwa! RÓWNOMIERNIE!
                         )
@@ -366,11 +372,11 @@ public:
         }
     }
 
-    void  set(	size_t	iA,				//!< Szerokość pełnego obszaru.
-                size_t	iB,				//!< Wysokość pełnego obszaru.
-                int		iTorus=1,			//!< Określa, czywłączyć geometrie torusa.
+    void  set(	size_t		iA,				//!< Szerokość pełnego obszaru.
+                size_t		iB,				//!< Wysokość pełnego obszaru.
+                int		iTorus=1,			//!< Określa, czy włączyć geometrie torusa.
                 RandomGenerator& RndIni 	//!< Generator do losowania elementów.
-                                        =TheRandG 	//!< Domyślnie z całości i sąsiedztwa! RÓWNOMIERNIE!
+                              =TheRandG 	//!< Domyślnie z całości i sąsiedztwa! RÓWNOMIERNIE!
             )
     {
         columns=iA;

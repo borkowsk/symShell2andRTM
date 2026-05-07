@@ -6,7 +6,11 @@
 #include "world.hpp"
 #include "wb_cpucl.hpp"
 
-bool symshell2::world::continous_dump=false;
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "modernize-use-nullptr"
+#pragma ide diagnostic ignored "modernize-use-auto"
+
+bool symshell2::world::continuous_dump=false;
 
 int	symshell2::world::set_simulation_name(const char* name)
 //Zwraca 1 jak się udało. Może byc niedozwolone
@@ -29,14 +33,14 @@ int	symshell2::world::set_history_stream(const char* name)
 void symshell2::world::make_default_visualisation()
 //Tworzenie obowiązkowego lufcika na informacje tekstowe.
 {
-    if(!HasAreaMenager()) {//SKORO NIE MA MANAGERA TO NIE MA CO ROBIĆ, ALE TO JEST BŁĄÐ!
+    if(!HasAreaMenager()) {//SKORO NIE MA MANAGERA, TO NIE MA CO ROBIĆ, ALE TO JEST BŁĄD!
         cerr<<"Visualization manager not connected - default graphs could not be created."<<endl;
         goto ERROR;
     }
 
     //UTWORZENIE OBOWIĄZKOWEGO LUFCIKA NA INFORMACJE TEKSTOWE.
     OutArea=new symshell2::text_area(0,0,8*80,25*16,
-        "Initialising in progress..."
+        "Initializing in progress..."
         ,
         default_white,default_black,128,40);
 
@@ -45,37 +49,35 @@ void symshell2::world::make_default_visualisation()
     OutArea->set_title("STATUS");
 
     this->MyAreaMenager().insert(/*dynamic_cast<drawable_base*>*/(OutArea));
-    //MyAreaMenager().insert(OutArea);//!!! Tak powinno dzialac! ANSI ???
-    //MyAreaMenager().insert(wb_ptr<drawable_base>(OutArea)); //???Dziala, ale to jest inny konstruktor
 
-ERROR://...akcja na niepogode
+ERROR://...akcja na niepogodę
     ;//error_message(...) ???
 }
 
 
-void symshell2::world::initialize(symshell2::main_area_menager* Menager,int Replay)
+void symshell2::world::initialize(symshell2::main_area_menager* mainAreaManager, int Replay)
 // Ustawia stan startowy symulacji.
 {
     wb_cpu_clock timer;
 
     if(Replay==0)
-        initialize_layers();	 //Inicjalizacja danych świata klasy potomnej
-        else
-        initialize_from_image(); //Inicjalizacja z wycinka historii lub z historii
+        initialize_layers();		//Inicjalizacja danych świata klasy potomnej
+    else
+        initialize_from_image();	//Inicjalizacja z wycinka historii lub z historii
 
     if(Sources.get(0)==nullptr)
-        { //jeszcze nie inicjowano źródeł danych
+    { //jeszcze nie inicjowano źródeł danych
         make_basic_sources();        // tworzy je i umieszcza we własnym zarządcy danych
-        } else { //Manager już jest wypełniony seriami
-        Sources.new_data_version();  //... więc tylko oznakowujemy, że to start nowej symulacji
+    } else { //Manager już jest wypełniony seriami...
+        Sources.new_data_version();  // Zatem tylko oznakowujemy, że to start nowej symulacji
         Licznik=0;
-        }
+    }
 
-    if(AreaMenager==nullptr ) //Nie było jeszcze ustawionego wskaźnika do zarządcy ekranu
+    if(AreaManager==nullptr ) //Nie było jeszcze ustawionego wskaźnika do zarządcy ekranu
     {
         //O ile został teraz dostarczony i zainicjalizowany to go ustawiamy.
-        if(Menager!=nullptr && Menager->is_initialised() )
-                AreaMenager=Menager;
+        if(mainAreaManager != nullptr && mainAreaManager->is_initialised() )
+            AreaManager=mainAreaManager;
     }
 
     make_default_visualisation();
@@ -177,11 +179,11 @@ void symshell2::world::simulate(unsigned Steps)
                 Out->flush();
             }
 
-            if(continous_dump)
+            if(continuous_dump)
             {
                 actualize_out_area();		//Aktualizacja informacji
-                AreaMenager->_replot();		//Wizualizacja
-                AreaMenager->flush();
+                AreaManager->_replot();		//Wizualizacja
+                AreaManager->flush();
 
                 //I zapis do obrazu okna do pliku graficznego
                 wb_pchar Buf;
@@ -210,25 +212,25 @@ void symshell2::world::simulate(unsigned Steps)
             TimeStamp[strlen(TimeStamp)-1]='\0'; //To kasuje końcowe \n
         }
 
-        if(Steps>2 && AreaMenager) //O ile tryb rzadkiej wizualizacji i są w ogóle podłączone lufciki to...
+        if(Steps>2 && AreaManager) //O ile tryb rzadkiej wizualizacji i są w ogóle podłączone lufciki to...
         {
-            if(!AreaMenager->background_enabled()) //Jeśli wstrzymany i praca krok po kroku to by było bez wizualizacji
+            if(!AreaManager->background_enabled()) //Jeśli wstrzymany i praca krok po kroku to by było bez wizualizacji
             {
                 actualize_out_area();		//Aktualizacja informacji
-                AreaMenager->_replot();		//Wizualizacja
-                AreaMenager->flush();
+                AreaManager->_replot();		//Wizualizacja
+                AreaManager->flush();
             }
 
-            AreaMenager->process_input(); //Obsługa zdarzeń zewnętrznych, żeby okno nie było martwe
+            AreaManager->process_input(); //Obsługa zdarzeń zewnętrznych, żeby okno nie było martwe
 
-            if(!AreaMenager->should_continue() )	//CZY PRZYPADKIEM NIE KONIEC W DZIWNYM MOMENCIE?
+            if(!AreaManager->should_continue() )	//CZY PRZYPADKIEM NIE KONIEC W DZIWNYM MOMENCIE?
             {
                 OutArea->add_text("The user interrupted the simulation.");
-                if(!AreaMenager->background_enabled()) //Przy takim przerwaniu trzeba by i tak jeszcze raz zamykać okno
+                if(!AreaManager->background_enabled()) //Przy takim przerwaniu trzeba by i tak jeszcze raz zamykać okno
                 {
                     OutArea->add_text("The simulation loop was stopped in interactive mode."
                                       "\nYou can inspect simulation and continue");
-                    AreaMenager->need_break_action(0);
+                    AreaManager->need_break_action(0);
                 }
                 OutArea->replot();
                 break; //Koniec zabawy!!!
@@ -250,29 +252,29 @@ void symshell2::world::actualize_out_area()
         bufor.prn("%lu SIMULATION STEP. %s\n",(unsigned long)get_current_step(),ClockTime.get());
         OutArea->clean();
         OutArea->add_text(bufor.get_ptr_val());
-        if(AreaMenager!=nullptr && (!AreaMenager->background_enabled()))
-            OutArea->add_text("IN INTERACTIVE MODE (ctrl-B: switch to auto mode)\n");
+        if(AreaManager!=nullptr && (!AreaManager->background_enabled()))
+            OutArea->add_text("NOW IN THE INTERACTIVE MODE (ctrl-B: switch to auto mode)\n");
     }
 }
 
 
 void symshell2::world::simulation_loop(int ret_after)
 {
-    if(AreaMenager && !AreaMenager->should_continue()) {
+    if(AreaManager && !AreaManager->should_continue()) {
         cerr<<"Visualization manager isn't connected and/or continuation is not possible."<<endl;
         return; //NIESTETY OD RAZU KONIEC!
     }
 
     // Wstępne działania:
     // //////////////////
-    if(AreaMenager)
+    if(AreaManager)
     {
-//      AreaMenager->enable_background();	//Dla pewności?
+//      AreaManager->enable_background();	//Dla pewności?
         actualize_out_area();				//Aktualizacja informacji
         if(get_current_step()==0)
         {
-            AreaMenager->flush();
-            AreaMenager->process_input();	//Obsługa zdarzeń zewnętrznych przed startem... Jakby coś.
+            AreaManager->flush();
+            AreaManager->process_input();	//Obsługa zdarzeń zewnętrznych przed startem... Jakby coś.
         }
     }
 
@@ -281,31 +283,31 @@ void symshell2::world::simulation_loop(int ret_after)
         //CZY DALEJ SYMULUJEMY?
         if(get_current_step()>=MaxIterations )
         {
-            if(ret_after || AreaMenager==NULL)
+            if(ret_after || AreaManager==NULL)
             {
                 break; //KONIEC PĘTLI
             }
             else
             {
-                AreaMenager->disable_background();	//WYŁĄCZA SYMULOWANIE
+                AreaManager->disable_background();	//WYŁĄCZA SYMULOWANIE
                 MaxIterations=LONG_MAX;
             }
         }
 
         // Obsługa okna przed krokiem symulacji:
         // /////////////////////////////////////
-        if(AreaMenager)
+        if(AreaManager != nullptr)
         {
             actualize_out_area();		//Aktualizacja informacji
-            AreaMenager->_replot();		//Wizualizacja
-            AreaMenager->flush();
+            AreaManager->_replot();		//Wizualizacja
+            AreaManager->flush();
         }
 
         // Właściwa symulacja:
         // ///////////////////
 
         //Jak w ogóle nie ma zarządcy wizualizacji (why!?) albo praca w tle jest dozwolona:
-        if(AreaMenager==nullptr || AreaMenager->background_enabled())
+        if(AreaManager==nullptr || AreaManager->background_enabled())
         {
             wb_cpu_clock timer;				///< Timer kroku od razu automatycznie startujący.
             //-----------------------------
@@ -320,10 +322,10 @@ void symshell2::world::simulation_loop(int ret_after)
 
         // Obsługa okna po kroku symulacji lub bez niej:
         // /////////////////////////////////////////////
-        if(AreaMenager)
+        if(AreaManager)
         {
-            AreaMenager->process_input();			//Obsługa zdarzeń zewnętrznych
-            if(!AreaMenager->should_continue() )	//CZY NIE KONIEC?
+            AreaManager->process_input();			//Obsługa zdarzeń zewnętrznych
+            if(!AreaManager->should_continue() )	//CZY NIE KONIEC?
                     break;	//Koniec zabawy!!!
         }
 
@@ -355,6 +357,7 @@ symshell2::world::~world() {
     Log.try_writing(); //Stan końcowy, jeśli nie byl zapisany  */
 }
 
+#pragma clang diagnostic pop
 /* ****************************************************************** */
 /*               SYMSHELL2  version 2006/2022/2026                    */
 /* ****************************************************************** */

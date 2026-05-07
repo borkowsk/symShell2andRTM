@@ -16,6 +16,10 @@
 #include "textarea.hpp"
 #include "logfile.hpp"
 
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "modernize-use-nullptr"
+#pragma ide diagnostic ignored "modernize-use-auto"
+
 namespace symshell2 {
 
 /// Podstawy użytkowe dla całego świata symulacji.
@@ -27,10 +31,10 @@ class world
     virtual void   make_basic_sources(sources_menager& WhatSourMen);
 
     /// Uchwyt do aktualnego manager danych.
-    symshell2::main_area_menager*		AreaMenager;
+    symshell2::main_area_menager*		  AreaManager;
 
     /// Data/Czas aktualnego kroku w wersji tekstowej.
-    wb_pchar				TimeStamp;
+    wb_pchar								TimeStamp;
 
 protected:
     /// Obszar bezpośredniego wyświetlania do wypisywania statusu.
@@ -66,22 +70,23 @@ public:
     /// Co ile kroków symulacji sprawdzać wejście.
     unsigned				InputRatio;
     /// STEROWANIE ZAPISEM EKRANÓW.
-    static 	  bool 			continous_dump; //=false;
-    //STERUJĄCE NAZWY PLIKÓW
-    wb_pchar				SimulName;   //!< Główna nazwa symulacji.
-    wb_pchar				OutName;	 //!< Nazwa pliku historii. Zamyka jak niezgodność nazw.
-    wb_pchar 				DumpNetName; //!< Nazwa pliku sieci do zrzutu razem z danymi.
-
+    static 	  bool 			continuous_dump; //=false;
+    /// @name STERUJĄCE NAZWY PLIKÓW
+    /// @{
+    wb_pchar				SimulName;		//!< Główna nazwa symulacji.
+    wb_pchar				OutName;		//!< Nazwa pliku historii. Zamyka jak niezgodność nazw.
+    wb_pchar 				DumpNetName;	//!< Nazwa pliku sieci do zrzutu razem z danymi.
+    /// @}
 public:
     //Konstrukcja i destrukcja:
     // ////////////////////////
 
     /// Główny konstruktor.
-    world(const char* log_name,
+    explicit world(const char* log_name,
           size_t max_sources=50):
             MaxIterations(0xffffffff),Licznik(0),
             LogRatio(1),InputRatio(1),
-            OutArea(nullptr),AreaMenager(nullptr),
+            OutArea(nullptr),AreaManager(nullptr),
             Sources(max_sources),Log(max_sources,log_name),
             Out(nullptr)
     { SimulName="TheBasicSimulationWorld"; }
@@ -89,8 +94,8 @@ public:
     /// Wirtualny destruktor.
     virtual  ~world();
 
-    // Wymagane implementacji specyficznych akcji:
-    // ///////////////////////////////////////////
+    // Wymagane albo zachęca do implementacji specyficznych akcji:
+    // ///////////////////////////////////////////////////////////
 
     /// Właściwa implementacja jednego kroku symulacji — do zaimplementowania
     virtual void		simulate_one_step()=0;
@@ -107,9 +112,9 @@ public:
     /// Współpraca z zarządcą wyświetlania. Tworzy domyślne "lufciki" i umieszcza w nim.
     virtual void		make_default_visualisation()=0;
 
-    /// Aktualizacja zawartości okna statusu po `n` krokach symulacji.
+    /// Aktualizacja zawartości okna statusu po jednym lub wielu krokach symulacji.
     /// Domyślnie wyświetla numer kroku lub informacje o trybie interaktywnym.
-    // Wbrew pozorom jest zdefiniowane, choć CLint się gubi...
+    // Wbrew pozorom jest zdefiniowane, choć "CLint" się gubi...
     virtual void		actualize_out_area();
 
     ///Implementacja strumieniowego wyjścia. @returns 1,  jeśli sukces!
@@ -147,8 +152,8 @@ public:
     /// Aktualny zarządca ekranu podłączony do tego świata.
     symshell2::area_menager&	MyAreaMenager();
 
-    /// Sprawdzenie, czyma już podłączonego zarządcę okien.
-    int 			HasAreaMenager() { return AreaMenager!=nullptr; }
+    /// Sprawdzenie, czy ma już podłączonego zarządcę okien.
+    int 			HasAreaMenager() { return AreaManager!=nullptr; }
 
     ///Jak trzeba KONIECZNIE coś dopisać do logu.
     ostream&		MyLogStream();
@@ -161,9 +166,9 @@ public:
     ///     - wywołuje `initialise_leyers()`
     ///     - tworzy bazowe źródła
     ///     - i opcjonalnie podstawowe grafy
-    /// jeśli z `Replay!=0` to inicjalizuje warstwy z zerowego kroku
+    /// , jeśli z `Replay != 0` to inicjalizuje warstwy z zerowego kroku
     /// pliku historii za pomocą funkcji "initialize_from_image".
-    void		initialize(symshell2::main_area_menager* Menager=nullptr,int Replay=0);
+    void		initialize(symshell2::main_area_menager* mainAreaManager=nullptr, int Replay=0);
 
     /// Powtórzenie inicjalizacji dla powtórnego przebiegu symulacji.
     /// Nie odtwarza strony wizualizacyjnej.
@@ -217,12 +222,13 @@ inline
 symshell2::area_menager&		world::MyAreaMenager()
 //Aktualny zarządca ekranu podłączony do świata
 {
-                                                assert(AreaMenager!=nullptr);
-    return *AreaMenager;
+                                                assert(AreaManager!=nullptr);
+    return *AreaManager;
 }
 
 } //namespace symshell2
 
+#pragma clang diagnostic pop
 /* ****************************************************************** */
 /*               SYMSHELL2  version 2006/2022/2026                    */
 /* ****************************************************************** */

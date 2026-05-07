@@ -282,16 +282,22 @@ inline
 double      geometry_base::get_max_distance() const
 //Informacja o maksymalnej możliwej odległości. Potrzebna np. dla "Spatial correlation".
 {
-    assert("Pure virtual method 'geometry_base::get_max_distance() const' used."==0);
+#ifdef _NDEBUG
     return 0;
+#else
+    assert("Pure virtual method 'geometry_base::get_max_distance() const' used."==0);
+#endif
 }
 
 inline
 double     geometry_base::get_distance(size_t first,size_t second) const
 //Informacja o odległości dwóch obiektów o określonych indeksach.
 {
-    assert("Pure virtual method 'geometry_base::get_distance() const' used."==0);
+#ifdef _NDEBUG
     return 0;
+#else
+    assert("Pure virtual method 'geometry_base::get_distance() const' used."==0);
+#endif
 }
 
 } //namespace symshell2

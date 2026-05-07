@@ -1,6 +1,6 @@
 /// @file
 /// @brief KLASA GŁÓWNEGO ZARZĄDCY OBSZARÓW EKRANU
-/// @date 2026-05-06 (modified)
+/// @date 2026-05-07 (modified)
 // ********************************************************************************************************************
 //
 #ifndef __MAINMNGR_HPP__
@@ -10,6 +10,10 @@
 #endif
 
 #include "areamngr.hpp"
+
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "modernize-use-nullptr"
+#pragma ide diagnostic ignored "modernize-use-auto"
 
 /// Zmodernizowane klasy do symulacji w C++
 namespace symshell2
@@ -41,7 +45,7 @@ class main_area_menager:public area_menager
     void operator = (const main_area_menager&); //Nie wolno!!!
 
 public:
-    ~main_area_menager(); //Wirtualny destruktor
+    ~main_area_menager() override; //Wirtualny destruktor
     //KONSTRUKTÓRY
     //---------------
 
@@ -138,6 +142,7 @@ protected:
 
 } // namespace symshell2
 
+#pragma clang diagnostic pop
 /* ****************************************************************** */
 /*               SYMSHELL2  version 2006/2022/2026                    */
 /* ****************************************************************** */

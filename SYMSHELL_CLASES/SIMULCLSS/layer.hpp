@@ -1177,7 +1177,8 @@ public:
     struct assign_rgb_stc
     {
         assign_rgb_fun AssFun;
-        assign_rgb_stc(assign_rgb_fun par):AssFun(par){}
+        /// Constructor has to be without `explicit`!
+        assign_rgb_stc(assign_rgb_fun par):AssFun(par){} // NOLINT(*-explicit-constructor)
     };
 
     int init_from_bitmap(const char* filename,
