@@ -229,7 +229,7 @@ public:
     iteratorh reset()
 //Umozliwia czytanie od poczatku
     {
-        basics_::check_version_(); //Uaktualnia tez wersje podzrodla, jeśli trzeba
+        basics_::check_version_(); //Uaktualnia tez wersje podźrodła, jeśli trzeba
         _calculate(); //Sprawdza, czynie trzeba policzyc i ewentualnie liczy
         return (iteratorh) 1;
     }
@@ -242,7 +242,7 @@ public:
     void bounds(size_t &num, double &min, double &max)
 //Ile elementów,wartość minimalna i maksymalna
     {
-        basics_::check_version_(); //Uaktualnia też wersje podzrodla, jeśli trzeba
+        basics_::check_version_(); //Uaktualnia też wersje podźrodła, jeśli trzeba
         _calculate(); //Sprawdza, czynie trzeba policzyc i ewentualnie liczy
         num = get_size();
         min = basics_::y_min;
@@ -258,7 +258,7 @@ public:
 
     double get(size_t index) //Przetwarza index uzyskany z geometrii
     { //na wartość z serii, o ile jest możliwe czytanie losowe
-        basics_::check_version_(); //Uaktualnia tez wersje podzrodla, jeśli trzeba
+        basics_::check_version_(); //Uaktualnia tez wersje podźrodła, jeśli trzeba
         _calculate(); //Sprawdza, czynie trzeba policzyc i ewentualnie liczy
         assert(index < get_size());
         return arra[index];

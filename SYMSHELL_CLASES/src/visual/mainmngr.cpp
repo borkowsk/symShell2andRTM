@@ -1,7 +1,7 @@
 /// @file
 /// @brief A screen or window area manager, implemented directly based on SYMSHELL functions.
 ///        Zarządca obszarów ekranu lub okna, zaimplementowany bezpośrednio na bazie funkcji SYMSHELL-a.
-/// @date 2026-05-06 (last modification)
+/// @date 2026-05-07 (last modification)
 //*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //  Do obsługi całego ekranu/okna SYMSHELL'a.
 
@@ -125,7 +125,7 @@ main_area_menager(size_t size,//Konstruktor z lista czesciowo wypelniona
 
 //Inicjacja trybu graficznego w momencie dogodnym dla projektanta aplikacji
 //Zwraca 1 jesli ok
-//Przed pomyslnym wywolaniem start() nie wolno bezposrednio lub posrednio wywolywac
+//Przed pomyslnym wywolaniem start() nie wolno bezpośrednio lub posrednio wywolywac
 //jakichkolwiek funkcji rysujacych po ekranie.
 int main_area_menager::start(const char* wintitle,int argc,const char* argv[],int buf)
 {
@@ -163,7 +163,7 @@ int main_area_menager::start(const char* wintitle,int argc,const char* argv[],in
         if(pos==-1)
             pos=ssh_get_item_position(mainmenu,"Okno");
         if(pos!=-1)
-            WindowMenu=ssh_sub_menu(mainmenu,pos); //I zapamientanie do uzycia w funkcji insert
+            WindowMenu=ssh_sub_menu(mainmenu,pos); //I zapamientanie do użycia w funkcji insert
         //ssh_menu_add_item(WindowMenu,"Test menu item",55555);
     }
 
@@ -549,13 +549,13 @@ void main_area_menager::run_input_loop()
 //ELASTYCZNE UCHWYTY OBSŁUGI
 //---------------------------
 int main_area_menager::_pre_process_input(int input_char)
-//Przed obsluga domyslna. Zwraca 1 jesli obsluzyl.
+//Przed obsluga domyslna. Zwraca 1 jesli obslużyl.
 {
-	return 0; //nie obsluzyl
+	return 0; //nie obslużyl
 }
 
 int main_area_menager::_post_process_input(int input_char)
-//Po obsludze domyslnej. Zwraca 1 jesli obsluzyl.
+//Po obsludze domyslnej. Zwraca 1 jesli obslużyl.
 {
 	return 1; //Uznaj za obsluzone
 }

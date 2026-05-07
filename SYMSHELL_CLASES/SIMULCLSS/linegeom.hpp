@@ -231,7 +231,7 @@ public:
 // METODY SPECYFICZNE TYLKO DLA GEOMETRII PROSTOKĄTNEJ
 // /////////////////////////////////////////////////////////////////
 
-    // bezposrednie akcesory rozmiarowe
+    // bezpośrednie akcesory rozmiarowe
     size_t get_size() const { return N;}
     size_t get_width() const { return Szerokosc;}
     size_t get_sub_width() const { return lSZER;}

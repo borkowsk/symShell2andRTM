@@ -1,7 +1,7 @@
 /// @file
 /// @brief Implementation of the base area manager/
 ///        Implementacja bazowego zarządcy obszarów.
-/// @date 2026-05-06 (modified)
+/// @date 2026-05-07 (modified)
 //---------------------------------------------------------------------------
 //  Wersja z kosmetyką XI 2012
 //*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -309,7 +309,7 @@ int    area_menager::is_minimized(size_t index)
 //Jesli what=default color to wszystkie zaznaczone.
 // i opcjonalnie zdejmuje zaznaczenie
  {
-     wb_dynarray<int> pom(get_size());//z duzym zapasem
+     wb_dynarray<int> pom(get_size());//z dużym zapasem
      size_t ok=0;
      //Odszukuje wszystkie zamarkowane zgodnie z what
      //i odmarkowuje jesli trzeba
@@ -474,7 +474,7 @@ int    area_menager::is_minimized(size_t index)
           if( tab[i].ptr )
             if(i==maximized && tab[i].minimized)
                 {
-                //Po takiej operacji nie moze zostac bez ramki
+                //Po takiej operacji nie moze zostać bez ramki
                 //if(tab[i].ptr->getframe()==default_color)
                 //	tab[i].org_frame=tab[i].ptr->setframe(default_black);
                 restore(i);

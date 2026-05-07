@@ -11,54 +11,65 @@
 #include <cfloat>
 #include <cstring>
 #include <cassert>
-//#include "platform.hpp"
 #include <cstdint>
 #include <iostream>
+
 #include "wb_limits.hpp"
+
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "modernize-use-auto"
+#pragma ide diagnostic ignored "modernize-use-nullptr"
+#pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
+// --checks=-google-default-arguments.
+#pragma ide diagnostic ignored "google-default-arguments"
 
 namespace symshell2 {
 
 /// Typ uchwytowy do iteratorów geometrii.
-//---------------------------------------
-typedef void* iteratorh; //Wersja stara, ale jara TODO NADAL???
+/// Wersja trochę stara, ale wciąż lata...
+typedef void* iteratorh;
 
 /*
 class geometry_base::iterator_base; //???Pomysły na wersję zabezpieczoną?
+
 class iteratorh
 //----------------
 {
-iterator_base* val;
-public:
-iteratorh():val(0){}
-explicit iteratorh(unsigned long Init):val((iterator_base*)Init){}
-void set(unsigned long Init){ val=(iterator_base*)Init;}
-operator iterator_base* () {return val;}
-operator void* () {return (void*)val;}
+    iterator_base* val;
+    public:
+    iteratorh():val(0){}
+    explicit iteratorh(unsigned long Init):val((iterator_base*)Init){}
+    void set(unsigned long Init){ val=(iterator_base*)Init; }
+    operator iterator_base* () {return val;}
+    operator void* () {return (void*)val;}
 };
 */
 
 /// INTERFACE dla geometrii świata symulacji.
 /// @details
-///    Geometria jest obiektem, który potrafi opisać położenie agentów w warstwie,
-///    a także wzajemnie względem siebie i przetworzyć je na liniowy indeks tablicy.
+///    Geometria jest obiektem, który potrafi opisać położenie agentów w warstwie
+///    , a także wzajemnie względem siebie i przetworzyć je na liniowy indeks tablicy.
 class geometry_base 
 //-----------------
 {
 public:
-    typedef uintptr_t index_t; //!< Typ całkowity rownoważny rozmiarem z typem wskaźnikowym.
+    typedef uintptr_t index_t; //!< Typ całkowity równoważny rozmiarem z typem wskaźnikowym.
 
-    enum my_full:index_t {FULL=wbrtm::limit<index_t>::Max()}; //!< Wartość największego możliwego wskaźnika i indeksu.
+    enum my_full:index_t { FULL=wbrtm::limit<index_t>::Max() }; //!< Wartość największego możliwego wskaźnika i indeksu.
 
-    //LOKALNE KLASY i STRUKTURY
-    //-------------------------------------
+//LOKALNE KLASY i STRUKTURY
+//-------------------------------------
 
     /// Struktura (dawniej unia!) dla wyrażania współrzędnych.
     struct coord
     //---------------
     {
-        //struct{double X,Y,Z,T,U,V;}; //!< Miał być łatwy dostęp, ale z czasem okazało się, że kłopot.
+        //struct{double X, Y, Z, T, U, V}; //!< Miał być łatwy dostęp, ale z czasem okazało się, że kłopot.
         double C[6]{};
-        coord():C{0,0,0,0,0,0} {} //!< Initial values are zeros.
+        /// Construction. All initial values are zeros.
+        coord():C{0,0,0,0,0,0} {}
+        /// @name Attribute accessors.
+        /// @{
         double& X(){ return C[0];}
         double& Y(){ return C[1];}
         double& Z(){ return C[2];}
@@ -72,6 +83,7 @@ public:
         double T()const { return C[3];}
         double U()const { return C[4];}
         double V()const { return C[5];}
+        /// @}
     };
 
     /// Ograniczenia wartości współrzędnych.
@@ -82,6 +94,7 @@ public:
         coord max;	//!< Największe wartości dla każdej współrzędnej.
     };
 
+    /// Informacja o ustawieniach "kamery".
     struct view_info
     //---------------
     {
@@ -99,19 +112,22 @@ public:
         unsigned marker;	//!< Dla sprawdzania, że to faktycznie iterator.
 
     public:
-        //Optymalizacja alokacji!!!
-        //-------------------------
+        /// @name Optymalizacja alokacji!!!
+        /// @details "Clang-Tidy: Declaration of 'operator new' has no matching declaration of 'operator delete' at the same scope"
+        ///          <br> REALLY?
+        /// @{
         void* operator new (size_t s);	//!< Klasowy alokator iteratora.
-        void  operator delete (void* p, size_t s);	//!< Klasowy dealokator dla iteratora.
+        void  operator delete (void* p, size_t s);	//!< Klasowy de-alokator dla iteratora.
+        /// @}
 
         /// Konstruktor, poza tym, co robi niejawnie, ustawia też `marker`.
-        explicit iterator_base(size_t iite):
-                marker(0xfedcba00),items(iite){}
+        explicit iterator_base(size_t i_ite):
+                marker(0xfedcba00),items(i_ite){}
 
         /// Destruktor, na wszelki wypadek wirtualny. Zeruje `marker`.
         virtual	~iterator_base()	{ marker=0;}
 
-        /// Sprawdza, czyto na pewno iterator. Np. dla asercji.
+        /// Sprawdza, czy to na pewno iterator. Np. dla asercji.
         bool is_iterator() const	{ return marker==0xfedcba00;}
 
         /// Podaje ile jest elementów do iteracji.
@@ -125,7 +141,7 @@ private:
     int dimension;	//!< Liczba wymiarów geometrii — żeby móc użyć typu `coord`.
 
 protected:
-    /// Sprawdza, czy VMT i dimension są takie same.
+    /// Sprawdza, czy pointer do VMT i dimension są takie same.
     int _compare_geometry_base(geometry_base* second);
 
 public:
@@ -201,7 +217,7 @@ public:
     //--------------------------
 
     /// Konstruktor z liczbą wymiarów. @param dims — liczba wymiarów.
-    geometry_base(int dims):dimension(dims){}
+    explicit geometry_base(int dims):dimension(dims){}
 
     virtual ~geometry_base()= default;
 
@@ -216,15 +232,17 @@ typedef geometry_base geometry;
 
 inline
 int geometry_base::_compare_geometry_base(geometry_base* second)
-//Sprawdza, czyVMT i dimension są takie same.
 {
+    /// @internal
+    ///  The second operand of this 'memcmp' call is a pointer to dynamic class 'geometry_base';
+    ///  vtable pointer will be compared. (AND THIS IS INTENTIONAL!)
     return memcmp((void*)this, second, sizeof(geometry_base)); // NOLINT(*-suspicious-memory-comparison)
 }
 
 inline
 geometry_base::index_t geometry_base::get_next(iteratorh& p) const
 //Zwraca indeks do aktualnego i przesuwa iterator.
-//Zeruje iterator, gdy koniec danych. Zwraca uFULL, gdy missing...
+//Zeruje iterator, gdy koniec danych. Zwraca FULL, gdy missing...
 {                 static_assert( sizeof(size_t) == sizeof(uintptr_t) ,"sizeof(size_t) must be equal sizeof(uintptr_t)");
     index_t ret=FULL; //TODO rozważyć użycie `uintptr_t`
     index_t end=0;
@@ -278,6 +296,7 @@ double     geometry_base::get_distance(size_t first,size_t second) const
 
 } //namespace symshell2
 
+#pragma clang diagnostic pop
 /* ****************************************************************** */
 /*               SYMSHELL2  version 2006/2022/2026                    */
 /* ****************************************************************** */

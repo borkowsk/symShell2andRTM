@@ -78,7 +78,7 @@ void* geometry_base::iterator_base::operator new (size_t s)
 		cal_num=1;
 	}
 #ifdef USE_OPTYMIZ_ALLOC
-    //Przeszukiwanie tablicy ostatnio uzywanych i zwolnionych iteratorow
+    //Przeszukiwanie tablicy ostatnio używanych i zwolnionych iteratorow
 	if(cur_size!=0)
 	{
 	for(size_t i=0;i<cur_size;i++)//szukam czy nie ma wolnego bufora

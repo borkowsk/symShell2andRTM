@@ -117,7 +117,7 @@ void world::read_loop(int ret_after)
 	////////////////////
 	if(AreaMenager)
 	{
-		AreaMenager->enable_background();//Dla pewnosci
+		AreaMenager->enable_background();//Dla pewności
 //		actualize_out_area();			 //Aktualizacja informacji
 	}
 

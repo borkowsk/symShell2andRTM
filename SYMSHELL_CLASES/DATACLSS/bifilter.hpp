@@ -110,7 +110,7 @@ public:
         return _get(val1, val2);
     }
 
-    /// Przetwarza indeks uzyskany z geometrii na wartość z serii.
+    /// Przetwarza indeks użyskany z geometrii na wartość z serii.
     /// Znowu używamy wewnętrznego `_get` do interpretacji pary wartości.
     double get(geometry::index_t index_from_geometry) override
     {

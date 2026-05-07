@@ -148,7 +148,7 @@ for(i=0;i<siz;i++)
 	data_source_base* gcc_pom=tab[index].get();
     symshell2::config_point* gcc_pom2=tab[index].fig?tab[index].fig.get_ptr_val():NULL;
     symshell2::graph::series_info pom(//nie ma zarzadzac
-			gcc_pom,	//Wskaznik do zrodla danych
+			gcc_pom,	//Wskaznik do źrodła danych
 			0,									//Nie zarzadzaj!
 			tab[index].col,	//Jesli nie default_color, ustala kolor
 			gcc_pom2,	//Wskaznik rysika.Jesli NULL to laczy liniami
@@ -181,7 +181,7 @@ wb_dynarray<symshell2::graph::series_info> sources_menager::make_series_info(int
         symshell2::config_point* gcc_pom2=tab[index].fig?tab[index].fig.get_ptr_val():NULL;
 
         symshell2::graph::series_info pom(
-                gcc_pom,		//Wskaźnik do zrodla danych
+                gcc_pom,		//Wskaźnik do źrodła danych
                 0,				//Nie zarządzaj!
                 tab[index].col,	//Jesli !=-1, ustala kolor
                 gcc_pom2,		//Wskaźnik rysika.Jesli NULL to laczy liniami

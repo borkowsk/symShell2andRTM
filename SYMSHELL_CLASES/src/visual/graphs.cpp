@@ -1,7 +1,7 @@
 /// @file
 /// @brief IMPLEMENTATION OF BASIC GRAPH CLASSES/
 ///        IMPLEMENTACJA PODSTAWOWYCH KLAS GRAFÓW.
-/// @date 2026-05-06 (modified)
+/// @date 2026-05-07 (modified)
 // /////////////////////////////////////////////////////////////////////////////////////////
 
 #include <stdarg.h>
@@ -143,7 +143,7 @@ return 0;
 }
 
 int drawable_base::getstartx()
-//Poczatek x obszaru uzytkowego
+//Poczatek x obszaru użytkowego
 {
 int ret=int(x1);
 if(getframe()!=default_transparent && frame_width>0)
@@ -152,7 +152,7 @@ return ret;
 }
 
 int drawable_base::getstarty()
-//Poczatek y obszaru uzytkowego
+//Poczatek y obszaru użytkowego
 {
 int ret=int(y1);
 if(getframe()!=default_transparent && frame_width>0)
@@ -167,7 +167,7 @@ return ret;
 }
 
 int drawable_base::getwidth ()
-//Szerokosc obszaru uzytkowego
+//Szerokosc obszaru użytkowego
 {
 int ret=int(x2-x1);
 ret++;
@@ -177,7 +177,7 @@ return ret;
 }
 
 int drawable_base::getheight()
-//Wysokosc obszaru uzytkowego
+//Wysokosc obszaru użytkowego
 {
 int ret=int(y2-y1);
 ret++;
@@ -462,7 +462,7 @@ if( MyGeometry==nullptr ||
 
 
 int carpet_graph::setseries(size_t index,data_source_base* idata,int imenage)
-//zwraca -1 jesli indeks za duzy
+//zwraca -1 jesli indeks za duży
 {
 if(index>0) return -1;//Tylko jedna seria
 assert(idata!=nullptr);
@@ -473,7 +473,7 @@ return 0;
 }
 
 data_source_base* carpet_graph::getseries(size_t index)
-//zwraca nullptr jesli indeks za duzy
+//zwraca nullptr jesli indeks za duży
 {
 if(index>0)
     return nullptr;
@@ -747,7 +747,7 @@ if(mode==0 || mode==1)
 }
 
 int bars_graph::setseries(size_t index,data_source_base* idata,int imenage)
-//zwraca -1 jesli indeks za duzy
+//zwraca -1 jesli indeks za duży
 {
 if(index>1) return -1;//Tylko dwie serie
 assert(idata!=nullptr);
@@ -767,7 +767,7 @@ return 0;
 }
 
 data_source_base* bars_graph::getseries(size_t index)
-//zwraca nullptr jesli indeks za duzy
+//zwraca nullptr jesli indeks za duży
 {
 if(index>0)
     return nullptr;
@@ -1071,7 +1071,7 @@ if(p==nullptr)
 
 
 int manhattan_graph::setseries(size_t index,data_source_base* idata,int imenage)
-//zwraca -1 jesli indeks za duzy
+//zwraca -1 jesli indeks za duży
 {
 if(index>1) return -1;//Tylko dwie serie
 assert(idata!=nullptr);
@@ -1091,7 +1091,7 @@ return 0;
 }
 
 data_source_base* manhattan_graph::getseries(size_t index)
-//zwraca nullptr jesli indeks za duzy
+//zwraca nullptr jesli indeks za duży
 {
 if(index>0)
     return nullptr;
@@ -1422,7 +1422,7 @@ return 0;
 }
 
 int sequence_graph::setseries(size_t index,data_source_base* data,int menage)
-//zwraca -1 jesli indeks za duzy
+//zwraca -1 jesli indeks za duży
 {
 assert(series!=nullptr);
 if(index>=M)
@@ -2518,7 +2518,7 @@ void net_graph::_replot()
 
     assert(Sources!=nullptr);assert(Targets!=nullptr);
 
-    size_t num_so,num_t,num_a,num_c,num;//Ilosc elementow w kazdej z serii i ostatecznie ilosc minimalna (num)
+    size_t num_so,num_t,num_a,num_c,num;//Ilosc elementow w każdej z serii i ostatecznie ilosc minimalna (num)
     double mini,maxi,mina,maxa;
     double SameSize=sqrt(sqr(graph_core._x1()-graph_core._x2())+sqr(graph_core._y1()-graph_core._y2()))*0.025;
 
@@ -2550,7 +2550,7 @@ void net_graph::_replot()
 
     if(num>0)
     {
-		//Wszystkie serie musza udostepniac bezposrednie czytanie!!!
+		//Wszystkie serie musza udostepniac bezpośrednie czytanie!!!
 		//for(size_t i=0;i<num;i++)
         for(size_t j=0,i=num-1;j<num;i--,j++)//W odwrotnej kolejności!
         {

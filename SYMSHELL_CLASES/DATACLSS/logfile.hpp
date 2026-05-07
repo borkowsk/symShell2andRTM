@@ -105,7 +105,7 @@ public:
     int try_writing();
 
 //Inteligentnie "Zeruje" (tzn -1!!!) wersje źródeł — wszystkich niewyzerowanych,
-//ale ze wzgledu na te którymi nie zarządza właściwy menager(np podzrodla)
+//ale ze wzgledu na te którymi nie zarządza właściwy menager(np podźrodła)
     void restart_data_version();
 };
 

@@ -33,7 +33,7 @@ protected:
     */
 
     double _get(size_t index)
-//Bezposrednio siega do tablicy arra.
+//Bezpośrednio siega do tablicy arra.
     {
         double pom;
         assert(arra);
@@ -138,7 +138,7 @@ public:
     virtual size_t number_of_subseries()
     {
         return co_statistics_source::number_of_subseries() +
-               4; //Ma cztery podzrodla
+               4; //Ma cztery podźrodła
     }
 
     void all_subseries_required()	//Alokuje i ewentualnie rejestruje w menagerze wszystkie serie
@@ -180,7 +180,7 @@ public:
     void bounds(size_t &num, double &min, double &max)
 //Ile elementów,wartość minimalna i maksymalna
     {
-        check_version(); //Uaktualnia tez wersje podzrodla, jeśli trzeba
+        check_version(); //Uaktualnia tez wersje podźrodła, jeśli trzeba
         _calculate(); //Sprawdza, czynie trzeba policzyc i ewentualnie liczy
         num = get_size();
         min = ymin;
@@ -190,7 +190,7 @@ public:
     size_t get_size()
 //ile elementów
     {
-        check_version(); //Uaktualnia tez wersje podzrodla, jeśli trzeba
+        check_version(); //Uaktualnia tez wersje podźrodła, jeśli trzeba
         _calculate(); //Sprawdza, czynie trzeba policzyc i ewentualnie liczy
         if(!my_geometry)
             return 0;
@@ -200,7 +200,7 @@ public:
 //Zwraca wskaźnik do obowiazujacej geometrii danych. NULL oznacza dane nie-zgeometryzowane
     geometry_base *get_geometry()
     {
-        check_version(); //Uaktualnia też wersje podzrodla, jeśli trzeba
+        check_version(); //Uaktualnia też wersje podźrodła, jeśli trzeba
         _calculate(); //Sprawdza, czynie trzeba policzyc i ewentualnie liczy
         return my_geometry.get_ptr_val();
     }
@@ -209,7 +209,7 @@ public:
 //Umozliwia czytanie od poczatku
 //tablicy lub wycinka
     {
-        check_version(); //Uaktualnia tez wersje podzrodla, jeśli trzeba
+        check_version(); //Uaktualnia tez wersje podźrodła, jeśli trzeba
         _calculate(); //Sprawdza, czynie trzeba policzyc i ewentualnie liczy
         if(my_geometry)
             return my_geometry->make_global_iterator();
@@ -243,7 +243,7 @@ public:
 //Przetwarza index uzyskany z geometrii na jedna z nn*mm liczb
     {
 #ifdef CAREFULLY_GET //Raczej niepotrzebne bo robi to już i get_geometry() i bounds() i get_size();
-        check_version(); //Uaktualnia tez wersje podzrodla, jeśli trzeba
+        check_version(); //Uaktualnia tez wersje podźrodła, jeśli trzeba
         _calculate(); //Sprawdza, czynie trzeba policzyc i ewentualnie liczy
 #endif
         assert(index < get_size());

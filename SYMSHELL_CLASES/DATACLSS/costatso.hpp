@@ -42,21 +42,21 @@ protected:
         //-----------------------------------------------------------------
         void bounds(size_t &N, double &min, double &max)
         {
-            Father->check_version_(); //Uaktualnia tez wersje podzrodla, jeśli trzeba
+            Father->check_version_(); //Uaktualnia tez wersje podźrodła, jeśli trzeba
             Father->_calculate(); //Sprawdza, czynie trzeba policzyc u ojca i ewentualnie liczy
             scalar_source<double>::bounds(N, min, max);
         }
 
         iteratorh reset()
         {
-            Father->check_version_(); //Uaktualnia tez wersje podzrodla, jeśli trzeba
+            Father->check_version_(); //Uaktualnia tez wersje podźrodła, jeśli trzeba
             Father->_calculate(); //Sprawdza, czynie trzeba policzyc i ewentualnie liczy
             return scalar_source<double>::reset();
         }
 
         double get()
         {
-            Father->check_version_(); //Uaktualnia tez wersje podzrodla, jeśli trzeba
+            Father->check_version_(); //Uaktualnia tez wersje podźrodła, jeśli trzeba
             Father->_calculate(); //Sprawdza, czynie trzeba policzyc i ewentualnie liczy
             return scalar_source<double>::get();
         }
@@ -83,7 +83,7 @@ protected:
         if(ret == 1)	//Nowe dane
         {
             need_calculation = 1; //Znacznik liczenia
-            //Znakuje zmiane w podzrodlach na wypadek gdyby
+            //Znakuje zmiane w podźrodłach na wypadek gdyby
             //nie obslugiwal ich menager danych.
             size_t table_size = table.get_size();
             for(size_t i = 0; i < table_size; i++)
@@ -211,7 +211,7 @@ protected:
 public:
     virtual size_t number_of_subseries()
     {
-        return 2; //Ma dwa podzrodla
+        return 2; //Ma dwa podźrodła
     }
 
     virtual void all_subseries_required()	//Alokuje i ewentualnie rejestruje w menagerze wszystkie serie
@@ -220,11 +220,11 @@ public:
         Corr();
     }
 
-//Ilość wspólnych par w obu zrodlach (tzn gdy oba nie są "missing")
+//Ilość wspólnych par w obu źrodłach (tzn gdy oba nie są "missing")
     scalar_source<double> *Pair(const char *format = "Pair(%s,%s)")
     { return GetMonoSource(0, format); }
 
-//Korelacja miedzy dwoma zrodlami
+//Korelacja miedzy dwoma źrodłami
     scalar_source<double> *Corr(const char *format = "Corr(%s,%s)")
     { return GetMonoSource(1, format); }
 
@@ -287,10 +287,10 @@ public:
         check_version_(); //Tu może być update
         //bi_filter_source_base::bounds(N,min,max);
         min = max = 0;
-        N = 0; //Nie można siegac do tych danych bezposrednio jako do seri
+        N = 0; //Nie można siegac do tych danych bezpośrednio jako do seri
     }
 
-    iteratorh reset()	//Nie ma możliwości bezposredniego czytania
+    iteratorh reset()	//Nie ma możliwości bezpośredniego czytania
     {
         check_version_();
         return NULL;

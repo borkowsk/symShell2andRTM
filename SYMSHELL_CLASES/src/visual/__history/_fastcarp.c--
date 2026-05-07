@@ -73,7 +73,7 @@ assert(x2>x1);
 assert(y2>y1);
 if(AA>=1 && BB>=1 && AA<=size_t(x2-x1+1) && BB<=size_t(y2-y1+1))
 	{
-	//Tu CAST na znany dobrze typ zrodla - zeby byl szybszy dostep
+	//Tu CAST na znany dobrze typ źrodła - zeby byl szybszy dostep
 	//----------------------------------------
 	DATA_SOURCE* fast_data=(DATA_SOURCE*)data;
 	//----------------------------------------

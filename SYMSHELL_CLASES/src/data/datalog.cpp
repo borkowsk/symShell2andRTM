@@ -25,11 +25,11 @@ public:
       }
 //Wirtualny destruktor
 ~logfile_base();
-//Akcesor strumienia - na wypadek koniecznosci dopisania czegos - uzywac ostroznie!
+//Akcesor strumienia - na wypadek koniecznosci dopisania czegos - używac ostroznie!
 ostream& GetStream(){return log_stream;}
 //Laczy serie jednowartosciowa z kolumna pliku log. Wymusza wyplucie naglowka w try_writing
 int link_data_source(size_t column,scalar_source_base* Source);
-//Jesli choc jedna seria ma nowa wersje to wypluwa cala linie danych. Jesli uzyto link_data_source
+//Jesli choc jedna seria ma nowa wersje to wypluwa cala linie danych. Jesli użyto link_data_source
 //to wypluwa tez wiersz nagl�wk�w
 int try_writing();
 };
@@ -63,7 +63,7 @@ for(size_t i=0;i<N;i++)
 curr_data_version=-1;
 }
 
-//Jesli choc jedna seria ma nowa wersje to wypluwa cala linie danych. Jesli uzyto link_data_source
+//Jesli choc jedna seria ma nowa wersje to wypluwa cala linie danych. Jesli użyto link_data_source
 //to wypluwa tez wiersz nagl�wk�w
 int logfile::try_writing()
 {

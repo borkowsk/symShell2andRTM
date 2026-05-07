@@ -1,7 +1,7 @@
 /// @file
 /// @brief IMPLEMENTATION OF DIFFERENT TYPES OF NON-GRAPH AREAS/
 ///        IMPLEMENTACJA ROŻNYCH TYPóW OBSZARóW NIE BĘDĄCYCH GRAFAMI.
-/// @date 2026-05-06 (last modification)
+/// @date 2026-05-07 (last modification)
 //*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Wersja z kosmetyką XI 2012 i późniejszymi zmianami.
 
@@ -36,7 +36,7 @@ int gadget::on_click(int x,int y,int click)
 }
 
 void empty_area::_replot()
-//Rysuje przekreslenie obszaru uzytkownika
+//Rysuje przekreslenie obszaru użytkownika
 {
     int x1=getstartx();
     int y1=getstarty();
@@ -434,7 +434,7 @@ int steering_wheel::on_click(int x,int y,int click)
 	{	
 		if(click==1)
 			{
-				//Przy malych zakresach co 1, przy duzych dwukrotnie
+				//Przy malych zakresach co 1, przy dużych dwukrotnie
 				if(subtab.dia.X()<10*subtab.sst.X()
 					&& subtab.dia.Y()<10*subtab.sst.Y() )
 					{
@@ -497,7 +497,7 @@ int steering_wheel::on_click(int x,int y,int click)
 
 ERROR://Nie zaimplemtowano koniecznej operacja lub inny blad
     {
-    int bf=getframe(); //Uzyte jako tymczas
+    int bf=getframe(); //Użyte jako tymczas
     setframe(254); //Jasny ale nie bialy
     replot();
     setframe(bf);

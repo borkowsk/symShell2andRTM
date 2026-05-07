@@ -204,7 +204,7 @@ public:
 // Methods
     size_t get_size()
     {
-        check_version(); //Uaktualnia tez wersje podzrodla, jeśli trzeba
+        check_version(); //Uaktualnia tez wersje podźrodła, jeśli trzeba
         _calculate(); //Sprawdza, czynie trzeba policzyc i ewentualnie liczy
         return arra.get_size();
     }
@@ -222,7 +222,7 @@ public:
     iteratorh reset()
 //Umozliwia czytanie od poczatku
     {
-        check_version(); //Uaktualnia tez wersje podzrodla, jeśli trzeba
+        check_version(); //Uaktualnia tez wersje podźrodła, jeśli trzeba
         _calculate(); //Sprawdza, czynie trzeba policzyc i ewentualnie liczy
         return (iteratorh) 1;
     }
@@ -235,7 +235,7 @@ public:
     void bounds(size_t &num, double &min, double &max)
 //Ile elementów,wartość minimalna i maksymalna
     {
-        check_version(); //Uaktualnia tez wersje podzrodla, jeśli trzeba
+        check_version(); //Uaktualnia tez wersje podźrodła, jeśli trzeba
         _calculate(); //Sprawdza, czynie trzeba policzyc i ewentualnie liczy
         num = get_size();
         min = ymin;
@@ -251,7 +251,7 @@ public:
 
     double get(size_t index)	//Przetwarza index uzyskany z geometrii
     { //na wartość z serii, o ile jest możliwe czytanie losowe
-        check_version(); //Uaktualnia tez wersje podzrodla, jeśli trzeba
+        check_version(); //Uaktualnia tez wersje podźrodła, jeśli trzeba
         _calculate(); //Sprawdza, czynie trzeba policzyc i ewentualnie liczy
         assert(index < get_size());
         return arra[index];

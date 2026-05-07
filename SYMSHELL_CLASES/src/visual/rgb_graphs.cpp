@@ -1,7 +1,7 @@
 /// @file
 /// @brief Implementation of graph classes using RGB coloring/
 ///        IMPLEMENTACJA KLAS GRAFÓW UŻYWAJĄCYCH KOLOROWANIA RGB.
-/// @date 2026-05-06 (modification)
+/// @date 2026-05-07 (modification)
 // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include <stdarg.h>
@@ -171,7 +171,7 @@ const geometry_base* true_color_carpet_graph::read_dim(size_t& aa,size_t& bb)
 }
 
 int true_color_carpet_graph::setseries(size_t index,data_source_base* idata,int imenage)
-//zwraca -1 jesli indeks za duzy
+//zwraca -1 jesli indeks za duży
 {
 	if(index>2) return -1;//Tylko jedna seria
     assert(idata!=nullptr);
@@ -182,7 +182,7 @@ int true_color_carpet_graph::setseries(size_t index,data_source_base* idata,int 
 }
 
 data_source_base* true_color_carpet_graph::getseries(size_t index)
-//zwraca nullptr jesli indeks za duzy
+//zwraca nullptr jesli indeks za duży
 {
 	if(index>2)
         return nullptr;
@@ -634,7 +634,7 @@ int true_color_manhattan_graph::configure(const void* p)
 
 
 int true_color_manhattan_graph::setseries(size_t index,data_source_base* idata,int imenage)
-//zwraca -1 jesli indeks za duzy
+//zwraca -1 jesli indeks za duży
 {
 	if(index>4) return -1;//Tylko dwie serie
     assert(idata!=nullptr);
@@ -654,7 +654,7 @@ int true_color_manhattan_graph::setseries(size_t index,data_source_base* idata,i
 }
 
 data_source_base* true_color_manhattan_graph::getseries(size_t index)
-//zwraca nullptr jesli indeks za duzy
+//zwraca nullptr jesli indeks za duży
 {
 	if(index>4)
         return nullptr;

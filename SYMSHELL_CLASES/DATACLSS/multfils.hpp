@@ -1,5 +1,5 @@
 /// @file
-/// @brief Podstawowa klasa dla filtrow zawierających podzrodla
+/// @brief Podstawowa klasa dla filtrow zawierających podźrodła
 /// @date 2026-05-07 (modified)
 // /////////////////////////////////////////////////////////////////////////////
 //
@@ -42,14 +42,14 @@ protected:
         //-----------------------------------------------------------------
         void bounds(size_t &N, double &min, double &max)
         {
-            Father->check_version_(); //Uaktualnia tez wersje podzrodla, jeśli trzeba
+            Father->check_version_(); //Uaktualnia tez wersje podźrodła, jeśli trzeba
             Father->_calculate(); //Sprawdza, czynie trzeba policzyc u ojca i ewentualnie liczy
             scalar_source<double>::bounds(N, min, max);
         }
 
         iteratorh reset()
         {
-            Father->check_version_(); //Uaktualnia tez wersje podzrodla, jeśli trzeba
+            Father->check_version_(); //Uaktualnia tez wersje podźrodła, jeśli trzeba
             Father->_calculate(); //Sprawdza, czynie trzeba policzyc i ewentualnie liczy
             return scalar_source<double>::reset();
         }
@@ -57,7 +57,7 @@ protected:
         double get()
         {
             assert(Father != NULL);
-            Father->check_version_(); //Uaktualnia tez wersje podzrodla, jeśli trzeba
+            Father->check_version_(); //Uaktualnia tez wersje podźrodła, jeśli trzeba
             Father->_calculate(); //Sprawdza, czynie trzeba policzyc i ewentualnie liczy
             return scalar_source<double>::get();
         }
@@ -67,7 +67,7 @@ protected:
             assert(Father != NULL);
             //Przetwarza index uzyskany z geometrii - tu zawsze na ta sama wartość
             //na wartość z serii, o ile jest możliwe czytanie losowe
-            Father->check_version_(); //Uaktualnia tez wersje podzrodla, jeśli trzeba
+            Father->check_version_(); //Uaktualnia tez wersje podźrodła, jeśli trzeba
             Father->_calculate(); //Sprawdza, czynie trzeba policzyc i ewentualnie liczy
             return scalar_source<double>::get();
         }
@@ -92,7 +92,7 @@ protected:
         if(ret == 1)	//Nowe dane
         {
             need_calculation = 1; //Znacznik liczenia
-            //Znakuje zmiane w podzrodlach na wypadek gdyby
+            //Znakuje zmiane w podźrodłach na wypadek gdyby
             //nie obslugiwal ich menager danych.
             size_t table_size = table.get_size();
             for(size_t i = 0; i < table_size; i++)
@@ -162,10 +162,10 @@ public:
     {
         check_version_(); //Tu może być update, bo zakres musi być zawsze aktualny
         template_filter_source_base<DATA_SOURCE>::bounds(N, min, max);
-        N = 0; //Nie można siegac do tych danych bezposrednio jako do seri
+        N = 0; //Nie można siegac do tych danych bezpośrednio jako do seri
     }
 
-    data_source_base::iteratorh reset()	//Nie ma możliwości bezposredniego czytania
+    data_source_base::iteratorh reset()	//Nie ma możliwości bezpośredniego czytania
     {
         check_version_();
         return NULL;
