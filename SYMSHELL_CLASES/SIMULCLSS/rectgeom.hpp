@@ -1,6 +1,6 @@
 /// @file
 /// @brief GEOMETRIA PROSTOKĄTNA. / RECTANGULAR GEOMETRY.
-/// @date 2026-05-05 (modified)
+/// @date 2026-05-07 (modified)
 ///      Pierwsza i główna specjalizacja. Heksagonalnej i sieciowej nigdy nie napisałem, choć były w planie.
 // ********************************************************************************************************************
 //
@@ -15,6 +15,8 @@
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "modernize-use-nullptr"
 #pragma ide diagnostic ignored "modernize-use-auto"
+
+namespace symshell2 {
 
 using namespace wbrtm;
 //using wbrtm::wb_dynmatrix;
@@ -457,6 +459,8 @@ public:
     }
 
 };
+
+} //namespace symshell2
 
 #pragma clang diagnostic pop
 /* ****************************************************************** */

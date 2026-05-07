@@ -1,6 +1,6 @@
 /// @file
 /// @brief Różne klasy jednoźródłowych filtrów danych.
-/// @date 2026-05-04 (modified)
+/// @date 2026-05-07 (modified)
 // ********************************************************************************************************************
 //
 #ifndef __FILTSOUR_HPP__
@@ -14,7 +14,7 @@ class log_F_filter : public template_filter_source_base<SOURCE_TYPE>
 //-----------------------------------------------------------------------
 {
 public:
-    log_F_filter(SOURCE_TYPE *ini = NULL, double imiss = default_missing<double>(), const char *format = "log(%s)") :
+    log_F_filter(SOURCE_TYPE *ini = NULL, double imiss = symshell2::default_missing<double>(), const char *format = "log(%s)") :
             template_filter_source_base<SOURCE_TYPE>(ini, format)
     { data_source_base::set_missing(imiss); }
 
@@ -42,8 +42,8 @@ public:
         }
     }
 
-    double get(iteratorh &I)
-    //Daje następną z N liczb!!! Po N-tej obiekt zrodlowy zwalnia iterator!
+    double get(data_source_base::iteratorh &I)
+    //Daje następną z N liczb!!! Po N-tej obiekt źródłowy zwalnia iterator!
     {
         double pom = ((SOURCE_TYPE *) this->Source)->get(I); //template_filter_source_base<SOURCE_TYPE>::get(I);
         if(/*template_filter_source_base<SOURCE_TYPE>::*/this->is_missing(pom))
@@ -79,7 +79,7 @@ class log_1_plus_F_filter : public template_filter_source_base<SOURCE_TYPE>
 {
 public:
 //Constructor. Missing domyślnie jako 0
-    log_1_plus_F_filter(SOURCE_TYPE *ini = NULL, double imiss = default_missing<double>(),
+    log_1_plus_F_filter(SOURCE_TYPE *ini = NULL, double imiss = symshell2::default_missing<double>(),
                         const char *format = "log(1+%s)") :
             template_filter_source_base<SOURCE_TYPE>(ini, format)
     {
@@ -87,8 +87,8 @@ public:
     }
 
     void bounds(size_t &N, double &min, double &max)
-    //Ile elementów,wartość minimalna i maksymalna,
-    //ktore to wartości trzeba przekonwertowac
+    //Ile elementów oraz wartość minimalna i maksymalna,
+    //ktore to wartości trzeba przekonwertować
     {
         template_filter_source_base<SOURCE_TYPE>::bounds(N, min, max);
 
@@ -113,8 +113,8 @@ public:
         }
     }
 
-    double get(iteratorh &I)
-    //Daje następną z N liczb!!! Po N-tej obiekt zrodlowy zwalnia iterator!
+    double get(data_source_base::iteratorh &I)
+    //Daje następną z N liczb!!! Po N-tej obiekt źródłowy zwalnia iterator!
     {
         double pom = ((SOURCE_TYPE *) this->Source)->get(I); //template_filter_source_base<SOURCE_TYPE>::get(I)+1;
         if(/*template_filter_source_base<SOURCE_TYPE>::*/this->is_missing(pom))
@@ -123,7 +123,7 @@ public:
         if(pom > 0)
             return log10(pom);
         else
-            return this->miss; //Nie można obliczyc
+            return this->miss; //Nie można obliczyć
     }
 
     double get(size_t index_from_geometry)
@@ -155,7 +155,7 @@ protected:
 public:
 //Constructor. Missing domyślnie jako 0
     treshold_filter_base(double ival, SOURCE_TYPE *ini = NULL,
-                         double imiss = default_missing<double>()/*DEFAULT_MISSING*/, const char *format = "(%s) @ %g")
+                         double imiss = symshell2::default_missing<double>()/*DEFAULT_MISSING*/, const char *format = "(%s) @ %g")
             :
             template_filter_source_base<SOURCE_TYPE>(ini, format),
             tr_val(ival)
@@ -165,10 +165,10 @@ public:
 
     const char *name();
 
-    virtual double _get(const double &val) = 0; //Funkcja sprawdzajaca warunek i ewentualnie zmieniajaca wartość na miss
+    virtual double _get(const double &val) = 0; //Funkcja sprawdzająca warunek i ewentualnie zmieniająca wartość na miss
 
-    virtual double get(iteratorh &I)
-    //Daje następną z N liczb!!! Po N-tej obiekt zrodlowy zwalnia iterator!
+    virtual double get(data_source_base::iteratorh &I)
+    //Daje następną z N liczb!!! Po N-tej obiekt źródłowy zwalnia iterator!
     {
         double val = ((SOURCE_TYPE *) this->Source)->get(I);
         return _get(val);
@@ -177,7 +177,7 @@ public:
     virtual double get(size_t index_from_geometry)
     //Przetwarza index uzyskany z geometrii
     //na wartość z serii, o ile jest możliwe czytanie losowe
-    //Ta metoda tez najczesciej do podstawienia
+    //Ta metoda tez najczęściej do podstawienia
     {
         double val = this->Source->get(index_from_geometry);
         return _get(val);
@@ -190,7 +190,7 @@ class EQ_filter : public treshold_filter_base<SOURCE_TYPE>
 {
 public:
 //Constructor. Missing domyślnie jako 0
-    EQ_filter(double ival, SOURCE_TYPE *ini = NULL, double imiss = default_missing<double>()/*DEFAULT_MISSING*/,
+    EQ_filter(double ival, SOURCE_TYPE *ini = NULL, double imiss = symshell2::default_missing<double>()/*DEFAULT_MISSING*/,
               const char *format = "(%s)=%g") :
             treshold_filter_base<SOURCE_TYPE>(ival, ini, imiss, format)
     {}
@@ -216,7 +216,7 @@ class LT_filter : public treshold_filter_base<SOURCE_TYPE>
 {
 public:
 //Constructor. Missing domyślnie jako 0
-    LT_filter(double ival, SOURCE_TYPE *ini = NULL, double imiss = default_missing<double>()/*DEFAULT_MISSING*/,
+    LT_filter(double ival, SOURCE_TYPE *ini = NULL, double imiss = symshell2::default_missing<double>()/*DEFAULT_MISSING*/,
               const char *format = "(%s)<%g") :
             treshold_filter_base<SOURCE_TYPE>(ival, ini, imiss, format)
     {}
@@ -242,7 +242,7 @@ class LE_filter : public treshold_filter_base<SOURCE_TYPE>
 {
 public:
 //Constructor. Missing domyślnie jako 0
-    LE_filter(double ival, SOURCE_TYPE *ini = NULL, double imiss = default_missing<double>()/*DEFAULT_MISSING*/,
+    LE_filter(double ival, SOURCE_TYPE *ini = NULL, double imiss = symshell2::default_missing<double>()/*DEFAULT_MISSING*/,
               const char *format = "(%s)<=%g") :
             treshold_filter_base<SOURCE_TYPE>(ival, ini, imiss, format)
     {}
@@ -268,7 +268,7 @@ class GT_filter : public treshold_filter_base<SOURCE_TYPE>
 {
 public:
 //Constructor. Missing domyślnie jako 0
-    GT_filter(double ival, SOURCE_TYPE *ini = NULL, double imiss = default_missing<double>()/*DEFAULT_MISSING*/,
+    GT_filter(double ival, SOURCE_TYPE *ini = NULL, double imiss = symshell2::default_missing<double>()/*DEFAULT_MISSING*/,
               const char *format = "(%s)>%g") :
             treshold_filter_base<SOURCE_TYPE>(ival, ini, imiss, format)
     {}
@@ -294,7 +294,7 @@ class GE_filter : public treshold_filter_base<SOURCE_TYPE>
 {
 public:
 //Constructor. Missing domyślnie jako 0
-    GE_filter(double ival, SOURCE_TYPE *ini = NULL, double imiss = default_missing<double>()/*DEFAULT_MISSING*/,
+    GE_filter(double ival, SOURCE_TYPE *ini = NULL, double imiss = symshell2::default_missing<double>()/*DEFAULT_MISSING*/,
               const char *format = "(%s)>=%g") :
             treshold_filter_base<SOURCE_TYPE>(ival, ini, imiss, format)
     {}

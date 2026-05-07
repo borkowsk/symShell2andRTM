@@ -1,6 +1,6 @@
 /// @file
 /// @brief Konkretne klasy źródeł — dostęp do danych w tablicach i zmiennych.
-/// @date 2026-05-04 (modified)
+/// @date 2026-05-07 (modified)
 // ********************************************************************************************************************
 //
 #ifndef __MATTRIX_SOUR_HPP__
@@ -25,7 +25,7 @@ public:
                   void *iarray,
                   int itorus = 1,     //Czy włączyć geometrie torusa. Default, bo wtedy nie trzeba "miss"
                   int *subs = NULL, //Ustala wycinek tablicy. startX,lenX,startY,lenY
-                  double imiss = default_missing<double>()	//Wartość podawana przy
+                  double imiss = symshell2::default_missing<double>()	//Wartość podawana przy
             //skanowaniu wycinka wychodzącego poza macierz
     ) :
             rectangle_source_base(itit, iA, iB, itorus, subs, imiss),
@@ -39,16 +39,16 @@ public:
                   int itorus
     ) :
 
-            rectangle_source_base(itit, iA, iB, itorus, NULL, default_missing<double>()),
+            rectangle_source_base(itit, iA, iB, itorus, NULL, symshell2::default_missing<double>()),
 
             arra((T *) iarray)
     {}
 
     matrix_source(const char *itit,
-                  rectangle_geometry &geom,
+                  rect_geometry &geom,
                   void *iarray,
-                  int *subs = NULL, //Ustala wycinek tablicy. startX,lenX,startY,lenY
-                  double imiss = default_missing<double>() //Wartość podawana przy
+                  int *subs = NULL, //Ustala wycinek tablicy: `{startX, lenX, startY, lenY}`
+                  double imiss = symshell2::default_missing<double>() //Wartość podawana przy
             //skanowaniu wycinka wychodzącego poza macierz
     ) :
             rectangle_source_base(itit, geom, subs, imiss),
@@ -123,7 +123,7 @@ public:
                          TYP_POLA iskladowa,
                          int itorus = 1,  //Czy włączyć geometrie torusa. Default, bo wtedy nie trzeba "miss"
                          int *subs = NULL, //Ustala wycinek tablicy. startX, lenX, startY, lenY
-                         double imiss = default_missing<double>()	//Wartość podawana przy
+                         double imiss = symshell2::default_missing<double>()	//Wartość podawana przy
             //skanowaniu wycinka wychodzącego poza macierz
     ) :
     //rectangle_source_base(iA,iB,itit,itorus,subs,imiss),
@@ -135,11 +135,11 @@ public:
     }
 
     struct_matrix_source(const char *itit,
-                         rectangle_geometry &geom,
+                         rect_geometry &geom,
                          STRUCT_T *iarray,
                          TYP_POLA iskladowa,
                          int *subs = NULL, //Ustala wycinek tablicy. startX, lenX, startY, lenY
-                         double imiss = default_missing<double>() //Wartość podawana przy
+                         double imiss = symshell2::default_missing<double>() //Wartość podawana przy
             //skanowaniu wycinka wychodzącego poza macierz
     ) :
             rectangle_source_base(itit, geom, imiss),
@@ -218,7 +218,7 @@ public:
                                 TYP_POLA iskladowa,
                                 int itorus = 1,     //Czy włączyć geometrie torusa. Default, bo wtedy nie trzeba "miss"
                                 int *subs = NULL,    //Ustala wycinek tablicy. startX, lenX, startY, lenY
-                                double imiss = default_missing<double>() //Wartość podawana przy
+                                double imiss = symshell2::default_missing<double>() //Wartość podawana przy
             //skanowaniu wycinka wychodzącego poza macierz, lub NULL w miejscu indywiduum
     ) :
             rectangle_source_base(itit, iA, iB, itorus, subs, imiss),
@@ -227,11 +227,11 @@ public:
     {}
 
     ptr_to_struct_matrix_source(const char *itit,
-                                rectangle_geometry &geom,
+                                rect_geometry &geom,
                                 STRUCT_T **iarray,
                                 TYP_POLA iskladowa,
                                 int *subs = NULL, //Ustala wycinek tablicy. startX, lenX, startY, lenY
-                                double imiss = default_missing<double>() //Wartość podawana przy
+                                double imiss = symshell2::default_missing<double>() //Wartość podawana przy
             //skanowaniu wycinka wychodzącego poza macierz
     ) :
             rectangle_source_base(itit, geom, imiss),
@@ -325,7 +325,7 @@ public:
                          TYP_METODY iskladowa,
                          int itorus = 1,     //Czy włączyć geometrie torusa. Default, bo wtedy nie trzeba "miss"
                          int *subs = NULL, //Ustala wycinek tablicy: startX, lenX, startY, lenY
-                         double imiss = default_missing<double>()	//DEFAULT_MISSING//Wartość podawana przy
+                         double imiss = symshell2::default_missing<double>()	//DEFAULT_MISSING//Wartość podawana przy
             //skanowaniu wycinka wychodzącego poza macierz
     ) :
             rectangle_source_base(iA, iB, itit, itorus, subs, imiss),
@@ -337,11 +337,11 @@ public:
 
 // Constructor II
     method_matrix_source(const char *itit,
-                         rectangle_geometry &geom,
+                         rect_geometry &geom,
                          STRUCT_T *iarray,
                          TYP_METODY iskladowa,
-                         int *subs = NULL, //Ustala wycinek tablicy: startX, lenX, startY, lenY
-                         double imiss = default_missing<double>()	//Wartość podawana przy
+                         int *subs = NULL, //Ustala wycinek tablicy: `{startX, lenX, startY, lenY}`
+                         double imiss = symshell2::default_missing<double>()	//Wartość podawana przy
             //skanowaniu wycinka wychodzącego poza macierz
     ) :
             rectangle_source_base(itit, geom, imiss),
@@ -457,7 +457,7 @@ public:
                                 TYP_METODY iskladowa,
                                 int itorus = 1,     //Czy włączyć geometrie torusa. Default, bo wtedy nie trzeba "miss"
                                 int *subs = NULL, //Ustala wycinek tablicy. startX,lenX,startY,lenY
-                                double imiss = default_missing<double>()	//Wartość podawana przy
+                                double imiss = symshell2::default_missing<double>()	//Wartość podawana przy
             //skanowaniu wycinka wychodzącego poza macierz
     ) :
             rectangle_source_base(itit, iA, iB, itorus, subs, imiss),
@@ -468,11 +468,11 @@ public:
     {}
 
     method_by_ptr_matrix_source(const char *itit,
-                                rectangle_geometry &geom,
+                                rect_geometry &geom,
                                 STRUCT_T **iarray,
                                 TYP_METODY iskladowa,
                                 int *subs = NULL, //Ustala wycinek tablicy: startX, lenX, startY, lenY
-                                double imiss = default_missing<double>()	//Wartość podawana przy
+                                double imiss = symshell2::default_missing<double>()	//Wartość podawana przy
             //skanowaniu wycinka wychodzącego poza macierz
     ) :
             rectangle_source_base(itit, geom, imiss),

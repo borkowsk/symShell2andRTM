@@ -1,6 +1,6 @@
 /// @file
 /// @brief Filtr liczący liczebność dyskretnych klas serii i pochodne statystyki.
-/// @date 2026-05-04 (modified)
+/// @date 2026-05-07 (modified)
 // ********************************************************************************************************************
 //
 #ifndef __DISCR_HISTOGRAM_SOUR_HPP__
@@ -22,8 +22,8 @@ protected:
 
     wb_dynarray<unsigned long> arra;
 
-// Przemieszcza iterator o jednostke. Zeruje, jeśli koniec tablicy
-    size_t _next(iteratorh &p)
+    // Przemieszcza iterator o jednostkę. Zeruje, jeśli koniec tablicy
+    size_t _next(data_source_base::iteratorh &p)
     {
         assert(p != NULL); //Nie wolno wywołać dla NULL
         size_t pom = ((size_t) p) - 1;
@@ -31,12 +31,12 @@ protected:
         if(pom + 1 >= Num)
             p = NULL;
         else
-            p = (iteratorh) (pom + 2);
+            p = (data_source_base::iteratorh) (pom + 2);
         return pom;
     }
 
 
-    int _calculate() //Zwraca 1, jeśli musial przeliczyc
+    int _calculate() //Zwraca 1, jeśli musial przeliczyć
     {
         if(!basic_statistics_source<DATA_SOURCE>::_calculate())
         {
@@ -56,8 +56,8 @@ protected:
             arra.fill(0);
 
             //PETLA ZLICZANIA
-            iteratorh Ind = this->Source->reset();
-            this->source_miss = this->Source->get_missing(); //Trzeba to zrobić żeby from_source_is_missing_ działalo poprawnie!
+            data_source_base::iteratorh Ind = this->Source->reset();
+            this->source_miss = this->Source->get_missing(); //Trzeba to zrobić, żeby from_source_is_missing_ działało poprawnie!
 
             size_t Licz = 0, Poza = 0;
             for(size_t j = 0; j < SN; j++)
@@ -258,15 +258,15 @@ public:
             Class(i); //Alokacja źródeł liczebnosci klas
     }
 
-    iteratorh reset()
-//Umozliwia czytanie od poczatku
+    data_source_base::iteratorh reset()
+    //Umozliwia czytanie od poczatku
     {
         this->check_version_(); //Uaktualnia tez wersje podzrodla, jeśli trzeba
         _calculate();//Sprawdza, czynie trzeba policzyc i ewentualnie liczy
-        return (iteratorh) 1;
+        return (data_source_base::iteratorh) 1;
     }
 
-    void close(iteratorh &p)
+    void close(data_source_base::iteratorh &p)
     {
         p = NULL;
     }
@@ -281,8 +281,8 @@ public:
         max = this->y_max;
     }
 
-    double get(iteratorh &ptr_to_iterator)
-//Daje następną z N liczb!!!
+    double get(data_source_base::iteratorh &ptr_to_iterator)
+    //Daje następną z N liczb!!!
     {
         assert(ptr_to_iterator != NULL);
         return arra[_next(ptr_to_iterator)];

@@ -1,11 +1,15 @@
 /// @file
 /// @brief Definitions of basic (interface) data source class /
 ///        Definicje podstawowej klasy źródła danych (interfejsu).
-/// @date 2026-05-06 (modified)
+/// @date 2026-05-07 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_DATA_SOURCE_BASE_HPP_INCLUDED_
 #define SYMSHELL2_DATA_SOURCE_BASE_HPP_INCLUDED_
+
+#ifndef __cplusplus
+#error C++ required
+#endif
 
 #include <cassert>
 #include <climits>
@@ -48,6 +52,15 @@ public:
     /// Makro definiujące testowanie czy dany blok pamięci jest źródłem danych.
     MEMORY_GUARD(unsigned, 0xAB0C0DAD);
 
+    /// @name SKRÓTY NAZW TYPÓW
+    /// @{
+    typedef symshell2::iteratorh iteratorh; ///< Skrót dla typu uchwytu iterator-a. TODO inna nazwa?
+    typedef symshell2::geometry_base geometry_base;
+    typedef geometry_base geometry;
+    typedef geometry::index_t  index_t;
+    static_assert(sizeof(index_t)==sizeof(iteratorh),"Types `index_t` and `iteratorh` must have the same sizes!");
+    /// @}
+
 private:
     long  cur_step;    ///< Numer kolejnej wersji danych.
     long no_change;    ///< Od ilu kroków nie było zmiany.
@@ -57,12 +70,10 @@ protected:
     double   y_min;    ///< Dany lub wydedukowany zakres Y.
     double   y_max;    ///< Jeśli jest dany, to nie należy go dedukować.
 
-    rectangle_geometry *my_geometry; ///< Wskaźnik do geometrii danych.
-    bool             local_geometry; ///< Określa, czy geometria należy do tego obiektu.
+    geometry_base *my_geometry; ///< Wskaźnik do geometrii danych.
+    bool        local_geometry; ///< Określa, czy geometria należy do tego obiektu.
 
 public:
-    typedef ::iteratorh   iteratorh; ///< Skrót dla typu uchwytu iterator-a. TODO inna nazwa?
-
 // / Liczy @c `INF.` (wg. `IEEE`) — jako znacznik braku (może generować SIGFPE na części platform).
 //static double inf();
 // / Liczy @c NAN (wg IEEE) — jako znacznik braku (użycie może generować SIGFPE na części platform).
@@ -157,7 +168,7 @@ public:
     /// Constructor.
     data_source_base()
     : my_geometry(NULL), local_geometry(false), cur_step(-1), no_change(0),
-      y_min(0), y_max(0), miss(default_missing<double>())
+      y_min(0), y_max(0), miss(symshell2::default_missing<double>())
     {}
 
     /// Destructor. Wymuszenie wirtualności.
@@ -196,7 +207,7 @@ double data_source_base::get_missing()
 // Zapewnia właściwą inicjację i obsługę wartości "miss"
 // Ale, czy to "really" potrzebne?
 {
-    double tmp = default_missing<double>(); //Klasy szablonowe muszą to reimplementować
+    double tmp = symshell2::default_missing<double>(); //Klasy szablonowe muszą to reimplementować
     // Używamy porównania zawartości pamięci, bo niekoniecznie tmp musi być poprawną liczbą typu double.
     if(memcmp(&miss, &tmp, sizeof(miss)) != 0) //TODO A TU NIE POWINNO BYĆ == zamiast != ???
         return miss; // Jeśli ustawione lub już domyślne.

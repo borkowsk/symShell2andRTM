@@ -1,11 +1,13 @@
-// world.cpp: implementation of the world class.
-//	output operator <<
-//----------------------------------------------
+/// @file
+/// @brief world.cpp: implementation of the world class -- output operator <<
+/// @date 2026-05-07 (modified)
+// ----------------------------------------------
 // Its is rather simply implementation. You can replace it if you need.
 //*////////////////////////////////////////////////////////////////////
+
 #include "world.hpp"
 
-ostream& operator << (ostream& o,const world& w)
+ostream& operator << (ostream& o,const symshell2::world& w)
 {
 	if(!o || o.bad())
 	{
@@ -13,7 +15,7 @@ ostream& operator << (ostream& o,const world& w)
 		exit(2);
 	}
 
-	o<<w.SimulName<<w.separator;
+	o<<w.SimulName<<w.sepa();
 	if(o.fail())
 	{
 		cerr<<"Sorry! Write failed."<<endl;

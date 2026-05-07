@@ -1,6 +1,6 @@
 /// @file
 /// @brief Definicja bazy i szablonów warstw symulacji. / Definition of the base class and simulation layer templates.
-/// @date 2026-05-05 (modified)
+/// @date 2026-05-07 (modified)
 ///      ...
 // ********************************************************************************************************************
 #ifndef __LAYER_HPP__
@@ -15,6 +15,8 @@
 #include "fifosour.hpp"
 //#include "sourmngr.hpp" any_layer_base::const unsigned long FULL=UINT_MAX;
 #include "wb_limits.hpp"
+
+namespace symshell2 {
 
 #ifdef USE_ENGLISH_IF_POSSIBLE
 /// ...
@@ -1351,6 +1353,8 @@ public:
     }
     /// @}
 };
+
+} //namespace symshell2
 
 /* ****************************************************************** */
 /*               SYMSHELL2  version 2006/2022/2026                    */

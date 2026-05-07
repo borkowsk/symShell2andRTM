@@ -1,10 +1,10 @@
 /// @file
 /// @brief GEOMETRIA — SPOSÓB ORGANIZACJI AGENTÓW W WARSTWIE./ GEOMETRY — THE WAY OF ORGANIZING AGENTS IN A LAYER.
-/// @date 2026-05-05 (modified)
+/// @date 2026-05-07 (modified)
 // *********************************************************************************************************************
 //
-#ifndef __GEOMBASE_HPP__
-#define __GEOMBASE_HPP__
+#ifndef SYMSHELL2_GEOM_BASE_HPP_INCLUDED_
+#define SYMSHELL2_GEOM_BASE_HPP_INCLUDED_
 
 #include <cstddef>
 #include <climits>
@@ -15,6 +15,8 @@
 #include <cstdint>
 #include <iostream>
 #include "wb_limits.hpp"
+
+namespace symshell2 {
 
 /// Typ uchwytowy do iteratorów geometrii.
 //---------------------------------------
@@ -103,7 +105,7 @@ public:
         void  operator delete (void* p, size_t s);	//!< Klasowy dealokator dla iteratora.
 
         /// Konstruktor, poza tym, co robi niejawnie, ustawia też `marker`.
-        iterator_base(size_t iite):
+        explicit iterator_base(size_t iite):
                 marker(0xfedcba00),items(iite){}
 
         /// Destruktor, na wszelki wypadek wirtualny. Zeruje `marker`.
@@ -252,7 +254,7 @@ void    geometry_base::destroy_iterator(iteratorh& p) const
         return; // Czy to się zdarza?
     }
     void* ptr=p; //Uwolnić samą wartość.
-    iterator_base* pom=(iterator_base*)ptr ; //NIEŁADNY CHWYT, ALE DZIAŁA, choc dobrze sprawdzić, czyfaktycznie
+    iterator_base* pom=(iterator_base*)ptr ; //NIEŁADNY CHWYT, ALE DZIAŁA, choc dobrze sprawdzić, czy faktycznie
                                                                                      assert(pom->is_iterator());
     delete pom; //Usuwany iterator
     p=nullptr;
@@ -274,6 +276,8 @@ double     geometry_base::get_distance(size_t first,size_t second) const
     return 0;
 }
 
+} //namespace symshell2
+
 /* ****************************************************************** */
 /*               SYMSHELL2  version 2006/2022/2026                    */
 /* ****************************************************************** */
@@ -285,6 +289,6 @@ double     geometry_base::get_distance(size_t first,size_t second) const
 /*        MAIL: borkowsk@iss.uw.edu.pl                                */
 /*                               (Don't change or remove this note)   */
 /* ****************************************************************** */
-#endif
+#endif //SYMSHELL2_GEOM_BASE_HPP_INCLUDED_
 
 

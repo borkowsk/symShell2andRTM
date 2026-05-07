@@ -1,6 +1,6 @@
 /// @file
 /// @brief Filtr liczący liczebność klas serii i pochodne statystyki przestrzenne, w tym korelacje przestrzenne.
-/// @date 2026-05-04 (modified)
+/// @date 2026-05-07 (modified)
 // ********************************************************************************************************************
 //
 #ifndef __SPATIAL_CORRELATION_SOUR_HPP__
@@ -23,14 +23,14 @@ protected:
     wb_dynarray<unsigned> niezgodne;
 
 // Przemieszcza iterator o jednostke. Zeruje, jeśli koniec tablicy
-    size_t _next(iteratorh &p)
+    size_t _next(data_source_base::iteratorh &p)
     {
         assert(p != NULL); //Nie wolno wywołać dla NULL
         size_t pom = ((size_t) p) - 1;
         if(pom + 1 >= N)
             p = NULL;
         else
-            p = (iteratorh) (pom + 2);
+            p = (data_source_base::iteratorh) (pom + 2);
         return pom;
     }
 
@@ -38,12 +38,12 @@ protected:
     {
         size_t NN = arra.get_size();
         size_t HowManyCells, zliczaj = 0;
-        double Min, Max; //Parametry serii zrod�owej
+        double Min, Max; //Parametry serii źródłowej
         this->Source->bounds(HowManyCells, Min, Max);
         if(Min == Max || HowManyCells < 2)
-            return false; //W kazdym razie nie ma czego liczyc
+            return false; //W każdym razie nie ma czego liczyć
 
-        geometry_base *MyGeom = this->Source->get_geometry(); //Wskaźnik do geometrii
+        data_source_base::geometry *MyGeom = this->Source->get_geometry(); //Wskaźnik do geometrii
         for(unsigned int i = 0; i < HowManyCells; i++) //Dla kazdej z komorek
         {
             double CenterVal = this->Source->get(i);         //Uzyskujemy wartość dla centralnego
@@ -96,8 +96,8 @@ protected:
             HowManyDrawings *= RndMult; //Co Najmniej tyle losowan co obiektów w serii, ale można tez powielic liczbe losowan pare razy
         }
 
-        geometry_base *MyGeom = this->Source->get_geometry(); //Wskaźnik do geometrii
-        iteratorh RndIter = MyGeom->make_random_global_iterator(HowManyDrawings); //Alokujemy iterator
+        data_source_base::geometry *MyGeom = this->Source->get_geometry(); //Wskaźnik do geometrii
+        data_source_base::iteratorh RndIter = MyGeom->make_random_global_iterator(HowManyDrawings); //Alokujemy iterator
         while(RndIter)
         {
             size_t index = MyGeom->get_next(RndIter); //Uzyskujemy index agenta
@@ -115,7 +115,7 @@ protected:
             size_t radius = (TheRandG.DRand() > 0.5?size_t(TheRandG.Random(NN))
                                                    :NN);                         //Troche lepiej, ale nie idealnie — ma�o dla odleglosci najwiekszych
 
-            iteratorh Neigh = MyGeom->make_random_neighbour_iterator(index, radius,
+            data_source_base::iteratorh Neigh = MyGeom->make_random_neighbour_iterator(index, radius,
                                                                      1);  //Po ilus (1,2,?) sasiadow każdego wylosowanego
             while(Neigh)
             {
@@ -152,10 +152,10 @@ protected:
         //OBLICZANIE KORELACJI DLA RÓŻNYCH ODLEGLOSCI
         assert(N == -1);  //Tylko tryb "integerowy" - tyle klas ile liczb calkowitych
         // miesci się w maksymalnej odleglosci
-        geometry_base *MyGeom = this->Source->get_geometry(); //Wskaźnik do geometrii
+        symshell2::geometry *MyGeom = this->Source->get_geometry(); //Wskaźnik do geometrii
 
-        if(MyGeom != NULL && MyGeom->get_dimension() > 0) //Musi być dostepna realna i co najmniej jednowymiarowa
-            //geometria symulacji - inaczej dupa blada
+        if(MyGeom != NULL && MyGeom->get_dimension() > 0) //Musi być dostępna realna i co najmniej jednowymiarowa
+            //geometria symulacji, inaczej dupa blada
         {
             //PRZYGOTOWANIE
             size_t NN = size_t(ceil(MyGeom->get_max_distance()));
@@ -279,15 +279,15 @@ public:
         ApproximatedClusterSize();
     }
 
-    iteratorh reset()
+    data_source_base::iteratorh reset()
 //Umozliwia czytanie od poczatku
     {
         this->check_version_(); //Uaktualnia tez wersje podzrodla, jeśli trzeba
         _calculate(); //Sprawdza, czynie trzeba policzyc i ewentualnie liczy
-        return (iteratorh) 1;
+        return (data_source_base::iteratorh) 1;
     }
 
-    void close(iteratorh &p)
+    void close(data_source_base::iteratorh &p)
     {
         p = NULL;
     }
@@ -302,7 +302,7 @@ public:
         max = this->y_max;
     }
 
-    double get(iteratorh &ptr_to_iterator)
+    double get(data_source_base::iteratorh &ptr_to_iterator)
 //Daje następną z N liczb!!!
     {
         assert(ptr_to_iterator != NULL);

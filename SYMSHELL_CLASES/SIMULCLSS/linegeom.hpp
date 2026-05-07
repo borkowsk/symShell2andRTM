@@ -1,6 +1,6 @@
 /// @file
 /// @brief GEOMETRIA LINIOWA. / LINEAR GEOMETRY.
-/// @date 2026-05-04 (modified)
+/// @date 2026-05-07 (modified)
 ///      W trakcie przeróbki z rectangular geometry. Nigdy nie zakończonej.
 // ********************************************************************************************************************
 //
@@ -13,6 +13,7 @@
 //#include "wbminmax.hpp"
 #include "wb_rand.hpp"
 
+namespace symshell2 {
 
 class linear_geometry:public geometry_base
 //---------------------------------------------
@@ -277,6 +278,8 @@ public:
         assert(Szerokosc>0);
     }
 };
+
+} //namespace symshell2
 
 /* ****************************************************************** */
 /*               SYMSHELL2  version 2006/2022/2026                    */

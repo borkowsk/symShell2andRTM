@@ -1,6 +1,6 @@
 /// @file
 /// @brief Starszy filtr liczący liczebności klas serii i pochodne statystyki.
-/// @date 2026-05-04 (modified)
+/// @date 2026-05-07 (modified)
 // ********************************************************************************************************************
 //
 #ifndef __HISTOGRAM_SOUR_HPP__
@@ -16,7 +16,10 @@ class histogram_source : public basic_statistics_source<DATA_SOURCE>
 {
 public:
     typedef basic_statistics_source<DATA_SOURCE> basics_;
+    typedef data_source_base::iteratorh iteratorh;
+
     using basics_::table; //skrócony dostęp do tablicy danych klasy bazowej
+
 protected:
     size_t N; //Number of Class;
     wb_dynarray<unsigned long> arra;
@@ -68,7 +71,7 @@ protected:
             */
 
             //PĘTLA ZLICZANIA
-            iteratorh Ind = this->Source->reset();
+            data_source_base::iteratorh Ind = this->Source->reset();
             this->source_miss = this->Source->get_missing();
             size_t Licz = 0;
             for(i = 0; i < SN; i++)

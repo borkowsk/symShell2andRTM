@@ -1,6 +1,6 @@
 /// @file
 /// @brief Klasa kolejkująca wartości ze źródła skalarnego.
-/// @date 2026-05-04 (modified)
+/// @date 2026-05-07 (modified)
 // ********************************************************************************************************************
 //
 #ifndef __FIFOSOUR_HPP__
@@ -166,7 +166,7 @@ inline float fifo_source<float>::get_missing()
     double pom = linear_source_base::get_missing();
     float pomT = float(pom);                   //NOTE: missing should be inside T
     if(double(pomT) != double(pom))  //check this constraining!
-        pomT = default_missing<float>();
+        pomT = symshell2::default_missing<float>();
     return pomT;
 }
 
@@ -176,7 +176,7 @@ inline long fifo_source<long>::get_missing()
     double pom = linear_source_base::get_missing();
     long pomT = long(pom);                   //NOTE: missing should be inside T
     if(double(pomT) != double(pom))  //check this constraining!
-        pomT = default_missing<long>();
+        pomT = symshell2::default_missing<long>();
     return pomT;
 }
 
@@ -186,7 +186,7 @@ inline int fifo_source<int>::get_missing()
     double pom = linear_source_base::get_missing();
     int pomT = int(pom);                   //NOTE: missing should be inside T
     if(double(pomT) != double(pom))  //check this constraining!
-        pomT = default_missing<int>();
+        pomT = symshell2::default_missing<int>();
     return pomT;
 }
 
@@ -196,7 +196,7 @@ inline unsigned long fifo_source<unsigned long>::get_missing()
     double pom = linear_source_base::get_missing();
     unsigned long pomT((unsigned long) (pom));                   //NOTE: missing should be inside T
     if(double(pomT) != double(pom))  //check this constraining!
-        pomT = default_missing<unsigned long>();
+        pomT = symshell2::default_missing<unsigned long>();
     return pomT;
 }
 
@@ -206,7 +206,7 @@ inline unsigned int fifo_source<unsigned int>::get_missing()
     double pom = linear_source_base::get_missing();
     unsigned int pomT((unsigned int) (pom));                   //NOTE: missing should be inside T
     if(double(pomT) != double(pom))  //check this constraining!
-        pomT = default_missing<unsigned int>();
+        pomT = symshell2::default_missing<unsigned int>();
     return pomT;
 }
 
@@ -214,7 +214,7 @@ template<class T>
 inline T fifo_source<T>::get_missing()
 {
     double pom = linear_source_base::get_missing();
-    T pomT{default_missing<T>()};  //NOTE: missing value should be inside type T
+    T pomT{symshell2::default_missing<T>()};  //NOTE: missing value should be inside type T
     assert(double(pomT)==double(pom));  //check this constraining!
     return pomT;
 }

@@ -1,9 +1,12 @@
-// world.cpp: implementation of the world class.
-//  	Virtual output methods and operator <<
-// ----------------------------------------------
+/// @file
+/// @brief implementation of the world class -- Virtual output methods and operator.
+/// @date 2026-05-07 (modified)
+// ---------------------------------------------------------------------------------
 // Its is rather simply implementation. You can replace it if you need.
 //*////////////////////////////////////////////////////////////////////
 #include "world.hpp"
+
+using namespace symshell2;
 
 char world::separator='\t';
 

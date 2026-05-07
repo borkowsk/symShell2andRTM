@@ -1,6 +1,6 @@
-/// @file world.hpp
+/// @file
 /// @brief Interface for the base world-class. / Interfejs dla bazy światowej klasy.
-/// @date 2026-05-06 (modified)
+/// @date 2026-05-07 (modified)
 // ********************************************************************************************************************
 //
 #if !defined(WORLD_HPP_INCLUDED_)
@@ -16,24 +16,30 @@
 #include "textarea.hpp"
 #include "logfile.hpp"
 
+namespace symshell2 {
+
 /// Podstawy użytkowe dla całego świata symulacji.
 class world
 //---------
 {
-    /// @brief NA RAZIE NIE WOLNO TAKIEJ FUNKCJI! CHOĆ MUSI BYĆ ZDEFINIOWANA.
+    /// @brief NA RAZIE NIE WOLNO ZROBIĆ TAKIEJ FUNKCJI! CHOĆ MUSI BYĆ ZADEKLAROWANA.
     /// Pomysł zewnętrznego manager-a danych okazał się niesprawdzony.
     virtual void   make_basic_sources(sources_menager& WhatSourMen);
+
     /// Uchwyt do aktualnego manager danych.
     symshell2::main_area_menager*		AreaMenager;
-    /// Data/Czas aktualnego kroku.
+
+    /// Data/Czas aktualnego kroku w wersji tekstowej.
     wb_pchar				TimeStamp;
 
 protected:
     /// Obszar bezpośredniego wyświetlania do wypisywania statusu.
     /// Jest zarządzany przez zarządcę obszarów i może być NULL!!!
     symshell2::text_area*				OutArea;
+
     /// Zarządzanie źródłami danych. Czyli WBUDOWANY zarządca serii danych.
     sources_menager			Sources;
+
     /// Obiekt rządzący zapisem historii.
     logfile					Log;
 
@@ -41,6 +47,8 @@ protected:
     /// Jeśli wskaźnik nie jest pusty, to zrzuca całość symulacji na ten strumień.
     /// Otwiera strumień, jeśli jest podana nazwa, ale nie ma strumienia.
     wb_ptr<fstream>			Out;
+
+    /// Separator do strumienia logowania `Out`.
     static char				separator;
 
 public:
@@ -81,7 +89,6 @@ public:
     /// Wirtualny destruktor.
     virtual  ~world();
 
-protected:
     // Wymagane implementacji specyficznych akcji:
     // ///////////////////////////////////////////
 
@@ -102,6 +109,7 @@ protected:
 
     /// Aktualizacja zawartości okna statusu po `n` krokach symulacji.
     /// Domyślnie wyświetla numer kroku lub informacje o trybie interaktywnym.
+    // Wbrew pozorom jest zdefiniowane, choć CLint się gubi...
     virtual void		actualize_out_area();
 
     ///Implementacja strumieniowego wyjścia. @returns 1,  jeśli sukces!
@@ -110,32 +118,38 @@ protected:
     ///Implementacja strumieniowego wejścia. @returns 1,  jeśli sukces!
     virtual int		implement_input(istream& i)=0;
 
-public:
     //Akcesory:
     // ////////
 
     /// Ustawianie nazwy symulacji.
     virtual //TODO Dlaczego wirtualne?
     int				set_simulation_name(const char* name); //@returns 1 jak się udało, ale może być niedozwolone.
+
     /// Odczytywanie nazwy symulacji.
     const char*		get_simulation_name() const	{ return SimulName.get(); }
+
     /// Ustawianie strumienia do zapisu historii.
     int				set_history_stream(const char* name);
+
     /// Ustawianie maksymalnej wartości licznika kroków symulacji.
     /// Po osiągnięciu tej wartości symulacja zostaje zatrzymana.
     void			set_max_iteration(unsigned long iMaxIter){MaxIterations=iMaxIter;}
+
     /// Czyta licznik kroków symulacji.
     unsigned long	get_current_step() const { return Licznik; }
 
     /// Co ile kroków symulacji zapisuje na wyjście.
     void			set_log_ratio(unsigned ratio){LogRatio=ratio;}
+
     /// Ustawia `InputRatio`, czyli co ile kroków symulacji sprawdzać wejście.
     void			set_input_ratio(unsigned ratio){InputRatio=ratio;}
 
     /// Aktualny zarządca ekranu podłączony do tego świata.
     symshell2::area_menager&	MyAreaMenager();
+
     /// Sprawdzenie, czyma już podłączonego zarządcę okien.
     int 			HasAreaMenager() { return AreaMenager!=nullptr; }
+
     ///Jak trzeba KONIECZNIE coś dopisać do logu.
     ostream&		MyLogStream();
 
@@ -172,16 +186,20 @@ public:
     /// @param ret_after ???.
     void		read_loop(int ret_after);
 
+    /// @name Operatory i/o chcą mieć dostęp do wirtualnej implementacji i separatora.
+    /// @{
     ///Zapis na strumień. Opakowuje `implement_output`, żeby zapisać zawartość.
-    friend
-    ostream& operator << (ostream& o,const world& w);
+    friend ostream& operator << (ostream& o,const world& w);
 
     ///Odczyt ze strumienia. Odpakowuje, używając `implement_input` żeby odczytać zawartość.
-    friend
-    istream& operator >> (istream& i,world& w);
+    friend istream& operator >> (istream& i,world& w);
+    /// @}
+
+    /// Odczyt domyślnego separatora.
+    char sepa() const { return separator; }
 
     ///Implementacja zapisu stanu symulacji w formacie NET lub NET2 (z atrybutami).
-    virtual //Domyślnie puste, nie wiem, czykiedykolwiek używane.
+    virtual //Domyślnie puste, nie wiem, czy kiedykolwiek używane.
     void dump_net_file(const char* core_name,unsigned long Step){}
 };
 
@@ -202,6 +220,8 @@ symshell2::area_menager&		world::MyAreaMenager()
                                                 assert(AreaMenager!=nullptr);
     return *AreaMenager;
 }
+
+} //namespace symshell2
 
 /* ****************************************************************** */
 /*               SYMSHELL2  version 2006/2022/2026                    */

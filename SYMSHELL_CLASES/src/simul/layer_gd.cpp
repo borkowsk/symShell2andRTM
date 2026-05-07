@@ -1,5 +1,11 @@
-// Implementacja bazy warstwy symulacji
-//*////////////////////////////////////////////////////////////////////
+/// @file
+/// @brief Implementacja bazy warstwy symulacji
+/// @date 2026-05-07 (modified)
+///       ----------------------------------------------
+/// @details
+///             ...
+//*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #include <limits.h>
 #include "../../third_party/GD2/gd.h"
 
@@ -13,7 +19,7 @@ extern "C" gdImagePtr gdImageCreateFromBmp(FILE *f); //Uzupełnienie dla BMP
 //const unsigned long any_layer_base::FULL=UINT_MAX;
 
 //Wczytanie pliku GIF lub BMP
-int rectangle_layer::init_from_bitmap(const char* filename,void* user_data)
+int symshell2::rectangle_layer::init_from_bitmap(const char* filename,void* user_data)
 {
 size_t Width=0,i=0,Height=0,j=0;//Rozmiary i indeksy pętli
 if(filename==nullptr || filename[0]=='\0')
@@ -64,3 +70,14 @@ for(i=0;i<Width;i++)
 return 1;
 }
 
+/* ****************************************************************** */
+/*               SYMSHELL2  version 2006/2022/2026                    */
+/* ****************************************************************** */
+/*           THIS CODE IS DESIGNED & COPYRIGHT BY:                    */
+/*            W O J C I E C H   B O R K O W S K I                     */
+/*  Zakład Systematyki i Geografii Roślin Uniwersytetu Warszawskiego  */
+/*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego         */
+/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk               */
+/*        MAIL: borkowsk@iss.uw.edu.pl                                */
+/*                               (Don't change or remove this note)   */
+/* ****************************************************************** */

@@ -1,6 +1,8 @@
-// /////////////////////////////////////////////////////////////////////////
-// Podstawowa klasa dla filtrow zawierających podzrodla
-// /////////////////////////////////////////////////////////////////////////
+/// @file
+/// @brief Podstawowa klasa dla filtrow zawierających podzrodla
+/// @date 2026-05-07 (modified)
+// /////////////////////////////////////////////////////////////////////////////
+//
 #ifndef __MULTIFILTSOUR_HPP__
 #define __MULTIFILTSOUR_HPP__
 
@@ -161,14 +163,14 @@ public:
         N = 0; //Nie można siegac do tych danych bezposrednio jako do seri
     }
 
-    iteratorh reset()	//Nie ma możliwości bezposredniego czytania
+    data_source_base::iteratorh reset()	//Nie ma możliwości bezposredniego czytania
     {
         check_version_();
         return NULL;
     }
 
     scalar_source<double> *GetMonoSource(size_t select, const char *format = NULL)
-//Alokuje źródła jednowartosciowe dla parametrów statystycznych
+    //Alokuje źródła jednowartościowe dla parametrów statystycznych
     {
         if(table[select] == NULL)	//Jeśli nie ma to alokuj
         {

@@ -1,10 +1,10 @@
 /// @file
 /// @brief Filtr liczący koincydencje klas dwu serii i pochodne statystyki (Hi^2 itp).
-/// @date 2026-05-06 (modified)
+/// @date 2026-05-07 (modified)
 // ********************************************************************************************************************
 //
-#ifndef __COINCIDENTION_SOUR_HPP__
-#define __COINCIDENTION_SOUR_HPP__
+#ifndef SYMSHELL2_COINCIDENT_SOUR_HPP_INCLUDED_
+#define SYMSHELL2_COINCIDENT_SOUR_HPP_INCLUDED_
 
 #include "costatso.hpp"
 
@@ -16,15 +16,17 @@
 class coincidention_source : public co_statistics_source
 //------------------------------------------------------------------------------
 {
+public:
+    typedef symshell2::rectangle_geometry my_geometry_t;
 protected:
     size_t N; //Required number of Class of First
     size_t M; //Required number of Class of Second
-    wb_ptr<rectangle_geometry> my_geometry;
+    wb_ptr<my_geometry_t> my_geometry;
     wb_dynmatrix<unsigned long> arra;
     int iHi; //indeks dla Hi-kwadrat
 
     double _get(size_t index)
-//Bezposrednio siega do tablicy arra
+    //Bezposrednio siega do tablicy arra
     {
         assert(arra.IsOK());
         size_t NNHeight = my_geometry->get_width();
@@ -58,14 +60,14 @@ protected:
             source1->bounds(N1, min1, max1);
             source2->bounds(N2, min2, max2);
 
-            if(N1 <= 0 || N2 <= 0) goto ERROR; //Nie da się dalej liczyc
+            if(N1 <= 0 || N2 <= 0) goto ERROR; //Nie da się dalej liczyć
 
             if(max1 - min1 <= double(size_t(-1)))	//Czy w zakresie size_t
-                NNHeight = size_t(max1 - min1) + 1; //Ile jednostek calkowitych zakresu
+                NNHeight = size_t(max1 - min1) + 1; //Ile jednostek całkowitych zakresu
             else
                 goto ERROR;
             if(max2 - min2 <= double(size_t(-1)))	//Czy w zakresie size_t
-                MMWidth = size_t(max2 - min2) + 1; //Ile jednostek calkowitych zakresu
+                MMWidth = size_t(max2 - min2) + 1; //Ile jednostek całkowitych zakresu
             else
                 goto ERROR;
 
@@ -74,27 +76,27 @@ protected:
                my_geometry->get_height() != NNHeight ||
                my_geometry->get_width() != MMWidth)
             {
-                if(arra.alloc(NNHeight, MMWidth) == 0)	//błąd alokacji — za malo/za duzo?
+                if(arra.alloc(NNHeight, MMWidth) == 0)	//błąd alokacji — za malo/za dużo?
                     goto ERROR;
 
-                my_geometry = new rectangle_geometry(MMWidth, NNHeight, 0);
+                my_geometry = new my_geometry_t(MMWidth, NNHeight, 0);
             }
 
             for(i = 0; i < NNHeight; i++)
             {
                 assert(arra[i].get_size() == MMWidth);
-                memset(arra[i].get_ptr_val(), 0, //Wypełnia za pomoca 0
+                memset(arra[i].get_ptr_val(), 0, //Wypełnia za pomocą 0
                        sizeof(unsigned long) * arra[i].get_size());
             }
 
 
-            //PETLA ZLICZANIA
+            //PĘTLA ZLICZANIA
             KolumnaSumm.alloc(NNHeight);
             WierszSumm.alloc(MMWidth);
 
-            memset(KolumnaSumm.get_ptr_val(), 0, //Wypełnia za pomoca 0
+            memset(KolumnaSumm.get_ptr_val(), 0, //Wypełnia za pomocą 0
                    sizeof(unsigned long) * NNHeight);
-            memset(WierszSumm.get_ptr_val(), 0, //Wypełnia za pomoca 0
+            memset(WierszSumm.get_ptr_val(), 0, //Wypełnia za pomocą 0
                    sizeof(unsigned long) * MMWidth);
 
             iteratorh Ind1 = source1->reset();
@@ -426,9 +428,9 @@ public:
     }
 
     double get(size_t index)
-//Przetwarza index uzyskany z geometrii na jedna z NNHeight*MMWidth liczb
+    //Przetwarza index uzyskany z geometrii na jedna z NNHeight*MMWidth liczb
     {
-#ifdef CAREFULLY_GET //Raczej niepotrzebne bo robi to już i get_geometry() i bounds() i get_size();
+#ifdef CAREFULLY_GET //Raczej niepotrzebne, bo robi to już i get_geometry() i bounds() i get_size();
         check_version(); //Uaktualnia tez wersje podzrodla, jeśli trzeba
         _calculate(); //Sprawdza, czynie trzeba policzyc i ewentualnie liczy
 #endif
@@ -449,5 +451,5 @@ public:
 /*        MAIL: borkowsk@iss.uw.edu.pl                                */
 /*                               (Don't change or remove this note)   */
 /* ****************************************************************** */
-#endif
+#endif //SYMSHELL2_COINCIDENT_SOUR_HPP_INCLUDED_
 

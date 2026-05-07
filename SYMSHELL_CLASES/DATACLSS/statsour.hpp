@@ -1,6 +1,6 @@
 /// @file
 /// @brief Podstawowa klasa dla filtrów statystycznych.
-/// @date 2026-05-04 (modified)
+/// @date 2026-05-07 (modified)
 // ********************************************************************************************************************
 //
 #ifndef __STATSOUR_HPP__
@@ -51,7 +51,7 @@ protected:
 
         if(N > 0)
         {
-            iteratorh Ind = this->Source->reset();
+            data_source_base::iteratorh Ind = this->Source->reset();
             this->source_miss = this->Source->get_missing();
             for(i = 0; i < N; i++)
             {

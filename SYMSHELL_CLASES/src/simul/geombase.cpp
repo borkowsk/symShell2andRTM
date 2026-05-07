@@ -1,4 +1,6 @@
-// IMPLEMENTACJA CACHE-U ALOKACJI ITERATORÓW
+/// @file
+/// @brief IMPLEMENTACJA CACHE-U ALOKACJI ITERATORÓW
+/// @date 2026-05-07 (modified)
 //*////////////////////////////////////////////////////////////////////////////
 
 //#include "INCLUDE/platform.hpp"
@@ -6,9 +8,11 @@
 #include <iostream>
 #include <cstdlib>
 #include <cstdio>
+
 using namespace std;
 
 #include "geombase.hpp"
+using namespace symshell2;
 
 const
 size_t tab_size=8;

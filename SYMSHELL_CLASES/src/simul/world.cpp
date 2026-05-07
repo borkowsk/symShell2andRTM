@@ -1,14 +1,14 @@
-/// @file world.cpp
-/// implementation of the world-class.
-// ////////////////////////////////////////////////////////////////////
-/// @date 2026-05-06 (modified)
+/// @file
+/// @brief implementation of the world-class.
+/// @date 2026-05-07 (modified)
+// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include "world.hpp"
 #include "wb_cpucl.hpp"
 
-bool world::continous_dump=false;
+bool symshell2::world::continous_dump=false;
 
-int	world::set_simulation_name(const char* name)
+int	symshell2::world::set_simulation_name(const char* name)
 //Zwraca 1 jak się udało. Może byc niedozwolone
 {
     SimulName=name;
@@ -16,7 +16,7 @@ int	world::set_simulation_name(const char* name)
 }
 
 
-int	world::set_history_stream(const char* name)
+int	symshell2::world::set_history_stream(const char* name)
 //Ustawianie strumienia do zapisu historii
 {
     if( int(OutName) && strcmp(name,OutName)!=0 && Out)
@@ -26,7 +26,7 @@ int	world::set_history_stream(const char* name)
 }
 
 
-void world::make_default_visualisation()
+void symshell2::world::make_default_visualisation()
 //Tworzenie obowiązkowego lufcika na informacje tekstowe.
 {
     if(!HasAreaMenager()) {//SKORO NIE MA MANAGERA TO NIE MA CO ROBIĆ, ALE TO JEST BŁĄÐ!
@@ -53,7 +53,7 @@ ERROR://...akcja na niepogode
 }
 
 
-void world::initialize(symshell2::main_area_menager* Menager,int Replay)
+void symshell2::world::initialize(symshell2::main_area_menager* Menager,int Replay)
 // Ustawia stan startowy symulacji.
 {
     wb_cpu_clock timer;
@@ -107,7 +107,7 @@ void world::initialize(symshell2::main_area_menager* Menager,int Replay)
             OutArea->add_text(ClockTime.get());
 }
 
-void world::restart()
+void symshell2::world::restart()
 {
     Log.try_writing();				//Zapis ostatniego stanu symulacji
     Licznik=0;
@@ -132,7 +132,7 @@ void world::restart()
 }
 
 
-void world::simulate(unsigned Steps)
+void symshell2::world::simulate(unsigned Steps)
 // kolejny(e) krok(i) symulacji
 {
     unsigned i=0,pom;
@@ -241,7 +241,7 @@ void world::simulate(unsigned Steps)
 }
 
 
-void world::actualize_out_area()
+void symshell2::world::actualize_out_area()
 // aktualizacja zawartości `OutArea` po `n` krokach symulacji
 {
     if(OutArea)
@@ -256,7 +256,7 @@ void world::actualize_out_area()
 }
 
 
-void world::simulation_loop(int ret_after)
+void symshell2::world::simulation_loop(int ret_after)
 {
     if(AreaMenager && !AreaMenager->should_continue()) {
         cerr<<"Visualization manager isn't connected and/or continuation is not possible."<<endl;
@@ -330,7 +330,7 @@ void world::simulation_loop(int ret_after)
     }while(true);
 }
 
-void world::make_basic_sources()
+void symshell2::world::make_basic_sources()
 //Umieszcza serie danych w swoim zarządcy serii danych
 {
     //Zerowa seria w zarządcy danych powinna byc pusta, gdyż służy
@@ -341,13 +341,13 @@ void world::make_basic_sources()
     Sources.replace(size_t(0),sca);
 }
 
-void   world::make_basic_sources(sources_menager& WhatSourMen)
+void   symshell2::world::make_basic_sources(sources_menager& WhatSourMen)
 //NA RAZIE NIE WOLNO TAKIEJ FUNKCJI! Pomysł zewnętrznego manager-a danych okazał się nieudany.
 {
     assert("Never use: world::make_basic_sources(sources_menager& WhatSourMen) !"==nullptr);
 }
 
-world::~world() {
+symshell2::world::~world() {
     //TODO - Tu jest błąd (ERROR)
     //Jeśli jakieś źródło zarejestrowane w logu nie jest używane w wizualizacji
     //to destruktor próbuje obliczać wartości ze zniszczonego już świata!!!
@@ -355,14 +355,16 @@ world::~world() {
     Log.try_writing(); //Stan końcowy, jeśli nie byl zapisany  */
 }
 
-/* **************************************************************** */
-/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
-/*            W O J C I E C H   B O R K O W S K I                   */
-/* Zakład Systematyki i Geografii Roslin Uniwersytetu Warszawskiego */
-/*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego       */
-/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk             */
-/*        MAIL: borkowsk@iss.uw.edu.pl                              */
-/*                               (Don't change or remove this note) */
-/* **************************************************************** */
+/* ****************************************************************** */
+/*               SYMSHELL2  version 2006/2022/2026                    */
+/* ****************************************************************** */
+/*           THIS CODE IS DESIGNED & COPYRIGHT BY:                    */
+/*            W O J C I E C H   B O R K O W S K I                     */
+/*  Zakład Systematyki i Geografii Roślin Uniwersytetu Warszawskiego  */
+/*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego         */
+/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk               */
+/*        MAIL: borkowsk@iss.uw.edu.pl                                */
+/*                               (Don't change or remove this note)   */
+/* ****************************************************************** */
 
 

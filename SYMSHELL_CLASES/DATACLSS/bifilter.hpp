@@ -1,7 +1,7 @@
 /// @file
 /// @brief Base class of a two-source dependent filter/
 ///        Klasa bazowa filtra zależnego od dwu źródeł.
-/// @date 2026-05-06 (modified)
+/// @date 2026-05-07 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_bi_filter_hpp_INCLUDED_
@@ -223,7 +223,7 @@ data_source_base *bi_filter_source_base::get_first_source()
 }
 
 inline
-geometry_base *bi_filter_source_base::get_geometry()
+symshell2::geometry_base *bi_filter_source_base::get_geometry()
 {
     return NULL;
 }

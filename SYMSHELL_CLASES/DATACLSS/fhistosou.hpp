@@ -1,6 +1,6 @@
 /// @file
 /// @brief Filtr liczący liczebność określonej liczby klas serii i pochodne statystyki.
-/// @date 2026-05-04 (modified)
+/// @date 2026-05-07 (modified)
 // ********************************************************************************************************************
 //
 #ifndef __FIXED_CLAS_HISTOGRAM_SOUR_HPP__
@@ -23,8 +23,8 @@ protected:
 
     wb_dynarray<unsigned long> arra;
 
-// Przemieszcza iterator o jednostke. Zeruje, jeśli koniec tablicy
-    size_t _next(iteratorh &p);
+    // Przemieszcza iterator o jednostke. Zeruje, jeśli koniec tablicy
+    size_t _next(data_source_base::iteratorh &p);
 
     int _calculate() override
 //Zwraca 1, jeśli musial przeliczyc
@@ -47,7 +47,7 @@ protected:
             arra.fill(0);
 
             //PETLA ZLICZANIA
-            iteratorh Ind = base_class::Source->reset();
+            data_source_base::iteratorh Ind = base_class::Source->reset();
             base_class::source_miss = base_class::Source->get_missing(); //Trzeba to zrobi� żeby from_source_is_missing_ działalo poprawnie!
 
             size_t Licz = 0, Poza = 0;
@@ -267,15 +267,15 @@ public:
         max = base_class::y_max;
     }
 
-    iteratorh reset();//Umozliwia czytanie po iteratorze od poczatku
-    void close(iteratorh &p);//Usuwa iterator
-    double get(iteratorh &ptr_to_iterator);//Daje następną z N liczb!!!
+    data_source_base::iteratorh reset();//Umozliwia czytanie po iteratorze od poczatku
+    void close(data_source_base::iteratorh &p);//Usuwa iterator
+    double get(data_source_base::iteratorh &ptr_to_iterator);//Daje następną z N liczb!!!
     double get(size_t index);//Przetwarza index uzyskany z geometrii
 };
 
 // Przemieszcza iterator o jednostke. Zeruje jeśli koniec tablicy
 template<class DATA_SOURCE>
-size_t fix_histogram_source<DATA_SOURCE>::_next(iteratorh &p)
+size_t fix_histogram_source<DATA_SOURCE>::_next(data_source_base::iteratorh &p)
 {
     assert(p != NULL);//Nie wolno wywołać dla NULL
     size_t pom = ((size_t) p) - 1;
@@ -283,7 +283,7 @@ size_t fix_histogram_source<DATA_SOURCE>::_next(iteratorh &p)
     if(pom + 1 >= Num)
         p = NULL;
     else
-        p = (iteratorh) (pom + 2);
+        p = (data_source_base::iteratorh) (pom + 2);
     return pom;
 }
 
@@ -293,8 +293,8 @@ template<class DATA_SOURCE>
 inline
 double fix_histogram_source<DATA_SOURCE>::get(size_t index)
 { //na wartość z serii, o ile jest możliwe czytanie losowe
-    base_class::check_version_();//Uaktualnia tez wersje podzrodla jeśli trzeba
-    _calculate();//Sprawdza, czynie trzeba policzyc i ewentualnie liczy
+    base_class::check_version_();//Uaktualnia tez wersje podzrodla, jeśli trzeba
+    _calculate();//Sprawdza, czynie trzeba policzyć i ewentualnie liczy
     assert(index < get_size());
     return arra[index];
 }
@@ -302,7 +302,7 @@ double fix_histogram_source<DATA_SOURCE>::get(size_t index)
 //Daje następną z N liczb!!!
 template<class DATA_SOURCE>
 inline
-double fix_histogram_source<DATA_SOURCE>::get(iteratorh &ptr_to_iterator)
+double fix_histogram_source<DATA_SOURCE>::get(data_source_base::iteratorh &ptr_to_iterator)
 {
     assert(ptr_to_iterator != NULL);
     return arra[_next(ptr_to_iterator)];
@@ -311,7 +311,7 @@ double fix_histogram_source<DATA_SOURCE>::get(iteratorh &ptr_to_iterator)
 
 template<class DATA_SOURCE>
 inline
-void fix_histogram_source<DATA_SOURCE>::close(iteratorh &p)
+void fix_histogram_source<DATA_SOURCE>::close(data_source_base::iteratorh &p)
 {
     p = NULL;
 }
@@ -319,11 +319,11 @@ void fix_histogram_source<DATA_SOURCE>::close(iteratorh &p)
 
 template<class DATA_SOURCE>
 inline
-iteratorh fix_histogram_source<DATA_SOURCE>::reset()	//Umozliwia czytanie po iteratorze od poczatku
+data_source_base::iteratorh fix_histogram_source<DATA_SOURCE>::reset()	//Umozliwia czytanie po iteratorze od poczatku
 {
-    base_class::check_version_();//Uaktualnia tez wersje podzrodla jeśli trzeba
-    _calculate();//Sprawdza, czynie trzeba policzyc i ewentualnie liczy
-    return (iteratorh) 1;
+    base_class::check_version_();//Uaktualnia tez wersje podzrodla, jeśli trzeba
+    _calculate();//Sprawdza, czynie trzeba policzyć i ewentualnie liczy
+    return (data_source_base::iteratorh) 1;
 }
 
 

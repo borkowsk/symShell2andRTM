@@ -1,7 +1,7 @@
 /// @file
 /// @brief Specific source classes — access to data in linear arrays/
 ///        Konkretne klasy źródeł — dostęp do danych w tablicach liniowych.
-/// @date 2026-05-06 (modified)
+/// @date 2026-05-07 (modified)
 // ********************************************************************************************************************
 // PL: W tym pliku użyto warunkowej kompilacji do selekcji języka dokumentacji.
 // NIESTETY rozbija to podpowiedzi (tooltips) nawet w CLion.
@@ -47,7 +47,7 @@ public:
     array_source(size_t in_N, T *in_array, const char *src_name) :
             linear_source_base(in_N, src_name), arra(in_array)
     {
-        miss = default_missing<T>(); /// @internal BARDZO WAŻNE DLA SZABLONÓW!!!
+        miss = symshell2::default_missing<T>(); /// @internal BARDZO WAŻNE DLA SZABLONÓW!!!
     }
 
     /// Specyficzna dla tej klasy metoda zmiany tablicy danych źródłowych.
@@ -114,7 +114,7 @@ public:
 #endif
         :linear_source_base(i_N, i_tit), arra(i_array), member_ptr(i_ptr_comp)
     {
-        miss = default_missing<FIELD_T>(); /// @internal BARDZO WAŻNE DLA SZABLONÓW!!!
+        miss = symshell2::default_missing<FIELD_T>(); /// @internal BARDZO WAŻNE DLA SZABLONÓW!!!
     }
 
     /// Specyficzna dla tej klasy metoda zmiany tablicy danych źródłowych.
@@ -190,7 +190,7 @@ public:
 #endif
         : linear_source_base(iN, i_tit), arra(i_array), member_ptr(i_ptr_comp)
     {
-        miss = default_missing<FIELD_T>(); /// @internal BARDZO WAŻNE DLA SZABLONÓW!!!
+        miss = symshell2::default_missing<FIELD_T>(); /// @internal BARDZO WAŻNE DLA SZABLONÓW!!!
     }
 
     /// Specyficzna dla tej klasy metoda zmiany tablicy danych źródłowych.

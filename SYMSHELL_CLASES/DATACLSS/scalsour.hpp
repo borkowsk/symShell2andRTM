@@ -1,12 +1,13 @@
 /// @file
 /// @brief  Specific source classes - access to data in arrays and variables/
 ///         Konkretne klasy źródeł — dostęp do danych w tablicach i zmiennych.
-/// @date 2026-05-06 (modified)
+/// @date 2026-05-07 (modified)
 // ********************************************************************************************************************
 // ZA DUŻO BŁĘDÓW - SPRAWDZANIE SIĘ NIE SPRAWDZA :-P
 #ifndef SYMSHELL2_SCALAR_SOUR_HPP_INCLUDED_
 #define SYMSHELL2_SCALAR_SOUR_HPP_INCLUDED_
 
+#include "sourbase.hpp"
 #include "datasour.hpp"
 
 #pragma clang diagnostic push
@@ -55,6 +56,8 @@ protected:
     const T* ptr;
 
 public:
+    using data_source_base::iteratorh;
+
     /// Constructor.
     /// \param ini
     /// \param title
@@ -86,13 +89,13 @@ public:
       max=this->y_max;
     }
 
-    virtual iteratorh   reset()
-    //Umozliwia czytanie od poczatku - iteratorh jest uchwytem iteratora
+    virtual data_source_base::iteratorh   reset()
+    //Umożliwia czytanie od początku — iteratorh jest uchwytem iteratora
     //domyślnie z obiektu Source, ale czasem nie
-    { return (ptr?(iteratorh)1:(iteratorh)0);}
+    { return reinterpret_cast<data_source_base::iteratorh>(data_source_base::index_t(ptr?1:0));}
 
     void  change_ptr(T* next)
-    //Zmienia wskaźnik a wartości mogą się zmieniać niezaleznie
+    //Zmienia wskaźnik a wartości mogą się zmieniać niezależnie
     { ptr=next; }
 
     //const T&  - - - TU ZMIENIC GDY source_base stanie szablonem
@@ -149,10 +152,10 @@ public:
         max=this->y_max;
     }
 
-    virtual iteratorh   reset()
+    virtual data_source_base::iteratorh   reset()
     //Umożliwia czytanie od początku — iteratorh jest uchwytem iteratora
     //domyślnie z obiektu Source, ale czasem nie
-    { return (ptr?(iteratorh)1:(iteratorh)0);}
+    { return reinterpret_cast<data_source_base::iteratorh>(static_cast<data_source_base::index_t>(ptr?1u:0u));}
 
     void  change_ptr(F next)
     //Zmienia wskaźnik, a wartości mogą się zmieniać niezależnie.

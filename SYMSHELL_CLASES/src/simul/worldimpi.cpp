@@ -1,17 +1,20 @@
-// world.cpp: implementation of the world class.
-//	Virtual Input methods and operator >>
-//----------------------------------------------
-//Its is rather simply implementation. You can replace it if you need.
-//*////////////////////////////////////////////////////////////////////
+/// @file
+/// @brief implementation of the world class -- Virtual Input methods and operator >>
+/// @date 2026-05-07 (modified)
+/////     ------------------------------------------------------------------------
+/// @details
+///     Its is rather simply implementation. You can replace it if you need.
+//*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //#include "INCLUDE/platform.hpp"
-
-using namespace std;
 #include <fstream>
 
 #include "world.hpp"
 
-int world::implement_input(istream& i)
+using namespace std;
+using namespace symshell2;
+
+int symshell2::world::implement_input(istream& i)
 {
 	i>>Licznik;
 	i>>TimeStamp;
@@ -28,8 +31,8 @@ int world::implement_input(istream& i)
 }
 
 // wczytanie pojedynczego obrazu symulacji dla inicjalizacji
-//Jesli nie ma nazwy to z nazwy OutName
-void world::initialize_from_image(const char* FileName)
+// Jesli nie ma nazwy to z nazwy OutName
+void symshell2::world::initialize_from_image(const char* FileName)
 {
 
 	if(!FileName && !int(OutName))
@@ -171,14 +174,15 @@ void world::read_loop(int ret_after)
 	}while(!Out->eof());
 }
 
-
-/********************************************************************/
-/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
-/*            W O J C I E C H   B O R K O W S K I                   */
-/* Zaklad Systematyki i Geografii Roslin Uniwersytetu Warszawskiego */
-/*  & Instytut Studiow Spolecznych Uniwersytetu Warszawskiego       */
-/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk             */
-/*        MAIL: borkowsk@iss.uw.edu.pl                              */
-/*                               (Don't change or remove this note) */
-/********************************************************************/
+/* ****************************************************************** */
+/*               SYMSHELL2  version 2006/2022/2026                    */
+/* ****************************************************************** */
+/*           THIS CODE IS DESIGNED & COPYRIGHT BY:                    */
+/*            W O J C I E C H   B O R K O W S K I                     */
+/*  Zakład Systematyki i Geografii Roślin Uniwersytetu Warszawskiego  */
+/*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego         */
+/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk               */
+/*        MAIL: borkowsk@iss.uw.edu.pl                                */
+/*                               (Don't change or remove this note)   */
+/* ****************************************************************** */
 

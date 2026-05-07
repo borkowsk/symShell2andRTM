@@ -1,6 +1,6 @@
 /// @file
 /// @brief Filtr liczący różne rodzaje klasteringu dla serii  g e o m e t r i a!!!
-/// @date 2026-05-04 (modified)
+/// @date 2026-05-07 (modified)
 // ********************************************************************************************************************
 //
 #ifndef __CLSTSOUR_HPP__
@@ -27,37 +27,37 @@ protected:
 
         unsigned testowanie = 0; //Licznik wartości centralnych
         double Stress = basics_::miss;      //Suma stresow
-        geometry_base *MyGeom = basics_::Source->get_geometry(); //Wskaźnik do geometrii
+        symshell2::geometry *MyGeom = basics_::Source->get_geometry(); //Wskaźnik do geometrii
 
         if(MyGeom != NULL)
         {//Jest znana geometriia - da się policzyc
             double suma = 0;
 
             //Alokujemy iterator
-            iteratorh Glob = MyGeom->make_global_iterator();
+            data_source_base::iteratorh Glob = MyGeom->make_global_iterator();
 
             //Idziemy po agentach iteratorem.
             while(Glob)
             {
                 size_t index = MyGeom->get_next(Glob); //Uzyskujemy index agenta
-                assert(index != any_layer_base::FULL); //... tutaj nie powinno się zdarzyc
+                assert(index != symshell2::any_layer_base::FULL); //... tutaj nie powinno się zdarzyć
                 double CenterVal = basics_::Source->get(index); // Uzyskujemy referencje do agenta
                 if(basics_::Source->is_missing(CenterVal))    // Sprawdzamy, czynie jest miss.
-                    continue;                    // bo wtedy robic dalej byłoby bez sensu.
+                    continue;                    // bo wtedy robić dalej byłoby bez sensu.
 
-                // Alokujemy iterator sasiedztwa
-                iteratorh Neigh = MyGeom->make_neighbour_iterator(index, 1);
-                unsigned zliczanie = 0; //Zliczanie sasiadów
-                unsigned tacysami = 0; //Zliczanie takich samych sasiadow
-                unsigned inni = 0; //Zliczanie innych samych sasiadow
+                // Alokujemy iterator sąsiedztwa
+                data_source_base::iteratorh Neigh = MyGeom->make_neighbour_iterator(index, 1);
+                unsigned zliczanie = 0; //Zliczanie sąsiadów
+                unsigned tacysami = 0; //Zliczanie takich samych sąsiadów
+                unsigned inni = 0; //Zliczanie innych samych sąsiadów
 
                 while(Neigh)
                 {
-                    size_t index2 = MyGeom->get_next(Neigh); //Uzyskujemy index sasiada
-                    if(index2 == any_layer_base::FULL || index2 == index)    //jeśli poza obszarem symulacji lub w
+                    size_t index2 = MyGeom->get_next(Neigh); //Uzyskujemy index sąsiada
+                    if(index2 == symshell2::any_layer_base::FULL || index2 == index)    //jeśli poza obszarem symulacji lub w
                         continue;                //centrum obszaru to dalej byłoby bez sensu.
 
-                    double PeryfVal = basics_::Source->get(index2); //Uzyskujemy referencje do sasiada
+                    double PeryfVal = basics_::Source->get(index2); //Uzyskujemy referencje do sąsiada
                     if(basics_::Source->is_missing(PeryfVal))        //Sprawdzamy, czynie jest miss.
                         continue;                    // bo wtedy robic dalej byłoby bez sensu.
 

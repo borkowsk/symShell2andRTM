@@ -1,5 +1,7 @@
-//Implementacje dla klasy bazowej warstwy symulacji
-// - czysto wirtualnej, ale implementacje funkcji muszą (powinny być)
+/// @file
+/// @brief Implementacje dla klasy bazowej warstwy symulacji
+///        - czysto wirtualnej, ale implementacje funkcji muszą (powinny być)
+/// @date 2026-05-07 (modified)
 //*////////////////////////////////////////////////////////////////////
 #include <limits.h>
 //#include "compatyb.h"
@@ -9,24 +11,24 @@
 #include "layer.hpp"
 
 //Sprawdzenie czy jest agent w tym miejscu
-bool rectangle_layer::filled(int /*X*/,int /*Y*/)
+bool symshell2::rectangle_layer::filled(int /*X*/,int /*Y*/)
 {
 	return true;
 }
 
 //Czyszczenie lini
-void rectangle_layer::clean_line(int /*X1*/,int /*Y1*/,int /*X2*/,int /*Y2*/)
+void symshell2::rectangle_layer::clean_line(int /*X1*/,int /*Y1*/,int /*X2*/,int /*Y2*/)
 {}   //NIGDY JESZCZE NIE ZAIMPLEMENTOWANE? TODO
 
 //Czyszczenie wiersza punktow
-void rectangle_layer::clean_horizontal(int xxp,int yyp,size_t n)
+void symshell2::rectangle_layer::clean_horizontal(int xxp,int yyp,size_t n)
 {
 for(unsigned i=0;i<n;i++)
 	clean(xxp+i,yyp);
 }
 
 //Czyszczenie losowo wybranych elementow    
-void rectangle_layer::clean_randomly(int how_many)
+void symshell2::rectangle_layer::clean_randomly(int how_many)
 {
     int Width=this->MainGeometry.get_width();
 	int Heigh=this->MainGeometry.get_height();									assert(how_many<Width*Heigh);//Inaczej petla nieskonczona
@@ -44,7 +46,7 @@ void rectangle_layer::clean_randomly(int how_many)
 }
 
 //Czyszczenie kola
-void rectangle_layer::clean_circle(int x,int y,size_t r)
+void symshell2::rectangle_layer::clean_circle(int x,int y,size_t r)
 {
 if(r==0) return;
 // Robi dziure z obszarze symulacji
