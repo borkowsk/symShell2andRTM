@@ -1,22 +1,15 @@
 /// @file
 /// @brief KLASY DEFINIUJĄCE RÓŻNORODNE TYPY WYKRESÓW. / CLASSES DEFINING VARIOUS TYPES OF CHARTS.
-/// @date 2026-05-06 (modified)
+/// @date 2026-05-07 (modified)
 // ********************************************************************************************************************
 //
 #ifndef __GRAPHS_HPP__
 #define __GRAPHS_HPP__
 
-#ifndef __cplusplus
-#error C++ required
-#endif
-
-#include <assert.h>
-#include <string.h>
-
-//Niezbędne definicje bazowe
-//------------------------------------------
-//#include "platform.hpp"
+#include <cassert>
+#include <cstring>
 #include <iostream>
+
 #include "wb_clone.hpp"
 #include "sshutils.hpp"
 #include "datasour.hpp"
@@ -25,6 +18,7 @@
 /// Zmodernizowane klasy do symulacji w C++
 namespace symshell2
 {
+    using namespace sym2::data;;
 
 //INTERFACE DO GRAFU — KLASY WYPROWADZONE POWINNY TYLKO IMPLEMENTOWAĆ
 //--------------------------------------------------------------------------

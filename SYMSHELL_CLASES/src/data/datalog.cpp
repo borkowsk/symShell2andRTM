@@ -1,7 +1,11 @@
-// Implementacja najprostszej klasy zapisywania do pliku danych ze źródeł jednowartościowych
-//*///////////////////////////////////////////////////////////////////////////////////////////
+/// @file
+/// @brief Implementacja najprostszej klasy zapisywania do pliku danych ze źródeł jednowartościowych.
+/// @date 2026-05-07 (modified)
+// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #include "logfile.hpp"
 #include <time.h>
+using namespace sym2::data;;
 
 /*
 class logfile:public logfile_base

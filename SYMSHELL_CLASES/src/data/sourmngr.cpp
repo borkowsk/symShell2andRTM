@@ -1,10 +1,12 @@
-//                        IMPLEMENTACJA ZARZADCY SERI DANYCH
-//*****************************************************************************************
-// ...
-//*/////////////////////////////////////////////////////////////////////////////////////////
+/// @file
+/// @brief  IMPLEMENTACJA ZARZĄDCY SERI DANYCH
+/// @date 2026-05-07 (modified)
+//*********************************************************************************************************************
+
 #include <stdarg.h>
 #include "wb_ptr.hpp"
 #include "sourmngr.hpp"
+using namespace sym2::data;;
 
 // NAJPROSTRZA IMPLEMENTACJA - Z PRZESZUKIWANIEM LINIOWYM. 
 // Moze byc malo efektywna przy wiekszej liczbie seri.
@@ -205,7 +207,7 @@ data_source_base/*const*/* sources_menager::get(size_t index) //Nie wolno zwalni
 //{
 //}
 
-//Destruktor jest oczywi?cie virtualny z uwagi na klasy potomne
+//Destruktor jest oczywiście virtualny z uwagi na klasy potomne
 #ifdef __BORLANDC__
 #include <alloc.h> //Pod borlandami jest heapcheck()
 sources_menager::~sources_menager()
@@ -217,13 +219,15 @@ sources_menager::~sources_menager()
         {} //Tu tez si? r�?ne rzeczy dziej? ale po cichu :-)
 #endif
 
-/********************************************************************/
-/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
-/*            W O J C I E C H   B O R K O W S K I                   */
-/* Zaklad Systematyki i Geografii Roslin Uniwersytetu Warszawskiego */
-/*  & Instytut Studiow Spolecznych Uniwersytetu Warszawskiego       */
-/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk             */
-/*        MAIL: borkowsk@iss.uw.edu.pl                              */
-/*                               (Don't change or remove this note) */
-/********************************************************************/
+/* ****************************************************************** */
+/*               SYMSHELL2  version 2006/2022/2026                    */
+/* ****************************************************************** */
+/*           THIS CODE IS DESIGNED & COPYRIGHT BY:                    */
+/*            W O J C I E C H   B O R K O W S K I                     */
+/*  Zakład Systematyki i Geografii Roślin Uniwersytetu Warszawskiego  */
+/*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego         */
+/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk               */
+/*        MAIL: borkowsk@iss.uw.edu.pl                                */
+/*                               (Don't change or remove this note)   */
+/* ****************************************************************** */
 

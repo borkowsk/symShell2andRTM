@@ -1,12 +1,12 @@
 /// @file
 /// @brief GADŻETY CZYLI POMOCNICZE TYPY OBSZARÓW OKNA. / GADGETS, I.E. AUXILIARY TYPES OF WINDOW AREAS.
-/// @date 2026-05-06 (modified)
+/// @date 2026-05-07 (modified)
 ///     Służą głównie jako typy bazowe dla klas specjalizowanych, wykonujących
 ///     jakieś akcje w metodzie `_on_click` i ewentualnie podobnych.
 // ********************************************************************************************************************
 //
-#ifndef __GADGETS_HPP__
-#define __GADGETS_HPP__
+#ifndef SYMSHELL2_GADGETS_HPP_INCLUDED_
+#define SYMSHELL2_GADGETS_HPP_INCLUDED_
 #ifndef __cplusplus
 #error C++ required
 #endif
@@ -17,6 +17,7 @@
 /// Zmodernizowane klasy do symulacji w C++
 namespace symshell2
 {
+    using namespace sym2::data;;
 
 /// Klasa bazowa wszystkich gadżetów ekranowych.
 class gadget:public drawable_base
