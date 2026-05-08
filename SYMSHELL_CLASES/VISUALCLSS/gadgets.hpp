@@ -1,6 +1,6 @@
 /// @file
 /// @brief GADŻETY CZYLI POMOCNICZE TYPY OBSZARÓW OKNA. / GADGETS, I.E. AUXILIARY TYPES OF WINDOW AREAS.
-/// @date 2026-05-07 (modified)
+/// @date 2026-05-08 (modified)
 ///     Służą głównie jako typy bazowe dla klas specjalizowanych, wykonujących
 ///     jakieś akcje w metodzie `_on_click` i ewentualnie podobnych.
 // ********************************************************************************************************************
@@ -96,8 +96,8 @@ public:
         sensitive_area(ix1,iy1,ix2,iy2,icolor,ibackground,iframe),vhmode(imode),reserved(0)
         {
             set_title(iprompt); //Prompt jest pamiętany jako tytuł okna, ale wyświetlany ręcznie.
-            settitlecolor(default_transparent); // Wiec domyślnie ten tytuł...
-            settitleback(default_transparent);  // ...jest niewidoczny (bo by się wyświetlał nie tak i nie tam).
+            set_title_color(default_transparent); // Wiec domyślnie ten tytuł...
+            set_title_back(default_transparent);  // ...jest niewidoczny (bo by się wyświetlał nie tak i nie tam).
         }
 
     void _replot() override;  //!< Odrysowuje. W tym ewentualne składowe.

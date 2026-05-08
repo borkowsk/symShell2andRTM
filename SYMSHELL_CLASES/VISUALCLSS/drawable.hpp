@@ -35,8 +35,8 @@ public:
     ///        Typ przechowujący wymagane współrzędne obszaru.
     /// @detail
     ///      The fractional part has room for invisible details, so you can scale the areas in a wide range of sizes.<br>
-    ///      W części ułamkowej jest zapas na niewidoczne szczegóły, dzięki temu można wykonywać skalowanie
-    ///      obszarów w szerokim zakresie rozmiarów.
+    ///      W części ułamkowej jest zapas na niewidoczne szczegóły.
+    ///      Dzięki temu można wykonywać skalowanie obszarów w szerokim zakresie rozmiarów.
     typedef double xy_info;
 
     friend class drawable_base; ///< Access to private attributes of the child class/
@@ -90,8 +90,8 @@ public:
     /// Loads setting from `p`, but save old settings to `p`.
     void swap(gps_area& p);
 
-    /// Changes `x` and `y` relatively to area and return 1, if point is inside area.
-    int  translate(int& x,int& y);
+    /// Changes `x` and `y` relatively to area and returns `1` if point is inside area.
+    int  translate(int& x,int& y) const;
 
     /// Move this area to point.
     void moveto(xy_info ix1, xy_info  iy1)
@@ -127,7 +127,7 @@ class drawable_base:public gps_area,public title_util
     wb_color    tit_bck; ///< Kolor tła tytułu — jeśli DEFCOLOR to domyślne.
     wb_color    tit_col; ///< Kolor tytułu — jeśli DEFCOLOR to domyślne
     wb_color background; ///< Kolor tła. Jeśli `== default_transparent` to tło przezroczyste.
-                         ///<  Wtedy w metodzie replot() => można nakładać obszary.
+                         ///< Wtedy w metodzie `replot` można nakładać obszary.
 public:
     /// CONSTRUCTOR.
     drawable_base(int ix1,int iy1,int ix2,int iy2,wb_color ibkg=default_half_gray,wb_color ifr=default_white)
@@ -140,38 +140,52 @@ public:
 
 // ACCESSORS:
 //===========
-    wb_color setbackground(wb_color color);	///< `{wb_color old=background;background=color;return old;}`
-    wb_color getbackground() const;			///< `{return background; }` Może być inny niż globalny!
+    wb_color set_background(wb_color color);	///< `{wb_color old=background;background=color;return old;}`
+    wb_color get_background() const;			///< `{return background; }`... Może być inny niż globalny!
 
-    wb_color setframe(wb_color color);		///< `{wb_color old=frame_col;frame_col=color;return old;}`
-    wb_color getframe() const;				///< `{return frame_col;}`
-    int      getframewith() const;          ///< `{return frame_width;}`
+    wb_color set_frame(wb_color color);			///< `{wb_color old=frame_col;frame_col=color;return old;}`
+    wb_color get_frame() const;					///< `{return frame_col;}`
+    int      get_frame_with() const;			///< `{return frame_width;}`
 
-    wb_color settitlecolor(wb_color color);	///< `{wb_color old=tit_bck;tit_bck=color;return old;}`
-    wb_color settitleback(wb_color color);	///< `{wb_color old=tit_col;tit_col=color;return old;}`
-    void     settitlecolo(wb_color color,wb_color back); ///< `{tit_col=color;tit_bck=back;}`
+    wb_color set_title_color(wb_color color);	///< `{wb_color old=tit_bck;tit_bck=color;return old;}`
+    wb_color set_title_back(wb_color color);	///< `{wb_color old=tit_col;tit_col=color;return old;}`
+    void     set_title_colors(wb_color color, wb_color back); ///< `{tit_col=color;tit_bck=back;}`
 
-    int getstartx(); ///< Początek, `x` obszaru użytkowego.
-    int getstarty(); ///< Początek, `y` obszaru użytkowego.
-    int getwidth (); ///< Szerokość obszaru użytkowego.
-    int getheight(); ///< Wysokość obszaru użytkowego.
+    int get_start_x();	///< Początek, `x` obszaru użytkowego.
+    int get_start_y();	///< Początek, `y` obszaru użytkowego.
+    int get_width ();	///< Szerokość obszaru użytkowego.
+    int get_height();	///< Wysokość obszaru użytkowego.
 
 //		ACTIONS:
 // -------------
 
-    //Ponizsze metody z definicji nie robią nic, jeśli rozmiary obszaru wynoszą 0x0. Warunkowo robią flush.
-    void clear(int flush=1); //Czyści obszar kolorem background, ustalonym dla platformy (SYMSHELL'a np)
-    void replot(int flush=1); //Rysuje ramkę, może tytuł i wirtualnie zawartość.
-    void flush();			 //albo samo flush plot area.
+    /// @name Main drawing methods/<br>Główne metody związane z rysowaniem.
+    /// @details The first three do nothing if the area dimensions are 0x0. They conditionally flush.
+    ///          They are also declared as virtual, but you should be very careful about overriding them!
+    ///          Trzy pierwsze nie robią nic, jeśli rozmiary obszaru wynoszą `0 × 0`. Warunkowo robią flush.
+    ///          Zostały też zadeklarowane jako wirtualne, ale należy bardzo uważać z ich przesłanianiem!
+    /// @{
+
+    /// @brief Draws a frame, maybe a title and virtual content by calling `_replot()`./<br>
+    ///        Rysuje ramkę, może tytuł i wirtualnie zawartość wołając `_replot`.
+    virtual void replot(int flush=1);
+
+    /// @brief Clears the area with the background color set for the platform (e.g., SYMSHELL)./<br>
+    ///        Czyści obszar kolorem background, ustalonym dla platformy (SYMSHELL-a np.).
+    virtual void clear(int flush=1);
+
+    /// @brief Guarantees content transfer to screen/window/vector file (etc.)./<br>
+    ///        Gwarantuje przesłanie zawartości na ekran/okno/plik wektorowy (etc.).
+    virtual void flush();
 
     // METODA KONIECZNA W KLASACH POTOMNYCH:
     //======================================
 
     /// @brief Implementation of area redrawing/<br>Implementacja odrysowywania obszaru.
-    /// @detail Implements content drawing for area 0x0, it is not called at all!!!<br>
-    ///         Implementuje rysowanie zawartości dla obszaru `0 × 0` w ogóle nie jest wywoływana!!!
+    /// @detail Implements content drawing for area. For area `0 × 0`, it is not called at all!!!<br>
+    ///         Implementuje rysowanie zawartości. Dla obszaru `0 × 0` w ogóle nie jest wywoływana!!!
     virtual void _replot()=0;
-
+    /// @}
 // METHODS OF RESPONDING TO EVENTS/METODY REAKCJI NA ZDARZENIA.
 //------------------------------------------------------------
 
@@ -186,75 +200,72 @@ public:
 
     /// Reaction to area size change.
     /// Always need to be possible to resize area to 0x0 == deactivate.
-    /// @details Need to call this if want to resize or move area.
+    /// @details Need to call this if you want to resize or move area.
     /// @returns
     ///     * 1 if OK
     ///     * 0 if area is not resizeable/movable.
-    virtual int on_change(const gps_area& /*new_position*/)
-    { return 1;}
+    virtual int on_change(const gps_area& /*new_position*/) { return 1; }
 
     /// Reaction to character input.
     /// Manager can call it for (active) area.
     /// @return
     ///     * 0 if area doesn't want input
     ///     * 1 if area has processed this input
-    virtual int on_input(int /*input_char*/)
-    { return 0;}
+    virtual int on_input(int /*input_char*/) { return 0;}
 
     /// Called if the program has nothing better to do.
     /// @returns 0 if it did not use the processor time sensibly (possible optimization)
     ///          or 1 if CPU time has been used.
-    virtual int on_idle()
-    { return 0;}
+    virtual int on_idle() { return 0;}
 };
 
 // INLINE IMPLEMENTATIONS:
 //========================
 
-inline wb_color drawable_base::setbackground(wb_color color)
+inline wb_color drawable_base::set_background(wb_color color)
 {
     wb_color old=background;
     background=color;
     return old;
 }
 
-inline wb_color drawable_base::getbackground() const
+inline wb_color drawable_base::get_background() const
 {
     return background; //Może być inny niż globalny!
 }
 
-inline wb_color drawable_base::setframe(wb_color color)
+inline wb_color drawable_base::set_frame(wb_color color)
 {
     wb_color old=frame_col;
     frame_col=color;
     return old;
 }
 
-inline wb_color drawable_base::getframe() const
+inline wb_color drawable_base::get_frame() const
 {
     return frame_col;
 }
 
-inline int      drawable_base::getframewith() const
+inline int      drawable_base::get_frame_with() const
 {
     return frame_width;
 }
 
-inline wb_color drawable_base::settitlecolor(wb_color color)
+inline wb_color drawable_base::set_title_color(wb_color color)
 {
     wb_color old=tit_bck;
     tit_bck=color;
     return old;
 }
 
-inline wb_color drawable_base::settitleback(wb_color color)
+inline wb_color drawable_base::set_title_back(wb_color color)
 {
     wb_color old=tit_col;
     tit_col=color;
     return old;
 }
 
-inline void     drawable_base::settitlecolo(wb_color color,wb_color back) 
+inline void     drawable_base::set_title_colors(wb_color color, wb_color back)
 {
     tit_col=color;
     tit_bck=back;

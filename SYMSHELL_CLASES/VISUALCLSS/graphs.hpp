@@ -1,10 +1,10 @@
 /// @file
 /// @brief KLASY DEFINIUJĄCE RÓŻNORODNE TYPY WYKRESÓW. / CLASSES DEFINING VARIOUS TYPES OF CHARTS.
-/// @date 2026-05-07 (modified)
+/// @date 2026-05-08 (modified)
 // ********************************************************************************************************************
 //
-#ifndef __GRAPHS_HPP__
-#define __GRAPHS_HPP__
+#ifndef SYMSHELL2_GRAPHS_HPP_INCLUDED_
+#define SYMSHELL2_GRAPHS_HPP_INCLUDED_
 
 #include <cassert>
 #include <cstring>
@@ -15,102 +15,122 @@
 #include "datasour.hpp"
 #include "drawable.hpp"
 
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "modernize-use-auto"
+#pragma ide diagnostic ignored "modernize-use-nullptr"
+#pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
+// --checks=-google-default-arguments.
+#pragma ide diagnostic ignored "google-default-arguments"
+
 /// Zmodernizowane klasy do symulacji w C++
 namespace symshell2
 {
-    using namespace sym2::data;;
+    using namespace sym2::data;
 
-//INTERFACE DO GRAFU — KLASY WYPROWADZONE POWINNY TYLKO IMPLEMENTOWAĆ
-//--------------------------------------------------------------------------
+//INTERFACE DO GRAFU — KLASY WYPROWADZONE POWINNY TYLKO IMPLEMENTOWAĆ:
+//--------------------------------------------------------------------
 
-//Klasa bazowa dla konfiguracji punktów
+/// @brief Base class for data point display configuration./<br>
+///        Klasa bazowa dla konfiguracji wyświetlania punktów danych.
 class config_point
 {
-    float base_fract; //Rozmiar minimalny punktu. W ułamku obszaru (default 5%%)
-    float max_fract; //Rozmiar maksymalny punktu. W ułamku obszaru (default 2%)
+    float base_fract; ///< Rozmiar minimalny punktu. Jako ułamek obszaru (default 5%%).
+    float  max_fract; ///< Rozmiar maksymalny punktu. Jako ułamek  obszaru (default 2%).
+
 public:
-    size_t baselen;  //Aktualnie przyjęty rozmiar okna. Można zmieniać!
+    size_t  base_len;  ///< Aktualnie przyjęty rozmiar okna. Można zmieniać!
 
-    config_point():base_fract(0.005f),max_fract(0.02f),baselen(1000)	//Domyślnie duży baselen, żeby w awaryjnie było coś pixelach
-        {}
+    /// Konstruktor domyślny. Domyślnie duży `base_len`, żeby awaryjnie było coś pikselach.
+    config_point()
+    : base_fract(0.005f), max_fract(0.02f), base_len(1000)
+    {}
 
-    config_point(float base,float max):base_fract(base),max_fract(max)
-        {}
+    /// Konstruktor ustawiający. Domyślnie duży `base_len`, żeby awaryjnie było coś pikselach.
+    config_point(float base,float max)
+    :base_fract(base),max_fract(max), base_len(1000)
+    {}
 
-    unsigned base_size() 
-        { return unsigned(baselen*base_fract);}
+    /// Wyliczenie faktycznego rozmiaru bazowego w pikselach.
+    unsigned base_size() const { return unsigned(double(base_len) * base_fract); }
 
-    unsigned max_size() 
-        { return unsigned(baselen*max_fract);}
+    /// Wyliczenie faktycznego rozmiaru maksymalnego w pikselach.
+    unsigned max_size() const { return unsigned(double(base_len) * max_fract); }
 
-    virtual
-    void plot(int x, int y, unsigned short size, wb_color color); //Defaultowe rysowanie
+    /// Rysowanie punktu danych.
+    virtual void plot(int x, int y, unsigned short size, wb_color color); //Defaultowe rysowanie
 };
 
-//Klasa rysująca prosty punkt
+/// Class to draw a simple point (Ignores size!!!)/<br>
+/// Klasa rysująca prosty punkt (Ignoruje rozmiar!!!).
 class simple_point:public config_point
-{//Ignoruje rozmiar!!!
+{
 public:
-    simple_point(){}
-    void plot(int x,int y, unsigned short size, wb_color color);
+    simple_point() = default;
+    void plot(int x,int y, unsigned short size, wb_color color) override;
 };
 
-//Klasa rysująca krzyżyk
+/// A class drawing a cross/hash./<br>
+/// Klasa rysująca krzyżyk.
 class hash_point:public config_point
 {
 public:
-    hash_point(){}
+    hash_point() = default;
     hash_point(float base,float max):config_point(base,max){}
-    void plot(int x,int y, unsigned  short size, wb_color color);
+    void plot(int x,int y, unsigned  short size, wb_color color) override;
 };
 
-//Klasa rysująca kolko
+/// A class that draws a circle/<br>
+/// Klasa rysująca kólko.
 class circle_point:public config_point
 {
 public:
-    circle_point(){}
+    circle_point() = default;
     circle_point(float base,float max):config_point(base,max){}
-    void plot(int x,int y, unsigned short size, wb_color color);
+    void plot(int x,int y, unsigned short size, wb_color color) override;
 };
 
-//Klasa rysująca romb
+/// A class that draws a rhombus/<br>
+/// Klasa rysująca romb.
 class rhomb_point:public config_point {
 public:
-    rhomb_point() {}
-
+    rhomb_point() = default;
     rhomb_point(float base, float max) : config_point(base, max) {}
-
-    void plot(int x, int y, unsigned short size, wb_color color);
+    void plot(int x, int y, unsigned short size, wb_color color) override;
 };
 
-//Klasa rysująca kwadracik/prostokąt
+/// Square/Rectangle Drawing Class (UNUSED?)/<br>
+/// Klasa rysująca kwadracik/prostokąt (NIEUŻYWANA?).
 class rect_point:public config_point
 {
 public:
-    rect_point(){}
+    rect_point()= default;
     rect_point(float base,float max):config_point(base,max){}
-    void plot(int x,int y, unsigned short size, wb_color color);
+    void plot(int x,int y, unsigned short size, wb_color color) override;
 };
 
+/// @brief COMMON USER INTERFACE for all charts and similar classes./<br>
+///        WSPÓLNY INTERFACE UŻYTKOWNIKA dla wszystkich wykresów i klas podobnych.
 class graph:public drawable_base
-//--------------------------------------------------
+//------------------------------
 {
-    //INTERFACE UŻYTKOWNIKA
-    //---------------------
-    public:
+public:
 
-    //Klasa informacji o serii dla wykresów o nieustalonej liczbie serii
+    /// Klasa informacji o serii dla wykresów o nieustalonej liczbie serii.
     class series_info
     {
     public:
-        series_info(data_source_base*	ipt=NULL, //Wskaźnik do serii
-                int					ime=0,	  //Czy zarządza seria
-                wb_color			ico=default_color,		//Czy kolor ustalony
-                config_point*		fig=NULL, //Obiekt rysujący punkty
-                int					imep=0	  //Czy zarządza obk.rys.pkt.
-                ):ptr(ipt),menage(ime),figure(fig),men_p(imep),color(ico)
+        /// Constructor.
+        explicit series_info(
+                    data_source_base*	i_pt=NULL,	///< Wskaźnik do serii danych.
+                    int					i_me=0,		///< Określa, czy zarządza serią danych (zwalnianiem).
+                    wb_color			i_co=default_color,	///< Ustalanie koloru.
+                    config_point*		fig=NULL,	///< Obiekt rysujący punkty.
+                    int					i_mep=0		///< Określa, czy zarządza obiektem rysującym (zwalnianiem).
+                )
+        : ptr(i_pt), menage(i_me), figure(fig), men_p(i_mep), color(i_co)
         {}
 
+        /// Destructor.
         ~series_info()
         {
             if(menage && ptr!=NULL)
@@ -119,69 +139,102 @@ class graph:public drawable_base
                 { delete figure; }
         };
 
-        //Musi żywcem przepisywać wskaźniki, jeśli nimi nie zarządza!!!
-        //założenie wykonane na razie przez domyślny operator =
-        data_source_base*	ptr;     //Wskaźnik do źródła danych
-        wb_color		    color;   //Jeśli !=-1, ustala kolor
-        config_point*		figure;  //Jeśli NULL to laczy liniami
-        int					menage:1; //Zarządzanie pamięcią źródła
-        int					men_p:1; //Zarządzanie pamięcią punktu
+        /// Wskaźnik do źródła danych.
+        /// @details Musi żywcem przepisywać wskaźniki, jeśli nimi nie zarządza!!!
+        ///          To założenie wykonane na razie przez domyślny `operator =` .
+        data_source_base*	ptr;
+
+        wb_color			color;		///< Kolor punktów. Jeśli !=-1, ustala taki indeks koloru.
+        config_point*		figure;		///< Jeśli NULL to łączy liniami.
+        int					menage:1;	///< Flaga zarządzania pamięcią źródła
+        int					men_p:1;	///< Flaga zarządzania pamięcią obiektem rysującym.
     };
 
-public://Metody do zaimplementowania w klasach potomnych
-    virtual const char* user_help_text()=0; //Zwraca tekst opisujący typ wykresu
-    virtual int configure(const void*)=0; //Ustala parametry wyświetlania poprzez odpowiednią strukturę. Zwraca -1, jeśli błędny parametr
-    //Ustalają kolor lub zbiór kolorów dla tekstów oraz kolor, lub zakres dla danych
-    virtual int settextcolors(wb_color start_i,wb_color end_i=default_white); //Ustala kolor dla tekstów
-    virtual int setdatacolors(wb_color start_i,wb_color end_i); //Ustala kolor lub zakres dla danych
-    virtual int setseries(size_t index,data_source_base* data,int menage=0)=0; //zwraca -1, jeśli indeks za duży
-    virtual data_source_base* getseries(size_t index)=0; //zwraca NULL, jeśli indeks za duży
+public:
+    /// @name AKCESORY Z MOŻLIWOŚCIĄ ALBO KONIECZNOŚCIĄ REIMPLEMENTACJI.
+    /// @details Ustalają kolor lub zbiór kolorów dla tekstów oraz kolor, lub zakres dla danych.
+    /// @{
 
-    //INTERFACE IMPLEMENTATORA KLAS POTOMNYCH
-    //---------------------------------------------
-    // reals[] zawiera współrzędne (wartości serii głównych) oraz wartość ustalająca kolor (seria koloru — jeśli jest)
-    // Wymaga się by działał prawidłowo po wywołaniu funkcji _replot() !!!
-    protected:
-    virtual int _rescale_data_point(const double reals[],long in_area[])=0; //zwraca -1, jeśli błąd. Np
-    //któraś z podanych wartości nie zawiera się w podanym przez serie zakresie <min,max>
+    /// Ma zwracać tekst opisujący typ wykresu.
+    virtual const char* user_help_text()=0;
 
-    graph(int x1,int y1,int x2,int y2,
+    /// Ustala kolor dla tekstów.
+    virtual int set_text_colors(wb_color start_i, wb_color end_i= default_white);
+
+    /// Ustala zakres kolorów indeksowanych dla danych.
+    virtual int set_data_colors(wb_color start_i, wb_color end_i);
+
+    /// Pozwala przypisać serię danych pod konkretnym indeksem tablicy/listy seri.
+    /// @returns -1, jeśli indeks jest za duży.
+    virtual int set_series(size_t index, data_source_base* data, int menage= 0)=0;
+
+    /// Podaje modyfikowalny wskaźnik do serii znajdującej się w konkretnej pozycji tablic/listy.
+    /// @returns NULL, jeśli indeks za duży.
+    virtual data_source_base* get_series(size_t index)=0;
+    /// @}
+
+    /// @name Metody do koniecznego zaimplementowania w klasach potomnych.
+    /// @{
+
+    /// Ma ustalać parametry wyświetlania poprzez odpowiednią strukturę. @return -1, jeśli błędny parametr.
+    virtual int configure(const void*)=0;
+
+protected:
+    /// Przeskalowywanie wartości współrzędnych punktu danych.
+    /// Wymaga się, by działał prawidłowo po wywołaniu funkcji `_replot`.
+    /// @returns -1, jeśli błąd. Np. któraś z podanych wartości nie zawiera się w podanym przez serie zakresie `<min,max>`.
+    /// @param reals[] zawiera współrzędne (wartości serii z głównych)
+    ///        oraz wartość ustalająca kolor z seri dla koloru (jeśli jest).
+    /// @param in_area ...
+    virtual int _rescale_data_point(const double reals[],long in_area[])=0;
+    /// @}
+
+    /// Constructor.
+    /// @param x1,y1,x2,y2 to współrzędne rogów obszaru.
+    /// @param ibkg,ifr to kolor tła i kolor ramki.
+    /// @details Domyślnie wszystkie elementy mają ustawioną wizualizacje.
+    graph(  int x1,int y1,int x2,int y2,
             wb_color ibkg=default_white,
-            wb_color ifr=default_transparent):
-        drawable_base(x1,y1,x2,y2,ibkg,ifr),
-        c_range(default_black,default_white)
+            wb_color ifr=default_transparent)
+    : drawable_base(x1,y1,x2,y2,ibkg,ifr),c_range(default_black,default_white)
     {
         vis_title=vis_leg1=vis_leg2=vis_leg3=vis_leg4=1;
     }
 
-public://TYMCZASOWO
-    //enable/disable elements
-    unsigned vis_title:1;
-    unsigned vis_leg1:1;
-    unsigned vis_leg2:1;
-    unsigned vis_leg3:1;
-    unsigned vis_leg4:1;
+public:
+    /// @name FLAGI WIZUALIZACJI TYPOWYCH SKŁADOWYCH TYMCZASOWO PUBLICZNE ???
+    /// @{
+    unsigned vis_title:1; //!< Flaga wizualizacji tytułu.
+    unsigned vis_leg1:1;  //!< Flaga wizualizacji legendy dla serii 1 i 2.
+    unsigned vis_leg2:1;  //!< Flaga wizualizacji legendy dla serii 3.
+    unsigned vis_leg3:1;  //!< Flaga wizualizacji skali kolorów.
+    unsigned vis_leg4:1;  //!< Flaga wizualizacji legendy dla rozmiarów.
+    /// @}
 
-    //other settings
+    /// Struktura informacji o skalowaniu serii danych.
     struct scaling_info
     {
-        double min,max,scale; //Wartości potrzebne do przeliczenia
+        double min,max,scale; ///< Wartości potrzebne do przeliczenia
+        /// @name Flagi blokady minimum i maksimum.
+        /// @{
         unsigned fix_min:1;
         unsigned fix_max:1;
+        /// @}
 
-        scaling_info(double imin=0,double imax=1,double range=1):
-            min(imin),max(imax),scale(0)
+        /// Constructor. Domyślnie nie blokuje ani minimum, ani maksimum — bierze tak, jak seria daje.
+        explicit scaling_info(double i_min=0, double i_max=1, double range=1)
+        : min(i_min), max(i_max), scale(0)
         {
-            fix_min=fix_max=0; //Nic nie blokuje, bierze jak seria daje
+            fix_min=fix_max=0; //Domyślnie nie blokuje
             set(range);
         }
 
-        void set(double imin,double imax,double range)
+        /// Ustala minimum i maksimum, jeśli nie są zablokowane flagami.
+        /// Potem wylicza skalowanie, używając parametru `range`.
+        void set(double i_min, double i_max, double range)
         {
-            if(!fix_max)
-                max=imax;
-            if(!fix_min)
-                min=imin;
+            if(!fix_max) max=i_max;
+            if(!fix_min) min=i_min;
             assert(min<=max);
 
             if(min!=max)
@@ -190,6 +243,7 @@ public://TYMCZASOWO
                 scale=0; //Awaryjnie;
         }
 
+        /// Wylicza skalowanie, używając parametru docelowego `range`.
         void set(double range)
         {
             assert(min<=max);
@@ -199,45 +253,53 @@ public://TYMCZASOWO
                 scale=0; //Awaryjnie
         }
 
-        double get(double val)
+        /// Wylicza z `val` odpowiednik przeskalowany i przesunięty.
+        double get(double val) const
         {
             return scale*(val-min);
         }
 
-        void OXaxis(int x1,int y1,int x2,int y2,wb_color col,wb_color bcg);
-        void OYaxis(int x1,int y1,int x2,int y2,wb_color col,wb_color bcg);
+        /// Rysuje w zadanym oknie os 0X.
+        void OX_axis(int x1, int y1, int x2, int y2, wb_color col, wb_color bcg) const;
+
+        /// Rysuje w zadanym oknie oś 0Y.
+        void OY_axis(int x1, int y1, int x2, int y2, wb_color col, wb_color bcg) const;
     };
 
+    /// Struktura informacji o kolorze serii.
     struct color_info
     {
-        wb_color start; //Musi być zawsze
-        wb_color end;  //Jeśli >start to oznacza zakres kolorów
-        color_info(wb_color ista=0,wb_color iend=0):start(ista),end(iend) {}
-        int plot(int x1,int y1,int x2,int y2);
+        wb_color start; ///< To musi być zawsze.
+        wb_color end;   ///< Jeśli `end>start` to oznacza, że chodzi o zakres kolorów.
+        explicit color_info(wb_color i_sta=0,wb_color i_end=0):start(i_sta),end(i_end) {}
+        int plot(int x1,int y1,int x2,int y2) const;
     };
 
 protected:
-    color_info c_range;	//Kolory obiektów. Najwyżej tyle ile udostępnia platforma!
-    color_info t_colors;//Kolory tekstów, najwyżej dwa
-    gps_area   graph_core;//Właściwy obszar rysowania po wycięciu wszystkich marginesów
+    color_info	   c_range;	//!< Kolory obiektów. Najwyżej tyle ile udostępnia platforma.
+    color_info	  t_colors;	//!< Kolory tekstów, najwyżej dwa.
+    gps_area	graph_core;	//!< Właściwy obszar rysowania po wycięciu wszystkich marginesów.
 };
 
 
-//				IMPLEMENTACJE RÓŻNYCH GRAFÓW:
-//-------------------------------------------
+//		   RÓŻNE RODZAJE GRAFÓW/WYKRESÓW:
+//		DIFFERENT TYPES OF GRAPHS/CHARTS:
+//=======================================
+//---------------------------------------
 
-//Prostokąt z różnokolorowych kwadracików
+/// @brief A rectangle made of multi-colored squares/<br>
+///        Prostokąt z różnokolorowych kwadracików.
 class carpet_graph:public graph
 //------------------------------------------------------------------------
 {
-    unsigned print_title:1;
+    unsigned print_title:1; ///< Flaga, czy drukować tytuł.
 
 public:
     //HELP:
-    const char* user_help_text(){ return
+    const char* user_help_text() override { return
     "CARPET GRAPH:\n"
-    "Pseudo 2 dimensional, 1 series for colors (index 0)\n"
-    "Rectangles are aranged on AxB base.\n"
+    "Pseudo 2-dimensional, 1. serie for colors (index 0)\n"
+    "Rectangles are arranged on AxB base.\n"
     "By default colors are mapping from 0 to 255.\n"
     "If textcolor!=background the legend is printing\n"
     "\n"
@@ -245,425 +307,525 @@ public:
     "\n"
     "\n";}
 
-    //DESTRUCTOR
-    ~carpet_graph();
-    //CONSTRUCTOR(S)
-    carpet_graph(int x1,int y1,int x2,int y2,		//Położenie obszaru
-                 unsigned A,unsigned B,			 //A-ile kolumn, B-ile wierszy
-                 data_source_base* data,int menage=0, //data-źródło danych o kolorach
-                 bool idirect_color=false);
-    carpet_graph(int x1,int y1,int x2,int y2,		//Położenie obszaru. Seria musi mieć geometrie 2D
-                 data_source_base* data,int menage=0,		//data-źródło danych o kolorach
-                 bool idirect_color=false);
+    /// @name CONSTRUCTOR(S).
+    /// @{
 
-    // IMPLEMENTATION OF VIRTUAL METHODS
-    int configure(const void*)	//Nie ma parametrów konfiguracji. Zawsze zwraca -1
-        {return -1;}
-    int setseries(size_t index,data_source_base* data,int menage=0);//zwraca -1, jeśli indeks za duży
-    data_source_base* getseries(size_t index);//zwraca NULL, jeśli indeks za duży
-    // reals[] zawiera jedynie wartość ustalająca kolor
-    int _rescale_data_point(const double reals[1],long in_area[1]);//zwraca -1, jeśli nie w oknie
-    void _replot();// Rysuje właściwy wykres a pod nim ewentualnie legendę
+    /// 1.
+    carpet_graph(int x1,int y1,int x2,int y2,				///< Położenie obszaru.
+                 unsigned A,unsigned B,						///< A-ile kolumn, B-ile wierszy.
+                 data_source_base* data,int menage=0,		///< Źródło danych o kolorach i czy ma być zwalniane.
+                 bool i_direct_color=false					///< Blokuje skalowanie kolorów.
+                                                            ///< Wtedy liczba z danych oznacza indeks koloru.
+                );
 
-protected: // ONLY FOR DEVELOPERS OF THIS CLASS
+    /// 2.
+    carpet_graph(int x1,int y1,int x2,int y2,				///< Położenie obszaru. Seria musi mieć geometrie 2D.
+                 data_source_base* data,int i_menage=0,		///< Źródło danych o kolorach i czy ma być zwalniane.
+                 bool i_direct_color=false					///< Blokuje skalowanie kolorów.
+                                                            ///< Wtedy liczba z danych oznacza indeks koloru.
+                );
+    /// @}
+
+    ///DESTRUCTOR.
+    ~carpet_graph() override;
+
+    /// @name IMPLEMENTATION OF VIRTUAL METHODS.
+    /// @{
+
+    /// Nie ma możliwości ani parametrów konfiguracji. Zawsze zwraca -1.
+    int configure(const void*) override {return -1;}
+
+    /// Tylko jedna seria i tylko `index == 0` jest dozwolony.
+    int set_series(size_t index, data_source_base* data, int menage= 0) override;
+
+    /// Tylko jedna seria i tylko `index == 0` jest dozwolony.
+    data_source_base* get_series(size_t index) override;
+
+    /// Wersja uproszczona. @param reals[] ma zawierać jedynie wartość ustalającą kolor.
+    int _rescale_data_point(const double reals[1],long in_area[1]) override;
+
+    /// Rysuje właściwy wykres, a pod nim ewentualnie legendę.
+    void _replot() override;
+    /// @}
+
+protected:
+    // ONLY FOR DEVELOPERS OF THIS CLASS:
+    /// Czyta wymiary z geometrii lub z ustawionego AA i BB.
     const geometry_base* read_dim(size_t& aa,size_t& bb);
-    size_t		AA,BB;
-    int			menage;
-    data_source_base* data;
-    bool direct_color;//=false
-    graph::scaling_info mm;
-    wb_ptr<geometry_base> zastepnik;
+
+    size_t					AA,BB;
+    bool					menage;
+    data_source_base*		data;
+    bool					direct_color; ///< Blokuje skalowanie kolorów. Wtedy liczba z danych oznacza indeks koloru.
+    graph::scaling_info		mm;
+    wb_ptr<geometry_base>	deputy; ///< Geometria używana, gdy podano AA i BB w konstruktorze.
 };
 
-// Prostokąt z kwadracikow o kolorach składanych z trzech serii
+/// @brief  A rectangle made of squares with colors composed of three data series/<br>
+///         Prostokąt z kwadracików o kolorach składanych z trzech serii danych.
 class true_color_carpet_graph:public graph
-//---------------------------------------------------------------------------------------------------------
+//----------------------------------------
 {
-    public:
+public:
     //HELP:
-    const char* user_help_text(){ return
+    const char* user_help_text() override { return
     "TRUE COLOR CARPET GRAPH:\n"
-    "Pseudo 2 dimensional, 3 series for colors (RGB)\n"
-    "Rectangles are aranged on AxB base.\n"
+    "Pseudo 2-dimensional, three series for colors (RGB)\n"
+    "Rectangles are arranged on AxB base.\n"
     "By default colors are mapping from 0 to 255.\n"
-    "If textcolor!=background the legend is printing\n"
+    "If 'textcolor!=background' the legend is printing\n"
     "\n"
     "\n"
     "\n"
     "\n";}
 
-    //DESTRUCTOR
-    ~true_color_carpet_graph();
-
-    //CONSTRUCTOR(S)
-    true_color_carpet_graph(int x1,int y1,int x2,int y2,		//Położenie obszaru
-                 unsigned A,unsigned B,			 //A-ile kolumn, B-ile wierszy
+    /// @name CONSTRUCTOR(S)
+    /// @details Serie muszą mieć taka sama geometrie 2D!
+    /// @param x1,y1,x2,y2 to współrzędne rogów obszaru.
+    /// @param RedData,GreenData,BlueData to serie danych, z których brane są składowe RBG.
+    /// @param menage_r,menage_g,menage_b to flagi zarządzania pamięcią poszczególnych serii.
+    /// @{
+    true_color_carpet_graph(int x1,int y1,int x2,int y2,
+                 unsigned A,unsigned B,			 ///< A-ile kolumn, B-ile wierszy.
                  data_source_base* RedData,int menage_r=0,
                  data_source_base* GreenData=NULL,int menage_g=0,
                  data_source_base* BlueData=NULL,int menage_b=0
-                 );//data-źródła danych o kolorach
+                 );
 
-    true_color_carpet_graph(int x1,int y1,int x2,int y2,		//Położenie obszaru. Serie muszą mieć taka sama geometrie 2D
+    true_color_carpet_graph(int x1,int y1,int x2,int y2,
                  data_source_base* RedData,int menage_r=0,
                  data_source_base* GreenData=NULL,int menage_g=0,
                  data_source_base* BlueData=NULL,int menage_b=0
-                 );//data-źródła danych o kolorach
+                 );
+    /// @}
 
-    // IMPLEMENTATION OF VIRTUAL METHODS
-    int configure(const void*)	//Nie ma parametrów konfiguracji. Zwasze zwraca -1
-        {return -1;}
-    int setseries(size_t index,data_source_base* data,int menage=0);//zwraca -1, jeśli indeks za duży
-    data_source_base* getseries(size_t index);//zwraca NULL, jeśli indeks za duży
-    // reals[] zawiera jedynie wartość ustalająca kolor
-    int _rescale_data_point(const double reals[3],long in_area[3]);//zwraca -1, jeśli nie w oknie
-    void _replot();// Rysuje właściwy wykres a pod nim ewentualnie legendę
+    /// DESTRUCTOR.
+    ~true_color_carpet_graph() override;
 
-protected: // ONLY FOR DEVELOPERS OF THIS CLASS
+    /// @name IMPLEMENTATION OF VIRTUAL METHODS
+    /// @{
+    /// Nie ma parametrów konfiguracji. Zawsze zwraca -1.
+    int configure(const void*) override {return -1;}
+    int set_series(size_t index, data_source_base* data, int menage= 0) override;
+    data_source_base* get_series(size_t index) override;
+    int _rescale_data_point(const double reals[3],long in_area[3]) override;
+    /// Rysuje właściwy wykres, a pod nim ewentualnie legendę.
+    void _replot() override;
+    /// @}
+protected:
+    // ONLY FOR DEVELOPERS OF THIS CLASS:
+    /// Czyta wymiary z geometrii lub z ustawionego AA i BB.
     const geometry_base* read_dim(size_t& aa,size_t& bb);
-    size_t		AA,BB;
-    int			menage[3];
-    data_source_base* data[3];
-    graph::scaling_info mm[3];
-    wb_ptr<geometry_base> zastepnik;
+
+    size_t					AA,BB;
+    bool					menage[3];
+    data_source_base*		data[3];
+    graph::scaling_info		mm[3];
+    wb_ptr<geometry_base>	deputy; ///< Geometria używana, gdy podano AA i BB w konstruktorze.
 };
 
-//Dywan z samych pixeli.
+/// @brief Accelerated carpet, made entirely of pixels\<br>
+///        Dywan przyspieszony, z samych pikseli.
 template<class DATA_SOURCE,int DIRECT_COLOR=false>
 class fast_carpet_graph:public carpet_graph
-//------------------------------------------------------------------
+//-----------------------------------------
 {
 public:
-    //CONSTRUCTOR(S)
-    fast_carpet_graph(int x1,int y1,int x2,int y2,		//Położenie obszaru
-                 unsigned A,unsigned B,			 //A-ile kolumn, B-ile wierszy
-                 DATA_SOURCE* data,int menage=0)://data-źródło danych o kolorach
-                 carpet_graph(x1,y1,x2,y2,A,B,data,menage){}
+    /// @name CONSTRUCTOR(S) and DESTRUCTOR
+    /// @{
+    /// 1.
+    fast_carpet_graph(int x1,int y1,int x2,int y2,		///< Położenie obszaru grafu.
+                 unsigned A,unsigned B,					///< A-ile kolumn, B-ile wierszy.
+                 DATA_SOURCE* data,int menage=0)		///< `data` to źródło danych o kolorach.
+    : carpet_graph(x1,y1,x2,y2,A,B,data,menage)
+    {}
 
-    fast_carpet_graph(int x1,int y1,int x2,int y2,		//Położenie obszaru. Seria musi mieć geometrie 2D
-                      DATA_SOURCE* data,int menage=0)://data-źródło danych o kolorach
-                 carpet_graph(x1,y1,x2,y2,data,menage){}
+    /// 2.
+    fast_carpet_graph(int x1,int y1,int x2,int y2,		///< Położenie obszaru. Seria musi mieć geometrie 2D.
+                      DATA_SOURCE* data,int menage=0)	///< `data` to źródło danych o kolorach.
+    : carpet_graph(x1,y1,x2,y2,data,menage)
+    {}
 
-    void _replot();// Rysuje właściwy wykres, a pod nim ewentualnie legendę.
-                   // Typ Źródła jest ustalony wiec metody mogą być inlinowane.
+    /// DESTRUCTOR.
+    ~fast_carpet_graph() override = default;
+    /// @}
+
+    /// Rysuje właściwy wykres, a pod nim ewentualnie legendę.
+    /// Typ źródła jest ustalony na DATA_SOURCE, wiec wywołania wewnętrzne mogą być rozwijane inline.
+    void _replot() override;
+
 };
 
-class bars_graph:public graph // Zwykle 2D "słupki" różnej wielkości i ewentualnie koloru
-//------------------------------------------------------------------------
+/// @brief  Usually 2D-bars of different sizes and possibly colors/<br>
+///         Zwykle słupki 2D różnej wielkości i ewentualnie koloru.
+class bars_graph:public graph
+//---------------------------
 {
 public:
     //HELP:
-    const char* user_help_text(){ return
+    const char* user_help_text() override { return
     "2D BARS PLOT:\n"
-    "2 Dimensional, 2 series:\n"
-    "index 0: heights of bars\n"
-    "index 1: colors of bars (optional)\n"
+    "2-Dimensional, two series:\n"
+    "- index '0': heights of bars\n"
+    "- index '1': colors of bars (optional)\n"
     "By default colors range are from 0 to 255.\n"
     "and default bar color is 128.\n"
-    "If textcolor!=bacground legend is printing\n"
+    "If 'textcolor!=background' legend is printing\n"
     "\n";}
 
-    //DESTRUCTOR
-    ~bars_graph();
+    /// CONSTRUCTOR(S)
+    /// @param menage_d,menage_c to flagi zarządzania pamięcią (delete) serii danych o wysokościach i o kolorach.
+    bars_graph(int x1, int y1, int x2, int y2,						///< Położenie obszaru grafu.
+                 data_source_base* i_datas, int menage_d=0,			///< `datas` to dane o wysokościach słupków.
+                 data_source_base* i_colors=NULL, int menage_c=0,	///< `i_colors` to dane o kolorach (indeksowanych).
+                 int zero_mod=1										///< Tryb. 1-Słupki zaczynają się co najmniej od 0!
+                                                                    ///<       0- to zaczynają się od min (może >0)
+                 );
 
-    //CONSTRUCTOR(S)
-    bars_graph(int x1,int y1,int x2,int y2,				   //Położenie obszaru
-                 data_source_base* idatas,int       menage_d=0,		//datas-dane o wysokościach
-                 data_source_base* icolors=NULL,int menage_c=0,		//i o kolorach
-                 int zero_mod=1			//1-Słupki zaczynają się co najmniej od 0!
-                                        //0- to zaczynają się od min (może >0)
-                 );//colors-źródło danych o kolorach
+    /// DESTRUCTOR.
+    ~bars_graph() override;
 
-    // IMPLEMENTATION OF VIRTUAL METHODS
+    /// Dane do konfiguracji.
     struct config_zero
     {
-        config_zero(int z=0):zero_mode(z){}
+        explicit config_zero(int z=0):zero_mode(z){}
         int zero_mode;
     };
 
-    int configure(const void* config);//Konfiguruje tryb wyświetlania
-    int setseries(size_t index,data_source_base* data,int menage=0);//zwraca -1, jeśli indeks za duży
-    data_source_base* getseries(size_t index);//zwraca NULL, jeśli indeks za duży
-    // reals[] zawiera wysokość i wartość ustalająca kolor
-    int _rescale_data_point(const double reals[2],long in_area[2]);//zwraca -1, jeśli nie w oknie
-    void _replot();// Rysuje właściwy wykres a pod nim ewentualnie legendę
-
+    /// @name IMPLEMENTATION OF VIRTUAL METHODS
+    /// @{
+    /// Konfiguruje tryb wyświetlania za pomocą struktury typu `bars_graph::config_zero`. @param config to adres struktury.
+    int configure(const void* config) override;
+    int set_series(size_t index, data_source_base* data, int menage= 0) override;
+    data_source_base* get_series(size_t index) override;
+    int _rescale_data_point(const double reals[2],long in_area[2]) override;
+    /// Rysuje właściwy wykres a pod nim ewentualnie legendę.
+    void _replot() override;
+    /// @}
 private:    // ONLY FOR DEVELOPERS OF THIS CLASS
-    int mode;
-    int d_menage;
-    int c_menage;
-    data_source_base* datas;
-    data_source_base* colors;
-    scaling_info s_data;
-    scaling_info s_colo;
+    int					mode;
+    bool				d_menage;
+    bool				c_menage;
+    data_source_base*	datas;
+    data_source_base*	colors;
+    scaling_info		s_data;
+    scaling_info		s_colo;
 };
 
-//kolumna lub wiersz liczb, każda na innym tle!
+/// @brief A column or row of numbers, each on a different color background!/<br>
+///        Kolumna lub wiersz liczb, każda na innym tle kolorystycznym!
 class rainbow_graph:public graph
-//------------------------------------------------------------------------------
+//------------------------------
 {
 public:
     //HELP:
-    const char* user_help_text(){ return
+    const char* user_help_text() override { return
     "RAINBOW PLOT:\n"
-    "0 Dimensional, 2 series:\n"
-    "index 0: values to print\n"
-    "index 1: colors of bars (optional)\n"
+    "0 Dimensional, two series:\n"
+    "- index 0: values to print\n"
+    "- index 1: colors of bars (optional)\n"
     "By default colors range are from 0 to 255.\n"
     "and default bar color is background.\n"
-    "If textcolor!=bacground legend is printing\n"
-    "User can configure format of printing values.\n"
+    "If `textcolor!=background` legend is printing\n"
+    "User is able to configure the format of printing values.\n"
     "\n";}
 
-    //DESTRUCTOR
-    ~rainbow_graph();
-
-    //CONSTRUCTOR(S)
-    rainbow_graph(int x1,int y1,int x2,int y2,		//Położenie obszaru
-                 data_source_base* idatas,int menage_d=0,		//datas-dane==wartości
-                 data_source_base* icolors=NULL,int menage_c=0,		//colors-źródło danych o kolorach
-                 const char* format="%g"//format liczby — nie może być więcej niż 1 parametr!
+    /// @name CONSTRUCTOR(S) and DESTRUCTOR.
+    /// @{
+    /// Constructor.
+    rainbow_graph(int x1, int y1, int x2, int y2,					///< Położenie obszaru
+                 data_source_base* i_datas, int menage_d=0,			///< `datas` to dane o wartościach, opcjonalnie zarządzane.
+                 data_source_base* i_colors=NULL, int menage_c=0,	///< `colors` to źródło danych o kolorach, opc. zarządzane.
+                 const char* format="%g"							///< Format liczby — nie może być więcej niż 1 kod `%`!
                  );
 
-    // IMPLEMENTATION OF VIRTUAL METHODS
-    int configure(const void* format);//Wymaga const char* format jako parametr
-    int setseries(size_t index,data_source_base* data,int menage=0);//zwraca -1, jeśli indeks za duży
-    data_source_base* getseries(size_t index);//zwraca NULL, jeśli indeks za duży
-    // reals[] zawiera jedynie wartość ustalająca kolor
-    int _rescale_data_point(const double reals[1],long in_area[1]);//skaluje tylko kolor
-    void _replot();// Rysuje właściwy wykres a pod nim ewentualnie legendę
+    /// Destructor.
+    ~rainbow_graph() override;
+    /// @}
+
+    /// @name IMPLEMENTATION OF VIRTUAL METHODS
+    /// Konfiguracja formatu. @param format wymaga `const char*` z jednym kodem procentowym, np. "%f".
+    int configure(const void* format) override;
+    int set_series(size_t index, data_source_base* data, int menage= 0) override;
+    data_source_base* get_series(size_t index) override;
+    /// Skalowany jest tylko kolor.
+    int _rescale_data_point(const double reals[1],long in_area[1]) override;
+    /// Rysuje "tęczę" z liczbami.
+    void _replot() override;
 
 private:    // ONLY FOR DEVELOPERS OF THIS CLASS
-    int d_menage;
-    int c_menage;
-    data_source_base* datas;
-    data_source_base* colors;
-    scaling_info s_colo;
-    char* format;
+    bool					d_menage;
+    bool					c_menage;
+    data_source_base*		datas;
+    data_source_base*		colors;
+    scaling_info			s_colo;
+    char*					format;
 };
 
-// Dywanik słupków 3D
+/// @brief 3D Pillar/Bar Carpet/<br>
+///        Dywanik słupków 3D
 class manhattan_graph:public graph
 //-------------------------------------------------------------------------
 {
 public:
     //HELP:
-    const char* user_help_text(){ return
+    const char* user_help_text() override { return
     "MANHATTAN PLOT:\n"
-    "Pseudo 3 Dimensional, 2 series:\n"
-    "index 0: heights of bars\n"
-    "index 1: colors of bars (optional)\n"
-    "Bars are arranged on AxB base.\n"
+    "Pseudo 3 Dimensional, two series:\n"
+    "- index `0`: heights of bars\n"
+    "- index `1`: colors of bars (optional)\n"
+    "Bars are arranged on 'A x B' base.\n"
     "By default colors range are from 0 to 255.\n"
     "and default bar color is 128.\n"
-    "If textcolor!=bacground legend is printing\n"
+    "If 'textcolor!=background' legend is printing\n"
     "\n";}
 
-    //DESTRUCTOR
-    ~manhattan_graph();
 
-    //CONSTRUCTOR(S)
-    manhattan_graph(int x1,int y1,int x2,int y2,		//Położenie obszaru
-                 unsigned A,unsigned B,				//A-ile kolumn, B-ile wierszy
-                 data_source_base* idatas,int menage_d=0,		//datas-dane o wysokościach
-                 data_source_base* icolors=NULL,int menage_c=0,		//Źródło danych o kolorach
-                 int zero_mod=1,			//Słupki zaczynają się co najmniej od 0!
-                                        //Jeśli 0 to zaczynają się od min>0
-                 double Hoffs=0.33,		//Ułamek szerokości przeznaczony na perspektywę
-                 double	Voffs=0.33		//Ułamek wysokości  przeznaczony na perspektywę
+    /// @name CONSTRUCTOR(S) and DESTRUCTOR.
+    /// @details Serie danych muszą mieć zgodne geometrie.
+    /// @{
+    manhattan_graph(int x1, int y1, int x2, int y2,						///< Położenie obszaru wykresu.
+                     unsigned A, unsigned B,							///< A-ile kolumn, B-ile wierszy.
+                     data_source_base* i_datas, int menage_d=0,			///< `datas` to dane o wysokościach.
+                     data_source_base* i_colors=NULL, int menage_c=0,	///< `colors` to źródło danych o kolorach.
+                     int zero_mod=1,			///< Tryb: 1 - Słupki zaczynają się co najmniej od 0.
+                                                ///< Jeśli 0 to zaczynają się od min>0.
+                     double H_offs=0.33,		///< Ułamek szerokości przeznaczony na perspektywę.
+                     double	V_offs=0.33			///< Ułamek wysokości  przeznaczony na perspektywę
                  );
 
-    manhattan_graph(int ix1,int iy1,int ix2,int iy2,		//Położenie obszaru.
-                 data_source_base* idatas,int menage_d=0,		//datas-dane o wysokościach.
-                 data_source_base* icolors=NULL,int menage_c=0,		//Źródło danych o kolorach.
-                 //Muszą mieć zgodne geometrie.
-                 int zero_mod=1,		//Słupki zaczynają się co najmniej od 0!
-                                        //Jeśli 0 to zaczynają się od min>0
-                 double Hoffs=0.33,		//Ułamek szerokości przeznaczony na perspektywę.
-                 double	Voffs=0.33		//Ułamek wysokości  przeznaczony na perspektywę.
+    manhattan_graph(int ix1, int iy1, int ix2, int iy2,					///< Położenie obszaru wykresu.
+                     data_source_base* i_datas, int menage_d=0,			///< `datas` to dane o wysokościach.
+                     data_source_base* i_colors=NULL, int menage_c=0,	///< `colors` to źródło danych o kolorach.
+                     int zero_mod=1,			///< Tryb: 1 - Słupki zaczynają się co najmniej od 0.
+                                                ///< Jeśli 0 to zaczynają się od min>0.
+                     double H_offs=0.33,		///< Ułamek szerokości przeznaczony na perspektywę.
+                     double	V_offs=0.33			///< Ułamek wysokości  przeznaczony na perspektywę
                  );
 
-    // IMPLEMENTATION OF VIRTUAL METHODS
+    /// Destructor.
+    ~manhattan_graph() override;
+    /// @}
+
+
+    /// Struktura do konfiguracji,
     struct config
-        {
-        config(int c_offs=0,unsigned col_wire=0,int z=0):
-                    color_offset(c_offs),wire(col_wire),zero_mode(z){}
-        int color_offset;
-        unsigned wire;
-        int zero_mode;
-        };
+    {
+        explicit config(int c_offs=0,unsigned col_wire=0,int z=0)
+        : color_offset(c_offs),wire(col_wire),zero_mode(z)
+        {}
 
-    int configure(const void* config);//Konfiguruje tryb wyświetlania
-    int setseries(size_t index,data_source_base* data,int menage=0);//zwraca -1, jeśli indeks za duży
-    data_source_base* getseries(size_t index);//zwraca NULL, jeśli indeks za duży
-    // reals[] zawiera wysokość i wartość ustalająca kolor
-    int _rescale_data_point(const double reals[2],long in_area[2]);//zwraca -1, jeśli nie w oknie
-    void _replot();// Rysuje właściwy wykres a pod nim ewentualnie legendę
+        int color_offset; ///< ...
+        unsigned    wire; ///< ...
+        int    zero_mode; ///< ...
+    };
 
-private:    // ONLY FOR DEVELOPERS OF THIS CLASS
+    /// @name IMPLEMENTATION OF VIRTUAL METHODS
+    /// Konfiguruje tryb wyświetlania, używając struktury typu `manhattan_graph::config`.
+    int configure(const void* config) override;
+    int set_series(size_t index, data_source_base* data, int menage= 0) override;
+    data_source_base* get_series(size_t index) override;
+    int _rescale_data_point(const double reals[2],long in_area[2]) override;
+    /// Rysuje właściwy wykres a pod nim ewentualnie legendę
+    void _replot() override;
+
+private:
+    // ONLY FOR DEVELOPERS OF THIS CLASS
+    /// Czyta wymiary z geometrii lub z ustawionego A i B.
     const geometry_base* read_dim(size_t& aa,size_t& bb);
-    int mode;
-    int c_offset;
-    wb_color wire;
-    unsigned AA;
-    unsigned BB;
-    double Hoffs;
-    double Voffs;
-    int d_menage;
-    int c_menage;
-    data_source_base* datas;
-    data_source_base* colors;
-    scaling_info s_data;
-    scaling_info s_colo;
-    wb_ptr<geometry_base> zastepnik;
+
+    int					mode;
+    int					c_offset;
+    wb_color			wire;
+    unsigned			AA;
+    unsigned			BB;
+    double				h_offs;
+    double				v_offs;
+    int					d_menage;
+    int					c_menage;
+    data_source_base*	datas;
+    data_source_base*	colors;
+    scaling_info		s_data;
+    scaling_info		s_colo;
+    wb_ptr<geometry_base> deputy; ///< Zastępcza geometria, gdy w konstruktorze podano A i B.
 };
 
-// Dywanik słupków 3D
+/// @brief RGB 3D Pillar/Bar Carpet/<br>
+///        Dywanik słupków 3D w kolorach RGB.
 class true_color_manhattan_graph:public graph
 //-------------------------------------------------------------------------
 {
 public:
     //HELP:
-    const char* user_help_text(){ return
+    const char* user_help_text() override{ return
     "MANHATTAN PLOT:\n"
-    "Pseudo 3 Dimensional, 4 series:\n"
-    "index 0: heights of bars\n"
-    "index 1-3: colors of bars (optional)\n"
-    "Bars are arranged on AxB base.\n"
+    "Pseudo 3 Dimensional, four series:\n"
+    "- index 0: heights of bars\n"
+    "- index 1..3: colors of bars components (optional)\n"
+    "Bars are arranged on `A x B` base.\n"
     "By default RGBs range are from 0 to 255.\n"
     "and default bar color is blue (?).\n"
-    "If textcolor!=bacground legend is printing\n"
+    "If 'textcolor!=background legend' is printing\n"
     "\n";}
 
-    //DESTRUCTOR
-    ~true_color_manhattan_graph();
-
-    //CONSTRUCTOR(S)
-    true_color_manhattan_graph(int x1,int y1,int x2,int y2,		//Położenie obszaru
-                 unsigned A,unsigned B,				//A-ile kolumn, B-ile wierszy
-                 data_source_base* idatas,int menage_d=0,		//datas-dane o wysokościach
-                 data_source_base* RedData=NULL,int menage_r=0,
-                 data_source_base* GreenData=NULL,int menage_g=0,
-                 data_source_base* BlueData=NULL,int menage_b=0,
-                 int zero_mod=1,			//Słupki zaczynają się co najmniej od 0!
-                                        //Jeśli 0 to zaczynają się od min>0
-                 double Hoffs=0.33,		//Ułamek szerokości przeznaczony na perspektywę
-                 double	Voffs=0.33		//Ułamek wysokości  przeznaczony na perspektywę
+    /// @name CONSTRUCTOR(S) and DESTRUCTOR
+    /// @details Serie danych muszą mieć zgodne geometrie.
+    /// @param RedData,GreenData,BlueData to serie danych, z których brane są składowe RBG.
+    /// @param menage_r,menage_g,menage_b to flagi zarządzania pamięcią poszczególnych serii.
+    /// @{
+    /// 1.
+    true_color_manhattan_graph(int x1, int y1, int x2, int y2,		///< Położenie obszaru.
+                 unsigned A, unsigned B,							///< A-ile kolumn, B-ile wierszy.
+                 data_source_base* i_datas, int menage_d=0,			///< `datas` to dane o wysokościach.
+                 data_source_base* RedData=NULL, int menage_r=0,
+                 data_source_base* GreenData=NULL, int menage_g=0,
+                 data_source_base* BlueData=NULL, int menage_b=0,
+                 int zero_mod=1,								///< Gdy 1 to słupki zaczynają się co najmniej od 0.
+                                        						///< Jeśli 0 to zaczynają się od `min>0`.
+                 double H_offs=0.33,								///< Ułamek szerokości przeznaczony na perspektywę.
+                 double	V_offs=0.33								///< Ułamek wysokości  przeznaczony na perspektywę.
                  );
 
-    true_color_manhattan_graph(int ix1,int iy1,int ix2,int iy2,		//Położenie obszaru
-                 data_source_base* idatas,int menage_d=0,		//datas-dane o wysokościach
-                 data_source_base* RedData=NULL,int menage_r=0,
-                 data_source_base* GreenData=NULL,int menage_g=0,
-                 data_source_base* BlueData=NULL,int menage_b=0,
-                 //Muszą mieć zgodne geometrie
-                 int zero_mod=1,		//Słupki zaczynają się co najmniej od 0!
-                                        //Jeśli 0 to zaczynają się od min>0
-                 double Hoffs=0.33,		//Ułamek szerokości przeznaczony na perspektywę
-                 double	Voffs=0.33		//Ułamek wysokości  przeznaczony na perspektywę
+    /// 2..
+    true_color_manhattan_graph(int ix1, int iy1, int ix2, int iy2,		///< Położenie obszaru.
+                 data_source_base* i_datas, int menage_d=0,				///< `datas` to dane o wysokościach.
+                 data_source_base* RedData=NULL, int menage_r=0,
+                 data_source_base* GreenData=NULL, int menage_g=0,
+                 data_source_base* BlueData=NULL, int menage_b=0,
+                 int zero_mod=1,								///< Gdy 1 to słupki zaczynają się co najmniej od 0.
+                                                                ///< Jeśli 0 to zaczynają się od `min>0`.
+                 double H_offs=0.33,								///< Ułamek szerokości przeznaczony na perspektywę.
+                 double	V_offs=0.33								///< Ułamek wysokości  przeznaczony na perspektywę.
                  );
 
-    // IMPLEMENTATION OF VIRTUAL METHODS
+    /// Destructor.
+    ~true_color_manhattan_graph() override;
+    /// @}
+
+    /// Struktura do konfiguracji wyświetlania.
     struct config
-        {
-        config(int c_offs=0,unsigned col_wire=0,int z=0):
-                    color_offset(c_offs),wire(col_wire),zero_mode(z){}
-        int color_offset;
-        unsigned wire;
-        int zero_mode;
-        };
+    {
+        explicit config(int c_offs=0,unsigned col_wire=0,int z=0)
+        : color_offset(c_offs),wire(col_wire),zero_mode(z)
+        {}
 
-    int configure(const void* config);//Konfiguruje tryb wyświetlania
-    int setseries(size_t index,data_source_base* data,int menage=0);//zwraca -1, jeśli indeks za duży
-    data_source_base* getseries(size_t index);//zwraca NULL, jeśli indeks za duży
-    // reals[] zawiera wysokość i wartość ustalająca kolor
-    int _rescale_data_point(const double reals[4],long in_area[4]);//zwraca -1, jeśli nie w oknie
-    void _replot();// Rysuje właściwy wykres a pod nim ewentualnie legendę
+        int  color_offset;
+        unsigned     wire;
+        int     zero_mode;
+    };
 
-private:    // ONLY FOR DEVELOPERS OF THIS CLASS
+    /// @name IMPLEMENTATION OF VIRTUAL METHODS
+    /// @{
+    /// Konfiguruje tryb wyświetlania, używając struktury typu `true_color_manhattan_graph::config`.
+    int configure(const void* config) override;
+    int set_series(size_t index, data_source_base* data, int menage=0) override;
+    data_source_base* get_series(size_t index) override;
+    int _rescale_data_point(const double reals[4],long in_area[4]) override;
+    /// Rysuje właściwy wykres a wokół niego ewentualnie legendę.
+    void _replot() override;
+    /// @}
+
+private:
+    // ONLY FOR DEVELOPERS OF THIS CLASS
+    /// Czyta wymiary z geometrii lub z ustawionego A i B.
     const geometry_base* read_dim(size_t& aa,size_t& bb);
-    int mode;
-    int c_offset;
-    wb_color wire;
-    unsigned AA;
-    unsigned BB;
-    double Hoffs;
-    double Voffs;
-    int d_menage;
-    int c_menage[3];
-    data_source_base* datas;
-    data_source_base* colors[3];
-    scaling_info s_data;
-    scaling_info s_colo[3];
-    wb_ptr<geometry_base> zastepnik;
+
+    int							mode;
+    int							c_offset;
+    wb_color					wire;
+    unsigned					AA;
+    unsigned					BB;
+    double						h_offs;
+    double						v_offs;
+    bool						d_menage;
+    bool						c_menage[3];
+    data_source_base*			datas;
+    data_source_base*			colors[3];
+    scaling_info				s_data;
+    scaling_info				s_colo[3];
+    wb_ptr<geometry_base>		deputy;
 };
 
-// Kolejne punkty ewentualnie połączone liniami. Dowolna ilość seri!!!
+/// @brief A typical line graph. Consecutive points optionally connected by lines. Any number of series./<br>
+///        Typowy wykres liniowy.  Kolejne punkty ewentualnie połączone liniami. Dowolna ilość seri.
 class sequence_graph:public graph
 //-----------------------------------------------------------------------------------------------------
 {
-    public:
+public:
     //HELP:
-    const char* user_help_text(){ return
+    const char* user_help_text() override{ return
     "N SEQUENCES PLOT:\n"
     "2 Dimensional, many series.\n"
-    "Case number or time on X axes.\n"
-    "index 0..N: series to print\n"
+    "- Case number or time on X axi.\n"
+    "- index 0...N: series to print\n"
     "By default colors range are from 0 to 255\n"
     "and must contain as many colors as series exists.\n"
-    "If textcolor!=bacground max,min legend is printing \n"
+    "If `textcolor!=background` max,min legend is printing \n"
     "and series names are printing inside graph!\n"
     "\n";}
 
-    //DESTRUCTOR
-    ~sequence_graph();
+    /// @name CONSTRUCTOR(S) and DESTRUCTOR
+    /// @{
+    /// 1.
+    sequence_graph(int x1,int y1,int x2,int y2,		///< Położenie obszaru
+                   int N,							///< Liczba serii
+                   series_info* series,				///< Tablica struktur zawierających informacje o seriach
+                                                    ///< Może przejmować w zarząd serie i ich obiekty rysujące punkty.
+                   int mode=0,	///<  - 0 - tryb z pełnym reskalowaniem
+                                ///<  - 1 - tryb ze wspólnym minimum, maximum, pobieranym z parametrów i serii
+                                ///<  - 2 - tryb z zafiksowanym minimum i maksimum
+                   double min=0.0,double max=0.0 ///< Zafiksowanie zakresu minimum-maksimum.
+                  );
 
-    //CONSTRUCTOR(S)
-    sequence_graph(int x1,int y1,int x2,int y2,		//Położenie obszaru
-                   int N,					//Ilość serii
-                   series_info* series,		//Tablica struktur zawierających informacje o seriach
-                                            //Może przejmować w zarząd serie i ich obiekty rys. punkty
-                   int mode=0,	//0 - tryb z pełnym reskalowaniem
-                                //1 - tryb ze wspólnym minimum, maximum, pobieranym z parametrów i serii
-                                //2 - tryb z zafiksowanym minimum i maksimum
-                   double min=0.0,double max=0.0);
+    /// 1.
+    sequence_graph(int x1,int y1,int x2,int y2,		///< Położenie obszaru
+                   int N,							///< Liczba serii
+                   data_source_base** series,		///< Tablica serii. Struktury informacji o seriach zostaną wypełnione domyślnie.
+                                                    ///< Nie ma możliwości zarządzania pamięcią seri.
+                   int mode=0,	///<  - 0 - tryb z pełnym reskalowaniem
+                                ///<  - 1 - tryb ze wspólnym minimum, maximum, pobieranym z parametrów i serii
+                                ///<  - 2 - tryb z zafiksowanym minimum i maksimum
+                   double min=0.0,double max=0.0 ///< Zafiksowanie zakresu minimum-maksimum.
+                  );
 
-    sequence_graph(int x1,int y1,int x2,int y2,		//Położenie obszaru
-                   int N,					//Ilość serii
-                   data_source_base** series,		//Tablica serii Struktury informacji o seriach zostaną wypełnione domyślnie.
-                                            //Nie ma zarządzania pamięcią serii.
-                   int mode=0,	//0 - tryb z pełnym reskalowaniem
-                                //1 - tryb ze wspólnym minimum, maximum, pobieranym z parametrów i serii
-                                //2 - tryb z zafiksowanym minimum i maksimum
-                   double min=0.0,double max=0.0);
 
-    // IMPLEMENTATION OF VIRTUAL METHODS
+    /// Destructor.
+    ~sequence_graph() override;
+    /// @}
+
+    /// Struktura konfiguracji wyświetlania.
     struct config_seq
-        {
-        config_seq(int im=0,double imi=0.0,double ima=0.0):
+    {
+        explicit config_seq(int im=0,double imi=0.0,double ima=0.0):
                     mode(im),min(imi),max(ima){}
-        int mode;
-        double min;
-        double max;
-        };
+        int    mode; ///< Tryb wyświetlania o znaczeniach jak w konstruktorach.
+        double  min; ///< Możliwość określenia minimum.
+        double  max; ///< Możliwość określenia maksimum.
+    };
 
-    int configure(const void* config); //Parametr typu config_seq. Jeśli NULL to tryb 0;
-    int setseries(size_t index,data_source_base* data,int menage=0);//zwraca -1, jeśli indeks za duży
-    data_source_base* getseries(size_t index);//zwraca NULL, jeśli indeks za duży
-    // reals[] zawiera M wysokości (Y) i numer kroku dla ustalenia X-a
-    int _rescale_data_point(const double reals[/*M+1*/],long in_area[/*M+1*/]);//zwraca -1, jeśli nie w oknie
-    void _replot();// Rysuje właściwy wykres a pod nim ewentualnie legendę
+    /// @name IMPLEMENTATION OF VIRTUAL METHODS
+    /// @{
+    /// Konfiguracja. @param config ma być typu `sequence_graph::config_seq`, a jeśli NULL to tryb 0.
+    int configure(const void* config) override;
+    int set_series(size_t index, data_source_base* data, int menage= 0) override;
+    data_source_base* get_series(size_t index) override;
+    int _rescale_data_point(const double reals[/*M+1*/],long in_area[/*M+1*/]) override;
+    /// Rysuje właściwy wykres a pod nim i na nim ewentualnie legendę.
+    void _replot() override;
+    /// @}
 
-    // Class specific!
+    /// Class specific method.
     unsigned color(unsigned val);
 
-private:    // ONLY FOR DEVELOPERS OF THIS CLASS
-    size_t M;			//Rozmiar tablicy serii. Nie wszystkie muszą być pełne
-    int mode;			//Aktualny tryb pracy
-    series_info* series;//Tablica serii
-    scaling_info* scales;//Tablica skal
-    scaling_info scolors;//Dla niepodanych kolorów
-    scaling_info scale_x;//Dla osi X
-    scaling_info scale_y;//Dla osi Y w trybie 1 i 2
+private:
+    // ONLY FOR DEVELOPERS OF THIS CLASS
+    size_t M;				///< Rozmiar tablicy serii. Nie wszystkie muszą być pełne.
+    int mode;				///< Aktualny tryb pracy.
+    series_info*   series;	///< Tablica serii.
+    scaling_info*  scales;	///< Tablica skal.
+    scaling_info s_colors;	///< Skalowanie dla niepodanych kolorów.
+    scaling_info  scale_x;	///< Skalowanie dla  osi X.
+    scaling_info  scale_y;	///< Skalowanie dla  osi Y w trybie 1 i 2.
 };
 
 //Punkty w dwu wymiarach (dowolne X i Y)
@@ -672,7 +834,7 @@ class scatter_graph:public graph
 {
 public:
     //HELP:
-    const char* user_help_text(){ return
+    const char* user_help_text() override { return
     "SCATTER PLOT GRAPH:\n"
     "2 Dimensional, 4 series:\n"
     "index 1: X's of points\n"
@@ -681,84 +843,73 @@ public:
     "index 4: size of points (optional - may be NULL)\n"
     "By default colors range are from 0 to 255.\n"
     "and default bar color is 128.\n"
-    "If textcolor!=bacground legend is printing\n"
+    "If `textcolor!=background` legend is printing\n"
     "User can configure type of points by class\n"
     "derived from config_point.\n"
     "\n";}
 
-    //DESTRUCTOR
-    ~scatter_graph();
-
-    //CONSTRUCTOR(S)
-    scatter_graph(int x1,int y1,int x2,int y2,		//Położenie obszaru
-                 data_source_base* Xdata,int menage_x  ,		//dane o X-ach
-                 data_source_base* Ydata,int menage_y=0,		//dane o Y-ach
-                 data_source_base* colors=NULL,int menage_c=0,		//dane o kolorach
-                 data_source_base* sizes=NULL,int menage_s=0,		//dane o rozmiarach
-                 config_point*  fig=new hash_point,int fmenage=1//figura domyślna
+    /// @name CONSTRUCTOR(S) and DESTRUCTOR
+    /// @{
+    scatter_graph(int x1,int y1,int x2,int y2,						///< Położenie obszaru
+                 data_source_base* Xdata,int menage_x  ,			///< Dane o X-ach
+                 data_source_base* Ydata,int menage_y=0,			///< Dane o Y-ach
+                 data_source_base* colors=NULL,int menage_c=0,		///< Dane o kolorach
+                 data_source_base* sizes=NULL,int menage_s=0,		///< Dane o rozmiarach
+                 config_point*  fig=new hash_point,int f_menage=1	///< Obiekt rysujący punkty, z domyślną wartością "hash".
                  );
 
-    // IMPLEMENTATION OF VIRTUAL METHODS
+    /// Destructor.
+    ~scatter_graph() override;
+    /// @}
+
+    /// Struktura konfiguracji wyświetlania.
     struct config_scat
     {
-    config_scat(config_point*  ifig=NULL,int imen=0):fig(ifig),menage(imen){}
-    config_point*  fig;
-    int menage;
+        explicit config_scat(config_point*  i_fig=NULL, int i_men=0)
+        : fig(i_fig), menage(i_men)
+        {}
+
+        config_point*  fig; ///< Wyświetlacz punktów.
+        int         menage; ///< Czy wyświetlacz jest zarządzany.
     };
 
-    int configure(const void*);//Parametr typu scatter_graph::config_scat*
-    int setseries(size_t index,data_source_base* data,int menage=0);//zwraca -1, jeśli indeks za duży
-    data_source_base* getseries(size_t index);//zwraca NULL, jeśli indeks za duży
-    // reals[] zawiera X,Y ewentualnie wartość dla koloru i rozmiaru.
-    int _rescale_data_point(const double reals[4],long in_area[4]);//zwraca -1, jeśli nie w oknie
-    void _replot();// Rysuje właściwy wykres a pod nim ewentualnie legendę
+    /// @name IMPLEMENTATIONS OF VIRTUAL METHODS
+    /// @{
+    /// Konfiguracja wyświetlania. Parametr musi być adresem do `scatter_graph::config_scat`.
+    int configure(const void*) override;
+    int set_series(size_t index, data_source_base* data, int menage=0) override;
+    data_source_base* get_series(size_t index) override;
+    int _rescale_data_point(const double reals[4],long in_area[4]) override;
+    /// Rysuje właściwy wykres a pod nim ewentualnie legendę.
+    void _replot() override;
+    /// @}
 
-    //Special for this class
-    void fix_X_minmax(double min,double max)
-    {
-        scale_x.fix_min=scale_x.fix_max=0;//Odfiksuj
-        if(min>-DBL_MAX)
-        {
-            scale_x.min=min;
-            scale_x.fix_min=1;
-        }
-        if(max>-DBL_MAX)
-        {
-            scale_x.max=max;
-            scale_x.fix_max=1;
-        }
-    }
+    /// @name Specials for this class.
+    /// @{
 
-    void fix_Y_minmax(double min,double max)
-    {
-        scale_y.fix_min=scale_y.fix_max=0;//Odfiksuj
-        if(min>-DBL_MAX)
-        {
-            scale_y.min=min;
-            scale_y.fix_min=1;
-        }
-        if(max>-DBL_MAX)
-        {
-            scale_y.max=max;
-            scale_y.fix_max=1;
-        }
-    }
+    /// Zafiksowanie zakresu X lub od-fiksowanie gdy `min == max == -DBL_MAX`.
+    void fix_X_minmax(double min,double max);
 
-protected:    // ONLY FOR DEVELOPERS OF THIS CLASS
-    config_point* CurrConfig;
-    int     menage_p;
-    data_source_base* Xdata;
-    int		menage_x;
-    data_source_base* Ydata;
-    int		menage_y;
-    data_source_base* colors;
-    int		menage_c;
-    data_source_base* sizes;
-    int		menage_s;
-    scaling_info scale_x;//Skalowanie dla X-ow
-    scaling_info scale_y;//Skalowanie dla Y-ow
-    scaling_info scale_c;//Skalowanie dla kolorów
-    scaling_info scale_s;//Skalowanie dla rozmiarów
+    /// Zafiksowanie zakresu Y lub od-fiksowanie gdy `min == max == -DBL_MAX`.
+    void fix_Y_minmax(double min,double max);
+    /// @}
+
+protected:
+    // ONLY FOR DEVELOPERS OF THIS CLASS
+    config_point*		CurrConfig;
+    bool				menage_p;
+    data_source_base*	Xdata;
+    bool				menage_x;
+    data_source_base*	Ydata;
+    bool				menage_y;
+    data_source_base*	colors;
+    bool				menage_c;
+    data_source_base*	sizes;
+    bool				menage_s;
+    scaling_info		scale_x; ///< Skalowanie dla X-ów.
+    scaling_info		scale_y; ///< Skalowanie dla Y-ów.
+    scaling_info		scale_c; ///< Skalowanie dla kolorów.
+    scaling_info		scale_s; ///< Skalowanie dla rozmiarów.
 };
 
 //Punkty w dwu wymiarach (dowolne X i Y)
@@ -767,7 +918,7 @@ class net_graph:public scatter_graph
 {
 public:
     //HELP:
-    const char* user_help_text(){ return
+    const char* user_help_text() override{ return
     "NETWORK PLOT GRAPH:\n"
     "2 Dimensional\n"
 
@@ -787,76 +938,82 @@ public:
 
     "By default colors range are from 0 to 255.\n"
     "and default color is 128.\n"
-    "If textcolor!=bacground legend is printing\n"
-    "Default point is \"dot\" but user can provide config_point object for \n"
+    "If `textcolor!=background` legend is printing\n"
+    "Default point is \"dot\" but user can provide `config_point` object for \n"
     "configure point printing.\n"
     "\n";}
 
-    //DESTRUCTOR
-    ~net_graph();
+    /// @name CONSTRUCTOR(S) and DESTRUCTOR
+    /// @{
+    /// 1.
+    net_graph(   int x1,int y1,int x2,int y2,						///< Położenie obszaru.
+                 data_source_base* Xdata,int menage_x  ,			///< Dane o X-ach.
+                 data_source_base* Ydata,int menage_y,				///< Dane o Y-ach.
+                 data_source_base* Sources,int menage_so,			///< Indeksy źródeł.
+                 data_source_base* Targets,int menage_t,			///< Indeksy celów.
 
-    //CONSTRUCTOR(S)
-    net_graph(int x1,int y1,int x2,int y2,		//Położenie obszaru
-                 data_source_base* Xdata,int menage_x  ,		//dane o X-ach
-                 data_source_base* Ydata,int menage_y,		//dane o Y-ach
-                 data_source_base* Sources,int menage_so,		//indeksy źródeł
-                 data_source_base* Targets,int menage_t,		//indeksy celów
-
-                 data_source_base* Colors=NULL,int menage_c=0,		//dane o kolorach
-                 data_source_base* Sizes=NULL,int menage_s=0,		//dane o rozmiarach
-                 data_source_base* Arrows=NULL,int menage_a=0,		//rozmiary strzałek - 0 brak
-                 data_source_base* ArrColors=NULL,int menage_ac=0,		//Kolory strzałek
-
-                 config_point*  fig=NULL,int fmenage=0//figura. Domyślnie brak, bo mogą być same połączenia!
+                 data_source_base* Colors=NULL,int menage_c=0,		///< Dane o kolorach.
+                 data_source_base* Sizes=NULL,int menage_s=0,		///< Dane o rozmiarach.
+                 data_source_base* Arrows=NULL,int menage_a=0,		///< Rozmiary strzałek - 0 brak.
+                 data_source_base* ArrColors=NULL,int menage_ac=0,	///< Kolory strzałek.
+                 config_point*     fig=NULL,int menage_f=0			///< Figura do rysowania punktów/węzłów.
+                                                                    ///< Domyślnie brak, bo mogą być same połączenia.
                  );
 
-    // IMPLEMENTATION OF VIRTUAL METHODS
-    //???NIEPOTRZEBNE BO DZIEDZICZONE?
-    //int configure(const void*);//Parametr typu scatter_graph::config_scat*
-    int setseries(size_t index,data_source_base* data,int menage=0);//zwraca -1, jeśli indeks za duży
-    data_source_base* getseries(size_t index);//zwraca NULL, jeśli indeks za duży
-    // reals[] zawiera X,Y ewentualnie wartość dla koloru i rozmiaru.
-    //int _rescale_data_point(const double reals[4],long in_area[4]);//zwraca -1, jeśli nie w oknie
-    void _replot();// Rysuje właściwy wykres a pod nim ewentualnie legendę
 
-protected:    // ONLY FOR DEVELOPERS OF THIS CLASS
-    data_source_base* Sources;
-    int		menage_so;
-    data_source_base* Targets;
-    int		menage_t;
-    data_source_base* Arrows;
-    int		menage_a;
-    data_source_base* ArrColors;
-    int		menage_ac;
+    /// Destructor.
+    ~net_graph() override;
+    /// @}
 
-    //scaling_info scale_s;//Skalowanie dla rozmiarów grotów
-    scaling_info scale_ac;//Skalowanie dla kolorów linii
+    /// @name IMPLEMENTATION OF VIRTUAL METHODS
+    /// @details NIEKTÓRE NIEPOTRZEBNE BO DZIEDZICZONE.
+    /// @{
+    //int configure(const void*); //Parametr typu scatter_graph::config_scat*
+    int set_series(size_t index, data_source_base* data, int menage= 0) override;
+    data_source_base* get_series(size_t index) override;
+    // reals[] zawiera X oraz Y ewentualnie wartość dla koloru i rozmiaru.
+    // int _rescale_data_point(const double reals[4], long in_area[4]); //zwraca -1, jeśli nie w oknie
+    void _replot() override;
+    /// @}
+
+protected:
+    // ONLY FOR DEVELOPERS OF THIS CLASS
+    data_source_base*	Sources;
+    int					menage_so;
+    data_source_base*	Targets;
+    bool				menage_t;
+    data_source_base*	Arrows;
+    bool				menage_a;
+    data_source_base*	ArrColors;
+    bool				menage_ac;
+
+    //scaling_info	scale_s;	///< Skalowanie dla rozmiarów grotów
+    scaling_info	scale_ac;	///< Skalowanie dla kolorów linii
 };
 
 // IMPLEMENTACJE "inline"
 //=======================
 
-// Rysuje właściwy wykres a pod nim ewentualnie legendę
 template<class DATA_SOURCE, int DIRECT_COLOR>
 void fast_carpet_graph<DATA_SOURCE, DIRECT_COLOR>::_replot()
 {
-    int x1 = getstartx();
-    int y1 = getstarty();
-    int x2 = x1 + getwidth() - 1;//-1, bo width obejmuje pierwszy pixel
-    int y2 = y1 + getheight() - 1;
-    assert(x1 <= x2);//Czy aby na pewno
-    assert(y1 <= y2);//sensowne okno. Może mieć zerowy rozmiar, ale nie ujemny
+    int x1 = get_start_x();
+    int y1 = get_start_y();
+    int x2 = x1 + get_width() - 1; //-1, bo `width` obejmuje pierwszy piksel.
+    int y2 = y1 + get_height() - 1;
+    assert(x1 <= x2); //Czy aby na pewno
+    assert(y1 <= y2); //Sensowne okno? Może mieć zerowy rozmiar, ale nie ujemny.
 
     read_dim(AA, BB);
     if(AA <= 1 && BB <= 1)
     {
-        print_width(x1, (y1 + y2) / 2, x2 - x1, t_colors.start, getbackground(), "%@CInvalid data");
+        print_width(x1, (y1 + y2) / 2, x2 - x1, t_colors.start, get_background(), "%@CInvalid data");
         return;
     }
 
-    double min;//=0;
-    double max;//=1;
-    size_t num;//=0;
+    double min; //=0;
+    double max; //=1;
+    size_t num; //=0;
     data->bounds(num, min, max);
     //double missing=data->missing();
 
@@ -871,34 +1028,34 @@ void fast_carpet_graph<DATA_SOURCE, DIRECT_COLOR>::_replot()
     }
 
     //R y s o w a n i e  l e g e n d y
-    if(t_colors.start != getbackground() &&
-       char_height('X') < getheight())
+    if(t_colors.start != get_background() &&
+       char_height('X') < get_height())
     {
         int x = x1;
-        int y = y2 - char_height('X') + 1;//+1, bo y2 ma być zarysowane
+        int y = y2 - char_height('X') + 1; //+1, bo y2 ma być zarysowane
         int width = 0;
 //----------
-        y2 = y;//Zabiera dolna część na legendę
+        y2 = y; //Zabiera dolna część na legendę
 //----------
-        width = print_width(x, y, (x2 - x) / 3 * 2, t_colors.start, getbackground(),
+        width = print_width(x, y, (x2 - x) / 3 * 2, t_colors.start, get_background(),
                             "%s", data->name());
 
         if(width == 0) goto KWADRACIKI;
         else x += width + 1;
 
         width = print_width(x, y, (x2 - x) / 2, c_range.start,
-                            c_range.start != getbackground()?getbackground():c_range.end,
+                            c_range.start != get_background()?get_background():c_range.end,
                             "<%g", min);
 
         if(width == 0) goto KWADRACIKI;
         else x += width + 1;
 
-        width = print_width(x, y, x2 - x, c_range.end,
-                            c_range.end != getbackground()?getbackground():c_range.start,
+        /*width =*/ print_width(x, y, x2 - x, c_range.end,
+                                c_range.end != get_background()?get_background():c_range.start,
                             ",%g>", max);
     }
 
-    //Rysowanie skali - jeśli są co najmniej dwa kolory i jest miejsce na co najmniej 2 pixele
+    //Rysowanie skali — jeśli są co najmniej dwa kolory i jest miejsce na co najmniej 2 piksele.
     if(!DIRECT_COLOR)
         if((x2 - x1) >= double((AA > BB?AA:BB) + 6) &&
            //W zasadzie dobrze, ale male szanse, żeby przekroczyło zakres uint32
@@ -915,15 +1072,15 @@ void fast_carpet_graph<DATA_SOURCE, DIRECT_COLOR>::_replot()
     assert(y2 > y1);
     if(AA >= 1 && BB >= 1 && AA <= size_t(x2 - x1 + 1) && BB <= size_t(y2 - y1 + 1))
     {
-        //Tu CAST na znany dobrze typ źródła - żeby był szybszy dostęp
+        //Tu CAST na znany dobrze typ źródła — żeby był szybszy dostęp
         //----------------------------------------
         DATA_SOURCE *fast_data = (DATA_SOURCE *) data;
         //----------------------------------------
         assert(c_range.end - c_range.start >= 1);
 
-        size_t i, j;//Indeksy po wierszach i kolumnach
-        int width = x2 - x1 + 1;//już mogą być inne
-        int height = y2 - y1 + 1;//Niż dla calego obszaru
+        size_t i, j; //Indeksy po wierszach i kolumnach
+        int width = x2 - x1 + 1; //już mogą być inne
+        int height = y2 - y1 + 1; //Niż dla całego obszaru
         int offsetA = (AA < double(width)?(width - AA) / 2:0);
         int offsetB = (BB < double(height)?(height - BB) / 2:0);
         offsetA += x1;
@@ -932,9 +1089,9 @@ void fast_carpet_graph<DATA_SOURCE, DIRECT_COLOR>::_replot()
         //Rysowanie
         data_source_base::iteratorh h = fast_data->reset();
 
-        wb_color back = getbackground();//Dla sprawdzania, kiedy kolor kwadratu taki jak kolor tła.
+        wb_color back = get_background(); //Dla sprawdzania, kiedy kolor kwadratu taki jak kolor tła.
 
-        //Pixelami panowie!!!
+        //Pikselami panowie!!!
         if(DIRECT_COLOR)
         {
             for(j = 0; j < BB; j++)
@@ -942,8 +1099,8 @@ void fast_carpet_graph<DATA_SOURCE, DIRECT_COLOR>::_replot()
                 {
                     double test = fast_data->get(h);
                     if(data->is_missing(test))
-                        continue;//Nie rysować, jeśli wartość nieosiągalna
-                    unsigned C = test;//Zakładamy, że to surowe kolory?
+                        continue; //Nie rysować, jeśli wartość nieosiągalna
+                    unsigned C = test; //Zakładamy, że to surowe kolory?
                     unsigned R = (C & 0x0000ff);
                     unsigned G = (C & 0x00ff00) >> 8;
                     unsigned B = (C & 0xff0000) >> 16;
@@ -959,18 +1116,18 @@ void fast_carpet_graph<DATA_SOURCE, DIRECT_COLOR>::_replot()
                     double test;
                     wb_color color = (wb_color) (mm.get(test = fast_data->get(h)));
                     if(data->is_missing(test))
-                        continue;//Nie rysować, jeśli wartość nieosiągalna
+                        continue; //Nie rysować, jeśli wartość nieosiągalna
                     color += c_range.start;
                     plot(offsetA + i, offsetB + j, color);
                 }
         }
 
         fast_data->close(h);
-        x1 = offsetA + AA + 1;//Dla skali zostaje prawy margines
+        x1 = offsetA + AA + 1; //Dla skali zostaje prawy margines
     }
     else
     {
-        print_width(x1, (y1 + y2) / 2, x2 - x1, t_colors.start, getbackground(), "%@CTo small area");
+        print_width(x1, (y1 + y2) / 2, x2 - x1, t_colors.start, get_background(), "%@CTo small area");
     }
 //NIE_DA_SIE:;
 }
@@ -981,6 +1138,7 @@ class scatter3D_graph:public graph//Punkty w trzech wymiarach (dowolne X,Y,Z)
 
 } // namespace symshell2
 
+#pragma clang diagnostic pop
 /* ****************************************************************** */
 /*               SYMSHELL2  version 2006/2022/2026                    */
 /* ****************************************************************** */

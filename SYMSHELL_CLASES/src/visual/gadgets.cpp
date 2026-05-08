@@ -1,7 +1,7 @@
 /// @file
 /// @brief IMPLEMENTATION OF DIFFERENT TYPES OF NON-GRAPH AREAS/
 ///        IMPLEMENTACJA ROŻNYCH TYPóW OBSZARóW NIE BĘDĄCYCH GRAFAMI.
-/// @date 2026-05-07 (last modification)
+/// @date 2026-05-08 (last modification)
 //*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Wersja z kosmetyką XI 2012 i późniejszymi zmianami.
 
@@ -27,9 +27,9 @@ int gadget::on_click(int x,int y,int click)
     int ins=is_inside(x,y);
     if(ins==1)
         {
-        draw_color=setbackground(draw_color);//Na draw_color stara wartosc background
+        draw_color= set_background(draw_color);//Na draw_color stara wartosc background
         replot();
-        draw_color=setbackground(draw_color);//i z powrotem
+        draw_color= set_background(draw_color);//i z powrotem
         ins=_on_click(x,y,click); //Moze zmienic wynik
         }
     return ins;
@@ -38,27 +38,27 @@ int gadget::on_click(int x,int y,int click)
 void empty_area::_replot()
 //Rysuje przekreslenie obszaru użytkownika
 {
-    int x1=getstartx();
-    int y1=getstarty();
-    int x2=x1+getwidth()-1;//-1 bo width obejmuje pierwszy pixel
-    int y2=y1+getheight()-1;
+    int x1= get_start_x();
+    int y1= get_start_y();
+    int x2= x1 + get_width() - 1;//-1 bo width obejmuje pierwszy pixel
+    int y2= y1 + get_height() - 1;
     line(x1,y1,x2,y2,draw_color);
     line(x1,y2,x2,y1,draw_color);
 }
 
 void button::_replot()
 {
-    int x1=getstartx();
-    int y1=getstarty();
-    int x2=x1+getwidth()-1;//-1 bo width obejmuje pierwszy pixel
-    int y2=y1+getheight()-1;
+    int x1= get_start_x();
+    int y1= get_start_y();
+    int x2= x1 + get_width() - 1;//-1 bo width obejmuje pierwszy pixel
+    int y2= y1 + get_height() - 1;
     int xr=x2-3;
     int yr=y2-3;
 
     if(xr>x1 && yr>y1 )
         {
-        line(x1,yr,xr,yr,getframe());
-        line(xr,y1,xr,yr,getframe());
+        line(x1, yr, xr, yr, get_frame());
+        line(xr, y1, xr, yr, get_frame());
         x2=xr;
         y2=yr;
         }
@@ -70,7 +70,7 @@ void button::_replot()
         int height=char_height('X');
         while(*text!='\0' && (y2-y1)>=height)
             {
-            printc(x1,y1,draw_color,getbackground(),"%c",*text);
+            printc(x1, y1, draw_color, get_background(), "%c", *text);
             y1+=height;
             text++;
             }
@@ -82,7 +82,7 @@ void button::_replot()
         if(y2-y1<height) return;//Za malo miejsca
         int ystart=(y1+y2)/2-height/2;//Srodek
         if(ystart<y1) ystart=y1;//jak wylezie za wysoko
-        print_width(x1,ystart,x2-x1,draw_color,getbackground(),text);//samo rysowanie
+        print_width(x1, ystart,x2-x1, draw_color, get_background(), text);//samo rysowanie
         return;
         }
 }
@@ -90,13 +90,13 @@ void button::_replot()
 
 void arrow_button::_replot()
 {
-    int x1=getstartx();
-    int y1=getstarty();
-    int x2=x1+getwidth()-1;//-1 bo width obejmuje pierwszy pixel
-    int y2=y1+getheight()-1;
+    int x1= get_start_x();
+    int y1= get_start_y();
+    int x2= x1 + get_width() - 1;//-1 bo width obejmuje pierwszy pixel
+    int y2= y1 + get_height() - 1;
     int r1=x2-x1;
     int r2=y2-y1;
-    wb_color bck=this->getbackground();
+    wb_color bck= this->get_background();
     if(bck==0)
       bck=256;//W palecie 512
     if(draw_color==0)
@@ -497,10 +497,10 @@ int steering_wheel::on_click(int x,int y,int click)
 
 ERROR://Nie zaimplemtowano koniecznej operacja lub inny blad
     {
-    int bf=getframe(); //Użyte jako tymczas
-    setframe(254); //Jasny ale nie bialy
+    int bf= get_frame(); //Użyte jako tymczas
+        set_frame(254); //Jasny ale nie bialy
     replot();
-    setframe(bf);
+        set_frame(bf);
     }
 
     return 0; //NIe przyznaje sie do punktu
@@ -539,10 +539,10 @@ text_area::text_area(int ix1,int iy1,int ix2,int iy2,
 
 void text_area::_replot()
 {
-    int x1=getstartx();
-    int y1=getstarty();
-    int x2=x1+getwidth()-1; //-1 bo width obejmuje pierwszy pixel
-    int y2=y1+getheight()-1;
+    int x1= get_start_x();
+    int y1= get_start_y();
+    int x2= x1 + get_width() - 1; //-1 bo width obejmuje pierwszy pixel
+    int y2= y1 + get_height() - 1;
     int r1=x2-x1;
     int r2=y2-y1;
     int start=y1+index*char_height('X');
@@ -552,7 +552,7 @@ void text_area::_replot()
         {
         start-=char_height('X');
         if(start>=y1)
-            print_width(x1,start,x2-x1,curr_col,getbackground(),linie[i].get_ptr_val());
+            print_width(x1, start,x2-x1, curr_col, get_background(), linie[i].get_ptr_val());
         }
 }
 

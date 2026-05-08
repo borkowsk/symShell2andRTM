@@ -279,8 +279,8 @@ namespace symshell2
         int get_last_lazy_area() override; //Zwróci -1, jeśli już raz wzięte, lub inny błąd.
         int on_input(int input_char) override; //Przepytuje obszary czy chcą ten znak.
         int on_change(const gps_area &ar) override; //Reaguje na zmianę rozmiarów lub położenia własnego obszaru.
-        void replot(int flus = 1)
-        { drawable_base::replot(flus); } //Odrysuj wszystko
+        void replot(int flus = 1) override
+        { drawable_base::replot(flus); } //Odrysuj wszystko. NIE WIEM PO CO TA PSEUDO-REIMPLEMENTACJA.
         void replot(const gps_area &ar) override; //Odrysowuje obszary "nadepnięte" przez "ar"
         void _replot() override;    //Odrysowuje wszystkie (widoczne) obszary
 

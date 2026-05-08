@@ -1,7 +1,7 @@
 /// @file
 /// @brief A screen or window area manager, implemented directly based on SYMSHELL functions.
 ///        Zarządca obszarów ekranu lub okna, zaimplementowany bezpośrednio na bazie funkcji SYMSHELL-a.
-/// @date 2026-05-07 (last modification)
+/// @date 2026-05-08 (last modification)
 //*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //  Do obsługi całego ekranu/okna SYMSHELL'a.
 
@@ -143,14 +143,14 @@ int main_area_menager::start(const char* wintitle,int argc,const char* argv[],in
 
     ::mouse_activity(1);
     ::fix_size(0);
-    ::set_background(this->getbackground());
+    ::set_background(this->get_background());
     ::shell_setup(wintitle,argc,argv);
 
-    int ret=::init_plot(getwidth(),getheight(),0,0);
+    int ret=::init_plot(get_width(), get_height(), 0, 0);
     if(!ret) return 0;
 
     //Zmiana rozmiarow w przypadku gdy ekran jest za maly
-	if(getwidth()>::screen_width() || getheight()>screen_height())
+	if(get_width() > ::screen_width() || get_height() > screen_height())
 		gps_area::set(0,0,::screen_width()-1,screen_height()-1);
 
     //Przygotowany
@@ -285,13 +285,13 @@ void main_area_menager::make_help_area(const char* text)
     }
 
     ile+=3;//Na tytul i pusta linie i zapas
-    int maxy=getheight()/5+ile*char_height('X');
+    int maxy= get_height() / 5 + ile * char_height('X');
 
     text_area* pom=new text_area(
-                    getwidth()/4,getheight()/5,
-                    getwidth()/4*3,(maxy<getheight()?maxy:getheight()-1),
-                    text,
-                    default_black,default_white,250);
+            get_width() / 4, get_height() / 5,
+                    get_width() / 4 * 3, (maxy < get_height()?maxy:get_height() - 1),
+            text,
+            default_black, default_white, 250);
 
     if(pom)//Zaalokowane OK
     {

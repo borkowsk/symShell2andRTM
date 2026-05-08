@@ -1,7 +1,7 @@
 /// @file
 /// @brief Implementation of the base area manager/
 ///        Implementacja bazowego zarządcy obszarów.
-/// @date 2026-05-07 (modified)
+/// @date 2026-05-08 (modified)
 //---------------------------------------------------------------------------
 //  Wersja z kosmetyką XI 2012
 //*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -231,7 +231,7 @@ area_menager::area_menager(size_t size, //Konstruktor dający zarządcę o okre�
 	if( index>=0 && index<tab.get_size() && !tab[index].minimized)
     {
 		tab[index].mark=1;
-		tab[index].org_frame=tab[index].ptr->setframe(frame);
+		tab[index].org_frame= tab[index].ptr->set_frame(frame);
 		tab[index].ptr->replot();
 		return 0;
     }
@@ -264,7 +264,7 @@ area_menager::area_menager(size_t size, //Konstruktor dający zarządcę o okre�
     if( /*index>=0 &&*/ index<tab.get_size() )
         {
         tab[index].mark=0;
-        tab[index].ptr->setframe(tab[index].org_frame);
+            tab[index].ptr->set_frame(tab[index].org_frame);
         tab[index].ptr->replot();
         return 0;
         }
@@ -315,7 +315,7 @@ int    area_menager::is_minimized(size_t index)
      //i odmarkowuje jesli trzeba
      for(size_t i=0;i<tab.get_size();i++)
         if( tab[i].ptr && tab[i].mark)
-          if( what==default_color || tab[i].ptr->getframe()==what )
+          if( what==default_color || tab[i].ptr->get_frame() == what )
             {
             if(unm) unmark(i);
             pom[ok]=i;
@@ -475,8 +475,8 @@ int    area_menager::is_minimized(size_t index)
             if(i==maximized && tab[i].minimized)
                 {
                 //Po takiej operacji nie moze zostać bez ramki
-                //if(tab[i].ptr->getframe()==default_color)
-                //	tab[i].org_frame=tab[i].ptr->setframe(default_black);
+                //if(tab[i].ptr->get_frame()==default_color)
+                //	tab[i].org_frame=tab[i].ptr->set_frame(default_black);
                 restore(i);
                 }
         }
@@ -557,16 +557,16 @@ int    area_menager::tile(const wb_dynarray<int>& lst)
             dzielY++;
         }
     //Dzielenie
-    size_t skokX=getwidth()/dzielX;
-    size_t skokY=getheight()/dzielY;
+    size_t skokX= get_width() / dzielX;
+    size_t skokY= get_height() / dzielY;
     size_t licz=0;																assert(lst.IsOK());
       for(size_t a=0;a<dzielX;a++)
         for(size_t b=0;b<dzielY;b++)
             {
-            gps_area pom(getstartx()+a*skokX,
-                         getstarty()+b*skokY,
-                         getstartx()+(a+1)*skokX-1,
-                         getstarty()+(b+1)*skokY-1);
+            gps_area pom(get_start_x() + a * skokX,
+                         get_start_y() + b * skokY,
+                         get_start_x() + (a + 1) * skokX - 1,
+                         get_start_y() + (b + 1) * skokY - 1);
             size_t index=lst[licz++];
                                                                                 assert(lst.IsOK());
                                                                                 assert(index<tab.get_size());
