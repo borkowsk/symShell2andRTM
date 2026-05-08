@@ -1,5 +1,5 @@
 /// @file
-/// @brief DEKLARACJE SPRZĘGU DLA OBSZARÓW EKRANU. / COUPLING DECLARATIONS FOR SCREEN AREAS
+/// @brief "COUPLING" DECLARATIONS FOR SCREEN AREAS/DEKLARACJE "SPRZĘGU" DLA OBSZARÓW EKRANU.
 /// @date 2026-05-08 (modified)
 // ********************************************************************************************************************
 //
@@ -21,21 +21,30 @@ using namespace wbrtm;
 // --checks=-google-default-arguments.
 #pragma ide diagnostic ignored "google-default-arguments"
 
-/// Zmodernizowane klasy do symulacji w C++.
+/// Modernized classes for C++ simulation/Zmodernizowane klasy do symulacji w C++.
 namespace symshell2
 {
 
-/// Parametry obszaru wydzielonego na ekranie albo w oknie.
+/// @brief Parameters of a designated area on the screen or in a window/
+///        Parametry obszaru wydzielonego na ekranie albo w oknie.
 class gps_area
 //------------------------------------------------------
 {
 public:
-    typedef double xyinfo; ///< @brief W części ułamkowej jest zapas na niewidoczne szczegóły :)
-    friend class drawable_base;
+    /// @brief A type that stores the required coordinate of the area/
+    ///        Typ przechowujący wymagane współrzędne obszaru.
+    /// @detail
+    ///      The fractional part has room for invisible details, so you can scale the areas in a wide range of sizes.<br>
+    ///      W części ułamkowej jest zapas na niewidoczne szczegóły, dzięki temu można wykonywać skalowanie
+    ///      obszarów w szerokim zakresie rozmiarów.
+    typedef double xy_info;
+
+    friend class drawable_base; ///< Access to private attributes of the child class/
+                                ///< Dostęp do atrybutów prywatnych klasy potomnej.
 
 private:
-    xyinfo x1,y1; ///< upper-left corner
-    xyinfo x2,y2; ///< lower-right corner
+    xy_info x1,y1; ///< upper-left corner
+    xy_info x2,y2; ///< lower-right corner
 
 public:
     /// Default constructor.
@@ -43,7 +52,7 @@ public:
         { set(0,0,0,0); }
 
     /// Regular constructor.
-    gps_area(xyinfo ix1,xyinfo iy1,xyinfo ix2,xyinfo iy2)
+    gps_area(xy_info ix1, xy_info iy1, xy_info ix2, xy_info iy2)
         { set(ix1,iy1,ix2,iy2); }
 
     /// Copy constructor.
@@ -51,19 +60,19 @@ public:
         { load(p); }
 
     /// Sets all fields.
-    void set(xyinfo ix1,xyinfo  iy1,xyinfo  ix2,xyinfo  iy2)
+    void set(xy_info ix1, xy_info  iy1, xy_info  ix2, xy_info  iy2)
     {
         assert(ix1<=ix2 && iy1<=iy2);
-        x1=xyinfo(ix1); x2=xyinfo(ix2);
-        y1=xyinfo(iy1); y2=xyinfo(iy2);
+        x1=xy_info(ix1); x2=xy_info(ix2);
+        y1=xy_info(iy1); y2=xy_info(iy2);
     }
 
-    /// @name READ ONLY ACCESSORS.
+    /// @name READ-ONLY ACCESSORS.
     /// @{
-    xyinfo _x1() const { return x1; }
-    xyinfo _y1() const { return y1; }
-    xyinfo _x2() const { return x2; }
-    xyinfo _y2() const { return y2; }
+    xy_info _x1() const { return x1; }
+    xy_info _y1() const { return y1; }
+    xy_info _x2() const { return x2; }
+    xy_info _y2() const { return y2; }
     /// @}
 
     /// Compare by all fields.
@@ -85,150 +94,170 @@ public:
     int  translate(int& x,int& y);
 
     /// Move this area to point.
-    void moveto(xyinfo ix1,xyinfo  iy1)
+    void moveto(xy_info ix1, xy_info  iy1)
     {
-        xyinfo dx=x1-ix1;
-        xyinfo dy=y1-iy1;
+        xy_info dx= x1 - ix1;
+        xy_info dy= y1 - iy1;
         x1-=dx; y1-=dy;
         x2-=dx; y2-=dy;
     }
 
-    /// ...
-    void get_transform_to(const gps_area& t,float tab[4]) const;
+    /// Prepares a transformation based on two areas and places the result in an array.
+    void get_transform_to(const gps_area& t,float out_tab[6]) const;
 
-    /// ...
-    void transform(float tab[4]);
+    /// Performs the transformation given in the table on this area.
+    void transform(const float in_tab[6]);
 
+    /// Checks whether the given point lies within the area.
     /// @return 1 if point is inside area, but is not embedded action,
     ///         but 0, if point is NOT inside area
-    int  is_inside(xyinfo  x,xyinfo  y) const;
+    int  is_inside(xy_info  x, xy_info  y) const;
 
-    /// ...
+    /// Checks whether two areas overlap.
     int  is_overlapped(const gps_area& t) const;
 };
 
-//Klasa bazowa dla obszarów ekranu, takich jak wykresy(graphs)
-//------------------------------------------------------------
+/// @brief Base class for screen areas such as graphs/
+///        Klasa bazowa dla obszarów ekranu, takich jak wykresy(graphs).
 class drawable_base:public gps_area,public title_util
 //------------------------------------------------------------
 {
-    int frame_width;
-    wb_color frame_col;	//Kolor ramki. Jeśli == default_transparent to ramka wyłączona
-    wb_color titbck;    //Kolor tła tytułu — jeśli DEFCOLOR to domyślne
-    wb_color titcol;    //Kolor tytułu — jeśli DEFCOLOR to domyślne
-    wb_color background; //kolor tła. Jeśli == default_transparent to tło przezroczyste!!!
-                        //w metodzie replot() => można nakładać obszary.
-    public:
-    virtual  ~drawable_base(){ set_title(NULL);}
-    //CONSTRUCTOR
-            drawable_base(int ix1,int iy1,int ix2,int iy2,wb_color ibkg=default_half_gray,wb_color ifr=default_white):
-            gps_area(ix1,iy1,ix2,iy2),background(ibkg),frame_col(ifr),title_util(NULL),titbck(ibkg),titcol(default_transparent),frame_width(def_frame_width)
+    int     frame_width; ///< Szerokość ramki obszaru.
+    wb_color  frame_col; ///< Kolor ramki. Jeśli `== default_transparent` to ramka wyłączona.
+    wb_color    tit_bck; ///< Kolor tła tytułu — jeśli DEFCOLOR to domyślne.
+    wb_color    tit_col; ///< Kolor tytułu — jeśli DEFCOLOR to domyślne
+    wb_color background; ///< Kolor tła. Jeśli `== default_transparent` to tło przezroczyste.
+                         ///<  Wtedy w metodzie replot() => można nakładać obszary.
+public:
+    /// CONSTRUCTOR.
+    drawable_base(int ix1,int iy1,int ix2,int iy2,wb_color ibkg=default_half_gray,wb_color ifr=default_white)
+    : gps_area(ix1,iy1,ix2,iy2), background(ibkg), frame_width(def_frame_width), frame_col(ifr),
+      title_util(NULL), tit_bck(ibkg), tit_col(default_transparent)
     {}
 
-    //ACCESSORS
-    wb_color setbackground(wb_color color);	//{wb_color old=background;background=color;return old;}
-    wb_color getbackground();				//{return background;}//Może być inny niż globalny!
+    /// Destructor. Need to free up title memory.
+    virtual  ~drawable_base(){ set_title(NULL);}
 
-    wb_color setframe(wb_color color);		//{wb_color old=frame_col;frame_col=color;return old;}
-    wb_color getframe();					//{return frame_col;}
-    int      getframewith();                //{return frame_width;}
+// ACCESSORS:
+//===========
+    wb_color setbackground(wb_color color);	///< `{wb_color old=background;background=color;return old;}`
+    wb_color getbackground() const;			///< `{return background; }` Może być inny niż globalny!
 
-    wb_color settitlecolor(wb_color color);	//{wb_color old=titbck;titbck=color;return old;}
-    wb_color settitleback(wb_color color);	//{wb_color old=titcol;titcol=color;return old;}
-    void     settitlecolo(wb_color color,wb_color back); //{titcol=color;titbck=back;}
+    wb_color setframe(wb_color color);		///< `{wb_color old=frame_col;frame_col=color;return old;}`
+    wb_color getframe() const;				///< `{return frame_col;}`
+    int      getframewith() const;          ///< `{return frame_width;}`
 
-    int getstartx(); //Początek x obszaru użytkowego
-    int getstarty(); //Początek y obszaru użytkowego
-    int getwidth (); //Szerokość obszaru użytkowego
-    int getheight(); //Wysokość obszaru użytkowego
+    wb_color settitlecolor(wb_color color);	///< `{wb_color old=tit_bck;tit_bck=color;return old;}`
+    wb_color settitleback(wb_color color);	///< `{wb_color old=tit_col;tit_col=color;return old;}`
+    void     settitlecolo(wb_color color,wb_color back); ///< `{tit_col=color;tit_bck=back;}`
 
-    //		ACTIONS
-    // ----------------
+    int getstartx(); ///< Początek, `x` obszaru użytkowego.
+    int getstarty(); ///< Początek, `y` obszaru użytkowego.
+    int getwidth (); ///< Szerokość obszaru użytkowego.
+    int getheight(); ///< Wysokość obszaru użytkowego.
+
+//		ACTIONS:
+// -------------
 
     //Ponizsze metody z definicji nie robią nic, jeśli rozmiary obszaru wynoszą 0x0. Warunkowo robią flush.
     void clear(int flush=1); //Czyści obszar kolorem background, ustalonym dla platformy (SYMSHELL'a np)
     void replot(int flush=1); //Rysuje ramkę, może tytuł i wirtualnie zawartość.
     void flush();			 //albo samo flush plot area.
 
-    // METODA KONIECZNA W KLASACH POTOMNYCH
-    virtual
-    void _replot(); //Implementuje rysowanie zawartości
-                    // dla obszaru 0x0 w ogóle nie jest wywoływana!!!
+    // METODA KONIECZNA W KLASACH POTOMNYCH:
+    //======================================
 
-    // METODY REAKCJI NA ZDAZENIA
-    //---------------------------------
+    /// @brief Implementation of area redrawing/<br>Implementacja odrysowywania obszaru.
+    /// @detail Implements content drawing for area 0x0, it is not called at all!!!<br>
+    ///         Implementuje rysowanie zawartości dla obszaru `0 × 0` w ogóle nie jest wywoływana!!!
+    virtual void _replot()=0;
+
+// METHODS OF RESPONDING TO EVENTS/METODY REAKCJI NA ZDARZENIA.
+//------------------------------------------------------------
+
+    /// Mouse click response.
+    /// @returns
+    ///     * 2 if area got a position message for embedded action.
+    ///     * 1 if point is inside area, but is not embedded action.
+    ///     * 0 if point is NOT inside the area.
+    /// @details For a subarea managing. Default action — point test only!
     virtual int  on_click(int x,int y,int /*click*/=0)
-                //return 2 if area got a position message for embedded action
-                //return 1 if point is inside area, but is not embedded action
-                //return 0 if point is NOT inside area
-                //For a subarea managing.
-                //Default action — test only.
     { return is_inside(x,y);}
 
-    virtual int on_change(const gps_area& /*new_position*/)	//Need to call this if want to resize or move area.
-                //return 1 if OK
-                //return 0 if area is not resizeable/movable,
-                //but always need to be possible to resize area to 0x0 == deactivate.
+    /// Reaction to area size change.
+    /// Always need to be possible to resize area to 0x0 == deactivate.
+    /// @details Need to call this if want to resize or move area.
+    /// @returns
+    ///     * 1 if OK
+    ///     * 0 if area is not resizeable/movable.
+    virtual int on_change(const gps_area& /*new_position*/)
     { return 1;}
 
-    virtual int on_input(int /*input_char*/)	//Manager can call it for (active) area
-                //return 0 if area doesn't want input
-                //return 1 if area has processed this input
+    /// Reaction to character input.
+    /// Manager can call it for (active) area.
+    /// @return
+    ///     * 0 if area doesn't want input
+    ///     * 1 if area has processed this input
+    virtual int on_input(int /*input_char*/)
     { return 0;}
 
-    virtual int on_idle() //Do wywołania, jeśli program nie ma nic lepszego do roboty
-                //zwraca 0, jeśli nie wykorzystał sensownie czasu procesora (możliwa optymalizacja)
-                //zwraca 1, jeśli czas procesora został użyty.
+    /// Called if the program has nothing better to do.
+    /// @returns 0 if it did not use the processor time sensibly (possible optimization)
+    ///          or 1 if CPU time has been used.
+    virtual int on_idle()
     { return 0;}
 };
 
-inline wb_color drawable_base::setbackground(wb_color color)	
+// INLINE IMPLEMENTATIONS:
+//========================
+
+inline wb_color drawable_base::setbackground(wb_color color)
 {
     wb_color old=background;
     background=color;
     return old;
 }
 
-inline wb_color drawable_base::getbackground()				
+inline wb_color drawable_base::getbackground() const
 {
     return background; //Może być inny niż globalny!
 }
 
-inline wb_color drawable_base::setframe(wb_color color)		
+inline wb_color drawable_base::setframe(wb_color color)
 {
     wb_color old=frame_col;
     frame_col=color;
     return old;
 }
 
-inline wb_color drawable_base::getframe()						
+inline wb_color drawable_base::getframe() const
 {
     return frame_col;
 }
 
-inline int      drawable_base::getframewith()                 
+inline int      drawable_base::getframewith() const
 {
     return frame_width;
 }
 
-inline wb_color drawable_base::settitlecolor(wb_color color)	
+inline wb_color drawable_base::settitlecolor(wb_color color)
 {
-    wb_color old=titbck;
-    titbck=color;
+    wb_color old=tit_bck;
+    tit_bck=color;
     return old;
 }
 
-inline wb_color drawable_base::settitleback(wb_color color)	
+inline wb_color drawable_base::settitleback(wb_color color)
 {
-    wb_color old=titcol;
-    titcol=color;
+    wb_color old=tit_col;
+    tit_col=color;
     return old;
 }
 
 inline void     drawable_base::settitlecolo(wb_color color,wb_color back) 
 {
-    titcol=color;
-    titbck=back;
+    tit_col=color;
+    tit_bck=back;
 }
 
 } // namespace symshell2
