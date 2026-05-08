@@ -1,6 +1,6 @@
 /// @file
 /// @brief Przykładowy program SYMSHELL-z z klasami.
-/// @date 2026-05-07 (modified)
+/// @date 2026-05-08 (modified)
 ///       ------------------------------------------
 /// @details
 ///     Demonstracja stosowania obiektowego pietra SYMSHELL-a
@@ -113,18 +113,18 @@ void make_test_areas()
     //Tworzenie obszarów z wykresami
     pom=new carpet_graph(1,1,89,89,5,5,Series.get(1));				assert(pom!=NULL);
     pom->set_title("CARPET GRAPH");
-    //pom->setdatacolors(16,255); //Jeśli zoom jest bez torusa, to rezerwuje czarny na miss-value {????????}
+    //pom->set_data_colors(16,255); //Jeśli zoom jest bez torusa, to rezerwuje czarny na miss-value {????????}
     Lufciki.insert(pom);
 
     pom=new carpet_graph(90,1,179,89,Series.get(0));						assert(pom!=NULL);
     pom->set_title("ZOOM-TORUS");
-    pom->setbackground(default_half_gray);
+    pom->set_background(default_half_gray);
     Lufciki.insert(pom);
 
     /*
     pom=new carpet_graph(90,1,179,89,5,5,Series.get(2));     assert(pom!=NULL);
-    pom->setdatacolors(32,132);
-    pom->setframe(150);
+    pom->set_data_colors(32,132);
+    pom->set_frame(150);
     pom->settitle("FIXED SIZE CARPET GRAPH");
     Lufciki.insert(pom);
     pom->set_title("");
@@ -138,8 +138,8 @@ void make_test_areas()
 
     //pom=new carpet_graph(270,1,359,89,4,4,Series.get(3));
     //pom->set_title("CHESS-BOARD");
-    //pom->setframe(200);
-    //pom->setdatacolors(254,255);
+    //pom->set_frame(200);
+    //pom->set_data_colors(254,255);
     //Lufciki.insert(pom);
     pom=new net_graph(180,1,269,89,Series.get(4),0, //X
                                    Series.get(2),0, //Y
@@ -151,16 +151,16 @@ void make_test_areas()
                                    Series.get(10),0 //Arrows weights
                                    );																assert(pom!=NULL);
     pom->set_title("NETWORK GRAPH");
-    pom->setframe(200);
-    pom->setdatacolors(0,255);
+    pom->set_frame(200);
+    pom->set_data_colors(0, 255);
     Lufciki.insert(pom);
 
 
     pom=new bars_graph(1,90,89,179,Series.get(4),0,
                        Series.get(1),0,0);							assert(pom!=NULL);
     pom->set_title("2D BARS GRAPH");
-    pom->setframe(200);
-    pom->setdatacolors(0,255);
+    pom->set_frame(200);
+    pom->set_data_colors(0, 255);
     Lufciki.insert(pom);
 
     pom=new bars_graph(90,90,179,179,Series.get(2));						assert(pom!=NULL);
@@ -171,7 +171,7 @@ void make_test_areas()
     pom=new rainbow_graph(300/*270*/,180,359,269,Series.get(4),0,
                           Series.get(1),0,"%@C%8.2f %%");				assert(pom!=NULL);
     pom->set_title("RAINBOW GRAPH");
-    pom->setframe(88);
+    pom->set_frame(88);
     Lufciki.insert(pom);
 
     pom=new scatter_graph(180,90,269,179,Series.get(4),0,
@@ -179,8 +179,8 @@ void make_test_areas()
                                          0,0,0,0,0,
                                          new circle_point,1);							assert(pom!=NULL);
     pom->set_title("SCATTER PLOT");
-    pom->setframe(180);
-    pom->setbackground(default_light_gray);
+    pom->set_frame(180);
+    pom->set_background(default_light_gray);
     Lufciki.insert(pom);
 
     /*{
@@ -194,7 +194,7 @@ void make_test_areas()
                                                    Series.get(2),0,
                                                    Series.get(1),0,
                                                    Series.get(3),0);			assert(pom!=NULL);
-    pom->setdatacolors(1,254);
+    pom->set_data_colors(1, 254);
     pom->set_title("CROSS POINT SCATTER PLOT");
     Lufciki.insert(pom);
     pom->set_title("");
@@ -210,7 +210,7 @@ void make_test_areas()
                                                                 //2,-10,40/*Fixed min/max*/);
                                                                 //2,-0.0001,18/*Za mały zakres min/max */);    assert(pom!=NULL);
     pom->set_title("OTHER TIME SERIES");
-    pom->setframe(253);
+    pom->set_frame(253);
     Lufciki.insert(pom);
     pom->set_title("");
 
@@ -229,7 +229,7 @@ void make_test_areas()
 
     drawable_base* pom2=new steering_wheel(270,1,360,89,tmp_lst);				assert(pom2!=NULL);
 
-    pom2->setbackground(10);
+    pom2->set_background(10);
     Lufciki.insert(pom2);
     pom2->set_title("");
 }

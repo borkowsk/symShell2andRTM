@@ -1,6 +1,6 @@
 /// @file
 /// @brief Implementation of the world of the convinced (D. Stauffer idea).
-/// @date 2026-05-07 (modified)
+/// @date 2026-05-08 (modified)
 // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include <cstring>
@@ -232,8 +232,8 @@ void aWorld::make_default_visualisation()
     // /////////////////////////////////////////////
 
     // WE GET THE DEFAULT WINDOW DIMENSIONS:
-    unsigned szer=Manager.getwidth();
-    unsigned wyso=Manager.getheight();
+    unsigned szer= Manager.get_width();
+    unsigned wyso= Manager.get_height();
     assert(szer>50 && wyso>40); //The smallest possible window
 
     // Creating default areas, such as the STATUS area:
@@ -254,7 +254,7 @@ void aWorld::make_default_visualisation()
                                     0 // This 0 means that with rescaling
                                    );
     if(!pom1) goto ERROR;
-    pom1->setframe(128);
+        pom1->set_frame(128);
         pom1->set_title("HISTORY OF CLASSIFICATION");
     Manager.insert(pom1);
 
@@ -266,19 +266,19 @@ void aWorld::make_default_visualisation()
                                             ).get_ptr_val(),
                                    1); // This 1 means that the minimum and maximum are common.
     if(!pom) goto ERROR;
-    pom->setframe(128);
+        pom->set_frame(128);
         pom->set_title("HISTORY OF STRESS");
     Manager.insert(pom);
 
     pom=new carpet_graph(1,wyso/2,szer/3,wyso-1,	//default area coordinates
                             Firsts);	// Pointer to data source.
-    pom->setdatacolors(0,255);
+        pom->set_data_colors(0, 255);
         pom->set_title("Map of current attitude");
     Manager.insert(pom);
 
     pom=new bars_graph(szer/3+1,wyso/2,szer/3*2,wyso-1,	//default area coordinates
                             ClassStat);	// Pointer to data source.
-    pom->setdatacolors(0,255);
+        pom->set_data_colors(0, 255);
         pom->set_title("Histogram of attitude");
     Manager.insert(pom);
 
@@ -288,24 +288,24 @@ void aWorld::make_default_visualisation()
                                 1,
                                 0.22,		//A fraction of the width is allocated to perspective
                                 0.77);	//A fraction of the height is dedicated to perspective
-    pom->setdatacolors(0,255);
-    pom->settextcolors(0);
+        pom->set_data_colors(0, 255);
+        pom->set_text_colors(0);
         pom->set_title("Dynamism: curr. attit. vers. prev. attitude");
     Manager.insert(pom);
 
     //PRZYCISKI
     pom=new carpet_graph(szer-49,5*(char_height('X')+RAMKA),szer,6*(char_height('X')+RAMKA),	//default area coordinates
                             Seconds);	// Pointer to data source.
-    pom->setdatacolors(0,255);
-    pom->setframe(0);
+        pom->set_data_colors(0, 255);
+        pom->set_frame(0);
         pom->set_title("Map of previous attitude");
     Manager.insert(pom);
 
 
     pom=new carpet_graph(szer-49,6*(char_height('X')+RAMKA),szer,7*(char_height('X')+RAMKA),	//default area coordinates
                             Powers);	// Pointer to data source.
-    pom->setdatacolors(0,255);
-    pom->setframe(0);
+        pom->set_data_colors(0, 255);
+        pom->set_frame(0);
         pom->set_title("Map of power");
     Manager.insert(pom);
 
@@ -317,8 +317,8 @@ void aWorld::make_default_visualisation()
                             0.22,		//A fraction of the width is allocated to perspective
                             0.77		//A fraction of the height is dedicated to perspective
                             );	// Pointer to data source.
-    pom->setdatacolors(0,255);
-    pom->setframe(0);
+        pom->set_data_colors(0, 255);
+        pom->set_frame(0);
         pom->set_title("The composed map of strength & attitude of agents");
     Manager.insert(pom);
 
@@ -330,7 +330,7 @@ void aWorld::make_default_visualisation()
                                             ).get_ptr_val(),
                                    1 /*Common minimum and maximum*/);
     if(!pom1) goto ERROR;
-    pom1->setframe(128);
+        pom1->set_frame(128);
         pom1->set_title("HISTORY OF ENTROPY OF CLASSIFICATION");
     Manager.insert(pom1);
 
@@ -342,7 +342,7 @@ void aWorld::make_default_visualisation()
                                             ).get_ptr_val(),
                                    1 /*Common minimum and maximum*/);
     if(!pom1) goto ERROR;
-    pom1->setframe(128);
+        pom1->set_frame(128);
         pom1->set_title("HISTORY OF ENTROPY OF CHANGE");
     Manager.insert(pom1);
 
@@ -355,7 +355,7 @@ void aWorld::make_default_visualisation()
                                     1
                                    );
     if(!pom) goto ERROR;
-    pom->setframe(128);
+        pom->set_frame(128);
         pom->set_title("HISTORY OF Prev.TO Curr. CORRELATION");
     Manager.insert(pom);
 
@@ -370,7 +370,7 @@ void aWorld::make_default_visualisation()
                                               );
     drawable_base* pom=new steering_wheel(szer-49,0,szer,5*(char_height('X')+RAMKA),tmp);
     assert(pom!=NULL);
-    pom->setbackground(10);
+        pom->set_background(10);
     Manager.insert(pom);
     }
 

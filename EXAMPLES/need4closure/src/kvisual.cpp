@@ -1,7 +1,7 @@
 /// @file
 /// @brief ... (old example for SymShell implementing Kruglanskis like model)
 // //////////////////////////////////////////////////////////////////////////
-/// @date 2026-05-07 (modified)
+/// @date 2026-05-08 (modified)
 
 #include <cstring>
 #include <cmath>
@@ -231,8 +231,8 @@ void kworld::make_default_visualisation()
         
         //PODSTAWOWA WIZUALIZACJA SERII DANYCH
         //WYMIARY DOMYSLNEGO OKNA
-        unsigned szer=Menager.getwidth();
-        unsigned wyso=Menager.getheight();
+        unsigned szer= Menager.get_width();
+        unsigned wyso= Menager.get_height();
         assert(szer>50 && wyso>40); //Najmniejsze sensowne okno
         
         //Obszary domyślne - np obszar STATUSU
@@ -252,7 +252,7 @@ void kworld::make_default_visualisation()
             0//* Z reskalowaniem 
             );
         if(!pom1) goto ERROR;
-        pom1->setframe(128);
+        pom1->set_frame(128);
         pom1->set_title("HISTORY OF CLASSIFICATION");
         Menager.insert(pom1);
         
@@ -270,33 +270,33 @@ void kworld::make_default_visualisation()
             //1//Wspolne minimum/maximum
             );
         if(!pom) goto ERROR;
-        pom->setframe(128);
+        pom->set_frame(128);
         pom->set_title("HISTORY OF CLUSTERISATION");
         Menager.insert(pom);
         
         pom=new carpet_graph(1,wyso/2,szer/3,wyso-1,//domyslne wspolrzedne
             Firsts); //I zrodlo danych
-        pom->setdatacolors(0,255);
+        pom->set_data_colors(0, 255);
         pom->set_title("Map of current attitude");
         Menager.insert(pom);
         
         
         pom=new carpet_graph(szer/3+1,wyso/2,szer/3*2,wyso-1,//domyslne wspolrzedne
             ForLeft);
-        pom->setdatacolors(0,255);
+        pom->set_data_colors(0, 255);
         pom->set_title("Map of left counters");
         Menager.insert(pom);
         
         pom=new carpet_graph(szer/3*2+1,wyso/2,szer,wyso-1,//domyslne wspolrzedne
             ForRight);
-        pom->setdatacolors(0,255);
+        pom->set_data_colors(0, 255);
         pom->set_title("Map of right counters");
         Menager.insert(pom);
         
         /*
         pom=new carpet_graph(szer/3*2+1,wyso/2,szer,wyso-1,//domyslne wspolrzedne,//domyslne wspolrzedne  szer-49,7*char_height('X')+7,szer,8*char_height('X')+9
         Pressure);
-        pom->setdatacolors(0,255);
+        pom->set_data_colors(0,255);
         pom->set_title("Map of instantaneous social pressure");
         Menager.insert(pom);
         */
@@ -304,16 +304,16 @@ void kworld::make_default_visualisation()
         //PRZYCISKI
         pom=new carpet_graph(szer-49,5*(char_height('X')+RAMKA),szer,6*(char_height('X')+RAMKA),//domyslne wspolrzedne 
             Seconds); //I zrodlo danych
-        pom->setdatacolors(0,255);
-        pom->setframe(32);
+        pom->set_data_colors(0, 255);
+        pom->set_frame(32);
         pom->set_title("Map of previous attitude");
         Menager.insert(pom);
         
         
         pom=new carpet_graph(szer-49,6*(char_height('X')+RAMKA),szer,7*(char_height('X')+RAMKA),//domyslne wspolrzedne
             Powers); //I zrodlo danych
-        pom->setdatacolors(0,255);
-        pom->setframe(32);
+        pom->set_data_colors(0, 255);
+        pom->set_frame(32);
         pom->set_title("Map of power");
         Menager.insert(pom);
         
@@ -325,15 +325,15 @@ void kworld::make_default_visualisation()
             0.22,		//Ulamek szerokosci przeznaczony na perspektywe
             0.77		//Ulamek wysokosci  przeznaczony na perspektywe
             ); //I zrodlo danych
-        pom->setdatacolors(0,255);
-        pom->setframe(32);
+        pom->set_data_colors(0, 255);
+        pom->set_frame(32);
         pom->set_title("Composed map of strength & attitude of agents");
         Menager.insert(pom);
         
         pom=new bars_graph(szer-49, 8*(char_height('X')+RAMKA),szer,9*(char_height('X')+RAMKA),
             ClassStat);
-        pom->setdatacolors(0,255);
-        pom->setframe(128+64);
+        pom->set_data_colors(0, 255);
+        pom->set_frame(128 + 64);
         pom->set_title("Histogram of attitude");
         Menager.insert(pom);
         
@@ -343,9 +343,9 @@ void kworld::make_default_visualisation()
             1,
             0.22,		//Ulamek szerokosci przeznaczony na perspektywe
             0.77);		//Ulamek wysokosci  przeznaczony na perspektywe
-        pom->setdatacolors(0,255);
-        pom->settextcolors(0);
-        pom->setframe(128+64);
+        pom->set_data_colors(0, 255);
+        pom->set_text_colors(0);
+        pom->set_frame(128 + 64);
         pom->set_title("Dynamism: curr. attit. vers. prev. attitude");
         Menager.insert(pom);
         
@@ -357,7 +357,7 @@ void kworld::make_default_visualisation()
             ).get_ptr_val(),
             1/*Wspolne minimum/maximum*/);
         if(!pom1) goto ERROR;
-        pom1->setframe(128);
+        pom1->set_frame(128);
         pom1->set_title("HISTORY OF ENTROPY OF CLASIFICATION");
         Menager.insert(pom1);
         
@@ -368,7 +368,7 @@ void kworld::make_default_visualisation()
             ).get_ptr_val(),
             1/*Wspolne minimum/maximum*/);
         if(!pom1) goto ERROR;
-        pom1->setframe(128);
+        pom1->set_frame(128);
         pom1->set_title("HISTORY OF ENTROPY OF CHANGE");
         Menager.insert(pom1);
         
@@ -381,7 +381,7 @@ void kworld::make_default_visualisation()
                                 1//Wspolne minimum/maximum
                                 );
                                 if(!pom) goto ERROR;
-                                pom->setframe(128);
+                                pom->set_frame(128);
                                 pom->set_title("HISTORY OF Prev.TO Curr. CORRELATION");
                                 Menager.insert(pom);
         */
@@ -402,7 +402,7 @@ void kworld::make_default_visualisation()
             SpatialCorr,0);	
         
         if(!pom1) goto ERROR;
-        pom1->setframe(128);
+        pom1->set_frame(128);
         pom1->set_title("SPATIAL CORRELATION");
         Menager.insert(pom1);
         
@@ -417,7 +417,7 @@ void kworld::make_default_visualisation()
                 );
             drawable_base* pom=new steering_wheel(szer-49,0,szer,5*(char_height('X')+RAMKA),tmp);			
             assert(pom!=nullptr);
-            pom->setbackground(10);
+            pom->set_background(10);
             Menager.insert(pom);
             pom->set_title(" ");
         }

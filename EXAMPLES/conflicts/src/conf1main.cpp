@@ -1,7 +1,7 @@
 /// @file
 /// @brief SYMULACJA KONFLIKTÓW BOCA 2005 (plik główny)
 //-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @date 2026-05-06 (last update)
+/// @date 2026-05-08 (last update)
 /// @details
 /// UZUPEŁNIONY 10-11.2005, 9-2010, 02-2014, 04-2026
 /// ## HISTORIA
@@ -701,8 +701,8 @@ void LocalWorld::make_default_visualisation() // area_menager_base& Lufciki     
             new circle_point(0.01f,circle_max_size),1
             );
 
-        png->setbackground(default_dark_gray);
-        //png->setdatacolors(256,511);
+        png->set_background(default_dark_gray);
+        //png->set_data_colors(256,511);
     }
     else
     {
@@ -711,25 +711,25 @@ void LocalWorld::make_default_visualisation() // area_menager_base& Lufciki     
             pNodeY,0,
             pNodeState,0,	//KOLORY - STAN
             pNodeR,0, //Rozmiary — promień
-            new circle_point(0.01f,circle_max_size),1);          
-        pom->setbackground(default_dark_gray);
+            new circle_point(0.01f,circle_max_size),1);
+        pom->set_background(default_dark_gray);
     }
 
-    pom->setframe(128);
+    pom->set_frame(128);
     pom->set_title(lang("MAPA SIECI", "NETWORK MAPP"));
     this->MyAreaMenager().insert(pom);
 
     //Zależności stanów nowych od poprzednich dla każdego węzła
-    pom=new scatter_graph(this->MyAreaMenager().getwidth()-249,
-                          this->MyAreaMenager().getheight()-250-3*char_height('X'),
-                          this->MyAreaMenager().getwidth()-1,
-                          this->MyAreaMenager().getheight()-1,
+    pom=new scatter_graph(this->MyAreaMenager().get_width() - 249,
+                          this->MyAreaMenager().get_height() - 250 - 3 * char_height('X'),
+                          this->MyAreaMenager().get_width() - 1,
+                          this->MyAreaMenager().get_height() - 1,
             pNodePreState,0,
             pNodeState,0,
             pNodeDelta,0
             );
-    pom->setframe(64);
-    pom->setbackground(default_light_gray);
+    pom->set_frame(64);
+    pom->set_background(default_light_gray);
     pom->set_title("Xn-i vs. Xn");
     //pom->series_info->setminmx();
     this->MyAreaMenager().insert(pom);
@@ -742,7 +742,7 @@ void LocalWorld::make_default_visualisation() // area_menager_base& Lufciki     
                                 //0/* Z reskalowaniem */);
                                 1/*Wspólne minimum/maximum*/);
     assert(pom);
-    pom->setframe(128);
+        pom->set_frame(128);
         pom->set_title(lang("HISTORIA STAN�W", HISTofSTATES));
     this->MyAreaMenager().insert(pom);
     }
@@ -755,7 +755,7 @@ void LocalWorld::make_default_visualisation() // area_menager_base& Lufciki     
                                 //0/* Z reskalowaniem */);
                                 1/*Wspólne minimum/maximum*/);
     assert(pom);
-    pom->setframe(128);
+        pom->set_frame(128);
         pom->set_title(lang("HISTORIA AKTYWNOŚCI", HISTofACCT));
     this->MyAreaMenager().insert(pom);
     }
@@ -964,20 +964,20 @@ void MetaExperiment::make_areas(area_menager& Lufciki) //Generowanie lufcików d
         assert(_E->get_missing()==UINT_MAX);
         Sources.insert(_Ayes=new function_source<constans<10> >(arrows.get_size(),0,1000000,"10",0,10));
         
-        net_graph* png=new net_graph(501,0,Lufciki.getwidth()-BUTWIDTH-1,250+3*char_height('X'),
-            _X,0,
-            _Y,0,
-            _S,0,
-            _E,0,
-            
-            NULL,0,	//KOLORY - STAN
-            _Z,0, //Rozmiary — promień
-            _Ayes,0, //Arrows,1,
-            _AC,0,
+        net_graph* png=new net_graph(501, 0, Lufciki.get_width() - BUTWIDTH - 1, 250 + 3 * char_height('X'),
+                                     _X, 0,
+                                     _Y, 0,
+                                     _S, 0,
+                                     _E, 0,
+
+                                     NULL, 0,	//KOLORY - STAN
+            _Z, 0, //Rozmiary — promień
+            _Ayes, 0, //Arrows,1,
+            _AC, 0,
             //new circle_point(0.00001f,0.01f),1
-            new rhomb_point(0.00001f,DIAM_SIZE),1 
+            new rhomb_point(0.00001f,DIAM_SIZE), 1
             );
-        //png->setbackground(default_light_gray);
+        //png->set_background(default_light_gray);
         png->set_title(META_GRAPH);
         Lufciki.insert(png);
     }
@@ -1004,17 +1004,17 @@ void MetaExperiment::make_areas(area_menager& Lufciki) //Generowanie lufcików d
     
     assert(pom!=NULL);
     pom->set_title(lang("FUNKCJE", "FUNCTIONS"));
-    pom->setframe(20);
+    pom->set_frame(20);
     Lufciki.insert(pom);
     
     pom=new bars_graph(SCR_WIDTH - BUTWIDTH, BUTHEIGHT, SCR_WIDTH, 2 * BUTHEIGHT, Sources.get(_5));            assert(pom != NULL);
     pom->set_title("TEST RND");
-    pom->setframe(20);
+    pom->set_frame(20);
     Lufciki.insert(pom);
     
     pom=new bars_graph(SCR_WIDTH - BUTWIDTH, 2 * BUTHEIGHT, SCR_WIDTH, 3 * BUTHEIGHT, Sources.get(_6));     assert(pom != NULL);
     pom->set_title("TEST PSEUDO-GAUSS");
-    pom->setframe(20);
+    pom->set_frame(20);
     Lufciki.insert(pom);
     
     Sources.new_data_version(1,1);	//Oznajmia seriom, że dane się uaktualniły	(po inicjacji)

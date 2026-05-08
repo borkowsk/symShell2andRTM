@@ -1,6 +1,6 @@
 /// @file
 /// IMPLEMENTATION OF   W O R L D  FOR "Conways Life" SIMULATION.
-/// @date 2026-05-07 (modified)
+/// @date 2026-05-08 (modified)
 // //////////////////////////////////////////////////////////////
 
 //#include <limits.h>
@@ -238,8 +238,8 @@ void lifeworld::make_default_visualisation()
 
         //PODSTAWOWA WIZUALIZACJA SERII DANYCH
         //WYMIARY DOMYŚLNEGO OKNA
-        unsigned szer = Menager.getwidth();
-        unsigned wyso = Menager.getheight();
+        unsigned szer = Menager.get_width();
+        unsigned wyso = Menager.get_height();
         assert(szer > 50 && wyso > 40); //Najmniejsze sensowne okno
 
         //Obszary domyślne — np. obszar STATUSU
@@ -260,7 +260,7 @@ void lifeworld::make_default_visualisation()
         if (!pom1)
             goto ERROR;
 
-        pom1->setframe(128);
+        pom1->set_frame(128);
         pom1->set_title("HISTORY OF CLASSIFICATION");
         Menager.insert(pom1);
 
@@ -273,20 +273,20 @@ void lifeworld::make_default_visualisation()
                 //0// Z reskalowaniem
                                         1); //Wspólne minimum/maximum
         if (!pom) goto ERROR;
-        pom->setframe(128);
+        pom->set_frame(128);
         pom->set_title("HISTORY OF STRESS");
         Menager.insert(pom);
 
         pom = new carpet_graph(1, wyso / 2, szer / 3, wyso - 1,//domyślne współrzędne
                                Firsts); //I  //TODO!!! danych
-        pom->setdatacolors(0, 255);
+        pom->set_data_colors(0, 255);
         pom->set_title("Map of current state");
         Menager.insert(pom);
 
         pom = new bars_graph(szer / 3 + 1, wyso / 2, szer / 3 * 2,
                              wyso - 1,//domyślne współrzędne  szer-49,7*char_height('X')+7,szer,8*char_height('X')+9
                              ClassStat);
-        pom->setdatacolors(0, 255);
+        pom->set_data_colors(0, 255);
         pom->set_title("Histogram of state");
         Menager.insert(pom);
 
@@ -296,8 +296,8 @@ void lifeworld::make_default_visualisation()
                                   1,
                                   0.22,        //Ułamek szerokości przeznaczony na perspektywę
                                   0.77);    //Ułamek wysokości  przeznaczony na perspektywę
-        pom->setdatacolors(0, 255);
-        pom->settextcolors(0);
+        pom->set_data_colors(0, 255);
+        pom->set_text_colors(0);
         pom->set_title("Determination of curr. state by prev. state");
         Menager.insert(pom);
 
@@ -305,8 +305,8 @@ void lifeworld::make_default_visualisation()
         pom = new carpet_graph(szer - 49, 5 * (char_height('X') + RAMKA), szer,
                                6 * (char_height('X') + RAMKA),//domyślne współrzędne
                                Seconds); //I źródło danych
-        pom->setdatacolors(0, 255);
-        pom->setframe(0);
+        pom->set_data_colors(0, 255);
+        pom->set_frame(0);
         pom->set_title("Map of previous state");
         Menager.insert(pom);
 
@@ -319,7 +319,7 @@ void lifeworld::make_default_visualisation()
                 ).get_ptr_val(),
                                   1 /*Wspólne minimum/maximum*/);
         if (!pom1) goto ERROR;
-        pom1->setframe(128);
+        pom1->set_frame(128);
         pom1->set_title("HISTORY OF ENTROPY OF DETERMINATION");
         Menager.insert(pom1);
 
@@ -332,7 +332,7 @@ void lifeworld::make_default_visualisation()
                                  1
         );
         if (!pom) goto ERROR;
-        pom->setframe(128);
+        pom->set_frame(128);
         pom->set_title("HISTORY OF Prev. TO Curr. CORRELATION");
         Menager.insert(pom);
 
@@ -344,7 +344,7 @@ void lifeworld::make_default_visualisation()
             );
             drawable_base *pom = new steering_wheel(szer - 49, 0, szer, 5 * (char_height('X') + RAMKA), tmp);
             assert(pom != nullptr);
-            pom->setbackground(10);
+            pom->set_background(10);
             Menager.insert(pom);
         }
 
