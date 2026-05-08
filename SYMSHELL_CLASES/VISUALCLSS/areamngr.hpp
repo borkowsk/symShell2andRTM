@@ -1,26 +1,28 @@
 /// @file
 /// @brief KLASY ZARZĄDCÓW OBSZARÓW EKRANU
-/// @date 2026-05-06 (modified)
+/// @date 2026-05-08 (modified)
 // ********************************************************************************************************************
 //
-#ifndef __AREAMNGR_HPP__
-#define __AREAMNGR_HPP__
-#ifndef __cplusplus
-#error C++ required
-#endif
+#ifndef SYMSHELL2_AREAMNGR_HPP_INCLUDED_
+#define SYMSHELL2_AREAMNGR_HPP_INCLUDED_
 
-// Niezbędne definicje bazowe
-//------------------------------------------
 #include "drawable.hpp"
+
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "modernize-use-auto"
+#pragma ide diagnostic ignored "modernize-use-nullptr"
+#pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
+// --checks=-google-default-arguments.
+#pragma ide diagnostic ignored "google-default-arguments"
 
 /// Zmodernizowane klasy do symulacji w C++
 namespace symshell2
 {
 
-/// INTERFACE DO DOWOLNEGO ZARZĄDCY OBSZARU.
-/// Dobrze, żeby można było zestawiać zarządców w hierarchie.
+    /// INTERFACE DO DOWOLNEGO ZARZĄDCY OBSZARU.
+    /// Dobrze, żeby można było zestawiać zarządców w hierarchie.
     class area_menager_base : public drawable_base
-//------------------------------------------
+    //------------------------------------------
     {
         int cont_actions;    ///< Flaga kontynuacji. Gdy 0 to wypada z pętli, kiedy może.
 
@@ -37,7 +39,7 @@ namespace symshell2
                 cont_actions(1)
         {}
 
-        // Sterowanie przerywaniem dziaŁania zarządcy
+        // Sterowanie przerywaniem działania zarządcy
         //*///////////////////////////////////////////
 
         /// Ustawianie wymagania zakończenia.
@@ -45,7 +47,7 @@ namespace symshell2
         { cont_actions = !Yes; }
 
         /// Czy user chciał przerwać?
-        int should_continue()
+        int should_continue() const
         { return cont_actions; }
 
         /// @name	AKCESORY OGÓLNE
@@ -94,41 +96,41 @@ namespace symshell2
 
         ///@}
 
-        /// @name	REAKCJE NA ZDAZENIA
+        /// @name	REAKCJE NA ZDARZENIA
         //-----------------------------
         /// @{
 
         /// Przepytuje obszary z reakcji na punkt.
-        /// \note   Jeśli znajdzie (zwroci 1) to można ustalić wywołując get_last_lazy_area()
-        virtual int on_click(int x, int y, int click) = 0;
+        /// \note   Jeśli znajdzie (zwróci 1), to można ustalić, wywołując get_last_lazy_area()
+        int on_click(int x, int y, int click) override = 0;
 
         /// Który obszar wymaga odświeżenia lub innej uwagi.
-        /// \note  Jeśli on_click() zwraca 1 to można się dowiedzieć, który obszar znalazł wywołując właśnie to.
+        /// \note  Jeśli on_click() zwraca 1, to można się dowiedzieć, który obszar znalazł, wywołując właśnie to.
         /// \return  -1, jeśli już ten obszar był wzięty, lub powstał jakiś inny błąd.
         virtual int get_last_lazy_area() = 0;
 
-        /// Akcja, gdy kliknięto w tło zarządcy.
+        /// Akcja, gdy kliknięto tło zarządcy.
         virtual int on_margin_click(int x, int y, int click)
         { return 2; }
 
-        /// Przepytuje obszary, czychcą znak z wejścia (... zwykle okna graficznego).
-        virtual int on_input(int input_char) = 0;
+        /// Przepytuje obszary, czy chcą znak z wejścia (... zwykle okna graficznego).
+        int on_input(int input_char) override = 0;
 
         /// Reaguje na zmianę rozmiarów lub położenia własnego obszaru.
-        virtual int on_change(const gps_area &ar) = 0;
+        int on_change(const gps_area &ar) override = 0;
+
+        /// Odrysowuje wszystkie (widoczne) obszary.
+        void _replot() override = 0;
 
         /// Odrysowuje obszary "nadepnięte" przez "ar" (???).
         virtual void replot(const gps_area &ar) = 0;
-
-        /// Odrysowuje wszystkie (widoczne) obszary.
-        virtual void _replot() = 0;
 
         /// @}
 
         /// @name MANIPULATORY NA OBSZARACH LUB ICH GRUPACH
         //-------------------------------------------------
         /// @param index to zawsze pozycja obszaru na liście zarządcy.
-        /// @param lst to lista pośrednia - indeksów obszarów  na liście zarządcy.
+        /// @param lst to lista pośrednia — indeksów obszarów  na liście zarządcy.
         /// @{
         //...DLA POJEDYNCZYCH OBSZARÓW
         //----------------------------
@@ -151,7 +153,7 @@ namespace symshell2
         /// Ustala obszar jako pierwszy do wejścia z klawiatury lub zdarzeń menu.
         virtual int set_input(size_t index) = 0;
 
-        /// Oddaje podobszarówi cały zarządzany obszar.
+        /// Oddaje pod-obszarowi cały zarządzany obszar.
         virtual int maximize(size_t index) = 0;
 
         /// Podaje `index` zmaksymalizowanego okna lub -1.
@@ -163,10 +165,10 @@ namespace symshell2
         /// Odtwarza poprzednie położenie i rozmiar obszaru.
         virtual int restore(size_t index) = 0;
 
-        /// Odtwarza pierwotne  połozenie i rozmiar obszaru.
+        /// Odtwarza pierwotne  położenie i rozmiar obszaru.
         virtual int orginal(size_t index) = 0;
 
-        /// Uznaje aktualne położenie obszaru za orginalne (czyli to które będzie używane przez `oryginal`).
+        /// Uznaje aktualne położenie obszaru za oryginalne (czyli to które będzie używane przez `original`).
         virtual int as_orginal(size_t index) = 0;
 
 
@@ -177,8 +179,8 @@ namespace symshell2
         virtual int mark_all(wb_color frame = default_color) = 0;
 
         /// Zwraca listę zaznaczonych obszarów.
-        /// Filtruje po kolorach ramek. Jeśli `what=default color` to wszystkie zaznaczone...
-        /// I opcjonalnie zdejmuje zaznaczenie (`unm=1`).
+        /// Filtruje po kolorach ramek. Jeśli `what == default color` to wszystkie zaznaczone...
+        /// I opcjonalnie zdejmuje zaznaczenie (`unm == 1`).
         virtual wb_dynarray<int> get_marked(wb_color filtr = default_color, int unm = 0) = 0;
 
         /// Ukrywa (`minimize`) obszary z listy `lst`.
@@ -193,10 +195,10 @@ namespace symshell2
         /// Robi `orginal` dla obszarów z listy `lst`.
         virtual int orginal(const wb_dynarray<int> &lst) = 0;
 
-        /// Rearanzuje obszary z listy `lst` brutalnie, czyli na równe kafelki. @return -1 jak nie da się.
+        /// Rearanżuje obszary z listy `lst` brutalnie, czyli na równe kafelki. @return -1 jak nie da się.
         virtual int tile(const wb_dynarray<int> &lst) = 0;
 
-        /// Inteligentnie rearanzuje obszary z listy `lst`. @return -1 jak nie da się.
+        /// Inteligentnie rearanżuje obszary z listy `lst`. @return -1 jak nie da się.
         virtual int arrange(const wb_dynarray<int> &lst) = 0;
 
         /// @}
@@ -205,23 +207,23 @@ namespace symshell2
 
 /// Klasa najprostszego, nieagresywnego, zarządcy obszarów.
 /// @details
-/// Zakłada pełna wladze nad obszarami, a w szczegolnosci nad ich pamięcią.
-/// Zdarzenia zewnetrzne trzeba przekazac explicite -
-///  - zarządca nie zawlaszcza ich samodzielnie, a tym bardziej nie
-/// zabiera watku sterowania.
+/// Zakłada pełna władze nad obszarami, a w szczególności nad ich pamięcią.
+/// Zdarzenia zewnętrzne trzeba przekazać "explicite" -
+///  - zarządca nie zawłaszcza ich samodzielnie, a tym bardziej nie
+///    zabiera wątku sterowania.
     class area_menager : public area_menager_base
     {
     protected:
         /// Wewnętrzna struktura przechowywania informacji o obszarach.
         struct internal
         {
-            wb_ptr<drawable_base> ptr; //!< wskaźnik do obszaru.
-            gps_area orginal; //!< parametry obszaru przy wstawieniu.
-            gps_area saved; //!< i w wersji średniowymiarowej.
-            wb_color org_frame; //!< orginalny kolor ramki gdy markowany.
-            int mark: 1; //!< flaga zamarkowania obszaru.
-            int minimized: 1; //!< flaga zminimalizowania obszaru.
-            int locking; //!< Nie wolno usunac poza destruktorem zarządcy.
+            wb_ptr<drawable_base> ptr; //!< Wskaźnik do obszaru.
+            gps_area orginal; //!< Parametry obszaru przy wstawieniu.
+            gps_area saved; //!< Parametry w wersji średniowymiarowej.
+            wb_color org_frame; //!< Oryginalny kolor ramki, gdy markowany.
+            int mark: 1; //!< Flaga zamarkowania obszaru.
+            int minimized: 1; //!< Flaga zminimalizowania obszaru.
+            int locking; //!< Nie wolno usunąć poza destruktorem zarządcy.
             /// Konstruktor.
             internal() :
                     mark(0),
@@ -231,87 +233,92 @@ namespace symshell2
             {}
         };
 
-        wb_dynarray<internal> tab; //!< tablica obszarów.
+        wb_dynarray<internal> tab; //!< Tablica obszarów.
 
-        int maximized;  //!< obszar "zasłaniający" wszystko.
-        int grabbed;  //!< obszar w pierwszym rzedzie obslugujacy wejscie.
-        int lazy;  //!< obszar który ostatnio NIE obslużyl myszy.
+        int maximized;  //!< Obszar "zasłaniający" wszystko.
+        int grabbed;  //!< Obszar w pierwszym rzędzie obsługujący wejście.
+        int lazy;  //!< Obszar, który ostatnio NIE obsłużył myszy.
 
     public:
-        /// Wirtualny destruktor.
-        ~area_menager() override;
-
-        /// Konstruktor dajacy zarzadce o okreslonym rozmiarze listy.
+        /// Konstruktor dający zarządcę o określonym rozmiarze listy.
         area_menager(size_t size,
                      int ix1, int iy1, int ix2, int iy2,
                      unsigned ibkg = default_color,
                      unsigned ifr = default_color);
 
-        //	AKCESORY OGOLNE
+        /// Wirtualny destruktor.
+        ~area_menager() override;
+
+        //	AKCESORY OGÓLNE
         //------------------
-        size_t get_size();        //Podaje po prostu aktualny rozmiar listy łącznie z pozycjami pustymi
-        int insert(drawable_base *drw)
+        size_t get_size() override;        //Podaje po prostu aktualny rozmiar listy łącznie z pozycjami pustymi
+
+        int insert(drawable_base *drw) override
         {
             wb_ptr<drawable_base> H(drw);
             return insert(H);
         } //Zabiera w zarząd!
-        int insert(wb_ptr<drawable_base> drw); //Dodaje obszar do listy. Zwraca pozycje albo -1(błąd)
-        int replace(const char *nam, wb_ptr<drawable_base> drw); //Wymienia na liście. Jak nie znajdzie to zwraca -1.
-        int replace(size_t index, wb_ptr<drawable_base> drw); //Wymienia na liście. Jak błędne parametry to zwraca -1.
-        int search(const char *nam);    //Odnajduje na liście. Zwraca -----//----
+
+        int insert(wb_ptr<drawable_base> drw) override; //Dodaje obszar do listy. Zwraca pozycje albo -1(błąd)
+        int replace(const char *nam, wb_ptr<drawable_base> drw) override; //Wymienia na liście. Jak nie znajdzie, to zwraca -1.
+        int replace(size_t index, wb_ptr<drawable_base> drw) override; //Wymienia na liście. Jak błędne parametry, to zwraca -1.
+        int search(const char *nam) override;    //Odnajduje na liście. Zwraca -----//----
 
         // AKCESORY poszczególnych obszarów
-        wb_ptr<drawable_base> &get(size_t index); //Możliwości modyfikacji, ale trzeba pamiętać
-        //ze pewne informacje są zapisywane w zarządcy w związku z pozycja
-        drawable_base /*const*/*get_ptr(size_t index); //Bez możliwości modyfikacji i zwolnienia
 
-        //	REAKCJE NA ZDAZENIA
+        /// Pobranie obszaru z możliwością modyfikacji.
+        /// Jednak trzeba pamiętać, że pewne informacje są zapisywane w zarządcy w związku z pozycją.
+        wb_ptr<drawable_base> &get(size_t index) override;
+
+        drawable_base /*const*/*get_ptr(size_t index) override; //Bez możliwości modyfikacji i zwolnienia
+
+        //	REAKCJE NA ZDARZENIA
         //--------------------------
-        int on_click(int x, int y, int click); //Przepytuje obszary z reakcji na punkt.
-        //Jeśli on_click() zwraca 1 to można się dowiedziec, który obszar wywołujac:
-        int get_last_lazy_area(); //zwroci -1, jeśli już raz wziete, lub inny błąd
-        int on_input(int input_char); //Przepytuje obszary z chca znak
-        int on_change(const gps_area &ar); //Reguje na zmiane rozmiarów lub położenia wlasnego obszaru
+        int on_click(int x, int y, int click) override; //Przepytuje obszary z reakcji na punkt.
+        //Jeśli on_click() zwraca 1 to można się dowiedzieć, który obszar wywołując:
+        int get_last_lazy_area() override; //Zwróci -1, jeśli już raz wzięte, lub inny błąd.
+        int on_input(int input_char) override; //Przepytuje obszary czy chcą ten znak.
+        int on_change(const gps_area &ar) override; //Reaguje na zmianę rozmiarów lub położenia własnego obszaru.
         void replot(int flus = 1)
         { drawable_base::replot(flus); } //Odrysuj wszystko
-        void replot(const gps_area &ar); //Odrysowuje obszary "nadepniete" przez "ar"
-        void _replot();    //Odrysowuje wszystkie (widoczne) obszary
+        void replot(const gps_area &ar) override; //Odrysowuje obszary "nadepnięte" przez "ar"
+        void _replot() override;    //Odrysowuje wszystkie (widoczne) obszary
 
         //  MANIPULATORY
         //----------------
-        int mark(size_t index, wb_color frame = default_color); //Zaznacza obszar
-        int mark_all(wb_color frame = default_color); //Zaznacza wszytkie widoczne
-        int unmark(size_t index);    //i odznacza obszar
-        int is_marked(size_t index); //Informuje, czyjest zaznaczony
-        int is_minimized(size_t index); //Informuje, czyjest zminimalizowany
-        wb_dynarray<int> get_marked(wb_color filtr = default_color, int unm = 0); //Zwraca liste zaznaczonych obszarów.
-        // Jeśli what=default color to wszystkie zaznaczone.
-        // i opcjonalnie zdejmuje zaznaczenie
+        int mark(size_t index, wb_color frame = default_color) override; //Zaznacza obszar
+        int mark_all(wb_color frame = default_color) override; //Zaznacza wszystkie widoczne
+        int unmark(size_t index) override;    //i odznacza obszar
+        int is_marked(size_t index) override; //Informuje, czy jest zaznaczony
+        int is_minimized(size_t index) override; //Informuje, czy jest zminimalizowany
+        wb_dynarray<int> get_marked(wb_color filtr = default_color, int unm = 0) override; //Zwraca listę zaznaczonych obszarów.
+        // Jeśli `what == default color` to wszystkie zaznaczone i opcjonalnie zdejmuje zaznaczenie.
 
         //...DLA POJEDYNCZYCH OBSZARÓW
-        int get_maximized()
-        { return maximized; }; //Zwraca idex zmaksymalizowanego okna lub -1
+        int get_maximized() override
+        { return maximized; }; //Zwraca index zmaksymalizowanego okna lub -1
 
 
-        int set_input(size_t index); //Ustala obszar jako pierwszy do wejścia z klawiatury lub zdarzeń menu
-        int maximize(size_t index); //Oddaje podobszarówi cały zarządzany obszar
-        int minimize(size_t index); //Ukrywa podobszar
-        int restore(size_t index); //Odtwarza poprzednie położenie i rozmiar obszaru
-        int orginal(size_t index); //Odtwarza pierwotne  położenie i rozmiar obszaru
-        int as_orginal(size_t index); //Uznaje aktualne położenie obszaru za orginalne
+        int set_input(size_t index) override; //Ustala obszar jako pierwszy do wejścia z klawiatury lub zdarzeń menu
+        int maximize(size_t index) override; //Oddaje pod-obszarowi cały zarządzany obszar
+        int minimize(size_t index) override; //Ukrywa pod-obszar
+        int restore(size_t index) override; //Odtwarza poprzednie położenie i rozmiar obszaru
+        int orginal(size_t index) override; //Odtwarza pierwotne  położenie i rozmiar obszaru
+        int as_orginal(size_t index) override; //Uznaje aktualne położenie obszaru za oryginalne
 
         //...DLA GRUP OBSZARÓW
-        int refresh(size_t index); //Odrysowuje obszar jeśli nie zminimalizowany
-        int minimize(const wb_dynarray<int> &lst); //Ukrywa podobszary
-        int restore(const wb_dynarray<int> &lst); //Robi restore dla pod-obszarów
-        int restore(/*ALL*/); //Robi restore dla wszystkich pod-obszarów
-        int orginal(const wb_dynarray<int> &lst); //Robi orginal dla pod-obszarów
-        int tile(const wb_dynarray<int> &lst);    //Rearanzuje na chama, czyli po równo, albo -1 jak nie da się
-        int arrange(const wb_dynarray<int> &lst); //Inteligentnie rearanzuje.
+        int refresh(size_t index) override; //Odrysowuje obszar, jeśli nie zminimalizowany
+        int minimize(const wb_dynarray<int> &lst) override; //Ukrywa pod-obszary
+        int restore(const wb_dynarray<int> &lst) override; //Robi restore dla pod-obszarów
+        int restore(/*ALL*/) override; //Robi restore dla wszystkich pod-obszarów
+        int orginal(const wb_dynarray<int> &lst) override; //Robi orginal dla pod-obszarów
+        int tile(const wb_dynarray<int> &lst) override;    //Rearanżuje na chama, czyli po równo, albo -1 jak nie da się
+        int arrange(const wb_dynarray<int> &lst) override; //Inteligentnie rearanżuje.
     };
 
 } // namespace symshell2
 
+#pragma clang diagnostic pop
 /* ****************************************************************** */
 /*               SYMSHELL2  version 2006/2022/2026                    */
 /* ****************************************************************** */

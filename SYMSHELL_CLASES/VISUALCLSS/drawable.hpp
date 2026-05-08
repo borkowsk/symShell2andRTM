@@ -1,68 +1,91 @@
 /// @file
 /// @brief DEKLARACJE SPRZĘGU DLA OBSZARÓW EKRANU. / COUPLING DECLARATIONS FOR SCREEN AREAS
-/// @date 2026-05-06 (modified)
+/// @date 2026-05-08 (modified)
 // ********************************************************************************************************************
 //
-#ifndef _DRAWABLE_HPP_
-#define _DRAWABLE_HPP_
+#ifndef SYMSHELL2_DRAWABLE_HPP_INCLUDED_
+#define SYMSHELL2_DRAWABLE_HPP_INCLUDED_
 
-#ifndef __cplusplus
-#error C++ required
-#endif
+#include <cassert>
 
-#include <assert.h>
 #include "wb_ptr.hpp"
-using namespace wbrtm;
-
 #include "sshutils.hpp"
 #include "titleuti.hpp" //title_util
 
-/// Zmodernizowane klasy do symulacji w C++
+using namespace wbrtm;
+
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "modernize-use-auto"
+#pragma ide diagnostic ignored "modernize-use-nullptr"
+#pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
+// --checks=-google-default-arguments.
+#pragma ide diagnostic ignored "google-default-arguments"
+
+/// Zmodernizowane klasy do symulacji w C++.
 namespace symshell2
 {
 
-//Parametry obszaru wydzielonego na ekranie
-//--------------------------------------------
+/// Parametry obszaru wydzielonego na ekranie albo w oknie.
 class gps_area
-//--------------------------------------------
+//------------------------------------------------------
 {
-    typedef double xyinfo; //Zapas na niewidoczne szczegóły :)
+public:
+    typedef double xyinfo; ///< @brief W części ułamkowej jest zapas na niewidoczne szczegóły :)
     friend class drawable_base;
-    xyinfo x1,y1; //upper-left corner
-    xyinfo x2,y2; //lower-right corner
-    public:
-    gps_area()	//default constructor
-        {set(0,0,0,0);}
 
+private:
+    xyinfo x1,y1; ///< upper-left corner
+    xyinfo x2,y2; ///< lower-right corner
+
+public:
+    /// Default constructor.
+    gps_area()
+        { set(0,0,0,0); }
+
+    /// Regular constructor.
     gps_area(xyinfo ix1,xyinfo iy1,xyinfo ix2,xyinfo iy2)
-        {set(ix1,iy1,ix2,iy2);}
+        { set(ix1,iy1,ix2,iy2); }
 
+    /// Copy constructor.
     gps_area(const gps_area& p)
-        {load(p);}
+        { load(p); }
 
+    /// Sets all fields.
     void set(xyinfo ix1,xyinfo  iy1,xyinfo  ix2,xyinfo  iy2)
-        {
+    {
         assert(ix1<=ix2 && iy1<=iy2);
-        x1=xyinfo(ix1);x2=xyinfo(ix2);y1=xyinfo(iy1);y2=xyinfo(iy2);
-        }
+        x1=xyinfo(ix1); x2=xyinfo(ix2);
+        y1=xyinfo(iy1); y2=xyinfo(iy2);
+    }
 
-    xyinfo _x1(){return x1;}
-    xyinfo _y1(){return y1;}
-    xyinfo _x2(){return x2;}
-    xyinfo _y2(){return y2;}
+    /// @name READ ONLY ACCESSORS.
+    /// @{
+    xyinfo _x1() const { return x1; }
+    xyinfo _y1() const { return y1; }
+    xyinfo _x2() const { return x2; }
+    xyinfo _y2() const { return y2; }
+    /// @}
 
+    /// Compare by all fields.
     int  operator == (const gps_area& p) const
-        {
+    {
         return p.x1==x1 && p.x2==x2 && p.y1==y1 && p.y2==y2;
-        }
+    }
 
-    void add(const gps_area& p); //make area that hold p
-    void load(const gps_area& p); //load settings from p
-    void swap(gps_area& p); //load setting from p, but old settings to p
+    /// Makes area that holds `p`.
+    void add(const gps_area& p);
 
-    int  translate(int& x,int& y); // change x,y relatively to area and return 1 if point is inside area
+    /// Loads settings from `p`.
+    void load(const gps_area& p);
 
-    void moveto(xyinfo ix1,xyinfo  iy1)	//Move area to point
+    /// Loads setting from `p`, but save old settings to `p`.
+    void swap(gps_area& p);
+
+    /// Changes `x` and `y` relatively to area and return 1, if point is inside area.
+    int  translate(int& x,int& y);
+
+    /// Move this area to point.
+    void moveto(xyinfo ix1,xyinfo  iy1)
     {
         xyinfo dx=x1-ix1;
         xyinfo dy=y1-iy1;
@@ -70,13 +93,17 @@ class gps_area
         x2-=dx; y2-=dy;
     }
 
+    /// ...
     void get_transform_to(const gps_area& t,float tab[4]) const;
+
+    /// ...
     void transform(float tab[4]);
 
+    /// @return 1 if point is inside area, but is not embedded action,
+    ///         but 0, if point is NOT inside area
     int  is_inside(xyinfo  x,xyinfo  y) const;
-                    //return 1 if point is inside area, but is not embedded action
-                    //return 0 if point is NOT inside area
 
+    /// ...
     int  is_overlapped(const gps_area& t) const;
 };
 
@@ -206,6 +233,7 @@ inline void     drawable_base::settitlecolo(wb_color color,wb_color back)
 
 } // namespace symshell2
 
+#pragma clang diagnostic pop
 /* ****************************************************************** */
 /*               SYMSHELL2  version 2006/2022/2026                    */
 /* ****************************************************************** */
