@@ -41,16 +41,16 @@ typedef long int32; /*Wg ANSI C long ma zawsze 32bity */
 /// \details Parametr jest traktowany ABS i zmieniany w liczbę ujemną.
 void srandg(short int srandg_init_val)
 {                                                                                            assert(srandg_init_val!=0);
-	di=-abs(srandg_init_val);
+    di=-abs(srandg_init_val);
 }
 
 /// \note TODO - MUTEXOWE ZABEZPIECZENIE ::randg() na wielowątkowość. ALE JAK TO ZROBIĆ W STD C ???
 float randg()
 {
-  static short int        inext, inextp;
-  static int32            ma[55];
-  int32                   mj, mk, mbig = 1000000000;
-  short int               i, k;
+  static int16_t       inext, inextp;
+  static int32_t       ma[55];
+  int32_t              mj, mk, mbig = 1000000000;
+  int16_t              i, k;
 
   if (di < 0)
   {
@@ -64,15 +64,15 @@ float randg()
       ma[k - 1] = mk;
       mk = mj - mk;
       if (mk < 0)
-	mk += mbig;
+    mk += mbig;
       mj = ma[k - 1];
     };
     for (k = 1; k <= 4; k++)
       for (i = 1; i <= 55; i++)
       {
-	ma[i - 1] -= ma[(i + 30) % 55];
-	if (ma[i - 1] < 0)
-	  ma[i - 1] += mbig;
+    ma[i - 1] -= ma[(i + 30) % 55];
+    if (ma[i - 1] < 0)
+      ma[i - 1] += mbig;
       };
     inext = 0;
     inextp = 31;
@@ -88,17 +88,20 @@ float randg()
   if (mj < 0)
     mj += mbig;
   ma[inext - 1] = mj;
-  return (mj * 1.e-9f);/* CZY MOZE BYC 1.e-9f czy winno BYC DOUBLE */
+  float tmp=(mj * 1.e-9f);                //assert(tmp<1.0f);
+  if(tmp>=1) /* Czasem się tak zdarza... */
+      tmp=0.999999940395355224609375f;
+  return tmp;/* CZY MOŻE BYC 1.e-9f czy winno BYC DOUBLE */
 }
 
 float randnorm()
 {
-	//float ran1(long *idum);
-	static int iset=0;
-	static float gset;
-	float fac,rsq,v1,v2;
+    //float ran1(long *idum);
+    static int iset=0;
+    static float gset;
+    float fac,rsq,v1,v2;
    
-	//if (*idum < 0) iset=0;
+    //if (*idum < 0) iset=0;
     if  (iset == 0) 
     {
         do {
@@ -121,19 +124,19 @@ float randnorm()
 
 float randexp()
 {
-	float dum;
+    float dum;
    
-	do
-	 dum=randg();
-	while (dum == 0.0);
+    do
+     dum=randg();
+    while (dum == 0.0);
 
-	return (float)( -log(dum) );
+    return (float)( -log(dum) );
 }
 
 
 
 /* *******************************************************************/
-/*			 WBRTM  version 2006 - renovation 2022                   */
+/*             WBRTM  version 2006,2022,2026                         */
 /* *******************************************************************/
 /*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                  */
 /*            W O J C I E C H   B O R K O W S K I                    */
