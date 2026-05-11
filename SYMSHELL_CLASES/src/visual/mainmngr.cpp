@@ -1,7 +1,7 @@
 /// @file
 /// @brief A screen or window area manager, implemented directly based on SYMSHELL functions.
 ///        Zarządca obszarów ekranu lub okna, zaimplementowany bezpośrednio na bazie funkcji SYMSHELL-a.
-/// @date 2026-05-08 (last modification)
+/// @date 2026-05-11 (last modification)
 //*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //  Do obsługi całego ekranu/okna SYMSHELL'a.
 
@@ -222,18 +222,18 @@ int     main_area_menager::restore(size_t  index)
 	return area_menager::restore(index);
 }
 
-int     main_area_menager::orginal(const wb_dynarray<int>& lstindex)
+int     main_area_menager::original(const wb_dynarray<int>& lstindex)
 //Odtwarza pierwotne  polozenie i rozmiar obszaru
 {
-	return area_menager::orginal(lstindex);
+	return area_menager::original(lstindex);
 }
 
-int     main_area_menager::orginal(size_t  index)
+int     main_area_menager::original(size_t  index)
 //Odtwarza pierwotne  polozenie i rozmiar obszaru
 {
 	if(is_minimized(index) && (WindowMenu) )
 		ssh_menu_mark_item(WindowMenu,1,SSH_FIRST_FREE_MESSAGE+index);
-	return area_menager::orginal(index);
+	return area_menager::original(index);
 }
 
 int     main_area_menager::minimize(const wb_dynarray<int>& lstindex)
@@ -269,7 +269,7 @@ void main_area_menager::make_help_area(const char* text)
             "ctrl-K: mark all areas\n"
             "ctrl-L: reserved (deletion of areas not implemented)\n"
             "ctrl-M: reserved - replot event\n"
-            "ctrl-O: move marked areas to orginal position\n"
+            "ctrl-O: move marked areas to original position\n"
             "ctrl-Q: exit\n"
             "ctrl-R: restore all areas to window\n"
             "ctrl-S: save screen\n"
@@ -396,7 +396,7 @@ while((!background_enabled()) || input_ready())
                 else
                     if(tab[helpind].minimized)
                     {
-                        orginal(helpind);
+                        original(helpind);
                     }
                     else
                     {
@@ -468,7 +468,7 @@ while((!background_enabled()) || input_ready())
 		//case 14: //ctrl-n break;
         case SSH_WINDOWS_RESTORETOORGINALPOSITION:
 		case 15: //ctrl-o
-			orginal(get_marked(Marker,1)); //Z odmarkowywaniem
+            original(get_marked(Marker, 1)); //Z odmarkowywaniem
 		break;
 
 		//case 16: //ctrl-p

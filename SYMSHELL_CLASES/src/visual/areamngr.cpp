@@ -1,7 +1,7 @@
 /// @file
 /// @brief Implementation of the base area manager/
 ///        Implementacja bazowego zarządcy obszarów.
-/// @date 2026-05-08 (modified)
+/// @date 2026-05-11 (modified)
 //---------------------------------------------------------------------------
 //  Wersja z kosmetyką XI 2012
 //*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -73,7 +73,7 @@ area_menager::area_menager(size_t size, //Konstruktor dający zarządcę o okre�
 	return index;
  }
 
- int area_menager::as_orginal(size_t    index)
+ int area_menager::as_original(size_t    index)
  {
  if(index>=tab.get_size()) return -1; //bledny parametr
 	
@@ -430,7 +430,7 @@ int    area_menager::is_minimized(size_t index)
      return 0;
  }
 
- int    area_menager::orginal(size_t  index)
+ int    area_menager::original(size_t  index)
 //Odtwarza pierwotne  polozenie i rozmiar obszaru
  {
      if( index>=0 && index<tab.get_size() && tab[index].ptr )
@@ -485,7 +485,7 @@ int    area_menager::is_minimized(size_t index)
  }
 
 int    area_menager::minimize(const wb_dynarray<int>& lst)
-//Robi orginal dla wszystkich obszarow
+//Robi original dla wszystkich obszarow
  {
     if(lst.get_size()<=0)
             return -1;
@@ -498,8 +498,8 @@ int    area_menager::minimize(const wb_dynarray<int>& lst)
     return 0;
  }
 
-int    area_menager::orginal(const wb_dynarray<int>& lst)
-//Robi orginal dla wszystkich obszarow
+int    area_menager::original(const wb_dynarray<int>& lst)
+//Robi original dla wszystkich obszarow
  {
     if(lst.get_size()<=0)
             return -1;
@@ -509,7 +509,7 @@ int    area_menager::orginal(const wb_dynarray<int>& lst)
     for(size_t j=0;j<lst.get_size();j++)
       if((i=lst[j])>=0 && i<tab.get_size() )
         if( tab[i].ptr )
-                orginal(i);
+            original(i);
 
     return 0;
  }

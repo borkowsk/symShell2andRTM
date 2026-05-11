@@ -1,6 +1,6 @@
 /// @file
 /// @brief KLASA GŁÓWNEGO ZARZĄDCY OBSZARÓW EKRANU
-/// @date 2026-05-07 (modified)
+/// @date 2026-05-11 (modified)
 // ********************************************************************************************************************
 //
 #ifndef __MAINMNGR_HPP__
@@ -78,8 +78,8 @@ public:
     int    minimize(size_t index) override ; //Ukrywa podobszar
     int    minimize(const wb_dynarray<int>& lst) override ; //Ukrywa pod-obszary
 
-    int    orginal(size_t  index) override ; //Odtwarza pierwotne  położenie i rozmiar obszaru
-    int    orginal(const wb_dynarray<int>& lst) override ; //Robi `orginal` dla pod-obszarów
+    int    original(size_t  index) override ; //Odtwarza pierwotne  położenie i rozmiar obszaru
+    int    original(const wb_dynarray<int>& lst) override ; //Robi `original` dla pod-obszarów
 
     int    restore(size_t  index) override ; //Odtwarza poprzednie położenie i rozmiar obszaru
     int    restore(/*ALL*/) override ; //Robi restore dla wszystkich pod-obszarów

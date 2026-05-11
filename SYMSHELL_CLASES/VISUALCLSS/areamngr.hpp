@@ -1,6 +1,6 @@
 /// @file
 /// @brief KLASY ZARZĄDCÓW OBSZARÓW EKRANU
-/// @date 2026-05-08 (modified)
+/// @date 2026-05-11 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_AREAMNGR_HPP_INCLUDED_
@@ -166,10 +166,10 @@ namespace symshell2
         virtual int restore(size_t index) = 0;
 
         /// Odtwarza pierwotne  położenie i rozmiar obszaru.
-        virtual int orginal(size_t index) = 0;
+        virtual int original(size_t index) = 0;
 
         /// Uznaje aktualne położenie obszaru za oryginalne (czyli to które będzie używane przez `original`).
-        virtual int as_orginal(size_t index) = 0;
+        virtual int as_original(size_t index) = 0;
 
 
         //...DLA GRUP OBSZARÓW
@@ -192,8 +192,8 @@ namespace symshell2
         /// Robi `restore` dla wszystkich obszarów.
         virtual int restore(/*ALL*/) = 0;
 
-        /// Robi `orginal` dla obszarów z listy `lst`.
-        virtual int orginal(const wb_dynarray<int> &lst) = 0;
+        /// Robi `original` dla obszarów z listy `lst`.
+        virtual int original(const wb_dynarray<int> &lst) = 0;
 
         /// Rearanżuje obszary z listy `lst` brutalnie, czyli na równe kafelki. @return -1 jak nie da się.
         virtual int tile(const wb_dynarray<int> &lst) = 0;
@@ -303,15 +303,15 @@ namespace symshell2
         int maximize(size_t index) override; //Oddaje pod-obszarowi cały zarządzany obszar
         int minimize(size_t index) override; //Ukrywa pod-obszar
         int restore(size_t index) override; //Odtwarza poprzednie położenie i rozmiar obszaru
-        int orginal(size_t index) override; //Odtwarza pierwotne  położenie i rozmiar obszaru
-        int as_orginal(size_t index) override; //Uznaje aktualne położenie obszaru za oryginalne
+        int original(size_t index) override; //Odtwarza pierwotne  położenie i rozmiar obszaru
+        int as_original(size_t index) override; //Uznaje aktualne położenie obszaru za oryginalne
 
         //...DLA GRUP OBSZARÓW
         int refresh(size_t index) override; //Odrysowuje obszar, jeśli nie zminimalizowany
         int minimize(const wb_dynarray<int> &lst) override; //Ukrywa pod-obszary
         int restore(const wb_dynarray<int> &lst) override; //Robi restore dla pod-obszarów
         int restore(/*ALL*/) override; //Robi restore dla wszystkich pod-obszarów
-        int orginal(const wb_dynarray<int> &lst) override; //Robi orginal dla pod-obszarów
+        int original(const wb_dynarray<int> &lst) override; //Robi original dla pod-obszarów
         int tile(const wb_dynarray<int> &lst) override;    //Rearanżuje na chama, czyli po równo, albo -1 jak nie da się
         int arrange(const wb_dynarray<int> &lst) override; //Inteligentnie rearanżuje.
     };

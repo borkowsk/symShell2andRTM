@@ -1,7 +1,7 @@
 /// @file
 /// @brief IMPLEMENTATION OF BASIC GRAPH CLASSES/<br>
 ///        IMPLEMENTACJA PODSTAWOWYCH KLAS GRAFÓW.
-/// @date 2026-05-08 (modified)
+/// @date 2026-05-11 (modified)
 // /////////////////////////////////////////////////////////////////////////////////////////
 
 //#include <cstdarg>
@@ -12,6 +12,7 @@
 #include <cassert>
 
 #include <iostream>
+#include <limits>
 
 #include "wb_ptr.hpp"
 #include "symshell.h"
@@ -27,21 +28,112 @@ using namespace symshell2;
 // --checks=-google-default-arguments.
 #pragma ide diagnostic ignored "google-default-arguments"
 
-/// Wysycająca konwersja `double` na `int`.
-static inline int toi(const double& p)
+/// Wysycająca konwersja na `int`. @note Nie z `long double`!
+/// @details Używa `long long` jako wspólnej reprezentacji wszystkich liczb całkowitych, co jest kosztowne.
+template<class number> inline
+int toi(const number& v)
 {
-    if (p > INT_MAX) return INT_MAX;
-    if (p < INT_MIN) return INT_MIN;
-    return static_cast<int>(p);
+    constexpr long long low = std::numeric_limits<int>::min();
+    constexpr long long high = std::numeric_limits<int>::max();
+    const long long val=v;
+    return static_cast<int>(std::max(low, std::min(val, high)));
 }
 
-/// Wysycająca konwersja `unsigned int` na `int`.
+/// Wysycająca konwersja na `long`. @note Nie z `long double`!
+/// @details Używa `long long` jako wspólnej reprezentacji wszystkich liczb całkowitych, co jest kosztowne.
+///          A i tak nie działa dla `double`.
+template<class number> inline
+long tol(const number& v)
+{
+    constexpr long long low = std::numeric_limits<long>::min();
+    constexpr long long high = std::numeric_limits<long>::max();
+    const long long val=v;
+    return static_cast<long>(std::max(low, std::min(val, high)));
+}
+
+/// Specjalizacja: Wysycająca konwersja `unsigned int` na `int`.
 static inline int toi(const unsigned& p)
 {
-    if((long)p<(long)INT_MAX)
+    constexpr unsigned high = INT_MAX;
+    if(p<high)
         return int(p); //Maskuje warning-i z obcinania
     else
-        return INT_MAX;
+        return high;
+}
+
+/// Specjalizacja: Wysycająca konwersja `long` na `int`.
+static inline int toi(const long& p)
+{
+    constexpr long low = std::numeric_limits<int>::min();
+    constexpr long high = std::numeric_limits<int>::max();
+    return static_cast<int>(std::max(low, std::min(p, high)));
+}
+
+/// Specjalizacja: Wysycająca konwersja `unsigned long` na `int`.
+static inline int toi(const unsigned long& p)
+{
+    constexpr unsigned long high = INT_MAX;
+    if(p<high)
+        return int(p); //Maskuje warning-i z obcinania
+    else
+        return high;
+}
+
+/// Specjalizacja: Wysycająca konwersja `double` na `int`.
+static inline int toi(const double& p)
+{
+    // Definiujemy limity dla `int`
+    constexpr double low  = INT_MIN;
+    constexpr double high = INT_MAX;
+    return static_cast<int>(std::max(low, std::min(p, high)));
+}
+
+/// Wysycająca konwersja `double` na `int` z własną nazwą.
+static inline int dtoi(const double& p)
+{
+    // Definiujemy limity dla `int`
+    constexpr double low  = INT_MIN;
+    constexpr double high = INT_MAX;
+    return static_cast<int>(std::max(low, std::min(p, high)));
+}
+
+/// Wysycająca konwersja z `double` na `unsigned`.
+/// Metoda bardziej ogólna
+static inline unsigned int dtou(const double& p)
+{
+    // Definiujemy limity dla `unsigned int`
+    constexpr double low  = 0.0;
+    constexpr double high = UINT_MAX; //static_cast<double>(std::numeric_limits<unsigned int>::max());
+
+    // Nasycenie:
+    // 1. Jeśli p < 0, zwróci 0
+    // 2. Jeśli p > 4294967295, zwróci 4294967295long long val=v;
+    // 3. W przeciwnym razie zwróci obcięte p
+    return static_cast<unsigned int>(std::max(low, std::min(p, high)));
+}
+
+/// Specjalizacja konwersji wysycającej z `double` na `long`
+long tol(const double& v)
+{
+    constexpr double low = static_cast<double>(std::numeric_limits<long>::min());
+    constexpr double high = static_cast<double>(std::numeric_limits<long>::max());
+
+    if (v >= high) return std::numeric_limits<long>::max();
+    if (v <= low) return std::numeric_limits<long long>::min();
+
+    return static_cast<long long>(v);
+}
+
+/// "Bezpieczna" konwersja `double` na `long long`.
+static inline long long dtoll(const double& p)
+{
+    const double low = static_cast<double>(std::numeric_limits<long long>::min());
+    const double high = static_cast<double>(std::numeric_limits<long long>::max());
+
+    if (p >= high) return std::numeric_limits<long long>::max();
+    if (p <= low) return std::numeric_limits<long long>::min();
+
+    return static_cast<long long>(p);
 }
 
 
@@ -125,11 +217,12 @@ int  gps_area::translate(int& x,int& y) const
 }
 
 void gps_area::get_transform_to(const gps_area& t,float tab[6]) const
-{
-    tab[0]=(t.x2+t.x1)/2-(x2+x1)/2; //px //bez float() żeby został choc 1 "warning"
+{   //xy_info pom jest teraz typu `double`, więc rzuty na `double` są zbędne.
+    #warning "Many narrowing conversions from double to float, but don`t worry."
+    tab[0]=float((t.x2+t.x1)/2-(x2+x1)/2); //px
     tab[1]=float((t.y2+t.y1)/2-(y2+y1)/2); //py
-    tab[2]=float(double(t.x2-t.x1)/(x2-x1)); //kx
-    tab[3]=float(double(t.y2-t.y1)/(y2-y1)); //ky
+    tab[2]=float((t.x2-t.x1)/(x2-x1)); //kx
+    tab[3]=float((t.y2-t.y1)/(y2-y1)); //ky
     tab[4]=float((t.x2+t.x1)/2); //x'0
     tab[5]=float((t.y2+t.y1)/2); //y'0
 }
@@ -234,7 +327,7 @@ void drawable_base::replot(int need_flush)
 
     //Czyszczenie tłem lufcika, jeśli jest ustawione
     if(get_background() != default_transparent)
-        fill_rect(toi(x1), toi(y1), toi(x2+1), toi(y2+1), get_background());
+        fill_rect(dtoi(x1), dtoi(y1), dtoi(x2+1), dtoi(y2+1), get_background());
 
     if(zostalo_dosc_y && title && (tit_col != default_transparent || tit_bck != default_transparent))
     {
@@ -281,7 +374,7 @@ void drawable_base::replot(int need_flush)
         tx+=frame_width;
         ty+=frame_width;
         tw-=2*frame_width;
-        rect(toi(x1), toi(y1), toi(x2), toi(y2), get_frame());
+        rect(dtoi(x1), dtoi(y1), dtoi(x2), dtoi(y2), get_frame());
     }
 
     if(need_flush)
@@ -321,8 +414,8 @@ int graph::set_data_colors(wb_color start_i, wb_color end_i)
 
 
 int graph::color_info::plot(int x1,int y1,int x2,int y2) const
-{
-    int ile_skali=end-start+2;
+{                                          assert(end>=start);
+    unsigned ile_skali=end-start+2;
     int skok=1;
     int height=y2-y1;
     while(ile_skali>height)
@@ -332,7 +425,7 @@ int graph::color_info::plot(int x1,int y1,int x2,int y2) const
             return -1; //Nie da się
         }
 
-    int weight= height / ile_skali;
+    int weight= toi( height / ile_skali );
     int kolejny=0;
 
     //Pętla po kolorach palety. Pola c_range są `unsigned`!?
@@ -357,14 +450,14 @@ void graph::scaling_info::OY_axis(int x1, int y1, int x2, int y2, wb_color col, 
     int poz=0;
     if(min<0 && max>0)
             {
-            poz=toi(y2-get(0)); //Obcina do współrzędnych ekranowych
+            poz=dtoi(y2-get(0)); //Obcina do współrzędnych ekranowych
             fill_rect(x1+width/2,poz,x1+width,poz+1,col);
-            printc(x1+width,poz-char_height('o')/2,col,bcg,"o");
+            printc(x1+width,toi(poz-char_height('o')/2),col,bcg,"o");
             }
 
     if(min<1 && max>1)
     {
-        poz=toi(y2-get(1)); //Obcina do współrzędnych ekranowych
+        poz=dtoi(y2-get(1)); //Obcina do współrzędnych ekranowych
         fill_rect(x1+width/2,poz,x1+width,poz+1,col);
         //printc(x1+6,poz-char_height('1')/2,col,get_background(),"1");
     }
@@ -373,7 +466,7 @@ void graph::scaling_info::OY_axis(int x1, int y1, int x2, int y2, wb_color col, 
     {
         for(int d = int(min + 1); d < max; d++)
         {
-            poz = toi(y2 - get(d)); //Wiec tu double zmieści się w int
+            poz = dtoi(y2 - get(d)); //Wiec tu double zmieści się w int
             if(poz < y2 - int(y2 - y1) - 6) break; //Żeby nie naszło na grot strzałki
             fill_rect(x1 + 1, poz, x1 + width / 2, poz + 1, col);
         }
@@ -391,14 +484,14 @@ void graph::scaling_info::OX_axis(int x1, int y1, int x2, int y2, wb_color col, 
     int poz=0;
     if(min<0 && max>0)
     {
-        poz=toi(x1+get(0)); //Ma się mieścić — patrz warunek.
+        poz=dtoi(x1+get(0)); //Ma się mieścić — patrz warunek.
         fill_rect(poz,y2-width,poz+1,y2+1,col);
-        printc(poz,y2-6-char_height('o')/2,col,bcg,"o");
+        printc(poz,toi(y2-6-char_height('o')/2),col,bcg,"o");
     }
 
     if(min<1 && max>1)
     {
-        poz=toi(x1+get(1)); //Ma się mieścić — patrz warunek.
+        poz=dtoi(x1+get(1)); //Ma się mieścić — patrz warunek.
         fill_rect(poz,y2-width,poz+1,y2+1,col);
     }
 
@@ -406,7 +499,7 @@ void graph::scaling_info::OX_axis(int x1, int y1, int x2, int y2, wb_color col, 
     {
         for(int d = int(min + 1); d < max; d++)
         {
-            poz = toi(x1 + get(d)); //Ma się mieścić — patrz warunek.
+            poz = dtoi(x1 + get(d)); //Ma się mieścić — patrz warunek.
             if(poz > x1 + int(x2 - x1) - 6) break;
             fill_rect(poz, y2 - width / 2, poz + 1, y2 + 1, col);
         }
@@ -524,7 +617,7 @@ void carpet_graph::_replot()
         return;
         }
 
-    //Wartosc zwracana gdy nie ma wartosci
+    //wartość zwracana gdy nie ma wartosci
     missing=data->get_missing();
 
     //Do skalowania kolorow
@@ -535,12 +628,12 @@ void carpet_graph::_replot()
     //R y s o w a n i e  l e g e n d y
     if(t_colors.start != get_background() &&
        char_height('X') < get_height())
-        {
+    {
         int x=x1;
-        int y=y2-char_height('X')+1; //+1, bo y2 ma byc zarysowane
+        int y=toi(y2-char_height('X')+1); //+1, bo y2 ma byc zarysowane
         int width=0;
     //----------
-        y2=y; //Zabiera dolna czesc na legende
+        y2=y; //Zabiera dolną część na legendę.
     //----------
         width=print_width(x, y,(x2-x)/3*2, t_colors.start, get_background(),
                           "%s", data->name());
@@ -558,7 +651,7 @@ void carpet_graph::_replot()
         width=print_width(x,y,x2-x,c_range.end,
                           c_range.end != get_background()?get_background():c_range.start,
                             ",%g>",max);
-        }
+    }
 
     //Rysowanie skali — jeśli są co najmniej dwa kolory i jest miejsce na co najmniej 2 pixele
     if(!direct_color)
@@ -571,7 +664,7 @@ void carpet_graph::_replot()
     //Rysowanie kwadracikow
     KWADRACIKI:                                                             assert(x2>x1);
                                                                             assert(y2>y1);
-    while(!(A/CO_ILE_KOMOREK<=size_t(x2-x1+1) && B/CO_ILE_KOMOREK<=size_t(y2-y1+1)))
+    while(!( A/CO_ILE_KOMOREK <= (x2-x1+1) && B/CO_ILE_KOMOREK <= (y2-y1+1)))
     {
        CO_ILE_KOMOREK++;
        print_width(x1, y1,x2-x1, t_colors.start, get_background(), "%@CView reduced %u times", CO_ILE_KOMOREK);
@@ -587,32 +680,34 @@ void carpet_graph::_replot()
         int gruboscA,gruboscB;
         if(CO_ILE_KOMOREK==1)
         {
-            gruboscA=width/A;
-            gruboscB=height/B;
+            gruboscA=toi(width/A);
+            gruboscB=toi(height/B);
         }
         else gruboscA=gruboscB=1;
 
-        //Musi byc kwadratowo bo inaczej jest nieladnie
+        //Musi byc kwadratowo, bo inaczej jest nieladnie
         if(gruboscA>1 && gruboscB>1)
             {
-            if(gruboscA>gruboscB) gruboscA=gruboscB;
-            else		  gruboscB=gruboscA;
+            if(gruboscA>gruboscB)
+                gruboscA=gruboscB;
+            else
+                gruboscB=gruboscA;
             }
         else
             {
             gruboscA=gruboscB=1; //Pixelami będzie !!!
             }
 
-        int offsetA=(width-gruboscA*(A/CO_ILE_KOMOREK))/2;
-        int offsetB=(height-gruboscB*(B/CO_ILE_KOMOREK))/2;
+        int offsetA=toi(width -gruboscA*(A/CO_ILE_KOMOREK))/2;
+        int offsetB=toi(height-gruboscB*(B/CO_ILE_KOMOREK))/2;
 
         //Rysowanie
-        const rectangle_geometry* MyGeomRect=dynamic_cast<const rectangle_geometry*>(MyGeometry);           assert(MyGeomRect!=nullptr); //Musia taka być!
+        const rectangle_geometry* MyGeomRect=dynamic_cast<const rectangle_geometry*>(MyGeometry);           assert(MyGeomRect!=nullptr); //Musi taka być!
     //    long index=MyGeomRect->get(0,0); //Zerowa komórka
 
         data_source_base::iteratorh h=MyGeometry->make_view_iterator();                                     assert(h!=nullptr);
         wb_color back= get_background(); //Dla sprawdzania kiedy kolor kwadratu taki jak kolor tla.
-        if(gruboscA==1) //starczy jedna sprawdzic bo kwadrat
+        if(gruboscA==1) //starczy jedna sprawdzic, bo kwadrat
             {
             //Pixelami panowie!!!
             for(j=0;j<B;j+=CO_ILE_KOMOREK)
@@ -622,32 +717,32 @@ void carpet_graph::_replot()
                     if(CO_ILE_KOMOREK == 1)
                         Gind = MyGeometry->get_next(h);
                     else if(i < A && j < B)
-                        Gind = MyGeomRect->get(i, j); //Nie zadziała dla zmniejszonego view
+                        Gind = MyGeomRect->get( tol(i),tol(j) ); //Nie zadziała dla zmniejszonego view
                     else
                         continue; //Pomijamy go.
 
                     double test = data->get(Gind);
 
                     if (test == missing)
-                                continue; // Nie rysowac jeśli wartosc nieosiagalna
+                                continue; // Nie rysowac jeśli wartość nieosiagalna
 
                     if (!direct_color)
                     {
                                 wb_color color = wb_color(mm.get(test));
                                 color += c_range.start;
                                 if (color <= c_range.end)
-                                    plot(offsetA + x1 + i/CO_ILE_KOMOREK, offsetB + y1 + j/CO_ILE_KOMOREK, color);
+                                    plot( toi(offsetA + x1 + i/CO_ILE_KOMOREK), toi(offsetB + y1 + j/CO_ILE_KOMOREK), color);
                                 else
                                     goto NIE_DA_SIE;
                     }
                     else
                     {           assert("NOT TESTED CODE?"==0);
-                                unsigned C=test; //Zakładamy, że to surowe kolory? double na uint32?
+                                unsigned C=dtou(test); //Zakładamy, że to surowe kolory? double na uint32?
                                 unsigned Red=(C & 0x0000ff);
                                 unsigned Gre=(C & 0x00ff00) >> 8;
                                 unsigned Blu=(C & 0xff0000) >> 16;
                                 // color+=c_range.start;
-                                plot_rgb(offsetA+ x1 +i/CO_ILE_KOMOREK,offsetB+ y1 +j/CO_ILE_KOMOREK, Red, Gre, Blu);
+                                plot_rgb(toi(offsetA +x1 +i/CO_ILE_KOMOREK),toi(offsetB +y1 +j/CO_ILE_KOMOREK), Red, Gre, Blu);
                     }
                 }
             }
@@ -656,11 +751,11 @@ void carpet_graph::_replot()
             //Kwadratami
             for(j=0;j<B;j++)
               for(i=0;i<A;i++)
-              {                                     								assert(h!=nullptr);
-                  size_t Gind=MyGeometry->get_next(h); //rectangle_geometry
-                  double test=data->get(Gind);
+              {																assert(h!=nullptr);
+                  size_t G_ind=MyGeometry->get_next(h); //rectangle_geometry
+                  double test=data->get(G_ind);
                   if(test==missing)
-                      continue; //Nie rysowac jeśli wartosc nieosiagalna
+                      continue; //Nie rysowac jeśli wartość nieosiagalna
                   if (!direct_color)
                   {
                     wb_color color=wb_color( mm.get(test) );
@@ -671,29 +766,28 @@ void carpet_graph::_replot()
 
                     if(color==back && gruboscA>3)
                     {
-                      rect(offsetA+x1+i*gruboscA,offsetB+y1+j*gruboscB,
-                          offsetA+x1+(i+1)*gruboscA-1,offsetB+y1+(j+1)*gruboscB-1,
-                          255!=back?255:0);
+                      rect(toi(offsetA+x1+i*gruboscA),toi(offsetB+y1+j*gruboscB),
+                           toi(offsetA+x1+(i+1)*gruboscA-1),toi(offsetB+y1+(j+1)*gruboscB-1),
+                           255!=back?255:0);
                     }
                     else
                     {
-                      fill_rect(offsetA+x1+i*gruboscA,offsetB+y1+j*gruboscB,
-                          offsetA+x1+(i+1)*gruboscA,offsetB+y1+(j+1)*gruboscB,
-                          color);
+                      fill_rect(toi(offsetA+x1+i*gruboscA),toi(offsetB+y1+j*gruboscB),
+                                toi(offsetA+x1+(i+1)*gruboscA),toi(offsetB+y1+(j+1)*gruboscB),
+                                color);
                     }
                   }
                   else //Jeżeli direct_color
                   {
                         //assert("NOT TESTED CODE?"==0); A jednak jest to używane w "Languages"!
-                        unsigned C=test; //Zakładamy, że to surowe kolory? double na uint32?
+                        unsigned C=dtou(test); //Zakładamy, że to surowe kolory? double na uint32?
                         unsigned Red=(C & 0x0000ff);
                         unsigned Gre=(C & 0x00ff00) >> 8;
                         unsigned Blu=(C & 0xff0000) >> 16;
                         set_pen_rgb(Red, Gre, Blu, 1, SSH_SOLID_PUT);
                         set_brush_rgb(Red, Gre, Blu);
-                        fill_rect_d(offsetA+x1+i*gruboscA,offsetB+y1+j*gruboscB,
-                              offsetA+x1+(i+1)*gruboscA,offsetB+y1+(j+1)*gruboscB
-                              );
+                        fill_rect_d(toi(offsetA+x1+i*gruboscA),toi(offsetB+y1+j*gruboscB),
+                                    toi(offsetA+x1+(i+1)*gruboscA),toi(offsetB+y1+(j+1)*gruboscB));
                   }
               }
             }
@@ -703,10 +797,10 @@ void carpet_graph::_replot()
     return;
     NIE_DA_SIE:
     print_width(x1,(y1+y2)/2,x2-x1, t_colors.start, get_background(), "%@CInvalid colors found.");
-    print_width(x1,(y1+y2)/2+char_height('X'),x2-x1, t_colors.start, get_background(), "%@CProbably min or max not properly set.");
+    print_width(x1,toi((y1+y2)/2+char_height('X')),x2-x1, t_colors.start, get_background(), "%@CProbably min or max not properly set.");
 }
 
-// reals[] zawiera jedynie wartosc ustalajaca kolor albo cos spoza zakresu
+// reals[] zawiera jedynie wartość ustalająca kolor albo cos spoza zakresu
 int carpet_graph::_rescale_data_point(const double reals[],long in_area[])
 //zwraca -1, jeśli nie w oknie
 {
@@ -794,7 +888,7 @@ data_source_base* bars_graph::get_series(size_t index)
         return colors;
 }
 
-void bars_graph::_replot() // Rysuje właściwy wykres a pod nim ewentualnie legende
+void bars_graph::_replot() // Rysuje właściwy wykres a pod nim ewentualnie legendę
 {
     int x1 = get_start_x();
     int y1 = get_start_y();
@@ -802,10 +896,11 @@ void bars_graph::_replot() // Rysuje właściwy wykres a pod nim ewentualnie leg
     int y2 = y1 + get_height() - 1;
     double min, max, minc, maxc;
     double miss, missc;
-    size_t num_height, num_color, height;
+    size_t num_height,num_color; ///< Faktycznie może być tak dużo danych, że potrzeba size_t?
+    unsigned height;
     int flaga = 0;
 
-    //Legenda wtedy jeśli jest potrzebna
+    //Legenda wtedy, jeśli jest potrzebna
     if(t_colors.start != get_background() || (t_colors.end != get_background() && colors))
         height = (y2 - y1) - 2 * char_height('0'); //będzie legenda
     else
@@ -816,7 +911,7 @@ void bars_graph::_replot() // Rysuje właściwy wykres a pod nim ewentualnie leg
 
     miss = datas->get_missing();
     if(mode == 1)
-        if(min > 0) min = 0; // Slupki co najmniej od zera
+        if(min > 0) min = 0; // Słupki co najmniej od zera
     s_data.set(min, max, height + 0.999);
 
     //Do skalowania kolorow
@@ -827,8 +922,8 @@ void bars_graph::_replot() // Rysuje właściwy wykres a pod nim ewentualnie leg
         s_colo.set(minc, maxc, c_range.end - c_range.start + 0.999);
         missc = colors->get_missing();
     } else
-    {//Nie ma serii - kolory arbitralne
-        s_colo.set(0, num_height - 1, c_range.end - c_range.start + 0.9999);
+    {   //Nie ma serii dla kolorów, więc kolory arbitralne
+        s_colo.set(0, toi(num_height - 1), c_range.end - c_range.start + 0.9999);
     }
 
     //Wypisywanie legendy dla 1 serii
@@ -837,7 +932,7 @@ void bars_graph::_replot() // Rysuje właściwy wykres a pod nim ewentualnie leg
         const char *pom = datas->name();
         print_width(x1, y1, (x2 - x1) / 2, t_colors.start, get_background(),
                     "%g", max);
-        print_width(x1, y2 - char_height('0'), (x2 - x1) / 3 * 2, t_colors.start, get_background(),
+        print_width(x1, toi(y2 - char_height('0')), (x2 - x1) / 3 * 2, t_colors.start, get_background(),
                     "%g %*s", min, strlen(pom) > 60?60:strlen(pom), pom);
         flaga = 1;
     }
@@ -853,22 +948,22 @@ void bars_graph::_replot() // Rysuje właściwy wykres a pod nim ewentualnie leg
         print_width((x2 + x1) / 2, y1, (x2 - x1) / 2 - width, get_background(), c_range.start,
                     "%@R%*s", strlen(pom) > 60?60:strlen(pom), pom);
 
-        print_width(x2 - (x2 - x1) / 3, y2 - char_height('0'), (x2 - x1) / 3,
+        print_width(x2 - (x2 - x1) / 3, toi(y2 - char_height('0')), (x2 - x1) / 3,
                     c_range.end, c_range.end != get_background()?get_background():c_range.start,
                     "%@R%g", maxc);
 
         flaga = 1;
     }
 
-    //Zawerzenie po y-grekach
+    //Zawężenie po y-ach
     if(flaga)
     {
-        y1 += char_height('0');
-        y2 -= char_height('0');
+        y1 += toi(char_height('0'));
+        y2 -= toi(char_height('0'));
     }
     flaga = 0;
 
-    //Strzalka w gore
+    //Strzałka w gore
     if(x2 - x1 > 10 && y2 - y1 > 10)
     {
         s_data.OY_axis(x1, y1, x1 + 6, y2, t_colors.start, get_background());
@@ -892,47 +987,47 @@ void bars_graph::_replot() // Rysuje właściwy wykres a pod nim ewentualnie leg
         fill_rect(x1, zero, x2 + 1, zero + 1, t_colors.start);
     }
 
-    //Rysowanie wlasciwych slupkow
-    int grubosc; //Grubosc slupka
-    if(num_height > 0 && (grubosc = (x2 - x1) / (num_height)) >= 1)
+    //Rysowanie właściwych słupków
+    int thickness; //Grubość słupka
+    if(num_height > 0 && (thickness = toi( (x2 - x1) / (num_height)) ) >= 1)
     {
         data_source_base::iteratorh h = datas->reset();
         data_source_base::iteratorh c = colors?colors->reset():nullptr;
-        for(size_t i = 0; i < num_height; i++)
+        for(unsigned i = 0; i < num_height; i++) //64 bitowe size_t to już za dużo tutaj! :-D
         {
             double test;
             double r[2] = {-1, -1};
             long a[2] = {0, (c_range.end - c_range.start) / 2};
             r[0] = test = datas->get(h);
             if(test == miss)
-                continue; //NIe rysuj
+                continue; //nie rysuj
 
             if(colors)
             {
                 r[1] = test = colors->get(c);
                 if(test == missc)
-                    continue; //NIe rysuj
+                    continue; //nie rysuj
             } else
-                r[1] = i; //Arbitralny przydzial kolejnych kolorów
+                r[1] = i; //Arbitralny przydział kolejnych kolorów
 
             _rescale_data_point(r, a);
 
-            int yup = y2 - a[0];
+            int yup = toi(y2 - a[0]);
             int ydow = zero;
             if(yup > ydow)
             {
                 ::swap(yup, ydow);
-                //yup++; //Male oszustwo zeby tez się zaczynalo od zerowej lini.
+                //yup++; //Male oszustwo, żeby też się zaczynało od zerowej linii.
             }
 
             assert(yup <= ydow);
             if(wb_color(a[1]) != get_background())
-                fill_rect(x1 + i * grubosc, yup,
-                          x1 + (i + 1) * grubosc, ydow + 1,
+                fill_rect(toi(x1 + i * thickness), yup,
+                          toi(x1 + (i + 1) * thickness), ydow + 1,
                           a[1]); //Puki kolory indeksowe to pół biedy.
             else
-                rect(x1 + i * grubosc, yup,
-                     x1 + (i + 1) * grubosc - 1, ydow,
+                rect(toi(x1 + i * thickness), yup,
+                     toi(x1 + (i + 1) * thickness - 1), ydow,
                      255 != get_background()?255:0);
         }
         datas->close(h);
@@ -943,7 +1038,7 @@ void bars_graph::_replot() // Rysuje właściwy wykres a pod nim ewentualnie leg
     }
 }
 
-// reals[] zawiera  wysokość slupka i wartosc ustalajaca kolor, albo -1
+// reals[] zawiera  wysokość słupka i wartość ustalająca kolor albo -1
 int bars_graph::_rescale_data_point(const double reals[], long in_area[])
 //zwraca -1 jeśli nie w oknie
 {
@@ -985,11 +1080,11 @@ manhattan_graph::~manhattan_graph()
 //CONSTRUCTOR(S)
 manhattan_graph::manhattan_graph(int ix1, int iy1, int ix2, int iy2, //Polozenie obszaru
                                  unsigned iA, unsigned iB,
-                                 data_source_base *i_datas, int menage_d, //datas-dane o wysokośćiach
+                                 data_source_base *i_datas, int menage_d, //datas-dane o wysokościach
                                  data_source_base *i_colors, int menage_c, //colors-zrodlo danych o kolorach
-                                 int zero_mod, //tryb wyswietlania
-                                 double H_offs,        //Ulamek szerokośći przeznaczony na perspektywe
-                                 double V_offs        //Ulamek wysokośći  przeznaczony na perspektywe
+                                 int zero_mod,        // tryb wyświetlania
+                                 double H_offs,       // Ułamek szerokości przeznaczony na perspektywę
+                                 double V_offs        // Ułamek wysokości  przeznaczony na perspektywę
 ) :
         graph(ix1, iy1, ix2, iy2), AA(iA), BB(iB),
         datas(i_datas), d_menage(menage_d),
@@ -1007,9 +1102,9 @@ manhattan_graph::manhattan_graph(int ix1, int iy1, int ix2, int iy2, //Polozenie
 manhattan_graph::manhattan_graph(int ix1, int iy1, int ix2, int iy2, //Polozenie obszaru
                                  data_source_base *i_datas, int menage_d, //datas-dane o wysokośćiach
                                  data_source_base *i_colors, int menage_c, //colors-zrodlo danych o kolorach
-                                 int zero_mod, //tryb wyswietlania
-                                 double H_offs,        //Ulamek szerokośći przeznaczony na perspektywe
-                                 double V_offs        //Ulamek wysokośći  przeznaczony na perspektywe
+                                 int zero_mod,         // tryb wyświetlania
+                                 double H_offs,        // Ułamek szerokości przeznaczony na perspektywę
+                                 double V_offs         // Ułamek wysokości  przeznaczony na perspektywę
 ) :
         graph(ix1, iy1, ix2, iy2), AA(1), BB(1),
         datas(i_datas), d_menage(menage_d),
@@ -1121,8 +1216,8 @@ void manhattan_graph::_replot() // Rysuje wlasciwy wykres a pod nim ewentualnie 
     double min, max, minc, maxc;
     double miss, missc;
     size_t antywidth, A, B;
-    size_t height = y2 - y1;
-    size_t width = x2 - x1;
+    unsigned height = y2 - y1;
+    unsigned width = x2 - x1;
     int flaga = 0;
 
 //Trzeba sprawdzic wymiary obszaru wizulaizacji
@@ -1188,7 +1283,7 @@ void manhattan_graph::_replot() // Rysuje wlasciwy wykres a pod nim ewentualnie 
     {
         print_width(x1, y1, ((x2 - x1) / 5) * 4, t_colors.start, get_background(), "%g", max);
         const char *pom = datas->name();
-        print_width(x1, y2 - char_height('0'), ((x2 - x1) / 5) * 4, t_colors.start, get_background(),
+        print_width(x1, toi(y2 - char_height('0')), ((x2 - x1) / 5) * 4, t_colors.start, get_background(),
                     "%g %*s", min, strlen(pom) > 60?60:strlen(pom), pom);
         flaga = 1;
     }
@@ -1204,18 +1299,17 @@ void manhattan_graph::_replot() // Rysuje wlasciwy wykres a pod nim ewentualnie 
         print_width(x1 + (x2 - x1) / 5, y1, ((x2 - x1) / 5 * 4) - loc_width, get_background(), c_range.start,
                     "%@R%*s", strlen(pom) > 60?60:strlen(pom), pom);
 
-        print_width(x2 - (x2 - x1) / 2, y2 - char_height('0'), (x2 - x1) / 2,
+        print_width(x2 - (x2 - x1) / 2, toi(y2 - char_height('0')), (x2 - x1) / 2,
                     c_range.end, c_range.end != get_background()?get_background():c_range.start,
                     "%@R%g", maxc);
         flaga = 1;
     }
 
-
-//Zawerzenie po y-grekach
+    //Zawężenie po y-grekach
     if(flaga)
     {
-        y1 += char_height('0');
-        y2 -= char_height('0');
+        y1 += toi(char_height('0'));
+        y2 -= toi(char_height('0'));
     }
     flaga = 0;
 
@@ -1231,12 +1325,12 @@ void manhattan_graph::_replot() // Rysuje wlasciwy wykres a pod nim ewentualnie 
 //Ramka dla Y-kow
     if(x2 - x1 > 10 && y2 - y1 > 10)
     {
-        int awidth = antywidth / B * B;
-        int oddolu = (y2 - y1 - height) / B * B; //Ile tylna os jest podsunieta do gory
-        line(x1 + 3, y2 - height, x1 + 3 + awidth, y2 - height - oddolu, t_colors.start);
+        int awidth = toi(antywidth / B * B);
+        int oddolu = toi((y2 - y1 - height) / B * B); //Ile tylna os jest podsunięta do gory
+        line(x1 + 3, toi(y2 - height), x1 + 3 + awidth, toi(y2 - height - oddolu), t_colors.start);
         line(x1 + 3, y2, x1 + 3 + awidth, y2 - oddolu, t_colors.start);
-        s_data.OY_axis(x1, y2 - height, x1 + 6, y2, t_colors.start, get_background());
-        s_data.OY_axis(x1 + awidth, y2 - height - oddolu, x1 + 6 + awidth, y2 - oddolu, t_colors.start, get_background());
+        s_data.OY_axis(x1, toi(y2 - height), x1 + 6, y2, t_colors.start, get_background());
+        s_data.OY_axis(x1 + awidth, toi(y2 - height - oddolu), x1 + 6 + awidth, y2 - oddolu, t_colors.start, get_background());
         x1 += 3;
     }
 
@@ -1244,18 +1338,18 @@ void manhattan_graph::_replot() // Rysuje wlasciwy wykres a pod nim ewentualnie 
     int zero = y2;
     if(min < 0 && max > 0)
     {
-        zero = int(y2 - s_data.get(0)); //Ma się miescic - patrz warunek
+        zero = dtoi(y2 - s_data.get(0)); //Ma się mieścić — patrz warunek
         //fill_rect(x1,zero,x2+1,zero+1,t_colors.start);
     }
 
-    int gruboscH = width / A; //Grubosc slupka w poziomie
-    int gruboscV = (y2 - y1 - height) / B; //Grubosc slupka w pionie
-    int offsetH = (x2 - x1 - width) / B; //Przesuniecie kolejnych wierszy
+    int gristH = toi(width / A ); //Grubosc slupka w poziomie
+    int gristV = toi((y2 - y1 - height) / B); //Grubosc slupka w pionie
+    int offsetH = toi((x2 - x1 - width) / B); //Przesuniecie kolejnych wierszy
 
-    if(gruboscH >= 1 && gruboscV >= 1 && offsetH >= 1)
+    if(gristH >= 1 && gristV >= 1 && offsetH >= 1)
     {
-        settings_bar3d conf(gruboscH, offsetH,
-                            gruboscV, wire != get_background()?wire:0, get_background());
+        settings_bar3d conf(gristH, offsetH,
+                            gristV, wire != get_background()?wire:0, get_background());
         bar3d_config(&conf);
 
         data_source_base::iteratorh h = MyGeometry->make_view_iterator();
@@ -1277,9 +1371,9 @@ void manhattan_graph::_replot() // Rysuje wlasciwy wykres a pod nim ewentualnie 
                 double r[2] = {-1, -1};
                 long a[2] = {0, (c_range.end - c_range.start) / 2};
                 size_t hi = MyGeometry->get_next(h); //czyta index
-                r[0] = test = datas->get(hi); //i czyta wartosc
+                r[0] = test = datas->get(hi); //i czyta wartość
                 if(test == miss) //Jeśli missing
-                {//Wywal odpowiadajaca wartosc dla color
+                {//Wywal odpowiadajaca wartość dla color
                     if(color_geom)
                         color_geom->get_next(c);
                     continue; //Nie rysuj
@@ -1288,21 +1382,21 @@ void manhattan_graph::_replot() // Rysuje wlasciwy wykres a pod nim ewentualnie 
                 if(color_geom)
                 {
                     size_t ci = color_geom->get_next(c); //czyta index
-                    r[1] = test = colors->get(ci); //i czyta wartosc
+                    r[1] = test = colors->get(ci); //i czyta wartość
                     if(test == missc)
                         continue; //Nie rysuj
                 }
 
                 _rescale_data_point(r, a);
 
-                X = x2 - (Bpos + 1) * offsetH - (A - Apos) * gruboscH;
-                Y = zero - (B - (1 + Bpos)) * gruboscV;
-                Y2 = y2 - (B - (1 + Bpos)) * gruboscV - a[0]; //Wysokosc od min
+                X = toi(x2 - (Bpos + 1) * offsetH - (A - Apos) * gristH);
+                Y = toi(zero - (B - (1 + Bpos)) * gristV);
+                Y2 = toi(y2 - (B - (1 + Bpos)) * gristV - a[0]); //Wysokość od min
 
                 if(Y2 > Y)
                     ::swap(Y, Y2);
 
-                //Slupek 3D
+                //Słupek 3D
                 bar3d(X, Y, Y - Y2, a[1], a[1] + c_offset);
             }
         MyGeometry->destroy_iterator(h);
@@ -1314,9 +1408,9 @@ void manhattan_graph::_replot() // Rysuje wlasciwy wykres a pod nim ewentualnie 
 
 }
 
-// reals[] zawiera  wysokosc slupka i wartosc ustalajaca kolor, albo -1
+// reals[] zawiera  wysokosc słupka i wartość ustalająca kolor, albo -1
 int manhattan_graph::_rescale_data_point(const double reals[], long in_area[])
-//zwraca -1 jeśli nie w oknie
+//zwraca -1, jeśli nie w oknie
 {
     int flaga = 0;
 
@@ -1455,7 +1549,7 @@ data_source_base *sequence_graph::get_series(size_t index)
     return series[index].ptr;
 }
 
-// reals[] zawiera wysokosc i wartosc ustalajaca kolor
+// reals[] zawiera wysokosc i wartość ustalajaca kolor
 int sequence_graph::_rescale_data_point(const double reals[], long in_area[])
 //zwraca -1 jeśli nie w oknie
 {
@@ -1548,7 +1642,7 @@ void sequence_graph::_replot()
 
     if(t_colors.start != get_background()) //Będzie legenda
     {
-        height -= 3 * char_height('0');
+        height -= toi(3 * char_height('0'));
         width -= 4;
     }
 
@@ -1607,49 +1701,49 @@ void sequence_graph::_replot()
 //Dodatkowe skalowania
     scale_y.set(scale_y.min, scale_y.max, height); //Dla osi Y w trybie 1 i 2
     scale_x.set(0, MaxNum, width); //Dla osi X
-    s_colors.set(0, M, c_range.end - c_range.start + 1); //Dla kolorow serii
+    s_colors.set(0,toi(M), c_range.end - c_range.start + 1); //Dla kolorow serii
 
     if(t_colors.start != default_transparent && t_colors.start != get_background()) //Rysujemy legende
     {
         char bufor[80];
-        int grubosc = (x2 - x1) / M;
-        if(mode == 0 && grubosc > 1)
+        int thickness = toi((x2 - x1) / M);
+        if(mode == 0 && thickness > 1)
         {
             for(i = 0; i < M; i++)
                 if(series[i].ptr != nullptr)
                 {
                     sprintf(bufor, "%g ", scales[i].max);
-                    printc(x1 + i * grubosc, y1, color(i), get_background(), "%s", trunc(bufor, grubosc));
+                    printc(toi(x1 + i * thickness), y1, color(i), get_background(), "%s", trunc(bufor, thickness));
                 }
             for(i = 0; i < M; i++)
                 if(series[i].ptr != nullptr)
                 {
                     sprintf(bufor, "%g ", scales[i].min);
-                    printc(x1 + i * grubosc, y2 - 2 * char_height('0'), color(i), get_background(), "%s",
-                           trunc(bufor, grubosc));
+                    printc(toi(x1 + i * thickness), toi(y2 - 2 * char_height('0')), color(i), get_background(), "%s",
+                           trunc(bufor, thickness));
                 }
         } else //mode>0
         {
             sprintf(bufor, "%g ", scale_y.max);
             printc(x1, y1, t_colors.start, get_background(), "%s", trunc(bufor, width));
             sprintf(bufor, "%g ", scale_y.min);
-            printc(x1, y2 - 2 * char_height('0'), t_colors.start, get_background(), "%s", trunc(bufor, width));
+            printc(x1,toi(y2 - 2 * char_height('0')), t_colors.start, get_background(), "%s", trunc(bufor, width));
         }
 
-        if(grubosc > 1)
+        if(thickness > 1)
             for(i = 0; i < M; i++)
                 if(series[i].ptr != nullptr)
                 {
                     const char *pom = series[i].ptr->name();
-                    int len = strlen(pom);
+                    int len = toi(strlen(pom));
                     sprintf(bufor, "%*s;", len > 60?60:len, pom);
-                    printc(x1 + i * grubosc, y2 - char_height('0'), color(i), get_background(), "%s",
-                           trunc(bufor, grubosc));
+                    printc(toi(x1 + i * thickness), toi(y2 - char_height('0')), color(i), get_background(), "%s",
+                           trunc(bufor, thickness));
                 }
-        y1 += char_height('0');
-        y2 -= 2 * char_height('0');
+        y1 += toi(char_height('0'));
+        y2 -= toi(2 * char_height('0'));
 
-        //Rysowanie strzalki
+        //Rysowanie strzałki
         if(x2 - x1 > 10 && y2 - y1 > 10)
         {
             if(mode > 0)
@@ -1668,13 +1762,13 @@ void sequence_graph::_replot()
 //WYPISANIE LICZBY PROBEK
     if(t_colors.end != default_transparent && t_colors.end != get_background())
     {
-        print_width(x2 - (x2 - x1) / 3, y2 - char_height('0'), (x2 - x1) / 3, get_background(), t_colors.end,
+        print_width(x2 - (x2 - x1) / 3, toi(y2 - char_height('0')), (x2 - x1) / 3, get_background(), t_colors.end,
                     "%@R%u", MaxNum);
     }
 
 //Rysowanie punktow lub linii
 //...
-    if(x2 - x1 > 10 && y2 - y1 > 5) //Musi byc troszke miejsca i troche danych
+    if(x2 - x1 > 10 && y2 - y1 > 5) //Musi byc troszkę miejsca i troche danych
     {
         for(i = 0; i < M; i++) //Inicjowanie tablic
         {
@@ -1707,7 +1801,7 @@ void sequence_graph::_replot()
                     test = series[i].ptr->get(H[i]);
                     if(test == Miss[i])
                     {
-                        OK[i] = 0; //Missing,zostaje stara wartosc
+                        OK[i] = 0; //Missing,zostaje stara wartość
                         continue;
                     }
 
@@ -1746,7 +1840,7 @@ void sequence_graph::_replot()
                 if(C[i] != -1 && series[i].figure && OK[i])
                 {
                     series[i].figure->base_len = this->get_height();
-                    series[i].figure->plot(x1 + pom[M], y2 - pom[i], series[i].figure->base_size(), C[i]);
+                    series[i].figure->plot(toi(x1 + pom[M]), toi(y2 - pom[i]), series[i].figure->base_size(), C[i]);
                 }
 
             //Rysowanie liniami
@@ -1754,10 +1848,10 @@ void sequence_graph::_replot()
                 for(i = 0; i < M; i++)
                     if(C[i] != -1 && series[i].figure == nullptr && OK[i])
                     {
-                        int oldX = old[M];
+                        int oldX = toi(old[M]);
                         if(old[i] == -1 || old[i] == height + 1)
-                            oldX = pom[M]; //Pion
-                        line(x1 + oldX, y2 - old[i], x1 + pom[M], y2 - pom[i], C[i]);
+                            oldX = toi(pom[M]); //Pion
+                        line(x1 + oldX, toi(y2 - old[i]), toi(x1 + pom[M]), toi(y2 - pom[i]), C[i]);
                     }
         }
 
@@ -1873,11 +1967,11 @@ data_source_base *rainbow_graph::get_series(size_t index)
 }
 
 
-void rainbow_graph::_replot() // Rysuje wlasciwy wykres a pod nim ewentualnie legende
+void rainbow_graph::_replot()
 {
     int x1 = get_start_x();
     int y1 = get_start_y();
-    int x2 = x1 + get_width() - 1; //-1 bo width obejmuje pierwszy piksel
+    int x2 = x1 + get_width() - 1; //-1, bo width obejmuje pierwszy piksel
     int y2 = y1 + get_height() - 1;
     double minc, maxc;
     size_t num, num_color, height;
@@ -1916,7 +2010,7 @@ void rainbow_graph::_replot() // Rysuje wlasciwy wykres a pod nim ewentualnie le
     if(t_colors.start != default_transparent && t_colors.start != get_background())
     {
         const char *pom = datas->name();
-        print_width(x1, y2 - char_height('0'), (x2 - x1) / 2, t_colors.start, get_background(),
+        print_width(x1, toi(y2 - char_height('0')), (x2 - x1) / 2, t_colors.start, get_background(),
                     "%*s", strlen(pom) > 79?79:strlen(pom), pom);
         flaga = 1;
     }
@@ -1932,7 +2026,7 @@ void rainbow_graph::_replot() // Rysuje wlasciwy wykres a pod nim ewentualnie le
         print_width((x2 + x1) / 2, y1, (x2 - x1) / 2 - width, get_background(), c_range.start,
                     "%@R%*s", strlen(pom) > 60?60:strlen(pom), pom);
 
-        print_width(x2 - (x2 - x1) / 2, y2 - char_height('0'), (x2 - x1) / 2,
+        print_width(x2 - (x2 - x1) / 2, toi(y2 - char_height('0')), (x2 - x1) / 2,
                     c_range.end, c_range.end != get_background()?get_background():c_range.start,
                     "%@R%g", maxc);
 
@@ -1942,10 +2036,10 @@ void rainbow_graph::_replot() // Rysuje wlasciwy wykres a pod nim ewentualnie le
 //Zawerzenie po y-grekach
     if(flaga == 2)
     {
-        y1 += char_height('0');
-        y2 -= char_height('0');
+        y1 += toi(char_height('0'));
+        y2 -= toi(char_height('0'));
     } else if(flaga == 1)
-        y2 -= char_height('0');
+        y2 -= toi(char_height('0'));
 
 //Rysowanie skali -jeśli są co najmniej dwa kolory i jest miejsce na co najmniej 2 pixele
     if(colors != nullptr && x2 - x1 >= 10 && c_range.end > c_range.start && c_range.end - c_range.start >= 1)
@@ -1962,17 +2056,17 @@ void rainbow_graph::_replot() // Rysuje wlasciwy wykres a pod nim ewentualnie le
     {
         data_source_base::iteratorh h = datas->reset();
         data_source_base::iteratorh c = colors?colors->reset():nullptr;
-        int grubosc = char_height('0');
+        int thickness = toi(char_height('0'));
         assert(Format != nullptr);
-        for(size_t i = 0; i < num; i++)
+        for(unsigned i = 0; i < num; i++)
         {
             double test=datas->get_missing();
             wb_color color = default_black;
             //int straz1=0xabcd;
             char bufor[128] = {0};
             //int straz2=0xabcd;
-            assert(grubosc >= 1);
-            if( (i + 2) * grubosc >= size_t(y2 - y1) )
+            assert(thickness >= 1);
+            if((i + 2) * thickness >= size_t(y2 - y1) )
             {
                 strcpy(bufor, "...");
             }
@@ -1988,7 +2082,7 @@ void rainbow_graph::_replot() // Rysuje wlasciwy wykres a pod nim ewentualnie le
 
             if(colors == nullptr)
             {
-                print_width(x1, y1 + i * grubosc, x2 - x1, c_range.start, get_background(), Format2, bufor);
+                print_width(x1, toi(y1 + i * thickness), x2 - x1, c_range.start, get_background(), Format2, bufor);
             }
             else
             {
@@ -1997,20 +2091,20 @@ void rainbow_graph::_replot() // Rysuje wlasciwy wykres a pod nim ewentualnie le
                 color += c_range.start;
                 if(color != get_background() && test != colors->get_missing())
                 {
-                    fill_rect(x1, y1 + i * grubosc,
-                              x2 + 1, y1 + (i + 1) * grubosc + 1, color);
-                    print_width(x1, y1 + i * grubosc, x2 - x1, get_background(), color, Format2, bufor);
+                    fill_rect(x1, toi(y1 + i * thickness),
+                              x2 + 1, toi(y1 + (i + 1) * thickness + 1), color);
+                    print_width(x1, toi(y1 + i * thickness), x2 - x1, get_background(), color, Format2, bufor);
                 } else
                 {
                     color = (255 != get_background()?255:0);
-                    print_width(x1, y1 + i * grubosc, x2 - x1, color, get_background(), Format2, bufor);
-                    rect(x1, y1 + i * grubosc,
-                         x2, y1 + (i + 1) * grubosc,
+                    print_width(x1, toi(y1 + i * thickness), x2 - x1, color, get_background(), Format2, bufor);
+                    rect(x1, toi(y1 + i * thickness),
+                         x2, toi(y1 + (i + 1) * thickness),
                          color);
                 }
             }
 
-            if((i + 2) * grubosc >= size_t(y2 - y1))
+            if((i + 2) * thickness >= size_t(y2 - y1))
                 break; //Nie ma miejsca na resztę pętli
         }
         datas->close(h);
@@ -2022,7 +2116,7 @@ void rainbow_graph::_replot() // Rysuje wlasciwy wykres a pod nim ewentualnie le
 }
 
 
-// reals[] zawiera wartosc ustalajaca kolor albo (min - 1)
+// reals[] zawiera wartość ustalajaca kolor albo (min - 1)
 int rainbow_graph::_rescale_data_point(const double reals[], long in_area[])
 // zwraca -1 jeśli nie w oknie
 {
@@ -2402,15 +2496,14 @@ void scatter_graph::_replot()
         unsigned rmin, rmax;
         size_t dummy;
         sizes->bounds(dummy, min, max);
-        rmin = scale_s.get(min) + CurrConfig->base_size(); //scale_s.get(scale_s.min)+1
-        rmax = scale_s.get(max) +
-               CurrConfig->base_size(); //scale_s.get(scale_s.max)+1 ALE: (CurrConfig->max_size()-CurrConfig->base_size())/2 ???
+        rmin = dtoi(scale_s.get(min) + CurrConfig->base_size()); //scale_s.get(scale_s.min)+1
+        rmax = dtoi(scale_s.get(max) + CurrConfig->base_size()); //scale_s.get(scale_s.max)+1 ALE: (CurrConfig->max_size()-CurrConfig->base_size())/2 ???
 
-        CurrConfig->plot(x1 + rmin / 2, y1 + rmin / 2, rmin, (c_range.end - c_range.start) / 2);
-        CurrConfig->plot(x2 - rmax / 2, y1 + rmax / 2, rmax, (c_range.end - c_range.start) / 2);
+        CurrConfig->plot(toi(x1 + rmin / 2), toi(y1 + rmin / 2), rmin, (c_range.end - c_range.start) / 2);
+        CurrConfig->plot(toi(x2 - rmax / 2), toi(y1 + rmax / 2), rmax, (c_range.end - c_range.start) / 2);
 
-        int x = x1 + CurrConfig->base_size() + 1;
-        int xE = x2 - CurrConfig->max_size() - 1;
+        int x = toi(x1 + CurrConfig->base_size() + 1);
+        int xE = toi(x2 - CurrConfig->max_size() - 1);
         int loc_width = xE - x;
         loc_width = print_width(x, y1, loc_width / 3, t_colors.end, get_background(),
                                 "%g", scale_s.min);
@@ -2445,24 +2538,24 @@ void scatter_graph::_replot()
         const char *pom1 = Ydata->name();
 
         //Min Y i seria I
-        swidth = print_width(pos, y2 - char_height('0'), (x2 - x1) / 2, t_colors.start, get_background(),
+        swidth = print_width(pos, toi(y2 - char_height('0')), (x2 - x1) / 2, t_colors.start, get_background(),
                              "%g %*s", scale_y.min, strlen(pom1) > 60?60:strlen(pom1), pom1);
         pos += swidth;
 
         //seria II
-        swidth = print_width(pos, y2 - char_height('0'), (x2 - pos) / 3 * 2, t_colors.start, get_background(),
+        swidth = print_width(pos, toi(y2 - char_height('0')), (x2 - pos) / 3 * 2, t_colors.start, get_background(),
                              ",%*s", strlen(pom2) > 60?60:strlen(pom2), pom2);
         if(pos == 0) goto SKIP2;
         pos += swidth;
 
         //Min X
-        swidth = print_width(pos, y2 - char_height('0'), (x2 - pos) / 2, t_colors.start, get_background(),
+        swidth = print_width(pos, toi(y2 - char_height('0')), (x2 - pos) / 2, t_colors.start, get_background(),
                              "<%g", scale_x.min);
         if(pos == 0) goto SKIP2;
         pos += swidth;
 
         //Max X
-        print_width(pos, y2 - char_height('0'), x2 - pos, t_colors.start, get_background(),
+        print_width(pos, toi(y2 - char_height('0')), x2 - pos, t_colors.start, get_background(),
                     "%@R,%g>", scale_x.max);
 
         flaga = 1;
@@ -2490,15 +2583,15 @@ void scatter_graph::_replot()
         flaga = 1;
     }
 
-//Zawerzenie po y-grekach
+    //Zawężenie po y-grekach
     if(flaga)
     {
-        y1 += char_height('0');
-        y2 -= char_height('0');
+        y1 += toi(char_height('0'));
+        y2 -= toi(char_height('0'));
     }
 
 
-    //Rysowanie skali -jeśli są co najmniej dwa kolory i jest miejsce na co najmniej 2 pixele
+    //Rysowanie skali -jeśli są co najmniej dwa kolory i jest miejsce na co najmniej 2 piksele
     if(t_colors.end != default_transparent && t_colors.end != get_background() && colors != nullptr &&
        x2 - x1 >= 10 && c_range.end > c_range.start && c_range.end - c_range.start >= 1 && vis_leg3)
     {
@@ -2507,14 +2600,14 @@ void scatter_graph::_replot()
     }
 //NIE_DA_SIE:;
 
-    //Strzalka w prawo
+    //Strzałka w prawo
     if(x2 - x1 > 10 && y2 - y1 > 10)
     {
-        scale_x.OX_axis(x1 + 3, y2 - 6, x1 + 3 + width, y2, t_colors.start, get_background());
+        scale_x.OX_axis(x1 + 3, y2 - 6, toi(x1 + 3 + width), y2, t_colors.start, get_background());
         y2 -= 3;
     }
 
-//Strzalka w gore
+    //Strzałka w gore
     if(x2 - x1 > 10 && y2 - y1 > 10)
     {
         scale_y.OY_axis(x1, y1, x1 + 6, y2, t_colors.start, get_background());
@@ -2524,7 +2617,7 @@ void scatter_graph::_replot()
 //Rysowanie punktow
     num = min_(min_((size_t) num_X, num_Y), min_((size_t) num_size, num_color)); //cast for gcc
 
-    graph_core.set(x1, y1, x2, y2); //Zapamietanie gdzie lezy wlasciwy obszar rysowania
+    graph_core.set(x1, y1, x2, y2); //Zapamiętanie gdzie lezy właściwy obszar rysowania
 
     if(num > 0 && x2 - x1 > 10 && y2 - y1 > 10)
     {
@@ -2559,7 +2652,7 @@ void scatter_graph::_replot()
                     }
                     _rescale_data_point(r, a);
 
-                    CurrConfig->plot(x1 + a[0], y2 - a[1], a[3] + 1, a[2]);
+                    CurrConfig->plot(toi(x1 + a[0]), toi(y2 - a[1]), a[3] + 1, a[2]);
                 }
             Xdata->close(ix);
             Ydata->close(iy);
@@ -2573,7 +2666,7 @@ void scatter_graph::_replot()
 }
 
 void net_graph::_replot()
-// Rysuje wykres punktowy a pod nim ewentualnie legende
+// Rysuje wykres punktowy a pod nim ewentualnie legendę
 //a do tego laczy punkty liniami
 {
     scatter_graph::_replot();
@@ -2581,7 +2674,7 @@ void net_graph::_replot()
     assert(Sources != nullptr);
     assert(Targets != nullptr);
 
-    size_t num_so, num_t, num_a, num_c, num; //Ilosc elementow w każdej z serii i ostatecznie ilosc minimalna (num)
+    size_t num_so, num_t, num_a, num_c, num; //Liczba elementów w każdej z serii i ostatecznie liczba minimalna (num)
     double mini, maxi, mina, maxa;
     double SameSize = sqrt(sqr(graph_core._x1() - graph_core._x2()) + sqr(graph_core._y1() - graph_core._y2())) * 0.025;
 
@@ -2589,7 +2682,7 @@ void net_graph::_replot()
 
     Targets->bounds(num_t, mini, maxi);
 
-    //Sprawdzenie czy jest wystarczajoca ilosc informacji o grotach
+    //Sprawdzenie, czy jest wystarczająca ilość informacji o grotach
     if(Arrows)
     {
         Arrows->bounds(num_a, mina, maxa);
@@ -2642,7 +2735,7 @@ void net_graph::_replot()
             double test;
 
             double r[4] = {-1, -1, -DBL_MAX, -DBL_MAX};
-            long a1[4] = {0, 0, -INT_MAX, -INT_MAX};
+            long a1[4] = {0, 0, -INT_MAX, -INT_MAX}; //TO MUSI BYĆ `long` bo jest brane do funkcji przez adres.
             long a2[4] = {0, 0, -INT_MAX, -INT_MAX};
 
             r[0] = test = Xdata->get(
@@ -2678,8 +2771,8 @@ void net_graph::_replot()
                 if(Present < 1)
                     ASize = Present;
                 else
-                {
-                    double D = sqr(a1[0] - a2[0]) + sqr(a1[1] - a2[1]);
+                {   // `a1` i `a2` są typu `lang`, ale inicjalizacja wskazuje, że nie spodziewamy się wartości spoza zakresu `int`.
+                    double D = toi( sqr(a1[0] - a2[0]) + sqr(a1[1] - a2[1]) );
                     if(D > 0)
                         D = sqrt(D);
                     else
@@ -2690,14 +2783,14 @@ void net_graph::_replot()
                         ASize = D / 2;
                 }
 
-                arrow(graph_core._x1() + a1[0], graph_core._y2() - a1[1],
-                      graph_core._x1() + a2[0], graph_core._y2() - a2[1],
+                arrow(toi(tol(graph_core._x1()) + a1[0]), toi( tol(graph_core._y2()) - a1[1]),
+                      toi(tol(graph_core._x1()) + a2[0]), toi( tol(graph_core._y2()) - a2[1]),
                       color,
                       ASize, 3.27);
             } else
             {
-                line(graph_core._x1() + a1[0], graph_core._y2() - a1[1],
-                     graph_core._x1() + a2[0], graph_core._y2() - a2[1],
+                line(toi(tol(graph_core._x1()) + a1[0]), toi(tol(graph_core._y2()) - a1[1]),
+                     toi(tol(graph_core._x1()) + a2[0]), toi(tol(graph_core._y2()) - a2[1]),
                      color);
             }
         }

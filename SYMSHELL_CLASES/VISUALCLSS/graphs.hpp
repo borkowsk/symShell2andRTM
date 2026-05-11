@@ -1,6 +1,6 @@
 /// @file
 /// @brief KLASY DEFINIUJĄCE RÓŻNORODNE TYPY WYKRESÓW. / CLASSES DEFINING VARIOUS TYPES OF CHARTS.
-/// @date 2026-05-08 (modified)
+/// @date 2026-05-11 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_GRAPHS_HPP_INCLUDED_
@@ -819,7 +819,7 @@ public:
 
 private:
     // ONLY FOR DEVELOPERS OF THIS CLASS
-    size_t M;				///< Rozmiar tablicy serii. Nie wszystkie muszą być pełne.
+    int    M;				///< Rozmiar tablicy serii. Nie wszystkie muszą być pełne.
     int mode;				///< Aktualny tryb pracy.
     series_info*   series;	///< Tablica serii.
     scaling_info*  scales;	///< Tablica skal.
@@ -1032,7 +1032,7 @@ void fast_carpet_graph<DATA_SOURCE, DIRECT_COLOR>::_replot()
        char_height('X') < get_height())
     {
         int x = x1;
-        int y = y2 - char_height('X') + 1; //+1, bo y2 ma być zarysowane
+        int y = (y2 - (int)char_height('X') + 1); //+1, bo y2 ma być zarysowane
         int width = 0;
 //----------
         y2 = y; //Zabiera dolna część na legendę
@@ -1070,7 +1070,7 @@ void fast_carpet_graph<DATA_SOURCE, DIRECT_COLOR>::_replot()
     KWADRACIKI:
     assert(x2 > x1);
     assert(y2 > y1);
-    if(AA >= 1 && BB >= 1 && AA <= size_t(x2 - x1 + 1) && BB <= size_t(y2 - y1 + 1))
+    if(AA >= 1 && BB >= 1 && AA <= (x2 - x1 + 1) && BB <= (y2 - y1 + 1))
     {
         //Tu CAST na znany dobrze typ źródła — żeby był szybszy dostęp
         //----------------------------------------
@@ -1078,7 +1078,7 @@ void fast_carpet_graph<DATA_SOURCE, DIRECT_COLOR>::_replot()
         //----------------------------------------
         assert(c_range.end - c_range.start >= 1);
 
-        size_t i, j; //Indeksy po wierszach i kolumnach
+        int i, j; //Indeksy po wierszach i kolumnach. Przecież w zupełności wystarczy 31 bitów!!!
         int width = x2 - x1 + 1; //już mogą być inne
         int height = y2 - y1 + 1; //Niż dla całego obszaru
         int offsetA = (AA < double(width)?(width - AA) / 2:0);
