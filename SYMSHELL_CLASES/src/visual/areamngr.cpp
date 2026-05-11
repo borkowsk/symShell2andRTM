@@ -10,31 +10,31 @@
 
 using namespace symshell2;
 
-area_menager::~area_menager()  //Wirtualny destruktor
+area_manager::~area_manager()  //Wirtualny destruktor
 {
     maximized=-1;grabbed=-1;
 }
 
-area_menager::area_menager(size_t size, //Konstruktor dający zarządcę o określonym rozmiarze listy
-				int ix1,int iy1,int ix2,int iy2,
-				unsigned ibkg,
-				unsigned ifrm):
-	area_menager_base(ix1,iy1,ix2,iy2,ibkg,ifrm),
-	maximized(-1),grabbed(-1),
-	tab(size)
+area_manager::area_manager(size_t size, //Konstruktor dający zarządcę o określonym rozmiarze listy
+				int ix1, int iy1, int ix2, int iy2,
+                           unsigned ibkg,
+                           unsigned ifrm):
+        area_manager_base(ix1, iy1, ix2, iy2, ibkg, ifrm),
+        maximized(-1), grabbed(-1),
+        tab(size)
 {
 }
 	
 //	AKCESORY OGOLNE:
 //------------------
 
- size_t area_menager::get_size()
+ size_t area_manager::get_size()
 //Podaje po prostu aktualny rozmiar listy lacznie z pozycjami pustymi
  {
 	return tab.get_size();
  }
  
- int    area_menager::insert(wb_ptr<drawable_base> drw)
+ int    area_manager::insert(wb_ptr<drawable_base> drw)
 //Dodaje obszar do listy. Zwraca pozycje albo -1(blad)
  {  
 	size_t len=tab.get_size();
@@ -44,7 +44,7 @@ area_menager::area_menager(size_t size, //Konstruktor dający zarządcę o okre�
 	return -1;
  }
 
- int    area_menager::replace(const char* nam,wb_ptr<drawable_base> drw)
+ int    area_manager::replace(const char* nam, wb_ptr<drawable_base> drw)
 //Wymienia na liscie. Jak nie znajdzie to zwraca -1.
  {
 	int pos=search(nam);
@@ -53,7 +53,7 @@ area_menager::area_menager(size_t size, //Konstruktor dający zarządcę o okre�
 	return -1;//nie znalazl pozycji
  }
 
- int    area_menager::replace(size_t    index,wb_ptr<drawable_base> drw)
+ int    area_manager::replace(size_t    index, wb_ptr<drawable_base> drw)
 //Wymienia na liscie. Jak bledne parametry to zwraca -1.
  {
 	if(index>=tab.get_size()) return -1;//bledny parametr
@@ -61,7 +61,7 @@ area_menager::area_menager(size_t size, //Konstruktor dający zarządcę o okre�
 	tab[index].ptr=drw;//Jesli byl to wb_ptr zwalnia
 	if(tab[index].ptr)
 	{
-		tab[index].orginal.load(*tab[index].ptr);
+		tab[index].orig_pos.load(*tab[index].ptr);
 		tab[index].saved.load(*tab[index].ptr);
 	}
 	else //De facto kasowanie
@@ -73,17 +73,17 @@ area_menager::area_menager(size_t size, //Konstruktor dający zarządcę o okre�
 	return index;
  }
 
- int area_menager::as_original(size_t    index)
+ int area_manager::as_original(size_t    index)
  {
  if(index>=tab.get_size()) return -1; //bledny parametr
 	
  if(tab[index].ptr)
-		tab[index].orginal.load(*tab[index].ptr);
+		tab[index].orig_pos.load(*tab[index].ptr);
 
  return 0;
  }
 
- int    area_menager::search(const char* nam)
+ int    area_manager::search(const char* nam)
 //Odnajduje na liscie. Zwraca -----//----	
  {
 	for(size_t i=0;i<tab.get_size();i++)
@@ -97,7 +97,7 @@ area_menager::area_menager(size_t size, //Konstruktor dający zarządcę o okre�
 // AKCESORY poszczegolnych obszarow
 //---------------------------------
 
- drawable_base /*const*/* area_menager::get_ptr(size_t index)
+ drawable_base /*const*/* area_manager::get_ptr(size_t index)
 //Bez mozliwosci modyfikacji i zwolnienia
  {
 	if( index>=0 && index<tab.get_size() )
@@ -106,7 +106,7 @@ area_menager::area_menager(size_t size, //Konstruktor dający zarządcę o okre�
 		return NULL;
  }
 
- wb_ptr<drawable_base>&  area_menager::get(size_t index)
+ wb_ptr<drawable_base>&  area_manager::get(size_t index)
 //Mozliwosci modyfikacji, ale trzeba pamietac
 //ze pewne informacje sa zapisywane w zarzadcy w zwiazku z pozycja
  {	
@@ -117,7 +117,7 @@ area_menager::area_menager(size_t size, //Konstruktor dający zarządcę o okre�
 //	REAKCJE NA ZDAZENIA
 //---------------------
 
- int    area_menager::on_click(int x,int y,int click)
+ int    area_manager::on_click(int x, int y, int click)
 //Przepytuje obszary z reakcji na punkt.
 //Jesli on_click() zwraca 1 to mozna sie dowiedziec, kt�ry obszar wywo�ujac:
  {
@@ -151,7 +151,7 @@ area_menager::area_menager(size_t size, //Konstruktor dający zarządcę o okre�
 	return 0;//Nikt w tym obszarze
  }
 
- int    area_menager::get_last_lazy_area()
+ int    area_manager::get_last_lazy_area()
 //zwroci -1 jesli juz raz wziete, lub inny blad
  {
 	int pom=lazy;
@@ -159,7 +159,7 @@ area_menager::area_menager(size_t size, //Konstruktor dający zarządcę o okre�
 	return pom;
  }
 
- int    area_menager::on_input(int input_char)
+ int    area_manager::on_input(int input_char)
 //Przepytuje obszary czy chca znak
  {
 	 if(tab.get_size()==0) return -1;
@@ -182,7 +182,7 @@ area_menager::area_menager(size_t size, //Konstruktor dający zarządcę o okre�
 
  
 
- void   area_menager::replot(const gps_area& ar)
+ void   area_manager::replot(const gps_area& ar)
 //Odrysowuje obszary "nadepniete" przez "ar"
  {
 	 if(maximized!=-1)
@@ -203,7 +203,7 @@ area_menager::area_menager(size_t size, //Konstruktor dający zarządcę o okre�
  }
 
  /// Odrysowuje wszystkie (widoczne) obszary
- void   area_menager::_replot()
+ void   area_manager::_replot()
  {
    if(maximized!=-1)
 	 {
@@ -225,7 +225,7 @@ area_menager::area_menager(size_t size, //Konstruktor dający zarządcę o okre�
 //----------------
 
 
- int    area_menager::mark(size_t index,wb_color frame)
+ int    area_manager::mark(size_t index, wb_color frame)
  //Zaznacza obszar
  {
 	if( index>=0 && index<tab.get_size() && !tab[index].minimized)
@@ -239,7 +239,7 @@ area_menager::area_menager(size_t size, //Konstruktor dający zarządcę o okre�
     return -1;
  }
 
- int    area_menager::mark_all(wb_color frame)
+ int    area_manager::mark_all(wb_color frame)
  //Zaznacza wszystkie widoczne obszary 
  {
 	 if(maximized!=-1)
@@ -258,7 +258,7 @@ area_menager::area_menager(size_t size, //Konstruktor dający zarządcę o okre�
  return -1;
  }
 
- int    area_menager::unmark(size_t index)
+ int    area_manager::unmark(size_t index)
 //i odznacza obszar
  {
     if( /*index>=0 &&*/ index<tab.get_size() )
@@ -271,7 +271,7 @@ area_menager::area_menager(size_t size, //Konstruktor dający zarządcę o okre�
     return -1;
  }
 
-int    area_menager::refresh(size_t index)
+int    area_manager::refresh(size_t index)
 //i odznacza obszar
  {
     if( /*index>=0 &&*/ index<tab.get_size() )
@@ -284,7 +284,7 @@ int    area_menager::refresh(size_t index)
  }
 
 
-int    area_menager::is_marked(size_t index)
+int    area_manager::is_marked(size_t index)
 //Informuje czy jest zaznaczony
 {
     if( /*index>=0 &&*/ index<tab.get_size() && tab[index].mark )
@@ -294,7 +294,7 @@ int    area_menager::is_marked(size_t index)
     return 0;
 }
 
-int    area_menager::is_minimized(size_t index)
+int    area_manager::is_minimized(size_t index)
 //Informuje czy jest zaznaczony
 {
     if( /*index>=0 &&*/ index<tab.get_size() && tab[index].minimized )
@@ -304,7 +304,7 @@ int    area_menager::is_minimized(size_t index)
     return 0;
 }
 
- wb_dynarray<int> area_menager::get_marked(wb_color what,int unm)
+ wb_dynarray<int> area_manager::get_marked(wb_color what, int unm)
 //Zwraca liste zaznaczonych obszarow.
 //Jesli what=default color to wszystkie zaznaczone.
 // i opcjonalnie zdejmuje zaznaczenie
@@ -331,7 +331,7 @@ int    area_menager::is_minimized(size_t index)
      return ret;
  }
 
- int    area_menager::set_input(size_t index)
+ int    area_manager::set_input(size_t index)
 //Ustala obszar jako pierwszy do wejscia z klawiatury lub zdarzen menu
  {
     int pom=grabbed;
@@ -350,7 +350,7 @@ int    area_menager::is_minimized(size_t index)
             return -1;
  }
 
- int    area_menager::maximize(size_t index)
+ int    area_manager::maximize(size_t index)
 //Oddaje podobszarowi caly zarzadzany obszar
  {
     if( index>=0 && index<tab.get_size() &&
@@ -367,7 +367,7 @@ int    area_menager::is_minimized(size_t index)
      return -1;
  }
 
- int    area_menager::minimize(size_t index)
+ int    area_manager::minimize(size_t index)
 //Ukrywa podobszar
  {
     if( index>=0 && index<tab.get_size() && !tab[index].minimized )
@@ -394,7 +394,7 @@ int    area_menager::is_minimized(size_t index)
     return -1;
  }
 
- int    area_menager::restore(size_t  index)
+ int    area_manager::restore(size_t  index)
 //Odtwarza poprzednie polozenie i rozmiar obszaru
  {
      if( index>=0 && index<tab.get_size() )
@@ -421,7 +421,7 @@ int    area_menager::is_minimized(size_t index)
      return -1;
  }
 
- int    area_menager::restore()
+ int    area_manager::restore()
  {
      for(size_t i=0;i<tab.get_size();i++)
         if( tab[i].ptr )
@@ -430,7 +430,7 @@ int    area_menager::is_minimized(size_t index)
      return 0;
  }
 
- int    area_menager::original(size_t  index)
+ int    area_manager::original(size_t  index)
 //Odtwarza pierwotne  polozenie i rozmiar obszaru
  {
      if( index>=0 && index<tab.get_size() && tab[index].ptr )
@@ -450,9 +450,9 @@ int    area_menager::is_minimized(size_t index)
             }
 
         tab[index].minimized=0;
-        if(tab[index].ptr->on_change(tab[index].orginal)==1)
+        if(tab[index].ptr->on_change(tab[index].orig_pos) == 1)
             {
-            tab[index].ptr->load(tab[index].orginal);//Laduje orginalne polozenie
+            tab[index].ptr->load(tab[index].orig_pos);//Laduje orginalne polozenie
             tab[index].ptr->replot();
             }
         return 0;
@@ -461,7 +461,7 @@ int    area_menager::is_minimized(size_t index)
      return -1;
  }
 
- int    area_menager::restore(const wb_dynarray<int>& lst)
+ int    area_manager::restore(const wb_dynarray<int>& lst)
 //Robi restore dla wszystkich obszarow
  {
      if(lst.get_size()<=0)
@@ -484,7 +484,7 @@ int    area_menager::is_minimized(size_t index)
      return 0;
  }
 
-int    area_menager::minimize(const wb_dynarray<int>& lst)
+int    area_manager::minimize(const wb_dynarray<int>& lst)
 //Robi original dla wszystkich obszarow
  {
     if(lst.get_size()<=0)
@@ -498,7 +498,7 @@ int    area_menager::minimize(const wb_dynarray<int>& lst)
     return 0;
  }
 
-int    area_menager::original(const wb_dynarray<int>& lst)
+int    area_manager::original(const wb_dynarray<int>& lst)
 //Robi original dla wszystkich obszarow
  {
     if(lst.get_size()<=0)
@@ -534,7 +534,7 @@ for(i=beg;i<=end;i++)
 return ret;
 }
 
-int    area_menager::tile(const wb_dynarray<int>& lst)
+int    area_manager::tile(const wb_dynarray<int>& lst)
 //...na chama, czyli po rowno, albo -1 jak nie da sie
  {
     if(lst.get_size()<=0)
@@ -586,7 +586,7 @@ KONIEC:
     return 0;
  }
 
-int    area_menager::arrange(const wb_dynarray<int>& lst)
+int    area_manager::arrange(const wb_dynarray<int>& lst)
 // albo zracaja -1, jesli sie nie udalo
  {
     if(lst.get_size()<=0)
@@ -598,7 +598,7 @@ int    area_menager::arrange(const wb_dynarray<int>& lst)
     return -1;
  }
 
-int    area_menager::on_change(const gps_area& ar)
+int    area_manager::on_change(const gps_area& ar)
 //Reguje na zmiane rozmiarow lub polozenia wlasnego obszaru
  {
     gps_area old=*this;

@@ -1,7 +1,7 @@
 /// @file
 /// @brief ... (old example for SymShell implementing Kruglanskis like model)
 // //////////////////////////////////////////////////////////////////////////
-/// @date 2026-05-07 (modified)
+/// @date 2026-05-11 (modified)
 ///
 // Symulacja Need for closure wg teorii Arie Kruglanskiego
 // Uzyskana z przerobienia programu ATTITUDEs
@@ -418,7 +418,7 @@ cout.flush();
 if(!parse_options(argc,argv))
         exit(1);
 
-main_area_menager Lufciki(24, SCR_WIDTH, SCR_HEIGHT, 28);
+main_area_manager Lufciki(24, SCR_WIDTH, SCR_HEIGHT, 28);
 if(!Lufciki.start(WINDOW_HEADER,argc,argv,1))
     {
     cerr<<"Can't initialize graphics"<<endl;

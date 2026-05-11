@@ -1,7 +1,7 @@
 /// @file
 /// Wariacje na temat life Conway-a — program główny.
 // //////////////////////////////////////////////////
-/// @date 2026-05-06 (modified)
+/// @date 2026-05-11 (modified)
 
 const char* WINDOW_HEADER="RAND-LIFE version 1.01d (by Wojciech Borkowski)";
 const char* SIMULATION_NAME="randlife_v1.01d";
@@ -292,7 +292,7 @@ int main(const int argc,const char* argv[])
     if(!parse_options(argc,argv))
             exit(1);
 
-    main_area_menager Lufciki(24, SCR_WIDTH, SCR_HEIGHT, 28);
+    main_area_manager Lufciki(24, SCR_WIDTH, SCR_HEIGHT, 28);
     if(!Lufciki.start(WINDOW_HEADER,argc,argv,1))
         {
         cerr<<"Can't initialize graphics"<<endl;

@@ -141,7 +141,7 @@ public:
 
         /// Wskaźnik do źródła danych.
         /// @details Musi żywcem przepisywać wskaźniki, jeśli nimi nie zarządza!!!
-        ///          To założenie wykonane na razie przez domyślny `operator =` .
+        ///          To założenie wykonane na razie przez domyślny `operator = `.
         data_source_base*	ptr;
 
         wb_color			color;		///< Kolor punktów. Jeśli !=-1, ustala taki indeks koloru.
@@ -182,8 +182,8 @@ public:
 protected:
     /// Przeskalowywanie wartości współrzędnych punktu danych.
     /// Wymaga się, by działał prawidłowo po wywołaniu funkcji `_replot`.
-    /// @returns -1, jeśli błąd. Np. któraś z podanych wartości nie zawiera się w podanym przez serie zakresie `<min,max>`.
-    /// @param reals[] zawiera współrzędne (wartości serii z głównych)
+    /// @returns -1, jeśli błąd. Np. któraś z podanych wartości nie zawiera się w podanym przez serie zakresie `<min, max>`.
+    /// @param reals zawiera współrzędne (wartości serii z głównych)
     ///        oraz wartość ustalająca kolor z seri dla koloru (jeśli jest).
     /// @param in_area ...
     virtual int _rescale_data_point(const double reals[],long in_area[])=0;
@@ -341,7 +341,7 @@ public:
     /// Tylko jedna seria i tylko `index == 0` jest dozwolony.
     data_source_base* get_series(size_t index) override;
 
-    /// Wersja uproszczona. @param reals[] ma zawierać jedynie wartość ustalającą kolor.
+    /// Wersja uproszczona. @param reals ma zawierać jedynie wartość ustalającą kolor.
     int _rescale_data_point(const double reals[1],long in_area[1]) override;
 
     /// Rysuje właściwy wykres, a pod nim ewentualnie legendę.
@@ -870,7 +870,7 @@ public:
         {}
 
         config_point*  fig; ///< Wyświetlacz punktów.
-        int         menage; ///< Czy wyświetlacz jest zarządzany.
+        int         menage; ///< Określa, czy wyświetlacz jest zarządzany.
     };
 
     /// @name IMPLEMENTATIONS OF VIRTUAL METHODS
@@ -887,10 +887,10 @@ public:
     /// @name Specials for this class.
     /// @{
 
-    /// Zafiksowanie zakresu X lub od-fiksowanie gdy `min == max == -DBL_MAX`.
+    /// Zafiksowanie zakresu X lub od-fiksowanie gdy `min == max. == -DBL_MAX`.
     void fix_X_minmax(double min,double max);
 
-    /// Zafiksowanie zakresu Y lub od-fiksowanie gdy `min == max == -DBL_MAX`.
+    /// Zafiksowanie zakresu Y lub od-fiksowanie gdy `min == max. == -DBL_MAX`.
     void fix_Y_minmax(double min,double max);
     /// @}
 
@@ -971,8 +971,8 @@ public:
     //int configure(const void*); //Parametr typu scatter_graph::config_scat*
     int set_series(size_t index, data_source_base* data, int menage= 0) override;
     data_source_base* get_series(size_t index) override;
-    // reals[] zawiera X oraz Y ewentualnie wartość dla koloru i rozmiaru.
-    // int _rescale_data_point(const double reals[4], long in_area[4]); //zwraca -1, jeśli nie w oknie
+    // Parametr reals[] zawiera X oraz Y ewentualnie wartość dla koloru i rozmiaru.
+    // Funkcja: int _rescale_data_point(const double reals[4], long in_area[4]); //zwraca -1, jeśli nie w oknie
     void _replot() override;
     /// @}
 
@@ -1089,7 +1089,7 @@ void fast_carpet_graph<DATA_SOURCE, DIRECT_COLOR>::_replot()
         //Rysowanie
         data_source_base::iteratorh h = fast_data->reset();
 
-        wb_color back = get_background(); //Dla sprawdzania, kiedy kolor kwadratu taki jak kolor tła.
+        //wb_color back = get_background(); //Dla sprawdzania, kiedy kolor kwadratu taki jak kolor tła.
 
         //Pikselami panowie!!!
         if(DIRECT_COLOR)
@@ -1123,7 +1123,7 @@ void fast_carpet_graph<DATA_SOURCE, DIRECT_COLOR>::_replot()
         }
 
         fast_data->close(h);
-        x1 = offsetA + AA + 1; //Dla skali zostaje prawy margines
+        x1 = offsetA + AA + 1; //Dla skali zostaje prawy margines TODO Niby nie używane...
     }
     else
     {

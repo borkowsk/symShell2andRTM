@@ -1,6 +1,6 @@
 /// @file
 /// @brief Przykładowy program SYMSHELL-z z klasami.
-/// @date 2026-05-08 (modified)
+/// @date 2026-05-11 (modified)
 ///       ------------------------------------------
 /// @details
 ///     Demonstracja stosowania obiektowego pietra SYMSHELL-a
@@ -98,7 +98,7 @@ sources_menager Series
 
 
 /// Obiekt zarządcy obszarów okna ("lufcików").
-main_area_menager Lufciki(100, SCR_WIDTH, SCR_HEIGHT);
+main_area_manager Lufciki(100, SCR_WIDTH, SCR_HEIGHT);
 
 /// Funkcja generowania lufcików demonstracyjnych.
 void make_test_areas()

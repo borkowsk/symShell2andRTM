@@ -3,8 +3,8 @@
 /// @date 2026-05-11 (modified)
 // ********************************************************************************************************************
 //
-#ifndef SYMSHELL2_AREAMNGR_HPP_INCLUDED_
-#define SYMSHELL2_AREAMNGR_HPP_INCLUDED_
+#ifndef SYMSHELL2_AREA_MNGR_HPP_INCLUDED_
+#define SYMSHELL2_AREA_MNGR_HPP_INCLUDED_
 
 #include "drawable.hpp"
 
@@ -21,24 +21,24 @@ namespace symshell2
 
     /// INTERFACE DO DOWOLNEGO ZARZĄDCY OBSZARU.
     /// Dobrze, żeby można było zestawiać zarządców w hierarchie.
-    class area_menager_base : public drawable_base
+    class area_manager_base : public drawable_base
     //------------------------------------------
     {
         int cont_actions;    ///< Flaga kontynuacji. Gdy 0 to wypada z pętli, kiedy może.
 
-    public:
-        /// Pusty destruktor, bo wymuszenie wirtualności destruktorów w klasie bazowej.
-        ~area_menager_base() override = default;
-
+    protected:
         /// Konieczny jakikolwiek konstruktor do przekazania parametrów `drawable_base` i żeby był default.
-        explicit area_menager_base(
+        explicit area_manager_base(
                 int ix1 = 0, int iy1 = 0, int ix2 = 0, int iy2 = 0,
                 unsigned ibkg = default_color,
-                unsigned ifr = default_color) :
-                drawable_base(ix1, iy1, ix2, iy2, ibkg, ifr),
-                cont_actions(1)
+                unsigned ifr = default_color)
+        : drawable_base(ix1, iy1, ix2, iy2, ibkg, ifr),cont_actions(1)
         {}
 
+        /// Pusty destruktor, bo wymuszenie wirtualności destruktorów w klasie bazowej.
+        ~area_manager_base() override = default;
+
+    public:
         // Sterowanie przerywaniem działania zarządcy
         //*///////////////////////////////////////////
 
@@ -54,7 +54,7 @@ namespace symshell2
         //-------------------------
         /// @{
 
-        /// Dodaje obszar do listy. Zwraca pozycje albo -1(błąd).
+        /// WYMAGANE: Dodaje obszar do listy. Zwraca pozycje albo -1(błąd).
         virtual int insert(wb_ptr<drawable_base> drw) = 0;
 
         /// Zabiera w zarząd zwykły wskaźnik.
@@ -65,10 +65,10 @@ namespace symshell2
             return insert(temp);
         }
 
-        /// Wymienia obszar na liście. Jak nie znajdzie, to zwraca -1.
+        /// WYMAGANE: Wymienia obszar na liście. Jak nie znajdzie, to zwraca -1.
         virtual int replace(const char *nam, wb_ptr<drawable_base> drw) = 0;
 
-        /// Wymienia obszar na liście. Jak błędne parametry to zwraca -1.
+        /// WYMAGANE: Wymienia obszar na liście. Jak błędne parametry to zwraca -1.
         virtual int replace(size_t index, wb_ptr<drawable_base> drw) = 0;
 
         /// Usuwa obszar z listy.
@@ -78,20 +78,21 @@ namespace symshell2
             return replace(size_t(index), Empty);
         }
 
-        /// Odnajduje obszar na liście. @returns index albo -1 jak nie znajdzie.
+        /// WYMAGANE: Odnajduje obszar na liście. @returns index albo -1 jak nie znajdzie.
         virtual int search(const char *nam) = 0;
 
-        /// Podaje po prostu aktualny rozmiar listy łącznie z pozycjami pustymi.
+        /// WYMAGANE: Podaje po prostu aktualny rozmiar listy łącznie z pozycjami pustymi.
         virtual size_t get_size() = 0;
 
         // AKCESORY poszczególnych obszarów:
+        //==================================
 
-        /// Dostęp z możliwością modyfikacji.
+        /// WYMAGANE: Dostęp do obszaru z możliwością modyfikacji.
         /// Trzeba pamiętać, że pewne informacje są zapisywane w zarządcy w związku z pozycją!
         /// @note NIE WOLNO ZROBIĆ `delete`, chyba że obszar nie jest zarządzany.
         virtual wb_ptr<drawable_base> &get(size_t index) = 0;
 
-        /// Bez możliwości modyfikacji.
+        /// WYMAGANE: Dostęp do obszaru bez możliwości modyfikacji.
         virtual drawable_base /*const*/*get_ptr(size_t index) = 0;
 
         ///@}
@@ -100,11 +101,11 @@ namespace symshell2
         //-----------------------------
         /// @{
 
-        /// Przepytuje obszary z reakcji na punkt.
+        /// WYMAGANE: Przepytuje obszary z reakcji na punkt.
         /// \note   Jeśli znajdzie (zwróci 1), to można ustalić, wywołując get_last_lazy_area()
         int on_click(int x, int y, int click) override = 0;
 
-        /// Który obszar wymaga odświeżenia lub innej uwagi.
+        /// WYMAGANE: Który obszar wymaga odświeżenia lub innej uwagi.
         /// \note  Jeśli on_click() zwraca 1, to można się dowiedzieć, który obszar znalazł, wywołując właśnie to.
         /// \return  -1, jeśli już ten obszar był wzięty, lub powstał jakiś inny błąd.
         virtual int get_last_lazy_area() = 0;
@@ -113,16 +114,16 @@ namespace symshell2
         virtual int on_margin_click(int x, int y, int click)
         { return 2; }
 
-        /// Przepytuje obszary, czy chcą znak z wejścia (... zwykle okna graficznego).
+        /// WYMAGANE: Przepytuje obszary, czy chcą znak z wejścia (... zwykle okna graficznego).
         int on_input(int input_char) override = 0;
 
-        /// Reaguje na zmianę rozmiarów lub położenia własnego obszaru.
+        /// WYMAGANE: Reaguje na zmianę rozmiarów lub położenia własnego obszaru.
         int on_change(const gps_area &ar) override = 0;
 
-        /// Odrysowuje wszystkie (widoczne) obszary.
+        /// WYMAGANE: Odrysowuje wszystkie (widoczne) obszary.
         void _replot() override = 0;
 
-        /// Odrysowuje obszary "nadepnięte" przez "ar" (???).
+        /// WYMAGANE: Odrysowuje obszary "nadepnięte" przez "ar" (???).
         virtual void replot(const gps_area &ar) = 0;
 
         /// @}
@@ -135,70 +136,70 @@ namespace symshell2
         //...DLA POJEDYNCZYCH OBSZARÓW
         //----------------------------
 
-        /// Odrysowuje obszar, jeśli nie jest zminimalizowany.
+        /// WYMAGANE: Odrysowuje obszar, jeśli nie jest zminimalizowany.
         virtual int refresh(size_t index) = 0;
 
-        /// Zaznacza obszar.
+        /// WYMAGANE: Zaznacza obszar.
         virtual int mark(size_t index, wb_color frame = default_color) = 0;
 
-        /// Odznacza obszar.
+        /// WYMAGANE: Odznacza obszar.
         virtual int unmark(size_t index) = 0;
 
-        /// Informuje, czy obszar jest zminimalizowany.
+        /// WYMAGANE: Informuje, czy obszar jest zminimalizowany.
         virtual int is_minimized(size_t index) = 0;
 
-        /// Informuje, czy jest zaznaczony.
+        /// WYMAGANE: Informuje, czy jest zaznaczony.
         virtual int is_marked(size_t index) = 0;
 
-        /// Ustala obszar jako pierwszy do wejścia z klawiatury lub zdarzeń menu.
+        /// WYMAGANE: Ustala obszar jako pierwszy do wejścia z klawiatury lub zdarzeń menu.
         virtual int set_input(size_t index) = 0;
 
-        /// Oddaje pod-obszarowi cały zarządzany obszar.
+        /// WYMAGANE: Oddaje pod-obszarowi cały zarządzany obszar.
         virtual int maximize(size_t index) = 0;
 
-        /// Podaje `index` zmaksymalizowanego okna lub -1.
+        /// WYMAGANE: Podaje `index` zmaksymalizowanego okna lub -1.
         virtual int get_maximized() = 0;
 
-        /// Ukrywa obszar.
+        /// WYMAGANE: Ukrywa obszar.
         virtual int minimize(size_t index) = 0;
 
-        /// Odtwarza poprzednie położenie i rozmiar obszaru.
+        /// WYMAGANE: Odtwarza poprzednie położenie i rozmiar obszaru.
         virtual int restore(size_t index) = 0;
 
-        /// Odtwarza pierwotne  położenie i rozmiar obszaru.
+        /// WYMAGANE: Odtwarza pierwotne  położenie i rozmiar obszaru.
         virtual int original(size_t index) = 0;
 
-        /// Uznaje aktualne położenie obszaru za oryginalne (czyli to które będzie używane przez `original`).
+        /// WYMAGANE: Uznaje aktualne położenie obszaru za oryginalne (czyli to które będzie używane przez `original`).
         virtual int as_original(size_t index) = 0;
 
 
         //...DLA GRUP OBSZARÓW
         //--------------------
 
-        /// Zaznacza wszystkie widoczne OBSZARY. Można zmienić kolor zaznaczenia ramki (?).
+        /// WYMAGANE: Zaznacza wszystkie widoczne OBSZARY. Można zmienić kolor zaznaczenia ramki (?).
         virtual int mark_all(wb_color frame = default_color) = 0;
 
-        /// Zwraca listę zaznaczonych obszarów.
+        /// WYMAGANE: Zwraca listę zaznaczonych obszarów.
         /// Filtruje po kolorach ramek. Jeśli `what == default color` to wszystkie zaznaczone...
         /// I opcjonalnie zdejmuje zaznaczenie (`unm == 1`).
         virtual wb_dynarray<int> get_marked(wb_color filtr = default_color, int unm = 0) = 0;
 
-        /// Ukrywa (`minimize`) obszary z listy `lst`.
+        /// WYMAGANE: Ukrywa (`minimize`) obszary z listy `lst`.
         virtual int minimize(const wb_dynarray<int> &lst) = 0;
 
-        /// Robi `restore` dla obszarów z listy `lst`.
+        /// WYMAGANE: Robi `restore` dla obszarów z listy `lst`.
         virtual int restore(const wb_dynarray<int> &lst) = 0;
 
-        /// Robi `restore` dla wszystkich obszarów.
+        /// WYMAGANE: Robi `restore` dla wszystkich obszarów.
         virtual int restore(/*ALL*/) = 0;
 
         /// Robi `original` dla obszarów z listy `lst`.
         virtual int original(const wb_dynarray<int> &lst) = 0;
 
-        /// Rearanżuje obszary z listy `lst` brutalnie, czyli na równe kafelki. @return -1 jak nie da się.
+        /// WYMAGANE: Rearanżuje obszary z listy `lst` brutalnie, czyli na równe kafelki. @return -1 jak nie da się.
         virtual int tile(const wb_dynarray<int> &lst) = 0;
 
-        /// Inteligentnie rearanżuje obszary z listy `lst`. @return -1 jak nie da się.
+        /// WYMAGANE: Inteligentnie rearanżuje obszary z listy `lst`. @return -1 jak nie da się.
         virtual int arrange(const wb_dynarray<int> &lst) = 0;
 
         /// @}
@@ -207,57 +208,65 @@ namespace symshell2
 
 /// Klasa najprostszego, nieagresywnego, zarządcy obszarów.
 /// @details
+/// Implementuje co się uda bez wiedzy o niskopoziomowej podstawie soft-hard.
 /// Zakłada pełna władze nad obszarami, a w szczególności nad ich pamięcią.
 /// Zdarzenia zewnętrzne trzeba przekazać "explicite" -
-///  - zarządca nie zawłaszcza ich samodzielnie, a tym bardziej nie
-///    zabiera wątku sterowania.
-    class area_menager : public area_menager_base
+///  - taki zarządca nie zawłaszcza ich samodzielnie, a tym bardziej nie zabiera wątku sterowania.
+    class area_manager : public area_manager_base
     {
     protected:
         /// Wewnętrzna struktura przechowywania informacji o obszarach.
         struct internal
         {
             wb_ptr<drawable_base> ptr; //!< Wskaźnik do obszaru.
-            gps_area orginal; //!< Parametry obszaru przy wstawieniu.
-            gps_area saved; //!< Parametry w wersji średniowymiarowej.
-            wb_color org_frame; //!< Oryginalny kolor ramki, gdy markowany.
-            int mark: 1; //!< Flaga zamarkowania obszaru.
+            gps_area         orig_pos; //!< Parametry obszaru przy wstawieniu.
+            gps_area            saved; //!< Parametry w wersji średniowymiarowej.
+            wb_color        org_frame; //!< Oryginalny kolor ramki, gdy markowany.
+            int      mark: 1; //!< Flaga zamarkowania obszaru.
             int minimized: 1; //!< Flaga zminimalizowania obszaru.
-            int locking; //!< Nie wolno usunąć poza destruktorem zarządcy.
+            int   locking;    //!< Nie wolno usunąć poza destruktorem zarządcy.
+
             /// Konstruktor.
-            internal() :
-                    mark(0),
-                    minimized(0),
-                    locking(0),
-                    org_frame(default_color)
+            internal()
+            : org_frame(default_color), mark(0), minimized(0),locking(0)
             {}
         };
 
         wb_dynarray<internal> tab; //!< Tablica obszarów.
 
+        /// @name Indeksy obszarów o aktualnie specjalnym znaczeniu.
+        /// @{
         int maximized;  //!< Obszar "zasłaniający" wszystko.
-        int grabbed;  //!< Obszar w pierwszym rzędzie obsługujący wejście.
-        int lazy;  //!< Obszar, który ostatnio NIE obsłużył myszy.
-
+        int   grabbed;  //!< Obszar w pierwszym rzędzie obsługujący wejście.
+        int      lazy;  //!< Obszar, który ostatnio NIE obsłużył myszy.
+        /// @}
     public:
-        /// Konstruktor dający zarządcę o określonym rozmiarze listy.
-        area_menager(size_t size,
+        /// Konstruktor dający zarządcę konkretnego obszaru o określonym rozmiarze listy.
+        /// \param size to właśnie rozmiar listy.
+        /// \param ix1, iy1 to lewy górny róg obszaru.
+        /// \param ix2, iy2 to prawy dolny róg obszaru.
+        /// \param ibkg to kolor tła, który może być domyślny, czyli przezroczysty.
+        /// \param ifr to kolor ramki, który może być domyślny, co oznacza brak widocznej ramki.
+        area_manager(size_t size,
                      int ix1, int iy1, int ix2, int iy2,
                      unsigned ibkg = default_color,
                      unsigned ifr = default_color);
 
         /// Wirtualny destruktor.
-        ~area_menager() override;
+        ~area_manager() override;
 
         //	AKCESORY OGÓLNE
         //------------------
-        size_t get_size() override;        //Podaje po prostu aktualny rozmiar listy łącznie z pozycjami pustymi
 
+        /// Podaje po prostu aktualny rozmiar listy łącznie z pozycjami pustymi.
+        size_t get_size() override;
+
+        /// Zabiera obszar w zarząd!
         int insert(drawable_base *drw) override
         {
             wb_ptr<drawable_base> H(drw);
             return insert(H);
-        } //Zabiera w zarząd!
+        }
 
         int insert(wb_ptr<drawable_base> drw) override; //Dodaje obszar do listy. Zwraca pozycje albo -1(błąd)
         int replace(const char *nam, wb_ptr<drawable_base> drw) override; //Wymienia na liście. Jak nie znajdzie, to zwraca -1.
@@ -270,7 +279,8 @@ namespace symshell2
         /// Jednak trzeba pamiętać, że pewne informacje są zapisywane w zarządcy w związku z pozycją.
         wb_ptr<drawable_base> &get(size_t index) override;
 
-        drawable_base /*const*/*get_ptr(size_t index) override; //Bez możliwości modyfikacji i zwolnienia
+        /// Pobranie obszaru bez możliwości modyfikacji wskaźnika a tym bardziej zwolnienia!
+        drawable_base /*const*/*get_ptr(size_t index) override; //
 
         //	REAKCJE NA ZDARZENIA
         //--------------------------
@@ -330,7 +340,7 @@ namespace symshell2
 /*        MAIL: borkowsk@iss.uw.edu.pl                                */
 /*                               (Don't change or remove this note)   */
 /* ****************************************************************** */
-#endif
+#endif //SYMSHELL2_AREA_MNGR_HPP_INCLUDED_
 
 
 

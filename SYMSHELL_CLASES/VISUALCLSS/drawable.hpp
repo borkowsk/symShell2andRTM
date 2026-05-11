@@ -1,6 +1,6 @@
 /// @file
 /// @brief "COUPLING" DECLARATIONS FOR SCREEN AREAS/DEKLARACJE "SPRZĘGU" DLA OBSZARÓW EKRANU.
-/// @date 2026-05-08 (modified)
+/// @date 2026-05-11 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_DRAWABLE_HPP_INCLUDED_
@@ -124,8 +124,8 @@ class drawable_base:public gps_area,public title_util
 {
     int     frame_width; ///< Szerokość ramki obszaru.
     wb_color  frame_col; ///< Kolor ramki. Jeśli `== default_transparent` to ramka wyłączona.
-    wb_color    tit_bck; ///< Kolor tła tytułu — jeśli DEFCOLOR to domyślne.
-    wb_color    tit_col; ///< Kolor tytułu — jeśli DEFCOLOR to domyślne
+    wb_color    tit_bck; ///< Kolor tła tytułu — jeśli `default_color` to domyślny.
+    wb_color    tit_col; ///< Kolor tytułu — jeśli `default_color` to domyślny.
     wb_color background; ///< Kolor tła. Jeśli `== default_transparent` to tło przezroczyste.
                          ///< Wtedy w metodzie `replot` można nakładać obszary.
 public:

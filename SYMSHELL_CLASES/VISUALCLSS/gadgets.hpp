@@ -1,6 +1,6 @@
 /// @file
 /// @brief GADŻETY CZYLI POMOCNICZE TYPY OBSZARÓW OKNA. / GADGETS, I.E. AUXILIARY TYPES OF WINDOW AREAS.
-/// @date 2026-05-08 (modified)
+/// @date 2026-05-11 (modified)
 ///     Służą głównie jako typy bazowe dla klas specjalizowanych, wykonujących
 ///     jakieś akcje w metodzie `_on_click` i ewentualnie podobnych.
 // ********************************************************************************************************************
@@ -13,6 +13,13 @@
 
 #include "drawable.hpp"
 #include "datasour.hpp"
+
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "modernize-use-auto"
+#pragma ide diagnostic ignored "modernize-use-nullptr"
+#pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
+// --checks=-google-default-arguments.
+#pragma ide diagnostic ignored "google-default-arguments"
 
 /// Zmodernizowane klasy do symulacji w C++
 namespace symshell2
@@ -27,26 +34,27 @@ protected:
     wb_color draw_color; //!< Główny kolor. Pozostałe dziedziczone z `drawable_base`.
 
 public:
-    gadget(	int ix1,int iy1,int ix2,int iy2,		//!< położenie gadżetu.
-            wb_color icolor,						//!< kolor znaczących elementów.
-            wb_color ibkg=default_white,            //!< kolor tła.
-            wb_color ifr=default_white              //!< kolor ramki.
+    gadget(	int ix1,int iy1,int ix2,int iy2,		//!< Położenie gadżetu.
+            wb_color icolor,						//!< Kolor znaczących elementów.
+            wb_color ibkg=default_white,            //!< Kolor tła.
+            wb_color ifr=default_white              //!< Kolor ramki.
             ):
             drawable_base(ix1,iy1,ix2,iy2,ibkg,ifr),draw_color(icolor)
                 {}
 
-    virtual void _replot()=0; //Rysuje — np X. Do reimplementacji w klasach potomnych
+    /// WYMAGANE: Rysuje treść graficzną gadgetu (np. X). Do reimplementacji w klasach potomnych.
+    void _replot() override =0;
 
     /// Obsługa reakcji na klikniecie.
     /// Bazowa wersja sprawdza, czy klik "is_inside" i rysuje za pomocą `replot`, ewentualnie w inwersji.
     /// @returns wynik działania funkcji `is_inside`.
-    virtual int  on_click(int x,int y,int click=0); //Jeśli "inside" to rysuje w inwersji, ale zwraca wynik _on_click() lub 0
+    int  on_click(int x,int y,int click=0) override;
 
     // TODO Poniżej chyba pozostałość po starym projekcie?
 
     /// Wewnętrzna akcja klasy potomnej jest w środku tej metody wywoływanej w domyślnym `on_click`.
     /// @returns 1, jeśli "nie obsłużono" albo "2", jeśli obsłużono.
-    ///          Domyślna wersja zwraca 1=="nie obsłużono".
+    ///          Domyślna wersja zwraca 1 == "nie obsłużono".
     virtual int _on_click(int /*x*/,int /*y*/,int /*click*/)
                 {return 1;}
 
@@ -57,15 +65,15 @@ class sensitive_area:public gadget
 //--------------------------------------------
 {
 public:
-    sensitive_area( int ix1,int iy1,int ix2,int iy2, //!< położenie gadżetu.
-                    unsigned icolor,                 //!< kolor znaczących elementów.
-                    unsigned ibkg=default_white,     //!< kolor tła.
-                    unsigned ifr=default_transparent //!< kolor ramki.
+    sensitive_area( int ix1,int iy1,int ix2,int iy2, //!< Położenie gadżetu.
+                    unsigned icolor,                 //!< Kolor znaczących elementów.
+                    unsigned ibkg=default_white,     //!< Kolor tła.
+                    unsigned ifr=default_transparent //!< Kolor ramki.
                     ):
             gadget(ix1,iy1,ix2,iy2,icolor,ibkg,ifr)
     {}
 
-    void _replot() override; //!< Rysuje gadżet — np X. Do reimplementacji w klasach potomnych
+    void _replot() override; // Rysuje gadżet — np. X. Do reimplementacji w klasach potomnych
 
     // TODO Poniżej chyba pozostałość po starym projekcie?
     //int _on_click(int /*x*/,int /*y*/,int /*click*/)	//Prawdziwa akcja klasy potomnej powinna być w środku tej metody
@@ -82,25 +90,25 @@ class button:public sensitive_area
 //---------------------------------------------
 {
 protected:
-    unsigned vhmode:1;		//!< vert(0)/hor(1) — tryb wyświetlania.
-    unsigned reserved:15;	//!< co najmniej 15 bitów i tak będzie zajęte.
+    unsigned vh_mode:1;		//!< Tryb wyświetlania: vert(0) vs. hor(1).
+    unsigned reserved:15;	//!< Co najmniej 15 bitów i tak będzie zajęte.
 
 public:
-    button(int ix1,int iy1,int ix2,int iy2,	//!< położenie gadżetu.
-            const char* iprompt,			//!< tekst na przycisku.
-            unsigned imode=1,               //!< tryb wyświetlania.
-            unsigned icolor=default_black,  //!< kolor znaczących elementów.
-            unsigned ibackground=default_white, //!< kolor tła strzałek/tarczy.
-            unsigned iframe=128             //!< kolor ramki.
+    button(int ix1,int iy1,int ix2,int iy2,	//!< Położenie gadżetu.
+            const char* i_prompt,			//!< Tekst na przycisku.
+            unsigned i_mode=1,               //!< Tryb wyświetlania.
+            unsigned i_color=default_black,  //!< Kolor znaczących elementów.
+            unsigned i_background=default_white, //!< Kolor tła strzałek/tarczy.
+            unsigned i_frame=128             //!< Kolor ramki.
             ):
-        sensitive_area(ix1,iy1,ix2,iy2,icolor,ibackground,iframe),vhmode(imode),reserved(0)
+            sensitive_area(ix1, iy1, ix2, iy2, i_color, i_background, i_frame), vh_mode(i_mode), reserved(0)
         {
-            set_title(iprompt); //Prompt jest pamiętany jako tytuł okna, ale wyświetlany ręcznie.
+            set_title(i_prompt); //Prompt jest pamiętany jako tytuł okna, ale wyświetlany ręcznie.
             set_title_color(default_transparent); // Wiec domyślnie ten tytuł...
             set_title_back(default_transparent);  // ...jest niewidoczny (bo by się wyświetlał nie tak i nie tam).
         }
 
-    void _replot() override;  //!< Odrysowuje. W tym ewentualne składowe.
+    void _replot() override;  // Odrysowuje. W tym ewentualne składowe.
 
     // TODO Poniżej chyba pozostałość po starym projekcie?
     //int _on_click(int /*x*/,int /*y*/,int /*click*/)	//Prawdziwa akcja klasy potomnej powinna być w środku tej metody
@@ -118,49 +126,49 @@ class arrow_button:public sensitive_area
 //---------------------------------------------
 {
 protected:
-    int mode; //!< tryb wyświetlania, czyli kierunek strzałki albo tarcza.
+    int mode; //!< Tryb wyświetlania, czyli kierunek strzałki albo tarcza.
 
 public:
-    arrow_button(int ix1,int iy1,int ix2,int iy2,	//!< położenie gadżetu.
-            int imode=0,							//!< inicjalizacja trybu wyświetlania (patrz na opis klasy).
-            unsigned icolor=default_black,			//!< kolor znaczących elementów.
-            unsigned ibackground=default_white,		//!< kolor tła strzałek/tarczy.
-            unsigned iframe=default_transparent     //!< kolor ramki.
+    arrow_button(int ix1,int iy1,int ix2,int iy2,	//!< Położenie gadżetu.
+            int i_mode=0,							//!< Inicjalizacja trybu wyświetlania (patrz na opis klasy).
+            unsigned i_color=default_black,			//!< Kolor znaczących elementów.
+            unsigned i_background=default_white,	//!< Kolor tła strzałek/tarczy.
+            unsigned i_frame=default_transparent	//!< Kolor ramki.
             ):
-        sensitive_area(ix1,iy1,ix2,iy2,icolor,ibackground,iframe),
-        mode(imode)
+        sensitive_area(ix1, iy1, ix2, iy2, i_color, i_background, i_frame),
+        mode(i_mode)
         {}
 
-    void _replot() override; //!< Odrysowuje składowe.
+    void _replot() override; // Odrysowuje składowe.
 
 };
 
 /// Klasa gadżetu łącząca strzałkę w lewo i strzałkę w prawo.
 /// @note To jest klasa bazowa dla klas reimplementujących `_user_action`.
-class leftrigt_button:public sensitive_area
+class left_right_button: public sensitive_area
 //==============================================
 {
 protected:
-    wb_ptr<drawable_base> left;  //!< podobiekt (strzałka) ruchu w lewo.
-    wb_ptr<drawable_base> right; //!< podobiekt (strzałka) ruchu w prawo.
+    wb_ptr<drawable_base> left;  //!< Podobiekt (strzałka) ruchu w lewo.
+    wb_ptr<drawable_base> right; //!< Podobiekt (strzałka) ruchu w prawo.
 public:
     /// Konstruktor umieszczający gadżet w konkretnym miejscu.
-    leftrigt_button(int ix1,int iy1,int ix2,int iy2);
+    left_right_button(int ix1, int iy1, int ix2, int iy2);
 
-    void _replot() override; //!< Odrysowuje składowe.
+    void _replot() override; // Odrysowuje składowe.
 
     /// Implementacja reakcji na zmianę rozmiarów lub przesunięcie.
     /// Musi przesunąć współrzędne składowych razem ze swoimi.
     int on_change(const gps_area&) override;
 
     /// Akcja do wykonania w `on_click`. W tej klasie nic nie robi, choć sygnalizuje obsłużenie.
-    virtual int _user_action( int leftorright, //!< Jeśli lewo to -1, a jeśli prawo to 1
-                              int click        //!< Może mieć znaczenie, który przycisk myszki.
+    virtual int _user_action( int left_or_right, //!< Jeśli lewo to -1, a jeśli prawo to 1
+                              int click          //!< Może mieć znaczenie, który przycisk myszki.
                               );
 
     /// Implementacja reakcji na kliknięcie.
-    /// Przepytuje składowe i jeśli któraś została trafiona to
-    /// wywołuje `_user_action()` z odpowiednim parametrem.
+    /// Przepytuje składowe i jeśli któraś została trafiona
+    /// to wywołuje `_user_action` z odpowiednim parametrem.
     int on_click(int x,int y,int click=0) override;
 
 };
@@ -172,46 +180,48 @@ class steering_wheel:public sensitive_area
 //----------------------------------------
 {
     /// Wskaźniki do podpiętych danych.
-    /// @note Pamięć zadnej z seri danych nie jest tu zarządzana!
+    /// @note Pamięć żadnej z seri danych nie jest tu zarządzana!
     wb_dynarray<rectangle_source_base*> data;
 
     //Zarządzane wskaźniki do elementów sterowania
-    wb_ptr<drawable_base> resizing; //!< podobiekt zwiększania/zmniejszania pola widzenia.
-    wb_ptr<drawable_base> left;		//!< podobiekt (strzałka) ruchu w lewo.
-    wb_ptr<drawable_base> up;		//!< podobiekt (strzałka) ruchu w górę.
-    wb_ptr<drawable_base> right;	//!< podobiekt (strzałka) ruchu w prawo.
-    wb_ptr<drawable_base> down;		//!< podobiekt (strzałka) ruchu w dół.
+    wb_ptr<drawable_base> resizing; //!< Podobiekt zwiększania/zmniejszania pola widzenia.
+    wb_ptr<drawable_base> left;		//!< Podobiekt (strzałka) ruchu w lewo.
+    wb_ptr<drawable_base> up;		//!< Podobiekt (strzałka) ruchu w górę.
+    wb_ptr<drawable_base> right;	//!< Podobiekt (strzałka) ruchu w prawo.
+    wb_ptr<drawable_base> down;		//!< Podobiekt (strzałka) ruchu w dół.
 
 public:
     /// Konstruktor pobierający składowe gadżetu i pobierający jeden adres serii danych.
-    steering_wheel( rectangle_source_base*     idat, //!< Dane. Pamięć seri nigdy nie jest tu zarządzana.
-                    wb_ptr<drawable_base> ires,      //Pamięć dla pod-obszarów jest
-                    wb_ptr<drawable_base> iup,       // z a w s z e
-                    wb_ptr<drawable_base> ileft,     //zarządzana.
-                    wb_ptr<drawable_base> idown,     //Współrzędne obszaru steering wheel są
-                    wb_ptr<drawable_base> iright     //ustalane ze współrzędnych jego składowych.
+    steering_wheel( rectangle_source_base*     i_dat, //!< Dane. Pamięć seri nigdy nie jest tu zarządzana.
+                    wb_ptr<drawable_base> i_res,      //Pamięć dla pod-obszarów jest
+                    wb_ptr<drawable_base> i_up,       // z a w s z e
+                    wb_ptr<drawable_base> i_left,     //zarządzana.
+                    wb_ptr<drawable_base> i_down,     //Współrzędne obszaru steering wheel są
+                    wb_ptr<drawable_base> i_right     //ustalane ze współrzędnych jego składowych.
                     );
 
     /// Konstruktor pobierający składowe gadżetu i pobierający adresy danych z tablicy.
-    steering_wheel( wb_dynarray<rectangle_source_base*>&  idat, //!< Dane. Pamięć seri nigdy nie jest tu zarządzana.
-                    wb_ptr<drawable_base> ires,     //Pamięć dla pod-obszarów jest
-                    wb_ptr<drawable_base> iup,      // z a w s z e
-                    wb_ptr<drawable_base> ileft,    //zarządzana.
-                    wb_ptr<drawable_base> idown,    //Współrzędne obszaru steering wheel są
-                    wb_ptr<drawable_base> iright    //ustalane ze współrzędnych jego składowych.
+    steering_wheel( wb_dynarray<rectangle_source_base*>&  i_dat, //!< Dane. Pamięć seri nigdy nie jest tu zarządzana.
+                    wb_ptr<drawable_base> i_res,     //Pamięć dla pod-obszarów jest
+                    wb_ptr<drawable_base> i_up,      // z a w s z e
+                    wb_ptr<drawable_base> i_left,    //zarządzana.
+                    wb_ptr<drawable_base> i_down,    //Współrzędne obszaru steering wheel są
+                    wb_ptr<drawable_base> i_right    //ustalane ze współrzędnych jego składowych.
                     );
 
     /// Konstruktor kładący gadżet w konkretnym miejscu i pobierający jeden adres danych.
-    steering_wheel( int ix1,int iy1,int ix2,int iy2, //!< położenie gadżetu.
-                    rectangle_source_base*  idat     //!< Dane. Pamięć seri nigdy nie jest tu zarządzana.
-                    );
+    steering_wheel( int ix1,int iy1,int ix2,int iy2,  //!< Położenie gadżetu.
+                    rectangle_source_base*  i_dat     //!< Dane. Pamięć seri nigdy nie jest tu zarządzana.
+                    )
+    : sensitive_area(ix1,iy1,ix2,iy2,128),data(1)
+    { data[0]=i_dat; assert("Użyto nietestowanego konstruktora" == NULL);  }
 
     /// Konstruktor kładący gadżet w konkretnym miejscu i pobierający adresy danych z tablicy.
-    steering_wheel( int ix1,int iy1,int ix2,int iy2, //!< położenie gadżetu.
+    steering_wheel( int ix1,int iy1,int ix2,int iy2, //!< Położenie gadżetu.
                     wb_dynarray<rectangle_source_base*>&  idat  //!< Dane. Pamięć seri nigdy nie jest tu zarządzana.
                     );
 
-    void _replot() override; //!< Odrysowuje składowe.
+    void _replot() override; // Odrysowuje składowe.
 
     /// Implementacja reakcji na zmianę rozmiarów lub przesunięcie.
     /// Musi przesunąć współrzędne składowych razem ze swoimi.
@@ -227,57 +237,57 @@ public:
 
 /// Szablon klasy gadżetu do zmiany wartości zmiennej liczbowej dowolnego typu.
 template<class NUMBER>
-class knob_for_value:public leftrigt_button
+class knob_for_value:public left_right_button
 // ----------------------------------------
 {
 protected:
-    NUMBER min,max,step; //!< parametry zmiany podpiętej zmiennej.
-    NUMBER*      valptr; //!< adres podpiętej zmiennej.
+    NUMBER  min,max,step; //!< Parametry zmiany podpiętej zmiennej.
+    NUMBER*      val_ptr; //!< Adres podpiętej zmiennej.
 
 public:
     /// Konstruktor.
-    knob_for_value( int ix1,int iy1,int ix2,int iy2, //!< położenie gadżetu.
-                    const char* Title="knob",        //!< tytuł gadżetu (rzadko potrzebny).
-                    NUMBER* valptr=NULL,             //!< adres zmiennej, która ma być modyfikowana przez gadżet.
-                    NUMBER min=0,					 //!< dolne ograniczenie zmiany.
-                    NUMBER max=100,					 //!< górne ograniczenie zmiany.
-                    double iprop=0.01				 //!< krok zmiany.
+    knob_for_value( int ix1,int iy1,int ix2,int iy2,	//!< Położenie gadżetu.
+                    const char* Title="knob",			//!< Tytuł gadżetu (rzadko potrzebny).
+                    NUMBER* val_ptr=NULL,				//!< Adres zmiennej, która ma być modyfikowana przez gadżet.
+                    NUMBER min=0,						//!< Dolne ograniczenie zmiany.
+                    NUMBER max=100,						//!< Górne ograniczenie zmiany.
+                    double i_prop=0.01					//!< Krok zmiany.
                     ):
-        leftrigt_button(ix1,iy1,ix2,iy2)
+            left_right_button(ix1, iy1, ix2, iy2)
     {										assert(min<max);
         set_title(Title);
-        this->valptr=valptr;
+        this->val_ptr=val_ptr;
         this->max=max;
         this->min=min;
-        set_step_proportionaly(iprop);
+        set_step_proportionally(i_prop);
     }
 
-    /// Akcja używana w `on_click()`.
-    int _user_action( int leftorright, //!< Jeśli lewo to -1, a jeśli prawo to 1
-                      int click        //!< Może mieć znaczenie, który przycisk myszki.
+    /// Akcja używana w `on_click`.
+    int _user_action( int left_or_right, //!< Jeśli lewo to -1, a jeśli prawo to 1
+                      int click          //!< Może mieć znaczenie, który przycisk myszki.
                     ) override
     {
-        if(valptr == nullptr)
+        if(val_ptr == nullptr)
             return 0;
 
-        if(leftorright > 0)
+        if(left_or_right > 0)
         {
             if(click == 1)
-                *valptr += step;
+                *val_ptr += step;
             else if(click == 2)
-                *valptr += step / 10;
+                *val_ptr += step / 10;
 
-            if(*valptr > max)
-                *valptr = max;
+            if(*val_ptr > max)
+                *val_ptr = max;
         }
-        else if(leftorright < 0)
+        else if(left_or_right < 0)
         {
             if(click == 1)
-                *valptr -= step;
+                *val_ptr -= step;
             else if(click == 2)
-                *valptr -= step / 10;
+                *val_ptr -= step / 10;
 
-            if(*valptr < min) *valptr = min;
+            if(*val_ptr < min) *val_ptr = min;
         }
 
         return 2; //Nie 1!!!
@@ -285,26 +295,26 @@ public:
 
     /// Dostęp do adresu modyfikowanej zmiennej.
     /// @note Po co to?
-    NUMBER* get_ptr() { return valptr;}
+    NUMBER* get_ptr() { return val_ptr;}
 
     /// Zmiana adresu modyfikowanej zmiennej.
     /// @note Po co to?
-    virtual void change_ptr(NUMBER* ivalptr)
+    virtual void change_ptr(NUMBER* i_val_ptr)
     {
-        valptr=ivalptr;
-        if(*valptr<min || max<*valptr)
-            *valptr=(min+max)/2;
+        val_ptr=i_val_ptr;
+        if(*val_ptr < min || max < *val_ptr)
+            *val_ptr= (min + max) / 2;
     }
 
     /// Zmiana kroku modyfikacji zmiennej.
-    virtual void set_step(NUMBER istep)
+    virtual void set_step(NUMBER i_step)
     {
-        if((max-min)<istep)
-            step=istep;
+        if((max-min) < i_step)
+            step=i_step;
     }
 
     /// Zmiana kroku modyfikacji zmiennej w proporcji (0..0.5).
-    virtual void set_step_proportionaly(double proportion)
+    virtual void set_step_proportionally(double proportion)
     {
         if(0<proportion && proportion<=0.5) //Co najmniej 2 kroki!!!
             step=(max-min)*proportion;
@@ -313,6 +323,7 @@ public:
 
 } // namespace symshell2
 
+#pragma clang diagnostic pop
 /* ****************************************************************** */
 /*               SYMSHELL2  version 2006/2022/2026                    */
 /* ****************************************************************** */

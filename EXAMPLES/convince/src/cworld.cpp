@@ -137,7 +137,7 @@ void aWorld::make_default_visualisation()
 // Works with the display manager and the log.
 // Registers derived series, creates default "windows" and places them in the "Manager".
 {
-    area_menager_base& Manager=this->MyAreaMenager();
+    area_manager_base& Manager=this->MyAreaMenager();
     int iFirst=0,iSecond=0,iPower=0,iClassif=0;
 
     // Getting the indexes of basic series from the manager:

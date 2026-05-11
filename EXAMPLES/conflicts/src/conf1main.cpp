@@ -1,7 +1,7 @@
 /// @file
 /// @brief SYMULACJA KONFLIKTÓW BOCA 2005 (plik główny)
 //-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @date 2026-05-08 (last update)
+/// @date 2026-05-11 (last update)
 /// @details
 /// UZUPEŁNIONY 10-11.2005, 9-2010, 02-2014, 04-2026
 /// ## HISTORIA
@@ -307,7 +307,7 @@ public:
     //Generuje podstawowe źródła dla wbudowanego zarządcy danych
     virtual void make_basic_sources();
     //Współpraca z zarządcą wyświetlania
-    virtual void make_default_visualisation(); //Tworzy domyślne "lufciki" i umieszcza w potomstwie `area_menager_base&`
+    virtual void make_default_visualisation(); //Tworzy domyślne "lufciki" i umieszcza w potomstwie `area_manager_base&`
     //Aktualizacja zawartości okna statusu po `n` krokach symulacji
     virtual void actualize_out_area();
     virtual int  implement_output(ostream& o) const { o<<__PRETTY_FUNCTION__<<":Unexpected usage of serialization!"<<endl; return 0; }
@@ -674,7 +674,7 @@ void LocalWorld::make_basic_sources()
     Log.insert(AcctStat->SD());
 }
 
-void LocalWorld::make_default_visualisation() // area_menager_base& Lufciki     ?
+void LocalWorld::make_default_visualisation() // area_manager_base& Lufciki     ?
 {
                                             assert(this->HasAreaMenager());
     world::make_default_visualisation(); //Tworzy np. OutArea
@@ -883,7 +883,7 @@ class MetaExperiment
                            double W=1 //Waga strzałki dowolna
                            );      
 
-       void make_areas(area_menager& Lufciki); //Generowanie lufcików demonstracyjnych meta-świata
+       void make_areas(area_manager& Lufciki); //Generowanie lufcików demonstracyjnych meta-świata
        void save_for_spreadsheet(const char* filename);
 };	//end of META-SWIAT
 
@@ -934,7 +934,7 @@ void MetaExperiment::save_for_spreadsheet(const char* filename)
     }
 }
 
-void MetaExperiment::make_areas(area_menager& Lufciki) //Generowanie lufcików demonstracyjnych meta-świata
+void MetaExperiment::make_areas(area_manager& Lufciki) //Generowanie lufcików demonstracyjnych meta-świata
 {
     int ret=0;    
     const int BUTWIDTH=90;
@@ -1060,7 +1060,7 @@ LocalWorld MyNetworkWorld( //Model symulacyjny z różnymi parametrami
                def_asymmetry
                );
 MetaExperiment MyMetaExp; //Obsługa meta-eksperymentu dla wielu ustawień symulacji
-main_area_menager Lufciki(100, SCR_WIDTH, SCR_HEIGHT); //Zarządzanie ekranem
+main_area_manager Lufciki(100, SCR_WIDTH, SCR_HEIGHT); //Zarządzanie ekranem
 if(!Lufciki.start(SIMULATION_NAME, argc, argv, 1))
 {
     printf("%s\n","Can't initialize graphics");

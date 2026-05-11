@@ -1,6 +1,6 @@
 /// @file
 /// @brief implementation of the world-class.
-/// @date 2026-05-07 (modified)
+/// @date 2026-05-11 (modified)
 // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include "world.hpp"
@@ -55,7 +55,7 @@ ERROR://...akcja na niepogodę
 }
 
 
-void symshell2::world::initialize(symshell2::main_area_menager* mainAreaManager, int Replay)
+void symshell2::world::initialize(symshell2::main_area_manager* mainAreaManager, int Replay)
 // Ustawia stan startowy symulacji.
 {
     wb_cpu_clock timer;

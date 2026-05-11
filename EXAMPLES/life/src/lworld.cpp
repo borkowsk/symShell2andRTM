@@ -144,7 +144,7 @@ void lifeworld::make_default_visualisation()
 //Współpraca z zarządcą wyświetlania.
 //Rejestruje pochodne serie, tworzy domyślne "lufciki" i wkłada w "Manager"
 {
-    area_menager_base& Menager=this->MyAreaMenager(); //ustawiane w this->initialise()
+    area_manager_base& Menager=this->MyAreaMenager(); //ustawiane w this->initialise()
 
     if(!Firsts) {
         cerr<<"`Firsts` obligatory data serie was not found!"<<endl;

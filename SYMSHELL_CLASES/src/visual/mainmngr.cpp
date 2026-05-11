@@ -32,19 +32,19 @@ T c=a;a=b;b=c;
 //int WB_error_enter_before_clean=1;/* For close_plot() */
 ssh_menu_item_definition* TopPopup=context_menu_default; //Próba wymuszenia linkowania modułu z biblioteki klas.
 
-int		main_area_menager::initialized=0;
-int		main_area_menager::counter=0;//Licznik obiektow tego typu. Ma byc 1
-int		main_area_menager::idle_must_work;//Flaga wywolywania on_idle
-wb_color main_area_menager::Marker=0;//Kolor do znakowania przez usera
-wb_pchar main_area_menager::def_dump_name( "dump" );
-wb_pchar main_area_menager::old_win_title;
+int		main_area_manager::initialized=0;
+int		main_area_manager::counter=0;//Licznik obiektow tego typu. Ma byc 1
+int		main_area_manager::idle_must_work;//Flaga wywolywania on_idle
+wb_color main_area_manager::Marker=0;//Kolor do znakowania przez usera
+wb_pchar main_area_manager::def_dump_name("dump" );
+wb_pchar main_area_manager::old_win_title;
 
-size_t	main_area_menager::screen_number=0;
-int main_area_menager::screen_number_precision=7;
-ssh_menu_handle    main_area_menager::WindowMenu=nullptr;
-int main_area_menager::HowManyAreas=0;
+size_t	main_area_manager::screen_number=0;
+int main_area_manager::screen_number_precision=7;
+ssh_menu_handle    main_area_manager::sub_menu_handle=nullptr;
+int main_area_manager::how_many_areas=0;
 
-void	 main_area_menager::set_dump_name(const char* name,size_t number)
+void	 main_area_manager::set_dump_name(const char* name, size_t number)
 {
 if(number!=-1)
 		screen_number=number;
@@ -54,7 +54,7 @@ if(name!=nullptr)
 
 //extern "C" int  dump_screen(const char* Filename);//Z symshell'a
 
-void main_area_menager::dump_screen()
+void main_area_manager::dump_screen()
 {
     if(!int(def_dump_name))
         return;
@@ -76,18 +76,18 @@ void main_area_menager::dump_screen()
 }
 
 
-void main_area_menager::enable_background()
+void main_area_manager::enable_background()
 //i odblokowuje
 {
 idle_must_work=1;
 }
 
-int  main_area_menager::set_marker(wb_color newmark)
+int  main_area_manager::set_marker(wb_color new_mark)
 //zwraca 1 jesli OK, lub 0
 {
-    if(newmark>=0 && newmark<255)
+    if(new_mark >= 0 && new_mark < 255)
         {
-        Marker=newmark;
+        Marker=new_mark;
         return 1;
         }
     return 0;
@@ -96,15 +96,15 @@ int  main_area_menager::set_marker(wb_color newmark)
 //KONSTRUKTORY
 //---------------
 //Wywołanie więcej niż jednego konstruktora powoduje aborcje procesu!!!
-main_area_menager::main_area_menager( size_t size, //Konstruktor dający zarządcę o określonym rozmiarze listy
-                                      int width,int height,
-				                      unsigned ibkg
+main_area_manager::main_area_manager(size_t size, //Konstruktor dający zarządcę o określonym rozmiarze listy
+                                      int width, int height,
+                                     unsigned ibkg
 				                    ):
-				area_menager(size,0,0,width-1,height-1,ibkg)
+        area_manager(size, 0, 0, width - 1, height - 1, ibkg)
 {
     if(initialized || counter>0)
     {
-        fprintf(stderr,"One main_area_menager already constructed!\n");
+        fprintf(stderr,"One main_area_manager already constructed!\n");
         fprintf(stderr,"Process will be aborted!\n");
         abort();
     }
@@ -113,7 +113,7 @@ main_area_menager::main_area_menager( size_t size, //Konstruktor dający zarząd
 }
 
 /*
-main_area_menager(size_t size,//Konstruktor z lista czesciowo wypelniona
+main_area_manager(size_t size,//Konstruktor z lista czesciowo wypelniona
 				  int width,int height,
 				  //bkg i frm domyslne - mozna zmienic potem
                   drawable_base* //first...nullptr
@@ -127,7 +127,7 @@ main_area_menager(size_t size,//Konstruktor z lista czesciowo wypelniona
 //Zwraca 1 jesli ok
 //Przed pomyslnym wywolaniem start() nie wolno bezpośrednio lub posrednio wywolywac
 //jakichkolwiek funkcji rysujacych po ekranie.
-int main_area_menager::start(const char* wintitle,int argc,const char* argv[],int buf)
+int main_area_manager::start(const char* win_title, int argc, const char* argv[], int buf)
 {
     ssh_menu_handle mainmenu=nullptr;
 
@@ -144,7 +144,7 @@ int main_area_menager::start(const char* wintitle,int argc,const char* argv[],in
     ::mouse_activity(1);
     ::fix_size(0);
     ::set_background(this->get_background());
-    ::shell_setup(wintitle,argc,argv);
+    ::shell_setup(win_title, argc, argv);
 
     int ret=::init_plot(get_width(), get_height(), 0, 0);
     if(!ret) return 0;
@@ -163,14 +163,14 @@ int main_area_menager::start(const char* wintitle,int argc,const char* argv[],in
         if(pos==-1)
             pos=ssh_get_item_position(mainmenu,"Okno");
         if(pos!=-1)
-            WindowMenu=ssh_sub_menu(mainmenu,pos); //I zapamientanie do użycia w funkcji insert
-        //ssh_menu_add_item(WindowMenu,"Test menu item",55555);
+            sub_menu_handle=ssh_sub_menu(mainmenu, pos); //I zapamientanie do użycia w funkcji insert
+        //ssh_menu_add_item(sub_menu_handle,"Test menu item",55555);
     }
 
     return 1;
 }
 
-const char* main_area_menager::get_title()
+const char* main_area_manager::get_title()
 //Poprzedni tytuł lub nullptr jak nie był ustalony
 {
 	if(old_win_title)
@@ -179,82 +179,82 @@ const char* main_area_menager::get_title()
         return nullptr;
 }
 
-int main_area_menager::settitle(const char* wintitle)
+int main_area_manager::settitle(const char* win_title)
 //Ustawienie tytułu okna
 {
-	old_win_title.take(clone_str(wintitle));
-  	return ssh_set_window_name(wintitle);
+	old_win_title.take(clone_str(win_title));
+  	return ssh_set_window_name(win_title);
 }
 
 
-int    main_area_menager::insert(wb_ptr<drawable_base>	drw)
+int    main_area_manager::insert(wb_ptr<drawable_base>	drw)
 {
     const char* pom=drw->name();    assert(pom!=nullptr);//Musi byc tu bo po replace drw jest juz puste!!!
-    int ret=area_menager::replace(HowManyAreas,drw);
+    int ret=area_manager::replace(how_many_areas, drw);
     if(ret>-1)
     {
-        assert(ret==HowManyAreas);
-        if(WindowMenu)
+        assert(ret == how_many_areas);
+        if(sub_menu_handle)
         {
-            ssh_menu_add_item(WindowMenu,pom,SSH_FIRST_FREE_MESSAGE+ret);
-            ssh_menu_mark_item(WindowMenu,1,SSH_FIRST_FREE_MESSAGE+ret);
-            ssh_realize_menu(WindowMenu);
+            ssh_menu_add_item(sub_menu_handle, pom, SSH_FIRST_FREE_MESSAGE + ret);
+            ssh_menu_mark_item(sub_menu_handle, 1, SSH_FIRST_FREE_MESSAGE + ret);
+            ssh_realize_menu(sub_menu_handle);
         }
-        HowManyAreas++;
+        how_many_areas++;
     }
 
     return ret;
 }
 
-int     main_area_menager::minimize(size_t index)
+int     main_area_manager::minimize(size_t index)
 //Ukrywa podobszar
 {
-    if(!is_minimized(index) && (WindowMenu)  )
-        ssh_menu_mark_item(WindowMenu,0,SSH_FIRST_FREE_MESSAGE+index);
-    return area_menager::minimize(index);
+    if(!is_minimized(index) && (sub_menu_handle)  )
+        ssh_menu_mark_item(sub_menu_handle, 0, SSH_FIRST_FREE_MESSAGE + index);
+    return area_manager::minimize(index);
 }
 
-int     main_area_menager::restore(size_t  index)
+int     main_area_manager::restore(size_t  index)
 //Odtwarza poprzednie polozenie i rozmiar obszaru
 {
-	if(is_minimized(index) && (WindowMenu) )
-		ssh_menu_mark_item(WindowMenu,1,SSH_FIRST_FREE_MESSAGE+index);
-	return area_menager::restore(index);
+	if(is_minimized(index) && (sub_menu_handle) )
+		ssh_menu_mark_item(sub_menu_handle, 1, SSH_FIRST_FREE_MESSAGE + index);
+	return area_manager::restore(index);
 }
 
-int     main_area_menager::original(const wb_dynarray<int>& lstindex)
+int     main_area_manager::original(const wb_dynarray<int>& lstindex)
 //Odtwarza pierwotne  polozenie i rozmiar obszaru
 {
-	return area_menager::original(lstindex);
+	return area_manager::original(lstindex);
 }
 
-int     main_area_menager::original(size_t  index)
+int     main_area_manager::original(size_t  index)
 //Odtwarza pierwotne  polozenie i rozmiar obszaru
 {
-	if(is_minimized(index) && (WindowMenu) )
-		ssh_menu_mark_item(WindowMenu,1,SSH_FIRST_FREE_MESSAGE+index);
-	return area_menager::original(index);
+	if(is_minimized(index) && (sub_menu_handle) )
+		ssh_menu_mark_item(sub_menu_handle, 1, SSH_FIRST_FREE_MESSAGE + index);
+	return area_manager::original(index);
 }
 
-int     main_area_menager::minimize(const wb_dynarray<int>& lstindex)
+int     main_area_manager::minimize(const wb_dynarray<int>& lstindex)
 //Ukrywa podobszar
 {
-	return area_menager::minimize(lstindex);
+	return area_manager::minimize(lstindex);
 }
 
-int     main_area_menager::restore(/*ALL*/)
+int     main_area_manager::restore(/*ALL*/)
 //Odtwarza poprzednie polozenie i rozmiar obszaru
 {
-	return area_menager::restore();
+	return area_manager::restore();
 }
 
-void main_area_menager::need_confirmation_before_clean(int yes)
+void main_area_manager::need_confirmation_before_clean(int yes)
 //Metoda ukrywajaca dostep do WB_error_enter_bofore_clean
 {
     WB_error_enter_before_clean=yes;
 }
 
-void main_area_menager::make_help_area(const char* text)
+void main_area_manager::make_help_area(const char* text)
 {
     if(text==nullptr)
     {
@@ -303,7 +303,7 @@ void main_area_menager::make_help_area(const char* text)
 
 /// Obsługa wszelkich zdarzeń z zewnątrz
 /// Wychodzi z funkcji, gdy nie ma co robić, czyi brak zdarzeń do obsługi.
-void main_area_menager::process_input()
+void main_area_manager::process_input()
 {
 int inp;
 while((!background_enabled()) || input_ready())
@@ -504,7 +504,7 @@ while((!background_enabled()) || input_ready())
 		break;
 
 		default:
-            if(SSH_FIRST_FREE_MESSAGE<=inp && inp<SSH_FIRST_FREE_MESSAGE+HowManyAreas)
+            if(SSH_FIRST_FREE_MESSAGE<=inp && inp< SSH_FIRST_FREE_MESSAGE + how_many_areas)
             {
                 int ind=inp-SSH_FIRST_FREE_MESSAGE;
                 if(is_minimized(ind))
@@ -529,14 +529,14 @@ while((!background_enabled()) || input_ready())
 }
 
 /// gdy zostanie wywołane to koniec wejścia
-void main_area_menager::break_input_loop()
+void main_area_manager::break_input_loop()
 {
     need_break_action(); //Nie ma kontynuowac!
 }
 
 /// Przechwycenie całości sterowania
 /// Wychodzi z tej funkcji dopiero gdy user "zakończy" program.
-void main_area_menager::run_input_loop()
+void main_area_manager::run_input_loop()
 {
     need_break_action(0); //Planuje pokontynuować.
     do{
@@ -548,19 +548,19 @@ void main_area_menager::run_input_loop()
 
 //ELASTYCZNE UCHWYTY OBSŁUGI
 //---------------------------
-int main_area_menager::_pre_process_input(int input_char)
+int main_area_manager::_pre_process_input(int input_char)
 //Przed obsluga domyslna. Zwraca 1 jesli obslużyl.
 {
 	return 0; //nie obslużyl
 }
 
-int main_area_menager::_post_process_input(int input_char)
+int main_area_manager::_post_process_input(int input_char)
 //Po obsludze domyslnej. Zwraca 1 jesli obslużyl.
 {
 	return 1; //Uznaj za obsluzone
 }
 
-int main_area_menager::_on_idle()
+int main_area_manager::_on_idle()
 //Uruchamiane przez run_input_loop() gdy nie ma zdarzen.
 {
     delay_ms(0); //Tu nie ma nic do roboty
@@ -570,7 +570,7 @@ int main_area_menager::_on_idle()
 
 //#include <alloc.h> //Tylko pod borlandami jest heapcheck()
 
-main_area_menager::~main_area_menager()
+main_area_manager::~main_area_manager()
 //Wirtualny destruktor
 {
     if(initialized)

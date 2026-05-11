@@ -215,7 +215,7 @@ void    aworld::actualize_out_area()
 //Rejestruje pochodne serie, tworzy domyślne "lufciki" i wkłada w zarządcę obszarów.
 void aworld::make_default_visualisation()
 {
-    area_menager_base& manager=this->MyAreaMenager();
+    area_manager_base& manager=this->MyAreaMenager();
     int iFirst=0,iSecond=0,iPower=0,iPressure=0,iChangeCnt,iMigrationCnt;
     //Uzyskanie indeksów podstawowych serii z menadżera danych.
     {

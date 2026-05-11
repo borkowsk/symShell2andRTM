@@ -2,7 +2,7 @@
 /// A fairly simple simulation of a change of opinion implementing Professor D. Stauffer's model.
 /// (Obtained by simplifying the LANGUAGES program)
 // ///////////////////////////////////////////////////////////////////////////////////////////
-/// @date 2026-05-06 (modified)
+/// @date 2026-05-11 (modified)
 
 const char* WINDOW_HEADER="CONVINCE ver. 0.01c";
 const char* SIMULATION_NAME="convinces_v0.01";
@@ -250,7 +250,7 @@ int main(const int argc,const char* argv[])
     if(!parse_options(argc,argv))
             exit(1);
 
-    main_area_menager Lufciki(24, ScreenWidth, ScreenHeight, 28);
+    main_area_manager Lufciki(24, ScreenWidth, ScreenHeight, 28);
     if(!Lufciki.start(WINDOW_HEADER,argc,argv,1))
         {
         cerr<<"Can't initialize graphics"<<endl;

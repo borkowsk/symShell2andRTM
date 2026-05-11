@@ -1,6 +1,6 @@
 /// @file
 /// @brief Interface for the base world-class. / Interfejs dla bazy światowej klasy.
-/// @date 2026-05-07 (modified)
+/// @date 2026-05-11 (modified)
 // ********************************************************************************************************************
 //
 #if !defined(WORLD_HPP_INCLUDED_)
@@ -31,7 +31,7 @@ class world
     virtual void   make_basic_sources(sources_menager& WhatSourMen);
 
     /// Uchwyt do aktualnego manager danych.
-    symshell2::main_area_menager*		  AreaManager;
+    symshell2::main_area_manager*		  AreaManager;
 
     /// Data/Czas aktualnego kroku w wersji tekstowej.
     wb_pchar								TimeStamp;
@@ -150,7 +150,7 @@ public:
     void			set_input_ratio(unsigned ratio){InputRatio=ratio;}
 
     /// Aktualny zarządca ekranu podłączony do tego świata.
-    symshell2::area_menager&	MyAreaMenager();
+    symshell2::area_manager&	MyAreaMenager();
 
     /// Sprawdzenie, czy ma już podłączonego zarządcę okien.
     int 			HasAreaMenager() { return AreaManager!=nullptr; }
@@ -168,7 +168,7 @@ public:
     ///     - i opcjonalnie podstawowe grafy
     /// , jeśli z `Replay != 0` to inicjalizuje warstwy z zerowego kroku
     /// pliku historii za pomocą funkcji "initialize_from_image".
-    void		initialize(symshell2::main_area_menager* mainAreaManager=nullptr, int Replay=0);
+    void		initialize(symshell2::main_area_manager* mainAreaManager=nullptr, int Replay=0);
 
     /// Powtórzenie inicjalizacji dla powtórnego przebiegu symulacji.
     /// Nie odtwarza strony wizualizacyjnej.
@@ -219,7 +219,7 @@ ostream& world::MyLogStream()
 }
 
 inline
-symshell2::area_menager&		world::MyAreaMenager()
+symshell2::area_manager&		world::MyAreaMenager()
 //Aktualny zarządca ekranu podłączony do świata
 {
                                                 assert(AreaManager!=nullptr);

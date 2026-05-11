@@ -104,7 +104,7 @@ void    kworld::actualize_out_area()
 void kworld::make_default_visualisation()
 //Rejestruje pochodne serie, tworzy domyslne "lufciki" i wklada w "Menager"
 {
-    area_menager_base& Menager=this->MyAreaMenager();
+    area_manager_base& Menager=this->MyAreaMenager();
     int iFirst=0,iSecond=0,iPower=0,iPressure=0,iChangeCnt,iMigratCnt;
     //Uzyskanie indeksow podstawowych serii z menagera
     {

@@ -137,7 +137,7 @@ void aworld::make_basic_sources()
 void aworld::make_default_visualisation()
 //Rejestruje pochodne serie, tworzy domyślne "lufciki" i wkłada w "Manager"
 {
-    area_menager_base& Manager=this->MyAreaMenager();
+    area_manager_base& Manager=this->MyAreaMenager();
     int iFirst=0,iSecond=0,iPower=0,iClassif=0;
     //Uzyskanie indeksów podstawowych serii z zarządcy
     {

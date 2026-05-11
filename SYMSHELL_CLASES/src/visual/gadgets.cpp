@@ -1,7 +1,7 @@
 /// @file
 /// @brief IMPLEMENTATION OF DIFFERENT TYPES OF NON-GRAPH AREAS/
 ///        IMPLEMENTACJA ROŻNYCH TYPóW OBSZARóW NIE BĘDĄCYCH GRAFAMI.
-/// @date 2026-05-08 (last modification)
+/// @date 2026-05-11 (last modification)
 //*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Wersja z kosmetyką XI 2012 i późniejszymi zmianami.
 
@@ -64,7 +64,7 @@ void button::_replot()
         }
 
     const char* text=name();//Podreczny wskazniczek
-    if(vhmode==0) //Vertical mode
+    if(vh_mode == 0) //Vertical mode
         {
         if(x2-x1<char_width('X')) return;//Za malo miejsca
         int height=char_height('X');
@@ -76,7 +76,7 @@ void button::_replot()
             }
         return;//Wykonane
         }
-    if(vhmode==1)
+    if(vh_mode == 1)
         {
         int height=string_height(text);
         if(y2-y1<height) return;//Za malo miejsca
@@ -202,7 +202,7 @@ void arrow_button::_replot()
 }
 
 
-leftrigt_button::leftrigt_button(int ix1,int iy1,int ix2,int iy2):
+left_right_button::left_right_button(int ix1, int iy1, int ix2, int iy2):
 	empty_area(ix1,iy1,ix2,iy2,::background(),::background(),::background())
 {
     int a=(ix1+ix2)/2;
@@ -212,7 +212,7 @@ leftrigt_button::leftrigt_button(int ix1,int iy1,int ix2,int iy2):
     set_title("Left-Right control");
 }
 
-void leftrigt_button::_replot()
+void left_right_button::_replot()
 //Odrysowuje skladowe
 {
     //	empty_area::_replot();//Niepotrzebne - tylko przekreslenie
@@ -248,18 +248,18 @@ steering_wheel::steering_wheel( int ix1,int iy1,int ix2,int iy2,
 
 
 steering_wheel::steering_wheel( 
-                    rectangle_source_base*     idat, //Pamiec seri nigdy nie jest tu zarzadzana
-                    wb_ptr<drawable_base>      ires, //Pamiec dla pod-obszarow jest
-                    wb_ptr<drawable_base>       iup, // z a w s z e
-                    wb_ptr<drawable_base>     ileft, //zarządzana.
-                    wb_ptr<drawable_base>     idown, //Wspolrzedne obszaru steeering wheel sa
-                    wb_ptr<drawable_base>    iright  //ustalane z wspolrzednych jego skladowych.
+                    rectangle_source_base*     i_dat, //Pamiec seri nigdy nie jest tu zarzadzana
+                    wb_ptr<drawable_base>      _, //Pamiec dla pod-obszarow jest
+                    wb_ptr<drawable_base>       i_up, // z a w s z e
+                    wb_ptr<drawable_base>     i_left, //zarządzana.
+                    wb_ptr<drawable_base>     i_down, //Wspolrzedne obszaru steeering wheel sa
+                    wb_ptr<drawable_base>    i_right  //ustalane z wspolrzednych jego skladowych.
 					):			//Tlo jest takie jakie dla calego okna!
         empty_area(0,0,0,0,::background(),::background(),::background()),
-		resizing(ires),left(ileft),right(iright),up(iup),down(idown)
+        resizing(_), left(i_left), right(i_right), up(i_up), down(i_down)
 {
     data.alloc(1);                                 assert(data.IsOK() );
-    data[0]=idat;
+    data[0]=i_dat;
 
     //LADOWANIE WSPOLRZEDNYCH
     load(*resizing);
@@ -271,21 +271,21 @@ steering_wheel::steering_wheel(
 }
 
 steering_wheel::steering_wheel(
-                    wb_dynarray<rectangle_source_base*>&  idat, //Passert(data.IsOK()	);amiec zadnej z seri nie jest tu zarzadzana
-                    wb_ptr<drawable_base> ires,  //Pamiec dla pod-obszarow jest
-                    wb_ptr<drawable_base> iup,   // z a w s z e
-                    wb_ptr<drawable_base> ileft, //zarządzana.
-                    wb_ptr<drawable_base> idown, //Wspolrzedne obszaru steeering wheel sa
-					wb_ptr<drawable_base> iright //ustalane z wspolrzednych jego skladowych.
+                    wb_dynarray<rectangle_source_base*>&  i_dat, //Passert(data.IsOK()	);amiec zadnej z seri nie jest tu zarzadzana
+                    wb_ptr<drawable_base> i_res,  //Pamiec dla pod-obszarow jest
+                    wb_ptr<drawable_base> i_up,   // z a w s z e
+                    wb_ptr<drawable_base> i_left, //zarządzana.
+                    wb_ptr<drawable_base> i_down, //Wspolrzedne obszaru steeering wheel sa
+					wb_ptr<drawable_base> i_right //ustalane z wspolrzednych jego skladowych.
 					):			//Tlo jest takie jakie dla calego okna!
         empty_area(0,0,0,0,::background(),::background(),::background()),
-		resizing(ires),left(ileft),right(iright),up(iup),down(idown)
+        resizing(i_res), left(i_left), right(i_right), up(i_up), down(i_down)
 {
-    data.alloc(idat.get_size());                                 assert(data.IsOK() );
+    data.alloc(i_dat.get_size());                                 assert(data.IsOK() );
 
     //Przepisuje bo nie wiadomo co to za tablica
-    for(size_t i=0;i<idat.get_size();i++)
-                    data[i]=idat[i];
+    for(size_t i=0; i < i_dat.get_size(); i++)
+                    data[i]=i_dat[i];
 
     assert(data.IsOK());
     //LADOWANIE WSPOLRZEDNYCH
@@ -301,7 +301,7 @@ steering_wheel::steering_wheel(
 //					rectangle_source_base*  idat);//Pamiec zadnej z seri nie jest tu zarzadzana										
 
 
-int leftrigt_button::on_change(const gps_area& new_ar)
+int left_right_button::on_change(const gps_area& new_ar)
 //Musi przesunac wspolrzedne skladowych razem ze swoimi.
 {
 	float trans[6];
@@ -310,7 +310,7 @@ int leftrigt_button::on_change(const gps_area& new_ar)
 	check.transform(trans);
 	if(!(check==new_ar))
 	{
-	//fprintf(stderr,"leftrigt_button warning:rescaling will loss precission.\n");
+	//fprintf(stderr,"left_right_button warning:rescaling will loss precission.\n");
 	}
 	
 	left->transform(trans);
@@ -350,14 +350,14 @@ void steering_wheel::_replot()
     right->replot(0);
 }
 
-int leftrigt_button::_user_action(int leftorright,int /*ingnoruje click*/)
+int left_right_button::_user_action(int left_or_right, int /*ingnoruje click*/)
 /*Jeśli lewo to -1, a jesli prawo to 1*/
 {
 	return 2; //Obsłuzone, choć nie zrobione
 }
 
 
-int leftrigt_button::on_click(int x,int y,int click)
+int left_right_button::on_click(int x, int y, int click)
 		//Przepytuje skladowe i jesli ktoras zostala trafiona to ... 
 {
 	if(!is_inside(x,y))//sprawdzenie dla calosci
@@ -520,20 +520,20 @@ return ins;
 */
 
 text_area::text_area(int ix1,int iy1,int ix2,int iy2,
-			const char* itext,		//TEXT inicjujacy
-			unsigned icolor,//=default_black,
-			unsigned ibackground,//=default_white,
-			unsigned iframe,//=128,
-			size_t   buffsize//=-1	//Inicjalny rozmiar bufora.
+			const char* i_text,		//TEXT inicjujacy
+			unsigned i_color,//=default_black,
+			unsigned i_background,//=default_white,
+			unsigned i_frame,//=128,
+			size_t   buff_size//=-1	//Inicjalny rozmiar bufora.
 			):
-			drawable_base(ix1,iy1,ix2,iy2,ibackground,iframe),
-			curr_col(icolor),
-			user_size(buffsize),
+			drawable_base(ix1, iy1, ix2, iy2, i_background, i_frame),
+			curr_col(i_color),
+			user_size(buff_size),
 			index(0)
 {
     if(user_size!=size_t(-1)) //Tylko jak `user_size` już ustalony
         linie.alloc(user_size);
-    add_text(itext);
+    add_text(i_text);
 }
 
 

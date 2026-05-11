@@ -1,6 +1,6 @@
 /// @file
 /// @brief  Klasa pomocnicza zarządzająca nazwą obiektu serii danych i nie tylko.
-/// @date 2026-05-04 (modified)
+/// @date 2026-05-11 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_TITLE_UTIL_HPP_INCLUDED_
@@ -51,7 +51,7 @@ public:
             title = NULL;
     }
 
-    /// Aktualny tytuł bez sprawdzania, czy nie NULL.
+    virtual /// Aktualny tytuł bez sprawdzania, czy nie NULL.
     const char *get_title()
     {
         return title;   //Zwraca nazwę albo NULL
