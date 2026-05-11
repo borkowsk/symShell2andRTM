@@ -26,6 +26,7 @@ ENDIF()
 
 if (SYMSHELL2_ALREADY_IMPORTED)
     message( "Symshell2 libraries already imported from master CMakeLists.txt" )
+    #include_directories( "${WBRTM}/INCLUDE"  "${SYMSHELL}/INCL/"  ) #SHOULD BE ALREADY IMPORTED!
 else ()
     set( WBSLIBS   "../../../../public/symShell2andRTM" )
     get_filename_component( WBRTM     "${WBSLIBS}/RTM" ABSOLUTE)
@@ -76,7 +77,7 @@ target_compile_options( life  PRIVATE "${CMAKE_CXX_FLAGS}" "-std=c++11" "-pthrea
 target_link_libraries( life
 #        "-L ${MYLIBS}"
         wbsyshclss wbrtm wbsyshLight
-        X11 Xpm
+        #X11 Xpm #are used only for private linking of wbsyshLight
         ${CMAKE_THREAD_LIBS_INIT}
         pthread
         rt
