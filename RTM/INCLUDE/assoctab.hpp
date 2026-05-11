@@ -1,5 +1,6 @@
 /** @file
 *  \brief    The simplest associative arrays.
+*  @date 2026-05-11 (last modification)
 *====================================================================================================================
 *  \details Obsolete and not improved part of the wb_rtm library.
 *           It was established before 2000.
@@ -19,9 +20,8 @@
 *         to sa dealokowane w destruktorze.
 *         Dla typu char* mozna używac jedynie assoc_template albo typow z rodziny
 *         "dictionary*" ze wzgledu na niestandardowe traktowanie w jezyku C++
-*
+*  @note Cała biblioteka WB_RTM to jest nieco odremontowane muzeum kodu z wieku XX.!!!
 *  \copyright Wojciech T. Borkowski
-*  \date 2022-10-12 (last modification)
 *  @ingroup OBSOLETE
 */
 #ifndef _MSC_VER //# warning still not work under Microsoft C++

@@ -1,7 +1,8 @@
 /**
 *  \file random.h
 *  \brief   INTERFACE "C" DO ROZMAITYCH GENERATORÓW LICZB PSEUDOLOSOWYCH
-*           -------------------------------------------------------------
+*  @date 2026-05-11 (last modification)
+*         ---------------------------------------------------------------
 *
 *  \details Wybór generatora pseudolosowego zdefiniowanego makrami preprocesora.
  *          - USES_RANDG - z użyciem funkcji randg() z Numerical Recipies
@@ -11,7 +12,8 @@
  *          - IRIX32 - for INDY IRIX - very obsolete
  *
 *  \author borkowsk
-*  \date  2022-10-12 (last modification)
+*
+*  @note Cała biblioteka WB_RTM to jest nieco odremontowane muzeum kodu z wieku XX.!!!
 */
 
 #ifndef __RANDOM__H__INCLUDED__

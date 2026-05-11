@@ -1,5 +1,7 @@
 /// \file optParam.hpp
 /// \brief KLASY potrzebne do obsługi parametrów wywołania programu
+/// @date 2026-05-11 (last modification)
+///        ========================================================
 /// \details
 ///     Obsługiwane są typy standardowe numeryczne oraz
 ///      inne typy mające implementacje << >> na strumienie i
@@ -10,7 +12,8 @@
 ///     NIESTETY nie można używać typu 'string' bo nie ma on obsługi strumieni!
 /// \note Chyba żeby już była? TODO CHECK IT!
 /// \author borkowsk
-/// \date  2022-10-13 (last modification)
+///
+///  @note Cała biblioteka WB_RTM to jest nieco odremontowane muzeum kodu z wieku XX.!!!
 
 #ifndef OPTIONAL_PARAMETERS_HPP
 #define  OPTIONAL_PARAMETERS_HPP

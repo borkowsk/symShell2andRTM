@@ -1,10 +1,12 @@
 /** @file virtualConstructor.h
-*  Definition of virtual constructors template & macros..
+* @brief Definition of virtual constructors template & macros..
+* @date 2026-05-11 (last modification)
 *====================================================================================================================
 *  \details Obiekty wirtualnych konstruktorów rejestrowane są na standardowej mapie z kluczem typu std::string.
 *           File created by borkowsk on 12.08.22.
-*  \copyright Now, this is a part of GuestXR project.
-*  \date 2022-10-05 (last modification)
+*  \copyright In some moment of time, this was a part of GuestXR project.
+*
+*   @note Cała biblioteka WB_RTM to jest nieco odremontowane muzeum kodu z wieku XX.
 */
 
 #ifndef VIRTUAL_CONSTRUCTOR_H

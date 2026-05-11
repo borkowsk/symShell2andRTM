@@ -1,6 +1,7 @@
 /**
 * \file   excpbase.hpp
 * \brief  Base exception class, and derived simple multipurpose exception classes.
+* @date 2026-05-11 (last modification)
 *        --------------------------------------------------------------------------
 * \details
 *        Contents:
@@ -13,8 +14,8 @@
 *        - class		wbrtm::RunTimeErrorExcp;
 *        - class		wbrtm::SearchingExcp;
 *        - class 	wbrtm::TextException;
+* @note Cała biblioteka WB_RTM to jest nieco odremontowane muzeum kodu z wieku XX.!!!
 *
-* \date   2022-10-13 (last modification)
 * \author  borkowsk
 * \ingroup ERRORHANDLING
 */

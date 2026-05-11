@@ -1,23 +1,29 @@
-/**
-  https://cplusplus.com/user/Anmol444/
-  https://cplusplus.com/forum/general/102410/
-  https://doraprojects.net/questions/1727881/how-to-use-the-pi-constant-in-c#
+/** @file
+ * @brief Pi i inne sta≈Çe matematyczne, gdyby brak≈Ço.
+ * @date 2026-05-11 (modified)
+ * =====================================================================================
+  @details
+  - https://cplusplus.com/user/Anmol444/
+  - https://cplusplus.com/forum/general/102410/
+  - https://doraprojects.net/questions/1727881/how-to-use-the-pi-constant-in-c#
+
+  @note Ca≈Ça biblioteka WB_RTM to jest nieco odremontowane muzeum kodu z wieku XX.!!!
 */
 #ifndef ANY_PI_PART
 #define ANY_PI_PART
 #include <ratio>
-/// \brief wszystkie rodzaje u≥amkÛw pi z pe≥nπ dok≥adnoúciπ
+/// \brief wszystkie rodzaje u≈Çamk√≥w pi z pe≈ÇnƒÖ dok≈Çadno≈õciƒÖ
 /// \details
-/// SposÛb uøycia:
+/// Spos√≥b u≈ºycia:
 /// ```
 /// std::cout << dpipart<std::ratio<-1, 6>>() << std::endl;
 /// ```
-/// Wartoúci takie jak M_PI, M_PI_2, m_pi_4, itd.nie sπ standardem C++, 
-/// wiÍc constexpr wydaje siÍ lepszym rozwiπzaniem.
-/// Moøna sformu≥owaÊ rÛøne wyraøenia const, ktÛre obliczajπ to samo pi.
-/// Standard C++ nie wspomina wyraünie jak obliczyÊ pi.
-/// Dlatego wracam do rÍcznego definiowania pi.
-/// Chcia≥bym podzieliÊ siÍ poniøszym rozwiπzaniem.
+/// Warto≈õci takie jak M_PI, M_PI_2, m_pi_4, itd.nie sƒÖ standardem C++, 
+/// wiƒôc constexpr wydaje siƒô lepszym rozwiƒÖzaniem.
+/// Mo≈ºna sformu≈Çowaƒá r√≥≈ºne wyra≈ºenia const, kt√≥re obliczajƒÖ to samo pi.
+/// Standard C++ nie wspomina wyra≈∫nie jak obliczyƒá pi.
+/// Dlatego wracam do rƒôcznego definiowania pi.
+/// Chcia≈Çbym podzieliƒá siƒô poni≈ºszym rozwiƒÖzaniem.
 /// \author: Jeroen Lammertink, 2018-07-31
 template<typename RATIO>
 constexpr double anyPIpart()

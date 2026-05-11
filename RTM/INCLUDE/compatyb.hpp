@@ -1,8 +1,9 @@
 /**  \file     compatyb.hpp
-* \details   Plik definiujący funkcje eat_blanks i eat_chars,
-*    	     w sposób zależny od platform kompilacji
-* **************************************************************************
-*  \date 2022-10-25 (last modification)
+* @date 2026-05-11 (last modification)
+* \brief   Plik definiujący funkcje eat_blanks i eat_chars, w sposób zależny od platform kompilacji
+* **********************************************************************************************************************
+*
+*  @note Cała biblioteka WB_RTM to jest nieco odremontowane muzeum kodu z wieku XX.!!!
 */
 #ifndef _COMPATYB_HPP_INCLUDED_
 #define _COMPATYB_HPP_INCLUDED_

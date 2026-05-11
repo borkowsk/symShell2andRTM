@@ -1,7 +1,8 @@
 /// @file
 /// @brief Selektor języka komunikatów ekranowych.
-/// @date 2026-04-30 (modified)
-//  Poprawiony z bardzo starej wersji.
+/// @date 2026-05-11 (modified)
+/// @details Poprawiony z bardzo starej wersji.
+/// @note Cała biblioteka WB_RTM to jest nieco odremontowane muzeum kodu z wieku XX.!!!
 #ifndef _WBRTM_LINGO_HPP_
 #define _WBRTM_LINGO_HPP_
 

@@ -1,12 +1,14 @@
 /// \file wb_cpucl.hpp
-/// \brief   Klasa stopera liczącego czas CPU
-///          --------------------------------
+/// \brief Klasa stopera liczącego czas CPU.
+/// @date 2026-05-11 (last modification)
+///        ---------------------------------
 ///
 /// \details liczy od momentu utworzenia lub wywołania reset() do chwili pobrania
 ///          wartości za pomocą "operator double()"
 ///
 /// \author borkowsk
-/// \date 2022-10-27 (last modification)
+/// \note   Like many others wbrtm files created around year 1996.
+///         Cała biblioteka WB_RTM to jest nieco odremontowane muzeum kodu z wieku XX.
 /// @ingroup OBSOLETE
 
 #ifndef __CPU_CLOCK_HPP_

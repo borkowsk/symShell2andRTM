@@ -1,8 +1,9 @@
 /** \file
- *  \author  borkowsk
  *  \brief   C++ EXCEPTIONS AND ERROR SUPPORT
- *  \date   2022-10-13 (last modification)
+ *  @date 2026-05-11 (last modification)
+ *  @note Cała biblioteka WB_RTM to jest nieco odremontowane muzeum kodu z wieku XX.!!!
  *  \ingroup ERRORHANDLING
+ *  \author  borkowsk
  */
 
 #ifndef _ERRORHANDLE_HPP_

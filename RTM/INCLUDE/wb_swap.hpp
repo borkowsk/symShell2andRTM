@@ -51,7 +51,7 @@ inline void wb_swap(T& a, T& b)
  * @details Funkcja implementuje mechanizm "copy-and-swap". Jeśli proces tworzenia
  *          kopii tymczasowych zawiedzie (rzuci wyjątek), obiekty wejściowe 'a' i 'b' pozostają w stanie nienaruszonym.
  * @note Wymaga, aby typ T posiadał konstruktor kopiujący oraz aby operacje przenoszenia (move) lub destruktor
- *       nie rzucały wyjątków (noexcept). Ponadto wymaga includa "utitility", a wtedy to już można `std::swap` używać :-D ...
+ *       nie rzucały wyjątków (noexcept). Ponadto wymaga `#include "utitility"`, a wtedy to już można `std::swap` używać :-D ...
  * @tparam T Typ obiektów.
  * @param a Pierwszy obiekt.
  * @param b Drugi obiekt.

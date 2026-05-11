@@ -1,6 +1,6 @@
 /// \file wb_ptr.hpp
 /// \brief Proste szablony inteligentnych wskaźników oraz tablic dynamicznych.
-/// @date 2026-04-28 (last modification)
+/// @date 2026-05-11 (last modification)
 ///        ===================================================================
 ///
 /// \details
@@ -16,6 +16,7 @@
 ///     co oznacza, że w konstruktorze kopiującym albo przypisaniu jest przenoszona,
 ///     a nie kopiowana. Obiekt donor staje się PUSTY! Dlatego obiekty te do funkcji
 ///     muszą być zawsze przekazywane przez REFERENCJE!
+/// \note Like many others wbrtm files created around year 1996.
 ///
 /// \copyright Wojciech Borkowski wborkowski (_at_) uw.edu.pl
 /// \author    borkowsk

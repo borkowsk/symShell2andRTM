@@ -1,8 +1,10 @@
 /**
 * @file     typenames.hpp
 * \brief    How do I convert T to a string that says what T is?
-*           ---------------------------------------------------
-* \details  While playing with templates in c++ I encountered a problem converting typename T to string.
+* @date 2026-05-11 (last modification)
+*          -----------------------------------------------------
+*
+* \details  While playing with templates in C++ I encountered a problem converting typename T to string.
 *	        There is no built-in mechanism for this!
 *           typeid(T)::name() can give some info, but the standard does not mandate this string to be human-readable; 
 *           just that it has to be distinct for each type. (E.x. Microsoft Visual C++ uses human-readable strings; GCC does not.)
@@ -18,9 +20,10 @@
 *	     - https://stackoverflow.com/questions/4484982/how-to-convert-typename-t-to-string-in-c
 *	     - https://en.cppreference.com/w/cpp/types/type_info/name
 *
-* \date    2022-10-19 (last modification)
+*
+ *  @note Cała biblioteka WB_RTM to jest nieco odremontowane muzeum kodu z wieku XX.!!!
 */
-#ifndef _MSC_VER //# warning still not work under Microsoft C++
+#ifndef _MSC_VER //# warning still not work under Microsoft C++ (really still?)
 #warning  "This code is OBSOLETE and not tested in C++11 standard"
 #endif
 

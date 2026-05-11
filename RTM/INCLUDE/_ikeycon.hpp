@@ -1,8 +1,8 @@
 /// @file
 /// @brief Private base for an array class family.
-/// @date 2026-05-06 (modified)
+/// @date 2026-05-11 (modified)
 // ********************************************************************************************************************
-//
+// UWAGA! To jest nieco odremontowane muzeum kodu z wieki XX.!!!
 #ifndef SYMSHELL2_INT_KEY_CON_HPP_INCLUDED_
 #define SYMSHELL2_INT_KEY_CON_HPP_INCLUDED_
 ///  @ingroup OBSOLETE

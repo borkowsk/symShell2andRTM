@@ -1,17 +1,18 @@
 /** \file wb_bits.h
- *  \brief Podstawowe operacje na 8 bitach bajtu
- *         --------------------------------------
+ * @brief Podstawowe operacje na 8 bitach bajtu
+ * @date 2026-05-11 (last modification)
+ *       ---------------------------------------
  *  \details ... ...
  *           ... ...
  *  \author Wojciech Borkowski @ Institut for Social Studies, University of Warsaw
- *  \date   2023-01-23 (last modification)
+ *
  *  \note   Like many others wbrtm files created around year 1996.
+ *          Cała biblioteka WB_RTM to jest nieco odremontowane muzeum kodu z wieku XX.
  *  \ingroup OBSOLETE
  */
-//  (W.Borkowski)
-//#/////////////////////////////////////////////////////
-#ifndef __WB_BITS_H_INCLUDED__
-#define __WB_BITS_H_INCLUDED__
+//#////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#ifndef WB_BITS_H_INCLUDED_
+#define WB_BITS_H_INCLUDED_
 
 #include <limits.h>
 
@@ -19,9 +20,10 @@
 #define BITSPERBYTE (CHAR_BIT)  //!!!!
 #endif
 
+/// Suma jedynek w ciągu bitowym.
 inline unsigned bits(unsigned char u)
 {
-#if BITSPERBYTE!=8 //NIETYPOWA SYTUACJA, ALE MOZLIWA
+#if BITSPERBYTE!=8 //NIETYPOWA SYTUACJA, ALE TEORETYCZNIE MOŻLIWA
 #error NOT TESTED IN SUCH SITUATION!!! YOU CAN TRY BY COMMENT THIS LINE.
 	unsigned sum=0;
 	for(unsigned i=0;i<(BITSPERBYTE*sizeof(u));i++)
@@ -31,7 +33,7 @@ inline unsigned bits(unsigned char u)
 		u>>=1;
 		}
 	return sum;
-#else           //TYPOWA SYTUACJA DLA PC i WIEKSZOSCI WORKSTATION
+#else           //TYPOWA SYTUACJA DLA PC i WIEKSZOŚCI WORKSTATION
 	unsigned sum=0;
 	if((u & 1)!=0) sum++;
 	u>>=1;
@@ -52,6 +54,7 @@ inline unsigned bits(unsigned char u)
 #endif
 }
 
+/// Rozwijanie bajtu w tablicę zer i jedynek.
 inline void byte2bits(unsigned char u,unsigned char* out)
 {
 #if BITSPERBYTE!=8 //NIETYPOWA SYTUACJA, ALE MOŻLIWA
@@ -70,6 +73,8 @@ inline void byte2bits(unsigned char u,unsigned char* out)
 #endif
 }
 
+/// Jaki jest najcięższy ustawiony bit w danej zmiennej typu "unsigned".
+/// Obawiam się że to było zaprojektowane dla typu @c uint16_t !!!
 inline int highest_bit_index(unsigned value)
 // this can be done as a binary search, reducing complexity of
 //O(N) (for an N-bit word) to O(log(N)).
@@ -105,4 +110,4 @@ inline int highest_bit_index(unsigned value)
 /*                                                                  */
 /*                               (Don't change or remove this note) */
 /* ******************************************************************/
-#endif  //__WB_BITS_H_INCLUDED__
+#endif  //WB_BITS_H_INCLUDED_

@@ -1,11 +1,12 @@
 /** @file
 *  \brief Base class for dynamic resizable arrays
-*  @date 2026-05-07 (last modification)
+*  @date 2026-05-11 (last modification)
 *  \details Obsolete and not improved part of the wb_rtm library.
 *           It was established before 2000.
 *  \copyright Wojciech T. Borkowski
 * ====================================================================================================================
 *  @ingroup OBSOLETE
+*  @note Cała biblioteka WB_RTM to jest nieco odremontowane muzeum kodu z wieku XX.!!!
 */
 #ifndef _MSC_VER //# warning still not work under Microsoft C++
 //#warning  "This code is OBSOLETE and not tested in C++11 standard"

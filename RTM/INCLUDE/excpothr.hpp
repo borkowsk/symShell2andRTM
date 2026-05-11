@@ -1,12 +1,14 @@
 /**
 * \file
 * \brief   Generic "invalid index" exception.
+* @date 2026-05-11 (last modification)
 *        ------------------------------------------------------------------------
 * \details
 *          Contents:
 *          - class wbrtm::InvalidIndexExcp;
 *
-* \date    2022-10-13 (last modification)
+*
+*  @note Cała biblioteka WB_RTM to jest nieco odremontowane muzeum kodu z wieku XX.!!!
 * \author  borkowsk
 * @ingroup ERRORHANDLING
 */

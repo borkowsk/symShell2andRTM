@@ -1,5 +1,6 @@
 /** @file
 *  \brief    Base class for creating associative arrays.
+*  @date 2026-05-11 (last modification)
 *====================================================================================================================
 *  \details Obsolete and not improved part of the wb_rtm library.
 *           It was established before 2000.
@@ -8,9 +9,9 @@
 *           Zarządza tablica rekordów asocjujących dwie unie "unitype"
 *           W klasach potomnych wystarczy inteligentnie użyć tych pol
 *           w najprostszy sposób do przechowywania skalarów i wskaźników.
-*
+*  @note Cała biblioteka WB_RTM to jest nieco odremontowane muzeum kodu z wieku XX.!!!
 *  \copyright Wojciech T. Borkowski
-*  \date 2022-10-12 (last modification)
+
 *  @ingroup OBSOLETE
 */
 #ifndef _MSC_VER //# warning still not work under Microsoft C++

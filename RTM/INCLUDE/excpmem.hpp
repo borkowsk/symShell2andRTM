@@ -1,14 +1,16 @@
 /**
 * \file
 * \brief   Generic "out of memory" & "invalid pointer" exception.
+* @date 2026-05-11 (last modification)
 *        ------------------------------------------------------------------------
 * \details
 *          Contents:
 *          - class wbrtm::OutOfMemoryExcp;
 *          - class wbrtm::InvalidPtrUseExcp;
 *
-* \date    2022-10-13 (last modification)
+*
 * \author  borkowsk
+*  @note Cała biblioteka WB_RTM to jest nieco odremontowane muzeum kodu z wieku XX.!!!
 * @ingroup ERRORHANDLING
 */
 

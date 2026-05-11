@@ -1,6 +1,7 @@
 /** \file wb_rand.hpp
 *  \brief BASIC CLASSES OF PSEUDORANDOM NUMBER GENERATORS
-*  \author Wojciech Borkowski @ Institut for Social Studies, University of Warsaw
+*  @date 2026-05-11 (last modification)
+*        =================================================
 *  \details
 *   Contents:
 *   - RandomGenerator - interface to random generators
@@ -10,36 +11,37 @@
 * \warning OBSOLETE
 *   - RandBSD - Random generator from BSD UNIX
 *   - RandSVR4 - Random generator from System V UNIX
-*  \date 2022-12-15 (last modification)
+*
+* \author Wojciech Borkowski @ Institut for Social Studies, University of Warsaw
 */
 
 #ifndef __cplusplus
 #error Only C++ supported!!!
 #endif
 
-#ifndef _WB_RAND_HPP_INCLUDED_
-#define _WB_RAND_HPP_INCLUDED_  1
-#include <assert.h>
-#include <limits.h>
-#include <stdlib.h>
-#include <time.h>
+#ifndef WB_RAND_HPP_INCLUDED_
+#define WB_RAND_HPP_INCLUDED_  1
+#include <cassert>
+#include <climits>
+#include <cstdlib>
+#include <ctime>
 #ifndef unix
 #include <sys/timeb.h>
 #endif
 
 /**
  * @defgroup Randomize Różne klasy i funkcje związane z generowaniem pseudolosowości
- *   \brief  Unifikacja randomizacji sprzed czasów gdy ujeto to w standard C++
+ *   \brief  Unifikacja randomizacji sprzed czasów, gdy ujęto to w standard C++
  *   \details
- *           Zarówno funkcje jak i klasy do różnorodnego stosowania. Część w oparciu
- *           o rozwiązania systemowe w jezyku C, część z Numerical Recipies i innych
+ *           Zarówno funkcje, jak i klasy do różnorodnego stosowania. Część na podstawie
+ *           rozwiązania systemowego w języku C, część z Numerical Recipies i innych
  *           podobnych źródeł.
  */
 /// @{
 
 extern "C"
 {
-    long    my_rand();          /**< (MUTEX-OWO PROTECTED) :: rand () for multithreaded programs */
+    long    my_rand();          /**< (MUTEX-OWO PROTECTED)::rand() for multithreaded programs */
     float	randg();            /**< Numerical Recipes random number generator (TODO MUTEX inside?) */
 	float	randnorm();			/**< Normalised output of randg() */
 	float	randexp();			/**< Exponential output of randg() */
@@ -62,13 +64,13 @@ namespace wbrtm {
         ///Returned double from <0 to 1).
         virtual double DRand() = 0;
         
-        ///Returned unsigned long from 0 to i.
+        ///Returned unsigned long from `0` to `i`.
         virtual unsigned long Random(unsigned long i) = 0;
 
-        ///Initialisation for well defined repeatable sequence.
+        ///Initialisation for a well-defined repeatable sequence.
         virtual void Seed(unsigned long i) = 0;
 
-        ///Initialisation for random selected sequence.
+        ///Initialisation for a random selected sequence.
         virtual void Reset() = 0;
 
         ///Required for abstract classes.
@@ -86,7 +88,7 @@ namespace wbrtm {
         /// \brief Returned ulong from 0 to RandomMax.
         unsigned long Rand() override { return ((int) ((::randg)() * INT_MAX)); }
 
-        /// \brief Returned ulong from 0 to i.
+        /// \brief Returned `ulong` from `0` to `i`.
         unsigned long Random(unsigned long i) override
         {
             unsigned long ret = (unsigned long) (((double) (::randg)() * (i)));
@@ -107,10 +109,10 @@ namespace wbrtm {
         /// \brief Generation of exponential distribution. Defined only for this class.
         double ExpRand() { return ::randexp(); }
 
-        /// \brief Initialisation for well defined repeatable sequence.
+        /// \brief Initialisation for a well-defined repeatable sequence.
         void Seed(unsigned long i) override { ::srandg((short int) i); }
 
-        /// \brief Initialisation for random selected sequence.
+        /// \brief Initialisation for a random selected sequence.
         void Reset() override { ::srandg((unsigned) time(NULL)); }
 
         /// \brief DEFAULT CONSTRUCTOR.
@@ -148,10 +150,10 @@ namespace wbrtm {
             return ((double) (my_rand)()) / (double) RAND_MAX;
         }
 
-        /// \brief Initialisation for well defined repeatable sequence
+        /// \brief Initialisation for a well-defined repeatable sequence.
         void Seed(unsigned long i) override { (::srand)(i); }
 
-        /// \brief Initialisation for random selected sequence
+        /// \brief Initialisation for a random-selected sequence.
         void Reset() override { (::srand)((unsigned) time(NULL)); }
 
         /// \brief DEFAULT CONSTRUCTOR.
@@ -163,16 +165,16 @@ namespace wbrtm {
 
 } //namespace
 
-extern wbrtm::RandG    TheRandG;             ///< ready to use generator using randg()
-extern wbrtm::RandSTDC TheRandSTDC;          ///< ready to use generator using C ::rand()
+extern wbrtm::RandG    TheRandG;             ///< ready to use generator using `randg()`.
+extern wbrtm::RandSTDC TheRandSTDC;          ///< ready to use generator using `C::rand()`.
 
 /// @}
 
 /* ******************************************************************/
-/*                WBRTM  version 2022 for GuestXR                   */
+/*                      WBRTM  version 2026                         */
 /* ******************************************************************/
-/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
-/*            W O J C I E C H   B O R K O W S K I                   */
+/*            THIS CODE IS DESIGNED & COPYRIGHT BY:                 */
+/*             W O J C I E C H   B O R K O W S K I                  */
 /*    Instytut Studiów Społecznych Uniwersytetu Warszawskiego       */
 /*    WWW: https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI  */
 /*    GITHUB: https://github.com/borkowsk                           */

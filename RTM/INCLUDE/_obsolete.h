@@ -1,7 +1,8 @@
 /** \file
 * \bref    Doxygen group for historically _obsolete things.
-* @date 2026-05-02 (last modification)
+* @date 2026-05-11 (last modification)
 * \details Created by borkowsk on 13.10.22.
+* @note To jest nieco odremontowane muzeum kodu z wieki XX.!!!
 */
 
 /**

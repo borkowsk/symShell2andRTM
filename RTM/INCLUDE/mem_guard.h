@@ -1,6 +1,8 @@
 /** @file
- * @brief  A control value/field template with a given length and uniq value.
- * @date 2026-04-28 (last modification)
+ * @brief A control value/field template with a given length and uniq value.
+ * @date 2026-05-11 (last modification)
+ *       -------------------------------------------------------------------
+ * @details TO AKURAT STOSUNKOWO NOWY POMYSŁ :-)
  */
 #ifndef MEMORY_GUARD_H
 #define MEMORY_GUARD_H

@@ -1,10 +1,12 @@
 /** @file     compatyb.h
  * @brief Plik definiujący zastępcze funkcje "C" (strlwr,strupr,sticmp).
+ * @date 2026-05-11 (last modification)
  * @details
  *    Funkcji tych  brak w poszczególnych lub większości kompilatorów.
  *    Prawdopodobnie pochodzą z rozszerzeń Borland C++ albo MSVC
- * @date  2026-04-08 (last modification)
- * **************************************************************************
+ *
+ * @note Cała biblioteka WB_RTM to jest nieco odremontowane muzeum kodu z wieku XX.!!!
+ * ********************************************************************************************************************
  */
 #ifndef _COMPATYB_H_INCLUDED_
 #define _COMPATYB_H_INCLUDED_

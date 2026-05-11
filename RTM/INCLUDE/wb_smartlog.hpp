@@ -1,8 +1,9 @@
 /** \file wb_smartlog.h
  *  \brief Zaawansowane logowanie aplikacji, wraz ze stosem (opcjonalnie)
+ *  @date 2026-05-11 (last modification)
  *         ---------------------------------------------------------------
  *  \author Wojciech Borkowski @ Institut for Social Studies, University of Warsaw
- *  \date   2023-01-23 (last modification)
+ *
  *  \details ... ...
  *           ... ...
  *  \note Like many others wbrtm files created around year 1996.

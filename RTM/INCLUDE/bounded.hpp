@@ -1,7 +1,8 @@
 /** \file   bounded.hpp
- *  \author borkowsk
+ *  @date 2026-05-11 (last modification)
  *  \brief  wbrtm::bounded class & dedicated exception
- *  \date   2023-04-25 (last modification)
+ *  \author borkowsk
+ *  @note Cała biblioteka WB_RTM to jest nieco odremontowane muzeum kodu z wieku XX.!!!
  *  @ingroup OBSOLETE
  */
 #ifndef _MSC_VER //# warning still not work under Microsoft C++

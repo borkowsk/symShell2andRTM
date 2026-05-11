@@ -1,9 +1,10 @@
 /** @file
 *  \brief    Dynamic arra-s — some resizable
+*  @date 2026-05-11 (last modification)
 *  \details Obsolete and not improved part of the wb_rtm library.
 *           It was established before 2000.
 *  \copyright Wojciech T. Borkowski
-*  \date 2022-11-31 (last modification)
+*  @note Cała biblioteka WB_RTM to jest nieco odremontowane muzeum kodu z wieku XX.!!!
 */
 #ifndef _ARRAY_HPP_
 #define _ARRAY_HPP_

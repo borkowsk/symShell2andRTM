@@ -1,6 +1,6 @@
-/** \file wb_clone.hpp
+/** \file
 *	\brief WB CLONING SUPPORT FOR ANY C++ OBJECTS
-*   @date 2026-04-28 (last modification)
+*   @date 2026-05-11 (last modification)
 *          --------------------------------------
 *
 * \details
@@ -10,6 +10,8 @@
 *       - wbrtm::Clone - Template class for forced cloning;
 *                     In the class pointers to char could be handled intuitively - by contents, not by pointer value.
 *
+* \note   Like many others wbrtm files created around year 1999.
+ *        Cała biblioteka WB_RTM to jest nieco odremontowane muzeum kodu z wieku XX.
 * \author borkowsk
 */
 
@@ -26,11 +28,11 @@
 namespace wbrtm {
 
 /// \brief Kopiuje stały łańcuch znaków na stertę
-/// \note  Jeśli dostaje NULL zwraca NULL!
+/// \note  Jeśli dostaje, NULL zwraca NULL!
 /// \return Zwraca kopię łańcucha albo NULL, jeśli nie może jej wykonać.
 inline char* clone_str(const char *const p)
 {
-    if (p == NULL) return NULL; //DALSZE DZIALANIA SĄ BEZ SENSU!
+    if (p == NULL) return NULL; //DALSZE DZIAŁANIA SĄ BEZ SENSU!
 
     size_t size = ::strlen(p) + 1;
     char*  out = new char[ size ];
@@ -60,7 +62,7 @@ inline char* clone(char* p)
 }
 
 /// \brief   Funkcja szablonu klonowania obiektu na stertę,
-/// \return  NULL jeśli nie może zaalokować!
+/// \return  NULL, jeśli nie może zaalokować!
 template<class T>
 #ifndef __BORLANDC__
 inline 			//W Borlandzie 4.X powoduje pad :-D - a to ci stara historia!

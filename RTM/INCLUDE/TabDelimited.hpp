@@ -1,12 +1,14 @@
 /**
 * \file
 * \brief   KLASA DO OPEROWANIU NA TABLICACH z plików TAB-DELIMITED
+* @date 2026-05-11 (last modification)
 *        -------------------------------------------------------------
 * \details
 *          Contents:
 *          - class wbrtm::TabelaTabDelimited;
 *
-* \date    2022-10-12 (last modification)
+*
+*  @note Cała biblioteka WB_RTM to jest nieco odremontowane muzeum kodu z wieku XX.!!!
 * \author  borkowsk
 */
 
