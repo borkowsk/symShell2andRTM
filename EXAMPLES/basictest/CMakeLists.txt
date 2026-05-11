@@ -38,7 +38,7 @@ else ()
     add_subdirectory( "${SYMSCLSS}/" "${SYMSCLSS}/" )
     add_subdirectory( "${WBRTM}/"   "${WBRTM}/"  )
 
-    include_directories( "${WBRTM}/INCLUDE"  "${SYMSHELL}/INCL/"
+    include_directories( "${WBRTM}/INCLUDE"  "${SYMSHELL}/INCL/" "${SYMSHELL}/INCL/RTM_LIGHT"
                          "${SYMSCLSS}/DATACLSS"
                          "${SYMSCLSS}/SIMULCLSS"
                          "${SYMSCLSS}/VISUALCLSS"
@@ -71,7 +71,6 @@ target_compile_options( testmngr2  PRIVATE "${CMAKE_CXX_FLAGS}" "-pthread" "-fpe
 target_link_libraries( testmngr2
 #        "-L ${MYLIBS}"
         wbsyshclss wbrtm wbsyshLight
-        X11 Xpm
         ${CMAKE_THREAD_LIBS_INIT}
         pthread
         rt

@@ -38,7 +38,7 @@ else ()
     add_subdirectory( "${SYMSCLSS}/" "${SYMSCLSS}/" )
     add_subdirectory( "${WBRTM}/"   "${WBRTM}/"  )
 
-    include_directories( "${WBRTM}/INCLUDE"  "${SYMSHELL}/INCL/"
+    include_directories( "${WBRTM}/INCLUDE"  "${SYMSHELL}/INCL/" "${SYMSHELL}/INCL/RTM_LIGHT"
             "${SYMSCLSS}/DATACLSS"
             "${SYMSCLSS}/SIMULCLSS"
             "${SYMSCLSS}/VISUALCLSS"
