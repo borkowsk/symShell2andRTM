@@ -1,6 +1,6 @@
 /// @file
 /// @brief Implementation of the world of the convinced (D. Stauffer idea).
-/// @date 2026-05-08 (modified)
+/// @date 2026-05-11 (modified)
 // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include <cstring>
@@ -241,7 +241,7 @@ void aWorld::make_default_visualisation()
     if(OutArea)
     {
         OutArea->set(1,1,szer/2-1,wyso/2-1);
-        Manager.as_orginal(Manager.search(OutArea->name()));
+        Manager.as_original(Manager.search(OutArea->name()));
     }
 
     // RIGHT "LUFTIES" FOR THIS SIMULATION:

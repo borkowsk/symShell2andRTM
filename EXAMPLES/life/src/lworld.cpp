@@ -1,6 +1,6 @@
 /// @file
 /// IMPLEMENTATION OF   W O R L D  FOR "Conways Life" SIMULATION.
-/// @date 2026-05-08 (modified)
+/// @date 2026-05-11 (modified)
 // //////////////////////////////////////////////////////////////
 
 //#include <limits.h>
@@ -246,7 +246,7 @@ void lifeworld::make_default_visualisation()
         world::make_default_visualisation(); // this->initialize(Manager);
         if (OutArea) {
             OutArea->set(1, 1, szer / 2 - 1, wyso / 2 - 1);
-            Menager.as_orginal(Menager.search(OutArea->name()));
+            Menager.as_original(Menager.search(OutArea->name()));
         }
 
         // WŁAŚCIWE LUFCIKI:

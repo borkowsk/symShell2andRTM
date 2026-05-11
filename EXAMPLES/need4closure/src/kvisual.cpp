@@ -1,7 +1,7 @@
 /// @file
 /// @brief ... (old example for SymShell implementing Kruglanskis like model)
 // //////////////////////////////////////////////////////////////////////////
-/// @date 2026-05-08 (modified)
+/// @date 2026-05-11 (modified)
 
 #include <cstring>
 #include <cmath>
@@ -240,7 +240,7 @@ void kworld::make_default_visualisation()
         if(OutArea) 
         {
             OutArea->set(1,1,szer/2-1,wyso/2-1);
-            Menager.as_orginal(Menager.search(OutArea->name()));
+            Menager.as_original(Menager.search(OutArea->name()));
         }
         
         //WLASCIWE LUFCIKI

@@ -1,7 +1,7 @@
 # CMAKE configuration for BASICTESTS simulation project
 ######################################################################
 # @author	: Wojciech Borkowski
-# @date	: 2026-03-24 (last update)
+# @date 2026-05-11 (last update)
 #
 
 cmake_minimum_required(VERSION 3.20)
@@ -63,14 +63,14 @@ IF (WIN32)
 #target_compile_options( dimensions  PRIVATE ...)
 target_link_libraries( testmngr2
 #        "-L ${MYLIBS}"
-        wbsyshclss wbsyshLight  wbrtm
+        wbsyshclss wbrtm wbsyshLight
         ${CMAKE_THREAD_LIBS_INIT}
      )
 ELSE()
 target_compile_options( testmngr2  PRIVATE "${CMAKE_CXX_FLAGS}" "-pthread" "-fpermissive")
 target_link_libraries( testmngr2
 #        "-L ${MYLIBS}"
-        wbsyshclss wbsyshLight  wbrtm
+        wbsyshclss wbrtm wbsyshLight
         X11 Xpm
         ${CMAKE_THREAD_LIBS_INIT}
         pthread

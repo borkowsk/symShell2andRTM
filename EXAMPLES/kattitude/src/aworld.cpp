@@ -1,6 +1,6 @@
 /// @file
 /// @brief IMPLEMENTATION OF THE WORLD FOR "attitudeS" SIMULATION (kattitude old example for SymShell)
-/// @date 2026-05-08 (modified)
+/// @date 2026-05-11 (modified)
 // /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //#include <limits.h>
@@ -352,7 +352,7 @@ void aworld::make_default_visualisation()
     if(OutArea)
     {
         OutArea->set(1, 1, w_width / 2 - 1, w_height / 2 - 1);
-        manager.as_orginal(manager.search(OutArea->name()));
+        manager.as_original(manager.search(OutArea->name()));
     }
 
     //WŁAŚCIWE LUFCIKI DANYCH

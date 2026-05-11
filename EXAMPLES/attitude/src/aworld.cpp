@@ -1,6 +1,6 @@
 /// @file
 /// @brief IMPLEMENTATION OF   W O R L D  FOR "attitudes" SIMULATION.
-/// @date 2026-05-08 (modification)
+/// @date 2026-05-11 (modification)
 // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //#include <limits.h>
@@ -239,7 +239,7 @@ void aworld::make_default_visualisation()
     if(OutArea)
     {
         OutArea->set(1,1,szer/2-1,wyso/2-1);
-        Manager.as_orginal(Manager.search(OutArea->name()));
+        Manager.as_original(Manager.search(OutArea->name()));
     }
 
     //WŁAŚCIWE LUFCIKI:
