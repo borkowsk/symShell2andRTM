@@ -1,6 +1,6 @@
 /// @file
 /// @brief Definicja bazy i szablonów warstw symulacji. / Definition of the base class and simulation layer templates.
-/// @date 2026-05-07 (modified)
+/// @date 2026-05-13 (modified)
 ///      ...
 // ********************************************************************************************************************
 #ifndef SYMSHELL2_LAYER_HPP_INCLUDED_
@@ -631,7 +631,7 @@ public:
     //agent_base* clone() const { return new agent(*this);}
     //friend ostream& operator << (ostream& o, agent a)
     //friend istream& operator >> (ostream& i, agent a)
-};//!< Prosty kontener na dane.
+}; //!< Prosty kontener na dane.
 
 #ifdef USE_ENGLISH_IF_POSSIBLE
 ///
