@@ -1,6 +1,6 @@
 /// @file
 /// @brief Implementacja najprostszej klasy zapisywania do pliku danych ze źródeł jednowartościowych.
-/// @date 2026-05-07 (modified)
+/// @date 2026-05-13 (modified)
 // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include "logfile.hpp"
@@ -29,7 +29,7 @@ public:
 ostream& GetStream(){return log_stream;}
 //Laczy serie jednowartosciowa z kolumna pliku log. Wymusza wyplucie naglowka w try_writing
 int link_data_source(size_t column,scalar_source_base* Source);
-//Jesli choc jedna seria ma nowa wersje to wypluwa cala linie danych. Jesli użyto link_data_source
+//Jeśli choc jedna seria ma nowa wersje to wypluwa cala linie danych. Jeśli użyto link_data_source
 //to wypluwa tez wiersz nagl�wk�w
 int try_writing();
 };
@@ -44,7 +44,7 @@ delete &log_stream;
 //Laczy serie jednowartosciowa z kolumna pliku log. Wymusza wyplucie naglowka w try_writing
 int logfile::link_data_source(size_t column,scalar_source_base* Source)
 {
-if(column>=table.get_size()) return 0;//Przekroczony zakres
+if(column>=table.get_size()) return 0; //Przekroczony zakres
 need_headers=1;
 table[column]=Source;
 if(column+1>next_column)
@@ -57,13 +57,13 @@ void  logfile::restart_data_version()
 size_t N=table.get_size();
 data_source_base* pom=NULL;
 for(size_t i=0;i<N;i++)
-    if( (pom=table[i])!=NULL )//Czy nie pusty
+    if( (pom=table[i])!=NULL ) //Czy nie pusty
         if(pom->data_version()!=-1) //Czy juz nie wyzerowany
             pom->restart_counting();
 curr_data_version=-1;
 }
 
-//Jesli choc jedna seria ma nowa wersje to wypluwa cala linie danych. Jesli użyto link_data_source
+//Jeśli choc jedna seria ma nowa wersje to wypluwa cala linie danych. Jeśli użyto link_data_source
 //to wypluwa tez wiersz nagl�wk�w
 int logfile::try_writing()
 {
@@ -72,7 +72,7 @@ if(CheckVersion())
     {
     if(need_headers!=0)
         {
-        need_headers=0;//Zapiszemy
+        need_headers=0; //Zapiszemy
         log_stream<<"DATA_VER"<<separator();
         for(i=0;i<next_column;i++)
             {
@@ -107,13 +107,13 @@ if(CheckVersion())
     }
     log_stream<<clock()<<'\n';
     log_stream.flush();
-    return 1;//Zapisywal
+    return 1; //Zapisywal
     }
-return 0;//Nie zapisywal
+return 0; //Nie zapisywal
 }
 
 int logfile::CheckVersion()
-//Sprawdza czy ktoras kolumna sie nie zmieni�a
+//Sprawdza czy ktoras kolumna się nie zmieni�a
 {
 for(size_t i=0;i<next_column;i++)
     if(table[i]!=NULL)

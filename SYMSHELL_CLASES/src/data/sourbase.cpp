@@ -1,6 +1,6 @@
 /// @file
 /// @brief      "LICZENIE" znaczników IEEE: INF i NAN
-/// @date 2026-05-05 (modification)
+/// @date 2026-05-13 (modification)
 //-----------------------------------------------------------
 /// DAWNO NIE TESTOWANE, CHYBA NIE DZIALA, I NIE JEST NAPRAWDE POTRZEBNE
 // ///////////////////////////////////////////////////////////////////////
@@ -57,10 +57,10 @@
 
 #else
     //double data_source_base::inf()
-    //Liczy INF wg IEEE - moze generowac SIGPFE na czesci platform
+    //Liczy INF wg IEEE - może generowac SIGPFE na czesci platform
     //{
     //	double zero=0;
-    //	return 1./zero;//-INF jako znacznik braku
+    //	return 1./zero; //-INF jako znacznik braku
     //}
     //double data_source_base::nan(); //IS IMPLEMENTED?
 #endif
