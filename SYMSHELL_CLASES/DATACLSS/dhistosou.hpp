@@ -1,6 +1,6 @@
 /// @file
 /// @brief Filtr liczący liczebność dyskretnych klas serii i pochodne statystyki.
-/// @date 2026-05-07 (modified)
+/// @date 2026-05-13 (modified)
 // ********************************************************************************************************************
 //
 #ifndef __DISCR_HISTOGRAM_SOUR_HPP__
@@ -264,7 +264,7 @@ public:
     //Umozliwia czytanie od poczatku
     {
         this->check_version_(); //Uaktualnia tez wersje podźrodła, jeśli trzeba
-        _calculate();//Sprawdza, czynie trzeba policzyc i ewentualnie liczy
+        _calculate(); //Sprawdza, czynie trzeba policzyc i ewentualnie liczy
         return (data_source_base::iteratorh) 1;
     }
 
@@ -276,8 +276,8 @@ public:
     void bounds(size_t &num, double &min, double &max)
 //Ile elementów,wartość minimalna i maksymalna
     {
-        this->check_version_();//Uaktualnia tez wersje podźrodła, jeśli trzeba
-        _calculate();//Sprawdza, czynie trzeba policzyc i ewentualnie liczy
+        this->check_version_(); //Uaktualnia tez wersje podźrodła, jeśli trzeba
+        _calculate(); //Sprawdza, czynie trzeba policzyc i ewentualnie liczy
         num = get_size();
         min = this->y_min;
         max = this->y_max;
@@ -292,8 +292,8 @@ public:
 
     double get(size_t index)	//Przetwarza index uzyskany z geometrii
     { //na wartość z serii, o ile jest możliwe czytanie losowe
-        this->check_version_();//Uaktualnia tez wersje podźrodła, jeśli trzeba
-        _calculate();//Sprawdza, czynie trzeba policzyc i ewentualnie liczy
+        this->check_version_(); //Uaktualnia tez wersje podźrodła, jeśli trzeba
+        _calculate(); //Sprawdza, czynie trzeba policzyc i ewentualnie liczy
         assert(index < get_size());
         return arra[index];
     }

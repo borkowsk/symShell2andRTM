@@ -1,6 +1,6 @@
 /// @file
 /// @brief Filtr liczący liczebność klas serii i pochodne statystyki przestrzenne, w tym korelacje przestrzenne.
-/// @date 2026-05-07 (modified)
+/// @date 2026-05-13 (modified)
 // ********************************************************************************************************************
 //
 #ifndef __SPATIAL_CORRELATION_SOUR_HPP__
@@ -298,7 +298,7 @@ public:
 //Ile elementów,wartość minimalna i maksymalna
     {
         this->check_version_(); //Uaktualnia tez wersje podźrodła, jeśli trzeba
-        _calculate();//Sprawdza, czynie trzeba policzyc i ewentualnie liczy
+        _calculate(); //Sprawdza, czynie trzeba policzyc i ewentualnie liczy
         num = get_size();
         min = this->y_min;
         max = this->y_max;
@@ -313,8 +313,8 @@ public:
 
     double get(size_t index)	//Przetwarza index uzyskany z geometrii
     { //na wartość z serii, o ile jest możliwe czytanie losowe
-        this->check_version_();//Uaktualnia tez wersje podźrodła, jeśli trzeba
-        _calculate();//Sprawdza, czynie trzeba policzyc i ewentualnie liczy
+        this->check_version_(); //Uaktualnia tez wersje podźrodła, jeśli trzeba
+        _calculate(); //Sprawdza, czynie trzeba policzyc i ewentualnie liczy
         assert(index < get_size());
         return arra[index];
     }

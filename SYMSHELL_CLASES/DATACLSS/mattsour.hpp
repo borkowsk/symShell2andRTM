@@ -1,6 +1,6 @@
 /// @file
 /// @brief Konkretne klasy źródeł — dostęp do danych w tablicach i zmiennych.
-/// @date 2026-05-07 (modified)
+/// @date 2026-05-13 (modified)
 // ********************************************************************************************************************
 //
 #ifndef __MATTRIX_SOUR_HPP__
@@ -553,25 +553,25 @@ public:
         max = wbrtm::limit<METHOD_T>::Min();
         iteratorh iterator = get_rect_geometry()->make_global_iterator();
 
-        get_missing();//Aktualizacja wartości "miss"
+        get_missing(); //Aktualizacja wartości "miss"
         while(iterator)
         {
             size_t i = get_rect_geometry()->get_next(iterator);
-            double pom = _get(i);//Dostęp liniowy
+            double pom = _get(i); //Dostęp liniowy
             if(!is_missing(pom))
             {
                 if(min > pom) min = pom;
                 if(max < pom) max = pom;
             }
         }
-        cache_ok = 1;//Wszystkie przeszły wiec cache pełny
+        cache_ok = 1; //Wszystkie przeszły wiec cache pełny
         get_rect_geometry()->destroy_iterator(iterator);
     }
 
     void new_data_version(int change = 1, unsigned increment = 1)	//Ustalanie informacji o wersji danych
     {
         rectangle_source_base::new_data_version(change, increment);
-        cache_ok = 0;//Cache już nieaktualny
+        cache_ok = 0; //Cache już nieaktualny
     }
 
 

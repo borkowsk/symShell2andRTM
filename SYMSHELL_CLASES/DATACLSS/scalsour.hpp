@@ -1,7 +1,7 @@
 /// @file
 /// @brief  Specific source classes - access to data in arrays and variables/
 ///         Konkretne klasy źródeł — dostęp do danych w tablicach i zmiennych.
-/// @date 2026-05-07 (modified)
+/// @date 2026-05-13 (modified)
 // ********************************************************************************************************************
 // ZA DUŻO BŁĘDÓW - SPRAWDZANIE SIĘ NIE SPRAWDZA :-P
 #ifndef SYMSHELL2_SCALAR_SOUR_HPP_INCLUDED_
@@ -43,7 +43,7 @@ public:
     void  change_val(const Typek& next);
 
     /// Uproszczona wersja `get` dająca dostęp do zawsze tylko jednej wartości.
-    // TODO const T&  - TU ZMIENIĆ, GDY `source_base` stanie sie szablonem - mogą być kłopoty z MISSING VALUE
+    // TODO const T&  - TU ZMIENIĆ, GDY `source_base` stanie się szablonem - mogą być kłopoty z MISSING VALUE
     double   get() override
         { return val;}
 

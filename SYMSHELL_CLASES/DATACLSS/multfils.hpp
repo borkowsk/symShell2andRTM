@@ -1,6 +1,6 @@
 /// @file
 /// @brief Podstawowa klasa dla filtrow zawierających podźrodła
-/// @date 2026-05-07 (modified)
+/// @date 2026-05-13 (modified)
 // /////////////////////////////////////////////////////////////////////////////
 //
 #ifndef __MULTIFILTSOUR_HPP__
@@ -191,7 +191,7 @@ public:
         return table[select];
     }
 
-    virtual void all_subseries_required() = 0;//Alokuje i ewentualnie rejestruje w menagerze wszystkie serie
+    virtual void all_subseries_required() = 0; //Alokuje i ewentualnie rejestruje w menagerze wszystkie serie
 };
 
 typedef multi_filter_source_base<data_source_base> generic_multi_filter_source_base;

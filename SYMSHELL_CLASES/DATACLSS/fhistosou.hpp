@@ -1,6 +1,6 @@
 /// @file
 /// @brief Filtr liczący liczebność określonej liczby klas serii i pochodne statystyki.
-/// @date 2026-05-07 (modified)
+/// @date 2026-05-13 (modified)
 // ********************************************************************************************************************
 //
 #ifndef __FIXED_CLAS_HISTOGRAM_SOUR_HPP__
@@ -262,24 +262,24 @@ public:
     void bounds(size_t &num, double &min, double &max)
 //Ile elementów,wartość minimalna i maksymalna
     {
-        base_class::check_version_();//Uaktualnia tez wersje podzrodla jeśli trzeba
-        _calculate();//Sprawdza, czynie trzeba policzyc i ewentualnie liczy
+        base_class::check_version_(); //Uaktualnia tez wersje podzrodla jeśli trzeba
+        _calculate(); //Sprawdza, czynie trzeba policzyc i ewentualnie liczy
         num = get_size();
         min = base_class::y_min;
         max = base_class::y_max;
     }
 
-    data_source_base::iteratorh reset();//Umozliwia czytanie po iteratorze od poczatku
-    void close(data_source_base::iteratorh &p);//Usuwa iterator
-    double get(data_source_base::iteratorh &ptr_to_iterator);//Daje następną z N liczb!!!
-    double get(size_t index);//Przetwarza index uzyskany z geometrii
+    data_source_base::iteratorh reset(); //Umozliwia czytanie po iteratorze od poczatku
+    void close(data_source_base::iteratorh &p); //Usuwa iterator
+    double get(data_source_base::iteratorh &ptr_to_iterator); //Daje następną z N liczb!!!
+    double get(size_t index); //Przetwarza index uzyskany z geometrii
 };
 
 // Przemieszcza iterator o jednostke. Zeruje jeśli koniec tablicy
 template<class DATA_SOURCE>
 size_t fix_histogram_source<DATA_SOURCE>::_next(data_source_base::iteratorh &p)
 {
-    assert(p != NULL);//Nie wolno wywołać dla NULL
+    assert(p != NULL); //Nie wolno wywołać dla NULL
     size_t pom = ((size_t) p) - 1;
 
     if(pom + 1 >= Num)
@@ -295,8 +295,8 @@ template<class DATA_SOURCE>
 inline
 double fix_histogram_source<DATA_SOURCE>::get(size_t index)
 { //na wartość z serii, o ile jest możliwe czytanie losowe
-    base_class::check_version_();//Uaktualnia tez wersje podzrodla, jeśli trzeba
-    _calculate();//Sprawdza, czynie trzeba policzyć i ewentualnie liczy
+    base_class::check_version_(); //Uaktualnia tez wersje podzrodla, jeśli trzeba
+    _calculate(); //Sprawdza, czynie trzeba policzyć i ewentualnie liczy
     assert(index < get_size());
     return arra[index];
 }
@@ -323,8 +323,8 @@ template<class DATA_SOURCE>
 inline
 data_source_base::iteratorh fix_histogram_source<DATA_SOURCE>::reset()	//Umozliwia czytanie po iteratorze od poczatku
 {
-    base_class::check_version_();//Uaktualnia tez wersje podzrodla, jeśli trzeba
-    _calculate();//Sprawdza, czynie trzeba policzyć i ewentualnie liczy
+    base_class::check_version_(); //Uaktualnia tez wersje podzrodla, jeśli trzeba
+    _calculate(); //Sprawdza, czynie trzeba policzyć i ewentualnie liczy
     return (data_source_base::iteratorh) 1;
 }
 
