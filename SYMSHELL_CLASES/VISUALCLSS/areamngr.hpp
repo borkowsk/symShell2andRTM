@@ -208,7 +208,7 @@ namespace symshell2
 
 /// Klasa najprostszego, nieagresywnego, zarządcy obszarów.
 /// @details
-/// Implementuje co się uda bez wiedzy o niskopoziomowej podstawie soft-hard.
+/// Implementuje, co się uda bez wiedzy o niskopoziomowej podstawie soft-hard.
 /// Zakłada pełna władze nad obszarami, a w szczególności nad ich pamięcią.
 /// Zdarzenia zewnętrzne trzeba przekazać "explicite" -
 ///  - taki zarządca nie zawłaszcza ich samodzielnie, a tym bardziej nie zabiera wątku sterowania.

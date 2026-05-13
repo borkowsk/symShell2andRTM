@@ -3,7 +3,7 @@
 ///        Zarządca obszarów ekranu lub okna, zaimplementowany bezpośrednio na bazie funkcji SYMSHELL-a.
 /// @date 2026-05-13 (last modification)
 //*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//  Do obsługi całego ekranu/okna SYMSHELL'a.
+//  Do obsługi całego ekranu/okna SYMSHELL-a.
 
 //#include "INCLUDE/platform.hpp"
 
@@ -17,50 +17,56 @@
 #include "textarea.hpp"
 #include "mainmngr.hpp"
 #include "amngrcmd.h"
-//#include "wbminmax.hpp"
 #include "viewHtml.hpp"
+#include "toitoutoll.hpp"
 
 using namespace std;
 using namespace symshell2;
 
-template<class T>
-static inline void swap(T& a,T& b)
-{
-T c=a;a=b;b=c;
-}
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "modernize-use-auto"
+#pragma ide diagnostic ignored "modernize-use-nullptr"
+#pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
+// --checks=-google-default-arguments.
+#pragma ide diagnostic ignored "google-default-arguments"
+
+//template<class T>
+//static inline void swap(T& a,T& b)
+//{
+//  T c=a;a=b;b=c;
+//}
 
 //int WB_error_enter_before_clean=1;/* For close_plot() */
-ssh_menu_item_definition* TopPopup=context_menu_default; //Próba wymuszenia linkowania modułu z biblioteki klas.
+ssh_menu_item_definition* TopPopup=context_menu_default; //Próba wymuszenia linkowania modułu definicji menu z biblioteki klas.
 
-int		main_area_manager::initialized=0;
-int		main_area_manager::counter=0; //Licznik obiektow tego typu. Ma być 1
-int		main_area_manager::idle_must_work; //Flaga wywolywania on_idle
-wb_color main_area_manager::Marker=0; //Kolor do znakowania przez usera
-wb_pchar main_area_manager::def_dump_name("dump" );
-wb_pchar main_area_manager::old_win_title;
+int			main_area_manager::initialized=0;
+int			main_area_manager::counter=0; //Licznik obiektów tego typu. Ma być 1
+int			main_area_manager::idle_must_work; //Flaga wywoływania on_idle
+wb_color	main_area_manager::Marker=0; //Kolor do znakowania przez "user-a"
+wb_pchar	main_area_manager::def_dump_name("dump" );
+wb_pchar	main_area_manager::old_win_title;
+size_t		main_area_manager::screen_number=0;
+int			main_area_manager::screen_number_precision=7;
+ssh_menu_handle	main_area_manager::sub_menu_handle=nullptr;
+int			main_area_manager::how_many_areas=0;
 
-size_t	main_area_manager::screen_number=0;
-int main_area_manager::screen_number_precision=7;
-ssh_menu_handle    main_area_manager::sub_menu_handle=nullptr;
-int main_area_manager::how_many_areas=0;
-
-void	 main_area_manager::set_dump_name(const char* name, size_t number)
+void	main_area_manager::set_dump_name(const char* name, size_t number) // NOLINT(*-convert-member-functions-to-static)
 {
-if(number!=-1)
-        screen_number=number;
-if(name!=nullptr)
-        def_dump_name=clone_str(name);
+    if(number!=-1)
+            screen_number=number;
+    if(name!=nullptr)
+            def_dump_name=clone_str(name);
 }
 
-//extern "C" int  dump_screen(const char* Filename); //Z symshell'a
+//extern "C" int dump_screen(const char* Filename); //Z symshell-a
 
-void main_area_manager::dump_screen()
+void	main_area_manager::dump_screen() // NOLINT(*-convert-member-functions-to-static)
 {
     if(!int(def_dump_name))
         return;
 
     wb_pchar buf;
-    buf.alloc(strlen(def_dump_name.get_ptr_val())+20+1); //Numer raczej nie wiecej niz 10 cyfr :)
+    buf.alloc(strlen(def_dump_name.get_ptr_val())+20+1); //Numer raczej nie więcej niż 10 cyfr :)
 
     //sprintf(buf.get_ptr_val(),"%s_%0*d", def_dump_name, screen_number_precision, screen_number);
     buf.prn("%s_%0*d", def_dump_name.get_ptr_val(), screen_number_precision, screen_number);
@@ -76,16 +82,17 @@ void main_area_manager::dump_screen()
 }
 
 
-void main_area_manager::enable_background()
+void	main_area_manager::enable_background() // NOLINT(*-convert-member-functions-to-static)
 //i odblokowuje
 {
-idle_must_work=1;
+    idle_must_work=1;
 }
 
-int  main_area_manager::set_marker(wb_color new_mark)
+int		main_area_manager::set_marker(wb_color new_mark) // NOLINT(*-convert-member-functions-to-static)
 //zwraca 1 jeśli OK, lub 0
 {
-    if(new_mark >= 0 && new_mark < 255)
+    if( // new_mark >= 0 && //Już nie może być ujemne!
+        new_mark < 255)
         {
         Marker=new_mark;
         return 1;
@@ -96,9 +103,9 @@ int  main_area_manager::set_marker(wb_color new_mark)
 //KONSTRUKTORY
 //---------------
 //Wywołanie więcej niż jednego konstruktora powoduje aborcje procesu!!!
-main_area_manager::main_area_manager(size_t size, //Konstruktor dający zarządcę o określonym rozmiarze listy
+main_area_manager::main_area_manager( size_t size, //Konstruktor dający zarządcę o określonym rozmiarze listy
                                       int width, int height,
-                                     unsigned ibkg
+                                      unsigned ibkg
                                     ):
         area_manager(size, 0, 0, width - 1, height - 1, ibkg)
 {
@@ -113,9 +120,9 @@ main_area_manager::main_area_manager(size_t size, //Konstruktor dający zarządc
 }
 
 /*
-main_area_manager(size_t size,	//Konstruktor z lista czesciowo wypelniona
+main_area_manager(size_t size,	//Konstruktor z lista częściowo wypełniona
                   int width,int height,
-                  //bkg i frm domyslne - mozna zmienic potem
+                  //bkg i frm domyślne - można zmienić potem
                   drawable_base* //first...nullptr
                   );
 */
@@ -123,13 +130,13 @@ main_area_manager(size_t size,	//Konstruktor z lista czesciowo wypelniona
 //METODY
 //--------
 
-//Inicjacja trybu graficznego w momencie dogodnym dla projektanta aplikacji
-//Zwraca 1 jeśli ok
-//Przed pomyslnym wywolaniem start() nie wolno bezpośrednio lub posrednio wywolywac
-//jakichkolwiek funkcji rysujacych po ekranie.
+// Inicjacja trybu graficznego w momencie dogodnym dla projektanta aplikacji
+// Zwraca 1, jeśli ok.
+// Przed pomyślnym wywołaniem `start()` nie wolno bezpośrednio lub pośrednio
+// wywoływać jakichkolwiek funkcji rysujących na ekranie.
 int main_area_manager::start(const char* win_title, int argc, const char* argv[], int buf)
 {
-    ssh_menu_handle mainmenu=nullptr;
+    ssh_menu_handle main_menu=nullptr;
 
     if(initialized)
     {
@@ -149,21 +156,21 @@ int main_area_manager::start(const char* win_title, int argc, const char* argv[]
     int ret=::init_plot(get_width(), get_height(), 0, 0);
     if(!ret) return 0;
 
-    //Zmiana rozmiarow w przypadku gdy ekran jest za maly
+    //Zmiana rozmiarów w przypadku gdy ekran jest za mały
     if(get_width() > ::screen_width() || get_height() > screen_height())
         gps_area::set(0,0,::screen_width()-1,screen_height()-1);
 
     //Przygotowany
     initialized=1;
 
-    //Odnalezienie menu "Window" - zeby mozna było dodawac elementy
-    if((mainmenu=ssh_main_menu())!=nullptr)
+    //Odnalezienie menu "Window" - żeby można było dodawać elementy
+    if((main_menu=ssh_main_menu()) != nullptr)
     {
-        unsigned pos=ssh_get_item_position(mainmenu,"Window");
+        unsigned pos=ssh_get_item_position(main_menu, "Window");
         if(pos==-1)
-            pos=ssh_get_item_position(mainmenu,"Okno");
+            pos=ssh_get_item_position(main_menu, "Okno");
         if(pos!=-1)
-            sub_menu_handle=ssh_sub_menu(mainmenu, pos); //I zapamientanie do użycia w funkcji insert
+            sub_menu_handle=ssh_sub_menu(main_menu, pos); //I zapamiętanie do użycia w funkcji insert
         //ssh_menu_add_item(sub_menu_handle,"Test menu item",55555);
     }
 
@@ -179,10 +186,11 @@ const char* main_area_manager::get_title()
         return nullptr;
 }
 
-int main_area_manager::settitle(const char* win_title)
+int main_area_manager::settitle(const char* win_title) // NOLINT(*-convert-member-functions-to-static)
 //Ustawienie tytułu okna
-{
-    old_win_title.take(clone_str(win_title));
+{   //Poniżej produkt z `clone_str` jest zapamiętywany w obiekcie, który zabezpiecza jego dealokację.
+    //Więc nie ma żadnego "memory leak"!!!
+    old_win_title.take( clone_str(win_title) );
     return ssh_set_window_name(win_title);
 }
 
@@ -207,7 +215,7 @@ int    main_area_manager::insert(wb_ptr<drawable_base>	drw)
 }
 
 int     main_area_manager::minimize(size_t index)
-//Ukrywa podobszar
+//Ukrywa pod-obszar
 {
     if(!is_minimized(index) && (sub_menu_handle)  )
         ssh_menu_mark_item(sub_menu_handle, 0, SSH_FIRST_FREE_MESSAGE + index);
@@ -222,10 +230,10 @@ int     main_area_manager::restore(size_t  index)
     return area_manager::restore(index);
 }
 
-int     main_area_manager::original(const wb_dynarray<int>& lstindex)
+int     main_area_manager::original(const wb_dynarray<int>& lst_index)
 //Odtwarza pierwotne  położenie i rozmiar obszaru
 {
-    return area_manager::original(lstindex);
+    return area_manager::original(lst_index);
 }
 
 int     main_area_manager::original(size_t  index)
@@ -236,10 +244,10 @@ int     main_area_manager::original(size_t  index)
     return area_manager::original(index);
 }
 
-int     main_area_manager::minimize(const wb_dynarray<int>& lstindex)
-//Ukrywa podobszar
+int     main_area_manager::minimize(const wb_dynarray<int>& lst_index)
+//Ukrywa pod-obszar.
 {
-    return area_manager::minimize(lstindex);
+    return area_manager::minimize(lst_index);
 }
 
 int     main_area_manager::restore(/*ALL*/)
@@ -248,8 +256,8 @@ int     main_area_manager::restore(/*ALL*/)
     return area_manager::restore();
 }
 
-void main_area_manager::need_confirmation_before_clean(int yes)
-//Metoda ukrywajaca dostep do WB_error_enter_bofore_clean
+void main_area_manager::need_confirmation_before_clean(int yes) // NOLINT(*-convert-member-functions-to-static)
+//Metoda ukrywająca dostęp do `WB_error_enter_before_clean`
 {
     WB_error_enter_before_clean=yes;
 }
@@ -258,9 +266,9 @@ void main_area_manager::make_help_area(const char* text)
 {
     if(text==nullptr)
     {
-        text=                "%@C AREA MENAGER CONTROL KEYS \n"
+        text=                "%@C AREA MANAGER CONTROL KEYS \n"
             "%@C--------------------------------------------------------------------\n"
-            "ctrl-A: do one step of backround processing\n"
+            "ctrl-A: do one step of background processing\n"
             "ctrl-B: start/stop background processing\n"
             "ctrl-E: exclude (hide) marked areas from window\n"
             "ctrl-H: reserved - mouse event\n"
@@ -278,14 +286,14 @@ void main_area_manager::make_help_area(const char* text)
     }
 
     int ile=0;
-    //Zliczenie znakow \n w tekscie
+    //Zliczenie znaków \n w tekście
     {
         const char* pom=text;
         while(*pom++){if(*pom=='\n')ile++;}
     }
 
     ile+=3; //Na tytuł i pusta linie i zapas
-    int maxy= get_height() / 5 + ile * char_height('X');
+    int maxy= toi(get_height() / 5 + ile * char_height('X'));
 
     text_area* pom=new text_area(
             get_width() / 4, get_height() / 5,
@@ -293,10 +301,10 @@ void main_area_manager::make_help_area(const char* text)
             text,
             default_black, default_white, 250);
 
-    if(pom) //Zaalokowane OK
+    //if(pom) //Zaalokowane OK, I NIE MOŻE BYĆ INACZEJ!
     {
         pom->set_title("HELP");
-        int helpind=insert(pom);   //Zabiera zawartość w zarzad!!!
+        int help_ind=insert(pom);   //Zabiera zawartość w zarząd!!!
         pom->replot();
     }
 }
@@ -332,19 +340,19 @@ while((!background_enabled()) || input_ready())
                 cout<<"STOPPED."<<char(7)<<endl; //<<flush;
                 disable_background(); //Blokuje ta procedure w pętli
            }
-            else
-            {
+           else
+           {
                 cout<<"CONTINUE."<<char(7)<<endl; //<<flush;
                 enable_background(); //Odblokowanie procedury i od razu wyjście
                 return;
-            } //Przerywa wewnętrzną pętlę tej funkcji
+           } //Przerywa wewnętrzną pętlę tej funkcji
        break;
        //case 3: //ctrl-c break;
        //case 4: //ctrl-d break;
        case SSH_WINDOWS_HIDEMARKEDAREAS:
        case 5: //ctrl-e
            {
-            wb_dynarray<int> list=get_marked(Marker,1); //Z odmarkowywaniem
+            wb_dynarray<int> list=get_marked(Marker,1); //Z odznaczaniem
             minimize(list);
            }
        break;
@@ -353,28 +361,28 @@ while((!background_enabled()) || input_ready())
        //case 8:
         case '\b': //ctrl-h
         {
-        int xpos=0,ypos=0,click=0; //Myszowate
-        get_mouse_event(&xpos,&ypos,&click);
+        int x_pos=0,y_pos=0,click=0; //Myszowate
+        get_mouse_event(&x_pos, &y_pos, &click);
 
-        if(on_click(xpos,ypos,click)==1)
+        if(on_click(x_pos, y_pos, click) == 1)
             {
             int pom=get_last_lazy_area();
-            if(pom==-1) return; //Cos nie tak ale olal...
+            if(pom==-1) return; //Coś nie tak, ale olał...
 
             if(click==1)
             {
-            if(pom==get_maximized())
-                restore(pom);
+                if(pom==get_maximized())
+                    restore(pom);
                 else
-                maximize(pom);
+                    maximize(pom);
             }
             else
             if(click==2)
                 {
-                if(is_marked(pom))
-                    unmark(pom);
+                    if(is_marked(pom))
+                        unmark(pom);
                     else
-                    mark(pom,Marker);
+                        mark(pom,Marker);
                 }
 
             }
@@ -388,24 +396,24 @@ while((!background_enabled()) || input_ready())
         case SSH_HELP_SHORTCUTHELP:
         case 9://ctrl-i
             {
-                int helpind=search("HELP");
-                if(helpind==-1)
+                int help_index=search("HELP");
+                if(help_index == -1)
                 {
                     make_help_area();
                 }
                 else
-                    if(tab[helpind].minimized)
+                    if(tab[help_index].minimized)
                     {
-                        original(helpind);
+                        original(help_index);
                     }
                     else
                     {
-                        minimize(helpind);
+                        minimize(help_index);
                     }
             }
         break;
        //case 10:
-        case '\n'://ctrk-j
+        case '\n': //control-j
             replot();
         break;
         case SSH_WINDOWS_MARKALLAREAS:
@@ -416,10 +424,10 @@ while((!background_enabled()) || input_ready())
         /*
         case 12://ctrl-l
         {
-        wb_dynarray<int> dousuwania=get_marked(Marker,1);
-        //minimize(dousuwania);
-        for(int i=0;i<dousuwania.get_size();i++)
-            remove(dousuwania[i]);
+        wb_dynarray<int> do_usuwania=get_marked(Marker,1);
+        //minimize(do_usuwania);
+        for(int i=0;i<do_usuwania.get_size();i++)
+            remove(do_usuwania[i]);
         replot();
         }
         break;
@@ -432,7 +440,7 @@ while((!background_enabled()) || input_ready())
         int            maxim;
 
         //Reakcja na zmianę rozmiarów okna
-        gps_area old_area(*this); //Potrzebna do późniejszych przeliczeń.
+        //gps_area old_area(static_cast<gps_area&>(*this)); //Kopia potrzebna do późniejszych przeliczeń.
         gps_area new_area(0,0,max((ssh_natural)0,::screen_width()-1),
                               max((ssh_natural)0,::screen_height()-1));
         this->load(new_area);
@@ -452,7 +460,7 @@ while((!background_enabled()) || input_ready())
         int ret=repaint_area(&rx,&ry,&rw,&rh);
         if(ret==-1) //Nie wiadomo co dokładnie, więc lepiej wszystko
           this->replot( *this);
-          else
+        else
           if(ret==0) //Wiadomo, że tylko określony obszar
             {
             gps_area are(rx,ry,rx+rw,ry+rh);
@@ -468,7 +476,7 @@ while((!background_enabled()) || input_ready())
         //case 14: //ctrl-n break;
         case SSH_WINDOWS_RESTORETOORGINALPOSITION:
         case 15: //ctrl-o
-            original(get_marked(Marker, 1)); //Z odmarkowywaniem
+            original(get_marked(Marker, 1)); //Z odznaczaniem
         break;
 
         //case 16: //ctrl-p
@@ -490,7 +498,7 @@ while((!background_enabled()) || input_ready())
 
         case SSH_WINDOWS_TILEMARKEDAREAS:
         case 20: //ctrl-t //tile
-            tile(get_marked(Marker,1)); //Z odmarkowywaniem
+            tile(get_marked(Marker,1)); //Z odznaczaniem
         break;
 
         case SSH_WINDOWS_TILE_ALL:
@@ -528,17 +536,17 @@ while((!background_enabled()) || input_ready())
     }
 }
 
-/// gdy zostanie wywołane to koniec wejścia
+/// Gdy zostanie wywołane to koniec wejścia.
 void main_area_manager::break_input_loop()
 {
-    need_break_action(); //Nie ma kontynuowac!
+    need_break_action(); //Nie ma kontynuować!
 }
 
 /// Przechwycenie całości sterowania
-/// Wychodzi z tej funkcji dopiero gdy user "zakończy" program.
+/// Wychodzi z tej funkcji dopiero wtedy, gdy user "zakończy" program.
 void main_area_manager::run_input_loop()
 {
-    need_break_action(0); //Planuje pokontynuować.
+    need_break_action(0); //Planuje jeszcze "pokontynuować".
     do{
     process_input();
     _on_idle();
@@ -549,26 +557,26 @@ void main_area_manager::run_input_loop()
 //ELASTYCZNE UCHWYTY OBSŁUGI
 //---------------------------
 int main_area_manager::_pre_process_input(int input_char)
-//Przed obsluga domyslna. Zwraca 1 jeśli obslużyl.
+//Przed obsługą domyślną. Zwraca 1, jeśli obsłużył.
 {
-    return 0; //nie obslużyl
+    return 0; //nie obsłużył
 }
 
 int main_area_manager::_post_process_input(int input_char)
-//Po obsludze domyslnej. Zwraca 1 jeśli obslużyl.
+//Po obsłudze domyślnej. Zwraca 1, jeśli obsłużył.
 {
-    return 1; //Uznaj za obsluzone
+    return 1; //Uznaj za obsłużone
 }
 
 int main_area_manager::_on_idle()
-//Uruchamiane przez run_input_loop() gdy nie ma zdarzen.
+//Uruchamiane przez run_input_loop() gdy nie ma zdarzeń.
 {
     delay_ms(0); //Tu nie ma nic do roboty
-                 //Wiec trzeba dac szanse systemowi
+                 //Wiec trzeba dać szansę systemowi
     return 0;
 }
 
-//#include <alloc.h> //Tylko pod borlandami jest heapcheck()
+//#include <alloc.h> //Tylko pod Borland-ami jest `heapcheck` (?)
 
 main_area_manager::~main_area_manager()
 //Wirtualny destruktor
@@ -578,6 +586,7 @@ main_area_manager::~main_area_manager()
     counter--;														// assert( heapcheck() != _HEAPCORRUPT );
 }
 
+#pragma clang diagnostic pop
 /* ****************************************************************** */
 /*               SYMSHELL2  version 2006/2022/2026                    */
 /* ****************************************************************** */

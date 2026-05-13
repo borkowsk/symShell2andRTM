@@ -1,6 +1,6 @@
 /// @file
 /// @brief OBSZAR OKNA ("LUFCIK") NAŚLADUJĄCY TERMINAL
-/// @date 2026-05-11 (modified)
+/// @date 2026-05-13 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_TEXT_AREA_HPP_INCLUDED_
@@ -23,7 +23,7 @@ class text_area:public drawable_base
 protected:
     size_t				user_size;	///< Rozmiar bufora na linie. -1 ustawiany przez set_text
     size_t					index;	///< Pierwsza wolna pozycja listy linii
-    wb_color			curr_col;	///< Aktualny kolor tekstu
+    wb_color			 curr_col;	///< Aktualny kolor tekstu
     wb_dynarray< wb_dynarray<char> >  linie; ///< Bufor z liniami.
 
 public:

@@ -1,16 +1,8 @@
 /// @file
 /// @brief IMPLEMENTATION OF BASIC PRIMITIVES CLASSES/
 ///        IMPLEMENTACJA PODSTAWOWYCH KLAS PRYMITYWÓW GRAFICZNYCH.
-/// @date 2026-05-08 (modification)
+/// @date 2026-05-13 (modification)
 // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-//#include <cstdarg>
-//#include <cctype>
-//#include <cerrno>
-//
-//#include <cstdlib>
-//#include <cstdio> //sprintf!!!
-//#include <iostream>
 
 #include "symshell.h"
 #include "graphs.hpp"

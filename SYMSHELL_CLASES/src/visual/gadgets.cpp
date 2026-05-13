@@ -21,7 +21,7 @@ using namespace symshell2;
 // --checks=-google-default-arguments.
 #pragma ide diagnostic ignored "google-default-arguments"
 
-//void rect(int x1,int y1,int x2,int y2,unsigned int frame_c);
+//`void rect(int x1,int y1,int x2,int y2,unsigned int frame_c);`
 
 //template<class T>
 //static inline void swap(T& a,T& b)
@@ -35,16 +35,16 @@ int gadget::on_click(int x,int y,int click)
     int ins=is_inside(x,y);
     if(ins==1)
         {
-        draw_color= set_background(draw_color); //Na draw_color stara wartosc background
+        draw_color= set_background(draw_color); //Na draw_color stara wartość background
         replot();
         draw_color= set_background(draw_color); //i z powrotem
-        ins=_on_click(x,y,click); //Może zmienic wynik
+        ins=_on_click(x,y,click); //Może zmienić wynik
         }
     return ins;
 }
 
 void empty_area::_replot()
-//Rysuje przekreslenie obszaru użytkownika
+//Rysuje przekreślenie obszaru użytkownika
 {
     int x1= get_start_x();
     int y1= get_start_y();
@@ -113,7 +113,7 @@ void arrow_button::_replot()
       bck=511; //W palecie 512
     if(draw_color==255)
       draw_color=511;
-    int	  ow=toi(line_width(mode==0?2:0));				/* Ustala szerokosc linii — może być kosztowne. Zwraca stan poprzedni */
+    int	  ow=toi(line_width(mode==0?2:0));				/* Ustala szerokość linii — może być kosztowne. Zwraca stan poprzedni */
     int	  os=line_style(SSH_LINE_SOLID); /* Ustala styl rysowania linii: SSH_LINE_SOLID, SSH_LINE_DOTTED, SSH_LINE_DASHED */
     switch(mode){
     /*
@@ -182,7 +182,7 @@ void arrow_button::_replot()
         break;
         case 3 :// print down arrow
         line((x1+x2)/2,y2,(x1+x2)/2,y1+2,draw_color);
-        for(int y=(y1+y2)/2,i=1,end=toi(r1*0.4);i<=end;i++)
+        for(int /*y=(y1+y2)/2,*/i=1,end=toi(r1*0.4);i<=end;i++)
         {
             wb_color cur_col=(bck < draw_color?int(draw_color - (double(i) / end) * 255):int(draw_color + (double(i) / end) * 255));
             line((x1+x2)/2, y2,(x1+x2)/2-i,y1+r2/2, cur_col);
@@ -214,28 +214,28 @@ left_right_button::left_right_button(int ix1, int iy1, int ix2, int iy2):
     empty_area(ix1,iy1,ix2,iy2,::background(),::background(),::background())
 {
     int a=(ix1+ix2)/2;
-    int b=char_height('X');
+    int b=toi(char_height('X'));
     left	=new arrow_button(ix1+1	,iy1+b,a-1,	iy2-1,		2/*mode left*/	);
     right	=new arrow_button(a+1,iy1+b,ix2-1,iy2-1,		4/*mode right*/);
     set_title("Left-Right control");
 }
 
 void left_right_button::_replot()
-//Odrysowuje skladowe
+//Odrysowuje składowe
 {
-    //	empty_area::_replot(); //Niepotrzebne - tylko przekreslenie
+    //	empty_area::_replot(); //Niepotrzebne - tylko przekreślenie
     left->replot(0);
     right->replot(0);
 }
 
 steering_wheel::steering_wheel( int ix1,int iy1,int ix2,int iy2,
-                               wb_dynarray<rectangle_source_base*>&  idat)://Pamięć zadnej z seri nie jest tu zarzadzana
-    empty_area(ix1,iy1,ix2,iy2,::background(),::background(),::background())
+                               wb_dynarray<rectangle_source_base*>&  idat) //Pamięć żadnej z seri nie jest tu zarządzana
+: empty_area(ix1,iy1,ix2,iy2,::background(),::background(),::background())
 {
     size_t size=idat.get_size();
     data.alloc(size);                                 assert(data.IsOK());
 
-    //Przepisuje bo nie wiadomo co to za tablica
+    //Przepisuje, bo nie wiadomo co to za tablica
     for(size_t i=0;i<size;i++)
     {                                                 assert(idat[i]->valid_memory(this));
         rectangle_source_base* tmp=idat[i];           assert(tmp->valid_memory(tmp));
@@ -251,74 +251,76 @@ steering_wheel::steering_wheel( int ix1,int iy1,int ix2,int iy2,
     down	=new arrow_button(ix1+a/2+1,iy1+b/2+1,ix2,		iy2-b/4,	3/*mode down*/);
     left	=new arrow_button(ix1+1	,iy2-b/4+1,ix2-a/2,	iy2,		2/*mode left*/	);
     right	=new arrow_button(ix1+a/2+1,iy2-b/4+1,ix2,		iy2,		4/*mode right*/);
-    set_title("STEERING WHEELL");
+    set_title("STEERING WHEEL");
 }
 
 
 steering_wheel::steering_wheel( 
-                    rectangle_source_base*     i_dat, //Pamięć seri nigdy nie jest tu zarzadzana
-                    wb_ptr<drawable_base>      i_res, //Pamięć dla pod-obszarow jest
+                    rectangle_source_base*     i_dat, //Pamięć seri nigdy nie jest tu zarządzana
+                    wb_ptr<drawable_base>      i_res, //Pamięć dla pod-obszarów jest
                     wb_ptr<drawable_base>       i_up, // z a w s z e
                     wb_ptr<drawable_base>     i_left, //zarządzana.
-                    wb_ptr<drawable_base>     i_down, //Wspolrzedne obszaru steeering wheel sa
-                    wb_ptr<drawable_base>    i_right  //ustalane z wspolrzednych jego skladowych.
-                    ):			//Tlo jest takie jakie dla calego okna!
+                    wb_ptr<drawable_base>     i_down, //Współrzędne obszaru "steering wheel" są
+                    wb_ptr<drawable_base>    i_right  //ustalane ze współrzędnych jego składowych.
+                    ):			//Tlo jest takie, jakie dla całego okna!
         empty_area(0,0,0,0,::background(),::background(),::background()),
         resizing(i_res), left(i_left), right(i_right), up(i_up), down(i_down)
 {
     data.alloc(1);                                 assert(data.IsOK() );
     data[0]=i_dat;
 
-    //LADOWANIE WSPOLRZEDNYCH
+    //ŁADOWANIE WSPÓŁRZĘDNYCH
     load(*resizing);
     add(*up);
     add(*left);
     add(*down);
     add(*right);
-    set_title("STEERING WHEELL");
+    set_title("STEERING WHEEL");
 }
 
 steering_wheel::steering_wheel(
-                    wb_dynarray<rectangle_source_base*>&  i_dat, //Passert(data.IsOK()	);amiec zadnej z seri nie jest tu zarzadzana
-                    wb_ptr<drawable_base> i_res,  //Pamięć dla pod-obszarow jest
+                    wb_dynarray<rectangle_source_base*>&  i_dat, // Pamięć żadnej z seri nie jest tu zarządzana
+                    wb_ptr<drawable_base> i_res,  //Pamięć dla pod-obszarów jest
                     wb_ptr<drawable_base> i_up,   // z a w s z e
                     wb_ptr<drawable_base> i_left, //zarządzana.
-                    wb_ptr<drawable_base> i_down, //Wspolrzedne obszaru steeering wheel sa
-                    wb_ptr<drawable_base> i_right //ustalane z wspolrzednych jego skladowych.
-                    ):			//Tlo jest takie jakie dla calego okna!
+                    wb_ptr<drawable_base> i_down, //Współrzędne obszaru steering wheel są
+                    wb_ptr<drawable_base> i_right //ustalane ze współrzędnych jego składowych.
+                    ):			//Tlo jest takie, jakie dla całego okna!
         empty_area(0,0,0,0,::background(),::background(),::background()),
         resizing(i_res), left(i_left), right(i_right), up(i_up), down(i_down)
 {
     data.alloc(i_dat.get_size());                                 assert(data.IsOK() );
 
-    //Przepisuje bo nie wiadomo co to za tablica
+    //Przepisuje, bo nie wiadomo co to za tablica
     for(size_t i=0; i < i_dat.get_size(); i++)
                     data[i]=i_dat[i];
 
     assert(data.IsOK());
-    //LADOWANIE WSPOLRZEDNYCH
+    //ŁADOWANIE WSPÓŁRZĘDNYCH
     load(*resizing);
     add(*up);
     add(*left);
     add(*down);
     add(*right);
-    set_title("STEERING WHEELL");
+    set_title("STEERING WHEEL");
 }
 
 //steering_wheel( int ix1,int iy1,int ix2,int iy2,
-//					rectangle_source_base*  idat);//Pamięć zadnej z seri nie jest tu zarzadzana
+//					rectangle_source_base*  idat);//Pamięć Żadnej z seri nie jest tu zarządzana
 
 
 int left_right_button::on_change(const gps_area& new_ar)
-//Musi przesunac wspolrzedne skladowych razem ze swoimi.
+//Musi przesunąć współrzędne składowych razem ze swoimi.
 {
     float trans[6];
     get_transform_to(new_ar,trans);
-    gps_area check(*this);
+    gps_area check(static_cast<gps_area&>(*this)); //Potrzebujemy kopii danych.
     check.transform(trans);
     if(!(check==new_ar))
     {
-    //fprintf(stderr,"left_right_button warning:rescaling will loss precission.\n");
+#ifndef _NDEBUG
+        fprintf(stderr,"left_right_button warning: rescaling will loss precision.\n");
+#endif
     }
 
     left->transform(trans);
@@ -330,13 +332,15 @@ int left_right_button::on_change(const gps_area& new_ar)
 int steering_wheel::on_change(const gps_area& new_ar)
 {
     float trans[6];
+    gps_area check(static_cast<gps_area&>(*this)); //Potrzebujemy kopii danych.
     get_transform_to(new_ar,trans);
-
-    gps_area check(*this);
     check.transform(trans);
+
     if(!(check==new_ar))
     {
-        //fprintf(stderr,"Steering_wheel warning:rescaling will loss precission.\n");
+#ifndef _NDEBUG
+        fprintf(stderr,"Steering_wheel warning:rescaling will loss precision.\n");
+#endif
     }
 
     resizing->transform(trans);
@@ -349,7 +353,7 @@ int steering_wheel::on_change(const gps_area& new_ar)
 }
 
 void steering_wheel::_replot()
-//Odrysowuje skladowe
+//Odrysowuje składowe
 {
     resizing->replot(0);
     up->replot(0);
@@ -358,57 +362,54 @@ void steering_wheel::_replot()
     right->replot(0);
 }
 
-int left_right_button::_user_action(int left_or_right, int /*ingnoruje click*/)
+int left_right_button::_user_action(int left_or_right, int /*ignoruje click*/)
 /*Jeśli lewo to -1, a jeśli prawo to 1*/
 {
-    return 2; //Obsłuzone, choć nie zrobione
+    return 2; //Obsłużone, choć nie zrobione
 }
 
 
 int left_right_button::on_click(int x, int y, int click)
-        //Przepytuje skladowe i jeśli ktoras zostala trafiona to ...
+        //Przepytuje składowe i jeśli któraś została trafiona to ...
 {
-    if(!is_inside(x,y))//sprawdzenie dla całości
+    if(!is_inside(x, y))//sprawdzenie dla całości
         return 0;  //"Nie moja sprawa!"
 
-    int retval=0;
+    int retval = 0;
 
-    if(left->on_click(x,y,click))
+    if(left->on_click(x, y, click))
     {
-      retval=_user_action(-1,click);
-    }
-    else
-    if(right->on_click(x,y,click))
+        retval = _user_action(-1, click);
+    } else if(right->on_click(x, y, click))
     {
-      retval=_user_action(1,click);
-    }
-    else
+        retval = _user_action(1, click);
+    } else
     {
         //Gdzieś w tytuł lub tło
         //replot();
-        retval=1;
+        retval = 1;
     }
 
-    if(retval!=1)
+    if(retval != 1)
     {
         delay_ms(128);
-        set_char('\r');//Wymuszenie replotu w następnym nawrocie pętli czytającej
+        set_char('\r'); //Wymuszenie replot-u w następnym nawrocie pętli czytającej
     }
 
     return retval;
 }
 
 int steering_wheel::on_click(int x,int y,int click)
-        //Przepytuje skladowe i jeśli ktoras zostala trafiona to
-        //adekwatnie zmienia serie za pomoca metody sub()
+        //Przepytuje składowe i jeśli któraś została trafiona, to
+        //adekwatnie zmienia serie za pomocą metody `sub`
         //oraz wymusza odnowienie ekranu
 {
     if(!is_inside(x,y)) //sprawdzenie dla całości
         return 0;  //"Nie moja sprawa!"
 
     int dim=0;
-    int Mnoznik=1;
-    geometry::view_info subtab; //Struktura na informacje o "kamerze":.
+    int multiplier=1;
+    geometry::view_info subtab; //Struktura na informacje o "kamerze".
     geometry::MD_info	md;
     geometry_base* geom= data[0]->get_geometry();
 
@@ -416,33 +417,33 @@ int steering_wheel::on_click(int x,int y,int click)
     dim=geom->get_dimension();
     if(dim<2) goto ERROR;
     if(geom->get_view_info(&subtab)==nullptr)
-                            goto ERROR;//Wypelnianie struktury informacja o "kamerze"
+                            goto ERROR; //Wypełnianie struktury informacja o "kamerze"
     if(geom->get_info(&md)==nullptr)
-                            goto ERROR;//Wypelnianie struktury informacja
+                            goto ERROR; //Wypełnianie struktury informacja
     if(subtab.dia.X()>20*subtab.sst.X() &&
                 subtab.dia.Y()>20*subtab.sst.Y() )
-                    Mnoznik=10;
+        multiplier=10;
     if(up->on_click(x,y,click)==1)
     {
-        subtab.pos.Y()-=subtab.sst.Y()*Mnoznik;
+        subtab.pos.Y()-= subtab.sst.Y() * multiplier;
     }
     else if(down->on_click(x,y,click)==1)
     {
-        subtab.pos.Y()+=subtab.sst.Y()*Mnoznik;
+        subtab.pos.Y()+= subtab.sst.Y() * multiplier;
     }
     else if(left->on_click(x,y,click)==1)
     {
-        subtab.pos.X()-=subtab.sst.X()*Mnoznik;
+        subtab.pos.X()-= subtab.sst.X() * multiplier;
     }
     else if(right->on_click(x,y,click)==1)
     {
-        subtab.pos.X()+=subtab.sst.X()*Mnoznik;
+        subtab.pos.X()+= subtab.sst.X() * multiplier;
     }
     else if(resizing->on_click(x,y,click)==1)
     {
         if(click==1)
             {
-                //Przy malych zakresach co 1, przy dużych dwukrotnie
+                //Przy małych zakresach co 1, przy dużych dwukrotnie
                 if(subtab.dia.X()<10*subtab.sst.X()
                     && subtab.dia.Y()<10*subtab.sst.Y() )
                     {
@@ -476,14 +477,14 @@ int steering_wheel::on_click(int x,int y,int click)
     /*
         else
         {
-            subtab.dispose(); //Need be nullptr for reseting
+            subtab.dispose(); //Need be nullptr for resetting
         }
     */
     }
-    else //Zaden z podobiektów
+    else //Żaden z pod-obiektów
     return is_inside(x,y);//Wychodzi się.
 
-    //Ustawia tak samo pozostalym zarzadzanym seriom
+    //Ustawia tak samo pozostałym zarządzanym seriom
     size_t i;
     for(i=1;i<data.get_size();i++)
         {
@@ -500,18 +501,18 @@ int steering_wheel::on_click(int x,int y,int click)
     //I ustawia seri podstawowej
     geom->set_view_info(&subtab);
 
-    set_char('\r');//Informacja ze trzeba odrysowac — prowizoryczna!!!
+    set_char('\r'); //Informacja ze trzeba odrysować — prowizoryczna!!!
     return 2;
 
-ERROR://Nie zaimplemtowano koniecznej operacja lub inny błąd
+ERROR://Nie zaimplementowano koniecznej operacja lub inny błąd
     {
-    wb_color bf= get_frame(); //Użyte jako tymczas
+    wb_color bf= get_frame(); //Użyte jako tymczasowa
         set_frame(254); //Jasny ale nie bialy
     replot();
         set_frame(bf);
     }
 
-    return 0; //NIe przyznaje się do punktu
+    return 0; //Nie przyznaje się do punktu
 }
 
 /*
@@ -521,14 +522,14 @@ int text_area::on_click(int x,int y,int click)
 int ins=is_inside(x,y);
 if(ins==1)
     {
-    ins=_on_click(x,y,click);//Może zmienic wynik
+    ins=_on_click(x,y,click);//Może zmienić wynik
     }
 return ins;
 }
 */
 
 text_area::text_area(int ix1,int iy1,int ix2,int iy2,
-            const char* i_text,		//TEXT inicjujacy
+            const char* i_text,		//TEXT inicjujący
             unsigned i_color,	//=default_black,
             unsigned i_background,	//=default_white,
             unsigned i_frame,	//=128,
@@ -549,10 +550,10 @@ void text_area::_replot()
 {
     int x1= get_start_x();
     int y1= get_start_y();
-    int x2= x1 + get_width() - 1; //-1 bo width obejmuje pierwszy piksel
+    int x2= x1 + get_width() - 1; //-1, bo width obejmuje pierwszy piksel
     int y2= y1 + get_height() - 1;
-    int r1=x2-x1;
-    int r2=y2-y1;
+    //int r1=x2-x1;
+    //int r2=y2-y1;
     int start=toi(y1+index*char_height('X'));
     if(start>y2)
             start=y2;
@@ -577,64 +578,68 @@ int text_area::add_line(const char* ini) //ret 1 jeśli OK
     wb_dynarray<char> Ini;
     if(ini==nullptr)
         return 0;
-    char* pom=clone_str(ini);//Kopia lancucha
-    if(pom!=nullptr)
+
+    char* pom=clone_str(ini); //Kopia łańcucha
+
+   // if(pom==nullptr) return 0; //Wpadka na braku pamięci podobno sie już nie zdarza.
+   // else
         Ini.set_dynamic_ptr_val(pom,strlen(pom)+1);
-        else
-        return 0;//Wpadka na braku pamieci
+
 
     if(index<linie.get_size())
         //Jest jeszcze miejsce. Czyli tablica niezerowego rozmiar
         {
-        linie[index]=Ini;//Jeśli przepisze to nie zwolni
-        index++;
+            linie[index]=Ini;//Jeśli przepisze to nie zwolni
+            index++;
         }
-        else
+    else
         {
-        linie[0].dispose();
-        size_t len=linie.get_size();
-        if(len>=2)
-            {
-            len=(len-1)*sizeof(linie[0]);
-            memmove(linie.get_ptr_val(),
-                linie.get_ptr_val(1),
-                len);
-            }
-        size_t outsize;
-        linie[index-1].give_dynamic_ptr_val(outsize); //Zabiera mu z zarządu
-        linie[index-1]=Ini;//Jeśli przepisze to nie zwolni
+            linie[0].dispose();
+            size_t len=linie.get_size();
+            if(len>=2)
+                {
+                    len=(len-1)*sizeof(linie[0]);
+                    // Przesuwamy w pamięci, żeby uniknąć sekwencji konstruktor-destruktor przy kopiowaniu.
+                    memmove( (void*)linie.get_ptr_val(),
+                             (void*)linie.get_ptr_val(1),
+                             len);
+                }
+            size_t outsize;
+            linie[index-1].give_dynamic_ptr_val(outsize); //Zabiera mu z zarządu
+            linie[index-1]=Ini;//Jeśli przepisze to nie zwolni
         }
 
     return 1;
 }
 
 
-int text_area::add_text(const char* ini) //ret 1, jeśli OK
+int text_area::add_text(const char* ini)
 {
-    wb_dynarray<char> Ini;
-    char* pom=nullptr;
-
-    if(ini!=nullptr && (pom=clone_str(ini))==nullptr)
+    if(ini==nullptr)
         return 0;
 
-    //Bardziej elegancki uchwyt kopi łańcucha źródłowego usuwanej w momencie wyjścia z metody.
-    Ini.set_dynamic_ptr_val(pom,strlen(pom)+1);
+    char* pom=clone_str(ini);           // assert(pom!=nullptr);
 
-    if(linie.get_size()==0) //Trzeba zaalokować
+    /// Bardziej elegancki uchwyt dla kopii łańcucha źródłowego, usuwanej w momencie wyjścia z metody.
+    wb_dynarray<char> Ini;
+    Ini.set_dynamic_ptr_val(pom,strlen(pom)+1); ///< Bo tu mu dajemy w zarząd.
+
+    if(linie.get_size()==0) //Trzeba zaalokować jakieś linie
         {
-        size_t licznik=0;
-        char* iter=pom;
-        while(*iter!='\0')
+        size_t licznik=0; //Licznik końców linii.
+        char* iter=pom;   //assert(iter);
+        // Zliczanie końców linii.
+        while(*iter!='\0') //To na pewno nie będzie null!!!
             {
             if(*iter=='\n') licznik++;
             iter++;
             }
         linie.alloc(licznik+1); //Jeśli nie ma końców linii to i tak jest jedna
-        //cerr<<"lini: "<<licznik<<"in text:"<<endl<<ini<<endl;
+        //cerr<<"linii: "<<licznik<<"in text:"<<endl<<ini<<endl;
         }
 
-    char* iter=pom;
-    bool flaga=0;//Czy koniec pętli
+    char* iter=pom;   //assert(iter);
+    bool flaga=false; //Czy koniec pętli
     do{
       if(	*iter=='\n'
          || (flaga=(*iter=='\0'))

@@ -182,7 +182,8 @@ public:
 protected:
     /// Przeskalowywanie wartości współrzędnych punktu danych.
     /// Wymaga się, by działał prawidłowo po wywołaniu funkcji `_replot`.
-    /// @returns -1, jeśli błąd. Np. któraś z podanych wartości nie zawiera się w podanym przez serie zakresie `<min, max>`.
+    /// @returns -1, jeśli błąd. Np. któraś z podanych wartości nie zawiera się w podanym przez serie zakresie
+    ///         `<minimum, maksimum>`.
     /// @param reals zawiera współrzędne (wartości serii z głównych)
     ///        oraz wartość ustalająca kolor z seri dla koloru (jeśli jest).
     /// @param in_area ...
@@ -406,7 +407,7 @@ public:
     /// @{
     /// Nie ma parametrów konfiguracji. Zawsze zwraca -1.
     int configure(const void*) override {return -1;}
-    int set_series(size_t index, data_source_base* data, int menage= 0) override;
+    int set_series(size_t index, data_source_base* i_data, int i_menage= 0) override;
     data_source_base* get_series(size_t index) override;
     int _rescale_data_point(const double reals[3],long in_area[3]) override;
     /// Rysuje właściwy wykres, a pod nim ewentualnie legendę.
@@ -718,7 +719,7 @@ public:
     /// @{
     /// Konfiguruje tryb wyświetlania, używając struktury typu `true_color_manhattan_graph::config`.
     int configure(const void* config) override;
-    int set_series(size_t index, data_source_base* data, int menage=0) override;
+    int set_series(size_t index, data_source_base* i_data, int i_menage=0) override;
     data_source_base* get_series(size_t index) override;
     int _rescale_data_point(const double reals[4],long in_area[4]) override;
     /// Rysuje właściwy wykres a wokół niego ewentualnie legendę.
@@ -1100,7 +1101,7 @@ void fast_carpet_graph<DATA_SOURCE, DIRECT_COLOR>::_replot()
                     double test = fast_data->get(h);
                     if(data->is_missing(test))
                         continue; //Nie rysować, jeśli wartość nieosiągalna
-                    unsigned C = test; //Zakładamy, że to surowe kolory?
+                    unsigned C = (unsigned)test; //Zakładamy, że to surowe kolory?
                     unsigned R = (C & 0x0000ff);
                     unsigned G = (C & 0x00ff00) >> 8;
                     unsigned B = (C & 0xff0000) >> 16;

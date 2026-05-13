@@ -1,6 +1,6 @@
 /// @file
 /// @brief KLASA GŁÓWNEGO ZARZĄDCY OBSZARÓW EKRANU
-/// @date 2026-05-11 (modified)
+/// @date 2026-05-13 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_MAIN_MNGR_HPP_INCLUDED_
@@ -110,13 +110,13 @@ public:
     /// @name Ukrywanie obszaru/rów.
     /// @{
     int    minimize(size_t index) override ; ///< @param index pojedynczego obszaru.
-    int    minimize(const wb_dynarray<int>& lst) override ; ///< @param lst to lista indeksów obszarów.
+    int    minimize(const wb_dynarray<int>& lst_index) override ; ///< @param lst to lista indeksów obszarów.
     /// @}
 
     /// @name Odtwarza pierwotne położenie i rozmiar obszaru/-rów.
     /// @{
     int    original(size_t  index) override ; ///< @param index pojedynczego obszaru.
-    int    original(const wb_dynarray<int>& lst) override ; ///< @param lst to lista indeksów obszarów.
+    int    original(const wb_dynarray<int>& lst_index) override ; ///< @param lst to lista indeksów obszarów.
     /// @}
 
     /// Przywraca widoczność, poprzednie położenie i rozmiar uprzednio ukrytego (minimize) obszaru.
