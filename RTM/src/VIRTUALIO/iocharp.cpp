@@ -1,4 +1,6 @@
-// Implementacja wejścia wyjścia dla `char*`
+/// @file
+/// @brief Implementacja wejścia wyjścia dla `char*`
+/// @date 2026-05-13 (modified)
 //-----------------------------------------------------------------------------
 #include <cassert>
 #include <ctype.h>
@@ -79,7 +81,7 @@ BRAK_PAMIECI:
 if(pom!=NULL)
 	delete pom;// Zeby pamiec nie wyciekala
 user.Raise(OutOfMemoryExcp(jednostek*MINLEN+1,__FILE__,__LINE__));
-return NULL;// Moze cos byc juz wczytane
+return NULL;// Może cos byc juz wczytane
 }
 
 char* ReadToSeparators(istream& file,const vobject& user,const char* delimiters,int& what_delim,int ZAPAS)
@@ -135,7 +137,7 @@ BRAK_PAMIECI:
 if(pom!=NULL)
 	delete pom;// Zeby pamiec nie wyciekala
 user.Raise(OutOfMemoryExcp(jednostek*MINLEN+1,__FILE__,__LINE__));
-return NULL;// Moze cos byc juz wczytane
+return NULL;// Może cos byc juz wczytane
 }
 
     int WriteEnclosedString(ostream& file,const char* str,const vobject& user,char delimiter)
@@ -173,7 +175,7 @@ return NULL;// Moze cos byc juz wczytane
         assert(&file!=NULL);
         if(!file.good())
         {
-            if(user.Raise(ExcpIO(NULL,file.tellg(),"Invalid stream"))==1)
+            if(user.Raise(ExcpIO(NULL,file.tellg(),"Invalid stream"))==1)RTM/src/VIRTUALIO/iocharp.cpp
                 return NULL;
         }
 
@@ -202,7 +204,7 @@ return NULL;// Moze cos byc juz wczytane
             if(znak=='\\' && (znak=file.get())==EOF)//Zeby moc użyć znaku "delimitera"
                 if(user.Raise(ExcpIO(NULL,file.tellg(),
                                      "Syntax error or EOF"))==1)
-                {
+                {RTM/src/VIRTUALIO/iocharp.cpp
                     delete pom;
                     return NULL;
                 }
@@ -234,7 +236,7 @@ return NULL;// Moze cos byc juz wczytane
         if(pom!=NULL)
             delete pom;// Zeby pamiec nie wyciekala
         user.Raise(OutOfMemoryExcp(jednostek*MINLEN+1,__FILE__,__LINE__));
-        return NULL;// Moze cos byc juz wczytane, ale bufor zwolniono
+        return NULL;// Może cos byc juz wczytane, ale bufor zwolniono
     }
 
 } //namespace

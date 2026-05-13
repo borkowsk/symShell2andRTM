@@ -1,22 +1,22 @@
 /** @file
 *  \brief    The simplest associative arrays.
-*  @date 2026-05-11 (last modification)
+*  @date 2026-05-13 (last modification)
 *====================================================================================================================
 *  \details Obsolete and not improved part of the wb_rtm library.
 *           It was established before 2000.
 *           <br>
-*         Zarzadza powiazaniami wartosci skalarnych i wskaznikow.
-*         Zarowno dla kluczy(K) jak i wartosci(V) rezerwowane jest miesjce o
+*         Zarzadza powiazaniami wartości skalarnych i wskaznikow.
+*         Zarowno dla kluczy(K) jak i wartości(V) rezerwowane jest miesjce o
 *         rozmiarze = uniontype (slowo conajmniej 32 bitowe) i typ K i V musi byc
 *         rzutowalny na unitype. A K posiadac tez wcielenie funkcji "compare".
-*         Wartosci dla K sa kopiowane w razie potrzeby, a dla V mozna je przypisywac.
+*         Wartości dla K sa kopiowane w razie potrzeby, a dla V mozna je przypisywac.
 *
-*         "assoc_template" moze byc uzyta do dowolnego typu, ale nie ma operacji I/O.
+*         "assoc_template" może byc uzyta do dowolnego typu, ale nie ma operacji I/O.
 *         "assoc_table" nie powinna byc uzyta do wskaznikow ze wzgledu na
 *         implementacje I/O.
 *         "assoc_table_of_ptr" ma mozliwosc wyboru trybu pracy - wskazniki statyczne
 *         lub dynamiczne. Przy wczytywaniu jednak wszystkie dane sa realokowane na
-*         sterte poniewaz operacja ta moze alokowac nowe dane. jeśli dane sa dynamiczne
+*         sterte poniewaz operacja ta może alokowac nowe dane. jeśli dane sa dynamiczne
 *         to sa dealokowane w destruktorze.
 *         Dla typu char* mozna używac jedynie assoc_template albo typow z rodziny
 *         "dictionary*" ze wzgledu na niestandardowe traktowanie w jezyku C++
@@ -43,7 +43,7 @@ class assoc_template : public key_container<K,V> ,protected assoc_base
 // Typ K i V musi zmiescic sie w unii "unitype" !!!
 {
 protected:
-// Reeksport metody z klasy bazowej ktora moze sie przydac
+// Reeksport metody z klasy bazowej ktora może sie przydac
 // znajduje item lub go tworzy (make==1), zwraca NULL
 // ALbo wskaznik do znalezionego assoitem
 assoitem* _base_search(const unitype key,int make)
@@ -53,7 +53,7 @@ assoitem* _base_search(const unitype key,int make)
 virtual
 int 	  Compare(const unitype first,const unitype second);
 //Wywolywana zawsze przed usunieciem i-temu z tab.
-//UWAGA .ptr o wartosci NULL lub FULL oznacza oczyszczony unitype!
+//UWAGA .ptr o wartości NULL lub FULL oznacza oczyszczony unitype!
 void      BeforeDeletion( assoitem& ){}//W tym wypadku nic nie robia
 //Używany do wyprowadzania
 int       AssoOutput(ostream&,const assoitem& /*what*/) const {return 0;} //KLASA BEZ I/O
@@ -122,7 +122,7 @@ VIRTUAL_NECESSARY( assoc_table_of_ptr<K _COMA_ V> )
 cbase::memmode v_mem_mode;
 protected:
 //Wywolywana zawsze przed usunieciem i-temu z tab.
-//UWAGA .ptr o wartosci NULL lub FULL oznacza oczyszczony unitype!
+//UWAGA .ptr o wartości NULL lub FULL oznacza oczyszczony unitype!
 void      BeforeDeletion( assoitem& );
 //Używany do wyprowadzania
 int       AssoOutput(ostream&,const assoitem& what) const;
@@ -199,7 +199,7 @@ template<class K,class V>
 int 	  assoc_template<K,V>::Compare(const unitype first,const unitype second)
 {
 K f=*(K*)&(first);
-K s=*(K*)&(second);// Nie mozna zwyczajnie bo K moze byc wskaznikiem do klasy
+K s=*(K*)&(second);// Nie mozna zwyczajnie bo K może byc wskaznikiem do klasy
 return compare(f,s);
 }
 
@@ -315,7 +315,7 @@ template<class K,class V>
 void assoc_table_of_ptr<K,V>::ReallocData()
 {
 object_size_t size=this->tab.CurrSize();
-if(size>0)// Przealokowac statycznie alokowane wartosci
+if(size>0)// Przealokowac statycznie alokowane wartości
    for(size_t i=0;i<size;i++)
 		{
 		V* v1=_from_unitype_for_assoc_table(v1,(this->tab)[i].val);//V should be a ptr!!!
@@ -351,7 +351,7 @@ return !o.fail();
 template<class K,class V>
 void      assoc_table_of_ptr<K,V>::BeforeDeletion( assoitem& a )
 //Wywolywana zawsze przed usunieciem i-temu z tab.
-//UWAGA .ptr o wartosci NULL lub FULL oznacza oczyszczony unitype!
+//UWAGA .ptr o wartości NULL lub FULL oznacza oczyszczony unitype!
 //Tu dealokuje zmienna wskazywana przez val jeśli nie jest już pusta.
 {
 if(!DataAreStatic() && a.val.ptr!=NULL && a.val.ptr!=FULL)

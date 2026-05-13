@@ -1,6 +1,6 @@
 /** @file
 *  \brief NON INLINE METHOD IMPLEMENTATION FOR ARRAYS TEMPLATES
-*  @date 2026-05-11 (last modification)
+*  @date 2026-05-13 (last modification)
 *  \details Obsolete and not improved part of the wb_rtm library.
 *           It was established before 2000.
 *  \copyright Wojciech T. Borkowski
@@ -242,7 +242,7 @@ if(o.bad())
 template<class T>
 void array_of<T>::implement_input(istream& i)
 {
-//UWAGA na tellg - moze byc zaimplementowane za pomoca seek!!!
+//UWAGA na tellg - może byc zaimplementowane za pomoca seek!!!
                                         assert(i.good());
 object_size_t cs=0;
 
@@ -423,7 +423,7 @@ if(cs>0)
 	i>>zn;
 	if(zn!='@')
 	   {
-	   i.putback(zn);	//Z powrotem bo moze nie byc ' '
+	   i.putback(zn);	//Z powrotem bo może nie byc ' '
 
            pom2=ReadDynamicVal< T >(i,this); //Tworzenie&wczytywanie
 

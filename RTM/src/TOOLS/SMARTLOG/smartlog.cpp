@@ -1,5 +1,6 @@
-// wb_smartlog.cpp: implementation of the wb_smartlog class.
-//
+/// @file
+/// @brief  wb_smartlog.cpp: implementation of the wb_smartlog class.
+/// @date 2026-05-13 (modified)
 //*////////////////////////////////////////////////////////////////////
 
 #include <cerrno>
@@ -99,7 +100,7 @@ bool	wb_smartlog::Disconnect()
 	}
 	else
 	{
-		if(ptrToMyStream) //Moze nie byc bo nie używany
+		if(ptrToMyStream) //Może nie byc bo nie używany
 		{
 			ofstream* pom=dynamic_cast<ofstream*>(ptrToMyStream);
             assert(pom!=nullptr);

@@ -1,6 +1,6 @@
 /** @file
 *  \brief    Base class for creating associative arrays.
-*  @date 2026-05-11 (last modification)
+*  @date 2026-05-13 (last modification)
 *====================================================================================================================
 *  \details Obsolete and not improved part of the wb_rtm library.
 *           It was established before 2000.
@@ -154,7 +154,7 @@ int       _Remove(/*const*/unitype); // mogla zareagowac, choc nie musi konieczn
 virtual	//Porownuje dwa klucze. Zwraca 0 gdy ==, 1 gdy first>second
 int 	  Compare(const unitype first,const unitype second)=0;
 virtual //Wywolywana zawsze przed usunieciem i-temu z tab.
-	//UWAGA .ptr o wartosci NULL lub FULL oznacza oczyszczony unitype!
+	//UWAGA .ptr o wartości NULL lub FULL oznacza oczyszczony unitype!
 void      BeforeDeletion( assoitem& )=0;
 virtual //Używany do wyprowadzania
 int       AssoOutput(ostream& o,const assoitem& what) const=0;
