@@ -1,6 +1,6 @@
 /// @file
 /// @brief IMPLEMENTACJA CACHE-U ALOKACJI ITERATORÓW
-/// @date 2026-05-07 (modified)
+/// @date 2026-05-13 (modified)
 //*////////////////////////////////////////////////////////////////////////////
 
 //#include "INCLUDE/platform.hpp"
@@ -46,14 +46,14 @@ public:
 		fprintf(stderr,"%s\n","Iterator's allocator buffer never been used.");
 	}
 #endif
-											assert(max_size<=tab_size);//max_size>=0 zawsze bo unsigned
+											assert(max_size<=tab_size); //max_size>=0 zawsze bo unsigned
 	for(size_t i=0;i<tab_size;i++)
 	{
 		if(bufory[i]!=NULL)
 		{                                   assert(i<cur_size);
 			char* pc=(char*)bufory[i];      assert(rozmiary[i]!=0);
 #ifdef _USE_ALLOCATORS_
-			delete [rozmiary[i]] pc;//Gdyby kiedys obslugiwano alokatory tablicowe
+			delete [rozmiary[i]] pc; //Gdyby kiedys obslugiwano alokatory tablicowe
 #else
 			delete [] pc;
 #endif
@@ -72,7 +72,7 @@ void* geometry_base::iterator_base::operator new (size_t s)
 {
 																		assert(s>0);
 	cal_num++;
-	if(cal_num==0)//Przekrecony (???)
+	if(cal_num==0) //Przekrecony (???)
 	{
 		hit_num=0;
 		cal_num=1;
@@ -81,15 +81,15 @@ void* geometry_base::iterator_base::operator new (size_t s)
     //Przeszukiwanie tablicy ostatnio używanych i zwolnionych iteratorow
 	if(cur_size!=0)
 	{
-	for(size_t i=0;i<cur_size;i++)//szukam czy nie ma wolnego bufora
-		if(rozmiary[i]==s)//Znalazlem
+	for(size_t i=0;i<cur_size;i++) //szukam czy nie ma wolnego bufora
+		if(rozmiary[i]==s) //Znalazlem
 		{
 			hit_num++;
 			void* pom=bufory[i];
 			assert(pom!=NULL);
 
 			bufory[i]=NULL;
-			rozmiary[i]=0;//Usuwam z listy wolnych
+			rozmiary[i]=0; //Usuwam z listy wolnych
 
 			if(i==cur_size-1)
 			{
@@ -115,12 +115,12 @@ void  geometry_base::iterator_base::operator delete (void* p, size_t s)
 
 		assert(p!=bufory[i]);
 
-		if(rozmiary[i]==0)//Wolny slot
+		if(rozmiary[i]==0) //Wolny slot
 		{
-			assert(i<=cur_size);//najwyzej o 1 wiecej
+			assert(i<=cur_size); //najwyzej o 1 wiecej
 			assert(bufory[i]==NULL);
 
-			bufory[i]=p;//Zapamientuje
+			bufory[i]=p; //Zapamientuje
 			rozmiary[i]=s;
 
 			if(i==cur_size)

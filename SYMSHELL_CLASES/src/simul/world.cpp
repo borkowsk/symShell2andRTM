@@ -1,6 +1,6 @@
 /// @file
 /// @brief implementation of the world-class.
-/// @date 2026-05-11 (modified)
+/// @date 2026-05-13 (modified)
 // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include "world.hpp"
@@ -13,7 +13,7 @@
 bool symshell2::world::continuous_dump=false;
 
 int	symshell2::world::set_simulation_name(const char* name)
-//Zwraca 1 jak się udało. Może byc niedozwolone
+//Zwraca 1 jak się udało. Może być niedozwolone
 {
     SimulName=name;
     return 1;
@@ -51,7 +51,7 @@ void symshell2::world::make_default_visualisation()
     this->MyAreaMenager().insert(/*dynamic_cast<drawable_base*>*/(OutArea));
 
 ERROR://...akcja na niepogodę
-    ;//error_message(...) ???
+    ; //error_message(...) ???
 }
 
 
@@ -99,7 +99,7 @@ void symshell2::world::initialize(symshell2::main_area_manager* mainAreaManager,
         time_t ltime;
         time( &ltime );
         StartTime=clone_str(ctime( &ltime ));
-        StartTime[strlen(StartTime)-1]='\0';//Kasuje \n
+        StartTime[strlen(StartTime)-1]='\0'; //Kasuje \n
         TimeStamp=clone_str(StartTime.get());
     }
 
@@ -128,7 +128,7 @@ void symshell2::world::restart()
         time_t ltime;
         time( &ltime );
         StartTime=clone_str(ctime( &ltime ));
-        StartTime[strlen(StartTime)-1]='\0';//Kasuje \n
+        StartTime[strlen(StartTime)-1]='\0'; //Kasuje \n
         TimeStamp=clone_str(StartTime.get());
     }
 }
@@ -335,7 +335,7 @@ void symshell2::world::simulation_loop(int ret_after)
 void symshell2::world::make_basic_sources()
 //Umieszcza serie danych w swoim zarządcy serii danych
 {
-    //Zerowa seria w zarządcy danych powinna byc pusta, gdyż służy
+    //Zerowa seria w zarządcy danych powinna być pusta, gdyż służy
     //do kontroli wersji danych.
     //Zarządca może tworzyć ją sam, ale zawsze można potem podmienić.
     ptr_to_scalar_source<unsigned long>* sca=new ptr_to_scalar_source<unsigned long>(&Licznik,"Step:");

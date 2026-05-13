@@ -1,6 +1,6 @@
 /// @file
 /// @brief implementation of the world class -- Virtual Input methods and operator >>
-/// @date 2026-05-07 (modified)
+/// @date 2026-05-13 (modified)
 /////     ------------------------------------------------------------------------
 /// @details
 ///     Its is rather simply implementation. You can replace it if you need.
@@ -31,7 +31,7 @@ int symshell2::world::implement_input(istream& i)
 }
 
 // wczytanie pojedynczego obrazu symulacji dla inicjalizacji
-// Jesli nie ma nazwy to z nazwy OutName
+// Jeśli nie ma nazwy to z nazwy OutName
 void symshell2::world::initialize_from_image(const char* FileName)
 {
 
@@ -48,7 +48,7 @@ void symshell2::world::initialize_from_image(const char* FileName)
 #ifdef CHALA_____//NEW_FASHION_CPP
 						ios::_Nocreate
 #else
-						ios::nocreate			//Nie tworzy jesli nie ma
+						ios::nocreate			//Nie tworzy jeśli nie ma
 #endif
 #ifdef __MSVC_2000__
 						,_SH_SECURE //zamiast ios_base::_Openprot
@@ -63,9 +63,9 @@ void symshell2::world::initialize_from_image(const char* FileName)
 		return;
 	}
 
-	InFile>>(*this);//Wlasciwe wczytanie
+	InFile>>(*this); //Wlasciwe wczytanie
 
-	after_read_from_image();//actions after read state from file.
+	after_read_from_image(); //actions after read state from file.
 
 	//Niejawnie zamyka InFile w destruktorze
 }
@@ -76,10 +76,10 @@ void world::read_loop(int ret_after)
 	if(!AreaManager->should_continue())
 			return; //NIESTETY OD RAZU KONIEC!
 
-	if(Sources.get(0)==NULL)		//jesli jeszcze nie inicjowano zrodel
+	if(Sources.get(0)==NULL)		//jeśli jeszcze nie inicjowano zrodel
 	{                        //TODO - nie wiadomo czy go w og�le ju� ma?
 							 //Ma zmienn�	this->Sources wi�c chyba tak.
-		make_basic_sources();//umieszcza je we wlasnym menagerze danych
+		make_basic_sources(); //umieszcza je we wlasnym menagerze danych
 	}
 
 	if(!int(OutName))
@@ -96,7 +96,7 @@ void world::read_loop(int ret_after)
 #ifdef NEW_FASHION_CPP
 						|   ios::_Nocreate
 #else
-						|   ios::nocreate			//Nie tworzy jesli nie ma
+						|   ios::nocreate			//Nie tworzy jeśli nie ma
 #endif
 #ifdef __MSVC_2000__
 						,_SH_SECURE //zamiast ios_base::_Openprot
@@ -117,7 +117,7 @@ void world::read_loop(int ret_after)
 	// //////////////////
 	if(AreaManager)
 	{
-        AreaManager->enable_background();//Dla pewności
+        AreaManager->enable_background(); //Dla pewności
 //		actualize_out_area();			 //Aktualizacja informacji
 	}
 
@@ -125,7 +125,7 @@ void world::read_loop(int ret_after)
 		//CZY DALEJ SYMULUJEMY?
 		if(get_current_step()>=MaxIterations )
 			if(ret_after || AreaManager==NULL)
-				break;//KONIEC PETLI
+				break; //KONIEC PĘTLI
 			else
 			{
                 AreaManager->disable_background();	//WYŁĄCZA SYMULOWANIE
@@ -141,16 +141,16 @@ void world::read_loop(int ret_after)
 			char cpom;
 			do{
 				(*Out)>>cpom;
-			}while(cpom=='\n');//Ignoruje puste linie
+			}while(cpom=='\n'); //Ignoruje puste linie
 
 			if(Out->eof())
 					break; //Gdyby byly puste linie na koncu pliku
-			Out->putback(cpom);	   //A jesli nie to oddajemy znak
+			Out->putback(cpom);	   //A jeśli nie to oddajemy znak
 			(*Out)>>(*this);
-			after_read_from_image();//actions after read state from a file.
+			after_read_from_image(); //actions after read state from a file.
 
 			if(Licznik!=OldLicznik)	//Bo na początku wczytuje już wczytany stan z kroku 0
-				Sources.new_data_version(1,1);//Oznajmia seriom, że dane się uaktualniły
+				Sources.new_data_version(1,1); //Oznajmia seriom, że dane się uaktualniły
 		}
 
 		// Obsluga okna przed krokiem symulacji
@@ -168,7 +168,7 @@ void world::read_loop(int ret_after)
 		{
             AreaManager->process_input(); //Obsluga zdarzen zewnetrznych
 			if(!AreaManager->should_continue() )	//CZY NIE KONIEC?
-					break;//Koniec zabawy!!!
+					break; //Koniec zabawy!!!
 		}
 
 	}while(!Out->eof());

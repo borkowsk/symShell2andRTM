@@ -1,7 +1,7 @@
 /// @file
 /// @brief Implementacje dla klasy bazowej warstwy symulacji
 ///        - czysto wirtualnej, ale implementacje funkcji muszą (powinny być)
-/// @date 2026-05-07 (modified)
+/// @date 2026-05-13 (modified)
 //*////////////////////////////////////////////////////////////////////
 #include <limits.h>
 //#include "compatyb.h"
@@ -31,14 +31,14 @@ for(unsigned i=0;i<n;i++)
 void symshell2::rectangle_layer::clean_randomly(int how_many)
 {
     int Width=this->MainGeometry.get_width();
-	int Heigh=this->MainGeometry.get_height();									assert(how_many<Width*Heigh);//Inaczej petla nieskonczona
+	int Heigh=this->MainGeometry.get_height();									assert(how_many<Width*Heigh); //Inaczej petla nieskonczona
 
     for(int i=0;i<how_many;i++)
     {
 		int x=RANDOM(Width);
         int y=RANDOM(Heigh);
 
-        if(filled(x,y)) //Troche nieefektywne, ale kiedys sie skonczy
+        if(filled(x,y)) //Troche nieefektywne, ale kiedys się skonczy
             clean(x,y);                  
         else
             i--;        //Nie trafiony, jeszcze raz
@@ -52,7 +52,7 @@ if(r==0) return;
 // Robi dziure z obszarze symulacji
 if(r==1)
 	{ clean(x,y); return; }
-//ClearEllipse(x,y,r,r);// poniżej rozwinięta "na małpę" żeby było szybciej
+//ClearEllipse(x,y,r,r); // poniżej rozwinięta "na małpę" żeby było szybciej
 int xxs=x;  //Przypisanie pseudoparametrów
 int yys=y;
 int bb=r;

@@ -1,6 +1,6 @@
 /// @file
 /// @brief Implementacja bazy warstwy symulacji
-/// @date 2026-05-07 (modified)
+/// @date 2026-05-13 (modified)
 ///       ----------------------------------------------
 /// @details
 ///             ...
@@ -21,7 +21,7 @@ extern "C" gdImagePtr gdImageCreateFromBmp(FILE *f); //Uzupełnienie dla BMP
 //Wczytanie pliku GIF lub BMP
 int symshell2::rectangle_layer::init_from_bitmap(const char* filename,void* user_data)
 {
-size_t Width=0,i=0,Height=0,j=0;//Rozmiary i indeksy pętli
+size_t Width=0,i=0,Height=0,j=0; //Rozmiary i indeksy pętli
 if(filename==nullptr || filename[0]=='\0')
 			return 0;
 FILE* file=fopen(filename,"rb");
@@ -33,12 +33,12 @@ if(!file)
 
 gdImagePtr mapa=nullptr;
 if(strcmp(strrchr(filename,'.'),".gif")==0)
-	mapa=gdImageCreateFromGif(file);//Uchwyt do mapy
+	mapa=gdImageCreateFromGif(file); //Uchwyt do mapy
 	else
 	mapa=gdImageCreateFromBmp(file);
 
 if(!mapa)
-	return 0;//Raczej nie wywoluje bo wczesniej wypada
+	return 0; //Raczej nie wywoluje bo wczesniej wypada
 
 fclose(file);
 
