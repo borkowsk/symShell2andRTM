@@ -175,7 +175,7 @@ return NULL;// Może cos byc juz wczytane
         assert(&file!=NULL);
         if(!file.good())
         {
-            if(user.Raise(ExcpIO(NULL,file.tellg(),"Invalid stream"))==1)RTM/src/VIRTUALIO/iocharp.cpp
+            if(user.Raise(ExcpIO(NULL,file.tellg(),"Invalid stream"))==1)
                 return NULL;
         }
 
@@ -204,7 +204,7 @@ return NULL;// Może cos byc juz wczytane
             if(znak=='\\' && (znak=file.get())==EOF)//Zeby moc użyć znaku "delimitera"
                 if(user.Raise(ExcpIO(NULL,file.tellg(),
                                      "Syntax error or EOF"))==1)
-                {RTM/src/VIRTUALIO/iocharp.cpp
+                {
                     delete pom;
                     return NULL;
                 }
