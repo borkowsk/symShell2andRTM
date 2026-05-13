@@ -1,7 +1,7 @@
 /// @file
 /// @brief IMPLEMENTATION OF DIFFERENT TYPES OF NON-GRAPH AREAS/
 ///        IMPLEMENTACJA ROŻNYCH TYPóW OBSZARóW NIE BĘDĄCYCH GRAFAMI.
-/// @date 2026-05-11 (last modification)
+/// @date 2026-05-13 (last modification)
 //*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Wersja z kosmetyką XI 2012 i późniejszymi zmianami.
 
@@ -203,7 +203,7 @@ void arrow_button::_replot()
 
 
 left_right_button::left_right_button(int ix1, int iy1, int ix2, int iy2):
-	empty_area(ix1,iy1,ix2,iy2,::background(),::background(),::background())
+    empty_area(ix1,iy1,ix2,iy2,::background(),::background(),::background())
 {
     int a=(ix1+ix2)/2;
     int b=char_height('X');
@@ -221,7 +221,7 @@ void left_right_button::_replot()
 }
 
 steering_wheel::steering_wheel( int ix1,int iy1,int ix2,int iy2,
-							   wb_dynarray<rectangle_source_base*>&  idat)://Pamiec zadnej z seri nie jest tu zarzadzana										
+                               wb_dynarray<rectangle_source_base*>&  idat)://Pamiec zadnej z seri nie jest tu zarzadzana
     empty_area(ix1,iy1,ix2,iy2,::background(),::background(),::background())
 {
     size_t size=idat.get_size();
@@ -254,7 +254,7 @@ steering_wheel::steering_wheel(
                     wb_ptr<drawable_base>     i_left, //zarządzana.
                     wb_ptr<drawable_base>     i_down, //Wspolrzedne obszaru steeering wheel sa
                     wb_ptr<drawable_base>    i_right  //ustalane z wspolrzednych jego skladowych.
-					):			//Tlo jest takie jakie dla calego okna!
+                    ):			//Tlo jest takie jakie dla calego okna!
         empty_area(0,0,0,0,::background(),::background(),::background()),
         resizing(_), left(i_left), right(i_right), up(i_up), down(i_down)
 {
@@ -276,8 +276,8 @@ steering_wheel::steering_wheel(
                     wb_ptr<drawable_base> i_up,   // z a w s z e
                     wb_ptr<drawable_base> i_left, //zarządzana.
                     wb_ptr<drawable_base> i_down, //Wspolrzedne obszaru steeering wheel sa
-					wb_ptr<drawable_base> i_right //ustalane z wspolrzednych jego skladowych.
-					):			//Tlo jest takie jakie dla calego okna!
+                    wb_ptr<drawable_base> i_right //ustalane z wspolrzednych jego skladowych.
+                    ):			//Tlo jest takie jakie dla calego okna!
         empty_area(0,0,0,0,::background(),::background(),::background()),
         resizing(i_res), left(i_left), right(i_right), up(i_up), down(i_down)
 {
@@ -304,40 +304,40 @@ steering_wheel::steering_wheel(
 int left_right_button::on_change(const gps_area& new_ar)
 //Musi przesunac wspolrzedne skladowych razem ze swoimi.
 {
-	float trans[6];
-	get_transform_to(new_ar,trans);
-	gps_area check(*this);
-	check.transform(trans);
-	if(!(check==new_ar))
-	{
-	//fprintf(stderr,"left_right_button warning:rescaling will loss precission.\n");
-	}
-	
-	left->transform(trans);
-	right->transform(trans);
+    float trans[6];
+    get_transform_to(new_ar,trans);
+    gps_area check(*this);
+    check.transform(trans);
+    if(!(check==new_ar))
+    {
+    //fprintf(stderr,"left_right_button warning:rescaling will loss precission.\n");
+    }
 
-	return 1;
+    left->transform(trans);
+    right->transform(trans);
+
+    return 1;
 }
 
 int steering_wheel::on_change(const gps_area& new_ar)
 {
-	float trans[6];
-	get_transform_to(new_ar,trans);
+    float trans[6];
+    get_transform_to(new_ar,trans);
 
-	gps_area check(*this);
-	check.transform(trans);
-	if(!(check==new_ar))
-	{
-		//fprintf(stderr,"Steering_wheel warning:rescaling will loss precission.\n");
-	}
+    gps_area check(*this);
+    check.transform(trans);
+    if(!(check==new_ar))
+    {
+        //fprintf(stderr,"Steering_wheel warning:rescaling will loss precission.\n");
+    }
 
-	resizing->transform(trans);
-	up->transform(trans);
-	left->transform(trans);
-	down->transform(trans);
-	right->transform(trans);
+    resizing->transform(trans);
+    up->transform(trans);
+    left->transform(trans);
+    down->transform(trans);
+    right->transform(trans);
 
-	return 1;
+    return 1;
 }
 
 void steering_wheel::_replot()
@@ -353,128 +353,128 @@ void steering_wheel::_replot()
 int left_right_button::_user_action(int left_or_right, int /*ingnoruje click*/)
 /*Jeśli lewo to -1, a jesli prawo to 1*/
 {
-	return 2; //Obsłuzone, choć nie zrobione
+    return 2; //Obsłuzone, choć nie zrobione
 }
 
 
 int left_right_button::on_click(int x, int y, int click)
-		//Przepytuje skladowe i jesli ktoras zostala trafiona to ... 
+        //Przepytuje skladowe i jesli ktoras zostala trafiona to ...
 {
-	if(!is_inside(x,y))//sprawdzenie dla calosci
-		return 0;  //"Nie moja sprawa!"
-	
-	int retval=0;
+    if(!is_inside(x,y))//sprawdzenie dla calosci
+        return 0;  //"Nie moja sprawa!"
 
-	if(left->on_click(x,y,click))
-	{	
-	  retval=_user_action(-1,click);
-	}
-	else
-	if(right->on_click(x,y,click))
-	{
+    int retval=0;
+
+    if(left->on_click(x,y,click))
+    {
+      retval=_user_action(-1,click);
+    }
+    else
+    if(right->on_click(x,y,click))
+    {
       retval=_user_action(1,click);
-	}
-	else
-	{
-		//Gdzieś w tytuł lub tło
-		//replot();
-		retval=1;
-	}
-	
-	if(retval!=1)
-	{
-		delay_ms(128);
-		set_char('\r');//Wymuszenie replotu w następnym nawrocie pętli czytającej
-	}
+    }
+    else
+    {
+        //Gdzieś w tytuł lub tło
+        //replot();
+        retval=1;
+    }
 
-	return retval;
+    if(retval!=1)
+    {
+        delay_ms(128);
+        set_char('\r');//Wymuszenie replotu w następnym nawrocie pętli czytającej
+    }
+
+    return retval;
 }
 
 int steering_wheel::on_click(int x,int y,int click)
-		//Przepytuje skladowe i jesli ktoras zostala trafiona to 
-		//adekwatnie zmienia serie za pomoca metody sub()
-		//oraz wymusza odnowienie ekranu
+        //Przepytuje skladowe i jesli ktoras zostala trafiona to
+        //adekwatnie zmienia serie za pomoca metody sub()
+        //oraz wymusza odnowienie ekranu
 {
     if(!is_inside(x,y)) //sprawdzenie dla calosci
-		return 0;  //"Nie moja sprawa!"
+        return 0;  //"Nie moja sprawa!"
 
-	int dim=0;	
-	int Mnoznik=1;
+    int dim=0;
+    int Mnoznik=1;
     geometry::view_info subtab; //Struktura na informacje o "kamerze":.
-	geometry::MD_info	md;
-	geometry_base* geom= data[0]->get_geometry();
+    geometry::MD_info	md;
+    geometry_base* geom= data[0]->get_geometry();
 
     if(geom==nullptr) goto ERROR;
-	dim=geom->get_dimension();
-	if(dim<2) goto ERROR;
+    dim=geom->get_dimension();
+    if(dim<2) goto ERROR;
     if(geom->get_view_info(&subtab)==nullptr)
-							goto ERROR;//Wypelnianie struktury informacja o "kamerze"	
+                            goto ERROR;//Wypelnianie struktury informacja o "kamerze"
     if(geom->get_info(&md)==nullptr)
-							goto ERROR;//Wypelnianie struktury informacja
-	if(subtab.dia.X()>20*subtab.sst.X() &&
+                            goto ERROR;//Wypelnianie struktury informacja
+    if(subtab.dia.X()>20*subtab.sst.X() &&
                 subtab.dia.Y()>20*subtab.sst.Y() )
-					Mnoznik=10;
-	if(up->on_click(x,y,click)==1)
-	{
-		subtab.pos.Y()-=subtab.sst.Y()*Mnoznik;
-	}
-	else if(down->on_click(x,y,click)==1)
-	{
-		subtab.pos.Y()+=subtab.sst.Y()*Mnoznik;
-	}
-	else if(left->on_click(x,y,click)==1)
-	{
-		subtab.pos.X()-=subtab.sst.X()*Mnoznik;
-	}
-	else if(right->on_click(x,y,click)==1)
-	{
-		subtab.pos.X()+=subtab.sst.X()*Mnoznik;
-	}
-	else if(resizing->on_click(x,y,click)==1)
-	{	
-		if(click==1)
-			{
-				//Przy malych zakresach co 1, przy dużych dwukrotnie
-				if(subtab.dia.X()<10*subtab.sst.X()
-					&& subtab.dia.Y()<10*subtab.sst.Y() )
-					{
-					subtab.dia.X()-=subtab.sst.X();
-					subtab.dia.Y()-=subtab.sst.Y();
-					}
-				else
-					{
-					subtab.dia.X()/=2;
-					subtab.dia.Y()/=2;
-					}
-			}
-		else if(click==2)
-			{
-			if(subtab.dia.X()<15*subtab.sst.X()
-				&& subtab.dia.Y()<15*subtab.sst.Y() )
-				{			
-				subtab.dia.X()+=subtab.sst.X();
-				subtab.dia.Y()+=subtab.sst.Y();
-				}
-			else
-				{			
-				subtab.dia.X()*=2;
-				if(subtab.dia.X()*2>md.max.X()-md.min.X())
-						subtab.dia.X()=(md.max.X()-md.min.X())/2;
-				subtab.dia.Y()*=2;
-				if(subtab.dia.Y()*2>md.max.Y()-md.min.Y())
-						subtab.dia.Y()=(md.max.Y()-md.min.Y())/2;
-				}
-			}
-	/*
-		else
-		{
+                    Mnoznik=10;
+    if(up->on_click(x,y,click)==1)
+    {
+        subtab.pos.Y()-=subtab.sst.Y()*Mnoznik;
+    }
+    else if(down->on_click(x,y,click)==1)
+    {
+        subtab.pos.Y()+=subtab.sst.Y()*Mnoznik;
+    }
+    else if(left->on_click(x,y,click)==1)
+    {
+        subtab.pos.X()-=subtab.sst.X()*Mnoznik;
+    }
+    else if(right->on_click(x,y,click)==1)
+    {
+        subtab.pos.X()+=subtab.sst.X()*Mnoznik;
+    }
+    else if(resizing->on_click(x,y,click)==1)
+    {
+        if(click==1)
+            {
+                //Przy malych zakresach co 1, przy dużych dwukrotnie
+                if(subtab.dia.X()<10*subtab.sst.X()
+                    && subtab.dia.Y()<10*subtab.sst.Y() )
+                    {
+                    subtab.dia.X()-=subtab.sst.X();
+                    subtab.dia.Y()-=subtab.sst.Y();
+                    }
+                else
+                    {
+                    subtab.dia.X()/=2;
+                    subtab.dia.Y()/=2;
+                    }
+            }
+        else if(click==2)
+            {
+            if(subtab.dia.X()<15*subtab.sst.X()
+                && subtab.dia.Y()<15*subtab.sst.Y() )
+                {
+                subtab.dia.X()+=subtab.sst.X();
+                subtab.dia.Y()+=subtab.sst.Y();
+                }
+            else
+                {
+                subtab.dia.X()*=2;
+                if(subtab.dia.X()*2>md.max.X()-md.min.X())
+                        subtab.dia.X()=(md.max.X()-md.min.X())/2;
+                subtab.dia.Y()*=2;
+                if(subtab.dia.Y()*2>md.max.Y()-md.min.Y())
+                        subtab.dia.Y()=(md.max.Y()-md.min.Y())/2;
+                }
+            }
+    /*
+        else
+        {
             subtab.dispose(); //Need be nullptr for reseting
-		}
-	*/	
-	}
-	else //Zaden z podobiektów
-	return is_inside(x,y);//Wychodzi sie.
-		
+        }
+    */
+    }
+    else //Zaden z podobiektów
+    return is_inside(x,y);//Wychodzi sie.
+
     //Ustawia tak samo pozostalym zarzadzanym seriom
     size_t i;
     for(i=1;i<data.get_size();i++)
@@ -512,24 +512,24 @@ int text_area::on_click(int x,int y,int click)
 {
 int ins=is_inside(x,y);
 if(ins==1)
-	{
-	ins=_on_click(x,y,click);//Moze zmienic wynik
-	}
+    {
+    ins=_on_click(x,y,click);//Moze zmienic wynik
+    }
 return ins;
 }
 */
 
 text_area::text_area(int ix1,int iy1,int ix2,int iy2,
-			const char* i_text,		//TEXT inicjujacy
-			unsigned i_color,//=default_black,
-			unsigned i_background,//=default_white,
-			unsigned i_frame,//=128,
-			size_t   buff_size//=-1	//Inicjalny rozmiar bufora.
-			):
-			drawable_base(ix1, iy1, ix2, iy2, i_background, i_frame),
-			curr_col(i_color),
-			user_size(buff_size),
-			index(0)
+            const char* i_text,		//TEXT inicjujacy
+            unsigned i_color,//=default_black,
+            unsigned i_background,//=default_white,
+            unsigned i_frame,//=128,
+            size_t   buff_size//=-1	//Inicjalny rozmiar bufora.
+            ):
+            drawable_base(ix1, iy1, ix2, iy2, i_background, i_frame),
+            curr_col(i_color),
+            user_size(buff_size),
+            index(0)
 {
     if(user_size!=size_t(-1)) //Tylko jak `user_size` już ustalony
         linie.alloc(user_size);

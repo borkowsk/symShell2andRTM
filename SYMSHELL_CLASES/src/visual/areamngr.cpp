@@ -1,7 +1,7 @@
 /// @file
 /// @brief Implementation of the base area manager/
 ///        Implementacja bazowego zarządcy obszarów.
-/// @date 2026-05-11 (modified)
+/// @date 2026-05-13 (modified)
 //---------------------------------------------------------------------------
 //  Wersja z kosmetyką XI 2012
 //*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -16,7 +16,7 @@ area_manager::~area_manager()  //Wirtualny destruktor
 }
 
 area_manager::area_manager(size_t size, //Konstruktor dający zarządcę o określonym rozmiarze listy
-				int ix1, int iy1, int ix2, int iy2,
+                int ix1, int iy1, int ix2, int iy2,
                            unsigned ibkg,
                            unsigned ifrm):
         area_manager_base(ix1, iy1, ix2, iy2, ibkg, ifrm),
@@ -24,61 +24,61 @@ area_manager::area_manager(size_t size, //Konstruktor dający zarządcę o okre�
         tab(size)
 {
 }
-	
+
 //	AKCESORY OGOLNE:
 //------------------
 
  size_t area_manager::get_size()
 //Podaje po prostu aktualny rozmiar listy lacznie z pozycjami pustymi
  {
-	return tab.get_size();
+    return tab.get_size();
  }
  
  int    area_manager::insert(wb_ptr<drawable_base> drw)
 //Dodaje obszar do listy. Zwraca pozycje albo -1(blad)
  {  
-	size_t len=tab.get_size();
-	for(size_t i=0;i<len;i++)
-		if(!tab[i].ptr)			
-			return replace(i,drw);
-	return -1;
+    size_t len=tab.get_size();
+    for(size_t i=0;i<len;i++)
+        if(!tab[i].ptr)
+            return replace(i,drw);
+    return -1;
  }
 
  int    area_manager::replace(const char* nam, wb_ptr<drawable_base> drw)
 //Wymienia na liscie. Jak nie znajdzie to zwraca -1.
  {
-	int pos=search(nam);
-	if(pos!=-1)
-		return replace(pos,drw);
-	return -1;//nie znalazl pozycji
+    int pos=search(nam);
+    if(pos!=-1)
+        return replace(pos,drw);
+    return -1;//nie znalazl pozycji
  }
 
  int    area_manager::replace(size_t    index, wb_ptr<drawable_base> drw)
 //Wymienia na liscie. Jak bledne parametry to zwraca -1.
  {
-	if(index>=tab.get_size()) return -1;//bledny parametr
-	
-	tab[index].ptr=drw;//Jesli byl to wb_ptr zwalnia
-	if(tab[index].ptr)
-	{
-		tab[index].orig_pos.load(*tab[index].ptr);
-		tab[index].saved.load(*tab[index].ptr);
-	}
-	else //De facto kasowanie
-	{
-		if(index==maximized)
-			maximized=-1;//Nie ma juz zmaksymalizowanego
-	}
+    if(index>=tab.get_size()) return -1;//bledny parametr
 
-	return index;
+    tab[index].ptr=drw;//Jesli byl to wb_ptr zwalnia
+    if(tab[index].ptr)
+    {
+        tab[index].orig_pos.load(*tab[index].ptr);
+        tab[index].saved.load(*tab[index].ptr);
+    }
+    else //De facto kasowanie
+    {
+        if(index==maximized)
+            maximized=-1;//Nie ma juz zmaksymalizowanego
+    }
+
+    return index;
  }
 
  int area_manager::as_original(size_t    index)
  {
  if(index>=tab.get_size()) return -1; //bledny parametr
-	
+
  if(tab[index].ptr)
-		tab[index].orig_pos.load(*tab[index].ptr);
+        tab[index].orig_pos.load(*tab[index].ptr);
 
  return 0;
  }
@@ -86,11 +86,11 @@ area_manager::area_manager(size_t size, //Konstruktor dający zarządcę o okre�
  int    area_manager::search(const char* nam)
 //Odnajduje na liscie. Zwraca -----//----	
  {
-	for(size_t i=0;i<tab.get_size();i++)
-		if(tab[i].ptr && 
-			strcmp(nam,tab[i].ptr->name())==0)
-				return i;
-	return -1;//nie znalazl
+    for(size_t i=0;i<tab.get_size();i++)
+        if(tab[i].ptr &&
+            strcmp(nam,tab[i].ptr->name())==0)
+                return i;
+    return -1;//nie znalazl
  }
 
 
@@ -100,18 +100,18 @@ area_manager::area_manager(size_t size, //Konstruktor dający zarządcę o okre�
  drawable_base /*const*/* area_manager::get_ptr(size_t index)
 //Bez mozliwosci modyfikacji i zwolnienia
  {
-	if( index>=0 && index<tab.get_size() )
-		return tab[index].ptr.get_ptr_val();
-		else
-		return NULL;
+    if( index>=0 && index<tab.get_size() )
+        return tab[index].ptr.get_ptr_val();
+        else
+        return NULL;
  }
 
  wb_ptr<drawable_base>&  area_manager::get(size_t index)
 //Mozliwosci modyfikacji, ale trzeba pamietac
 //ze pewne informacje sa zapisywane w zarzadcy w zwiazku z pozycja
  {	
-	assert(index>=0 && index<tab.get_size());
-	return tab[index].ptr;
+    assert(index>=0 && index<tab.get_size());
+    return tab[index].ptr;
  }
 
 //	REAKCJE NA ZDAZENIA
@@ -121,63 +121,63 @@ area_manager::area_manager(size_t size, //Konstruktor dający zarządcę o okre�
 //Przepytuje obszary z reakcji na punkt.
 //Jesli on_click() zwraca 1 to mozna sie dowiedziec, kt�ry obszar wywo�ujac:
  {
-	 if(tab.get_size()==0) return -1;
-	 if(maximized!=-1 && tab[maximized].ptr )//Jesli jest zmaksymalizowany to nie szukaj dalej
-			{
-			assert(maximized>=0 && maximized<int(tab.get_size()));
-			int on_click_ret=tab[maximized].ptr->on_click(x,y,click);
-			assert( on_click_ret>=0 && on_click_ret<=2 );
-			if(on_click_ret==1)
-					lazy=maximized;//jaki index
-			return  on_click_ret;  //Czy obsluzone.
-			}
-	
-	for(int i=tab.get_size()-1;i>=0;i--)
-		if( tab[i].ptr && !tab[i].minimized )
-			{
-			int on_click_ret=tab[i].ptr->on_click(x,y,click);	assert( on_click_ret>=0 && on_click_ret<=2 );
-			if(on_click_ret==0)
-				continue; //Szukaj dalej
-            lazy=i;		  //jaki index
-			if(on_click_ret==2)	
-				return 2; //Jest w obszarze i obsluzono
-			//lazy=i;		  //jaki index
-			return 1;     //Znaleziono ale nie obsluzono
-			}
-	
-	if(this->on_margin_click(x,y,click))
-				return 2; //W tym obszarze ale na niezajetych marginesach
+     if(tab.get_size()==0) return -1;
+     if(maximized!=-1 && tab[maximized].ptr )//Jesli jest zmaksymalizowany to nie szukaj dalej
+            {
+            assert(maximized>=0 && maximized<int(tab.get_size()));
+            int on_click_ret=tab[maximized].ptr->on_click(x,y,click);
+            assert( on_click_ret>=0 && on_click_ret<=2 );
+            if(on_click_ret==1)
+                    lazy=maximized;//jaki index
+            return  on_click_ret;  //Czy obsluzone.
+            }
 
-	return 0;//Nikt w tym obszarze
+    for(int i=tab.get_size()-1;i>=0;i--)
+        if( tab[i].ptr && !tab[i].minimized )
+            {
+            int on_click_ret=tab[i].ptr->on_click(x,y,click);	assert( on_click_ret>=0 && on_click_ret<=2 );
+            if(on_click_ret==0)
+                continue; //Szukaj dalej
+            lazy=i;		  //jaki index
+            if(on_click_ret==2)
+                return 2; //Jest w obszarze i obsluzono
+            //lazy=i;		  //jaki index
+            return 1;     //Znaleziono ale nie obsluzono
+            }
+
+    if(this->on_margin_click(x,y,click))
+                return 2; //W tym obszarze ale na niezajetych marginesach
+
+    return 0;//Nikt w tym obszarze
  }
 
  int    area_manager::get_last_lazy_area()
 //zwroci -1 jesli juz raz wziete, lub inny blad
  {
-	int pom=lazy;
-	lazy=-1;
-	return pom;
+    int pom=lazy;
+    lazy=-1;
+    return pom;
  }
 
  int    area_manager::on_input(int input_char)
 //Przepytuje obszary czy chca znak
  {
-	 if(tab.get_size()==0) return -1;
-	 int on_input_ret=-1;
-	 
-	 //Jesli jest glowny odbiorca to idzie tylko do niego
-	 if(grabbed!=-1 && tab[grabbed].ptr  && !tab[grabbed].minimized)
-			if((on_input_ret=tab[grabbed].ptr->on_input(input_char))==1)
-				return 1;
-										assert(on_input_ret!=1);
-	 //Jesli nie ma glownego to odbieraja wszyscy
-	 for(int i=tab.get_size()-1;i>=0;i--)
-		if( tab[i].ptr  && !tab[i].minimized)			
+     if(tab.get_size()==0) return -1;
+     int on_input_ret=-1;
+
+     //Jesli jest glowny odbiorca to idzie tylko do niego
+     if(grabbed!=-1 && tab[grabbed].ptr  && !tab[grabbed].minimized)
+            if((on_input_ret=tab[grabbed].ptr->on_input(input_char))==1)
+                return 1;
+                                        assert(on_input_ret!=1);
+     //Jesli nie ma glownego to odbieraja wszyscy
+     for(int i=tab.get_size()-1;i>=0;i--)
+        if( tab[i].ptr  && !tab[i].minimized)
         {
             on_input_ret=tab[i].ptr->on_input(input_char);
         }
 
-	 return 1;//Obsluzone
+     return 1;//Obsluzone
  }
 
  
@@ -185,37 +185,37 @@ area_manager::area_manager(size_t size, //Konstruktor dający zarządcę o okre�
  void   area_manager::replot(const gps_area& ar)
 //Odrysowuje obszary "nadepniete" przez "ar"
  {
-	 if(maximized!=-1)
-	 {
-         assert(maximized>=0 && maximized<int(tab.get_size()));
-		 tab[maximized].ptr->replot(0);
-	 }
-	 else
+     if(maximized!=-1)
      {
-	 size_t N=tab.get_size();
-	 for(size_t i=0;i<N;i++)
-		if( tab[i].ptr && !tab[i].minimized)
-			 if(tab[i].ptr->is_overlapped(ar) )
-					tab[i].ptr->replot(0);
-	 }
+         assert(maximized>=0 && maximized<int(tab.get_size()));
+         tab[maximized].ptr->replot(0);
+     }
+     else
+     {
+     size_t N=tab.get_size();
+     for(size_t i=0;i<N;i++)
+        if( tab[i].ptr && !tab[i].minimized)
+             if(tab[i].ptr->is_overlapped(ar) )
+                    tab[i].ptr->replot(0);
+     }
 
-	flush();
+    flush();
  }
 
  /// Odrysowuje wszystkie (widoczne) obszary
  void   area_manager::_replot()
  {
    if(maximized!=-1)
-	 {
+     {
          assert(maximized>=0 && maximized<int(tab.get_size()));
          tab[maximized].ptr->replot(0);
-	 }
-	 else
+     }
+     else
          {
-	 for(size_t i=0;i<tab.get_size();i++)
-		if( tab[i].ptr && !tab[i].minimized)
-				tab[i].ptr->replot(0);
-	 }
+     for(size_t i=0;i<tab.get_size();i++)
+        if( tab[i].ptr && !tab[i].minimized)
+                tab[i].ptr->replot(0);
+     }
 
      flush_plot();
  }
@@ -228,12 +228,12 @@ area_manager::area_manager(size_t size, //Konstruktor dający zarządcę o okre�
  int    area_manager::mark(size_t index, wb_color frame)
  //Zaznacza obszar
  {
-	if( index>=0 && index<tab.get_size() && !tab[index].minimized)
+    if( index>=0 && index<tab.get_size() && !tab[index].minimized)
     {
-		tab[index].mark=1;
-		tab[index].org_frame= tab[index].ptr->set_frame(frame);
-		tab[index].ptr->replot();
-		return 0;
+        tab[index].mark=1;
+        tab[index].org_frame= tab[index].ptr->set_frame(frame);
+        tab[index].ptr->replot();
+        return 0;
     }
 
     return -1;
@@ -242,13 +242,13 @@ area_manager::area_manager(size_t size, //Konstruktor dający zarządcę o okre�
  int    area_manager::mark_all(wb_color frame)
  //Zaznacza wszystkie widoczne obszary 
  {
-	 if(maximized!=-1)
-	 {
+     if(maximized!=-1)
+     {
      assert(maximized>=0 && maximized<int(tab.get_size()));
-	 mark(maximized,frame);
-	 return 0;
-	 }
-	 else
+     mark(maximized,frame);
+     return 0;
+     }
+     else
      {
      for(size_t i=0;i<tab.get_size();i++)
         if( tab[i].ptr && !tab[i].minimized)
