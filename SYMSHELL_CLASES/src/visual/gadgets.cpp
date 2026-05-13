@@ -10,27 +10,35 @@
 #include "drawable.hpp"
 #include "gadgets.hpp"
 #include "textarea.hpp"
+#include "toitoutoll.hpp"
 
 using namespace symshell2;
 
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "modernize-use-auto"
+#pragma ide diagnostic ignored "modernize-use-nullptr"
+#pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
+// --checks=-google-default-arguments.
+#pragma ide diagnostic ignored "google-default-arguments"
+
 //void rect(int x1,int y1,int x2,int y2,unsigned int frame_c);
 
-template<class T>
-static inline void swap(T& a,T& b)
-{
-    T c=a;a=b;b=c;
-}
+//template<class T>
+//static inline void swap(T& a,T& b)
+//{
+//    T c=a;a=b;b=c;
+//}
 
 int gadget::on_click(int x,int y,int click)
-//Jesli klik "inside" to rysuje w inwersji, ale zwraca wynik funkcji `is_inside`.
+//Jeśli klik "inside" to rysuje w inwersji, ale zwraca wynik funkcji `is_inside`.
 {
     int ins=is_inside(x,y);
     if(ins==1)
         {
-        draw_color= set_background(draw_color);//Na draw_color stara wartosc background
+        draw_color= set_background(draw_color); //Na draw_color stara wartosc background
         replot();
-        draw_color= set_background(draw_color);//i z powrotem
-        ins=_on_click(x,y,click); //Moze zmienic wynik
+        draw_color= set_background(draw_color); //i z powrotem
+        ins=_on_click(x,y,click); //Może zmienic wynik
         }
     return ins;
 }
@@ -40,7 +48,7 @@ void empty_area::_replot()
 {
     int x1= get_start_x();
     int y1= get_start_y();
-    int x2= x1 + get_width() - 1;//-1 bo width obejmuje pierwszy pixel
+    int x2= x1 + get_width() - 1; //-1, bo width obejmuje pierwszy piksel
     int y2= y1 + get_height() - 1;
     line(x1,y1,x2,y2,draw_color);
     line(x1,y2,x2,y1,draw_color);
@@ -50,7 +58,7 @@ void button::_replot()
 {
     int x1= get_start_x();
     int y1= get_start_y();
-    int x2= x1 + get_width() - 1;//-1 bo width obejmuje pierwszy pixel
+    int x2= x1 + get_width() - 1; //-1, bo width obejmuje pierwszy piksel
     int y2= y1 + get_height() - 1;
     int xr=x2-3;
     int yr=y2-3;
@@ -63,26 +71,26 @@ void button::_replot()
         y2=yr;
         }
 
-    const char* text=name();//Podreczny wskazniczek
+    const char* text=name(); //Podręczny wskaźniczek.
     if(vh_mode == 0) //Vertical mode
         {
-        if(x2-x1<char_width('X')) return;//Za malo miejsca
-        int height=char_height('X');
+        if(x2-x1<char_width('X')) return; //Za malo miejsca
+        int height=toi(char_height('X'));
         while(*text!='\0' && (y2-y1)>=height)
             {
             printc(x1, y1, draw_color, get_background(), "%c", *text);
             y1+=height;
             text++;
             }
-        return;//Wykonane
+        return; //Wykonane
         }
     if(vh_mode == 1)
         {
-        int height=string_height(text);
-        if(y2-y1<height) return;//Za malo miejsca
-        int ystart=(y1+y2)/2-height/2;//Srodek
-        if(ystart<y1) ystart=y1;//jak wylezie za wysoko
-        print_width(x1, ystart,x2-x1, draw_color, get_background(), text);//samo rysowanie
+        int height=toi(string_height(text));
+        if(y2-y1<height) return; //Za malo miejsca
+        int y_start= (y1 + y2) / 2 - height / 2; //Środek
+        if(y_start < y1) y_start=y1; //jak wylezie za wysoko
+        print_width(x1, y_start, x2 - x1, draw_color, get_background(), text); //samo rysowanie
         return;
         }
 }
@@ -92,21 +100,21 @@ void arrow_button::_replot()
 {
     int x1= get_start_x();
     int y1= get_start_y();
-    int x2= x1 + get_width() - 1;//-1 bo width obejmuje pierwszy pixel
+    int x2= x1 + get_width() - 1; //-1, bo width obejmuje pierwszy piksel
     int y2= y1 + get_height() - 1;
     int r1=x2-x1;
     int r2=y2-y1;
     wb_color bck= this->get_background();
     if(bck==0)
-      bck=256;//W palecie 512
+      bck=256; //W palecie 512
     if(draw_color==0)
       draw_color=256;
     if(bck==255)
-      bck=511;//W palecie 512
+      bck=511; //W palecie 512
     if(draw_color==255)
       draw_color=511;
-    int	  ow=line_width(mode==0?2:0);		    /* Ustala szerokosc lini - moze byc kosztowne. Zwraca stan poprzedni */
-    int	  os=line_style(SSH_LINE_SOLID); /* Ustala styl rysowania lini: SSH_LINE_SOLID, SSH_LINE_DOTTED, SSH_LINE_DASHED */
+    int	  ow=toi(line_width(mode==0?2:0));				/* Ustala szerokosc linii — może być kosztowne. Zwraca stan poprzedni */
+    int	  os=line_style(SSH_LINE_SOLID); /* Ustala styl rysowania linii: SSH_LINE_SOLID, SSH_LINE_DOTTED, SSH_LINE_DASHED */
     switch(mode){
     /*
         //int ow=line_width(2);
@@ -144,54 +152,54 @@ void arrow_button::_replot()
         if(r1>r2) r1=r2;
         //circle((x1+x2)/2,(y1+y2)/2,r1/2,draw_color);
         //circle((x1+x2)/2,(y1+y2)/2,r1/4,draw_color);
-        for(int y=(y1+y2)/2,i=1,end=unsigned(r1*0.2);i<=end;i++)
+        for(int /*y=(y1+y2)/2,*/i=1,end=toi(r1*0.2);i<=end;i++)
         {
-            wb_color curcol=(bck<draw_color?int(draw_color-(double(i)/end)*255):int(draw_color+(double(i)/end)*255));
-            circle((x1+x2)/2,(y1+y2)/2,r1/2-i,curcol);
+            wb_color cur_col=(bck < draw_color?int(draw_color - (double(i) / end) * 255):int(draw_color + (double(i) / end) * 255));
+            circle((x1+x2)/2,(y1+y2)/2,r1/2-i, cur_col);
         }
         break;
         case 1 :// print up arrow
         line((x1+x2)/2,y2-2,(x1+x2)/2,y1,draw_color);
-        for(int y=(y1+y2)/2,i=1,end=unsigned(r1*0.4);i<=end;i++)
+        for(int /*y=(y1+y2)/2,*/i=1,end=toi(r1*0.4);i<=end;i++)
         {
-            wb_color curcol=(bck<draw_color?int(draw_color-(double(i)/end)*255):int(draw_color+(double(i)/end)*255));
-            line((x1+x2)/2,y1,(x1+x2)/2-i,y2-r2/2,curcol);
-            line((x1+x2)/2,y1,(x1+x2)/2+i,y2-r2/2,curcol);
-            line((x1+x2)/2-i/2,y2-2,(x1+x2)/2-i/2,y1+r2/2,curcol);
-            line((x1+x2)/2+i/2,y2-2,(x1+x2)/2+i/2,y1+r2/2,curcol);
+            wb_color cur_col=(bck < draw_color?int(draw_color - (double(i) / end) * 255):int(draw_color + (double(i) / end) * 255));
+            line((x1+x2)/2, y1,(x1+x2)/2-i,y2-r2/2, cur_col);
+            line((x1+x2)/2, y1,(x1+x2)/2+i,y2-r2/2, cur_col);
+            line((x1+x2)/2-i/2,y2-2,(x1+x2)/2-i/2,y1+r2/2, cur_col);
+            line((x1+x2)/2+i/2,y2-2,(x1+x2)/2+i/2,y1+r2/2, cur_col);
         }
         break;
         case 2 :// print left arrow
         line(x1,(y1+y2)/2,x2-2,(y1+y2)/2,draw_color);
-        for(int y=(y1+y2)/2,i=1,end=unsigned(r2*0.45);i<=end;i++)
+        for(int y=(y1+y2)/2,i=1,end=toi(r2*0.45);i<=end;i++)
         {
-            wb_color curcol=(bck<draw_color?int(draw_color-(double(i)/end)*255):int(draw_color+(double(i)/end)*255));
-            line(x1,y,x2-r1/2,y-i,curcol);
-            line(x1,y,x2-r1/2,y+i,curcol);
-            line(x2-r1/2,y-i/2,x2-2,y-i/2,curcol);
-            line(x2-r1/2,y+i/2,x2-2,y+i/2,curcol);
+            wb_color cur_col=(bck < draw_color?int(draw_color - (double(i) / end) * 255):int(draw_color + (double(i) / end) * 255));
+            line(x1, y,x2-r1/2,y-i, cur_col);
+            line(x1, y,x2-r1/2,y+i, cur_col);
+            line(x2-r1/2,y-i/2,x2-2,y-i/2, cur_col);
+            line(x2-r1/2,y+i/2,x2-2,y+i/2, cur_col);
         }
         break;
         case 3 :// print down arrow
         line((x1+x2)/2,y2,(x1+x2)/2,y1+2,draw_color);
-        for(int y=(y1+y2)/2,i=1,end=unsigned(r1*0.4);i<=end;i++)
+        for(int y=(y1+y2)/2,i=1,end=toi(r1*0.4);i<=end;i++)
         {
-            wb_color curcol=(bck<draw_color?int(draw_color-(double(i)/end)*255):int(draw_color+(double(i)/end)*255));
-            line((x1+x2)/2,y2,(x1+x2)/2-i,y1+r2/2,curcol);
-            line((x1+x2)/2,y2,(x1+x2)/2+i,y1+r2/2,curcol);
-            line((x1+x2)/2-i/2,y2-r2/2,(x1+x2)/2-i/2,y1+2,curcol);
-            line((x1+x2)/2+i/2,y2-r2/2,(x1+x2)/2+i/2,y1+2,curcol);
+            wb_color cur_col=(bck < draw_color?int(draw_color - (double(i) / end) * 255):int(draw_color + (double(i) / end) * 255));
+            line((x1+x2)/2, y2,(x1+x2)/2-i,y1+r2/2, cur_col);
+            line((x1+x2)/2, y2,(x1+x2)/2+i,y1+r2/2, cur_col);
+            line((x1+x2)/2-i/2,y2-r2/2,(x1+x2)/2-i/2,y1+2, cur_col);
+            line((x1+x2)/2+i/2,y2-r2/2,(x1+x2)/2+i/2,y1+2, cur_col);
         }
         break;
         case 4 ://print right arrow
         line(x1+2,(y1+y2)/2,x2,(y1+y2)/2,draw_color);
-        for(int y=(y1+y2)/2,i=1,end=unsigned(r2*0.45);i<=end;i++)
+        for(int y=(y1+y2)/2,i=1,end=toi(r2*0.45);i<=end;i++)
         {
-            wb_color curcol=(bck<draw_color?int(draw_color-(double(i)/end)*255):int(draw_color+(double(i)/end)*255));
-            line(x2,y,x2-r1/2,y-i,curcol);
-            line(x2,y,x2-r1/2,y+i,curcol);
-            line(x1+2,y-i/2,x2-r1/2,y-i/2,curcol);
-            line(x1+2,y+i/2,x2-r1/2,y+i/2,curcol);
+            wb_color cur_col=(bck < draw_color?int(draw_color - (double(i) / end) * 255):int(draw_color + (double(i) / end) * 255));
+            line(x2, y,x2-r1/2,y-i, cur_col);
+            line(x2, y,x2-r1/2,y+i, cur_col);
+            line(x1+2,y-i/2,x2-r1/2,y-i/2, cur_col);
+            line(x1+2,y+i/2,x2-r1/2,y+i/2, cur_col);
         }
         break;
         default:
@@ -215,13 +223,13 @@ left_right_button::left_right_button(int ix1, int iy1, int ix2, int iy2):
 void left_right_button::_replot()
 //Odrysowuje skladowe
 {
-    //	empty_area::_replot();//Niepotrzebne - tylko przekreslenie
+    //	empty_area::_replot(); //Niepotrzebne - tylko przekreslenie
     left->replot(0);
     right->replot(0);
 }
 
 steering_wheel::steering_wheel( int ix1,int iy1,int ix2,int iy2,
-                               wb_dynarray<rectangle_source_base*>&  idat)://Pamiec zadnej z seri nie jest tu zarzadzana
+                               wb_dynarray<rectangle_source_base*>&  idat)://Pamięć zadnej z seri nie jest tu zarzadzana
     empty_area(ix1,iy1,ix2,iy2,::background(),::background(),::background())
 {
     size_t size=idat.get_size();
@@ -248,15 +256,15 @@ steering_wheel::steering_wheel( int ix1,int iy1,int ix2,int iy2,
 
 
 steering_wheel::steering_wheel( 
-                    rectangle_source_base*     i_dat, //Pamiec seri nigdy nie jest tu zarzadzana
-                    wb_ptr<drawable_base>      _, //Pamiec dla pod-obszarow jest
+                    rectangle_source_base*     i_dat, //Pamięć seri nigdy nie jest tu zarzadzana
+                    wb_ptr<drawable_base>      i_res, //Pamięć dla pod-obszarow jest
                     wb_ptr<drawable_base>       i_up, // z a w s z e
                     wb_ptr<drawable_base>     i_left, //zarządzana.
                     wb_ptr<drawable_base>     i_down, //Wspolrzedne obszaru steeering wheel sa
                     wb_ptr<drawable_base>    i_right  //ustalane z wspolrzednych jego skladowych.
                     ):			//Tlo jest takie jakie dla calego okna!
         empty_area(0,0,0,0,::background(),::background(),::background()),
-        resizing(_), left(i_left), right(i_right), up(i_up), down(i_down)
+        resizing(i_res), left(i_left), right(i_right), up(i_up), down(i_down)
 {
     data.alloc(1);                                 assert(data.IsOK() );
     data[0]=i_dat;
@@ -272,7 +280,7 @@ steering_wheel::steering_wheel(
 
 steering_wheel::steering_wheel(
                     wb_dynarray<rectangle_source_base*>&  i_dat, //Passert(data.IsOK()	);amiec zadnej z seri nie jest tu zarzadzana
-                    wb_ptr<drawable_base> i_res,  //Pamiec dla pod-obszarow jest
+                    wb_ptr<drawable_base> i_res,  //Pamięć dla pod-obszarow jest
                     wb_ptr<drawable_base> i_up,   // z a w s z e
                     wb_ptr<drawable_base> i_left, //zarządzana.
                     wb_ptr<drawable_base> i_down, //Wspolrzedne obszaru steeering wheel sa
@@ -298,7 +306,7 @@ steering_wheel::steering_wheel(
 }
 
 //steering_wheel( int ix1,int iy1,int ix2,int iy2,
-//					rectangle_source_base*  idat);//Pamiec zadnej z seri nie jest tu zarzadzana										
+//					rectangle_source_base*  idat);//Pamięć zadnej z seri nie jest tu zarzadzana
 
 
 int left_right_button::on_change(const gps_area& new_ar)
@@ -351,16 +359,16 @@ void steering_wheel::_replot()
 }
 
 int left_right_button::_user_action(int left_or_right, int /*ingnoruje click*/)
-/*Jeśli lewo to -1, a jesli prawo to 1*/
+/*Jeśli lewo to -1, a jeśli prawo to 1*/
 {
     return 2; //Obsłuzone, choć nie zrobione
 }
 
 
 int left_right_button::on_click(int x, int y, int click)
-        //Przepytuje skladowe i jesli ktoras zostala trafiona to ...
+        //Przepytuje skladowe i jeśli ktoras zostala trafiona to ...
 {
-    if(!is_inside(x,y))//sprawdzenie dla calosci
+    if(!is_inside(x,y))//sprawdzenie dla całości
         return 0;  //"Nie moja sprawa!"
 
     int retval=0;
@@ -391,11 +399,11 @@ int left_right_button::on_click(int x, int y, int click)
 }
 
 int steering_wheel::on_click(int x,int y,int click)
-        //Przepytuje skladowe i jesli ktoras zostala trafiona to
+        //Przepytuje skladowe i jeśli ktoras zostala trafiona to
         //adekwatnie zmienia serie za pomoca metody sub()
         //oraz wymusza odnowienie ekranu
 {
-    if(!is_inside(x,y)) //sprawdzenie dla calosci
+    if(!is_inside(x,y)) //sprawdzenie dla całości
         return 0;  //"Nie moja sprawa!"
 
     int dim=0;
@@ -473,7 +481,7 @@ int steering_wheel::on_click(int x,int y,int click)
     */
     }
     else //Zaden z podobiektów
-    return is_inside(x,y);//Wychodzi sie.
+    return is_inside(x,y);//Wychodzi się.
 
     //Ustawia tak samo pozostalym zarzadzanym seriom
     size_t i;
@@ -492,28 +500,28 @@ int steering_wheel::on_click(int x,int y,int click)
     //I ustawia seri podstawowej
     geom->set_view_info(&subtab);
 
-    set_char('\r');//Informacja ze trzeba odrysowac - prowizoryczna!!!
+    set_char('\r');//Informacja ze trzeba odrysowac — prowizoryczna!!!
     return 2;
 
-ERROR://Nie zaimplemtowano koniecznej operacja lub inny blad
+ERROR://Nie zaimplemtowano koniecznej operacja lub inny błąd
     {
-    int bf= get_frame(); //Użyte jako tymczas
+    wb_color bf= get_frame(); //Użyte jako tymczas
         set_frame(254); //Jasny ale nie bialy
     replot();
         set_frame(bf);
     }
 
-    return 0; //NIe przyznaje sie do punktu
+    return 0; //NIe przyznaje się do punktu
 }
 
 /*
 int text_area::on_click(int x,int y,int click)
-//Jesli "inside" to rysuje w inwersji, ale zwraca 1.
+//Jeśli "inside" to rysuje w inwersji, ale zwraca 1.
 {
 int ins=is_inside(x,y);
 if(ins==1)
     {
-    ins=_on_click(x,y,click);//Moze zmienic wynik
+    ins=_on_click(x,y,click);//Może zmienic wynik
     }
 return ins;
 }
@@ -521,9 +529,9 @@ return ins;
 
 text_area::text_area(int ix1,int iy1,int ix2,int iy2,
             const char* i_text,		//TEXT inicjujacy
-            unsigned i_color,//=default_black,
-            unsigned i_background,//=default_white,
-            unsigned i_frame,//=128,
+            unsigned i_color,	//=default_black,
+            unsigned i_background,	//=default_white,
+            unsigned i_frame,	//=128,
             size_t   buff_size//=-1	//Inicjalny rozmiar bufora.
             ):
             drawable_base(ix1, iy1, ix2, iy2, i_background, i_frame),
@@ -541,16 +549,16 @@ void text_area::_replot()
 {
     int x1= get_start_x();
     int y1= get_start_y();
-    int x2= x1 + get_width() - 1; //-1 bo width obejmuje pierwszy pixel
+    int x2= x1 + get_width() - 1; //-1 bo width obejmuje pierwszy piksel
     int y2= y1 + get_height() - 1;
     int r1=x2-x1;
     int r2=y2-y1;
-    int start=y1+index*char_height('X');
+    int start=toi(y1+index*char_height('X'));
     if(start>y2)
             start=y2;
-    for(int i=index-1;i>=0;i--)
+    for(int i=toi(index)-1;i>=0;i--)
         {
-        start-=char_height('X');
+        start-=toi(char_height('X'));
         if(start>=y1)
             print_width(x1, start,x2-x1, curr_col, get_background(), linie[i].get_ptr_val());
         }
@@ -559,12 +567,12 @@ void text_area::_replot()
 void text_area::clean()
 {
     linie.dispose();//Usuwa stare
-    index=0;		//Umozliwia alokowanie lini od poczatku
+    index=0;		//Umożliwia alokowanie linii od początku.
     if(user_size!=size_t(-1))//Tylko gdy user_size ustalone
         linie.alloc(user_size);// Alokuje nowe
 }
 
-int text_area::add_line(const char* ini)//ret 1 jesli OK
+int text_area::add_line(const char* ini) //ret 1 jeśli OK
 {
     wb_dynarray<char> Ini;
     if(ini==nullptr)
@@ -578,7 +586,7 @@ int text_area::add_line(const char* ini)//ret 1 jesli OK
     if(index<linie.get_size())
         //Jest jeszcze miejsce. Czyli tablica niezerowego rozmiar
         {
-        linie[index]=Ini;//Jesli przepisze to nie zwolni
+        linie[index]=Ini;//Jeśli przepisze to nie zwolni
         index++;
         }
         else
@@ -593,15 +601,15 @@ int text_area::add_line(const char* ini)//ret 1 jesli OK
                 len);
             }
         size_t outsize;
-        linie[index-1].give_dynamic_ptr_val(outsize);//Zabiera mu z zarzadu
-        linie[index-1]=Ini;//Jesli przepisze to nie zwolni
+        linie[index-1].give_dynamic_ptr_val(outsize); //Zabiera mu z zarządu
+        linie[index-1]=Ini;//Jeśli przepisze to nie zwolni
         }
 
     return 1;
 }
 
 
-int text_area::add_text(const char* ini)//ret 1 jesli OK
+int text_area::add_text(const char* ini) //ret 1, jeśli OK
 {
     wb_dynarray<char> Ini;
     char* pom=nullptr;
@@ -609,11 +617,10 @@ int text_area::add_text(const char* ini)//ret 1 jesli OK
     if(ini!=nullptr && (pom=clone_str(ini))==nullptr)
         return 0;
 
-    //Bradziej elegancki uchwyt do kopi lancucha zrodlowego
-    //usuwanej w momencie wyjscia z metody.
+    //Bardziej elegancki uchwyt kopi łańcucha źródłowego usuwanej w momencie wyjścia z metody.
     Ini.set_dynamic_ptr_val(pom,strlen(pom)+1);
 
-    if(linie.get_size()==0)//Trzeba zaalokowac
+    if(linie.get_size()==0) //Trzeba zaalokować
         {
         size_t licznik=0;
         char* iter=pom;
@@ -622,21 +629,21 @@ int text_area::add_text(const char* ini)//ret 1 jesli OK
             if(*iter=='\n') licznik++;
             iter++;
             }
-        linie.alloc(licznik+1);//Jesli nie ma koncow linii to i tak jest jedna
+        linie.alloc(licznik+1); //Jeśli nie ma końców linii to i tak jest jedna
         //cerr<<"lini: "<<licznik<<"in text:"<<endl<<ini<<endl;
         }
 
     char* iter=pom;
-    bool flaga=0;//Czy koniec petli
+    bool flaga=0;//Czy koniec pętli
     do{
       if(	*iter=='\n'
          || (flaga=(*iter=='\0'))
          )
             {
-            *iter='\0';//Koniec poprzedniej lini
+            *iter='\0'; //Koniec poprzedniej linii
             if(add_line(pom)!=1)
                 return 0;
-            pom=iter+1;//Poczatek nastepnej lini
+            pom=iter+1; //Początek następnej linii
             }
         iter++;
        }while(!flaga);
@@ -644,6 +651,7 @@ int text_area::add_text(const char* ini)//ret 1 jesli OK
     return 1;
 }
 
+#pragma clang diagnostic pop
 /* ****************************************************************** */
 /*               SYMSHELL2  version 2006/2022/2026                    */
 /* ****************************************************************** */

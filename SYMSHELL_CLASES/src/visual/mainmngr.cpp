@@ -33,9 +33,9 @@ T c=a;a=b;b=c;
 ssh_menu_item_definition* TopPopup=context_menu_default; //Próba wymuszenia linkowania modułu z biblioteki klas.
 
 int		main_area_manager::initialized=0;
-int		main_area_manager::counter=0;//Licznik obiektow tego typu. Ma byc 1
-int		main_area_manager::idle_must_work;//Flaga wywolywania on_idle
-wb_color main_area_manager::Marker=0;//Kolor do znakowania przez usera
+int		main_area_manager::counter=0; //Licznik obiektow tego typu. Ma być 1
+int		main_area_manager::idle_must_work; //Flaga wywolywania on_idle
+wb_color main_area_manager::Marker=0; //Kolor do znakowania przez usera
 wb_pchar main_area_manager::def_dump_name("dump" );
 wb_pchar main_area_manager::old_win_title;
 
@@ -52,7 +52,7 @@ if(name!=nullptr)
         def_dump_name=clone_str(name);
 }
 
-//extern "C" int  dump_screen(const char* Filename);//Z symshell'a
+//extern "C" int  dump_screen(const char* Filename); //Z symshell'a
 
 void main_area_manager::dump_screen()
 {
@@ -60,7 +60,7 @@ void main_area_manager::dump_screen()
         return;
 
     wb_pchar buf;
-    buf.alloc(strlen(def_dump_name.get_ptr_val())+20+1);//Numer raczej nie wiecej niz 10 cyfr :)
+    buf.alloc(strlen(def_dump_name.get_ptr_val())+20+1); //Numer raczej nie wiecej niz 10 cyfr :)
 
     //sprintf(buf.get_ptr_val(),"%s_%0*d", def_dump_name, screen_number_precision, screen_number);
     buf.prn("%s_%0*d", def_dump_name.get_ptr_val(), screen_number_precision, screen_number);
@@ -83,7 +83,7 @@ idle_must_work=1;
 }
 
 int  main_area_manager::set_marker(wb_color new_mark)
-//zwraca 1 jesli OK, lub 0
+//zwraca 1 jeśli OK, lub 0
 {
     if(new_mark >= 0 && new_mark < 255)
         {
@@ -113,7 +113,7 @@ main_area_manager::main_area_manager(size_t size, //Konstruktor dający zarządc
 }
 
 /*
-main_area_manager(size_t size,//Konstruktor z lista czesciowo wypelniona
+main_area_manager(size_t size,	//Konstruktor z lista czesciowo wypelniona
                   int width,int height,
                   //bkg i frm domyslne - mozna zmienic potem
                   drawable_base* //first...nullptr
@@ -124,7 +124,7 @@ main_area_manager(size_t size,//Konstruktor z lista czesciowo wypelniona
 //--------
 
 //Inicjacja trybu graficznego w momencie dogodnym dla projektanta aplikacji
-//Zwraca 1 jesli ok
+//Zwraca 1 jeśli ok
 //Przed pomyslnym wywolaniem start() nie wolno bezpośrednio lub posrednio wywolywac
 //jakichkolwiek funkcji rysujacych po ekranie.
 int main_area_manager::start(const char* win_title, int argc, const char* argv[], int buf)
@@ -156,7 +156,7 @@ int main_area_manager::start(const char* win_title, int argc, const char* argv[]
     //Przygotowany
     initialized=1;
 
-    //Odnalezienie menu "Window" - zeby mozna bylo dodawac elementy
+    //Odnalezienie menu "Window" - zeby mozna było dodawac elementy
     if((mainmenu=ssh_main_menu())!=nullptr)
     {
         unsigned pos=ssh_get_item_position(mainmenu,"Window");
@@ -189,7 +189,7 @@ int main_area_manager::settitle(const char* win_title)
 
 int    main_area_manager::insert(wb_ptr<drawable_base>	drw)
 {
-    const char* pom=drw->name();    assert(pom!=nullptr);//Musi byc tu bo po replace drw jest juz puste!!!
+    const char* pom=drw->name();    assert(pom!=nullptr); //Musi być tu bo po replace drw jest juz puste!!!
     int ret=area_manager::replace(how_many_areas, drw);
     if(ret>-1)
     {
@@ -215,7 +215,7 @@ int     main_area_manager::minimize(size_t index)
 }
 
 int     main_area_manager::restore(size_t  index)
-//Odtwarza poprzednie polozenie i rozmiar obszaru
+//Odtwarza poprzednie położenie i rozmiar obszaru
 {
     if(is_minimized(index) && (sub_menu_handle) )
         ssh_menu_mark_item(sub_menu_handle, 1, SSH_FIRST_FREE_MESSAGE + index);
@@ -223,13 +223,13 @@ int     main_area_manager::restore(size_t  index)
 }
 
 int     main_area_manager::original(const wb_dynarray<int>& lstindex)
-//Odtwarza pierwotne  polozenie i rozmiar obszaru
+//Odtwarza pierwotne  położenie i rozmiar obszaru
 {
     return area_manager::original(lstindex);
 }
 
 int     main_area_manager::original(size_t  index)
-//Odtwarza pierwotne  polozenie i rozmiar obszaru
+//Odtwarza pierwotne  położenie i rozmiar obszaru
 {
     if(is_minimized(index) && (sub_menu_handle) )
         ssh_menu_mark_item(sub_menu_handle, 1, SSH_FIRST_FREE_MESSAGE + index);
@@ -243,7 +243,7 @@ int     main_area_manager::minimize(const wb_dynarray<int>& lstindex)
 }
 
 int     main_area_manager::restore(/*ALL*/)
-//Odtwarza poprzednie polozenie i rozmiar obszaru
+//Odtwarza poprzednie położenie i rozmiar obszaru
 {
     return area_manager::restore();
 }
@@ -284,7 +284,7 @@ void main_area_manager::make_help_area(const char* text)
         while(*pom++){if(*pom=='\n')ile++;}
     }
 
-    ile+=3;//Na tytul i pusta linie i zapas
+    ile+=3; //Na tytuł i pusta linie i zapas
     int maxy= get_height() / 5 + ile * char_height('X');
 
     text_area* pom=new text_area(
@@ -293,7 +293,7 @@ void main_area_manager::make_help_area(const char* text)
             text,
             default_black, default_white, 250);
 
-    if(pom)//Zaalokowane OK
+    if(pom) //Zaalokowane OK
     {
         pom->set_title("HELP");
         int helpind=insert(pom);   //Zabiera zawartość w zarzad!!!
@@ -329,12 +329,12 @@ while((!background_enabled()) || input_ready())
        case 2: //ctrl-b
            if(background_enabled())
            {
-                cout<<"STOPPED."<<char(7)<<endl;//<<flush;
+                cout<<"STOPPED."<<char(7)<<endl; //<<flush;
                 disable_background(); //Blokuje ta procedure w pętli
            }
             else
             {
-                cout<<"CONTINUE."<<char(7)<<endl;//<<flush;
+                cout<<"CONTINUE."<<char(7)<<endl; //<<flush;
                 enable_background(); //Odblokowanie procedury i od razu wyjście
                 return;
             } //Przerywa wewnętrzną pętlę tej funkcji
@@ -437,7 +437,7 @@ while((!background_enabled()) || input_ready())
                               max((ssh_natural)0,::screen_height()-1));
         this->load(new_area);
 
-        //Powinno byc jeszcze przeliczenie aktualnych
+        //Powinno być jeszcze przeliczenie aktualnych
         if((maxim=get_maximized())>=0)
         {
             get(maxim)->load(new_area);
@@ -457,7 +457,7 @@ while((!background_enabled()) || input_ready())
             {
             gps_area are(rx,ry,rx+rw,ry+rh);
 //#ifndef NDEBUG
-            //rect(rx,ry,rx+rw,ry+rh,default_black);//TEST ONLY!!!
+            //rect(rx,ry,rx+rw,ry+rh,default_black); //TEST ONLY!!!
 //#endif
             this->replot( are ); //Tylko cześć wnętrza. Ramki i tytułu i tak nie ma!
             }
@@ -490,7 +490,7 @@ while((!background_enabled()) || input_ready())
 
         case SSH_WINDOWS_TILEMARKEDAREAS:
         case 20: //ctrl-t //tile
-            tile(get_marked(Marker,1));//Z odmarkowywaniem
+            tile(get_marked(Marker,1)); //Z odmarkowywaniem
         break;
 
         case SSH_WINDOWS_TILE_ALL:
@@ -500,7 +500,7 @@ while((!background_enabled()) || input_ready())
 
         case SSH_WINDOWS_UNMARKALLAREAS:
         case 21: //ctrl-u
-            get_marked(Marker,1);//Odznacza wszystkie
+            get_marked(Marker,1); //Odznacza wszystkie
         break;
 
         default:
@@ -549,13 +549,13 @@ void main_area_manager::run_input_loop()
 //ELASTYCZNE UCHWYTY OBSŁUGI
 //---------------------------
 int main_area_manager::_pre_process_input(int input_char)
-//Przed obsluga domyslna. Zwraca 1 jesli obslużyl.
+//Przed obsluga domyslna. Zwraca 1 jeśli obslużyl.
 {
     return 0; //nie obslużyl
 }
 
 int main_area_manager::_post_process_input(int input_char)
-//Po obsludze domyslnej. Zwraca 1 jesli obslużyl.
+//Po obsludze domyslnej. Zwraca 1 jeśli obslużyl.
 {
     return 1; //Uznaj za obsluzone
 }

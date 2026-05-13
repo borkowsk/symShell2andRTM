@@ -1,19 +1,17 @@
+/// @file
+/// @brief ...
+/// @date 2026-05-13 (modified)
+/// @details
+///      Created by borkowsk on 13.05.26.
 //
-// Created by borkowsk on 13.05.26.
-//
+#ifndef SYMSHELL2_TOI_TOU_TOLL_HPP_INCLUDED_
+#define SYMSHELL2_TOI_TOU_TOLL_HPP_INCLUDED_
 
-#ifndef SYMSHELL_EXAMPLES_SUITE_TOITOUTOLL_HPP
-#define SYMSHELL_EXAMPLES_SUITE_TOITOUTOLL_HPP
-
-#include "graphs.hpp"
-#include "sshutils.hpp"
-#include "symshell.h"
-#include "wb_ptr.hpp"
+#include <climits>
 #include <limits>
-#include <iostream>
-#include <cassert>
-#include <cstdio> //sprintf!!!
-#include <cctype>
+
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "modernize-use-auto"
 
 /// Wysycająca konwersja na `int`. @note Nie z `long double`!
 /// @details Używa `long long` jako wspólnej reprezentacji wszystkich liczb całkowitych, co jest kosztowne.
@@ -39,7 +37,7 @@ long tol(const number& v)
 }
 
 /// Specjalizacja: Wysycająca konwersja `unsigned int` na `int`.
-static inline int toi(const unsigned& p)
+inline int toi(const unsigned& p)
 {
     constexpr unsigned high = INT_MAX;
     if(p<high)
@@ -49,7 +47,7 @@ static inline int toi(const unsigned& p)
 }
 
 /// Specjalizacja: Wysycająca konwersja `long` na `int`.
-static inline int toi(const long& p)
+inline int toi(const long& p)
 {
     constexpr long low = numeric_limits<int>::min();
     constexpr long high = numeric_limits<int>::max();
@@ -57,7 +55,7 @@ static inline int toi(const long& p)
 }
 
 /// Specjalizacja: Wysycająca konwersja `unsigned long` na `int`.
-static inline int toi(const unsigned long& p)
+inline int toi(const unsigned long& p)
 {
     constexpr unsigned long high = INT_MAX;
     if(p<high)
@@ -67,7 +65,7 @@ static inline int toi(const unsigned long& p)
 }
 
 /// Specjalizacja: Wysycająca konwersja `double` na `int`.
-static inline int toi(const double& p)
+inline int toi(const double& p)
 {
     // Definiujemy limity dla `int`
     constexpr double low  = INT_MIN;
@@ -76,7 +74,7 @@ static inline int toi(const double& p)
 }
 
 /// Wysycająca konwersja `double` na `int` z własną nazwą.
-static inline int dtoi(const double& p)
+inline int dtoi(const double& p)
 {
     // Definiujemy limity dla `int`
     constexpr double low  = INT_MIN;
@@ -86,7 +84,7 @@ static inline int dtoi(const double& p)
 
 /// Wysycająca konwersja z `double` na `unsigned`.
 /// Metoda bardziej ogólna
-static inline unsigned int dtou(const double& p)
+inline unsigned int dtou(const double& p)
 {
     // Definiujemy limity dla `unsigned int`
     constexpr double low  = 0.0;
@@ -94,13 +92,13 @@ static inline unsigned int dtou(const double& p)
 
     // Nasycenie:
     // 1. Jeśli p < 0, zwróci 0
-    // 2. Jeśli p > 4294967295, zwróci 4294967295long long val=v;
+    // 2. Jeśli p > 4294967295, zwróci 4294967295long long val = v;
     // 3. W przeciwnym razie zwróci obcięte p
     return static_cast<unsigned int>(max(low, min(p, high)));
 }
 
 /// Specjalizacja konwersji wysycającej z `double` na `long`
-long tol(const double& v)
+inline long tol(const double& v)
 {
     constexpr double low = static_cast<double>(numeric_limits<long>::min());
     constexpr double high = static_cast<double>(numeric_limits<long>::max());
@@ -112,10 +110,10 @@ long tol(const double& v)
 }
 
 /// "Bezpieczna" konwersja `double` na `long long`.
-static inline long long dtoll(const double& p)
+inline long long dtoll(const double& p)
 {
-    const double low = static_cast<double>(numeric_limits<long long>::min());
-    const double high = static_cast<double>(numeric_limits<long long>::max());
+    constexpr double low = static_cast<double>(numeric_limits<long long>::min());
+    constexpr double high = static_cast<double>(numeric_limits<long long>::max());
 
     if (p >= high) return numeric_limits<long long>::max();
     if (p <= low) return numeric_limits<long long>::min();
@@ -123,4 +121,16 @@ static inline long long dtoll(const double& p)
     return static_cast<long long>(p);
 }
 
-#endif //SYMSHELL_EXAMPLES_SUITE_TOITOUTOLL_HPP
+#pragma clang diagnostic pop
+/* ****************************************************************** */
+/*               SYMSHELL2  version 2006/2022/2026                    */
+/* ****************************************************************** */
+/*           THIS CODE IS DESIGNED & COPYRIGHT BY:                    */
+/*            W O J C I E C H   B O R K O W S K I                     */
+/*  Zakład Systematyki i Geografii Roślin Uniwersytetu Warszawskiego  */
+/*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego         */
+/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk               */
+/*        MAIL: borkowsk@iss.uw.edu.pl                                */
+/*                               (Don't change or remove this note)   */
+/* ****************************************************************** */
+#endif //SYMSHELL2_TOI_TOU_TOLL_HPP_INCLUDED_

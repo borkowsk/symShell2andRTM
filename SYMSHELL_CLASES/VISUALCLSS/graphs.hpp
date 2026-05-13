@@ -1,6 +1,6 @@
 /// @file
 /// @brief KLASY DEFINIUJĄCE RÓŻNORODNE TYPY WYKRESÓW. / CLASSES DEFINING VARIOUS TYPES OF CHARTS.
-/// @date 2026-05-11 (modified)
+/// @date 2026-05-13 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_GRAPHS_HPP_INCLUDED_
@@ -313,7 +313,7 @@ public:
     /// 1.
     carpet_graph(int x1,int y1,int x2,int y2,				///< Położenie obszaru.
                  unsigned A,unsigned B,						///< A-ile kolumn, B-ile wierszy.
-                 data_source_base* data,int menage=0,		///< Źródło danych o kolorach i czy ma być zwalniane.
+                 data_source_base* data,int i_menage=0,		///< Źródło danych o kolorach i czy ma być zwalniane.
                  bool i_direct_color=false					///< Blokuje skalowanie kolorów.
                                                             ///< Wtedy liczba z danych oznacza indeks koloru.
                 );
@@ -336,7 +336,7 @@ public:
     int configure(const void*) override {return -1;}
 
     /// Tylko jedna seria i tylko `index == 0` jest dozwolony.
-    int set_series(size_t index, data_source_base* data, int menage= 0) override;
+    int set_series(size_t index, data_source_base* i_data, int i_menage= 0) override;
 
     /// Tylko jedna seria i tylko `index == 0` jest dozwolony.
     data_source_base* get_series(size_t index) override;
@@ -496,7 +496,7 @@ public:
     /// @{
     /// Konfiguruje tryb wyświetlania za pomocą struktury typu `bars_graph::config_zero`. @param config to adres struktury.
     int configure(const void* config) override;
-    int set_series(size_t index, data_source_base* data, int menage= 0) override;
+    int set_series(size_t index, data_source_base* i_data, int i_menage= 0) override;
     data_source_base* get_series(size_t index) override;
     int _rescale_data_point(const double reals[2],long in_area[2]) override;
     /// Rysuje właściwy wykres a pod nim ewentualnie legendę.

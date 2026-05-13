@@ -1,7 +1,7 @@
 /// @file
 /// @brief Implementation of graph classes using RGB coloring/
 ///        IMPLEMENTACJA KLAS GRAFÓW UŻYWAJĄCYCH KOLOROWANIA RGB.
-/// @date 2026-05-08 (modification)
+/// @date 2026-05-13 (modification)
 // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include <stdarg.h>
@@ -25,7 +25,7 @@ using namespace symshell2;
 
 static char* trunc(char* bufor,unsigned width)
 {
-    while(size_t(string_width(bufor))>width)//Symshell zle zwraca ??? tzn?
+    while(size_t(string_width(bufor))>width) //Symshell zle zwraca ??? tzn?
     {
         int size=strlen(bufor);
         if(size==1) break;
@@ -38,7 +38,7 @@ static char* trunc(char* bufor,unsigned width)
 
 static inline int toi(const double& p)
 {
-    return int(p);//Maskuje warningi z obcinania
+    return int(p); //Maskuje warningi z obcinania
 }
 
 template<class T>
@@ -78,12 +78,12 @@ true_color_carpet_graph::~true_color_carpet_graph()
 }
 
 //CONSTRUCTOR(S)
-true_color_carpet_graph::true_color_carpet_graph(int ix1,int iy1,int ix2,int iy2,//Polozenie obszaru
+true_color_carpet_graph::true_color_carpet_graph(int ix1,int iy1,int ix2,int iy2,	//Położenie obszaru
                                                  unsigned iA,unsigned iB,			 //A-ile kolumn,B-ile wierszy
                                                  data_source_base* RedData,int menage_r,
                                                  data_source_base* GreenData,int menage_g,
                                                  data_source_base* BlueData,int menage_b
-                                                 )://data-zrodlo danych o kolorach
+                                                 )://data-źródło danych o kolorach
 graph(ix1,iy1,ix2,iy2),
 AA(iA),BB(iB)			
 {
@@ -94,11 +94,11 @@ AA(iA),BB(iB)
     assert(AA>=2 && BB>=2);
 }
 
-true_color_carpet_graph::true_color_carpet_graph(int ix1,int iy1,int ix2,int iy2,//Polozenie obszaru. Serie musza miec taka sama geometrie 2D			
+true_color_carpet_graph::true_color_carpet_graph(int ix1,int iy1,int ix2,int iy2,	//Położenie obszaru. Serie musza miec taka sama geometrie 2D
                                                  data_source_base* RedData,int menage_r,
                                                  data_source_base* GreenData,int menage_g,
                                                  data_source_base* BlueData,int menage_b
-                                                 )://data-zrodlo danych o kolorach
+                                                 )://data-źródło danych o kolorach
 graph(ix1,iy1,ix2,iy2),
 AA(1),BB(1)
 {
@@ -130,7 +130,7 @@ const geometry_base* true_color_carpet_graph::read_dim(size_t& aa,size_t& bb)
         //	A=subtab[1];
         //	B=subtab[3];
         if(!deputy && AA > 1 && BB > 1)
-            deputy=new rectangle_geometry(AA, BB, 0);//Nie torus
+            deputy=new rectangle_geometry(AA, BB, 0); //Nie torus
         else
             return nullptr; //Wadliwe dane
         aa=AA;
@@ -144,14 +144,14 @@ const geometry_base* true_color_carpet_graph::read_dim(size_t& aa,size_t& bb)
         geometry::view_info pom[3];
         MyGeometry[0]->get_view_info(&pom[0]);
 
-        if(MyGeometry[1])//Sprawdzanie czy inne geometrie sa takie same
+        if(MyGeometry[1]) //Sprawdzanie czy inne geometrie sa takie same
         {
             if(MyGeometry[0]->get_dimension()!=MyGeometry[1]->get_dimension())
                 return nullptr;
             MyGeometry[1]->get_view_info(&pom[1]);
             if(pom[0].dia.X()!=pom[1].dia.X() ||
                 pom[0].dia.Y()!=pom[1].dia.Y())
-                return nullptr;//Wadliwe dane
+                return nullptr; //Wadliwe dane
         }
         if(MyGeometry[2])
         {
@@ -160,7 +160,7 @@ const geometry_base* true_color_carpet_graph::read_dim(size_t& aa,size_t& bb)
             MyGeometry[2]->get_view_info(&pom[2]);
             if(pom[0].dia.X()!=pom[2].dia.X() ||
                 pom[0].dia.Y()!=pom[2].dia.Y())
-                return nullptr;//Wadliwe dane
+                return nullptr; //Wadliwe dane
         }
 
         aa=size_t(pom[0].dia.X()*2);
@@ -171,9 +171,9 @@ const geometry_base* true_color_carpet_graph::read_dim(size_t& aa,size_t& bb)
 }
 
 int true_color_carpet_graph::set_series(size_t index, data_source_base* idata, int imenage)
-//zwraca -1 jesli indeks za duży
+//zwraca -1 jeśli indeks za duży
 {
-    if(index>2) return -1;//Tylko jedna seria
+    if(index>2) return -1; //Tylko jedna seria
     assert(idata!=nullptr);
     if(menage[index]) delete data[index];
     data[index]=idata;
@@ -182,28 +182,28 @@ int true_color_carpet_graph::set_series(size_t index, data_source_base* idata, i
 }
 
 data_source_base* true_color_carpet_graph::get_series(size_t index)
-//zwraca nullptr jesli indeks za duży
+//zwraca nullptr jeśli indeks za duży
 {
     if(index>2)
         return nullptr;
     return data[index];
 }
 
-void true_color_carpet_graph::_replot()// Rysuje wlasciwy wykres a pod nim ewentualnie legende
+void true_color_carpet_graph::_replot() // Rysuje wlasciwy wykres a pod nim ewentualnie legende
 {
     int x1= get_start_x();
     int y1= get_start_y();
-    int x2= x1 + get_width() - 1;//-1 bo width obejmuje pierwszy pixel
+    int x2= x1 + get_width() - 1; //-1 bo width obejmuje pierwszy piksel
     int y2= y1 + get_height() - 1;
 
-    assert(x1<=x2);//Czy aby na pewno
-    assert(y1<=y2);//sensowne okno. Moze miec zerowy rozmiar ale nie ujemny
+    assert(x1<=x2); //Czy aby na pewno
+    assert(y1<=y2); //sensowne okno. Może miec zerowy rozmiar ale nie ujemny
 
     double min[3]={0,0,0};
     double max[3]={1,1,1};
     double missing[3];
 
-    size_t A=1,B=1;//Lokalne A i B
+    size_t A=1,B=1; //Lokalne A i B
 
     const geometry_base* MyGeometry=read_dim(A,B);
     {
@@ -222,7 +222,7 @@ void true_color_carpet_graph::_replot()// Rysuje wlasciwy wykres a pod nim ewent
         return;
     }
 
-    //Wartosci zwracane gdy brak danych
+    //Wartości zwracane gdy brak danych
     if(data[0])
         missing[0]=data[0]->get_missing();
     if(data[1])
@@ -230,7 +230,7 @@ void true_color_carpet_graph::_replot()// Rysuje wlasciwy wykres a pod nim ewent
     if(data[2])
         missing[2]=data[2]->get_missing();
 
-    //Do skalowania kolorow
+    //Do skalowania kolorów
     if(data[0])
         mm[0].set(min[0],max[0],c_range.end-c_range.start+0.999);
     if(data[1])
@@ -243,14 +243,14 @@ void true_color_carpet_graph::_replot()// Rysuje wlasciwy wykres a pod nim ewent
        char_height('X') < get_height())
     {
         int x=x1;
-        int y=y2-char_height('X')+1;//+1 bo y2 ma byc zarysowane
+        int y=y2-char_height('X')+1; //+1 bo y2 ma być zarysowane
         int width=0;
         //----------
-        y2=y;//Zabiera dolna czesc na legende
+        y2=y; //Zabiera dolna czesc na legende
         //----------
         if(data[0]!=nullptr)
         {
-            width=print_width(x, y,(x2-x)/3*2, 50, get_background(),//50 to czerwone z palety
+            width=print_width(x, y,(x2-x)/3*2, 50, get_background(),	//50 to czerwone z palety
                 "%s", data[0]->name());
 
             if(width==0) goto KWADRACIKI;
@@ -263,7 +263,7 @@ void true_color_carpet_graph::_replot()// Rysuje wlasciwy wykres a pod nim ewent
             if(width==0) goto KWADRACIKI;
             else	x+=width+1;
 
-            width=print_width(x,y,x2-x,255,//Biale na czerwonym z palety
+            width=print_width(x,y,x2-x,255,	//Biale na czerwonym z palety
                 50,
                 ",%g>",max[0]);
 
@@ -272,7 +272,7 @@ void true_color_carpet_graph::_replot()// Rysuje wlasciwy wykres a pod nim ewent
         }
         if(data[1]!=nullptr)
         {
-            width=print_width(x, y,(x2-x)/3*2, 220, get_background(),//220 to zielone z palety
+            width=print_width(x, y,(x2-x)/3*2, 220, get_background(),	//220 to zielone z palety
                 "%s", data[1]->name());
 
             if(width==0) goto KWADRACIKI;
@@ -285,7 +285,7 @@ void true_color_carpet_graph::_replot()// Rysuje wlasciwy wykres a pod nim ewent
             if(width==0) goto KWADRACIKI;
             else	x+=width+1;
 
-            width=print_width(x,y,x2-x,255,//Biale na zielonym z palety
+            width=print_width(x,y,x2-x,255,	//Biale na zielonym z palety
                 220,
                 ",%g>",max[1]);
 
@@ -294,7 +294,7 @@ void true_color_carpet_graph::_replot()// Rysuje wlasciwy wykres a pod nim ewent
         }
         if(data[2]!=nullptr)
         {
-            width=print_width(x, y,(x2-x)/3*2, 128, get_background(),//128 to niebieski z palety
+            width=print_width(x, y,(x2-x)/3*2, 128, get_background(),	//128 to niebieski z palety
                 "%s", data[2]->name());
 
             if(width==0) goto KWADRACIKI;
@@ -307,7 +307,7 @@ void true_color_carpet_graph::_replot()// Rysuje wlasciwy wykres a pod nim ewent
             if(width==0) goto KWADRACIKI;
             else	x+=width+1;
 
-            width=print_width(x,y,x2-x,255,//Biale na niebieskim z palety
+            width=print_width(x,y,x2-x,255,	//Biale na niebieskim z palety
                 128,
                 ",%g>",max[2]);
 
@@ -326,11 +326,11 @@ KWADRACIKI:
     {
         assert(c_range.end-c_range.start>=1);
         size_t i,j;//Indeksy po wierszach i kolumnach
-        int width=x2-x1+1;//Juz moga byc inne
+        int width=x2-x1+1;//Juz moga być inne
         int height=y2-y1+1;//Niz dla calego obszaru
         int gruboscA=width/A;
         int gruboscB=height/B;
-        //Musi byc kwadratowo bo inaczej jest nieladnie
+        //Musi być kwadratowo bo inaczej jest nieladnie
         if(gruboscA>1 && gruboscB>1)
         {
             if(gruboscA>gruboscB) gruboscA=gruboscB;
@@ -348,7 +348,7 @@ KWADRACIKI:
         data_source_base::iteratorh h=MyGeometry->make_view_iterator();
         wb_color back= get_background();//Dla sprawdzania kiedy kolor kwadratu taki jak kolor tla.
 
-        if(gruboscA==1)//starczy jedna sprawdzic bo kwadrat
+        if(gruboscA==1) //starczy jedna sprawdzic bo kwadrat
         {//Pixelami panowie!!!
             for(j=0;j<B;j++)
                 for(i=0;i<A;i++)
@@ -459,7 +459,7 @@ NIE_DA_SIE:
 
 // reals[] zawiera jedynie wartosc ustalajaca kolor, albo cos spoza zakresu
 int true_color_carpet_graph::_rescale_data_point(const double reals[3],long in_area[3])
-//zwraca -1 jesli nie w oknie
+//zwraca -1 jeśli nie w oknie
 {
     int ile=0;
     if(data[0]!=nullptr && reals[0]<=mm[0].max && reals[0]>=mm[0].min)
@@ -480,7 +480,7 @@ int true_color_carpet_graph::_rescale_data_point(const double reals[3],long in_a
         in_area[2]=color+c_range.start;
         ile++;
     }
-    return (ile==0?-1:0);//Blad jesli nie bylo zadnego lub zadne nie bylo w oknie
+    return (ile==0?-1:0);//Błąd jeśli nie bylo zadnego lub zadne nie bylo w oknie
 }
 
 // true_color_manhattan_graph
@@ -504,9 +504,9 @@ true_color_manhattan_graph::~true_color_manhattan_graph()
 }
 
 //CONSTRUCTOR(S)
-true_color_manhattan_graph::true_color_manhattan_graph(int ix1, int iy1, int ix2, int iy2,//Polozenie obszaru
+true_color_manhattan_graph::true_color_manhattan_graph(int ix1, int iy1, int ix2, int iy2,	//Położenie obszaru
                                                        unsigned iA, unsigned iB,
-                                                       data_source_base* i_datas, int menage_d,//datas-dane o wysokosciach
+                                                       data_source_base* i_datas, int menage_d,	//datas-dane o wysokosciach
                                                        data_source_base* RedData, int menage_r,
                                                        data_source_base* GreenData, int menage_g,
                                                        data_source_base* BlueData, int menage_b,
@@ -529,8 +529,8 @@ true_color_manhattan_graph::true_color_manhattan_graph(int ix1, int iy1, int ix2
     assert(h_offs > 0 && h_offs < 1);
 }
 
-true_color_manhattan_graph::true_color_manhattan_graph(int ix1, int iy1, int ix2, int iy2,//Polozenie obszaru
-                                                       data_source_base* i_datas, int menage_d,//datas-dane o wysokosciach
+true_color_manhattan_graph::true_color_manhattan_graph(int ix1, int iy1, int ix2, int iy2,	//Położenie obszaru
+                                                       data_source_base* i_datas, int menage_d,	//datas-dane o wysokosciach
                                                        data_source_base* RedData, int menage_r,
                                                        data_source_base* GreenData, int menage_g,
                                                        data_source_base* BlueData, int menage_b,
@@ -571,12 +571,12 @@ const geometry_base* true_color_manhattan_graph::read_dim(size_t& aa,size_t& bb)
     }
     else
     {
-        //Sprawdzenie czy serie sie nie zgadzaja - czy maja dokladnie ta sama geometrie
+        //Sprawdzenie czy serie się nie zgadzaja - czy maja dokladnie ta sama geometrie
         if(colors[0]!=nullptr)
         {
             geometry_base* ColGeom= colors[0]->get_geometry();
             if(*MyGeometry!=*ColGeom)
-            {//jesli nie to pozbywany sie skladowej
+            {//jeśli nie to pozbywany się skladowej
                 if(c_menage[0]) delete colors[0];
                 colors[0]=nullptr;
                 c_menage[0]=0;
@@ -586,7 +586,7 @@ const geometry_base* true_color_manhattan_graph::read_dim(size_t& aa,size_t& bb)
         {
             geometry_base* ColGeom= colors[1]->get_geometry();
             if(*MyGeometry!=*ColGeom)
-            {//jesli nie to pozbywany sie skladowej
+            {//jeśli nie to pozbywany się skladowej
                 if(c_menage[1]) delete colors[1];
                 colors[1]=nullptr;
                 c_menage[1]=0;
@@ -596,7 +596,7 @@ const geometry_base* true_color_manhattan_graph::read_dim(size_t& aa,size_t& bb)
         {
             geometry_base* ColGeom= colors[2]->get_geometry();
             if(*MyGeometry!=*ColGeom)
-            {//jesli nie to pozbywany sie skladowej
+            {//jeśli nie to pozbywany się skladowej
                 if(c_menage[2]) delete colors[2];
                 colors[2]=nullptr;
                 c_menage[2]=0;
@@ -634,7 +634,7 @@ int true_color_manhattan_graph::configure(const void* p)
 
 
 int true_color_manhattan_graph::set_series(size_t index, data_source_base* idata, int imenage)
-//zwraca -1 jesli indeks za duży
+//zwraca -1 jeśli indeks za duży
 {
     if(index>4) return -1;//Tylko dwie serie
     assert(idata!=nullptr);
@@ -654,7 +654,7 @@ int true_color_manhattan_graph::set_series(size_t index, data_source_base* idata
 }
 
 data_source_base* true_color_manhattan_graph::get_series(size_t index)
-//zwraca nullptr jesli indeks za duży
+//zwraca nullptr jeśli indeks za duży
 {
     if(index>4)
         return nullptr;
@@ -665,11 +665,11 @@ data_source_base* true_color_manhattan_graph::get_series(size_t index)
 }
 
 
-void true_color_manhattan_graph::_replot()// Rysuje wlasciwy wykres a pod nim ewentualnie legende
+void true_color_manhattan_graph::_replot() // Rysuje wlasciwy wykres a pod nim ewentualnie legende
 {
     int x1= get_start_x();
     int y1= get_start_y();
-    int x2= x1 + get_width() - 1;//-1 bo width obejmuje pierwszy pixel
+    int x2= x1 + get_width() - 1;//-1 bo width obejmuje pierwszy piksel
     int y2= y1 + get_height() - 1;
     double min,max,minc[3],maxc[3];
     double miss,missingc[3];
@@ -681,15 +681,15 @@ void true_color_manhattan_graph::_replot()// Rysuje wlasciwy wykres a pod nim ew
     //Trzeba sprawdzic wymiary obszaru wizulaizacji
     const geometry_base* MyGeometry=read_dim(A,B);
 
-    //Legenda wtedy jesli jest potrzebna
+    //Legenda wtedy jeśli jest potrzebna
     if(t_colors.start != get_background() || (t_colors.end != get_background() && colors))
         height-=2*char_height('0');//bedzie legenda
 
-    //Strzalka jesli jest potrzebna
+    //Strzalka jeśli jest potrzebna
     if(t_colors.start != get_background())
         width-=3;//Na strzalko-ramke
 
-    //Skala jesli jest potrzebna
+    //Skala jeśli jest potrzebna
     if(t_colors.end != get_background() && colors != nullptr)
         width-=5;
 
@@ -699,17 +699,17 @@ void true_color_manhattan_graph::_replot()// Rysuje wlasciwy wykres a pod nim ew
     height=size_t(height*(1 - v_offs));
 
     //Danina na podzielnosc przez A i B
-    if(A<=1 || B<=1)//Nie ma danych
+    if(A<=1 || B<=1) //Nie ma danych
     {
         print_width(x1,(y1+y2)/2,x2-x1, t_colors.start, get_background(), "%@CInvalid data");
         return;
     }
 
     antywidth+=width%A;//Z szerokosci cos wpada do antyszerokosci
-    width-=width%A;//W szerokosci musi sie miescic A kolumn
+    width-=width%A;//W szerokosci musi się miescic A kolumn
 
-    //juz wiadomo,jesli sie nie zmiesci
-    if(width==0 || antywidth/B*B==0)//W antyszserokosci musi bys conajmniej po 1 pixel na wiersz
+    //juz wiadomo,jeśli się nie zmiesci
+    if(width==0 || antywidth/B*B==0) //W antyszserokosci musi bys conajmniej po 1 piksel na wiersz
     {
         print_width(x1,(y1+y2)/2,x2-x1, t_colors.start, get_background(), "%@CTo small area for %ux%u graph", A, B);
         return;
@@ -726,7 +726,7 @@ void true_color_manhattan_graph::_replot()// Rysuje wlasciwy wykres a pod nim ew
         if(min>0) min=0;// Slupki conajmniej od zera
     s_data.set(min,max,height+0.999);
 
-    //Do skalowania kolorow, jesli jest seria
+    //Do skalowania kolorów, jeśli jest seria
     if(colors[0]!=nullptr)
     {
         size_t num_color;
@@ -763,7 +763,7 @@ void true_color_manhattan_graph::_replot()// Rysuje wlasciwy wykres a pod nim ew
     {int width,x=(x2-x1)/4,y=y2-char_height('0');
     if(colors[0]!=nullptr)
     {
-        width=print_width(x, y,(x2-x)/3*2, 50, get_background(),//50 to czerwone z palety
+        width=print_width(x, y,(x2-x)/3*2, 50, get_background(),	//50 to czerwone z palety
             "%s", colors[0]->name());
 
         if(width==0) goto RYSOWANIE;
@@ -776,7 +776,7 @@ void true_color_manhattan_graph::_replot()// Rysuje wlasciwy wykres a pod nim ew
         if(width==0) goto RYSOWANIE;
         else	x+=width+1;
 
-        width=print_width(x,y,x2-x,255,//Biale na czerwonym z palety
+        width=print_width(x,y,x2-x,255,	//Biale na czerwonym z palety
             50,
             ",%g>",maxc[0]);
 
@@ -785,7 +785,7 @@ void true_color_manhattan_graph::_replot()// Rysuje wlasciwy wykres a pod nim ew
     }
     if(colors[1]!=nullptr)
     {
-        width=print_width(x, y,(x2-x)/3*2, 220, get_background(),//220 to zielone z palety
+        width=print_width(x, y,(x2-x)/3*2, 220, get_background(),	//220 to zielone z palety
             "%s", colors[1]->name());
 
         if(width==0) goto RYSOWANIE;
@@ -798,7 +798,7 @@ void true_color_manhattan_graph::_replot()// Rysuje wlasciwy wykres a pod nim ew
         if(width==0) goto RYSOWANIE;
         else	x+=width+1;
 
-        width=print_width(x,y,x2-x,255,//Biale na zielonym z palety
+        width=print_width(x,y,x2-x,255,	//Biale na zielonym z palety
             220,
             ",%g>",maxc[1]);
 
@@ -807,7 +807,7 @@ void true_color_manhattan_graph::_replot()// Rysuje wlasciwy wykres a pod nim ew
     }
     if(colors[2]!=nullptr)
     {
-        width=print_width(x, y,(x2-x)/3*2, 128, get_background(),//128 to niebieski z palety
+        width=print_width(x, y,(x2-x)/3*2, 128, get_background(),	//128 to niebieski z palety
             "%s", colors[2]->name());
 
         if(width==0) goto RYSOWANIE;
@@ -820,7 +820,7 @@ void true_color_manhattan_graph::_replot()// Rysuje wlasciwy wykres a pod nim ew
         if(width==0) goto RYSOWANIE;
         else	x+=width+1;
 
-        width=print_width(x,y,x2-x,255,//Biale na niebieskim z palety
+        width=print_width(x,y,x2-x,255,	//Biale na niebieskim z palety
             128,
             ",%g>",maxc[2]);
 
@@ -853,7 +853,7 @@ RYSOWANIE:
     int zero=y2;
     if(min<0 && max>0)
     {
-        zero=int(y2-s_data.get(0));//Ma sie miescic - patrz warunek
+        zero=int(y2-s_data.get(0));//Ma się miescic - patrz warunek
         //fill_rect(x1,zero,x2+1,zero+1,t_colors.start);
     }
 
@@ -869,8 +869,8 @@ RYSOWANIE:
 
         data_source_base::iteratorh h=MyGeometry->make_view_iterator();
 
-        for(unsigned Bpos=0;Bpos<B;Bpos++)//W ktorym wierszu
-            for(unsigned Apos=0;Apos<A;Apos++)//W ktorej kolumnie
+        for(unsigned Bpos=0;Bpos<B;Bpos++) //W ktorym wierszu
+            for(unsigned Apos=0;Apos<A;Apos++) //W ktorej kolumnie
             {
                 double test;
                 int X,Y,Y2;		  //Robocze pozycje
@@ -879,26 +879,26 @@ RYSOWANIE:
                 size_t Gind=MyGeometry->get_next(h);//czyta index
                 r[0]=test=datas->get(Gind);//i czyta wartosc
 
-                if(test==miss)//Jesli missing
+                if(test==miss) //Jeśli missing
                     continue; //Nie rysuj
 
                 if(colors[0]!=nullptr)
                 {
                     r[1]=test=colors[0]->get(Gind);
                     if(test==missingc[1])
-                        goto NIE_DA_SIE;//Awaria - missingi muza sie pokrywac
+                        goto NIE_DA_SIE;//Awaria - missingi muza się pokrywac
                 }
                 if(colors[1]!=nullptr)
                 {
                     r[2]=test=colors[1]->get(Gind);
                     if(test==missingc[1])
-                        goto NIE_DA_SIE;//Awaria - missingi muza sie pokrywac
+                        goto NIE_DA_SIE;//Awaria - missingi muza się pokrywac
                 }
                 if(colors[2]!=nullptr)
                 {
                     r[3]=test=colors[2]->get(Gind);
                     if(test==missingc[2])
-                        goto NIE_DA_SIE;//Awaria - missingi muza sie pokrywac
+                        goto NIE_DA_SIE;//Awaria - missingi muza się pokrywac
                 }
 
                 _rescale_data_point(r,a);
@@ -929,7 +929,7 @@ NIE_DA_SIE:
 
 // reals[] zawiera  wysokosc slupka i wartosc ustalajaca kolor, albo -1
 int true_color_manhattan_graph::_rescale_data_point(const double reals[],long in_area[])
-//zwraca -1 jesli nie w oknie
+//zwraca -1 jeśli nie w oknie
 {
     int flaga=0;
 

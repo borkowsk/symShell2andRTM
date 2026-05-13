@@ -1,6 +1,6 @@
 /// @file
 /// @brief KLASY ZARZĄDCÓW OBSZARÓW EKRANU
-/// @date 2026-05-11 (modified)
+/// @date 2026-05-13 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_AREA_MNGR_HPP_INCLUDED_
@@ -222,13 +222,13 @@ namespace symshell2
             gps_area         orig_pos; //!< Parametry obszaru przy wstawieniu.
             gps_area            saved; //!< Parametry w wersji średniowymiarowej.
             wb_color        org_frame; //!< Oryginalny kolor ramki, gdy markowany.
-            int      mark: 1; //!< Flaga zamarkowania obszaru.
-            int minimized: 1; //!< Flaga zminimalizowania obszaru.
-            int   locking;    //!< Nie wolno usunąć poza destruktorem zarządcy.
+            bool       mark: 1; //!< Flaga zamarkowania obszaru.
+            bool  minimized: 1; //!< Flaga zminimalizowania obszaru.
+            bool    locking;    //!< Nie wolno usunąć poza destruktorem zarządcy.
 
             /// Konstruktor.
             internal()
-            : org_frame(default_color), mark(0), minimized(0),locking(0)
+            : org_frame(default_color), mark(false), minimized(false),locking(false)
             {}
         };
 
@@ -245,12 +245,12 @@ namespace symshell2
         /// \param size to właśnie rozmiar listy.
         /// \param ix1, iy1 to lewy górny róg obszaru.
         /// \param ix2, iy2 to prawy dolny róg obszaru.
-        /// \param ibkg to kolor tła, który może być domyślny, czyli przezroczysty.
-        /// \param ifr to kolor ramki, który może być domyślny, co oznacza brak widocznej ramki.
+        /// \param i_bkg to kolor tła, który może być domyślny, czyli przezroczysty.
+        /// \param i_frm to kolor ramki, który może być domyślny, co oznacza brak widocznej ramki.
         area_manager(size_t size,
                      int ix1, int iy1, int ix2, int iy2,
-                     unsigned ibkg = default_color,
-                     unsigned ifr = default_color);
+                     unsigned i_bkg = default_color,
+                     unsigned i_frm = default_color);
 
         /// Wirtualny destruktor.
         ~area_manager() override;
