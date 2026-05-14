@@ -1,6 +1,6 @@
 /// @file
-/// @brief Stary filtr liczący liczebność klas serii i pochodne statystyki.
-/// @date 2026-05-07 (modified)
+/// @brief Stary filtr liczący liczebność klas serii i pochodne statystyki. NIE DA SIĘ OBECNIE SKOMPILOWAĆ.
+/// @date 2026-05-14 (modified)
 // ********************************************************************************************************************
 //
 #ifndef __OLD_HISTOGRAM_SOUR_HPP__
