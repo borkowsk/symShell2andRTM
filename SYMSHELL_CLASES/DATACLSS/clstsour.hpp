@@ -36,7 +36,7 @@ protected:
             double suma = 0;
 
             //Alokujemy iterator
-            data_source_base::iteratorh Glob = MyGeom->make_global_iterator();
+            data_source_base::iterator_h Glob = MyGeom->make_global_iterator();
 
             //Idziemy po agentach iteratorem.
             while(Glob)
@@ -48,7 +48,7 @@ protected:
                     continue;                    // bo wtedy robić dalej byłoby bez sensu.
 
                 // Alokujemy iterator sąsiedztwa
-                data_source_base::iteratorh Neigh = MyGeom->make_neighbour_iterator(index, 1);
+                data_source_base::iterator_h Neigh = MyGeom->make_neighbour_iterator(index, 1);
                 unsigned zliczanie = 0; //Zliczanie sąsiadów
                 unsigned tacysami = 0; //Zliczanie takich samych sąsiadów
                 unsigned inni = 0; //Zliczanie innych samych sąsiadów

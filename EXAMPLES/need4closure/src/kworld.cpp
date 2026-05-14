@@ -1,7 +1,7 @@
 /// @file
 /// @brief IMPLEMENTATION OF THE "KWORLD" (old example for SymShell implementing Kruglansky like model)
 // /////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @date 2026-05-07 (modified)
+/// @date 2026-05-14 (modified)
 
 #include <cstring>
 #include <cmath>
@@ -152,7 +152,7 @@ void kworld::simulate_one_step()
     if(Synchronic) //Gdy synchronicznie to inna pętla niż przy monte-carlo.
     {//Idziemy po agentach pełnym iterator-em a stan agentów zmieniamy dopiero potem
         
-        iteratorh Iglobal=MyGeom->make_global_iterator(); //Alokujemy iterator po wszystkich agentach
+        iterator_h Iglobal=MyGeom->make_global_iterator(); //Alokujemy iterator po wszystkich agentach
         while(Iglobal)
         {
             size_t index=MyGeom->get_next(Iglobal); //Uzyskujemy index  agenta	
@@ -192,7 +192,7 @@ void kworld::simulate_one_step()
     }
     else
     {
-        iteratorh Monte=MyGeom->make_random_global_iterator(-1);	//Alokujemy iterator Monte-Carlo dla wszystkich (-1)
+        iterator_h Monte=MyGeom->make_random_global_iterator(-1);	//Alokujemy iterator Monte-Carlo dla wszystkich (-1)
         while(Monte) //Idziemy po agentach iterator-em Monte-Carlo. Niektórzy mogą się powtórzyć.
         {
             size_t index=MyGeom->get_next(Monte); //Uzyskujemy index losowo wybranego agenta	
@@ -239,7 +239,7 @@ int kworld::CheckChange(const rectangle_geometry* MyGeom,
 { 
     int testowanie=0;
     // Alokujemy iterator sąsiedztwa o boku 2*NeedForClosure, zawierający "IleSasiad" losowych sąsiadów.
-    iteratorh Neigh=MyGeom->make_random_neighbour_iterator(index,NeedForClosure,IleSasiad);
+    iterator_h Neigh=MyGeom->make_random_neighbour_iterator(index, NeedForClosure, IleSasiad);
     
     while(Neigh)
     {

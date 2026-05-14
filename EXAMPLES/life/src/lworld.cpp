@@ -456,7 +456,7 @@ void lifeworld::simulate_one_step()
     if(Synchronic)
     {
         //Idziemy po agentach pełnym iteratorem, a stan agentów zmieniamy dopiero potem.
-        iteratorh IGlob=MyGeom->make_global_iterator();
+        iterator_h IGlob=MyGeom->make_global_iterator();
         while(IGlob)
         {   //Uzyskujemy index  agenta
             size_t index=MyGeom->get_next(IGlob);    assert(index!=MyGeom->FULL); //Tutaj nie powinno się zdarzyć
@@ -487,7 +487,7 @@ void lifeworld::simulate_one_step()
     }
     else
     {
-        iteratorh Monte=MyGeom->make_random_global_iterator();	//Alokujemy iterator Monte-Carlo
+        iterator_h Monte=MyGeom->make_random_global_iterator();	//Alokujemy iterator Monte-Carlo
 
         while(Monte) //Idziemy po agentach iteratorem Monte-Carlo. Niektórzy mogą się powtórzyć
         {
@@ -526,7 +526,7 @@ int lifeworld::CheckChange(const geometry_base* MyGeom,
     }
 
     // Alokujemy iterator sąsiedztwa
-    ::iteratorh Neigh=nullptr;
+    ::iterator_h Neigh=nullptr;
 
     if(BierzWszystko)
     {

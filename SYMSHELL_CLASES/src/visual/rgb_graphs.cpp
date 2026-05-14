@@ -1,7 +1,7 @@
 /// @file
 /// @brief Implementation of graph classes using RGB coloring/
 ///        IMPLEMENTACJA KLAS GRAFÓW UŻYWAJĄCYCH KOLOROWANIA RGB.
-/// @date 2026-05-13 (modification)
+/// @date 2026-05-14 (modification)
 // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include <cstdio> //sprintf!!!
@@ -332,7 +332,7 @@ KWADRACIKI:
         int offsetB= (height - gristB * toi(B)) / 2;
 
         //Rysowanie
-        data_source_base::iteratorh h=MyGeometry->make_view_iterator();
+        data_source_base::iterator_h h=MyGeometry->make_view_iterator();
         //wb_color back= get_background(); //Dla sprawdzania, kiedy kolor kwadratu taki jak kolor tla.
 
         if(gristA == 1) //starczy jedna sprawdzić, bo kwadrat
@@ -858,7 +858,7 @@ RYSOWANIE:
                             gristV, wire != get_background()?wire:0, get_background());
         bar3d_config(&conf);
 
-        data_source_base::iteratorh h=MyGeometry->make_view_iterator();
+        data_source_base::iterator_h h=MyGeometry->make_view_iterator();
 
         for(int B_pos=0; B_pos < B; B_pos++) //W którym wierszu
             for(int A_pos=0; A_pos < A; A_pos++) //W której kolumnie

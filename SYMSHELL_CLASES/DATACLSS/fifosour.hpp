@@ -1,6 +1,6 @@
 /// @file
 /// @brief Klasa kolejkująca wartości ze źródła skalarnego.
-/// @date 2026-05-07 (modified)
+/// @date 2026-05-14 (modified)
 // ********************************************************************************************************************
 //
 #ifndef __FIFOSOUR_HPP__
@@ -142,13 +142,13 @@ public:
         max = y_max;
     }
 
-    iteratorh reset() //Rozpoczęcie czytania bufora
+    iterator_h reset() //Rozpoczęcie czytania bufora
     {
         check_version();
         return linear_source_base::reset();
     }
 
-    double get(iteratorh &ptr_to_iterator); //Daje następna z N liczb!!!
+    double get(iterator_h &ptr_to_iterator); //Daje następna z N liczb!!!
 
     double get(size_t index_from_geometry); //Daje konkretna z N liczb
 };
@@ -283,7 +283,7 @@ inline void fifo_source<T>::force_last(double val)
 }
 
 template<class T>
-inline double fifo_source<T>::get(data_source_base::iteratorh &ptr_to_iterator)
+inline double fifo_source<T>::get(data_source_base::iterator_h &ptr_to_iterator)
 //Daje następną z N liczb!!!
 {
     size_t TN = bufor.get_size();

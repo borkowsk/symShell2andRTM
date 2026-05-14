@@ -474,7 +474,7 @@ void aworld::simulate_one_step()
     if(SyncChange)
     {
         //Idziemy po agentach pełnym iterator-em, a stan agentów zmieniamy dopiero potem
-        iteratorh Full=MyGeom->make_global_iterator();
+        iterator_h Full=MyGeom->make_global_iterator();
         while(Full)
         {
             size_t index=MyGeom->get_next(Full); //Uzyskujemy index  agenta
@@ -516,7 +516,7 @@ void aworld::simulate_one_step()
     }
     else
     {
-        iteratorh Monte=MyGeom->make_random_global_iterator();	//Alokujemy iterator Monte-Carlo
+        iterator_h Monte=MyGeom->make_random_global_iterator();	//Alokujemy iterator Monte-Carlo
 
         while(Monte) //Idziemy po agentach iterator-em Monte-Carlo. Niektórzy mogą się powtórzyć
         {
@@ -565,7 +565,7 @@ int aworld::CheckChange(const geometry_base* MyGeom,
     memset(Firsts.get_ptr_val(),0, sizeof(int) * NofCateg);
 
     // Alokujemy iterator sąsiedztwa
-    ::iteratorh Neigh=NULL;
+    ::iterator_h Neigh=NULL;
 
     if(TakeAll)
     {
@@ -576,7 +576,7 @@ int aworld::CheckChange(const geometry_base* MyGeom,
         Neigh=MyGeom->make_random_neighbour_iterator(index, NeighRadius, NofNeigh);
     }
 
-    //`iteratorh Neigh=MyGeom->make_neighbour_iterator(index,NeighRadius);`
+    //`iterator_h Neigh=MyGeom->make_neighbour_iterator(index,NeighRadius);`
     unsigned zliczanie=0; //Zliczanie sasiad�w
 
     while(Neigh)

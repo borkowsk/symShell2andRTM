@@ -47,7 +47,7 @@ protected:
             scalar_source<double>::bounds(N, min, max);
         }
 
-        iteratorh reset()
+        iterator_h reset()
         {
             Father->check_version_(); //Uaktualnia tez wersje podźrodła, jeśli trzeba
             Father->_calculate(); //Sprawdza, czynie trzeba policzyc i ewentualnie liczy
@@ -112,8 +112,8 @@ protected:
         {//LICZENIE PAR i SREDNICH
             double X_s = 0, Y_s = 0, summ1 = 0, summ2 = 0, summ3 = 0;
 
-            iteratorh Ind1 = source1->reset();
-            iteratorh Ind2 = source2->reset();
+            iterator_h Ind1 = source1->reset();
+            iterator_h Ind2 = source2->reset();
             while(Ind1 && Ind2) //Puki oba iteratory
             {
                 double pom1 = source1->get(Ind1);
@@ -290,7 +290,7 @@ public:
         N = 0; //Nie można siegac do tych danych bezpośrednio jako do seri
     }
 
-    iteratorh reset()	//Nie ma możliwości bezpośredniego czytania
+    iterator_h reset()	//Nie ma możliwości bezpośredniego czytania
     {
         check_version_();
         return NULL;

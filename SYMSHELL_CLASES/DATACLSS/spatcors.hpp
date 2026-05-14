@@ -25,14 +25,14 @@ protected:
     wb_dynarray<unsigned> niezgodne;
 
 // Przemieszcza iterator o jednostke. Zeruje, jeśli koniec tablicy
-    size_t _next(data_source_base::iteratorh &p)
+    size_t _next(data_source_base::iterator_h &p)
     {
         assert(p != NULL); //Nie wolno wywołać dla NULL
         size_t pom = ((size_t) p) - 1;
         if(pom + 1 >= N)
             p = NULL;
         else
-            p = (data_source_base::iteratorh) (pom + 2);
+            p = (data_source_base::iterator_h) (pom + 2);
         return pom;
     }
 
@@ -99,7 +99,7 @@ protected:
         }
 
         data_source_base::geometry *MyGeom = this->Source->get_geometry(); //Wskaźnik do geometrii
-        data_source_base::iteratorh RndIter = MyGeom->make_random_global_iterator(HowManyDrawings); //Alokujemy iterator
+        data_source_base::iterator_h RndIter = MyGeom->make_random_global_iterator(HowManyDrawings); //Alokujemy iterator
         while(RndIter)
         {
             size_t index = MyGeom->get_next(RndIter); //Uzyskujemy index agenta
@@ -117,8 +117,8 @@ protected:
             size_t radius = (TheRandG.DRand() > 0.5?size_t(TheRandG.Random(NN))
                                                    :NN);                         //Troche lepiej, ale nie idealnie — ma�o dla odleglosci najwiekszych
 
-            data_source_base::iteratorh Neigh = MyGeom->make_random_neighbour_iterator(index, radius,
-                                                                     1);  //Po ilus (1,2,?) sasiadow każdego wylosowanego
+            data_source_base::iterator_h Neigh = MyGeom->make_random_neighbour_iterator(index, radius,
+                                                                                        1);  //Po ilus (1,2,?) sasiadow każdego wylosowanego
             while(Neigh)
             {
                 size_t index2 = MyGeom->get_next(Neigh);  //Uzyskujemy index sasiada
@@ -281,15 +281,15 @@ public:
         ApproximatedClusterSize();
     }
 
-    data_source_base::iteratorh reset()
+    data_source_base::iterator_h reset()
 //Umozliwia czytanie od poczatku
     {
         this->check_version_(); //Uaktualnia tez wersje podźrodła, jeśli trzeba
         _calculate(); //Sprawdza, czynie trzeba policzyc i ewentualnie liczy
-        return (data_source_base::iteratorh) 1;
+        return (data_source_base::iterator_h) 1;
     }
 
-    void close(data_source_base::iteratorh &p)
+    void close(data_source_base::iterator_h &p)
     {
         p = NULL;
     }
@@ -304,7 +304,7 @@ public:
         max = this->y_max;
     }
 
-    double get(data_source_base::iteratorh &ptr_to_iterator)
+    double get(data_source_base::iterator_h &ptr_to_iterator)
 //Daje następną z N liczb!!!
     {
         assert(ptr_to_iterator != NULL);

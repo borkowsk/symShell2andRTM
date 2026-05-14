@@ -1,7 +1,7 @@
 /// @file
 /// @brief Definitions of basic (interface) data source class /
 ///        Definicje podstawowej klasy źródła danych (interfejsu).
-/// @date 2026-05-07 (modified)
+/// @date 2026-05-14 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_DATA_SOURCE_BASE_HPP_INCLUDED_
@@ -57,11 +57,12 @@ public:
 
     /// @name SKRÓTY NAZW TYPÓW
     /// @{
-    typedef symshell2::iteratorh iteratorh; ///< Skrót dla typu uchwytu iterator-a. TODO inna nazwa?
+    typedef symshell2::iterator_h iterator_h; ///< Skrót dla typu uchwytu iterator-a.
+    typedef iterator_h iteratorh; ///< Kompatybilność wsteczna ze starą formą.
     typedef symshell2::geometry_base geometry_base;
     typedef geometry_base geometry;
     typedef geometry::index_t  index_t;
-    static_assert(sizeof(index_t)==sizeof(iteratorh),"Types `index_t` and `iteratorh` must have the same sizes!");
+    static_assert(sizeof(index_t)==sizeof(iterator_h), "Types `index_t` and `iterator_h` must have the same sizes!");
     /// @}
 
 private:
@@ -150,18 +151,18 @@ public:
     virtual void bounds(size_t &N, double &min, double &max) = 0;
 
     /// @brief WYMAGANA IMPLEMENTACJA dostarcza iterator do odczytywania kolejnych wartości ustawiony na start.
-    /// @return `iteratorh` jest uchwytem dla jakiegoś obiektu `iterator`.
+    /// @return `iterator_h` jest uchwytem dla jakiegoś obiektu `iterator`.
     /// @note Implementacja iteratora całkowicie zależy od implementatora i nie trzeba w niej grzebać ani nawet zaglądać.
-    virtual iteratorh reset() = 0;
+    virtual iterator_h reset() = 0;
 
     /// @brief WYMAGANA IMPLEMENTACJA ma dać następną z N liczb na podstawie iteratora.
     /// @details Po ostatniej (N-ej) powinna zwalniać iterator.
-    virtual double get(iteratorh &) = 0;
+    virtual double get(iterator_h &) = 0;
 
     /// @brief WYMAGANA IMPLEMENTACJA ma zwalniać/niszczyć iterator.
     /// @details O ile nie został zwolniony przez końcowe wywołanie `get`
     ///          , ale nadmiarowe użycie nie powinno nic uszkadzać (jak w przypadku delete NULL).
-    virtual void close(iteratorh &) = 0;
+    virtual void close(iterator_h &) = 0;
     /// @}
 
     /// @name CONSTRUCTION/DESTRUCTION
@@ -272,7 +273,7 @@ double data_source_base::get(size_t index_from_geometry)
     return miss; //To jest używane w kompilacji Release!!!
 }
 
-}} // end of namespaces sym2::data
+}} // end-of-namespaces sym2::data
 
 #pragma clang diagnostic pop
 /* ****************************************************************** */

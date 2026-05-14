@@ -1,7 +1,7 @@
 /// @file
 /// @brief Base class of a two-source dependent filter/
 ///        Klasa bazowa filtra zależnego od dwu źródeł.
-/// @date 2026-05-07 (modified)
+/// @date 2026-05-14 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_bi_filter_hpp_INCLUDED_
@@ -28,10 +28,10 @@ protected:
     /// Wewnętrzna struktura dla indeksowania.
     struct indexes
     {
-        iteratorh first;
-        iteratorh second;
+        iterator_h first;
+        iterator_h second;
 
-        indexes(iteratorh i_first, iteratorh i_second) :
+        indexes(iterator_h i_first, iterator_h i_second) :
                 first(i_first), second(i_second)
         {}
     };
@@ -70,7 +70,7 @@ public:
     /// Powinien zwracać wskaźnik do obowiązującej geometrii danych.
     /// @returns NULL w tej implementacji, bo domyślnie nie można ustalić geometrii.
     /// Skoro możliwe są dwie alternatywne geometrie, to która jest prawdziwa?
-    /// Jednak mogą być tożsame albo klasy potomne mogą zadecydować, jaką wezmą.
+    /// Jednak mogą być tożsame albo klasy potomne mogą zadecydować, którą geometrię wezmą.
     geometry_base *get_geometry() override;
 
     /// N jest brane mniejsze, ale minimum i maksimum zależą od obu źródeł.
@@ -81,7 +81,7 @@ public:
     /// METODA OTWIERAJĄCA DOSTĘP DO DANYCH.
     /// @returns wskaźnik do ZAALOKOWANEGO iteratora typu `indexes` (aktualnie tak, ale...)
     /// @note Domyślnie zaimplementowana złożona iteracja wykonuje się do końca krótszego ze źródeł.
-    iteratorh reset() override
+    iterator_h reset() override
     {
         check_version_();  //Żeby źródła miało szanse na update
 
@@ -94,7 +94,7 @@ public:
     /// Daje kolejną z N liczb!!! Po N-tej obiekt źródłowy zwalnia iterator!
     /// Ostateczny wynik opiera się na wywołaniu wewnętrznej wirtualnej metodzie `_get`.
     /// @note Domyślnie zaimplementowana złożona iteracja wykonuje się do końca krótszego ze źródeł.
-    double get(iteratorh &I) override
+    double get(iterator_h &I) override
     {
         indexes *pom = (indexes *) I;
         double val1 = Source->get(pom->first);
@@ -121,8 +121,8 @@ public:
 
     /// Metoda zwalnia iteratory wewnętrzne i cały iterator.
     /// Jeśli nie został zwolniony przez `get`.
-    /// Podwójne zwolnienie jest bezpieczne, bo zwolniony już `iteratorh` zawiera NULL.
-    void close(iteratorh &I) override
+    /// Podwójne zwolnienie jest bezpieczne, bo zwolniony już `iterator_h` zawiera NULL.
+    void close(iterator_h &I) override
     {
         indexes *pom = (indexes *) I;
         if(pom == NULL) return;
@@ -241,7 +241,7 @@ void bi_filter_source_base::bounds(size_t &N, double &min, double &max)
     _bounds(min1, max1, min2, max2, min, max);
 }
 
-}} // end of namespaces sym2::data
+}} // end-of-namespaces sym2::data
 
 #pragma clang diagnostic pop
 /* ****************************************************************** */

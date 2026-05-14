@@ -1,7 +1,7 @@
 /// @file
 /// @brief Specific source classes — access to data in linear arrays/
 ///        Konkretne klasy źródeł — dostęp do danych w tablicach liniowych.
-/// @date 2026-05-07 (modified)
+/// @date 2026-05-14 (modified)
 // ********************************************************************************************************************
 // PL: W tym pliku użyto warunkowej kompilacji do selekcji języka dokumentacji.
 // NIESTETY rozbija to podpowiedzi (tooltips) nawet w CLion.
@@ -68,7 +68,7 @@ public:
     void bounds(size_t &num, double &min, double &max) override;
 
     /// Daje następna z N liczb.
-    double get(iteratorh &ptr_to_iterator) override
+    double get(iterator_h &ptr_to_iterator) override
     {
         assert(ptr_to_iterator != NULL);
         return arra[_next(ptr_to_iterator)];
@@ -135,7 +135,7 @@ public:
     void bounds(size_t &num, double &min, double &max) override;
 
     /// Daje następną z N liczb!!!
-    double get(iteratorh &ptr_to_iterator) override
+    double get(iterator_h &ptr_to_iterator) override
     {
         assert(ptr_to_iterator != NULL);
         size_t pom = _next(ptr_to_iterator);
@@ -211,7 +211,7 @@ public:
     void bounds(size_t &num, double &min, double &max) override;
 
     /// Daje następną z N liczb.
-    double get(iteratorh &ptr_to_iterator) override
+    double get(iterator_h &ptr_to_iterator) override
     {
         assert(ptr_to_iterator != NULL);
         size_t pom = _next(ptr_to_iterator);
@@ -301,7 +301,7 @@ void ptr_to_struct_array_source<STRUCT_T, FIELD_T>::bounds(size_t &num, double &
     }
 }
 
-}} // end of namespaces sym2::data
+}} // end-of-namespaces sym2::data
 
 #pragma clang diagnostic pop
 /* ****************************************************************** */

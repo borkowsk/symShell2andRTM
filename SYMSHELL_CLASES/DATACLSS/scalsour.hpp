@@ -1,7 +1,7 @@
 /// @file
 /// @brief  Specific source classes - access to data in arrays and variables/
 ///         Konkretne klasy źródeł — dostęp do danych w tablicach i zmiennych.
-/// @date 2026-05-13 (modified)
+/// @date 2026-05-14 (modified)
 // ********************************************************************************************************************
 // ZA DUŻO BŁĘDÓW - SPRAWDZANIE SIĘ NIE SPRAWDZA :-P
 #ifndef SYMSHELL2_SCALAR_SOUR_HPP_INCLUDED_
@@ -58,7 +58,7 @@ protected:
     const T* ptr;
 
 public:
-    using data_source_base::iteratorh;
+    using data_source_base::iterator_h;
 
     /// Constructor.
     /// \param ini
@@ -91,10 +91,10 @@ public:
       max=this->y_max;
     }
 
-    virtual data_source_base::iteratorh   reset()
-    //Umożliwia czytanie od początku — iteratorh jest uchwytem iteratora
+    virtual data_source_base::iterator_h   reset()
+    //Umożliwia czytanie od początku — iterator_h jest uchwytem iteratora
     //domyślnie z obiektu Source, ale czasem nie
-    { return reinterpret_cast<data_source_base::iteratorh>(data_source_base::index_t(ptr?1:0));}
+    { return reinterpret_cast<data_source_base::iterator_h>(data_source_base::index_t(ptr?1:0));}
 
     void  change_ptr(T* next)
     //Zmienia wskaźnik a wartości mogą się zmieniać niezależnie
@@ -154,10 +154,10 @@ public:
         max=this->y_max;
     }
 
-    virtual data_source_base::iteratorh   reset()
-    //Umożliwia czytanie od początku — iteratorh jest uchwytem iteratora
+    virtual data_source_base::iterator_h   reset()
+    //Umożliwia czytanie od początku — iterator_h jest uchwytem iteratora
     //domyślnie z obiektu Source, ale czasem nie
-    { return reinterpret_cast<data_source_base::iteratorh>(static_cast<data_source_base::index_t>(ptr?1u:0u));}
+    { return reinterpret_cast<data_source_base::iterator_h>(static_cast<data_source_base::index_t>(ptr?1u:0u));}
 
     void  change_ptr(F next)
     //Zmienia wskaźnik, a wartości mogą się zmieniać niezależnie.

@@ -1,7 +1,7 @@
 /// @file
 /// @brief INTERFACES of the most basic data source classes /
 ///        INTERFACE-y najbardziej podstawowych klas źródeł danych.
-/// @date 2026-05-07 (modified)
+/// @date 2026-05-14 (modified)
 // *********************************************************************************************************************
 //
 #ifndef SYMSHELL2_DATA_SOURCES_HPP_INCLUDED_
@@ -63,15 +63,15 @@ public:
 
     /// Umożliwia iteracje od początku.
     /// W tym przypadku iterator może zawierać tylko `1' albo NULL.
-    iteratorh reset() override
-    { return (iteratorh) 1; }
+    iterator_h reset() override
+    { return (iterator_h) 1; }
 
     /// Zwalnia iterator, czyli w tym przypadku zeruje go.
-    void close(iteratorh &I) override
+    void close(iterator_h &I) override
     { I = NULL; }
 
 
-    double get(iteratorh &I) override = 0; /// @internal Nadal WYMAGA IMPLEMENTACJA.
+    double get(iterator_h &I) override = 0; /// @internal Nadal WYMAGA IMPLEMENTACJA.
 };
 
 #ifdef USE_ENGLISH_IF_POSSIBLE
@@ -98,11 +98,11 @@ protected:
     ~template_scalar_source_base() override = default;
 
 public:
-    using scalar_source_base::iteratorh;
+    using scalar_source_base::iterator_h;
 
     /// Implementacja get dla trywialnej iteracji jednego elementu.
     /// "Zwalnia" iterator i wywołuje wirtualne bezparametrowe `get`.
-    double get(iteratorh &I) override
+    double get(iterator_h &I) override
     {
         assert(I != nullptr); //Jak już zwolniony to nie powinien być ponownie wywołany.
         I = nullptr;
@@ -219,20 +219,20 @@ public:
 
     /// Implementacja domyślna sprawdza aktualność źródła danych i podaje jego iterator.
     /// Dla pewności aktualizuje też `source_miss`.
-    iteratorh reset() override
+    iterator_h reset() override
     {
         check_version_();  //Żeby źródło miało szanse na "update" wersji danych.
-        iteratorh pom = Source->reset();
+        iterator_h pom = Source->reset();
         source_miss = Source->get_missing(); //Dla pewności — może się zmieniło.
         return pom;
     }
 
     /// Implementacja domyślna zwalnia iterator, używając `close` ze źródła danych.
-    void close(iteratorh &I) override { Source->close(I); }
+    void close(iterator_h &I) override { Source->close(I); }
 
     /// WYMAGANA implementacja iteracji z filtrowaniem.
     /// Najczęściej wystarczy przeliczyć wartość źródłową lub przekazać ją alno "missing".
-    double get(iteratorh &I) override=0;
+    double get(iterator_h &I) override=0;
 
     /// WYMAGANA implementacja dostępu do wartości na podstawie indeksu z geometrii.
     /// Najczęściej wystarczy przeliczyć wartość źródłową lub przekazać ją alno "missing".
@@ -274,18 +274,18 @@ public:
         }
     }
 
-    iteratorh reset() override
+    iterator_h reset() override
     {
         check_version_(); return reinterpret_cast<SOURCE_TYPE*>(Source)->reset();
     }
 
-    void close(iteratorh &I) override
+    void close(iterator_h &I) override
     { reinterpret_cast<SOURCE_TYPE*>(Source)->close(I); }
 
     /// Pobieranie danej za pomocą iteratora WYMAGA zaimplementowania w klasach potomnych.
     /// Przy kompilacji "Release" ta implementacja po prostu kopiuje wynik ze źródła
     /// , a przy "Debug" wyrzuca asercje.
-    double get(iteratorh &I) override;
+    double get(iterator_h &I) override;
 
     /// Pobieranie danej za pomocą geometrii WYMAGA zaimplementowania w klasach potomnych.
     /// Przy kompilacji "Release" ta implementacja po prostu wywołuje czytanie z geometrii w źródle
@@ -315,7 +315,7 @@ protected:
 
     /// Wewnętrzna implementacja przemieszczenia iteratora o jednostkę.
     /// Zeruje, jeśli koniec tablicy.
-    size_t _next(iteratorh &p) const
+    size_t _next(iterator_h &p) const
     {
         assert(p != NULL); //Nie wolno wywołać dla NULL
         size_t pom = ((size_t) p) - 1;
@@ -345,12 +345,12 @@ public:
 
     const char *name() override { return title_util::name(); }
 
-    iteratorh reset() override { return (iteratorh) 1; }
+    iterator_h reset() override { return (iterator_h) 1; }
 
-    void close(iteratorh &p) override { p = NULL; }
+    void close(iterator_h &p) override { p = NULL; }
 
     /// Wymagana implementacja iteracji liniowej.
-    double get(iteratorh &I) override=0;
+    double get(iterator_h &I) override=0;
 
     /// Wymagana implementacja pobierania danej na podstawie indeksu z geometrii.
     double get(size_t index_from_geometry) override=0;
@@ -411,7 +411,7 @@ protected:
 
     /// Korzystając z geometrii, zwraca indeks do aktualnego elementu i przesuwa iterator.
     /// @returns `FULL`, jeśli brak danej... @note Zeruje iterator, jeśli koniec danych.
-    size_t _next(iteratorh &p)
+    size_t _next(iterator_h &p)
     {
         return my_geometry->get_next(p);
     }
@@ -444,11 +444,11 @@ public:
     }
 
     /// Korzystając z geometrii, tworzy iterator po wszystkich obiektach/agentach.
-    iteratorh reset() override
+    iterator_h reset() override
     { return my_geometry->make_global_iterator(); }
 
     /// Korzystając z geometrii, usuwa iterator.
-    void close(iteratorh &p) override
+    void close(iterator_h &p) override
     { my_geometry->destroy_iterator(p); }
 
     //Stare podawanie parametrów geometrii źródła na `out_tab` i liczby wymiarów.
@@ -512,11 +512,11 @@ public:
     /// Dostarcza iterator ustawiony na 0.
     /// Nie należy sprawdzać, aby, czy nie zwrócił NULL, bo właśnie to jest to samo!
     /// Jednakże dla funkcji to po prostu oznaczenie początku.
-    iteratorh reset() override { return 0; }
+    iterator_h reset() override { return 0; }
 
     /// Po prostu zeruje iterator. Co przypadkiem pozwala zacząć od początku.
     /// Taki efekt nie był zamierzony, ale tak wyszło.
-    void close(iteratorh &p) override {  p = NULL; }
+    void close(iterator_h &p) override { p = NULL; }
 
 };
 
@@ -549,7 +549,7 @@ const char* filter_source_base::name()
 }
 
 inline
-double filter_source_base::get(iteratorh &I)
+double filter_source_base::get(iterator_h &I)
 //Daje następną z N liczb!!! Po N-tej obiekt źródłowy zwalnia iterator!
 //Ta metoda do podstawienia.
 {
@@ -574,7 +574,7 @@ double template_filter_source_base<SOURCE_TYPE>::get(size_t index_from_geometry)
 }
 
 template<class SOURCE_TYPE> inline
-double template_filter_source_base<SOURCE_TYPE>::get(iteratorh &I)
+double template_filter_source_base<SOURCE_TYPE>::get(iterator_h &I)
 {
     assert(!"Linear access get() not implemented");
     return reinterpret_cast<SOURCE_TYPE*>(Source)->get(I);

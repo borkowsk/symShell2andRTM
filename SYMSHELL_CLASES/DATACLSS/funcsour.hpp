@@ -1,7 +1,7 @@
 /// @file
 /// @brief Classes of functional sources and their parameters/
 ///        Klasy źródeł funkcyjnych i ich parametrów.
-/// @date 2026-05-07 (modified)
+/// @date 2026-05-14 (modified)
 // ********************************************************************************************************************
 //                       Zmodyfikowana znacząco 05.04.2008
 //
@@ -127,7 +127,7 @@ public:
         assert(y_min < y_max);
     }
 
-    double get(iteratorh &p) override;
+    double get(iterator_h &p) override;
 
     double get(size_t i) override;
 };
@@ -136,7 +136,7 @@ public:
 //----------------------
 
 template<class F>
-double function_source<F>::get(iteratorh &p) //Daje następną z N liczb!!!
+double function_source<F>::get(iterator_h &p) //Daje następną z N liczb!!!
 {
     size_t pom = reinterpret_cast<size_t>(p);
     if(pom + 1 >= N)

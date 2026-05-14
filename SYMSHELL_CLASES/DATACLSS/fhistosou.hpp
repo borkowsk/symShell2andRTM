@@ -26,7 +26,7 @@ protected:
     wb_dynarray<unsigned long> arra;
 
     // Przemieszcza iterator o jednostke. Zeruje, jeśli koniec tablicy
-    size_t _next(data_source_base::iteratorh &p);
+    size_t _next(data_source_base::iterator_h &p);
 
     int _calculate() override
 //Zwraca 1, jeśli musial przeliczyc
@@ -49,7 +49,7 @@ protected:
             arra.fill(0);
 
             //PETLA ZLICZANIA
-            data_source_base::iteratorh Ind = base_class::Source->reset();
+            data_source_base::iterator_h Ind = base_class::Source->reset();
             base_class::source_miss = base_class::Source->get_missing(); //Trzeba to zrobi� żeby from_source_is_missing_ działalo poprawnie!
 
             size_t Licz = 0, Poza = 0;
@@ -269,15 +269,15 @@ public:
         max = base_class::y_max;
     }
 
-    data_source_base::iteratorh reset(); //Umozliwia czytanie po iteratorze od poczatku
-    void close(data_source_base::iteratorh &p); //Usuwa iterator
-    double get(data_source_base::iteratorh &ptr_to_iterator); //Daje następną z N liczb!!!
+    data_source_base::iterator_h reset(); //Umozliwia czytanie po iteratorze od poczatku
+    void close(data_source_base::iterator_h &p); //Usuwa iterator
+    double get(data_source_base::iterator_h &ptr_to_iterator); //Daje następną z N liczb!!!
     double get(size_t index); //Przetwarza index uzyskany z geometrii
 };
 
 // Przemieszcza iterator o jednostke. Zeruje jeśli koniec tablicy
 template<class DATA_SOURCE>
-size_t fix_histogram_source<DATA_SOURCE>::_next(data_source_base::iteratorh &p)
+size_t fix_histogram_source<DATA_SOURCE>::_next(data_source_base::iterator_h &p)
 {
     assert(p != NULL); //Nie wolno wywołać dla NULL
     size_t pom = ((size_t) p) - 1;
@@ -285,7 +285,7 @@ size_t fix_histogram_source<DATA_SOURCE>::_next(data_source_base::iteratorh &p)
     if(pom + 1 >= Num)
         p = NULL;
     else
-        p = (data_source_base::iteratorh) (pom + 2);
+        p = (data_source_base::iterator_h) (pom + 2);
     return pom;
 }
 
@@ -304,7 +304,7 @@ double fix_histogram_source<DATA_SOURCE>::get(size_t index)
 //Daje następną z N liczb!!!
 template<class DATA_SOURCE>
 inline
-double fix_histogram_source<DATA_SOURCE>::get(data_source_base::iteratorh &ptr_to_iterator)
+double fix_histogram_source<DATA_SOURCE>::get(data_source_base::iterator_h &ptr_to_iterator)
 {
     assert(ptr_to_iterator != NULL);
     return arra[_next(ptr_to_iterator)];
@@ -313,7 +313,7 @@ double fix_histogram_source<DATA_SOURCE>::get(data_source_base::iteratorh &ptr_t
 
 template<class DATA_SOURCE>
 inline
-void fix_histogram_source<DATA_SOURCE>::close(data_source_base::iteratorh &p)
+void fix_histogram_source<DATA_SOURCE>::close(data_source_base::iterator_h &p)
 {
     p = NULL;
 }
@@ -321,11 +321,11 @@ void fix_histogram_source<DATA_SOURCE>::close(data_source_base::iteratorh &p)
 
 template<class DATA_SOURCE>
 inline
-data_source_base::iteratorh fix_histogram_source<DATA_SOURCE>::reset()	//Umozliwia czytanie po iteratorze od poczatku
+data_source_base::iterator_h fix_histogram_source<DATA_SOURCE>::reset()	//Umozliwia czytanie po iteratorze od poczatku
 {
     base_class::check_version_(); //Uaktualnia tez wersje podzrodla, jeśli trzeba
     _calculate(); //Sprawdza, czynie trzeba policzyć i ewentualnie liczy
-    return (data_source_base::iteratorh) 1;
+    return (data_source_base::iterator_h) 1;
 }
 
 typedef fix_histogram_source<data_source_base> generic_fix_histogram_source;

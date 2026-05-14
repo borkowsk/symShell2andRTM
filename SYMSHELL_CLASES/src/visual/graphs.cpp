@@ -1,7 +1,7 @@
 /// @file
 /// @brief IMPLEMENTATION OF BASIC GRAPH CLASSES/<br>
 ///        IMPLEMENTACJA PODSTAWOWYCH KLAS GRAFÓW.
-/// @date 2026-05-13 (modified)
+/// @date 2026-05-14 (modified)
 // /////////////////////////////////////////////////////////////////////////////////////////
 
 //#include <cstdarg>
@@ -598,7 +598,7 @@ void carpet_graph::_replot()
         const rectangle_geometry* MyGeomRect=dynamic_cast<const rectangle_geometry*>(MyGeometry);           assert(MyGeomRect!=nullptr); //Musi taka być!
     //    long index=MyGeomRect->get(0,0); //Zerowa komórka
 
-        data_source_base::iteratorh h=MyGeometry->make_view_iterator();                                     assert(h!=nullptr);
+        data_source_base::iterator_h h=MyGeometry->make_view_iterator();                                     assert(h != nullptr);
         wb_color back= get_background(); //Dla sprawdzania, kiedy kolor kwadratu taki jak kolor tla.
         if(gruboscA==1) //starczy jedna sprawdzic, bo kwadrat
             {
@@ -884,8 +884,8 @@ void bars_graph::_replot() // Rysuje właściwy wykres a pod nim ewentualnie leg
     int thickness; //Grubość słupka
     if(num_height > 0 && (thickness = toi( (x2 - x1) / (num_height)) ) >= 1)
     {
-        data_source_base::iteratorh h = datas->reset();
-        data_source_base::iteratorh c = colors?colors->reset():nullptr;
+        data_source_base::iterator_h h = datas->reset();
+        data_source_base::iterator_h c = colors?colors->reset():nullptr;
         for(unsigned i = 0; i < num_height; i++) //64 bitowe size_t to już za dużo tutaj! :-D
         {
             double test;
@@ -1245,9 +1245,9 @@ void manhattan_graph::_replot() // Rysuje właściwy wykres a pod nim ewentualni
                             gristV, wire != get_background()?wire:0, get_background());
         bar3d_config(&conf);
 
-        data_source_base::iteratorh h = MyGeometry->make_view_iterator();
+        data_source_base::iterator_h h = MyGeometry->make_view_iterator();
         geometry_base *color_geom = nullptr;
-        data_source_base::iteratorh c = nullptr;
+        data_source_base::iterator_h c = nullptr;
 
         if(colors) //Jeśli jest kolor to
         {
@@ -1508,7 +1508,7 @@ void sequence_graph::_replot()
     int width = x2 - x1;
     assert(M >= 1);
 
-    wb_dynarray<data_source_base::iteratorh> Hh(M);
+    wb_dynarray<data_source_base::iterator_h> Hh(M);
     wb_dynarray<double> Rh(M + 1);
     wb_dynarray<long> Ah(M + 1);
     wb_dynarray<long> Bh(M + 1);
@@ -1517,7 +1517,7 @@ void sequence_graph::_replot()
     wb_dynarray<char> Oh(M);
     wb_dynarray<double> Missing(M + 1);
 
-    data_source_base::iteratorh *H = Hh.get_ptr_val();
+    data_source_base::iterator_h *H = Hh.get_ptr_val();
     double *Miss = Missing.get_ptr_val(); //Missing values
     double *R = Rh.get_ptr_val(); //Input dla _rescale_data_point
     long *A = Ah.get_ptr_val(); //Output dla _rescale_data_point
@@ -1947,8 +1947,8 @@ void rainbow_graph::_replot()
 //Wypisywanie wartości
     if(y2 - y1 >= 2 * char_height('0'))
     {
-        data_source_base::iteratorh h = datas->reset();
-        data_source_base::iteratorh c = colors?colors->reset():nullptr;
+        data_source_base::iterator_h h = datas->reset();
+        data_source_base::iterator_h c = colors?colors->reset():nullptr;
         int thickness = toi(char_height('0'));
         assert(Format != nullptr);
         for(unsigned i = 0; i < num; i++)
@@ -2516,10 +2516,10 @@ void scatter_graph::_replot()
     {
         if(CurrConfig != nullptr) //Jeśli uzytkownik w ogole zyczy sobie rysowac jakies punkty (bo klasa potomna może nie chciec!)
         {
-            data_source_base::iteratorh ix = Xdata->reset();
-            data_source_base::iteratorh iy = Ydata->reset();
-            data_source_base::iteratorh ic = colors?colors->reset():nullptr;
-            data_source_base::iteratorh is = sizes?sizes->reset():nullptr;
+            data_source_base::iterator_h ix = Xdata->reset();
+            data_source_base::iterator_h iy = Ydata->reset();
+            data_source_base::iterator_h ic = colors?colors->reset():nullptr;
+            data_source_base::iterator_h is = sizes?sizes->reset():nullptr;
             if(CurrConfig !=
                nullptr) //Jeśli uzytkownik w ogole zyczy sobie rysowac jakies punkty (bo klasa potomna moze nie chciec!)
                 for(unsigned i = 0; i < num; i++)

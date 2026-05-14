@@ -490,7 +490,7 @@ void aWorld::simulate_one_step()
 
             //We check what our neighbors are like:
             int koledzy[8][2],ilu=0;
-            iteratorh Neigh=MyGeom->make_neighbour_iterator(index,1);
+            iterator_h Neigh=MyGeom->make_neighbour_iterator(index, 1);
             while(Neigh)
             {
                 size_t index2=MyGeom->get_next(Neigh); //We get the neighbor index

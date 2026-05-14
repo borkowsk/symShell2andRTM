@@ -53,7 +53,7 @@ protected:
 
         if(N > 0)
         {
-            data_source_base::iteratorh Ind = this->Source->reset();
+            data_source_base::iterator_h Ind = this->Source->reset();
             this->source_miss = this->Source->get_missing();
             for(i = 0; i < N; i++)
             {

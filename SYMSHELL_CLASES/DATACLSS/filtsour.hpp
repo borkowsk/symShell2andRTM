@@ -1,6 +1,6 @@
 /// @file
 /// @brief Różne klasy jednoźródłowych filtrów danych.
-/// @date 2026-05-07 (modified)
+/// @date 2026-05-14 (modified)
 // ********************************************************************************************************************
 //
 #ifndef __FILTSOUR_HPP__
@@ -44,7 +44,7 @@ public:
         }
     }
 
-    double get(data_source_base::iteratorh &I)
+    double get(data_source_base::iterator_h &I)
     //Daje następną z N liczb!!! Po N-tej obiekt źródłowy zwalnia iterator!
     {
         double pom = ((SOURCE_TYPE *) this->Source)->get(I); //template_filter_source_base<SOURCE_TYPE>::get(I);
@@ -115,7 +115,7 @@ public:
         }
     }
 
-    double get(data_source_base::iteratorh &I)
+    double get(data_source_base::iterator_h &I)
     //Daje następną z N liczb!!! Po N-tej obiekt źródłowy zwalnia iterator!
     {
         double pom = ((SOURCE_TYPE *) this->Source)->get(I); //template_filter_source_base<SOURCE_TYPE>::get(I)+1;
@@ -169,7 +169,7 @@ public:
 
     virtual double _get(const double &val) = 0; //Funkcja sprawdzająca warunek i ewentualnie zmieniająca wartość na miss
 
-    virtual double get(data_source_base::iteratorh &I)
+    virtual double get(data_source_base::iterator_h &I)
     //Daje następną z N liczb!!! Po N-tej obiekt źródłowy zwalnia iterator!
     {
         double val = ((SOURCE_TYPE *) this->Source)->get(I);

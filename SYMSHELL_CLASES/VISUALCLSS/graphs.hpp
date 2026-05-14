@@ -1,6 +1,6 @@
 /// @file
 /// @brief KLASY DEFINIUJĄCE RÓŻNORODNE TYPY WYKRESÓW. / CLASSES DEFINING VARIOUS TYPES OF CHARTS.
-/// @date 2026-05-13 (modified)
+/// @date 2026-05-14 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_GRAPHS_HPP_INCLUDED_
@@ -1088,7 +1088,7 @@ void fast_carpet_graph<DATA_SOURCE, DIRECT_COLOR>::_replot()
         offsetB += y1;
 
         //Rysowanie
-        data_source_base::iteratorh h = fast_data->reset();
+        data_source_base::iterator_h h = fast_data->reset();
 
         //wb_color back = get_background(); //Dla sprawdzania, kiedy kolor kwadratu taki jak kolor tła.
 

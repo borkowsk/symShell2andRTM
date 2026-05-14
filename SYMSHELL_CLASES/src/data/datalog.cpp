@@ -70,7 +70,7 @@ int logfile::try_writing()
         {
                 if(table[i]!=nullptr)
                 {
-                    data_source_base::iteratorh in=table[i]->reset();
+                    data_source_base::iterator_h in=table[i]->reset();
                     double pom;
                     // Odczyt wartości tylko wtedy gdy "in" nie jest z jakiś powodów pustym wskaźnikiem!
                     if(in==nullptr || (pom=table[i]->get(in))==table[i]->get_missing() )

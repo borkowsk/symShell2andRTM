@@ -1,6 +1,6 @@
 /// @file
 /// @brief GEOMETRIA PROSTOKĄTNA. / RECTANGULAR GEOMETRY.
-/// @date 2026-05-07 (modified)
+/// @date 2026-05-14 (modified)
 ///      Pierwsza i główna specjalizacja. Heksagonalnej i sieciowej nigdy nie napisałem, choć były w planie.
 // ********************************************************************************************************************
 //
@@ -250,19 +250,19 @@ public:
     }
 
     /// Tworzy iterator po całości. Umożliwia następnie czytanie od początku całej tablicy lub wycinka.
-    iteratorh make_global_iterator() const override
+    iterator_h make_global_iterator() const override
     {
         return new iterator(0, 0, columns, rows);
     }
 
     /// Tworzy iterator po obszarze wizualizacji. Umożliwia następnie czytanie wycinka wybranego do wizualizacji.
-    iteratorh make_view_iterator() const override
+    iterator_h make_view_iterator() const override
     {
         return new iterator(sSZER,sWYS,lSZER,lWYS);
     }
 
     /// Tworzy globalny iterator monte-carlo.
-    iteratorh make_random_global_iterator(size_t how_many/*=-1*/) const override
+    iterator_h make_random_global_iterator(size_t how_many/*=-1*/) const override
     {
          if(how_many==size_t(-1))
             how_many= columns * rows; //Dla pełnego kroku monte-carlo
@@ -270,7 +270,7 @@ public:
     }
 
     /// Tworzy iterator po sąsiadach.
-    iteratorh make_neighbour_iterator(size_t center,size_t dist/*=1*/)  const override
+    iterator_h make_neighbour_iterator(size_t center, size_t dist/*=1*/)  const override
     {
         long x= center % columns - dist;
         long lenX= 1 + 2 * dist;
@@ -280,7 +280,7 @@ public:
     }
 
     /// Tworzy losowy iterator po sąsiadach.
-    iteratorh make_random_neighbour_iterator(size_t center,size_t dist/*=1*/,size_t how_many/*=-1*/)  const override
+    iterator_h make_random_neighbour_iterator(size_t center, size_t dist/*=1*/, size_t how_many/*=-1*/)  const override
     {
         long x= center % columns - dist;
         long lenX= 1 + 2 * dist;

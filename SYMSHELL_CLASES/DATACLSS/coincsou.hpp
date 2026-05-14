@@ -101,8 +101,8 @@ protected:
             memset(WierszSumm.get_ptr_val(), 0, //Wypełnia za pomocą 0
                    sizeof(unsigned long) * MMWidth);
 
-            iteratorh Ind1 = source1->reset();
-            iteratorh Ind2 = source2->reset();
+            iterator_h Ind1 = source1->reset();
+            iterator_h Ind2 = source2->reset();
             while(Ind1 && Ind2) //Puki oba iteratory
             {
                 double pom1 = source1->get(Ind1);
@@ -395,7 +395,7 @@ public:
         return my_geometry.get_ptr_val();
     }
 
-    iteratorh reset()
+    iterator_h reset()
 //Umozliwia czytanie od poczatku
 //tablicy lub wycinka
     {
@@ -407,14 +407,14 @@ public:
             return NULL;
     }
 
-    void close(iteratorh &p)
+    void close(iterator_h &p)
 //Wymuszony koniec iteracji
     {
         if(my_geometry)
             my_geometry->destroy_iterator(p);
     }
 
-    double get(iteratorh &p)
+    double get(iterator_h &p)
 //Daje następną z NNHeight*MMWidth liczb!!!
     {
         double ret = 0;

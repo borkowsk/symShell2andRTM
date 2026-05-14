@@ -18,7 +18,7 @@ class histogram_source : public basic_statistics_source<DATA_SOURCE>
 {
 public:
     typedef basic_statistics_source<DATA_SOURCE> basics_;
-    typedef data_source_base::iteratorh iteratorh;
+    typedef data_source_base::iterator_h iteratorh;
 
     using basics_::table; //skrócony dostęp do tablicy danych klasy bazowej
 
@@ -73,7 +73,7 @@ protected:
             */
 
             //PĘTLA ZLICZANIA
-            data_source_base::iteratorh Ind = this->Source->reset();
+            data_source_base::iterator_h Ind = this->Source->reset();
             this->source_miss = this->Source->get_missing();
             size_t Licz = 0;
             for(i = 0; i < SN; i++)

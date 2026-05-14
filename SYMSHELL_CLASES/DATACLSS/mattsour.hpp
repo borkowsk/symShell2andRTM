@@ -1,6 +1,6 @@
 /// @file
 /// @brief Konkretne klasy źródeł — dostęp do danych w tablicach i zmiennych.
-/// @date 2026-05-13 (modified)
+/// @date 2026-05-14 (modified)
 // ********************************************************************************************************************
 //
 #ifndef __MATTRIX_SOUR_HPP__
@@ -78,7 +78,7 @@ public:
         //Nie są dane wiec próbkujemy - co troche kosztuje
         min = wbrtm::limit<T>::Max();
         max = wbrtm::limit<T>::Min();
-        iteratorh iterator = get_rect_geometry()->make_global_iterator();
+        iterator_h iterator = get_rect_geometry()->make_global_iterator();
         while(iterator)
         {
             size_t i = get_rect_geometry()->get_next(iterator);
@@ -88,7 +88,7 @@ public:
         get_rect_geometry()->destroy_iterator(iterator);
     }
 
-    double get(iteratorh &p)
+    double get(iterator_h &p)
 //Daje następną z la*lb liczb!!!
     {
         //assert(p!=NULL);
@@ -155,7 +155,7 @@ public:
     }
 
 
-    double get(iteratorh &p)
+    double get(iterator_h &p)
 //Daje następną z la*lb liczb!!!
     {
         assert(p != NULL);
@@ -190,7 +190,7 @@ public:
         //Nie są dane, wiec próbkujemy, co trochę kosztuje.
         min = wbrtm::limit<FIELD_T>::Max();
         max = wbrtm::limit<FIELD_T>::Min();
-        iteratorh iterator = get_rect_geometry()->make_global_iterator();
+        iterator_h iterator = get_rect_geometry()->make_global_iterator();
         while(iterator)
         {
             size_t i = get_rect_geometry()->get_next(iterator);
@@ -247,7 +247,7 @@ public:
     }
 
 
-    double get(iteratorh &p)
+    double get(iterator_h &p)
 //Daje następną z la*lb liczb!!!
     {
         assert(p != NULL);
@@ -290,7 +290,7 @@ public:
         //Nie są dane wiec próbkujemy - co troche kosztuje
         min = wbrtm::limit<FIELD_T>::Max();
         max = wbrtm::limit<FIELD_T>::Min();
-        iteratorh iterator = get_rect_geometry()->make_global_iterator();
+        iterator_h iterator = get_rect_geometry()->make_global_iterator();
         while(iterator)
         {
             size_t i = get_rect_geometry()->get_next(iterator);
@@ -372,7 +372,7 @@ public:
         return pom;
     }
 
-    double get(iteratorh &p)
+    double get(iterator_h &p)
 //Daje następną z la*lb liczb!!!
     {
         double ret = 0;
@@ -410,7 +410,7 @@ public:
         //Nie są dane wiec próbkujemy - co troche kosztuje
         min = wbrtm::limit<METHOD_T>::Max();
         max = wbrtm::limit<METHOD_T>::Min();
-        iteratorh iterator = get_rect_geometry()->make_global_iterator();
+        iterator_h iterator = get_rect_geometry()->make_global_iterator();
 
         //assert(miss!=???);
         //missing(); //Aktualizacja wartości "miss" ???? DEBUG THIS
@@ -518,7 +518,7 @@ public:
         return _get(index);
     }
 
-    double get(iteratorh &p)
+    double get(iterator_h &p)
 //Daje następną z la*lb liczb!!!
     {
         double ret = 0;
@@ -551,7 +551,7 @@ public:
         //Nie są dane wiec próbkujemy - co troche kosztuje
         min = wbrtm::limit<METHOD_T>::Max();
         max = wbrtm::limit<METHOD_T>::Min();
-        iteratorh iterator = get_rect_geometry()->make_global_iterator();
+        iterator_h iterator = get_rect_geometry()->make_global_iterator();
 
         get_missing(); //Aktualizacja wartości "miss"
         while(iterator)

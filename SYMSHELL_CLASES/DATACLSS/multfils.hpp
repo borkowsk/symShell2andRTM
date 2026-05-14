@@ -47,7 +47,7 @@ protected:
             scalar_source<double>::bounds(N, min, max);
         }
 
-        iteratorh reset()
+        iterator_h reset()
         {
             Father->check_version_(); //Uaktualnia tez wersje podźrodła, jeśli trzeba
             Father->_calculate(); //Sprawdza, czynie trzeba policzyc i ewentualnie liczy
@@ -165,7 +165,7 @@ public:
         N = 0; //Nie można siegac do tych danych bezpośrednio jako do seri
     }
 
-    data_source_base::iteratorh reset()	//Nie ma możliwości bezpośredniego czytania
+    data_source_base::iterator_h reset()	//Nie ma możliwości bezpośredniego czytania
     {
         check_version_();
         return NULL;
