@@ -1,15 +1,17 @@
 /// @file
 /// @brief      "LICZENIE" znaczników IEEE: INF i NAN
-/// @date 2026-05-13 (modification)
+/// @date 2026-05-14 (modification)
 //-----------------------------------------------------------
-/// DAWNO NIE TESTOWANE, CHYBA NIE DZIALA, I NIE JEST NAPRAWDE POTRZEBNE
+/// DAWNO NIE TESTOWANE, CHYBA NIE DZIAŁA, I NIE JEST NAPRAWDĘ POTRZEBNE
 // ///////////////////////////////////////////////////////////////////////
+#if 0 //CLOSED!
+
 #include <cfloat>
 #include "sourbase.hpp"
 
 //int _finite( double x );int _isnan( double x );int _fpclass( double x );
 
-#if 0 //CLOSED!
+
 //#ifdef __MSVC__
 #define _CRTIMP2	/* EMPTY*/
 #include <..\crt\src\xmath.h>
@@ -57,19 +59,21 @@
 
 #else
     //double data_source_base::inf()
-    //Liczy INF wg IEEE - może generowac SIGPFE na czesci platform
+    //Liczy INF wg IEEE - może generować SIGFPE na części platform
     //{
     //	double zero=0;
-    //	return 1./zero; //-INF jako znacznik braku
+    //	return 1./zero; //-INF. jako znacznik braku
     //}
     //double data_source_base::nan(); //IS IMPLEMENTED?
 #endif
-/********************************************************************/
-/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
-/*            W O J C I E C H   B O R K O W S K I                   */
-/* Zaklad Systematyki i Geografii Roslin Uniwersytetu Warszawskiego */
-/*  & Instytut Studiow Spolecznych Uniwersytetu Warszawskiego       */
-/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk             */
-/*        MAIL: borkowsk@iss.uw.edu.pl                              */
-/*                               (Don't change or remove this note) */
-/********************************************************************/
+/* ****************************************************************** */
+/*               SYMSHELL2  version 2006/2022/2026                    */
+/* ****************************************************************** */
+/*           THIS CODE IS DESIGNED & COPYRIGHT BY:                    */
+/*            W O J C I E C H   B O R K O W S K I                     */
+/*  Zakład Systematyki i Geografii Roślin Uniwersytetu Warszawskiego  */
+/*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego         */
+/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk               */
+/*        MAIL: borkowsk@iss.uw.edu.pl                                */
+/*                               (Don't change or remove this note)   */
+/* ****************************************************************** */

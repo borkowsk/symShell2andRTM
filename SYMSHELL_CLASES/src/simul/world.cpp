@@ -1,6 +1,6 @@
 /// @file
 /// @brief implementation of the world-class.
-/// @date 2026-05-13 (modified)
+/// @date 2026-05-14 (modified)
 // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include "world.hpp"
@@ -343,10 +343,10 @@ void symshell2::world::make_basic_sources()
     Sources.replace(size_t(0),sca);
 }
 
-void   symshell2::world::make_basic_sources(sources_menager& WhatSourMen)
+void   symshell2::world::make_basic_sources(sources_manager& WhatSourMen)
 //NA RAZIE NIE WOLNO TAKIEJ FUNKCJI! Pomysł zewnętrznego manager-a danych okazał się nieudany.
 {
-    assert("Never use: world::make_basic_sources(sources_menager& WhatSourMen) !"==nullptr);
+    assert("Never use: world::make_basic_sources(sources_manager& WhatSourMen) !"==nullptr);
 }
 
 symshell2::world::~world() {
