@@ -1,6 +1,6 @@
 /// @file
 /// @brief implementation of the world class -- Virtual output methods and operator.
-/// @date 2026-05-07 (modified)
+/// @date 2026-05-14 (modified)
 // ---------------------------------------------------------------------------------
 // Its is rather simply implementation. You can replace it if you need.
 //*////////////////////////////////////////////////////////////////////
@@ -12,11 +12,11 @@ char world::separator='\t';
 
 int world::implement_output(ostream& o) const
 {
-	o<<Licznik<<separator;
-	o<<MaxIterations<<separator;
-	o<<LogRatio<<separator;
+    o<<Licznik<<separator;
+    o<<MaxIterations<<separator;
+    o<<LogRatio<<separator;
 //	assert("world::implement_output() not implemented");
-	return 1;
+    return 1;
 }
 
 /********************************************************************/

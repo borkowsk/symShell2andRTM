@@ -1,6 +1,6 @@
 /// @file
 /// @brief Implementacja bazy warstwy symulacji
-/// @date 2026-05-13 (modified)
+/// @date 2026-05-14 (modified)
 ///       ----------------------------------------------
 /// @details
 ///             ...
@@ -21,53 +21,53 @@ extern "C" gdImagePtr gdImageCreateFromBmp(FILE *f); //Uzupełnienie dla BMP
 //Wczytanie pliku GIF lub BMP
 int symshell2::rectangle_layer::init_from_bitmap(const char* filename,void* user_data)
 {
-size_t Width=0,i=0,Height=0,j=0; //Rozmiary i indeksy pętli
-if(filename==nullptr || filename[0]=='\0')
-			return 0;
-FILE* file=fopen(filename,"rb");
-if(!file)
-{
-	perror(filename);
-	return 0;
-}
+    size_t Width=0,i=0,Height=0,j=0; //Rozmiary i indeksy pętli
+    if(filename==nullptr || filename[0]=='\0')
+                return 0;
+    FILE* file=fopen(filename,"rb");
+    if(!file)
+    {
+        perror(filename);
+        return 0;
+    }
 
-gdImagePtr mapa=nullptr;
-if(strcmp(strrchr(filename,'.'),".gif")==0)
-	mapa=gdImageCreateFromGif(file); //Uchwyt do mapy
-	else
-	mapa=gdImageCreateFromBmp(file);
+    gdImagePtr mapa=nullptr;
+    if(strcmp(strrchr(filename,'.'),".gif")==0)
+        mapa=gdImageCreateFromGif(file); //Uchwyt do mapy
+        else
+        mapa=gdImageCreateFromBmp(file);
 
-if(!mapa)
-	return 0; //Raczej nie wywoluje bo wczesniej wypada
+    if(!mapa)
+        return 0; //Raczej nie wywoluje bo wczesniej wypada
 
-fclose(file);
+    fclose(file);
 
-//Ustalenie co jest większe
-if(gdImageSX(mapa)>MainGeometry.get_width())
-		Width=MainGeometry.get_width();
-		else
-		Width=gdImageSX(mapa);
+    //Ustalenie co jest większe
+    if(gdImageSX(mapa)>MainGeometry.get_width())
+            Width=MainGeometry.get_width();
+            else
+            Width=gdImageSX(mapa);
 
-if(gdImageSY(mapa)>MainGeometry.get_height())
-		Height=MainGeometry.get_height();
-		else
-		Height=gdImageSY(mapa);
+    if(gdImageSY(mapa)>MainGeometry.get_height())
+            Height=MainGeometry.get_height();
+            else
+            Height=gdImageSY(mapa);
 
-//Wczytywanie
-int background=gdImageGetTransparent(mapa);
-for(i=0;i<Width;i++)
-	for(j=0;j<Height;j++)
-		{
-		int color=gdImageGetPixel(mapa,i,j);
-		if(color!=background)
-			assign_rgb(
-				i,j,
-				gdImageRed(mapa,color),
-				gdImageGreen(mapa,color),
-				gdImageBlue(mapa,color),
-				user_data);
-		}
-return 1;
+    //Wczytywanie
+    int background=gdImageGetTransparent(mapa);
+    for(i=0;i<Width;i++)
+        for(j=0;j<Height;j++)
+            {
+            int color=gdImageGetPixel(mapa,i,j);
+            if(color!=background)
+                assign_rgb(
+                    i,j,
+                    gdImageRed(mapa,color),
+                    gdImageGreen(mapa,color),
+                    gdImageBlue(mapa,color),
+                    user_data);
+            }
+    return 1;
 }
 
 /* ****************************************************************** */

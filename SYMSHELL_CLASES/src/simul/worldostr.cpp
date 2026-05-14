@@ -1,6 +1,6 @@
 /// @file
 /// @brief world.cpp: implementation of the world class -- output operator <<
-/// @date 2026-05-07 (modified)
+/// @date 2026-05-14 (modified)
 // ----------------------------------------------
 // Its is rather simply implementation. You can replace it if you need.
 //*////////////////////////////////////////////////////////////////////
@@ -9,29 +9,29 @@
 
 ostream& operator << (ostream& o,const symshell2::world& w)
 {
-	if(!o || o.bad())
-	{
-		cerr<<"Sorry! Invalid or bad stream."<<endl;
-		exit(2);
-	}
+    if(!o || o.bad())
+    {
+        cerr<<"Sorry! Invalid or bad stream."<<endl;
+        exit(2);
+    }
 
-	o<<w.SimulName<<w.sepa();
-	if(o.fail())
-	{
-		cerr<<"Sorry! Write failed."<<endl;
-		exit(2);
-	}
+    o<<w.SimulName<<w.sepa();
+    if(o.fail())
+    {
+        cerr<<"Sorry! Write failed."<<endl;
+        exit(2);
+    }
 
-	o<<'{'<<endl;
-	w.implement_output(o); //Call virtual output method.
-	o<<'}'<<endl;
+    o<<'{'<<endl;
+    w.implement_output(o); //Call virtual output method.
+    o<<'}'<<endl;
 
-	if(o.fail())
-	{
-		cerr<<"Sorry! Write failed."<<endl;
-		exit(2);
-	}
-	return o;
+    if(o.fail())
+    {
+        cerr<<"Sorry! Write failed."<<endl;
+        exit(2);
+    }
+    return o;
 }
 
 

@@ -1,6 +1,6 @@
 /// @file
 /// @brief  implementation of the world class -- Virtual output methods and operator <<
-/// @date 2026-05-07 (modified)
+/// @date 2026-05-14 (modified)
 ///         ----------------------------------------------
 /// @details
 ///     Its is rather simply implementation. You can replace it if you need.
@@ -12,11 +12,11 @@ char  symshell2::world::separator='\t';
 
 int symshell2::world::implement_output(ostream& o) const
 {
-	o<<Licznik<<separator;
-	o<<TimeStamp<<separator<<endl;
-	o<<MaxIterations<<separator;
-	o<<LogRatio<<separator;
-	return 1;
+    o<<Licznik<<separator;
+    o<<TimeStamp<<separator<<endl;
+    o<<MaxIterations<<separator;
+    o<<LogRatio<<separator;
+    return 1;
 }
 
 /* ****************************************************************** */
