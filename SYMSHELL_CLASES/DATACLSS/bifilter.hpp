@@ -17,7 +17,7 @@ namespace sym2 { namespace data {
 
 /// Baza źródła danych filtrującego dane łączone z dwóch innych źródeł.
 class bi_filter_source_base : public filter_source_base
-//-----------------------------------------------------------------
+//-----------------------------------------------------
 {
 protected:
     data_source_base *source2; //!< Drugie źródło danych (pierwsze jest dziedziczone).
@@ -31,8 +31,8 @@ protected:
         iterator_h first;
         iterator_h second;
 
-        indexes(iterator_h i_first, iterator_h i_second) :
-                first(i_first), second(i_second)
+        indexes(iterator_h i_first, iterator_h i_second)
+        : first(i_first), second(i_second)
         {}
     };
 

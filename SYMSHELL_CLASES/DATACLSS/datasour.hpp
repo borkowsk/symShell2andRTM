@@ -29,7 +29,7 @@ class scalar_source_base : public data_source_base, public title_util
 /// Klasa bazowa źródła danych przekazującego pojedynczą daną/wartość.
 class scalar_source_base : public data_source_base, public title_util
 #endif
-//-----------------------------------------------------------------
+//-------------------------------------------------------------------
 {
 protected:
     int CheckMinMax; ///< Określa, czy należy sprawdzić min i max., czy są/będą podane.
@@ -198,7 +198,7 @@ public:
     /// Podaje nazwę tego filtra utworzoną na podstawie formatu i nazwy jego źródła danych.
     const char *name() override;
 
-    /// Zwraca wskaźnik do obowiązującej geometrii danych, która domyślnie taka jak w źródle danych.
+    /// Zwraca wskaźnik do obowiązującej geometrii, która jest domyślnie taka, jak w źródle danych.
     geometry_base *get_geometry() override
     { return Source->get_geometry(); }
 
@@ -283,13 +283,11 @@ public:
     { reinterpret_cast<SOURCE_TYPE*>(Source)->close(I); }
 
     /// Pobieranie danej za pomocą iteratora WYMAGA zaimplementowania w klasach potomnych.
-    /// Przy kompilacji "Release" ta implementacja po prostu kopiuje wynik ze źródła
-    /// , a przy "Debug" wyrzuca asercje.
+    /// Przy kompilacji "Release" ta implementacja po prostu kopiuje wynik ze źródła, a przy "Debug" wyrzuca asercje.
     double get(iterator_h &I) override;
 
     /// Pobieranie danej za pomocą geometrii WYMAGA zaimplementowania w klasach potomnych.
-    /// Przy kompilacji "Release" ta implementacja po prostu wywołuje czytanie z geometrii w źródle
-    ///, a przy "Debug" wyrzuca asercje.
+    /// Przy kompilacji "Release" ta implementacja po prostu wywołuje czytanie z geometrii w źródle, a przy "Debug" wyrzuca asercje.
     double get(size_t index_from_geometry) override;
 
 };
@@ -505,7 +503,7 @@ public:
     /// Zwraca nazwę serii, po prostu czytając z bazowego `title_util`.
     const char *name() override { return title_util::name(); }
 
-    /// Ta implementacja po prostu czyta to co ma zapisane w atrybutach.
+    /// Ta implementacja po prostu czyta to, co ma zapisane w atrybutach.
     void bounds(size_t &num, double &min, double &max) override
     { num = N; min = y_min; max = y_max; }
 
@@ -580,7 +578,7 @@ double template_filter_source_base<SOURCE_TYPE>::get(iterator_h &I)
     return reinterpret_cast<SOURCE_TYPE*>(Source)->get(I);
 }
 
-}} // end of namespaces sym2::data
+}} // end-of-namespaces sym2::data
 
 #pragma clang diagnostic pop
 /* ****************************************************************** */

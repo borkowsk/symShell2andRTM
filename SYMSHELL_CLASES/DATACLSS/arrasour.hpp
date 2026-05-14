@@ -206,8 +206,8 @@ public:
 //---------------
 
     /// Podaje, ile jest elementów, a także wartość minimalną i maksymalną.
-    /// Jeśli minimum i maksimum nie zostały wcześniej podane jawnie albo już wcześniej obliczone,
-    /// to są tu odnajdywane w pętli.
+    /// Jeśli minimum i maksimum nie zostały wcześniej podane jawnie
+    /// albo już wcześniej obliczone, to są tu odnajdywane w pętli.
     void bounds(size_t &num, double &min, double &max) override;
 
     /// Daje następną z N liczb.

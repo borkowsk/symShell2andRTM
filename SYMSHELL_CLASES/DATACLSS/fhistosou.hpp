@@ -3,10 +3,16 @@
 /// @date 2026-05-14 (modified)
 // ********************************************************************************************************************
 //
-#ifndef __FIXED_CLAS_HISTOGRAM_SOUR_HPP__
-#define __FIXED_CLAS_HISTOGRAM_SOUR_HPP__
+#ifndef SYMSHELL2_FIXED_CLAS_HISTOGRAM_SOUR_HPP_INCLUDED_
+#define SYMSHELL2_FIXED_CLAS_HISTOGRAM_SOUR_HPP_INCLUDED_
 
 #include "statsour.hpp"
+
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "modernize-use-auto"
+#pragma ide diagnostic ignored "modernize-use-nullptr"
+// --checks=-google-default-arguments.
+#pragma ide diagnostic ignored "google-default-arguments"
 
 namespace sym2 { namespace data {
 
@@ -18,166 +24,24 @@ class fix_histogram_source : public basic_statistics_source<DATA_SOURCE>
 {
     typedef basic_statistics_source<DATA_SOURCE> base_class;
 protected:
-    size_t Num;     //Number of Class;
-    double FixMin;  //Ustalone z gory minimum
-    double FixMax;  //Ustalone z gory maximum
-    unsigned SubRange: 1; //Jezeli zakres realny wykracza poza zadany to robi hist z części danych
+    size_t    Num;    ///< Number of Class.
+    double FixMin;    ///< Ustalone z gory minimum.
+    double FixMax;    ///< Ustalone z gory maximum.
+    bool SubRange: 1; ///< Jeżeli zakres realny wykracza poza zadany, to robi histogram z części danych
 
-    wb_dynarray<unsigned long> arra;
+    wb_dynarray<unsigned long> arra; ///< Koszyki histogramu.
 
-    // Przemieszcza iterator o jednostke. Zeruje, jeśli koniec tablicy
+    /// Przemieszcza iterator o jednostkę. Zeruje, jeśli koniec tablicy.
     size_t _next(data_source_base::iterator_h &p);
 
-    int _calculate() override
-//Zwraca 1, jeśli musial przeliczyc
-    {
-        if(!basic_statistics_source<DATA_SOURCE>::_calculate())
-        {
-            return 0; //NIC DO ROBOTY BO NIE BYŁO ZMIAN
-        } else
-        {//OBLICZANIE HISTOGRAMU
-            assert(Num > 1);      //Muszą być jakies klasy
-            assert(arra.IsOK()); //Musi być zaalokowana tablica
-
-            size_t SN;
-            double smin, smax;
-            base_class::Source->bounds(SN, smin, smax);
-
-            if((!SubRange) && (smin < FixMin || FixMax < smax))	//Czy w zakresie
-                goto ERROR;
-
-            arra.fill(0);
-
-            //PETLA ZLICZANIA
-            data_source_base::iterator_h Ind = base_class::Source->reset();
-            base_class::source_miss = base_class::Source->get_missing(); //Trzeba to zrobi� żeby from_source_is_missing_ działalo poprawnie!
-
-            size_t Licz = 0, Poza = 0;
-            for(size_t j = 0; j < SN; j++)
-            {
-                double pom = base_class::Source->get(Ind);
-                if(!base_class::from_source_is_missing_(pom))
-                {
-                    if(FixMin <= pom && pom < FixMax)
-                    {
-                        Licz++; //Tylko te ktore faktycznie weszly w histogram
-                        pom = (pom - FixMin) / (FixMax - FixMin); //Wczesniej sprawdzono ze pom w zakresie
-                        assert(0 <= pom && pom < 1);
-                        arra[size_t(trunc(pom * Num))]++;
-                    } else if(pom == FixMax)	//Wyłapanie maksimum, jeśli jest
-                    {
-                        Licz++;
-                        arra[Num - 1]++; //Arbitralnie do ostatniego koszyka
-                    } else
-                    {
-                        Poza++; //Te ktore nie weszly w histogram
-                    }
-                }
-            }
-            base_class::Source->close(Ind);
-
-            //PETLA	LICZENIA STATYSTYK
-            double Entropy = 0;
-            size_t licz_klasy = 0, maxp = 0;;
-
-            if(Licz > 0)	//Jest cokolwiek do liczenia
-            {
-                size_t minp = 0;
-                base_class::y_min = DBL_MAX;
-                base_class::y_max = 0;
-
-                for(size_t i = 0; i < Num; i++)
-                {
-                    double pom = arra[i];
-
-                    if(pom > 0)
-                        licz_klasy++;
-
-                    if(pom > base_class::y_max)
-                    {
-                        base_class::y_max = pom;
-                        maxp = i;
-                    }
-
-                    if(pom < base_class::y_min)
-                    {
-                        base_class::y_min = pom;
-                        minp = i;
-                    }
-
-                    //Liczenie składowych entropi
-                    double qi = pom / double(Licz);
-
-                    //Powiekrzenie sumy, tam gdzie nie jest to puste skrzyzowanie
-                    if(qi > 0)
-                        Entropy += qi * log(qi);
-
-                }
-            }
-
-            //AKTUALIZACJA AKTYWNYCH ŹRÓDEŁ STATYSTYCZNYCH
-            if(base_class::table[6] != NULL)
-            {
-                base_class::table[6]->change_val(base_class::y_max);
-            }
-
-            if(base_class::table[7] != NULL)
-            {
-                base_class::table[7]->change_val(licz_klasy);
-            }
-
-            if(base_class::table[8] != NULL)
-            {
-                base_class::table[8]->change_val(maxp + smin + 0.5); //0.5 bo srodek przedzialu calkowitego
-            }
-
-            if(base_class::table[9] != NULL)
-            {
-                if(Entropy != 0)	//Jeśli cos się zsumowalo
-                    base_class::table[9]->change_val(-Entropy);
-                else
-                    base_class::table[9]->change_val(base_class::table[9]->get_missing());
-            }
-
-            if(base_class::table[10] != NULL)
-            {
-                int KL = size_t(smax - smin) + 1; //Ile jednostek calkowitych zakresu realnego
-                assert(KL > 0);
-                if(Entropy != 0)	//Jeśli cos się zsumowalo
-                    base_class::table[10]->change_val(-Entropy / log(double(KL))); //A może powinno być dla zadanego?
-                else
-                    base_class::table[10]->change_val(base_class::table[10]->get_missing());
-            }
-
-            //Jeśli zdefiniowana liczba klas
-            for(size_t k = 0; k < Num; k++)
-            {
-                if(base_class::table[11 + k] != NULL) //"i" może być 0!
-                {
-                    base_class::table[11 + k]->change_val(arra[k]); //Jeden do jednego,
-                }
-            }
-
-            return 1;
-        }//Musial przeliczyc
-
-        ERROR:
-        if(base_class::table[10] = NULL)
-            base_class::table[10]->change_val(base_class::table[9]->get_missing());
-        if(base_class::table[9] = NULL)
-            base_class::table[9]->change_val(base_class::table[9]->get_missing());
-        if(base_class::table[8] != NULL)
-            base_class::table[8]->change_val(base_class::table[8]->get_missing());
-        if(base_class::table[7] != NULL)
-            base_class::table[7]->change_val(base_class::table[7]->get_missing());
-        if(base_class::table[6] != NULL)
-            base_class::table[6]->change_val(base_class::table[6]->get_missing());
-        arra.dispose();
-        base_class::y_min = base_class::y_max = 0;
-        return 1;
-    }
+    /// Leniwe obliczanie statystyk. Zwraca 1, jeśli musiał przeliczyć.
+    int _calculate() override;
 
 public:
+    /// @name Pod-źródła skalarne z wynikami obliczanych statystyk.
+    /// @{
+
+    /// Liczebność najliczniejszej klasy (koszyka).
     scalar_source<double> *MainClass(const char *format = "MainClass(%s)")
     {
         return base_class::GetMonoSource(6, format);
@@ -203,51 +67,58 @@ public:
         return base_class::GetMonoSource(10, format);
     }
 
-    scalar_source<double> *Class(size_t number, const char *format = "C<%g,%g)(%s)")
+    /// Źródło skalarne dla N-tego koszyka histogramu.
+    /// @param index to określenie, który koszyk histogramu.
+    scalar_source<double> *Class(size_t index, const char *format = "C<%g,%g)(%s)")
     {
         char bufor[500]; //Z dużym zapasem
         double step = (FixMax - FixMin) / Num;
-        double min = number * step;
-        double max = (number + 1) * step;
+        double min = double(index) * step;
+        double max = double(index + 1) * step;
         sprintf(bufor, format, min, max, "%s");
-        return base_class::GetMonoSource(10 + 1 + number, bufor); //+1, bo "number" może być 0!!!
+        return base_class::GetMonoSource(10 + 1 + index, bufor); //+1, bo "index" może być 0!!!
     }
+    /// @}
 
+    /// Konstruktor.
     fix_histogram_source(
-            size_t HowManyClass,    //Number of Class;
-            double iFixMin,         //Ustalone z gory minimum
-            double iFixMax,         //Ustalone z gory maximum
-            DATA_SOURCE *ini = NULL,  //Klasa zrodlowa
+            size_t HowManyClass,      ///< Number of Class.
+            double iFixMin,           ///< Ustalone z gory minimum.
+            double iFixMax,           ///< Ustalone z gory maximum.
+            DATA_SOURCE *ini = NULL,  ///< Seria źródłowa.
             //Jeśli nie pokrywa się z minX-maxX to faktycznie liczony jest wycinek
             const char *format = "DISTR_%d_CLASS(%s[%g..%g])",
-            bool iSubRange = false, //Jezeli zakres realny wykracza poza zadany to robi hist z czesci danych
-            sources_manager_base *MyMenager = NULL,
+            bool iSubRange = false, //Jeżeli zakres realny wykracza poza zadany, to robi histogram z części danych.
+            sources_manager_base *my_manager = NULL,
             size_t table_size = 11/*BEZ ZAPASU*/
-    ) :
-            Num(HowManyClass),
-            FixMin(iFixMin), FixMax(iFixMax), SubRange(iSubRange),
-            basic_statistics_source<DATA_SOURCE>(ini, MyMenager,
-                                                 table_size + HowManyClass,		//Alokuje miejsce na zrodelka klasowe
-                                                 format)
+    )
+    : Num(HowManyClass),FixMin(iFixMin), FixMax(iFixMax), SubRange(iSubRange),
+      basic_statistics_source<DATA_SOURCE>( ini, my_manager,
+                                            table_size + HowManyClass,		//Alokuje miejsce na pod-źródła skalarne.
+                                            format)
     {
-        wb_pchar bufor(strlen(format) + 2 * 100); //Z za dużym zapasem jak na dwa integery, ale...
+        wb_pchar bufor(strlen(format) + 2 * 100); //Z za dużym zapasem jak na dwa integer-y, ale...
         bufor.prn(format, Num, "%s", FixMin, FixMax);
         basic_statistics_source<DATA_SOURCE>::set_title(bufor.get());
         arra.alloc(Num); //Liczba klas zafiksowana
     }
 
-    ~fix_histogram_source()
-    {}
+    /// Destruktor.
+    ~fix_histogram_source() = default;
 
 // Methods
+//========
+
+    /// Ile koszyków histogramu.
     size_t get_size()
     {
-        base_class::check_version_(); //Uaktualnia tez wersje podzrodla, jeśli trzeba
-        _calculate(); //Sprawdza, czynie trzeba policzyc i ewentualnie liczy
+        base_class::check_version_(); //Uaktualnia też wersje pod-źródła, jeśli trzeba
+        _calculate(); //Sprawdza, czynie trzeba policzyć i ewentualnie liczy
         return arra.get_size();
     }
 
-    void all_subseries_required()	//Alokuje i ewentualnie rejestruje w menagerze wszystkie serie
+    /// Umieszcza wszystkie skalarne pod-źródła w podanym w konstruktorze zarządcy danych.
+    void all_subseries_required()	//Alokuje i ewentualnie rejestruje w zarządcy wszystkie serie
     {
         basic_statistics_source<DATA_SOURCE>::all_subseries_required();
         //MAX CLASS
@@ -256,28 +127,181 @@ public:
         NumOfClass();
         Entropy();
         for(size_t i = 0; i < Num; i++)
-            Class(i); //Alokacja źródeł liczebnosci klas
+            Class(i); //Alokacja źródeł liczebności koszyków.
     }
 
+    /// Ile koszyków, liczebności w najmniejszym i największym koszyku.
     void bounds(size_t &num, double &min, double &max)
-//Ile elementów,wartość minimalna i maksymalna
     {
-        base_class::check_version_(); //Uaktualnia tez wersje podzrodla jeśli trzeba
-        _calculate(); //Sprawdza, czynie trzeba policzyc i ewentualnie liczy
+        base_class::check_version_(); //Uaktualnia też wersje pod-źródła, jeśli trzeba
+        _calculate(); //Sprawdza, czynie trzeba policzyć i ewentualnie liczy
         num = get_size();
         min = base_class::y_min;
         max = base_class::y_max;
     }
 
-    data_source_base::iterator_h reset(); //Umozliwia czytanie po iteratorze od poczatku
-    void close(data_source_base::iterator_h &p); //Usuwa iterator
-    double get(data_source_base::iterator_h &ptr_to_iterator); //Daje następną z N liczb!!!
-    double get(size_t index); //Przetwarza index uzyskany z geometrii
+    data_source_base::iterator_h reset(); ///< Umożliwia czytanie wartości koszyków iteratorem od początku.
+    void close(data_source_base::iterator_h &p); ///< Usuwa iterator
+    double get(data_source_base::iterator_h &ptr_to_iterator); ///< Daje następną z N wartości koszyków.
+    double get(size_t index); /// Przetwarza index koszyka na jego wartość.
 };
 
-// Przemieszcza iterator o jednostke. Zeruje jeśli koniec tablicy
+// NAJBARDZIEJ KOSZTOWNE OBLICZENIOWE:
+//====================================
+
+template<class DATA_SOURCE>
+int fix_histogram_source<DATA_SOURCE>::_calculate()
+{
+    if(!basic_statistics_source<DATA_SOURCE>::_calculate())
+    {
+        return 0; //NIC DO ROBOTY, BO NIE BYŁO ZMIAN
+    } else
+    {//OBLICZANIE HISTOGRAMU
+        assert(Num > 1);      //Muszą być jakieś klasy
+        assert(arra.IsOK()); //Musi być zaalokowana tablica
+
+        size_t SN;
+        double s_min, s_max;
+        base_class::Source->bounds(SN, s_min, s_max);
+
+        if((!SubRange) && (s_min < FixMin || FixMax < s_max))	//Czy w zakresie
+            goto ERROR;
+
+        arra.fill(0);
+
+        //PĘTLA ZLICZANIA
+        data_source_base::iterator_h Ind = base_class::Source->reset();
+        base_class::source_miss = base_class::Source->get_missing(); //Trzeba to zrobić, żeby from_source_is_missing_ działało poprawnie!
+
+        size_t Licz = 0, Poza = 0;
+        for(size_t j = 0; j < SN; j++)
+        {
+            double pom = base_class::Source->get(Ind);
+            if(!base_class::from_source_is_missing_(pom))
+            {
+                if(FixMin <= pom && pom < FixMax)
+                {
+                    Licz++; //Tylko te które, faktycznie weszły w histogram
+                    pom = (pom - FixMin) / (FixMax - FixMin); //Wcześniej sprawdzono, że `pom` w zakresie
+                    assert(0 <= pom && pom < 1);
+                    arra[size_t(trunc(pom * Num))]++;
+                } else if(pom == FixMax)	//Wyłapanie maksimum, jeśli jest.
+                {
+                    Licz++;
+                    arra[Num - 1]++; //Arbitralnie do ostatniego koszyka
+                } else
+                {
+                    Poza++; //Te, które nie weszły w histogram
+                }
+            }
+        }
+        base_class::Source->close(Ind);
+
+        //PĘTLA	LICZENIA STATYSTYK
+        double Entropy = 0;
+        size_t licz_klasy = 0, max_p = 0;;
+
+        if(Licz > 0)	//Jest cokolwiek do liczenia
+        {
+            //size_t min_p = 0;
+            base_class::y_min = DBL_MAX;
+            base_class::y_max = 0;
+
+            for(size_t i = 0; i < Num; i++)
+            {
+                double pom = arra[i];
+
+                if(pom > 0)
+                    licz_klasy++;
+
+                if(pom > base_class::y_max)
+                {
+                    base_class::y_max = pom;
+                    max_p = i;
+                }
+
+                if(pom < base_class::y_min)
+                {
+                    base_class::y_min = pom;
+                    //min_p = i;
+                }
+
+                //Liczenie składowych entropi
+                double qi = pom / double(Licz);
+
+                //Powiększenie sumy, gdy nie jest to "puste skrzyżowanie".
+                if(qi > 0)
+                    Entropy += qi * log(qi);
+
+            }
+        }
+
+        //AKTUALIZACJA AKTYWNYCH ŹRÓDEŁ STATYSTYCZNYCH
+        if(base_class::table[6] != NULL)
+        {
+            base_class::table[6]->change_val(base_class::y_max);
+        }
+
+        if(base_class::table[7] != NULL)
+        {
+            base_class::table[7]->change_val(licz_klasy);
+        }
+
+        if(base_class::table[8] != NULL)
+        {
+            base_class::table[8]->change_val( double(max_p) + s_min + 0.5); //1/2, bo środek przedziału całkowitego (TU TEŻ?)
+        }
+
+        if(base_class::table[9] != NULL)
+        {
+            if(Entropy != 0)	//Jeśli cos się zsumowało
+                base_class::table[9]->change_val(-Entropy);
+            else
+                base_class::table[9]->change_val(base_class::table[9]->get_missing());
+        }
+
+        if(base_class::table[10] != NULL)
+        {
+            double KL = std::trunc(s_max - s_min + 1); //Ile jednostek całkowitych zakresu realnego
+            assert(KL > 0);
+            if(Entropy != 0)	//Jeśli cos się zsumowało
+                base_class::table[10]->change_val( -Entropy / log( KL) ); //A może powinno być dla zadanego?
+            else
+                base_class::table[10]->change_val( base_class::table[10]->get_missing() );
+        }
+
+        //Jeśli zdefiniowana liczba klas
+        for(size_t k = 0; k < Num; k++)
+        {
+            if(base_class::table[11 + k] != NULL) //"i" może być 0!
+            {
+                base_class::table[11 + k]->change_val(arra[k]); //Jeden do jednego,
+            }
+        }
+
+        return 1;
+    }//Musial przeliczyć
+
+    ERROR:
+    if(base_class::table[10] != NULL)
+        base_class::table[10]->change_val(base_class::table[10]->get_missing());
+    if(base_class::table[9] != NULL)
+        base_class::table[9]->change_val(base_class::table[9]->get_missing());
+    if(base_class::table[8] != NULL)
+        base_class::table[8]->change_val(base_class::table[8]->get_missing());
+    if(base_class::table[7] != NULL)
+        base_class::table[7]->change_val(base_class::table[7]->get_missing());
+    if(base_class::table[6] != NULL)
+        base_class::table[6]->change_val(base_class::table[6]->get_missing());
+    arra.dispose();
+    base_class::y_min = base_class::y_max = 0;
+    return 1;
+}
+
+
 template<class DATA_SOURCE>
 size_t fix_histogram_source<DATA_SOURCE>::_next(data_source_base::iterator_h &p)
+// Przemieszcza iterator o jednostkę. Zeruje, jeśli koniec tablicy.
 {
     assert(p != NULL); //Nie wolno wywołać dla NULL
     size_t pom = ((size_t) p) - 1;
@@ -289,49 +313,48 @@ size_t fix_histogram_source<DATA_SOURCE>::_next(data_source_base::iterator_h &p)
     return pom;
 }
 
-//Przetwarza index uzyskany z geometrii
 
-template<class DATA_SOURCE>
-inline
+
+template<class DATA_SOURCE> inline
 double fix_histogram_source<DATA_SOURCE>::get(size_t index)
-{ //na wartość z serii, o ile jest możliwe czytanie losowe
-    base_class::check_version_(); //Uaktualnia tez wersje podzrodla, jeśli trzeba
+//Przetwarza index uzyskany z pseudogeometrii na wartość z serii.
+{
+    base_class::check_version_(); //Uaktualnia też wersje pod-źródła, jeśli trzeba
     _calculate(); //Sprawdza, czynie trzeba policzyć i ewentualnie liczy
     assert(index < get_size());
     return arra[index];
 }
 
-//Daje następną z N liczb!!!
-template<class DATA_SOURCE>
-inline
+
+template<class DATA_SOURCE> inline
 double fix_histogram_source<DATA_SOURCE>::get(data_source_base::iterator_h &ptr_to_iterator)
+//Daje następną z N liczb!!!
 {
     assert(ptr_to_iterator != NULL);
     return arra[_next(ptr_to_iterator)];
 }
 
 
-template<class DATA_SOURCE>
-inline
+template<class DATA_SOURCE> inline
 void fix_histogram_source<DATA_SOURCE>::close(data_source_base::iterator_h &p)
 {
     p = NULL;
 }
 
-
-template<class DATA_SOURCE>
-inline
-data_source_base::iterator_h fix_histogram_source<DATA_SOURCE>::reset()	//Umozliwia czytanie po iteratorze od poczatku
+template<class DATA_SOURCE> inline
+data_source_base::iterator_h fix_histogram_source<DATA_SOURCE>::reset()
+//Umożliwia czytanie po iteratorze od początku.
 {
-    base_class::check_version_(); //Uaktualnia tez wersje podzrodla, jeśli trzeba
+    base_class::check_version_(); //Uaktualnia też wersje pod-źródła, jeśli trzeba
     _calculate(); //Sprawdza, czynie trzeba policzyć i ewentualnie liczy
     return (data_source_base::iterator_h) 1;
 }
 
 typedef fix_histogram_source<data_source_base> generic_fix_histogram_source;
 
-}} // end of namespaces sym2::data
+}} // end-of-namespaces sym2::data
 
+#pragma clang diagnostic pop
 /* ****************************************************************** */
 /*               SYMSHELL2  version 2006/2022/2026                    */
 /* ****************************************************************** */

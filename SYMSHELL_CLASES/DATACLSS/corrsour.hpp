@@ -1,7 +1,7 @@
 /// @file
 /// @brief UNUSED correlation filter class - a two-source, single-value data filter/
 ///        NIEUŻYWANA klasa  filtru korelacji — dwuźródłowego, jednowartościowego filtru danych.
-/// @date 2026-05-07 (modified)
+/// @date 2026-05-14 (modified)
 // ********************************************************************************************************************
 //
 //#error SKOMPLIKOWANE W IMPLEMENTACJI, ALE MOŻNA BY KIEDYŚ SPRÓBOWAĆ.
@@ -14,6 +14,7 @@
 namespace sym2 { namespace data {
 
 /// Klasa  filtru korelacji — dwuźródłowego, jednowartościowego filtru danych.
+/// Nie wygląda na używaną.
 class correlation_source : public template_scalar_source_base<double>,
                            public bi_filter_source_base
 //---------------------------------------------------------------------
@@ -22,18 +23,23 @@ class correlation_source : public template_scalar_source_base<double>,
 
 protected:
     /// Liczy korelacje i zapisuje w `corr_value`.
+    /// NIE ZNAJDUJE IMPLEMENTACJI... DZIWNE.
     virtual void _calculate();
 
 public:
+    /// Konstruktor.
+    /// \param ini1 pierwsza źródłowa seria danych.
+    /// \param ini2 druga źródłowa seria danych.
+    /// \param format sposób tworzenia nazwy filtra z nazw serii źródłowych.
     correlation_source(data_source_base *ini1,
                        data_source_base *ini2,
-                       const char *format = "CORR(%s , %s)") :
-            bi_filter_source_base(ini1, ini2, format),
-            template_scalar_source_base<double>("",/*min*/-1,/*max*/1),
-            corr_value(0)
+                       const char *format = "CORR(%s , %s)")
+    : bi_filter_source_base(ini1, ini2, format),
+      template_scalar_source_base<double>("",/*min*/-1,/*max*/1),
+      corr_value(0)
     {}
 
-    //Raczej nieużywana implementacja decyzji o wartości minimalnej i maksymalnej
+    /// Raczej nieużywana implementacja decyzji o wartości minimalnej i maksymalnej.
     virtual void _bounds(double &min1, double &max1,
                          double &min2, double &max2,
                          double &min, double &max)
@@ -43,12 +49,13 @@ public:
         max = 1;
     }
 
-    //Raczej nieużywane. Zawsze  zwraca tylko raz policzona korelacje, chyba że dane się zmieniły.
+    /// Raczej nieużywane. Zawsze  zwraca tylko raz policzona korelacje, chyba że dane się zmieniły.
     virtual double _get(double val1, double val2)
     {
         return corr_value;
     }
 
+    /// Zwraca policzoną korelację.
     virtual double get()
     {
         if(check_version_())
@@ -57,7 +64,7 @@ public:
     }
 };
 
-}} // end of namespaces sym2::data
+}} // end-of-namespaces sym2::data
 
 /* ****************************************************************** */
 /*               SYMSHELL2  version 2006/2022/2026                    */
