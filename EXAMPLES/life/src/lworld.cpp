@@ -180,7 +180,7 @@ void lifeworld::make_default_visualisation()
         else Sources.insert(ClassStat);
 
         //A także utworzenie seri liczących ich wzajemne ko-statystyki
-        coincidention_source *CorrFS = new coincidention_source(Firsts, Seconds);
+        coincidence_source *CorrFS = new coincidence_source(Firsts, Seconds);
         if (!CorrFS) goto ERROR;
         Sources.insert(CorrFS); //Żeby została kiedyś zwolniona, a poza tym może ktoś kiedyś...
 

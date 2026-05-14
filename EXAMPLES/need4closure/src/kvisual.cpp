@@ -153,7 +153,7 @@ void kworld::make_default_visualisation()
         int iSpatialCorr=Sources.insert(SpatialCorr);
         
         //A takze utworzenie seri liczacych ich wzajemne ko-statystyki
-        coincidention_source* CorrFS=new coincidention_source(Firsts,Seconds);
+        coincidence_source* CorrFS=new coincidence_source(Firsts, Seconds);
         if(!CorrFS) goto ERROR;
         Sources.insert(CorrFS); //Zeby zostala kiedys zwolniona, a poza tym moze ktos kiedys...
         

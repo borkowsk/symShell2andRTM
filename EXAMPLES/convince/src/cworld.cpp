@@ -170,7 +170,7 @@ void aWorld::make_default_visualisation()
         else	Sources.insert(ClassStat);
 
     // And also creating a series counting their mutual co-statistics:
-    coincidention_source* CorrFS=new coincidention_source(Firsts,Seconds);
+    coincidence_source* CorrFS=new coincidence_source(Firsts, Seconds);
     if(!CorrFS) goto ERROR;
     Sources.insert(CorrFS); // Registered to be released at the end
 

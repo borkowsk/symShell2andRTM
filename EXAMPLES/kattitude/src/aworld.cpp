@@ -264,7 +264,7 @@ void aworld::make_default_visualisation()
     Sources.insert(SpatialCorr);
 
     //A także utworzenie seri liczących ich wzajemne ko-statystyki
-    coincidention_source* CorrFS=new coincidention_source(Firsts,Seconds);
+    coincidence_source* CorrFS=new coincidence_source(Firsts, Seconds);
     //if(!CorrFS) goto ERROR; // Od C++11 new rzuca wyjątkiem, zamiast zwracać `nullptr`!
     Sources.insert(CorrFS); //Żeby została kiedyś zwolniona, a poza tym może ktoś kiedyś skorzysta :-)
 
