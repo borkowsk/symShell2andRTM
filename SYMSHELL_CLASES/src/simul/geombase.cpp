@@ -4,15 +4,21 @@
 //*////////////////////////////////////////////////////////////////////////////
 
 //#include "INCLUDE/platform.hpp"
-
-#include <iostream>
-#include <cstdlib>
+//#include <cstdlib>
 #include <cstdio>
+#include <iostream>
 
 using namespace std;
 
 #include "geombase.hpp"
 using namespace symshell2;
+
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "modernize-use-auto"
+#pragma ide diagnostic ignored "modernize-use-nullptr"
+#pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
+// --checks=-google-default-arguments.
+#pragma ide diagnostic ignored "google-default-arguments"
 
 const
 size_t tab_size=8;
@@ -25,102 +31,101 @@ unsigned long cal_num=0;
 static void*	bufory[tab_size];
 static size_t	rozmiary[tab_size];
 
-class menager_bufora_alokacji_iteratorow
+class manager_bufora_alokacji_iter_base
 {
 public:
-~menager_bufora_alokacji_iteratorow()
-{
-#ifndef NDEBUG
-    if(cal_num>0)
+    ~manager_bufora_alokacji_iter_base()
     {
-    //if(cerr.good()&& (!cerr.eof()))//Może już go nie być, ale to sprawdzenie i tak nie za bradzo dzaiała!!!
-    //	cerr<<"Iterator's allocator buffer:\n"
-    //	<<"max len.="<<max_size<<"\n"
-    //	<<"hit rat.="<<hit_num/double(cal_num)<<endl;
-        fprintf(stderr,"%s\n%s %lu\n%s %g\n","Iterator's allocator buffer:","max len.=",max_size,"hit rat.=",double(hit_num/double(cal_num)));
-    }
-    else
-    {
-    //if(cerr.good()&& (!cerr.eof()))//Może już go nie być (!!!), ale to sprawdzenie i tak nie za bradzo dzaiała!!!
-    //	cerr<<"Iterator's allocator buffer never been used.\n";
-        fprintf(stderr,"%s\n","Iterator's allocator buffer never been used.");
-    }
-#endif
-                                            assert(max_size<=tab_size); //max_size>=0 zawsze bo unsigned
-    for(size_t i=0;i<tab_size;i++)
-    {
-        if(bufory[i]!=NULL)
-        {                                   assert(i<cur_size);
-            char* pc=(char*)bufory[i];      assert(rozmiary[i]!=0);
-#ifdef _USE_ALLOCATORS_
-            delete [rozmiary[i]] pc; //Gdyby kiedys obslugiwano alokatory tablicowe
-#else
-            delete [] pc;
-#endif
+    #ifndef NDEBUG
+        if(cal_num>0)
+        {
+            //if(cerr.good()&& (!cerr.eof()))//Może już go nie być, ale to sprawdzenie i tak nie za bardzo działa!!!
+            //	cerr<<"Iterator's allocator buffer:\n"
+            //	<<"max len.="<<max_size<<"\n"
+            //	<<"hit rat.="<<hit_num/double(cal_num)<<endl;
+            fprintf(stderr,"%s\n%s %lu\n%s %g\n","Iterator's allocator buffer:","max len.=",max_size,"hit rat.=", double(hit_num)/double(cal_num) );
+        }
+        else
+        {
+            //if(cerr.good()&& (!cerr.eof()))//Może już go nie być (!!!), ale to sprawdzenie i tak nie za bardzo działa!!!
+            //	cerr<<"Iterator's allocator buffer never been used.\n";
+            fprintf(stderr,"%s\n","Iterator's allocator buffer has never been used.");
+        }
+    #endif
+                                                assert(max_size<=tab_size); //max_size>=0 zawsze bo unsigned
+        for(size_t i=0;i<tab_size;i++)
+        {
+            if(bufory[i]!=NULL)
+            {                                   assert(i<cur_size);
+                char* pc=(char*)bufory[i];      assert(rozmiary[i]!=0);
+    #ifdef _USE_ALLOCATORS_
+                delete [rozmiary[i]] pc; //Gdyby kiedyś obsługiwano alokatory tablicowe
+    #else
+                delete [] pc;
+    #endif
+            }
         }
     }
-}
 
-} __menager_bufora_alokacji_iteratorow;
+} manager_bufora_alokacji_dla_iterator_base_;
 
-//Zakladam ze tablice sa inicjowane na 0!!
+//Zakładam, że tablice są inicjowane na 0!!
 
 
-#define USE_OPTYMIZ_ALLOC
+#define USE_OPTIMIZED_ALLOC
 
-void* geometry_base::iterator_base::operator new (size_t s)
+void* geometry_base::iterator_base::operator new (size_t s) noexcept
 {
                                                                         assert(s>0);
     cal_num++;
-    if(cal_num==0) //Przekrecony (???)
+    if(cal_num==0) //Przekręcony (???) teoretycznie istnieje taka możliwość...
     {
         hit_num=0;
         cal_num=1;
     }
-#ifdef USE_OPTYMIZ_ALLOC
-    //Przeszukiwanie tablicy ostatnio używanych i zwolnionych iteratorow
+#ifdef USE_OPTIMIZED_ALLOC
+    //Przeszukiwanie tablicy ostatnio używanych i zwolnionych iteratorów
     if(cur_size!=0)
     {
-    for(size_t i=0;i<cur_size;i++) //szukam czy nie ma wolnego bufora
-        if(rozmiary[i]==s) //Znalazlem
-        {
-            hit_num++;
-            void* pom=bufory[i];
-            assert(pom!=NULL);
-
-            bufory[i]=NULL;
-            rozmiary[i]=0; //Usuwam z listy wolnych
-
-            if(i==cur_size-1)
+        for(size_t i=0;i<cur_size;i++) //szukam czy nie ma wolnego bufora
+            if(rozmiary[i]==s) //Znalazłem
             {
-                cur_size--;
-                assert(cur_size!=-1);
-            }
+                hit_num++;
+                void* pom=bufory[i];
+                assert(pom!=NULL);
 
-            return pom;
-        }
+                bufory[i]=NULL;
+                rozmiary[i]=0; //Usuwam z listy wolnych
+
+                if(i==cur_size-1)
+                {
+                    cur_size--;
+                    assert(cur_size!=-1);
+                }
+
+                return pom;
+            }
     }
 #endif
-    //Nie znaleziono slotu z takim blokiem - zwykla alokacja
+    //Nie znaleziono slotu z takim blokiem — zwykła alokacja, zazwyczaj na początku programu.
     return new char[s];
 }
 
-void  geometry_base::iterator_base::operator delete (void* p, size_t s)
+void  geometry_base::iterator_base::operator delete (void* p, size_t s) noexcept
 {
     char* pc=(char*)p;
 
-#ifdef USE_OPTYMIZ_ALLOC
+#ifdef USE_OPTIMIZED_ALLOC
     for(size_t i=0;i<tab_size;i++)
     {
-
         assert(p!=bufory[i]);
 
         if(rozmiary[i]==0) //Wolny slot
         {
-            assert(i<=cur_size); //najwyzej o 1 wiecej
+            assert(i<=cur_size); //najwyżej o 1 więcej
             assert(bufory[i]==NULL);
 
-            bufory[i]=p; //Zapamientuje
+            bufory[i]=p; //Zapamiętuje
             rozmiary[i]=s;
 
             if(i==cur_size)
@@ -139,10 +144,11 @@ void  geometry_base::iterator_base::operator delete (void* p, size_t s)
 #ifdef _USE_ALLOCATORS_
     delete [s] pc;      //choć "s" będzie zignorowane
 #else
-    delete [] pc;
+    delete [] pc;       // Czy to się w ogóle zdarza?
 #endif
 }
 
+#pragma clang diagnostic pop
 /* ****************************************************************** */
 /*               SYMSHELL2  version 2006/2022/2026                    */
 /* ****************************************************************** */

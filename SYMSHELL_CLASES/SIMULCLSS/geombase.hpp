@@ -1,6 +1,6 @@
 /// @file
 /// @brief GEOMETRIA — SPOSÓB ORGANIZACJI AGENTÓW W WARSTWIE./ GEOMETRY — THE WAY OF ORGANIZING AGENTS IN A LAYER.
-/// @date 2026-05-07 (modified)
+/// @date 2026-05-14 (modified)
 // *********************************************************************************************************************
 //
 #ifndef SYMSHELL2_GEOM_BASE_HPP_INCLUDED_
@@ -27,18 +27,19 @@ namespace symshell2 {
 
 /// Typ uchwytowy do iteratorów geometrii.
 /// Wersja trochę stara, ale wciąż lata...
-typedef void* iteratorh;
+typedef void* iterator_h;
+typedef iterator_h iteratorh; //Stara wersja dla kompatybilności.
 
 /*
 class geometry_base::iterator_base; //???Pomysły na wersję zabezpieczoną?
 
-class iteratorh
+class iterator_h
 //----------------
 {
     iterator_base* val;
     public:
-    iteratorh():val(0){}
-    explicit iteratorh(unsigned long Init):val((iterator_base*)Init){}
+    iterator_h():val(0){}
+    explicit iterator_h(unsigned long Init):val((iterator_base*)Init){}
     void set(unsigned long Init){ val=(iterator_base*)Init; }
     operator iterator_base* () {return val;}
     operator void* () {return (void*)val;}
@@ -48,7 +49,7 @@ class iteratorh
 /// INTERFACE dla geometrii świata symulacji.
 /// @details
 ///    Geometria jest obiektem, który potrafi opisać położenie agentów w warstwie
-///    , a także wzajemnie względem siebie i przetworzyć je na liniowy indeks tablicy.
+///    a także wzajemnie względem siebie i przetworzyć je na liniowy indeks tablicy.
 class geometry_base 
 //-----------------
 {
@@ -116,8 +117,15 @@ public:
         /// @details "Clang-Tidy: Declaration of 'operator new' has no matching declaration of 'operator delete' at the same scope"
         ///          <br> REALLY?
         /// @{
-        void* operator new (size_t s);	//!< Klasowy alokator iteratora.
-        void  operator delete (void* p, size_t s);	//!< Klasowy de-alokator dla iteratora.
+
+        /// Klasowy de-alokator dla iteratora.
+        static void  operator delete (void* p, size_t s) noexcept;
+
+        /// Klasowy alokator iteratora.
+        static void* operator new (size_t s) noexcept;
+
+        // Wersja delete, której szuka Clang-Tidy, ale jest sprzeczna z logiką rozwiązania.
+        //static void  operator delete(void* p) noexcept;
         /// @}
 
         /// Konstruktor, poza tym, co robi niejawnie, ustawia też `marker`.
@@ -189,29 +197,29 @@ public:
     //------------------------------------------------------
 
     /// Tworzy iterator po obszarze wizualizacji.
-    virtual iteratorh	make_view_iterator() const=0;
+    virtual iterator_h	make_view_iterator() const=0;
 
     /// Tworzy iterator po całości. Alokuje operatorem "new", a do likwidacji należy używać `destroy_iterator`.
-    virtual iteratorh	make_global_iterator() const=0;
+    virtual iterator_h	make_global_iterator() const=0;
 
     /// Tworzy globalny iterator monte-carlo. Do likwidacji należy używać `destroy_iterator`.
-    virtual iteratorh	make_random_global_iterator(size_t how_many=-1) const=0;
+    virtual iterator_h	make_random_global_iterator(size_t how_many=-1) const=0;
 
     /// Tworzy iterator po sąsiadach. @param dist jako R we wszystkich kierunkach.
-    virtual iteratorh	make_neighbour_iterator(size_t center,size_t dist=1) const=0;
+    virtual iterator_h	make_neighbour_iterator(size_t center, size_t dist=1) const=0;
 
     /// Tworzy losowy iterator po sąsiadach. @param dist jako R we wszystkich kierunkach.
-    virtual iteratorh	make_random_neighbour_iterator(size_t center,size_t dist=1,size_t how_many=-1) const=0;
+    virtual iterator_h	make_random_neighbour_iterator(size_t center, size_t dist=1, size_t how_many=-1) const=0;
 
     // METODY UŻYWAJĄCE ITERATORÓW:
     //-----------------------------
 
     /// Jawna iteracja zwraca indeks do aktualnego agenta i przesuwa iterator.
     /// Zeruje iterator, jeśli koniec danych. Zwraca `FULL` jeżeli nie ma w tym miejscu agenta (missing).
-    virtual index_t		get_next(iteratorh& p) const;
+    virtual index_t		get_next(iterator_h& p) const;
 
     /// Likwiduje już niepotrzebny iterator. Np. taki któremu nie dano dojść do konca.
-    virtual void		destroy_iterator(iteratorh& p) const;
+    virtual void		destroy_iterator(iterator_h& p) const;
 
     // CONSTRUCTION/DESTRUCTION:
     //--------------------------
@@ -240,7 +248,7 @@ int geometry_base::_compare_geometry_base(geometry_base* second)
 }
 
 inline
-geometry_base::index_t geometry_base::get_next(iteratorh& p) const
+geometry_base::index_t geometry_base::get_next(iterator_h& p) const
 //Zwraca indeks do aktualnego i przesuwa iterator.
 //Zeruje iterator, gdy koniec danych. Zwraca FULL, gdy missing...
 {                 static_assert( sizeof(size_t) == sizeof(uintptr_t) ,"sizeof(size_t) must be equal sizeof(uintptr_t)");
@@ -264,7 +272,7 @@ geometry_base::index_t geometry_base::get_next(iteratorh& p) const
 
 
 inline
-void    geometry_base::destroy_iterator(iteratorh& p) const
+void    geometry_base::destroy_iterator(iterator_h& p) const
 //Likwiduje iterator, któremu nie dano dojść do końca.
 {
     if(p==nullptr)
