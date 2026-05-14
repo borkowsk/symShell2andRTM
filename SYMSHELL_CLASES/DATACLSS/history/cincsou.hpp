@@ -1,10 +1,10 @@
 /// @file
-/// @brief Filtr liczący koincydencje klas dwu serii i pochodne statystyki (Hi^2 itp) WADLIWY PLIK?
-/// @date 2026-05-07 (modified)
+/// @brief STARY WADLIWY (już niekompatybilny) filtr liczący koincydencje klas dwu serii i pochodne statystyki (Hi^2 itp).
+/// @date 2026-05-14 (modified)
 // ********************************************************************************************************************
 //
-#ifndef __COINCIDENTION_SOUR_HPP__
-#define __COINCIDENTION_SOUR_HPP__
+#ifndef SYMSHELL2_COINCIDENCE_SOUR_HPP_INCLUDED_
+#define SYMSHELL2_COINCIDENCE_SOUR_HPP_INCLUDED_
 
 #include "costatso.hpp"
 #include <cassert>
@@ -17,10 +17,12 @@ class coincidention_source : public co_statistics_source//<DATA_SOURCE>
 //------------------------------------------------------------------------------
 {
 protected:
-    size_t N; //Required number of Class of First
-    size_t M; //Required number of Class of Second
-    wb_ptr<rectangle_geometry> my_geometry; //Redundantna?
+    size_t N; ///< Required number of Class of First
+    size_t M; ///< Required number of Class of Second
+
+    wb_ptr<rect_geometry> my_geometry; //Redundantna?
     wb_dynmatrix<unsigned long> arra;
+
     int iHi; //indeks dla Hi-kwadrat
 
     /*
@@ -32,27 +34,26 @@ protected:
     }
     */
 
+    /// Bezpośrednio sięga do swojej tablicy arra.
     double _get(size_t index)
-//Bezpośrednio siega do tablicy arra.
     {
-        double pom;
-        assert(arra);
+        double pom;     //assert(arra.);
         i = index / nn; //Który wiersz
-        assert(arra[i]);
+                        assert(arra[i]);
         j = index % nn; //Która kolumna
         return arra[i][j];
     }
 
 
-    int _calculate() //Zwraca 1, jeśli musial przeliczyc
+    int _calculate() //Zwraca 1, jeśli musial przeliczyć
     {
-        if(!basic_statistics_source/*<DATA_SOURCE>*/::_calculate())
+        if(!co_statistics_source/*<DATA_SOURCE>*/::_calculate())
             return 0;
 
         size_t nn, mm; //Real numbers of classes
 /*	
     {//OBLICZANIE HISTOGRAMU
-    assert(N==-1); //Tylko tryb integerowy zaimplementowany
+    assert(N==-1); //Tylko tryb integer-owy zaimplementowany
 
     size_t i;
     size_t SN,KL;
@@ -60,18 +61,18 @@ protected:
     Source->bounds(SN,smin,smax);
 
     if(smax-smin<=double(size_t(-1)))	//Czy w zakresie size_t
-        KL=size_t(smax-smin)+1; //Ile jednostek calkowitych zakresu
+        KL=size_t(smax-smin)+1; //Ile jednostek całkowitych zakresu
         else
         goto ERROR;
 
     arra.alloc(KL);
-    if(!arra) //błąd alokacji — za malo/za duzo?
+    if(!arra) //błąd alokacji — za malo/za dużo?
         goto ERROR;
 
     for(i=0;i<KL;i++)
         arra[i]=0;
 
-    //PETLA ZLICZANIA
+    //PĘTLA ZLICZANIA
     iteratorh Ind=Source->reset();
     source_miss=Source->get_missing();
     for(i=0;i<SN;i++)
@@ -85,7 +86,7 @@ protected:
         }
     Source->close(Ind);
 
-    //PETLA	MIN/MAX
+    //PĘTLA	MIN/MAX
     ymin=DBL_MAX;
     ymax=0;
     size_t licz=0,minp=0,maxp=0;
@@ -122,36 +123,38 @@ protected:
 
     if(table[8]!=NULL)
         {
-        table[8]->change_val(maxp+smin+0.5); //0.5 bo srodek przedzialu calkowitego
+        table[8]->change_val(maxp+smin+0.5); //0.5 bo środek przedziału całkowitego
         }
 
     return 1;
-    }//Musial przeliczyc
+    }//Musial przeliczyć
 */
         ERROR:
         arra.dispose();
-        ymin = ymax = 0;
+        y_min = y_max = 0;
         return 1;
     }
 
 public:
+    /// Ile jest pod-źródeł.
     virtual size_t number_of_subseries()
     {
         return co_statistics_source::number_of_subseries() +
-               4; //Ma cztery podźrodła
+               4; //Ma cztery pod-źródła.
     }
 
-    void all_subseries_required()	//Alokuje i ewentualnie rejestruje w menagerze wszystkie serie
+    /// Alokuje i ewentualnie rejestruje w zarządcy wszystkie pod-źródła.
+    void all_subseries_required()
     {
         co_statistics_source<DATA_SOURCE>::all_subseries_required();
         //MAX CLASS
         Hi();
     }
 
-//Acces to "childrens"
+    /// Access to "children".
     scalar_source<double> *Hi(const char *format = "Hi(%s)")
     {
-        iHi = co_statistics_source::number_of_subsseries();
+        iHi = co_statistics_source::number_of_subseries();
         return GetMonoSource(iHi, format);
     }
 
@@ -159,73 +162,75 @@ public:
 //Construction
     coincidention_source(DATA_SOURCE *ini1 = NULL,
                          DATA_SOURCE *ini2 = NULL,
-                         size_t NumberOfClass1 = -1,		//-1 oznacza tryb calkowitoliczbowy
-                         size_t NumberOfClass2 = -1,		//-1 oznacza tryb calkowitoliczbowy
-                         sources_menager_base *MyMenager = NULL,
-                         size_t table_size = 1/*ZAPAS*/,
+                         size_t NumberOfClass1 = -1,		//-1 oznacza tryb całkowitoliczbowy
+                         size_t NumberOfClass2 = -1,		//-1 oznacza tryb całkowitoliczbowy
+                         sources_manager_base *i_manager = NULL,
+                         size_t table_size = 1/*ZAPAS NA POD-ŹRÓDŁA KLASY POTOMNEJ*/,
                          const char *format = "COINCIDENT(%s,%s)") :
             N(NumberOfClass1),
             M(NumberOfClass2),
             iHi(-1),
             co_statistics_source<DATA_SOURCE>(ini1, ini2,
-                                              MyMenager,
-                                              4 + table_size,		//4 wlasne + z klas potomych
+                                              i_manager,
+                                              4 + table_size,		//4 własne + z klas potomnych (zadeklarowany zapas).
                                               format)
     {}
 
     ~coincidention_source()
     {}
 
-// Accession Methods
+// Accession Methods:
+//===================
+
+    /// Ile elementów, wartość minimalna i maksymalna.
+    /// Musi sprawdzić aktualność danych źródłowych i wywołać `_calculate`.
     void bounds(size_t &num, double &min, double &max)
-//Ile elementów,wartość minimalna i maksymalna
     {
-        check_version(); //Uaktualnia tez wersje podźrodła, jeśli trzeba
-        _calculate(); //Sprawdza, czynie trzeba policzyc i ewentualnie liczy
+        check_version_(); //Uaktualnia też wersje pod-źródła, jeśli trzeba
+        _calculate(); //Sprawdza, czy nie trzeba policzyć i ewentualnie liczy
         num = get_size();
-        min = ymin;
-        max = ymax;
+        min = y_min;
+        max = y_max;
     }
 
+    /// Ile elementów.
     size_t get_size()
-//ile elementów
     {
-        check_version(); //Uaktualnia tez wersje podźrodła, jeśli trzeba
-        _calculate(); //Sprawdza, czynie trzeba policzyc i ewentualnie liczy
+        check_version_(); //Uaktualnia tez wersje pod-źródła, jeśli trzeba
+        _calculate(); //Sprawdza, czynie trzeba policzyć i ewentualnie liczy
         if(!my_geometry)
             return 0;
         return my_geometry->get_size(); //Prawdziwy rozmiar tablicy koincydencji
     }
 
-//Zwraca wskaźnik do obowiazujacej geometrii danych. NULL oznacza dane nie-zgeometryzowane
+    //Zwraca wskaźnik do obowiązującej geometrii danych. NULL oznacza dane nie-zgeometryzowane
     geometry_base *get_geometry()
     {
-        check_version(); //Uaktualnia też wersje podźrodła, jeśli trzeba
-        _calculate(); //Sprawdza, czynie trzeba policzyc i ewentualnie liczy
+        check_version_(); //Uaktualnia też wersje pod-źródła, jeśli trzeba
+        _calculate(); //Sprawdza, czynie trzeba policzyć i ewentualnie liczy
         return my_geometry.get_ptr_val();
     }
 
+    /// Początek iteracji. Używa geometrii.
     iteratorh reset()
-//Umozliwia czytanie od poczatku
-//tablicy lub wycinka
     {
-        check_version(); //Uaktualnia tez wersje podźrodła, jeśli trzeba
-        _calculate(); //Sprawdza, czynie trzeba policzyc i ewentualnie liczy
+        check_version_(); //Uaktualnia też wersje pod-źródła, jeśli trzeba
+        _calculate(); //Sprawdza, czynie trzeba policzyć i ewentualnie liczy
         if(my_geometry)
             return my_geometry->make_global_iterator();
         else
             return NULL;
     }
 
+    /// Wymuszony koniec iteracji.
     void close(iteratorh &p)
-//Wymuszony koniec iteracji
     {
         if(my_geometry)
             my_geometry->destroy_iterator(p);
     }
 
+    /// Daje następną z `nn*mm` liczb.
     double get(iteratorh &p)
-//Daje następną z nn*mm liczb!!!
     {
         double ret = 0;
         assert(p != NULL);
@@ -239,10 +244,11 @@ public:
         return ret;
     }
 
+    /// Przetwarza index uzyskany z geometrii na jedną z `nn*mm` liczb.
     double get(size_t index)
-//Przetwarza index uzyskany z geometrii na jedna z nn*mm liczb
+
     {
-#ifdef CAREFULLY_GET //Raczej niepotrzebne bo robi to już i get_geometry() i bounds() i get_size();
+#ifdef CAREFULLY_GET //Raczej niepotrzebne, bo robi to już i get_geometry() i bounds() i get_size();
         check_version(); //Uaktualnia tez wersje podźrodła, jeśli trzeba
         _calculate(); //Sprawdza, czynie trzeba policzyc i ewentualnie liczy
 #endif
@@ -254,7 +260,7 @@ public:
 
 typedef coincidention_source<data_source_base> generic_coincidention_source;
 
-}} // end of namespaces sym2::data
+}} // end-of-namespaces sym2::data
 
 /* ****************************************************************** */
 /*               SYMSHELL2  version 2006/2022/2026                    */
@@ -267,4 +273,4 @@ typedef coincidention_source<data_source_base> generic_coincidention_source;
 /*        MAIL: borkowsk@iss.uw.edu.pl                                */
 /*                               (Don't change or remove this note)   */
 /* ****************************************************************** */
-#endif
+#endif //SYMSHELL2_COINCIDENCE_SOUR_HPP_INCLUDED_
