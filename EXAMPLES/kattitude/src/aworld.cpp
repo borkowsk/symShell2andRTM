@@ -1,6 +1,6 @@
 /// @file
 /// @brief IMPLEMENTATION OF THE WORLD FOR "attitudeS" SIMULATION (kattitude old example for SymShell)
-/// @date 2026-05-11 (modified)
+/// @date 2026-05-14 (modified)
 // /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //#include <limits.h>
@@ -152,7 +152,7 @@ aworld::aworld(size_t Width,	//Szerokość torusa macierzy agentów
 void aworld::make_basic_sources()
 {
     world::make_basic_sources(); //Odziedziczone
-    sources_menager& WhatSourMen=this->Sources;
+    sources_manager& WhatSourMen=this->Sources;
 //Główne serie:
 Firsts=Agenci.make_source("Attitude",&aagent::First);	
 if(Firsts)

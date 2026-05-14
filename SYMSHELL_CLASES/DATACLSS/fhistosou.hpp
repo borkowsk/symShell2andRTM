@@ -1,6 +1,6 @@
 /// @file
 /// @brief Filtr liczący liczebność określonej liczby klas serii i pochodne statystyki.
-/// @date 2026-05-13 (modified)
+/// @date 2026-05-14 (modified)
 // ********************************************************************************************************************
 //
 #ifndef __FIXED_CLAS_HISTOGRAM_SOUR_HPP__
@@ -221,7 +221,7 @@ public:
             //Jeśli nie pokrywa się z minX-maxX to faktycznie liczony jest wycinek
             const char *format = "DISTR_%d_CLASS(%s[%g..%g])",
             bool iSubRange = false, //Jezeli zakres realny wykracza poza zadany to robi hist z czesci danych
-            sources_menager_base *MyMenager = NULL,
+            sources_manager_base *MyMenager = NULL,
             size_t table_size = 11/*BEZ ZAPASU*/
     ) :
             Num(HowManyClass),

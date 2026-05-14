@@ -1,6 +1,6 @@
 /// @file
 /// @brief Implementation of the world of the convinced (D. Stauffer idea).
-/// @date 2026-05-11 (modified)
+/// @date 2026-05-14 (modified)
 // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include <cstring>
@@ -112,7 +112,7 @@ aWorld::aWorld(
 void aWorld::make_basic_sources()
 // Generates basic sources for the built-in data manager:
 {
-    sources_menager& WhatSourMen=this->Sources;
+    sources_manager& WhatSourMen=this->Sources;
     world::make_basic_sources(); //Odziedziczone
 
     //Creation of the main data series:

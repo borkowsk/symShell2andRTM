@@ -1,7 +1,7 @@
 /// @file
 /// @brief SYMULACJA KONFLIKTÓW BOCA 2005 (plik główny)
 //-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @date 2026-05-11 (last update)
+/// @date 2026-05-14 (last update)
 /// @details
 /// UZUPEŁNIONY 10-11.2005, 9-2010, 02-2014, 04-2026
 /// ## HISTORIA
@@ -859,7 +859,7 @@ class MetaExperiment
     unsigned countexp;
     unsigned countpoints;
     //Zarządzanie źródłami danych
-    sources_menager			Sources;	//Zarządca seri przekaźnikowych
+    sources_manager			Sources;	//Zarządca seri przekaźnikowych
     //Obiekt rządzący zapisem historii
     logfile					Log;		//plik z zapisem historii symulacji
     

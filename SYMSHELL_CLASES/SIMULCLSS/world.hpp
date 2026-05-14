@@ -1,6 +1,6 @@
 /// @file
 /// @brief Interface for the base world-class. / Interfejs dla bazy światowej klasy.
-/// @date 2026-05-11 (modified)
+/// @date 2026-05-14 (modified)
 // ********************************************************************************************************************
 //
 #if !defined(WORLD_HPP_INCLUDED_)
@@ -28,7 +28,7 @@ class world
 {
     /// @brief NA RAZIE NIE WOLNO ZROBIĆ TAKIEJ FUNKCJI! CHOĆ MUSI BYĆ ZADEKLAROWANA.
     /// Pomysł zewnętrznego manager-a danych okazał się niesprawdzony.
-    virtual void   make_basic_sources(sources_menager& WhatSourMen);
+    virtual void   make_basic_sources(sources_manager& WhatSourMen);
 
     /// Uchwyt do aktualnego manager danych.
     symshell2::main_area_manager*		  AreaManager;
@@ -42,7 +42,7 @@ protected:
     symshell2::text_area*				OutArea;
 
     /// Zarządzanie źródłami danych. Czyli WBUDOWANY zarządca serii danych.
-    sources_menager			Sources;
+    sources_manager			Sources;
 
     /// Obiekt rządzący zapisem historii.
     logfile					Log;

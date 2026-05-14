@@ -1,6 +1,6 @@
 /// @file
 /// @brief Podstawowa klasa dla filtrow zawierających podźrodła
-/// @date 2026-05-13 (modified)
+/// @date 2026-05-14 (modified)
 // /////////////////////////////////////////////////////////////////////////////
 //
 #ifndef __MULTIFILTSOUR_HPP__
@@ -78,7 +78,7 @@ protected:
     friend class local_scalar_source;
 
 private:
-    sources_menager_base *sour_menager;
+    sources_manager_base *sour_menager;
     int need_calculation;
 
 protected:
@@ -110,7 +110,7 @@ protected:
     }
 
 public:
-    multi_filter_source_base(DATA_SOURCE *ini = NULL, sources_menager_base *MyMenager = NULL, size_t table_size = 0,
+    multi_filter_source_base(DATA_SOURCE *ini = NULL, sources_manager_base *MyMenager = NULL, size_t table_size = 0,
                              const char *format = "FILTER_OF(%s)") :
             template_filter_source_base<DATA_SOURCE>(ini, format),
             table(table_size),
@@ -138,7 +138,7 @@ public:
                 delete table[i]; //Sam sobie wywala z pamięci
     }
 
-    void link_sources_menager(sources_menager_base *NewMenager, int usun = 1)
+    void link_sources_menager(sources_manager_base *NewMenager, int usun = 1)
     //Wymienia dolaczonego zarządcy i linkuje mu podserie
     //Jeśli "usun==1" to usuwa je najpierw z poprzedniego
     {

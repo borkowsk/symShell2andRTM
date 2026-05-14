@@ -1,6 +1,6 @@
 /// @file
 /// @brief DATA SERIES MANAGER CLASS/KLASA ZARZĄDCY SERI DANYCH.
-/// @date 2026-05-07 (modified)
+/// @date 2026-05-14 (modified)
 //*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 #ifndef __SOURMNGR_HPP__
@@ -19,12 +19,12 @@ namespace sym2 { namespace data {
 //using ssh2 = symshell2; //C++17
 
 /// Interface zarządcy danych.
-class sources_menager_base
+class sources_manager_base
 //------------------------
 {
     //using symshell2::config_point;
 public:
-    virtual ~sources_menager_base() = default;         ///< Destruktor wirtualny z uwagi na klasy potomne
+    virtual ~sources_manager_base() = default;         ///< Destruktor wirtualny z uwagi na klasy potomne
 
     /// @name AKCESORY.
     /// @{
@@ -73,7 +73,7 @@ public:
 ///     `insert()` lub `replace()` podano inaczej, tzn. `not_menage==1` (czyli że obiekt statyczny).
 ///     Normalnie zwalnianie wykonuje zarządca w swoim destruktorze.
 ///     Ręcznie można użyć do tego metody `replace()` z parametrem NULL.
-class sources_menager : public sources_menager_base
+class sources_manager : public sources_manager_base
 //-----------------------------------------------
 {
 private:
@@ -128,13 +128,13 @@ private:
 
 public:
     /// Konstruktor tylko na rozmiar.
-    explicit sources_menager(size_t N);
+    explicit sources_manager(size_t N);
 
     /// Konstruktor z inicjująca lista zakończoną przez NULL.
-    sources_menager(size_t N, data_source_base *.../*NULL*/);
+    sources_manager(size_t N, data_source_base *.../*NULL*/);
 
     /// Destruktor wirtualny z zasady, że mamy funkcje wirtualne.
-    ~sources_menager() override;
+    ~sources_manager() override;
 
     /// @name AKCESORY
     /// @{
@@ -151,7 +151,7 @@ public:
     int replace(const char *nam, data_source_base *ser = NULL, int not_men = 0) override;
 
     /// Odnajduje na liście. Zwraca pozycje albo -1(błąd).
-    int search(const char *nam) override;
+    int search(const char *s_name) override;
 
     /// Zapamiętuje informacje o wizualizacji serii. @return -1, gdy jakiś błąd.
     int set_info(size_t index,

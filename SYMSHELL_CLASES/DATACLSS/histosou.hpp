@@ -1,6 +1,6 @@
 /// @file
 /// @brief Starszy filtr liczący liczebności klas serii i pochodne statystyki.
-/// @date 2026-05-07 (modified)
+/// @date 2026-05-14 (modified)
 // ********************************************************************************************************************
 //
 #ifndef __HISTOGRAM_SOUR_HPP__
@@ -197,7 +197,7 @@ public:
 
     histogram_source(DATA_SOURCE *ini = NULL,
                      size_t NumberOfClass = -1,		//-1 oznacza tryb calkowitoliczbowy
-                     sources_menager_base *MyMenager = NULL,
+                     sources_manager_base *MyMenager = NULL,
                      size_t table_size = 11/*BEZ ZAPASU*/,
                      const char *format = "HISTOGRAM(%s)") :
             N(NumberOfClass),

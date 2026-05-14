@@ -1,7 +1,7 @@
 /// @file
 /// @brief ... (old example for SymShell implementing Kruglanskis like model)
 // //////////////////////////////////////////////////////////////////////////
-/// @date 2026-05-11 (modified)
+/// @date 2026-05-14 (modified)
 
 #include <cstring>
 #include <cmath>
@@ -32,7 +32,7 @@ extern unsigned spatial_correlation_mode;
 // //////////////////////////////////////////////////////////////////////////
 void kworld::make_basic_sources()
 {
-    sources_menager& WhatSourMen=this->Sources;
+    sources_manager& WhatSourMen=this->Sources;
     world::make_basic_sources(); //Odziedziczone
     
     //Glowne serie 

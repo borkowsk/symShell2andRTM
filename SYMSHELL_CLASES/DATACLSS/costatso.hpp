@@ -1,6 +1,6 @@
 /// @file
 /// @brief Podstawowa klasa dla ko-filtrów statystycznych — statystyk z dwu serii.
-/// @date 2026-05-07 (modified)
+/// @date 2026-05-14 (modified)
 // ********************************************************************************************************************
 //
 #ifndef __CO_STATSOUR_HPP__
@@ -66,7 +66,7 @@ protected:
     friend class co_statistics_source::local_scalar_source;
 
 private:
-    sources_menager_base *sour_menager;
+    sources_manager_base *sour_menager;
     int need_calculation;
 
 //double Sigma(double sum,double sumSqr,unsigned N)
@@ -231,7 +231,7 @@ public:
 //CONSTRUCTION
     co_statistics_source(data_source_base *ini1 = NULL,
                          data_source_base *ini2 = NULL,
-                         sources_menager_base *MyMenager = NULL,
+                         sources_manager_base *MyMenager = NULL,
                          size_t table_size = 0,
                          const char *format = "CO_STATS(%s,%s)") :
             bi_filter_source_base(ini1, ini2, format),
@@ -262,7 +262,7 @@ public:
 
     }
 
-    void link_sources_menager(sources_menager_base *NewMenager, int usun = 1)
+    void link_sources_menager(sources_manager_base *NewMenager, int usun = 1)
     //Wymienia dolaczonego zarządcy i linkuje mu podserie
     //Jeśli "usun==1" to usuwa je najpierw z poprzedniego
     {

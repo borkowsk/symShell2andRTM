@@ -1,6 +1,6 @@
 /// @file
 /// @brief Filtr liczący koincydencje klas dwu serii i pochodne statystyki (Hi^2 itp).
-/// @date 2026-05-07 (modified)
+/// @date 2026-05-14 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_COINCIDENT_SOUR_HPP_INCLUDED_
@@ -351,7 +351,7 @@ public:
                          data_source_base *ini2 = NULL,
                          size_t NumberOfClass1 = -1,		//-1 oznacza tryb calkowitoliczbowy
                          size_t NumberOfClass2 = -1,		//-1 oznacza tryb calkowitoliczbowy
-                         sources_menager_base *MyMenager = NULL,
+                         sources_manager_base *MyMenager = NULL,
                          size_t table_size = 1/*ZAPAS*/,
                          const char *format = "COINCIDENT(%s,%s)") :
             N(NumberOfClass1),

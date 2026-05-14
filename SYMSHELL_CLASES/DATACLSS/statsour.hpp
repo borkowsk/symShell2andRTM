@@ -1,6 +1,6 @@
 /// @file
 /// @brief Podstawowa klasa dla filtrów statystycznych.
-/// @date 2026-05-07 (modified)
+/// @date 2026-05-14 (modified)
 // ********************************************************************************************************************
 //
 #ifndef __STATSOUR_HPP__
@@ -106,7 +106,7 @@ protected:
     }
 
 public:
-    basic_statistics_source(DATA_SOURCE *ini = NULL, sources_menager_base *MyMenager = NULL, size_t table_size = 6,
+    basic_statistics_source(DATA_SOURCE *ini = NULL, sources_manager_base *MyMenager = NULL, size_t table_size = 6,
                             const char *format = "BASIC_STATS(%s)") :
             multi_filter_source_base<DATA_SOURCE>(ini, MyMenager, table_size, format)
     {

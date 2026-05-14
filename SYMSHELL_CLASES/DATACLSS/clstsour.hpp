@@ -1,6 +1,6 @@
 /// @file
 /// @brief Filtr liczący różne rodzaje klasteringu dla serii  g e o m e t r i a!!!
-/// @date 2026-05-07 (modified)
+/// @date 2026-05-14 (modified)
 // ********************************************************************************************************************
 //
 #ifndef __CLSTSOUR_HPP__
@@ -95,7 +95,7 @@ protected:
 
 public:
     clustering_source(DATA_SOURCE *ini = NULL,
-                      sources_menager_base *MyMenager = NULL,
+                      sources_manager_base *MyMenager = NULL,
                       size_t table_size = 7 + 1/*ZAPAS*/,
                       const char *format = "CLUSTERING_STATS(%s)") :
             basic_statistics_source<DATA_SOURCE>(ini, MyMenager, table_size, format)

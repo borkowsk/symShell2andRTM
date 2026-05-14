@@ -1,6 +1,6 @@
 /// @file
 /// @brief Przykładowy program SYMSHELL-z z klasami.
-/// @date 2026-05-11 (modified)
+/// @date 2026-05-14 (modified)
 ///       ------------------------------------------
 /// @details
 ///     Demonstracja stosowania obiektowego pietra SYMSHELL-a
@@ -80,7 +80,7 @@ float aweights[conlen]=     {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18};
 /// Zarządca danych nie sortuje serii i trzyma je w takiej kolejności
 /// , jak programista je wkładał w konstruktorze i później...
 /// Powyższa właściwość powinna byc zachowana w klasach potomnych!
-sources_menager Series
+sources_manager Series
             (16,
             new matrix_source<int>("A-matrix",5,5,dane1),
             new array_source<int>(sizeof(dane1)/sizeof(*dane1),dane1,"A-data"),

@@ -1,6 +1,6 @@
 /// @file
 /// @brief Filtr liczący liczebność klas serii i pochodne statystyki przestrzenne, w tym korelacje przestrzenne.
-/// @date 2026-05-13 (modified)
+/// @date 2026-05-14 (modified)
 // ********************************************************************************************************************
 //
 #ifndef __SPATIAL_CORRELATION_SOUR_HPP__
@@ -254,7 +254,7 @@ public:
     spatial_correlation_source(DATA_SOURCE *ini = NULL,
                                size_t NumberOfClass = -1,		//-1 oznacza tryb calkowitoliczbowy
                                int CountMode = 2,
-                               sources_menager_base *MyMenager = NULL,
+                               sources_manager_base *MyMenager = NULL,
                                size_t table_size = 1 /*BEZ ZAPASU*/,
                                const char *format = "SPATIAL CORRELATION(%s)") :
             RndMult(CountMode),

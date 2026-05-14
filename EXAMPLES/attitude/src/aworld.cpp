@@ -1,6 +1,6 @@
 /// @file
 /// @brief IMPLEMENTATION OF   W O R L D  FOR "attitudes" SIMULATION.
-/// @date 2026-05-11 (modification)
+/// @date 2026-05-14 (modification)
 // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //#include <limits.h>
@@ -111,7 +111,7 @@ aworld::aworld(size_t Width,		//Szerokość torusa macierzy agentów
 
 void aworld::make_basic_sources()
 {
-    sources_menager& WhatSourMen=this->Sources;
+    sources_manager& WhatSourMen=this->Sources;
     world::make_basic_sources(); //Odziedziczone
 
     //Główne serie danych:

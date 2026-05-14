@@ -1,6 +1,6 @@
 /// @file
 /// @brief Filtr liczący liczebność dyskretnych klas serii i pochodne statystyki.
-/// @date 2026-05-13 (modified)
+/// @date 2026-05-14 (modified)
 // ********************************************************************************************************************
 //
 #ifndef __DISCR_HISTOGRAM_SOUR_HPP__
@@ -222,7 +222,7 @@ public:
             DATA_SOURCE *ini = NULL,  //Klasa zrodlowa
             //Jeśli nie pokrywa się z minX-maxX to faktycznie liczony jest wycinek
             const char *format = "DISCR.DISTRIBUTION(%s[%d..%d])",
-            sources_menager_base *MyMenager = NULL,
+            sources_manager_base *MyMenager = NULL,
             size_t table_size = 11/*BEZ ZAPASU*/
     ) :
             Num(HowManyClass),

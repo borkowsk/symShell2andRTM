@@ -1,6 +1,6 @@
 /// @file
 /// IMPLEMENTATION OF   W O R L D  FOR "Conways Life" SIMULATION.
-/// @date 2026-05-11 (modified)
+/// @date 2026-05-14 (modified)
 // //////////////////////////////////////////////////////////////
 
 //#include <limits.h>
@@ -120,7 +120,7 @@ lifeworld::lifeworld(
 void lifeworld::make_basic_sources()
 {
     world::make_basic_sources(); //TWORZY SERIĘ "STEP"
-    sources_menager& WhatSourMen=this->Sources;
+    sources_manager& WhatSourMen=this->Sources;
 
     //Główne serie
     Firsts=Agenci.make_source("State",&lifeagent::First);

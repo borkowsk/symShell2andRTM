@@ -1,6 +1,6 @@
 /// @file
 /// @brief Definicja bazy i szablonów warstw symulacji. / Definition of the base class and simulation layer templates.
-/// @date 2026-05-13 (modified)
+/// @date 2026-05-14 (modified)
 ///      ...
 // ********************************************************************************************************************
 #ifndef SYMSHELL2_LAYER_HPP_INCLUDED_
@@ -49,7 +49,7 @@ public:
     /// Rejestracja źródła/źródeł w zarządcy danych.
     /// W klasach specjalizowanych można zdefiniować automatyczna rejestracje.
     /// @return 0 oznacza brak automatycznej rejestracji. Inne oznaczają sukces.
-    virtual int registry_sources(sources_menager_base&		Sources)
+    virtual int registry_sources(sources_manager_base&		Sources)
     {return 0;}
 
     /// Zwraca wskaźnik do geometrii. Nie wolno go z-delet-ować.
