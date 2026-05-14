@@ -1,6 +1,6 @@
 /** @file
  * @brief DEFINICJE GRUP DOXYGENA DLA "DATACLSS"
- * @date 2026-05-06 (modified)
+ * @date 2026-05-14 (modified)
  *
  * @defgroup	GrupaWZORCOWA Tytuł dla grupy wzorcowej
  * @brief	Przykład jak definiować grupę
@@ -20,13 +20,15 @@
  *
  *  PODSTAWOWY INTERFEJS
  *  --------------------
- *  Cała hierarchia startuje z abstrakcyjnej klasy `data_source_base`, która definiuje też cały wspólny interface.
+ *  Cała hierarchia startuje z abstrakcyjnej klasy `data_source_base`, która definiuje też cały wspólny interfejs.
  *  Jednak niektóre klasy źródeł mają też własne metody uwzględniające ich specyficzny charakter — np. dwuwymiarowość
  *  udostępnianych danych.
+ *
  *  ...
  *
  *  ŹRÓDŁA POCHODNE I ŁĄCZENIE ŹRÓDEŁ
  *  ---------------------------------
+ *
  *  ....
  *  ....
  *
