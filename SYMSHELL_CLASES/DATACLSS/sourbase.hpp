@@ -1,7 +1,7 @@
 /// @file
 /// @brief Definitions of basic (interface) data source class /
 ///        Definicje podstawowej klasy źródła danych (interfejsu).
-/// @date 2026-05-14 (modified)
+/// @date 2026-05-15 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_DATA_SOURCE_BASE_HPP_INCLUDED_
@@ -34,7 +34,7 @@
 /// SymShell2 library.
 namespace sym2 { namespace data {
 
-/// @defgroup GrupaDATACLSS System źródeł danych
+/// @defgroup GRUPA_DATACLSS System źródeł danych
 /// @brief	Różne źródła danych bazujące na wspólnym interfejsie i z możliwościami czerpania od siebie.
 /// @{
 
@@ -86,7 +86,7 @@ public:
 // accessors:
 //-----------
 
-    /// @brief Ustala "missing value" takie, jakie chce użytkownik klasy.
+    virtual /// @brief Ustala "missing value" takie, jakie chce użytkownik klasy.
     void set_missing(double i_miss);
 
     /// @brief Zapewnia właściwa inicjacje i obsługę wartości "miss".

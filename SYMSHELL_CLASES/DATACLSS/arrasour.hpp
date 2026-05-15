@@ -1,7 +1,7 @@
 /// @file
 /// @brief Specific source classes — access to data in linear arrays/
 ///        Konkretne klasy źródeł — dostęp do danych w tablicach liniowych.
-/// @date 2026-05-14 (modified)
+/// @date 2026-05-15 (modified)
 // ********************************************************************************************************************
 // PL: W tym pliku użyto warunkowej kompilacji do selekcji języka dokumentacji.
 // NIESTETY rozbija to podpowiedzi (tooltips) nawet w CLion.
@@ -268,7 +268,7 @@ void struct_array_source<STRUCT_T, FIELD_T>::bounds(size_t &num, double &min, do
         max = y_max;
         return;
     }
-    //Nie są dane, wiec próbkujemy...
+    //Nie są dane, więc próbkujemy...
     min = wbrtm::limit<FIELD_T>::Max();
     max = wbrtm::limit<FIELD_T>::Min();
     for(size_t i = 0; i < N; i++)
@@ -291,7 +291,7 @@ void ptr_to_struct_array_source<STRUCT_T, FIELD_T>::bounds(size_t &num, double &
         return;
     }
 
-    //Nie są dane, wiec próbkujemy...
+    //Nie są dane, więc próbkujemy...
     min = wbrtm::limit<FIELD_T>::Max();
     max = wbrtm::limit<FIELD_T>::Min();
     for(size_t i = 0; i < N; i++)

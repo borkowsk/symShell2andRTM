@@ -1,6 +1,6 @@
 /// @file
 /// @brief Filtr liczący liczebność klas serii i pochodne statystyki przestrzenne, w tym korelacje przestrzenne.
-/// @date 2026-05-14 (modified)
+/// @date 2026-05-15 (modified)
 // ********************************************************************************************************************
 //
 #ifndef __SPATIAL_CORRELATION_SOUR_HPP__
@@ -95,7 +95,7 @@ protected:
             HowManyDrawings = (HowManyDrawings * HowManyDrawings) / 4; //Niezle przyblizenie na ten pierwszy raz
         } else
         {
-            HowManyDrawings *= RndMult; //Co Najmniej tyle losowan co obiektów w serii, ale można tez powielic liczbe losowan pare razy
+            HowManyDrawings *= RndMult; //Co Najmniej tyle losowan co obiektów w serii, ale można też powielic liczbe losowan pare razy
         }
 
         data_source_base::geometry *MyGeom = this->Source->get_geometry(); //Wskaźnik do geometrii
@@ -269,8 +269,8 @@ public:
 //--------------------------------------------------------------------
     size_t get_size()
     {
-        this->check_version_(); //Uaktualnia tez wersje podźrodła, jeśli trzeba
-        _calculate(); //Sprawdza, czynie trzeba policzyc i ewentualnie liczy
+        this->check_version_(); //Uaktualnia też wersje pod-źródła, jeśli trzeba
+        _calculate(); //Sprawdza, czynie trzeba policzyć i ewentualnie liczy
         return arra.get_size();
     }
 
@@ -284,8 +284,8 @@ public:
     data_source_base::iterator_h reset()
 //Umozliwia czytanie od poczatku
     {
-        this->check_version_(); //Uaktualnia tez wersje podźrodła, jeśli trzeba
-        _calculate(); //Sprawdza, czynie trzeba policzyc i ewentualnie liczy
+        this->check_version_(); //Uaktualnia też wersje pod-źródła, jeśli trzeba
+        _calculate(); //Sprawdza, czynie trzeba policzyć i ewentualnie liczy
         return (data_source_base::iterator_h) 1;
     }
 
@@ -297,8 +297,8 @@ public:
     void bounds(size_t &num, double &min, double &max)
 //Ile elementów,wartość minimalna i maksymalna
     {
-        this->check_version_(); //Uaktualnia tez wersje podźrodła, jeśli trzeba
-        _calculate(); //Sprawdza, czynie trzeba policzyc i ewentualnie liczy
+        this->check_version_(); //Uaktualnia też wersje pod-źródła, jeśli trzeba
+        _calculate(); //Sprawdza, czynie trzeba policzyć i ewentualnie liczy
         num = get_size();
         min = this->y_min;
         max = this->y_max;
@@ -313,8 +313,8 @@ public:
 
     double get(size_t index)	//Przetwarza index uzyskany z geometrii
     { //na wartość z serii, o ile jest możliwe czytanie losowe
-        this->check_version_(); //Uaktualnia tez wersje podźrodła, jeśli trzeba
-        _calculate(); //Sprawdza, czynie trzeba policzyc i ewentualnie liczy
+        this->check_version_(); //Uaktualnia też wersje pod-źródła, jeśli trzeba
+        _calculate(); //Sprawdza, czynie trzeba policzyć i ewentualnie liczy
         assert(index < get_size());
         return arra[index];
     }

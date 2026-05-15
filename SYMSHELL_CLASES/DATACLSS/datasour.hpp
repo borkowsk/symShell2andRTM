@@ -1,7 +1,7 @@
 /// @file
 /// @brief INTERFACES of the most basic data source classes /
 ///        INTERFACE-y najbardziej podstawowych klas źródeł danych.
-/// @date 2026-05-14 (modified)
+/// @date 2026-05-15 (modified)
 // *********************************************************************************************************************
 //
 #ifndef SYMSHELL2_DATA_SOURCES_HPP_INCLUDED_
@@ -18,7 +18,7 @@ using wbrtm::wb_dynarray;
 
 namespace sym2 { namespace data {
 
-/// @defgroup GrupaDATACLSS System źródeł danych
+/// @defgroup GRUPA_DATACLSS System źródeł danych
 /// @brief	Różne źródła danych bazujące na wspólnym interfejsie i z możliwościami czerpania od siebie.
 /// @{
 
@@ -373,12 +373,13 @@ protected:
     /// \param i_tit to nazwa serii danych.
     /// \param i_A, i_B wymiary tablicy danych dla geometrii.
     /// \param i_torus określa, czy włączyć geometrie torusa. Lepsze, bo wtedy nie trzeba używać "miss".
-    /// \param i_subs czteroelementowa tablica C ustalająca wycinek danych: {start_X, len_X, start_Y, len_Y}.
     /// \param i_miss to nietypowa wartość podawana przy skanowaniu wycinka wychodzącego poza macierz.
-    /// @note `i_subs` tutaj nie działa! TODO!
+    /// \param i_section czteroelementowa prosta tablica C ustalająca wycinek danych: {start_X, len_X, start_Y, len_Y}.
+    /// @note `i_section` tutaj nie działa! TODO!
     rectangle_source_base(
-            const char *i_tit,size_t i_A, size_t i_B, int i_torus,
-            int *i_subs = NULL, double i_miss = symshell2::default_missing<double>()
+            const char  *i_tit, size_t i_A, size_t i_B, int i_torus,
+            const int   *i_section = NULL, //AKTUALNIE NIE UŻYWANE, ALE MOŻE KIEDYŚ ZNOWU.
+            double       i_miss = symshell2::default_missing<double>()
             )
     : title_util(i_tit), my_geometry(NULL), local_geometry(false)
     {
@@ -386,7 +387,7 @@ protected:
         my_geometry = new symshell2::rectangle_geometry(i_A, i_B, i_torus);
         assert(my_geometry != NULL);
         local_geometry = true;
-        //TODO What about `i_subs`?
+        //TODO What about `i_section`? WYPADŁO Z UŻYCIA.
         //my_geometry.set_view_info(NULL); //Reset a default
     }
 
@@ -397,7 +398,8 @@ protected:
     rectangle_source_base(
             const char *i_tit,
             symshell2::rectangle_geometry &geom,  //Geometria z zewnątrz — dealokacja nie będzie zarządzana
-            double i_miss = symshell2::default_missing<double>()
+            double i_miss = symshell2::default_missing<double>(),
+            const int *i_section = NULL // NIE UŻYWANE, ALE MOŻE KIEDYŚ...
             )
     : title_util(i_tit), my_geometry(NULL), local_geometry(false) //Nie będzie zarządzać dealokacją geometrii.
     {
@@ -560,7 +562,7 @@ double filter_source_base::get(size_t index_from_geometry)
 //Przetwarza index uzyskany z geometrii
 //na wartość z serii, o ile jest możliwe czytanie losowe.
 {
-    assert(!"Random access get() not implemented");
+    assert(!"Random access 'get()' not implemented");
     return Source->get(index_from_geometry); //Używane w trybie "Release.
 }
 

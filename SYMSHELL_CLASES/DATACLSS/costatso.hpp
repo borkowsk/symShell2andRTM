@@ -1,6 +1,6 @@
 /// @file
 /// @brief Podstawowa klasa dla ko-filtrów statystycznych — statystyk z dwu serii.
-/// @date 2026-05-14 (modified)
+/// @date 2026-05-15 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_CO_STAT_SOUR_HPP_INCLUDED_
@@ -290,7 +290,7 @@ public:
         {
             for(size_t i = 0; i < table_size; i++)
                 if(table[i] != NULL)
-                    //Są insertowane jako "not managed" wiec tu tylko...
+                    //Są insertowane jako "not managed" więc tu tylko...
                     my_sour_manager->replace(table[i]->name(), NULL); //wywala z zarządcy
         }
 
@@ -311,7 +311,7 @@ public:
         if(usun && my_sour_manager != NULL)
             for(size_t i = 0; i < table_size; i++)
                 if(table[i] != NULL)
-                    //Są insertowane jako "not managed" wiec tu tylko...
+                    //Są insertowane jako "not managed" więc tu tylko...
                     my_sour_manager->replace(table[i]->name(), NULL); //wywala z zarządcy
 
         my_sour_manager = new_manager;

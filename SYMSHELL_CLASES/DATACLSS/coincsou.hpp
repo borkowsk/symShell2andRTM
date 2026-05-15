@@ -1,6 +1,6 @@
 /// @file
 /// @brief Filtr liczący koincydencje klas dwu serii i pochodne statystyki (Hi^2 itp.).
-/// @date 2026-05-14 (modified)
+/// @date 2026-05-15 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_COINCIDENCE_SOUR_HPP_INCLUDED_
@@ -225,8 +225,8 @@ public:
     double get(size_t index) override
     {
 #ifdef CAREFULLY_GET //Raczej niepotrzebne, bo robi to już i get_geometry() i bounds() i get_size();
-        check_version(); //Uaktualnia też wersje podźrodła, jeśli trzeba
-        _calculate(); //Sprawdza, czynie trzeba policzyc i ewentualnie liczy
+        check_version(); //Uaktualnia też wersje pod-źródła, jeśli trzeba
+        _calculate(); //Sprawdza, czynie trzeba policzyć i ewentualnie liczy
 #endif
         assert(index < get_size());
         return _get(index);

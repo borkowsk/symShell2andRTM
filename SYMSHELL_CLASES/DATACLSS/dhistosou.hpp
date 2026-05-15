@@ -1,6 +1,6 @@
 /// @file
 /// @brief Filtr liczący liczebność dyskretnych klas serii i pochodne statystyki.
-/// @date 2026-05-14 (modified)
+/// @date 2026-05-15 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_DISCR_HISTOGRAM_SOUR_HPP_INCLUDED_
@@ -17,7 +17,7 @@
 namespace sym2 { namespace data {
 
 /// @brief Filtr liczący liczebność dyskretnych klas serii i pochodne statystyki.
-/// @note UWAGA NA DZIEDZICZENIE! N jest zmienne więc liczba serii pochodnych tez.
+/// @note UWAGA NA DZIEDZICZENIE! N jest zmienne więc liczba serii pochodnych też.
 template<class DATA_SOURCE>
 class discrete_histogram_source : public basic_statistics_source<DATA_SOURCE>
 //------------------------------------------------------------------------------------------------------

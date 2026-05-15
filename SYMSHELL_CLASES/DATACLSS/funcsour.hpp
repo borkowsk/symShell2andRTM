@@ -1,7 +1,7 @@
 /// @file
 /// @brief Classes of functional sources and their parameters/
 ///        Klasy źródeł funkcyjnych i ich parametrów.
-/// @date 2026-05-14 (modified)
+/// @date 2026-05-15 (modified)
 // ********************************************************************************************************************
 //                       Zmodyfikowana znacząco 05.04.2008
 //
@@ -42,7 +42,7 @@ public:
     {}
 
     /// Operator obliczeniowy. @return stałą wartość `value`.
-    double operator()(double x)
+    double operator()(double /*x*/)
     { return value; }
 };
 
@@ -159,7 +159,7 @@ double function_source<F>::get(size_t i) //Daje którąś z N liczb!!!
         return f(x_min + step * i);
 }
 
-}} // end of namespaces sym2::data
+}} // end-of-namespaces sym2::data
 
 #pragma clang diagnostic pop
 /* ****************************************************************** */

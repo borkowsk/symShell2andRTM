@@ -1,35 +1,49 @@
 /// @file
 /// @brief Różne klasy jednoźródłowych filtrów danych.
-/// @date 2026-05-14 (modified)
+/// @date 2026-05-15 (modified)
 // ********************************************************************************************************************
 //
-#ifndef __FILTSOUR_HPP__
-#define __FILTSOUR_HPP__
+#ifndef SYMSHELL2_FILTERS_SOUR_HPP_INCLUDED_
+#define SYMSHELL2_FILTERS_SOUR_HPP_INCLUDED_
 
-#include "cmath" /*DLA FILTROW */
+#include "cmath" /*DLA IMPLEMENTACJI FILTRÓW log */
 #include "datasour.hpp"
+
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "modernize-use-auto"
+#pragma ide diagnostic ignored "modernize-use-nullptr"
+#pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
+// --checks=-google-default-arguments.
+#pragma ide diagnostic ignored "google-default-arguments"
 
 namespace sym2 { namespace data {
 
-template<class SOURCE_TYPE> //Szablon filtru - log 10
+/// Szablon filtru "log 10".
+template<class SOURCE_TYPE>
 class log_F_filter : public template_filter_source_base<SOURCE_TYPE>
 //-----------------------------------------------------------------------
 {
 public:
-    log_F_filter(SOURCE_TYPE *ini = NULL, double imiss = symshell2::default_missing<double>(), const char *format = "log(%s)") :
-            template_filter_source_base<SOURCE_TYPE>(ini, format)
-    { data_source_base::set_missing(imiss); }
+    /// Konstruktor.
+    /// \param    ini to seria źródłowa.
+    /// \param i_miss to wartość dla "missing data".
+    /// \param format to sposób tworzenia nazwy filtra z nazwy źródła.
+    explicit log_F_filter(SOURCE_TYPE *ini = NULL,
+                          double i_miss = symshell2::default_missing<double>(),
+                          const char *format = "log(%s)")
+    : template_filter_source_base<SOURCE_TYPE>(ini, format)
+    { data_source_base::set_missing(i_miss); }
 
-    void bounds(size_t &N, double &min, double &max)
-    //Ile elementów,wartość minimalna i maksymalna,
-    //ktore to wartości trzeba przekonwertowac
+    /// Liczba danych jak w źródle, ale minimum i maksimum to logarytm tych wartości ze źródła.
+    void bounds(size_t &N, double &min, double &max) override
     {
         template_filter_source_base<SOURCE_TYPE>::bounds(N, min, max);
         if(this->y_min < this->y_max)
         {
             min = this->y_min;
             max = this->y_max;
-        } else
+        }
+        else
         {
             assert(min < max);
             if(min > 0)
@@ -44,8 +58,9 @@ public:
         }
     }
 
-    double get(data_source_base::iterator_h &I)
-    //Daje następną z N liczb!!! Po N-tej obiekt źródłowy zwalnia iterator!
+    /// Daje następną z N liczb. Po N-tej zwalnia iterator poprzez obiekt źródłowy.
+    /// @return wartość ze źródła przetworzoną funkcją `log10`
+    double get(data_source_base::iterator_h &I) override
     {
         double pom = ((SOURCE_TYPE *) this->Source)->get(I); //template_filter_source_base<SOURCE_TYPE>::get(I);
         if(/*template_filter_source_base<SOURCE_TYPE>::*/this->is_missing(pom))
@@ -53,12 +68,12 @@ public:
         if(pom > 0)
             return log10(pom);
         else
-            return this->miss; //Nie można obliczyc
+            return this->miss; //Nie można obliczyć
     }
 
-    double get(size_t index_from_geometry)
-    //Przetwarza index uzyskany z geometrii
-    //na wartość z serii, o ile jest możliwe czytanie losowe
+    /// Przetwarza index uzyskany z geometrii ŹRÓDŁA DANYCH na wartość zlogarytmowaną.
+    /// Geometrię uzyskuje się normalnie przed wirtualne `get_geometry` zaimplementowane w klasie bazowej filtrów.
+    double get(size_t index_from_geometry) override
     {
         double pom = ((SOURCE_TYPE *) this->Source)->get(index_from_geometry);
         if(/*template_filter_source_base<SOURCE_TYPE>::*/this->is_missing(pom))
@@ -66,31 +81,36 @@ public:
         if(pom > 0)
             return log10(pom);
         else
-            return this->miss; //Nie można obliczyc
+            return this->miss; //Nie można obliczyć
     }
 
 };
 
-//WERSJA ZGENERALIZOWANA
+/// WERSJA ZGENERALIZOWANA SZABLONU `log_F_filter`.
 typedef log_F_filter<data_source_base> generic_log_F_filter;
 //--------------------------------------------------------------------------
 
-template<class SOURCE_TYPE>	//Szablon filtru - 1+log
+/// Szablon filtru "1+log10".
+/// Przydatne w wizualizacji. Dodanie jedynki gwarantuje, że wartość logarytmu nigdy nie będzie ujemna.
+template<class SOURCE_TYPE>
 class log_1_plus_F_filter : public template_filter_source_base<SOURCE_TYPE>
 //-----------------------------------------------------------------------
 {
 public:
-//Constructor. Missing domyślnie jako 0
-    log_1_plus_F_filter(SOURCE_TYPE *ini = NULL, double imiss = symshell2::default_missing<double>(),
-                        const char *format = "log(1+%s)") :
-            template_filter_source_base<SOURCE_TYPE>(ini, format)
+    /// Constructor.
+    /// \param    ini to seria źródłowa.
+    /// \param i_miss to wartość dla "missing data".
+    /// \param format to sposób tworzenia nazwy filtra z nazwy źródła.
+    explicit log_1_plus_F_filter(SOURCE_TYPE *ini = NULL,
+                                 double i_miss = symshell2::default_missing<double>(),
+                                 const char *format = "log(1+%s)")
+    : template_filter_source_base<SOURCE_TYPE>(ini, format)
     {
-        data_source_base::set_missing(imiss);
+        data_source_base::set_missing(i_miss);
     }
 
-    void bounds(size_t &N, double &min, double &max)
-    //Ile elementów oraz wartość minimalna i maksymalna,
-    //ktore to wartości trzeba przekonwertować
+    /// Liczba danych jak w źródle, ale minimum i maksimum to logarytm powiększonych o 1 wartości ze źródła.
+    void bounds(size_t &N, double &min, double &max) override
     {
         template_filter_source_base<SOURCE_TYPE>::bounds(N, min, max);
 
@@ -98,15 +118,16 @@ public:
         {
             min = this->y_min;
             max = this->y_max;
-        } else
+        }
+        else
         {
             //assert(min<max);???Chyba niepotrzebne - po prostu "Invalid data"
-            min += 1;
+            min += 1; ///+1 !!!
             if(min > 0)
                 min = log10(min);
             else
                 min = 0;
-            max += 1;
+            max += 1; ///+1 !!!
             if(max > 0)
                 max = log10(max);
             else
@@ -115,8 +136,9 @@ public:
         }
     }
 
-    double get(data_source_base::iterator_h &I)
-    //Daje następną z N liczb!!! Po N-tej obiekt źródłowy zwalnia iterator!
+    /// Daje następną z N liczb. Po N-tej zwalnia iterator poprzez obiekt źródłowy.
+    /// @return wartość ze źródła +1 i przetworzoną funkcją `log10`.
+    double get(data_source_base::iterator_h &I) override
     {
         double pom = ((SOURCE_TYPE *) this->Source)->get(I); //template_filter_source_base<SOURCE_TYPE>::get(I)+1;
         if(/*template_filter_source_base<SOURCE_TYPE>::*/this->is_missing(pom))
@@ -128,7 +150,9 @@ public:
             return this->miss; //Nie można obliczyć
     }
 
-    double get(size_t index_from_geometry)
+    /// Przetwarza index uzyskany z geometrii ŹRÓDŁA DANYCH na zlogarytmowaną wartość+1.
+    /// Geometrię uzyskuje się normalnie przed wirtualne `get_geometry` zaimplementowane w klasie bazowej filtrów.
+    double get(size_t index_from_geometry) override
     //Przetwarza index uzyskany z geometrii
     //na wartość z serii, o ile jest możliwe czytanie losowe
     {
@@ -139,204 +163,249 @@ public:
         if(pom > 0)
             return log10(pom);
         else
-            return this->miss; //Nie można obliczyc
+            return this->miss; //Nie można obliczyć
     }
 
 };
 
-//WERSJA ZGENERALIZOWANA
+/// WERSJA ZGENERALIZOWANA SZABLONU `log_1_plus_F_filter`.
 typedef log_1_plus_F_filter<data_source_base> generic_log_1_plus_F_filter;
 //--------------------------------------------------------------------------
 
-template<class SOURCE_TYPE>	//Szablon filtru porównujacego ze skalarem
-class treshold_filter_base : public template_filter_source_base<SOURCE_TYPE>
+/// Bazowy szablon filtru porównującego wartości ze źródła ze skalarem.
+template<class SOURCE_TYPE>
+class threshold_filter_base : public template_filter_source_base<SOURCE_TYPE>
 //---------------------------------------------------------------------------------
 {
 protected:
-    double tr_val;
+    double thr_val; ///< Wartość progu.
+
 public:
-//Constructor. Missing domyślnie jako 0
-    treshold_filter_base(double ival, SOURCE_TYPE *ini = NULL,
-                         double imiss = symshell2::default_missing<double>()/*DEFAULT_MISSING*/, const char *format = "(%s) @ %g")
-            :
-            template_filter_source_base<SOURCE_TYPE>(ini, format),
-            tr_val(ival)
+    /// Constructor.
+    /// \param  i_thr to próg
+    /// \param    ini to seria źródłowa.
+    /// \param i_miss to wartość dla "missing data".
+    /// \param format to sposób tworzenia nazwy filtra z nazwy źródła i progu(?).
+    explicit threshold_filter_base(double i_thr,
+                                   SOURCE_TYPE *ini = NULL,
+                                   double i_miss = symshell2::default_missing<double>()/*DEFAULT_MISSING*/,
+                                   const char *format = "(%s) @ %g")
+
+    : template_filter_source_base<SOURCE_TYPE>(ini, format), thr_val(i_thr)
     {
-        data_source_base::set_missing(imiss);
+        data_source_base::set_missing(i_miss);
     }
 
-    const char *name();
+    /// Nazwa filtra utworzona za pomocą wzorca "format" z konstruktora.
+    const char *name() override;
 
-    virtual double _get(const double &val) = 0; //Funkcja sprawdzająca warunek i ewentualnie zmieniająca wartość na miss
+    /// WYMAGANA: Funkcja sprawdzająca warunek i ewentualnie zmieniająca wartość na miss
+    virtual double _get(const double &val) = 0;
 
-    virtual double get(data_source_base::iterator_h &I)
-    //Daje następną z N liczb!!! Po N-tej obiekt źródłowy zwalnia iterator!
+    /// Pobieranie danych z iteratora korzysta z implementacji filtrowania w `_get`.
+    double get(data_source_base::iterator_h &I) override
     {
         double val = ((SOURCE_TYPE *) this->Source)->get(I);
         return _get(val);
     }
 
-    virtual double get(size_t index_from_geometry)
-    //Przetwarza index uzyskany z geometrii
-    //na wartość z serii, o ile jest możliwe czytanie losowe
-    //Ta metoda tez najczęściej do podstawienia
+    /// Pobieranie danych wg indeksu geometrii ŹRÓDŁA DANYCH korzysta z implementacji filtrowania w `_get`.
+    double get(size_t index_from_geometry) override
     {
         double val = this->Source->get(index_from_geometry);
         return _get(val);
     }
 };
 
-template<class SOURCE_TYPE>	//Szablon filtru - Equal
-class EQ_filter : public treshold_filter_base<SOURCE_TYPE>
+/// Szablon filtru porównującego "Equal".
+template<class SOURCE_TYPE>
+class EQ_filter : public threshold_filter_base<SOURCE_TYPE>
 //---------------------------------------------------------
 {
 public:
-//Constructor. Missing domyślnie jako 0
-    EQ_filter(double ival, SOURCE_TYPE *ini = NULL, double imiss = symshell2::default_missing<double>()/*DEFAULT_MISSING*/,
-              const char *format = "(%s)=%g") :
-            treshold_filter_base<SOURCE_TYPE>(ival, ini, imiss, format)
+    /// Konstruktor.
+    /// \param  i_val to próg?
+    /// \param    ini to seria źródłowa.
+    /// \param i_miss to wartość dla "missing data".
+    /// \param format to sposób tworzenia nazwy filtra z nazwy źródła i progu(?).
+    explicit EQ_filter(double i_val,
+                       SOURCE_TYPE *ini = NULL,
+                       double i_miss = symshell2::default_missing<double>()/*DEFAULT_MISSING*/,
+                       const char *format = "(%s)=%g")
+    : threshold_filter_base<SOURCE_TYPE>(i_val, ini, i_miss, format)
     {}
 
-    double _get(const double &pom)
+    /// Funkcja dostarczająca wartość zgodnie z warunkiem.
+    double _get(const double &pom) override
     {
-        if(treshold_filter_base<SOURCE_TYPE>::IsMissing(pom))
+        if(threshold_filter_base<SOURCE_TYPE>::IsMissing(pom))
             return this->miss;
-        if(pom == this->tr_val)
+        if(pom == this->thr_val)
             return pom;
         else
             return this->miss; //Usuwa wartość ze "strumienia"
     }
 };
 
-//WERSJA ZGENERALIZOWANA
+/// WERSJA ZGENERALIZOWANA SZABLONU `EQ_filter`.
 typedef EQ_filter<data_source_base> generic_EQ_filter;
 //--------------------------------------------------------------------------
 
 template<class SOURCE_TYPE>	//Szablon filtru - LessThan
-class LT_filter : public treshold_filter_base<SOURCE_TYPE>
+class LT_filter : public threshold_filter_base<SOURCE_TYPE>
 //---------------------------------------------------------
 {
 public:
-//Constructor. Missing domyślnie jako 0
-    LT_filter(double ival, SOURCE_TYPE *ini = NULL, double imiss = symshell2::default_missing<double>()/*DEFAULT_MISSING*/,
-              const char *format = "(%s)<%g") :
-            treshold_filter_base<SOURCE_TYPE>(ival, ini, imiss, format)
+    /// Konstruktor.
+    /// \param  i_val to próg?
+    /// \param    ini to seria źródłowa.
+    /// \param i_miss to wartość dla "missing data".
+    /// \param format to sposób tworzenia nazwy filtra z nazwy źródła i progu(?).
+    explicit LT_filter(double i_val,
+                       SOURCE_TYPE *ini = NULL,
+                       double i_miss = symshell2::default_missing<double>()/*DEFAULT_MISSING*/,
+                       const char *format = "(%s)<%g")
+    : threshold_filter_base<SOURCE_TYPE>(i_val, ini, i_miss, format)
     {}
 
-    double _get(const double &pom)
+    /// Funkcja dostarczająca wartość zgodnie z warunkiem.
+    double _get(const double &pom) override
     {
-        if(treshold_filter_base<SOURCE_TYPE>::IsMissing(pom))
+        if(threshold_filter_base<SOURCE_TYPE>::IsMissing(pom))
             return this->miss;
-        if(pom < this->tr_val)
+        if(pom < this->thr_val)
             return pom;
         else
             return this->miss; //Usuwa wartość ze "strumienia"
     }
 };
 
-//WERSJA ZGENERALIZOWANA
+/// WERSJA ZGENERALIZOWANA SZABLONU `LT_filter`.
 typedef LT_filter<data_source_base> generic_LT_filter;
 //--------------------------------------------------------------------------
 
 template<class SOURCE_TYPE>	//Szablon filtru - LessEqual
-class LE_filter : public treshold_filter_base<SOURCE_TYPE>
+class LE_filter : public threshold_filter_base<SOURCE_TYPE>
 //---------------------------------------------------------
 {
 public:
-//Constructor. Missing domyślnie jako 0
-    LE_filter(double ival, SOURCE_TYPE *ini = NULL, double imiss = symshell2::default_missing<double>()/*DEFAULT_MISSING*/,
-              const char *format = "(%s)<=%g") :
-            treshold_filter_base<SOURCE_TYPE>(ival, ini, imiss, format)
+    /// Konstruktor.
+    /// \param  i_val to próg?
+    /// \param    ini to seria źródłowa.
+    /// \param i_miss to wartość dla "missing data".
+    /// \param format to sposób tworzenia nazwy filtra z nazwy źródła i progu(?).
+    explicit LE_filter(double i_val,
+                       SOURCE_TYPE *ini = NULL,
+                       double i_miss = symshell2::default_missing<double>()/*DEFAULT_MISSING*/,
+                        const char *format = "(%s)<=%g")
+    : threshold_filter_base<SOURCE_TYPE>(i_val, ini, i_miss, format)
     {}
 
-    double _get(const double &pom)
+    /// Funkcja dostarczająca wartość zgodnie z warunkiem.
+    double _get(const double &pom) override
     {
-        if(treshold_filter_base<SOURCE_TYPE>::IsMissing(pom))
+        if(threshold_filter_base<SOURCE_TYPE>::IsMissing(pom))
             return this->miss;
-        if(pom <= this->tr_val)
+        if(pom <= this->thr_val)
             return pom;
         else
             return this->miss; //Usuwa wartość ze "strumienia"
     }
 };
 
-//WERSJA ZGENERALIZOWANA
+/// WERSJA ZGENERALIZOWANA SZABLONU `LE_filter`.
 typedef LE_filter<data_source_base> generic_LE_filter;
 //--------------------------------------------------------------------------
 
 template<class SOURCE_TYPE>	//Szablon filtru - MoreThan
-class GT_filter : public treshold_filter_base<SOURCE_TYPE>
+class GT_filter : public threshold_filter_base<SOURCE_TYPE>
 //---------------------------------------------------------
 {
 public:
-//Constructor. Missing domyślnie jako 0
-    GT_filter(double ival, SOURCE_TYPE *ini = NULL, double imiss = symshell2::default_missing<double>()/*DEFAULT_MISSING*/,
-              const char *format = "(%s)>%g") :
-            treshold_filter_base<SOURCE_TYPE>(ival, ini, imiss, format)
+    /// Constructor.
+    /// \param  i_val to próg?
+    /// \param    ini to seria źródłowa.
+    /// \param i_miss to wartość dla "missing data".
+    /// \param format to sposób tworzenia nazwy filtra z nazwy źródła i progu(?).
+    explicit GT_filter( double i_val,
+                        SOURCE_TYPE *ini = NULL,
+                        double i_miss = symshell2::default_missing<double>()/*DEFAULT_MISSING*/,
+                        const char *format = "(%s)>%g")
+    : threshold_filter_base<SOURCE_TYPE>(i_val, ini, i_miss, format)
     {}
 
-    double _get(const double &pom)
+    /// Funkcja dostarczająca wartość zgodnie z warunkiem.
+    double _get(const double &pom) override
     {
-        if(treshold_filter_base<SOURCE_TYPE>::is_missing(pom))
+        if(threshold_filter_base < SOURCE_TYPE > ::is_missing(pom))
             return this->miss;
-        if(pom > this->tr_val)
+        if(pom > this->thr_val)
             return pom;
         else
             return this->miss; //Usuwa wartość ze "strumienia"
     }
 };
 
-//WERSJA ZGENERALIZOWANA
+/// WERSJA ZGENERALIZOWANA SZABLONU `GT_filter`.
 typedef GT_filter<data_source_base> generic_GT_filter;
 //--------------------------------------------------------------------------
 
-template<class SOURCE_TYPE>	//Szablon filtru - MoreEqual
-class GE_filter : public treshold_filter_base<SOURCE_TYPE>
+/// Szablon filtru "Equal of more".
+template<class SOURCE_TYPE>
+class GE_filter : public threshold_filter_base<SOURCE_TYPE>
 //---------------------------------------------------------
 {
 public:
-//Constructor. Missing domyślnie jako 0
-    GE_filter(double ival, SOURCE_TYPE *ini = NULL, double imiss = symshell2::default_missing<double>()/*DEFAULT_MISSING*/,
-              const char *format = "(%s)>=%g") :
-            treshold_filter_base<SOURCE_TYPE>(ival, ini, imiss, format)
+    /// Constructor.
+    /// \param  i_val to próg?
+    /// \param    ini to seria źródłowa.
+    /// \param i_miss to wartość dla "missing data".
+    /// \param format to sposób tworzenia nazwy filtra z nazwy źródła i progu(?).
+    explicit GE_filter(double        i_val,
+                       SOURCE_TYPE   *ini = NULL,
+                       double      i_miss = symshell2::default_missing<double>()/*DEFAULT_MISSING*/,
+                       const char *format = "(%s)>=%g")
+    : threshold_filter_base<SOURCE_TYPE>(i_val, ini, i_miss, format)
     {}
 
-    double _get(const double &I) //Ale oryginalnie paramentr był "pom"!
+    /// Funkcja dostarczająca wartość zgodnie z warunkiem.
+    double _get(const double &I) override //TODO Test! Jednak oryginalnie parameter był "pom"?!
     {
-        double pom = treshold_filter_base<SOURCE_TYPE>::get(I); //!?!?!?!?!?!?!!?!?!?!?!
+        double pom = threshold_filter_base < SOURCE_TYPE > ::get(I); //!?!?!?!?!?!?!!?!?!?!?!
         assert("Strange and not tested code in use!!!" == NULL);
-        if(treshold_filter_base<SOURCE_TYPE>::IsMissing(pom))
+        if(threshold_filter_base < SOURCE_TYPE > ::IsMissing(pom))
             return this->miss;
-        if(pom >= this->tr_val)
+        if(pom >= this->thr_val)
             return pom;
         else
             return this->miss; //Usuwa wartość ze "strumienia"
     }
 };
 
-//WERSJA ZGENERALIZOWANA
+/// WERSJA ZGENERALIZOWANA SZABLONU `GE_filter`.
 typedef GE_filter<data_source_base> generic_GE_filter;
 //--------------------------------------------------------------------------
 
 
-//IMPLEMENTACJE METOD
-//////////////////////////////////////////////////////
+// IMPLEMENTACJE METOD:
+// ////////////////////
+
 template<class SOURCE_TYPE>
-const char *treshold_filter_base<SOURCE_TYPE>::name()
-//Musi zwracać nazwe serii albo "" - NIE NULL!!!
+const char *threshold_filter_base<SOURCE_TYPE>::name()
+//Musi zwracać nazwę serii albo "" - NIE NULL!!!
 {
     const char *pom = this->Source->name();
-    if(!this->_name.OK() || strstr(this->_name.get_ptr_val(), pom) == NULL)
-        //Jeśli jeszcze nie ma albo zmienilo się w obiekcie źródła
+    if(!this->_name.OK() || strstr(this->_name.get_ptr_val(), pom) == NULL) //Jeśli jeszcze nie ma albo zmieniło się w obiekcie źródła
     {
-        this->_name.alloc(strlen(title_util::name()) + strlen(pom) + 1 + ZAPAS_NA_CYFRY/*Najdluzsza mozliwa liczba?*/);
-        sprintf(this->_name.get_ptr_val(), title_util::name(), pom, tr_val);
+        this->_name.alloc(strlen(title_util::name()) + strlen(pom) + 1 + ZAPAS_NA_CYFRY/*Najdłuższa możliwa liczba?*/);
+        sprintf(this->_name.get_ptr_val(), title_util::name(), pom, thr_val);
     }
     return this->_name.get_ptr_val();
 }
 
-}} // end of namespaces sym2::data
+}} // end-of-namespaces sym2::data
 
+#pragma clang diagnostic pop
 /* ****************************************************************** */
 /*               SYMSHELL2  version 2006/2022/2026                    */
 /* ****************************************************************** */
@@ -348,7 +417,7 @@ const char *treshold_filter_base<SOURCE_TYPE>::name()
 /*        MAIL: borkowsk@iss.uw.edu.pl                                */
 /*                               (Don't change or remove this note)   */
 /* ****************************************************************** */
-#endif
+#endif //SYMSHELL2_FILTERS_SOUR_HPP_INCLUDED_
 
 
 

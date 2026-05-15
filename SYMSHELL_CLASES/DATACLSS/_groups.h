@@ -1,6 +1,6 @@
 /** @file
  * @brief DEFINICJE GRUP DOXYGENA DLA "DATACLSS"
- * @date 2026-05-14 (modified)
+ * @date 2026-05-15 (modified)
  *
  * @defgroup	GrupaWZORCOWA Tytuł dla grupy wzorcowej
  * @brief	Przykład jak definiować grupę
@@ -10,7 +10,7 @@
  * 	Jakiś rozbudowany tekst opisujący tę grupę.
  *
  *
- * @defgroup	GrupaDATACLSS System źródeł danych
+ * @defgroup	GRUPA_DATACLSS System źródeł danych
  * @brief	Różne źródła danych bazujące na wspólnym interfejsie i z możliwościami czerpania od siebie.
  * @details
  *	WSTĘP DO IDEI ŹRÓDEŁ DANYCH
