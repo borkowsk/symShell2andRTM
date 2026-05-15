@@ -110,7 +110,7 @@ public:
     virtual void new_data_version(int change = 1, unsigned increment = 1);
 
     /// @brief Uaktualnia wersje wg. podanego źródła i wtedy zwraca 1.
-    /// @returns Jeśli wersje są zgodne, to zwraca 0.
+    /// @returns Jeśli wersje są the_same, to zwraca 0.
     virtual int update_version_from(data_source_base *Source);
 
     /// @brief Numer wersji danych. Domyślnie prosty akcesor "ro".
@@ -248,7 +248,7 @@ void data_source_base::new_data_version(int change, unsigned increment)
 inline
 int data_source_base::update_version_from(data_source_base *Source)
 // Uaktualnia wersje wg podanego źródła i wtedy zwraca 1.
-// Jeśli wersje są zgodne, to zwraca 0.
+// Jeśli wersje są the_same, to zwraca 0.
 {
     if(Source->data_version() > data_source_base::data_version()) //Tu może startować ewentualna propagacja
     {

@@ -1,14 +1,15 @@
 /// @file
 /// @brief DATA SERIES MANAGER CLASS/KLASA ZARZĄDCY SERI DANYCH.
-/// @date 2026-05-14 (modified)
+/// @date 2026-05-15 (modified)
 //*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
-#ifndef __SOURMNGR_HPP__
-#define __SOURMNGR_HPP__
+#ifndef SYMSHELL2_SOURCES_MNGR_HPP_INCLUDED_
+#define SYMSHELL2_SOURCES_MNGR_HPP_INCLUDED_
 
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "modernize-use-nullptr"
-
+// --checks=-google-default-arguments.
+#pragma ide diagnostic ignored "google-default-arguments"
 
 #include "datasour.hpp"
 #include "graphs.hpp"
@@ -33,8 +34,8 @@ public:
     /// Dodaje serie do listy. @return pozycja albo -1 (gdy error).
     virtual int insert(data_source_base *ser, int not_men = 0) = 0;
 
-    /// Wymienia serie na pozycji `pos`, ale jak indeks niepoprawny to zwraca -1.
-    virtual int replace(size_t pos, data_source_base *ser = NULL, int not_men = 0) = 0;
+    /// Wymienia serie na pozycji `index`, ale jak indeks niepoprawny to zwraca -1.
+    virtual int replace(size_t index, data_source_base *ser = NULL, int not_men = 0) = 0;
 
     /// Wymienia serie wg. nazwy. Jak nie znajdzie, to zwraca -1.
     virtual int replace(const char *nam, data_source_base *ser = NULL, int not_men = 0) = 0;
@@ -57,10 +58,10 @@ public:
     virtual wb_dynarray<symshell2::graph::series_info> make_series_info(int start, .../* ostatnia -1*/) = 0; //Z listy parametrów
     virtual wb_dynarray<symshell2::graph::series_info>
     make_series_info(wb_dynarray<int>) = 0;                //Z tablicy dynamicznej
-    //wb_dynarray<graph::series_info> make_series_info(const int* first/*ostatnia -1*/); //Z tablicy typu C zakonczonej -1
+    //wb_dynarray<graph::series_info> make_series_info(const int* first/*ostatnia -1*/); //Z tablicy typu C zakończonej -1
     /// @}
 
-    //reserved:
+    //Reserved:
     //virtual
     //int	eval(istream& script); //Wykonuje skrypt łączenia danych.
     //int	save(ostream& script); //Zapisuje się w formacie skryptu łączenia danych.
@@ -68,36 +69,42 @@ public:
 
 /// @brief NAJPROSTSZY ZARZĄDCA DANYCH.
 /// @details
-///     Zakłada pełne panowanie nad "włożonymi" do niego seriami, które
-///     muszą być utworzone w pamięci dynamicznej, chyba że w metodach
-///     `insert()` lub `replace()` podano inaczej, tzn. `not_menage==1` (czyli że obiekt statyczny).
+///     Zakłada pełne panowanie nad "włożonymi" do niego seriami, które muszą być utworzone w pamięci dynamicznej.
+///     Chyba że w metodach `insert` lub `replace` podano inaczej, tzn. `not_menage == 1` (czyli że obiekt statyczny).
 ///     Normalnie zwalnianie wykonuje zarządca w swoim destruktorze.
-///     Ręcznie można użyć do tego metody `replace()` z parametrem NULL.
+///     Ręcznie można użyć do tego metody `replace` z parametrem NULL.
 class sources_manager : public sources_manager_base
 //-----------------------------------------------
 {
 private:
     /// Wewnętrzna klasa reprezentująca źródło danych.
     class internal
-        //------------
+    //------------
     {
     private:
         data_source_base *dat;   //!< Wskaźnik na serie.
-        unsigned not_menage: 1;   //!< Określa, czyzwalniać.
+        unsigned not_menage: 1;  //!< Określa, czy zwalniać.
+
     public:
         wb_color col;   //!< Ewentualny kolor ustalony.
         wb_ptr<symshell2::config_point> fig;   //!< Obiekt wizualizujący punkty danych.
 
         /// @name MANIPULATORY
         /// @{
+
+        /// Setter.
         void set(data_source_base *d, int not_men)
         {
             clear();
             dat = d;
             not_menage = not_men;
-        } ///< setter.
+        }
+
+        /// The read-only reader.
         data_source_base *get()
-        { return dat; } ///< a read-only reader.
+        { return dat; }
+
+        /// Data and heap cleaner.
         void clear()
         {
             if(not_menage == 0 && dat != NULL)
@@ -113,7 +120,7 @@ private:
         }
         /// @}
 
-        /// @name KONSTRUKTÓRY i DESTRUKTÓRY
+        /// @name KONSTRUKTORY i DESTRUKTORY
         /// @{
         internal() : not_menage(1u), col(default_color), dat(NULL), fig(NULL)
         {}
@@ -131,7 +138,7 @@ public:
     explicit sources_manager(size_t N);
 
     /// Konstruktor z inicjująca lista zakończoną przez NULL.
-    sources_manager(size_t N, data_source_base *.../*NULL*/);
+    sources_manager(size_t N, data_source_base* first, .../*NULL*/);
 
     /// Destruktor wirtualny z zasady, że mamy funkcje wirtualne.
     ~sources_manager() override;
@@ -155,7 +162,7 @@ public:
 
     /// Zapamiętuje informacje o wizualizacji serii. @return -1, gdy jakiś błąd.
     int set_info(size_t index,
-                 wb_color ico = default_color, //!< Czy kolor ustalony.
+                 wb_color ico = default_color, //!< Określa, czy kolor jest ustalony, czy domyślny.
                  symshell2::config_point *fig = NULL      //!< Obiekt rysujący punkty.
     ) override;
 
@@ -173,13 +180,13 @@ public:
     //wb_dynarray<graph::series_info> make_series_info(const int* first/*ostatnia -1*/); ///< Z tablicy typu C zakończonej -1.
     /// @}
 
-    //reserved:
+    //Reserved:
     //virtual
     //int	eval(istream& script); //Wykonuje skrypt łączenia danych.
     //int	save(ostream& script); //Zapisuje się w formacie skryptu łączenia danych.
 
     /// Ustalanie informacji o wersji obsługiwanych danych.
-    /// Pierwsza serie na sile, potem w pętli najpierw sprawdza, czysamo się zmieni,
+    /// Pierwsza serie na sile, potem w pętli najpierw sprawdza, czy samo się zmieni,
     /// , jeśli się nie zgadza, to wymusza.
     void new_data_version(int change = 1, unsigned increment = 1);
 
@@ -187,7 +194,7 @@ public:
     void restart_data_version();
 };
 
-}} // end of namespaces sym2::data
+}} // end-of-namespaces sym2::data
 
 #pragma clang diagnostic pop
 /* ****************************************************************** */
@@ -201,5 +208,5 @@ public:
 /*        MAIL: borkowsk@iss.uw.edu.pl                                */
 /*                               (Don't change or remove this note)   */
 /* ****************************************************************** */
-#endif
+#endif //SYMSHELL2_SOURCES_MNGR_HPP_INCLUDED_
 

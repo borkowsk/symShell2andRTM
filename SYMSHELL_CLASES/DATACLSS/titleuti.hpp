@@ -1,6 +1,6 @@
 /// @file
 /// @brief  Klasa pomocnicza zarządzająca nazwą obiektu serii danych i nie tylko.
-/// @date 2026-05-11 (modified)
+/// @date 2026-05-15 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_TITLE_UTIL_HPP_INCLUDED_
@@ -22,6 +22,7 @@ class title_util
 {
 protected:
     char *title; ///< Wskaźnik do treści tytułu/nazwy.
+
 public:
     /// Destructor.
     ~title_util()

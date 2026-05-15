@@ -1,6 +1,6 @@
 /// @file
 /// @brief KLASY DEFINIUJĄCE RÓŻNORODNE TYPY WYKRESÓW. / CLASSES DEFINING VARIOUS TYPES OF CHARTS.
-/// @date 2026-05-14 (modified)
+/// @date 2026-05-15 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_GRAPHS_HPP_INCLUDED_
@@ -583,7 +583,7 @@ public:
 
 
     /// @name CONSTRUCTOR(S) and DESTRUCTOR.
-    /// @details Serie danych muszą mieć zgodne geometrie.
+    /// @details Serie danych muszą mieć the_same geometrie.
     /// @{
     manhattan_graph(int x1, int y1, int x2, int y2,						///< Położenie obszaru wykresu.
                      unsigned A, unsigned B,							///< A-ile kolumn, B-ile wierszy.
@@ -670,7 +670,7 @@ public:
     "\n";}
 
     /// @name CONSTRUCTOR(S) and DESTRUCTOR
-    /// @details Serie danych muszą mieć zgodne geometrie.
+    /// @details Serie danych muszą mieć the_same geometrie.
     /// @param RedData,GreenData,BlueData to serie danych, z których brane są składowe RBG.
     /// @param menage_r,menage_g,menage_b to flagi zarządzania pamięcią poszczególnych serii.
     /// @{
