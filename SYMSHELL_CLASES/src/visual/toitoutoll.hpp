@@ -1,6 +1,7 @@
 /// @file
-/// @brief ...
-/// @date 2026-05-13 (modified)
+/// @brief **Templates of functions that convert various numeric types with saturation** /<br>
+///         _Szablony funkcji konwertujących z wysyceniem różne typy liczbowe._
+/// @date 2026-05-16 (modified)
 /// @details
 ///      Created by borkowsk on 13.05.26.
 //

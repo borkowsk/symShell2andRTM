@@ -1,6 +1,7 @@
 /// @file
-/// @brief  IMPLEMENTACJA ZARZĄDCY SERI DANYCH
-/// @date 2026-05-14 (modified)
+/// @brief  **DATA SOURCE MANAGER IMPLEMENTATION** /<br>
+///          _IMPLEMENTACJA ZARZĄDCY ŹRÓDEŁ DANYCH._
+/// @date 2026-05-16 (modified)
 //*********************************************************************************************************************
 
 #include <stdarg.h>

@@ -1,6 +1,7 @@
 /// @file
-/// @brief Komendy managera obszarów dla shell'a symulacji.
-/// @date 2026-05-06 (modified)
+/// @brief **Area manager commands for SYMSHELL2** /<br>
+///         _Komendy managera obszarów dla SYMSHELL2._
+/// @date 2026-05-16 (modified)
 // ********************************************************************************************************************
 
 #if 1

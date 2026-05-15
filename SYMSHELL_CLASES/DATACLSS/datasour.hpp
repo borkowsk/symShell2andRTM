@@ -1,7 +1,7 @@
 /// @file
 /// @brief INTERFACES of the most basic data source classes /
 ///        INTERFACE-y najbardziej podstawowych klas źródeł danych.
-/// @date 2026-05-15 (modified)
+/// @date 2026-05-16 (modified)
 // *********************************************************************************************************************
 //
 #ifndef SYMSHELL2_DATA_SOURCES_HPP_INCLUDED_
@@ -27,7 +27,7 @@ namespace sym2 { namespace data {
 class scalar_source_base : public data_source_base, public title_util
 #else
 /// Klasa bazowa źródła danych przekazującego pojedynczą daną/wartość.
-class scalar_source_base : public data_source_base, public title_util
+class scalar_source_base : public data_source_base, public sym2::title_util
 #endif
 //-------------------------------------------------------------------
 {

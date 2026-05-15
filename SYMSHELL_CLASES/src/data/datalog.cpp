@@ -1,6 +1,7 @@
 /// @file
-/// @brief Implementacja najprostszej klasy zapisywania do pliku danych ze źródeł jednowartościowych.
-/// @date 2026-05-14 (modified)
+/// @brief **Implementation of the simplest class for writing data from single-value sources to a file** /<br>
+///         _Implementacja najprostszej klasy zapisywania do pliku danych ze źródeł jednowartościowych._
+/// @date 2026-05-16 (modified)
 // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include "logfile.hpp"

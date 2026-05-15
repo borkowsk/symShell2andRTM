@@ -1,6 +1,7 @@
 /// @file
-/// @brief GADŻETY CZYLI POMOCNICZE TYPY OBSZARÓW OKNA. / GADGETS, I.E. AUXILIARY TYPES OF WINDOW AREAS.
-/// @date 2026-05-11 (modified)
+/// @brief **GADGETS, I.E. AUXILIARY TYPES OF WINDOW AREAS** /<br>
+///         _GADŻETY CZYLI POMOCNICZE TYPY OBSZARÓW OKNA._
+/// @date 2026-05-16 (modified)
 ///     Służą głównie jako typy bazowe dla klas specjalizowanych, wykonujących
 ///     jakieś akcje w metodzie `_on_click` i ewentualnie podobnych.
 // ********************************************************************************************************************

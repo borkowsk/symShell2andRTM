@@ -1,7 +1,7 @@
 /// @file
-/// @brief IMPLEMENTATION OF DIFFERENT TYPES OF NON-GRAPH AREAS/
-///        IMPLEMENTACJA ROŻNYCH TYPóW OBSZARóW NIE BĘDĄCYCH GRAFAMI.
-/// @date 2026-05-13 (last modification)
+/// @brief **IMPLEMENTATION OF DIFFERENT TYPES OF NON-GRAPH AREAS** /<br>
+///         _IMPLEMENTACJA ROŻNYCH TYPóW OBSZARóW NIE BĘDĄCYCH GRAFAMI._
+/// @date 2026-05-16 (last modification)
 //*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Wersja z kosmetyką XI 2012 i późniejszymi zmianami.
 

@@ -1,6 +1,7 @@
 /// @file
-/// @brief GEOMETRIA — SPOSÓB ORGANIZACJI AGENTÓW W WARSTWIE./ GEOMETRY — THE WAY OF ORGANIZING AGENTS IN A LAYER.
-/// @date 2026-05-14 (modified)
+/// @brief **GEOMETRY — THE WAY OF ORGANIZING AGENTS OR DATA IN A LAYER.GEOMETRIA** /<br>
+///         _GEOMETRIA — SPOSÓB ORGANIZACJI AGENTÓW LUB DANYCH W WARSTWIE._
+/// @date 2026-05-16 (modified)
 // *********************************************************************************************************************
 //
 #ifndef SYMSHELL2_GEOM_BASE_HPP_INCLUDED_

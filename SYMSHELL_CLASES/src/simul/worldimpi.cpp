@@ -1,6 +1,6 @@
 /// @file
-/// @brief implementation of the world class -- Virtual Input methods and operator >>
-/// @date 2026-05-14 (modified)
+/// @brief **Implementation of the world class -- Virtual input methods and operator >>  **
+/// @date 2026-05-16 (modified)
 /////     ------------------------------------------------------------------------
 /// @details
 ///     Its is rather simply implementation. You can replace it if you need.
@@ -70,16 +70,16 @@ void symshell2::world::initialize_from_image(const char* FileName)
     //Niejawnie zamyka InFile w destruktorze
 }
 
-// petla wczytywania symulacji
+// pętla wczytywania symulacji
 void world::read_loop(int ret_after)
-{                            //Ta mo�liwo�� zdawna nie u�ywana. TODO rekatywacja?
+{                            //Ta możliwość z dawna nie używana. TODO reaktywacja?
     if(!AreaManager->should_continue())
             return; //NIESTETY OD RAZU KONIEC!
 
-    if(Sources.get(0)==NULL)		//jeśli jeszcze nie inicjowano zrodel
-    {                        //TODO - nie wiadomo czy go w og�le ju� ma?
-                             //Ma zmienn�	this->Sources wi�c chyba tak.
-        make_basic_sources(); //umieszcza je we wlasnym menagerze danych
+    if(Sources.get(0)==NULL)		//jeśli jeszcze nie inicjowano źródeł
+    {                        //TODO - nie wiadomo czy go w ogóle już ma?
+                             //Ma zmienna	this->Sources więc chyba tak.
+        make_basic_sources(); //umieszcza je we własnym managerze danych
     }
 
     if(!int(OutName))

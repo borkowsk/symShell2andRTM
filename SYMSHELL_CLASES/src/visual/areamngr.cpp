@@ -1,7 +1,7 @@
 /// @file
-/// @brief Implementation of the base area manager/
-///        Implementacja bazowego zarządcy obszarów.
-/// @date 2026-05-13 (modified)
+/// @brief **Implementation of the base area manager** /<br>
+///         _Implementacja bazowego zarządcy obszarów._
+/// @date 2026-05-16 (modified)
 //---------------------------------------------------------------------------
 //  Wersja z kosmetyką XI 2012
 //*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

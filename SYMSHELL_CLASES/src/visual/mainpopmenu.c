@@ -1,7 +1,7 @@
 /// @file
-/// @brief Default context menu definition for area manager class /
-///        Domyślna definicja menu kontekstowego dla zarządcy obszarów.
-/// @date 2026-05-06 (last modification)
+/// @brief **Default context menu definition for area manager class** /<br>
+///         _Domyślna definicja menu kontekstowego dla zarządcy obszarów._
+/// @date 2026-05-16 (last modification)
 //        ============================================================
 //  Created by borkowsk on 17.04.26.
 

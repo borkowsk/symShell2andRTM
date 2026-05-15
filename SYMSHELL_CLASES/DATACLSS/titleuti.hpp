@@ -1,6 +1,7 @@
 /// @file
-/// @brief  Klasa pomocnicza zarządzająca nazwą obiektu serii danych i nie tylko.
-/// @date 2026-05-15 (modified)
+/// @brief  **A helper class that manages the name of a data series object and more** /<br>
+///          _Klasa pomocnicza zarządzająca nazwą obiektu serii danych i nie tylko._
+/// @date 2026-05-16 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_TITLE_UTIL_HPP_INCLUDED_
@@ -13,65 +14,71 @@
 #pragma ide diagnostic ignored "modernize-use-auto"
 #pragma ide diagnostic ignored "modernize-use-nullptr"
 
-//using namespace wbrtm;
-using wbrtm::clone_str;
-
-/// Klasa pomocnicza zarządzająca nazwą obiektu serii danych i nie tylko.
-class title_util
-//--------------
+namespace sym2
 {
-protected:
-    char *title; ///< Wskaźnik do treści tytułu/nazwy.
+    //using namespace wbrtm;
+    using wbrtm::clone_str;
 
-public:
-    /// Destructor.
-    ~title_util()
+    /// @brief _EN{A helper class that manages the name of a data series object and more.}<br>
+    ///        _PL{Klasa pomocnicza zarządzająca nazwą obiektu serii danych i nie tylko.}
+    class title_util
+    //--------------
     {
-        //if(title)
-        delete title; //Deleting NULL pointer has no effect.
-    }
+    protected:
+        char *title; ///< Pointer to the title/name content.<br> Wskaźnik do treści tytułu/nazwy.
 
-    /// Sole constructor.
-    explicit title_util(const char *i_tit = NULL)
-    {
-        if(i_tit != NULL)
-            title = clone_str(i_tit);
-        else
-            title = NULL;
-    }
+    public:
+        /// Sole constructor.
+        explicit title_util(const char *i_tit = NULL)
+        {
+            if(i_tit != NULL)
+                title = clone_str(i_tit);
+            else
+                title = NULL;
+        }
 
-    /// Zmiana tytułu/nazwy.
-    void set_title(const char *i_tit)
-    {
-        //if(title)
-        delete title;
+        /// Virtual destructor.
+        virtual ~title_util()
+        {
+            //if(title)
+            delete title; //Deleting NULL pointer has no effect.
+        }
 
-        if(i_tit != NULL)
-            title = clone_str(i_tit);
-        else
-            title = NULL;
-    }
+        /// Title/name change. <br> Zmiana tytułu/nazwy.
+        void set_title(const char *i_tit)
+        {
+            //if(title)
+            delete title;
 
-    virtual /// Aktualny tytuł bez sprawdzania, czy nie NULL.
-    const char *get_title()
-    {
-        return title;   //Zwraca nazwę albo NULL
-    }
+            if(i_tit != NULL)
+                title = clone_str(i_tit);
+            else
+                title = NULL;
+        }
 
-    // Aktualny tytuł bez sprawdzania, czy nie NULL.
-    // Kłóci się aktualnie z get zawracającym wartość z jednoelementowej seri danych.
-//    const char *get()
-//    {
-//        return title;    //Zwraca nazwę albo NULL
-//    }
+        /// Current title without checking for NULL. <br> Aktualny tytuł bez sprawdzania, czy nie NULL.
+        virtual
+        const char *get_title()
+        {
+            return title;   //Zwraca nazwę albo NULL
+        }
 
-    /// Zwraca tytuł/nazwę albo pusty łańcuch. Nigdy NULL.
-    const char *name()
-    {
-        return title != NULL?title:"";
-    }
+        // Aktualny tytuł bez sprawdzania, czy nie NULL.
+        // Kłóci się aktualnie z get zawracającym wartość z jednoelementowej seri danych.
+    //    const char *get()
+    //    {
+    //        return title;    //Zwraca nazwę albo NULL
+    //    }
 
-};
+        /// Returns title/name or empty string. Never NULL.<br> Zwraca tytuł/nazwę albo pusty łańcuch. Nigdy NULL.
+        const char *name()
+        {
+            return title != NULL?title:"";
+        }
+
+    };
+
+} // end of namespace `sym2`
 
 #pragma clang diagnostic pop
 /* ****************************************************************** */

@@ -1,6 +1,6 @@
 /// @file
-/// @brief GEOMETRIA LINIOWA. / LINEAR GEOMETRY.
-/// @date 2026-05-07 (modified)
+/// @brief **LINEAR GEOMETRY** (under construction) /<br> _GEOMETRIA LINIOWA._
+/// @date 2026-05-16 (modified)
 ///      W trakcie przeróbki z rectangular geometry. Nigdy nie zakończonej.
 // ********************************************************************************************************************
 //

@@ -1,6 +1,6 @@
 /// @file
-/// @brief GEOMETRIA PROSTOKĄTNA. / RECTANGULAR GEOMETRY.
-/// @date 2026-05-14 (modified)
+/// @brief **RECTANGULAR GEOMETRY** /<br> _GEOMETRIA PROSTOKĄTNA._
+/// @date 2026-05-16 (modified)
 ///      Pierwsza i główna specjalizacja. Heksagonalnej i sieciowej nigdy nie napisałem, choć były w planie.
 // ********************************************************************************************************************
 //

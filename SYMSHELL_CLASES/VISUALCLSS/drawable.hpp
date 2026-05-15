@@ -1,6 +1,7 @@
 /// @file
-/// @brief "COUPLING" DECLARATIONS FOR SCREEN AREAS/DEKLARACJE "SPRZĘGU" DLA OBSZARÓW EKRANU.
-/// @date 2026-05-11 (modified)
+/// @brief **"COUPLING" DECLARATIONS FOR SCREEN AREAS** /<br>
+///         _DEKLARACJE "SPRZĘGU" DLA OBSZARÓW EKRANU._
+/// @date 2026-05-16 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_DRAWABLE_HPP_INCLUDED_
@@ -119,7 +120,7 @@ public:
 
 /// @brief Base class for screen areas such as graphs/
 ///        Klasa bazowa dla obszarów ekranu, takich jak wykresy(graphs).
-class drawable_base:public gps_area,public title_util
+class drawable_base:public gps_area,public sym2::title_util
 //------------------------------------------------------------
 {
     int     frame_width; ///< Szerokość ramki obszaru.

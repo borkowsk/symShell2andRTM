@@ -1,6 +1,7 @@
 /// @file
-/// @brief KLASY DEFINIUJĄCE RÓŻNORODNE TYPY WYKRESÓW. / CLASSES DEFINING VARIOUS TYPES OF CHARTS.
-/// @date 2026-05-15 (modified)
+/// @brief **CLASSES DEFINING VARIOUS TYPES OF CHARTS** /<br>
+///         _KLASY DEFINIUJĄCE RÓŻNORODNE TYPY WYKRESÓW._
+/// @date 2026-05-16 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_GRAPHS_HPP_INCLUDED_
@@ -22,7 +23,7 @@
 // --checks=-google-default-arguments.
 #pragma ide diagnostic ignored "google-default-arguments"
 
-/// Zmodernizowane klasy do symulacji w C++
+/// Zmodernizowane klasy do symulacji w C++.
 namespace symshell2
 {
     using namespace sym2::data;

@@ -1,6 +1,6 @@
 /// @file
-/// @brief Interface for the base world-class. / Interfejs dla bazy światowej klasy.
-/// @date 2026-05-14 (modified)
+/// @brief **Interface for the base world-class** /<br> _Interfejs dla bazy światowej klasy._
+/// @date 2026-05-16 (modified)
 // ********************************************************************************************************************
 //
 #if !defined(WORLD_HPP_INCLUDED_)

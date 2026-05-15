@@ -1,6 +1,6 @@
 /// @file
-/// @brief KLASY ZARZĄDCÓW OBSZARÓW EKRANU
-/// @date 2026-05-13 (modified)
+/// @brief **SCREEN AREA MANAGERS CLASSES** /<br> _KLASY ZARZĄDCÓW OBSZARÓW EKRANU._
+/// @date 2026-05-16 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_AREA_MNGR_HPP_INCLUDED_

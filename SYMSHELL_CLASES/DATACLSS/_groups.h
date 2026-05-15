@@ -1,8 +1,9 @@
 /** @file
- * @brief DEFINICJE GRUP DOXYGENA DLA "DATACLSS"
- * @date 2026-05-15 (modified)
+ * @brief **DOXYGEN GROUP DEFINITIONS FOR "DATACLSS"** /<br>
+ *         _DEFINICJE GRUP DOXYGENA DLA "DATACLSS"_
+ * @date 2026-05-16 (modified)
  *
- * @defgroup	GrupaWZORCOWA Tytuł dla grupy wzorcowej
+ * @defgroup	GRUPA_WZORCOWA Tytuł dla grupy wzorcowej
  * @brief	Przykład jak definiować grupę
  * @details
  *	ŁADNY TYTUŁ

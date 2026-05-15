@@ -1,6 +1,7 @@
 /// @file
-/// @brief implementation of the world-class.
-/// @date 2026-05-14 (modified)
+/// @brief **Implementation of the world-class** /<br>
+///        _Implementacja rozwiązań klasy reprezentującej świat._
+/// @date 2026-05-16 (modified)
 // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include "world.hpp"
@@ -205,7 +206,7 @@ void symshell2::world::simulate(unsigned Steps)
 
         Sources.new_data_version(1,1); //Oznajmia seriom danych, że dane się w layer-ach uaktualniły
 
-        {   //Marker czasu
+        {   //color_marker czasu
             time_t ltime;
             time( &ltime );
             TimeStamp=clone_str(ctime( &ltime ));

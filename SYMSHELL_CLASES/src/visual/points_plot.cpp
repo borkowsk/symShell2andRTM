@@ -1,7 +1,7 @@
 /// @file
-/// @brief IMPLEMENTATION OF BASIC PRIMITIVES CLASSES/
-///        IMPLEMENTACJA PODSTAWOWYCH KLAS PRYMITYWÓW GRAFICZNYCH.
-/// @date 2026-05-13 (modification)
+/// @brief **IMPLEMENTATION OF BASIC PRIMITIVES CLASSES** /<br>
+///         _IMPLEMENTACJA PODSTAWOWYCH KLAS PRYMITYWÓW GRAFICZNYCH._
+/// @date 2026-05-16 (modification)
 // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include "symshell.h"

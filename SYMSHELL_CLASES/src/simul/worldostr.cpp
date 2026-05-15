@@ -1,6 +1,7 @@
 /// @file
-/// @brief world.cpp: implementation of the world class -- output operator <<
-/// @date 2026-05-14 (modified)
+/// @brief **Implementation of the world class -- output operator <<  ** /<br>
+///         _Implementacja operatora << dla klasy świata._
+/// @date 2026-05-16 (modified)
 // ----------------------------------------------
 // Its is rather simply implementation. You can replace it if you need.
 //*////////////////////////////////////////////////////////////////////

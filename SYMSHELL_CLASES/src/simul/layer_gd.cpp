@@ -1,7 +1,8 @@
 /// @file
-/// @brief Implementacja bazy warstwy symulacji
-/// @date 2026-05-14 (modified)
-///       ----------------------------------------------
+/// @brief **Implementation of loading the simulation layer from graphic files** /<br>
+///        _Implementacja wczytywania warstwy symulacji z plików graficznych._
+/// @date 2026-05-16 (modified)
+///       -------------------------------------------------------------------
 /// @details
 ///             ...
 //*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

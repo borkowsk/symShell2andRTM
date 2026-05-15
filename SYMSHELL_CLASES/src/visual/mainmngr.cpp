@@ -1,7 +1,7 @@
 /// @file
-/// @brief A screen or window area manager, implemented directly based on SYMSHELL functions.
-///        Zarządca obszarów ekranu lub okna, zaimplementowany bezpośrednio na bazie funkcji SYMSHELL-a.
-/// @date 2026-05-13 (last modification)
+/// @brief **A screen or window area manager, implemented directly based on SYMSHELL functions.** /<br>
+///         _Zarządca obszarów ekranu lub okna, zaimplementowany bezpośrednio na bazie funkcji SYMSHELL-a._
+/// @date 2026-05-16 (last modification)
 //*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //  Do obsługi całego ekranu/okna SYMSHELL-a.
 
@@ -42,7 +42,7 @@ ssh_menu_item_definition* TopPopup=context_menu_default; //Próba wymuszenia lin
 int			main_area_manager::initialized=0;
 int			main_area_manager::counter=0; //Licznik obiektów tego typu. Ma być 1
 int			main_area_manager::idle_must_work; //Flaga wywoływania on_idle
-wb_color	main_area_manager::Marker=0; //Kolor do znakowania przez "user-a"
+wb_color	main_area_manager::color_marker=0; //Kolor do znakowania przez "user-a"
 wb_pchar	main_area_manager::def_dump_name("dump" );
 wb_pchar	main_area_manager::old_win_title;
 size_t		main_area_manager::screen_number=0;
@@ -94,7 +94,7 @@ int		main_area_manager::set_marker(wb_color new_mark) // NOLINT(*-convert-member
     if( // new_mark >= 0 && //Już nie może być ujemne!
         new_mark < 255)
         {
-        Marker=new_mark;
+            color_marker=new_mark;
         return 1;
         }
     return 0;
@@ -186,7 +186,7 @@ const char* main_area_manager::get_title()
         return nullptr;
 }
 
-int main_area_manager::settitle(const char* win_title) // NOLINT(*-convert-member-functions-to-static)
+int main_area_manager::set_main_title(const char* win_title) // NOLINT(*-convert-member-functions-to-static)
 //Ustawienie tytułu okna
 {   //Poniżej produkt z `clone_str` jest zapamiętywany w obiekcie, który zabezpiecza jego dealokację.
     //Więc nie ma żadnego "memory leak"!!!
@@ -352,7 +352,7 @@ while((!background_enabled()) || input_ready())
        case SSH_WINDOWS_HIDEMARKEDAREAS:
        case 5: //ctrl-e
            {
-            wb_dynarray<int> list=get_marked(Marker,1); //Z odznaczaniem
+            wb_dynarray<int> list=get_marked(color_marker, 1); //Z odznaczaniem
             minimize(list);
            }
        break;
@@ -382,7 +382,7 @@ while((!background_enabled()) || input_ready())
                     if(is_marked(pom))
                         unmark(pom);
                     else
-                        mark(pom,Marker);
+                        mark(pom, color_marker);
                 }
 
             }
@@ -418,13 +418,13 @@ while((!background_enabled()) || input_ready())
         break;
         case SSH_WINDOWS_MARKALLAREAS:
         case 11://ctrl-k
-            mark_all(wb_color(Marker)); //Wszystkie widoczne
+            mark_all(wb_color(color_marker)); //Wszystkie widoczne
         break;
 
         /*
         case 12://ctrl-l
         {
-        wb_dynarray<int> do_usuwania=get_marked(Marker,1);
+        wb_dynarray<int> do_usuwania=get_marked(color_marker,1);
         //minimize(do_usuwania);
         for(int i=0;i<do_usuwania.get_size();i++)
             remove(do_usuwania[i]);
@@ -476,7 +476,7 @@ while((!background_enabled()) || input_ready())
         //case 14: //ctrl-n break;
         case SSH_WINDOWS_RESTORETOORGINALPOSITION:
         case 15: //ctrl-o
-            original(get_marked(Marker, 1)); //Z odznaczaniem
+            original(get_marked(color_marker, 1)); //Z odznaczaniem
         break;
 
         //case 16: //ctrl-p
@@ -498,17 +498,17 @@ while((!background_enabled()) || input_ready())
 
         case SSH_WINDOWS_TILEMARKEDAREAS:
         case 20: //ctrl-t //tile
-            tile(get_marked(Marker,1)); //Z odznaczaniem
+            tile(get_marked(color_marker, 1)); //Z odznaczaniem
         break;
 
         case SSH_WINDOWS_TILE_ALL:
-            mark_all(Marker);
-            tile(get_marked(Marker,1));
+            mark_all(color_marker);
+            tile(get_marked(color_marker, 1));
         break;
 
         case SSH_WINDOWS_UNMARKALLAREAS:
         case 21: //ctrl-u
-            get_marked(Marker,1); //Odznacza wszystkie
+            get_marked(color_marker, 1); //Odznacza wszystkie
         break;
 
         default:

@@ -1,6 +1,7 @@
 /// @file
-/// @brief      "LICZENIE" znaczników IEEE: INF i NAN
-/// @date 2026-05-14 (modification)
+/// @brief **DEPRECATED "COUNTING" of IEEE tags: INF and NAN** /<br>
+///         _PRZESTARZAŁE "LICZENIE" znaczników IEEE: INF i NAN._
+/// @date 2026-05-16 (modification)
 //-----------------------------------------------------------
 /// DAWNO NIE TESTOWANE, CHYBA NIE DZIAŁA, I NIE JEST NAPRAWDĘ POTRZEBNE
 // ///////////////////////////////////////////////////////////////////////

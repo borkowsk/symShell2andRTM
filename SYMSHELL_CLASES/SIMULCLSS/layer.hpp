@@ -1,6 +1,7 @@
 /// @file
-/// @brief Definicja bazy i szablonów warstw symulacji. / Definition of the base class and simulation layer templates.
-/// @date 2026-05-14 (modified)
+/// @brief **Definition of the base class and simulation layer templates** /<br>
+///         _Definicja bazy i szablonów warstw symulacji._
+/// @date 2026-05-16 (modified)
 ///      ...
 // ********************************************************************************************************************
 #ifndef SYMSHELL2_LAYER_HPP_INCLUDED_
