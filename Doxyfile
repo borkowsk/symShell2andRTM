@@ -1,4 +1,5 @@
 # Doxyfile 1.9.1
+# @date 2026-05-16 (last modification)
 
 # This file describes the settings to be used by the documentation system
 # doxygen (www.doxygen.org) for a project.
@@ -1255,7 +1256,7 @@ HTML_FILE_EXTENSION    = .html
 # for information on how to generate the default header that doxygen normally
 # uses.
 # Note: The header is subject to change so you typically have to regenerate the
-# default header when upgrading to a newer version of doxygen. For a description
+# default header when upgrading to a newer version of doxygen. For a description# @date 2026-05-16 (last modification)
 # of the possible markers and block names see the documentation.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
