@@ -1,6 +1,6 @@
 /// @file
 /// @brief Virtual Input method implementation of the aWorld class.
-/// @date 2026-05-07 (modified)
+/// @date 2026-05-16 (modified)
 ///       ------------------------------------------------------------
 /// @details
 ///     Its is rather simply implementation. You can replace it if you need.
@@ -17,7 +17,7 @@ int aWorld::implement_input(istream& i)
     i>>anAgent::MinStrength;
     i>>anAgent::NumOfCate;
 
-    symshell2::rectangle_geometry* Geom=(symshell2::rectangle_geometry*)Agenci.get_geometry();
+    sym2::rectangle_geometry* Geom=(sym2::rectangle_geometry*)Agenci.get_geometry();
                                                                                                      assert(Geom!=NULL);
     if(Geom->get_width()!=MyWidth||
        Geom->get_height()!=MyWidth )

@@ -1,6 +1,6 @@
 /// @file
 /// @brief DECLARATION OF   W O R L D  FOR "Conways Life" SIMULATION.
-/// @date 2026-05-07 (modified)
+/// @date 2026-05-16 (modified)
 // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -10,7 +10,7 @@
 #include "lagent.h" //Definicja agenta
 
 /// Cały świat symulacji Life.
-class lifeworld:public symshell2::world
+class lifeworld:public sym2::world
 //--------------------------------------------------
 {
     // Parametry jednowartościowe:
@@ -31,7 +31,7 @@ class lifeworld:public symshell2::world
     // ////////////////////////////////
 
     //rectangle_unilayer<unsigned char> zdatność; //!< Warstwa definiująca zdatność do zasiedlenia
-    symshell2::rectangle_layer_of_agents<lifeagent> Agenci;  //!< Właściwa warstwa agentów zasiedlających
+    sym2::rectangle_layer_of_agents<lifeagent> Agenci;  //!< Właściwa warstwa agentów zasiedlających
 
     // Główne serie — wygodniej miec wskaźniki niż odszukiwać z Sources po nazwach:
     // //////////////////////////////////////////////////////////////////////////////
@@ -40,7 +40,7 @@ class lifeworld:public symshell2::world
     sym2::data::struct_matrix_source<lifeagent,short>		*Seconds; //=Agenci.make_source("Second mem",&lifeagent::Second);
 
 
-    int CheckChange(const symshell2::geometry_base* MyGeom,size_t index,lifeagent& CenterAgent);
+    int CheckChange(const sym2::geometry_base* MyGeom, size_t index, lifeagent& CenterAgent);
 
     public:
     //KONSTRUKCJA DESTRUKCJA

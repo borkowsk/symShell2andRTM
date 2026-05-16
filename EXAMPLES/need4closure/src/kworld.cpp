@@ -1,7 +1,7 @@
 /// @file
 /// @brief IMPLEMENTATION OF THE "KWORLD" (old example for SymShell implementing Kruglansky like model)
 // /////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @date 2026-05-14 (modified)
+/// @date 2026-05-16 (modified)
 
 #include <cstring>
 #include <cmath>
@@ -9,7 +9,7 @@
 #include "kworld.h"
 #include "wb_ptrio.h"
 
-using namespace symshell2;
+using namespace sym2;
 using namespace sym2::data;
 
 extern const int RAMKA=4;

@@ -1,6 +1,6 @@
 /// @file
 /// @brief Przykładowy program SYMSHELL-z z klasami.
-/// @date 2026-05-14 (modified)
+/// @date 2026-05-16 (modified)
 ///       ------------------------------------------
 /// @details
 ///     Demonstracja stosowania obiektowego pietra SYMSHELL-a
@@ -26,7 +26,7 @@
 
 //#include "areamngr.hpp"
 #include "mainmngr.hpp"
-using namespace symshell2;
+using namespace sym2;
 using namespace sym2::data;
 
 #pragma clang diagnostic push

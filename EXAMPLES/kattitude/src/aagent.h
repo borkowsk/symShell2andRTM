@@ -1,6 +1,6 @@
 /// @file
 /// @brief DECLARATION OF AGENT FOR "attitudeS" SIMULATION (kattitude old example for SymShell)
-/// @date 2026-05-07 (modified)
+/// @date 2026-05-16 (modified)
 // ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 #include "layer.hpp"
@@ -12,7 +12,7 @@ inline void wb_swap(short& a,short& b)
     b=c;
 }
 
-class aagent:public symshell2::agent_base
+class aagent:public sym2::agent_base
 {
     friend class aworld; //Na razie tak. Żeby uprościć dostęp do składowych klasy zaprzyjaźnionej.
 

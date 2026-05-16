@@ -1,6 +1,6 @@
 /// @file
 /// @brief DECLARATION OF   W O R L D  FOR "attitudes" SIMULATION.
-/// @date 2026-05-07 (modification)
+/// @date 2026-05-16 (modification)
 // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include <climits> //SHRT_MAX
@@ -8,7 +8,7 @@
 #include "layer.hpp"
 #include "aagent.h" //Definicja agenta
 
-class aworld:public symshell2::world	//Caly świat symulacji
+class aworld:public sym2::world	//Caly świat symulacji
 //--------------------------------------------------
 {
     // Parametry jednowartosciowe:
@@ -31,7 +31,7 @@ class aworld:public symshell2::world	//Caly świat symulacji
     // ///////////////////////////////
     
     //rectangle_unilayer<unsigned char> zdatnosc; //Warstwa definiujaca zdatnosc do zasiędlenia
-    symshell2::rectangle_layer_of_ptr_to_agents<aagent> Agents;  //Wlaściwa warstwa agentów zasiędlajacych
+    sym2::rectangle_layer_of_ptr_to_agents<aagent> Agents;  //Wlaściwa warstwa agentów zasiędlajacych
 
     //Glowne serie - wygodniej miec wskazniki niz odszukiwac z Sources po nazwach
     // //////////////////////////////////////////////////////////////////////////////
@@ -41,7 +41,7 @@ class aworld:public symshell2::world	//Caly świat symulacji
 
     sym2::data::ptr_to_struct_matrix_source<aagent,short>		*Powers; //=Agents.make_source("Power",&aagent::Power);
 
-    int CheckChange(const symshell2::geometry_base* MyGeom,size_t index,aagent& CenterAgent);
+    int CheckChange(const sym2::geometry_base* MyGeom, size_t index, aagent& CenterAgent);
 
 public:
     // KONSTRUKCJA DESTRUKCJA:

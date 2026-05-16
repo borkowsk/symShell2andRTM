@@ -1,7 +1,7 @@
 /// @file
 /// @brief SYMULACJA KONFLIKTÓW BOCA 2005 (plik główny)
 //-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @date 2026-05-14 (last update)
+/// @date 2026-05-16 (last update)
 /// @details
 /// UZUPEŁNIONY 10-11.2005, 9-2010, 02-2014, 04-2026
 /// ## HISTORIA
@@ -34,7 +34,7 @@
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "modernize-use-nullptr"
 
-using namespace symshell2;
+using namespace sym2;
 
 const char* SIMULATION_NAME= "CONFLICTS 1.22b BOCA/WARSZAWA: " __DATE__;
 const char* SCREEN_DUMP_NAME="CONFLICTS_v1.22_";
@@ -717,13 +717,13 @@ void LocalWorld::make_default_visualisation() // area_manager_base& Lufciki     
 
     pom->set_frame(128);
     pom->set_title(lang("MAPA SIECI", "NETWORK MAPP"));
-    this->MyAreaMenager().insert(pom);
+    this->MyAreaManager().insert(pom);
 
     //Zależności stanów nowych od poprzednich dla każdego węzła
-    pom=new scatter_graph(this->MyAreaMenager().get_width() - 249,
-                          this->MyAreaMenager().get_height() - 250 - 3 * char_height('X'),
-                          this->MyAreaMenager().get_width() - 1,
-                          this->MyAreaMenager().get_height() - 1,
+    pom=new scatter_graph(this->MyAreaManager().get_width() - 249,
+                          this->MyAreaManager().get_height() - 250 - 3 * char_height('X'),
+                          this->MyAreaManager().get_width() - 1,
+                          this->MyAreaManager().get_height() - 1,
             pNodePreState,0,
             pNodeState,0,
             pNodeDelta,0
@@ -732,7 +732,7 @@ void LocalWorld::make_default_visualisation() // area_manager_base& Lufciki     
     pom->set_background(default_light_gray);
     pom->set_title("Xn-i vs. Xn");
     //pom->series_info->setminmx();
-    this->MyAreaMenager().insert(pom);
+    this->MyAreaManager().insert(pom);
 
     //STATYSTYKA STAN�W 
     {
@@ -744,7 +744,7 @@ void LocalWorld::make_default_visualisation() // area_manager_base& Lufciki     
     assert(pom);
         pom->set_frame(128);
         pom->set_title(lang("HISTORIA STAN�W", HISTofSTATES));
-    this->MyAreaMenager().insert(pom);
+        this->MyAreaManager().insert(pom);
     }
 
     //Statystyka aktywności
@@ -757,7 +757,7 @@ void LocalWorld::make_default_visualisation() // area_manager_base& Lufciki     
     assert(pom);
         pom->set_frame(128);
         pom->set_title(lang("HISTORIA AKTYWNOŚCI", HISTofACCT));
-    this->MyAreaMenager().insert(pom);
+        this->MyAreaManager().insert(pom);
     }
 
     Sources.new_data_version(1,1);	//Oznajmia seriom, że dane się uaktualniły	(po inicjacji)

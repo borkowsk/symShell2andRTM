@@ -2,7 +2,7 @@
 /// A fairly simple simulation of a change of opinion implementing Professor D. Stauffer's model.
 /// (Obtained by simplifying the LANGUAGES program)
 // ///////////////////////////////////////////////////////////////////////////////////////////
-/// @date 2026-05-11 (modified)
+/// @date 2026-05-16 (modified)
 
 const char* WINDOW_HEADER="CONVINCE ver. 0.01c";
 const char* SIMULATION_NAME="convinces_v0.01";
@@ -13,7 +13,7 @@ const char* SIMULATION_NAME="convinces_v0.01";
 #include "crand.h"
 #include "cworld.h"
 
-using namespace symshell2;
+using namespace sym2;
 
 unsigned	WorldWidth=50;
 

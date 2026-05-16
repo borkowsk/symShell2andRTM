@@ -1,7 +1,7 @@
 /// @file
 /// @brief ... (old example for SymShell implementing Kruglanskis like model)
 // //////////////////////////////////////////////////////////////////////////
-/// @date 2026-05-07 (modified)
+/// @date 2026-05-16 (modified)
 // implementation of the kworld class.
 //	Virtual Input methods 
 //----------------------------------------------
@@ -19,7 +19,7 @@ int kworld::implement_input(istream& i)
     i>>WeightOfSelf; //Jak ma brac siebie pod uwage
     i>>NeedForClosure; //Jak ma brac innych (waga)
     i>>Noise;		//Szum informacyjny
-    symshell2::rectangle_geometry* Geom=( symshell2::rectangle_geometry*)Agenci.get_geometry();
+    sym2::rectangle_geometry* Geom=( sym2::rectangle_geometry*)Agenci.get_geometry();
     assert(Geom!=nullptr);
     if(Geom->get_width()!=MyWidth||
        Geom->get_height()!=MyWidth )

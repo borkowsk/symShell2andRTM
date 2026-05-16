@@ -1,6 +1,6 @@
 /// @file
 /// @brief Virtual Input method implementation of the aworld class. (kattitude old example for SymShell)
-/// @date 2026-05-07 (modified)
+/// @date 2026-05-16 (modified)
 ///       ---------------------
 /// @details
 ///     Its is rather simply implementation. You can replace it if you need.
@@ -19,7 +19,7 @@ int aworld::implement_input(istream& i)
     i>>WeightOfSelf;	//Jak ma brać siebie pod uwagę
     i>>NeedForClosure;	//Jak ma brać innych (waga)
     i>>Noise;			//Szum informacyjny
-    symshell2::rectangle_geometry* Geom=(symshell2::rectangle_geometry*)Agenci.get_geometry();                          assert(Geom!=nullptr);
+    sym2::rectangle_geometry* Geom=(sym2::rectangle_geometry*)Agenci.get_geometry();                          assert(Geom != nullptr);
     if(Geom->get_width()!=MyWidth||
        Geom->get_height()!=MyWidth )
             Geom->set(MyWidth,MyWidth,1);

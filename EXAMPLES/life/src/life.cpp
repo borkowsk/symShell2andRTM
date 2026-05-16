@@ -1,7 +1,7 @@
 /// @file
 /// Wariacje na temat life Conway-a — program główny.
 // //////////////////////////////////////////////////
-/// @date 2026-05-11 (modified)
+/// @date 2026-05-16 (modified)
 
 const char* WINDOW_HEADER="RAND-LIFE version 1.01d (by Wojciech Borkowski)";
 const char* SIMULATION_NAME="randlife_v1.01d";
@@ -13,7 +13,7 @@ const char* SIMULATION_NAME="randlife_v1.01d";
 #include "lrand.h"
 #include "lworld.h"
 
-using namespace symshell2;
+using namespace sym2;
 
 unsigned short SCR_WIDTH=750;
 unsigned short SCR_HEIGHT=550;

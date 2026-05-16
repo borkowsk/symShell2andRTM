@@ -1,13 +1,13 @@
 /// @file
 /// DECLARATION OF    A G E N T   FOR "life" SIMULATION.
-/// @date 2026-05-07 (modified)
+/// @date 2026-05-16 (modified)
 //---------------------------------------------------------------
 //
 
 #include "layer.hpp"
 
 /// Klasa agenta do implementacji Life.
-class lifeagent:public symshell2::agent_base
+class lifeagent:public sym2::agent_base
 {
     friend class lifeworld; //!< Na razie tak, żeby uprościć dostęp do składowych.
 

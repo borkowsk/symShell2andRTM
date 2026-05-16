@@ -1,7 +1,7 @@
 /// @file
 /// @brief DECLARATION OF THE AGENT FOR "need 4 closure" SIMULATION (old example for SymShell implementing a Kruglanski's like model)
 // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @date 2026-05-07 (modified)
+/// @date 2026-05-16 (modified)
 //
 #pragma once
 #include "layer.hpp"
@@ -14,7 +14,7 @@ inline void wb_swap(short& a,short& b)
     b=c;
 }
 
-class kagent:public symshell2::agent_base
+class kagent:public sym2::agent_base
 {
     friend class kworld;		///< To simplify access to the components of the world class.
 
@@ -163,8 +163,8 @@ inline kagent::kagent(const kagent& ini)
         First=ini.First;
         Second=ini.Second;
         Power=1+RANDOM(Max_power); //Siła jest przydzielana z rozkładu
-        ForLeft=RANDOM(Threshold); //Licznik przekonań za "Lewymi"
-        ForRight=RANDOM(Threshold); //Licznik przekonań za "Prawymi"
+        ForLeft=RANDOM(Threshold); //StepCounter przekonań za "Lewymi"
+        ForRight=RANDOM(Threshold); //StepCounter przekonań za "Prawymi"
     }
 
 inline kagent::kagent(const kagent *ini)
@@ -175,8 +175,8 @@ inline kagent::kagent(const kagent *ini)
         First=ini->First;
         Second=ini->Second;
         Power=1+RANDOM(Max_power); //Siła jest przydzielana z rozkładu
-        ForLeft=RANDOM(Threshold); //Licznik przekonań za "Lewymi"
-        ForRight=RANDOM(Threshold); //Licznik przekonań za "Prawymi"
+        ForLeft=RANDOM(Threshold); //StepCounter przekonań za "Lewymi"
+        ForRight=RANDOM(Threshold); //StepCounter przekonań za "Prawymi"
     }
     else
         _clean();
@@ -186,8 +186,8 @@ inline kagent::kagent()
     {
         _clean();
         Power=1+RANDOM(Max_power);
-        ForLeft=RANDOM(Threshold); //Licznik przekonań za "Lewymi"
-        ForRight=RANDOM(Threshold); //Licznik przekonań za "Prawymi"
+        ForLeft=RANDOM(Threshold); //StepCounter przekonań za "Lewymi"
+        ForRight=RANDOM(Threshold); //StepCounter przekonań za "Prawymi"
         First=DrawAttitude();
         Second=First;
         DurCh= false;

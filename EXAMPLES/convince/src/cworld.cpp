@@ -1,6 +1,6 @@
 /// @file
 /// @brief Implementation of the world of the convinced (D. Stauffer idea).
-/// @date 2026-05-14 (modified)
+/// @date 2026-05-16 (modified)
 // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include <cstring>
@@ -14,7 +14,7 @@
 #include "gadgets.hpp" 
 #include "wb_ptrio.h"
 
-using namespace symshell2;
+using namespace sym2;
 
 const int RAMKA=4;
 extern const char* SIMULATION_NAME;

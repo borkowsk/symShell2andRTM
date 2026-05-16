@@ -1,6 +1,6 @@
 /// @file
 /// @brief IMPLEMENTATION OF   W O R L D  FOR "attitudes" SIMULATION.
-/// @date 2026-05-14 (modification)
+/// @date 2026-05-16 (modification)
 // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //#include <limits.h>
@@ -19,7 +19,7 @@
 #include "wb_swap.hpp"
 #include "wb_ptrio.h"
 
-using namespace symshell2;
+using namespace sym2;
 
 const int RAMKA=4;
 extern const char* SIMULATION_NAME;

@@ -1,7 +1,7 @@
 /// @file
 /// @brief ... (old example for SymShell implementing Kruglanskis like model)
 // //////////////////////////////////////////////////////////////////////////
-/// @date 2026-05-11 (modified)
+/// @date 2026-05-16 (modified)
 ///
 // Symulacja Need for closure wg teorii Arie Kruglanskiego
 // Uzyskana z przerobienia programu ATTITUDEs
@@ -26,7 +26,7 @@ const char* SIMULATION_NAME="need4clos_v0.22a";
 #include "krand.h"
 #include "kworld.h"
 
-using namespace symshell2;
+using namespace sym2;
 using namespace sym2::data;
 
 unsigned SCR_WIDTH=750;

@@ -1,7 +1,7 @@
 /// @file
 /// @brief ... (old example for SymShell implementing Kruglanskis like model)
 // //////////////////////////////////////////////////////////////////////////
-/// @date 2026-05-14 (modified)
+/// @date 2026-05-16 (modified)
 
 #include <cstring>
 #include <cmath>
@@ -16,7 +16,7 @@
 #include "gadgets.hpp" 
 #include "wb_ptrio.h"
 
-using namespace symshell2;
+using namespace sym2;
 using namespace sym2::data;
 
 const int RAMKA=4;
