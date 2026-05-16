@@ -1,7 +1,7 @@
 /// @file
-/// @brief Klasa bazowa interface-u zapisywania do pliku danych ze źródeł jednowartościowych
-///        oraz najprostsza klasa implementująca taki interface.
-/// @date 2026-05-15 (modified)
+/// @brief __The base class of the interface for writing data from single-value sources to a file and its simplest implementation.__ /<br>
+/// _Klasa bazowa interface-u zapisywania do pliku danych ze źródeł jednowartościowych oraz jego najprostsza implementacja._
+/// @date 2026-05-16 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_LOG_FILE_HPP_INCLUDED_

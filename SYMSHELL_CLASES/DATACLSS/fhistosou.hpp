@@ -1,6 +1,7 @@
 /// @file
-/// @brief Filtr liczący liczebność określonej liczby klas serii i pochodne statystyki.
-/// @date 2026-05-15 (modified)
+/// @brief __A filter that counts the number of series classes and derived statistics.__ /<br>
+///         _Filtr liczący liczebność określonej liczby klas serii i pochodne statystyki._
+/// @date 2026-05-16 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_FIXED_CLAS_HISTOGRAM_SOUR_HPP_INCLUDED_

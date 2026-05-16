@@ -291,7 +291,7 @@ public:
 
     // Alternatywne.
     // Źródło dostaje wskaźnik do geometrii, dzięki czemu dane moga być potem we właściwy sposób wizualizowane.
-    // `matrix_source<SCALAR>* make_source(const char* name)`
+    // `matrix_source<SCALAR_T>* make_source(const char* name)`
 
     /// @name Implementacja wejścia/wyjścia. Zwracają 1, jeśli sukces!
     /// @{

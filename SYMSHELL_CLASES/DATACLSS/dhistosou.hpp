@@ -1,6 +1,7 @@
 /// @file
-/// @brief Filtr liczący liczebność dyskretnych klas serii i pochodne statystyki.
-/// @date 2026-05-15 (modified)
+/// @brief __Filter counting the number of discrete series classes and derived statistics.__ /<br>
+///         _Filtr liczący liczebność dyskretnych klas serii i pochodne statystyki._
+/// @date 2026-05-16 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_DISCR_HISTOGRAM_SOUR_HPP_INCLUDED_

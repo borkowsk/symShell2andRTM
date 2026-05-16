@@ -1,7 +1,7 @@
 /// @file
-/// @brief Definitions of basic (interface) data source class /
-///        Definicje podstawowej klasy źródła danych (interfejsu).
-/// @date 2026-05-15 (modified)
+/// @brief __Definitions of basic (interface) data source class__ /<br>
+///         _Definicje podstawowej klasy źródła danych (interfejsu)._
+/// @date 2026-05-16 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_DATA_SOURCE_BASE_HPP_INCLUDED_

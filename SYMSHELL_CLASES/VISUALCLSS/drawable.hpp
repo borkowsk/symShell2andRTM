@@ -1,6 +1,6 @@
 /// @file
-/// @brief **"COUPLING" DECLARATIONS FOR SCREEN AREAS** /<br>
-///         _DEKLARACJE "SPRZĘGU" DLA OBSZARÓW EKRANU._
+/// @brief **BASIC INTERFACE DECLARATIONS FOR SCREEN AREAS** /<br>
+///         _DEKLARACJE PODSTAWOWEGO "SPRZĘGU" DLA OBSZARÓW EKRANU._
 /// @date 2026-05-16 (modified)
 // ********************************************************************************************************************
 //

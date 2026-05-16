@@ -19,8 +19,8 @@ namespace sym2
     //using namespace wbrtm;
     using wbrtm::clone_str;
 
-    /// @brief _EN{A helper class that manages the name of a data series object and more.}<br>
-    ///        _PL{Klasa pomocnicza zarządzająca nazwą obiektu serii danych i nie tylko.}
+    /// @brief \EN{ A helper class that manages the name of a data series object and more. }
+    ///        \PL{ Klasa pomocnicza zarządzająca nazwą obiektu serii danych i nie tylko. }
     class title_util
     //--------------
     {

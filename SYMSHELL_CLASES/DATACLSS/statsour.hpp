@@ -1,6 +1,7 @@
 /// @file
-/// @brief Podstawowa klasa dla filtrów statystycznych.
-/// @date 2026-05-15 (modified)
+/// @brief __Base class for statistical filters.__ /<br>
+///         _Podstawowa klasa dla filtrów statystycznych._
+/// @date 2026-05-16 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_STAT_SOUR_HPP_INCLUDED_
@@ -25,7 +26,9 @@ template<class DATA_SOURCE>
 class basic_statistics_source : public multi_filter_source_base<DATA_SOURCE>
 //------------------------------------------------------------------------------
 {
+public:
     friend class local_scalar_source;
+    typedef ::size_t size_t;
 
 private:
     /// Prywatna pomocnicza funkcja Sigma.

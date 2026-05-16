@@ -1,6 +1,6 @@
 /// @file
-/// @brief DATA SERIES MANAGER CLASS/KLASA ZARZĄDCY SERI DANYCH.
-/// @date 2026-05-15 (modified)
+/// @brief __DATA SERIES MANAGER CLASS__ /<br> _KLASA ZARZĄDCY SERI DANYCH._
+/// @date 2026-05-16 (modified)
 //*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 #ifndef SYMSHELL2_SOURCES_MNGR_HPP_INCLUDED_

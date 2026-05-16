@@ -1,9 +1,9 @@
 /// @file
-/// @brief  Specific source classes - access to data in variables/
-///         Konkretne klasy źródeł — dostęp do danych w zmiennych.
-/// @date 2026-05-15 (modified)
+/// @brief  __Specific source classes - access to data in variables__ /<br>
+///          _Konkretne klasy źródeł — dostęp do danych w zmiennych._
+/// @date 2026-05-16 (modified)
 // ********************************************************************************************************************
-// ZA DUŻO BŁĘDÓW - SPRAWDZANIE SIĘ NIE SPRAWDZA :-P
+//
 #ifndef SYMSHELL2_SCALAR_SOUR_HPP_INCLUDED_
 #define SYMSHELL2_SCALAR_SOUR_HPP_INCLUDED_
 
@@ -20,22 +20,22 @@
 namespace sym2 { namespace data {
 
 /// Klasa źródła przechowującego i dającego pojedyncza wartość.
-template<class VAL_TYPE>
-class scalar_source:public  template_scalar_source_base<VAL_TYPE>
-//-----------------------------------------------------------------
+template<class SCALAR_TYPE>
+class scalar_source:public  template_scalar_source_base<SCALAR_TYPE>
+//------------------------------------------------------------------
 {
 protected:
-    VAL_TYPE val; ///< Miejsce na przechowanie pojedynczej wartości danego typu.
+    SCALAR_TYPE val; ///< Miejsce na przechowanie pojedynczej wartości danego typu.
 
 public:
     /// Constructor.
     /// \param ini - początkowa wartość.
     /// \param title - nazwa źródła, czyli tej wartości.
     /// \param min,max  - zakres, w jakim powinna się mieścić wartość aktualna i kolejne.
-    scalar_source(const VAL_TYPE& ini,
+    scalar_source(const SCALAR_TYPE& ini,
                   const char* title,
-                  const VAL_TYPE& min=0, const VAL_TYPE& max=0)
-    : template_scalar_source_base<VAL_TYPE>(title, min, max)
+                  const SCALAR_TYPE& min=0, const SCALAR_TYPE& max=0)
+    : template_scalar_source_base<SCALAR_TYPE>(title, min, max)
     {
         change_val(ini);
     }
@@ -43,8 +43,8 @@ public:
     /// Destructor.
     ~scalar_source() override=default;
 
-    /// Możliwość zmiany przechowywanej wartości. Zwraca uwagę na zakres `[minimum, maksimum]`.
-    void  change_val(const VAL_TYPE& next);
+    /// Możliwość zmiany przechowywanej wartości. Zwraca uwagę na zakres `\<minimum, maksimum>`.
+    void  change_val(const SCALAR_TYPE& next);
 
 //Accessors:
 //---------
@@ -63,12 +63,12 @@ public:
 };
 
 /// Klasa źródła dającego pojedyncza wartość, czytaną przez wskaźnik.
-template<class T>
-class ptr_to_scalar_source:public  template_scalar_source_base<T>
-//-----------------------------------------------------------------
+template<class SCALAR_T>
+class ptr_to_scalar_source:public  template_scalar_source_base<SCALAR_T>
+//----------------------------------------------------------------------
 {
 protected:
-    const T* ptr; /// Wskaźnik do wartości/zmiennej danego typu.
+    const SCALAR_T* ptr; /// Wskaźnik do wartości/zmiennej danego typu.
 
 public:
     using data_source_base::iterator_h;
@@ -77,15 +77,15 @@ public:
     /// \param ini - początkowa wartość wskaźnika do zmiennej.
     /// \param title - nazwa źródła, czyli tej wartości.
     /// \param min,max  - zakres, w jakim powinna się mieścić wartość aktualna i kolejne.
-    ptr_to_scalar_source(const T* ini,const char* title,const T& min=0,const T& max=0)
-    : template_scalar_source_base<T>(title,min,max), ptr(ini)
+    ptr_to_scalar_source(const SCALAR_T* ini, const char* title, const SCALAR_T& min=0, const SCALAR_T& max=0)
+    : template_scalar_source_base<SCALAR_T>(title, min, max), ptr(ini)
     {}
 
     /// Destructor.
     ~ptr_to_scalar_source() override=default;
 
     /// Zmienia wskaźnik, ale wartości mogą się zmieniać niezależnie.
-    void  change_ptr(T* next)
+    void  change_ptr(SCALAR_T* next)
     { ptr=next; }
 
 //Accessors:
@@ -116,13 +116,13 @@ public:
 };
 
 /// Klasa źródła dającego pojedynczą wartość uzyskiwaną przez wywołanie bezparametrowej funkcji lub statycznej metody.
-template<class RET>
-class ptr_to_function_source: public  template_scalar_source_base<RET>
-//-----------------------------------------------------------------
+template<class RET_SCALAR>
+class ptr_to_function_source: public  template_scalar_source_base<RET_SCALAR>
+//---------------------------------------------------------------------------
 {
 protected:
-    typedef RET return_type;
-    typedef RET (*func_type)();
+    typedef RET_SCALAR return_type;
+    typedef RET_SCALAR (*func_type)();
     func_type    ptr; ///< Jest wskaźnikiem do funkcji bezparametrowej
 
 public:
@@ -130,10 +130,10 @@ public:
     /// \param ini - początkowa wartość wskaźnika do funkcji.
     /// \param title - nazwa źródła, czyli tej wartości.
     /// \param min,max  - zakres, w jakim powinna się mieścić wartość aktualna i kolejne.
-    ptr_to_function_source( func_type ini,
-                            const char* title,
-                            const RET& min=0, const RET& max=0)
-    : template_scalar_source_base<RET>(title,min,max), ptr(ini)
+    ptr_to_function_source(func_type ini,
+                           const char* title,
+                           const RET_SCALAR& min=0, const RET_SCALAR& max=0)
+    : template_scalar_source_base<RET_SCALAR>(title, min, max), ptr(ini)
     {}
 
     /// Destructor.
@@ -165,7 +165,7 @@ public:
             return data_source_base::get_missing();
         else
         {
-            RET r=ptr();
+            RET_SCALAR r=ptr();
             if(r==data_source_base::get_missing())
                 return data_source_base::get_missing();
             else

@@ -1,7 +1,7 @@
 /// @file
-/// @brief Classes of functional sources and their parameters/
-///        Klasy źródeł funkcyjnych i ich parametrów.
-/// @date 2026-05-15 (modified)
+/// @brief __Classes of functional sources and their parameters__ /<br>
+///         _Klasy źródeł funkcyjnych i ich parametrów._
+/// @date 2026-05-16 (modified)
 // ********************************************************************************************************************
 //                       Zmodyfikowana znacząco 05.04.2008
 //

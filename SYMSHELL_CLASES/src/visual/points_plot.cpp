@@ -1,6 +1,6 @@
 /// @file
-/// @brief **IMPLEMENTATION OF BASIC PRIMITIVES CLASSES** /<br>
-///         _IMPLEMENTACJA PODSTAWOWYCH KLAS PRYMITYWÓW GRAFICZNYCH._
+/// @brief **Implementation of basic primitives classes** /<br>
+///         _Implementacja podstawowych klas prymitywów graficznych._
 /// @date 2026-05-16 (modification)
 // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

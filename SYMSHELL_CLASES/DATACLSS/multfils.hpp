@@ -1,6 +1,7 @@
 /// @file
-/// @brief Podstawowa klasa dla filtrów zawierających pod-źródła
-/// @date 2026-05-15 (modified)
+/// @brief __The base class for filters containing subsources__ /<br>
+///         _Podstawowa klasa dla filtrów zawierających pod-źródła_
+/// @date 2026-05-16 (modified)
 // /////////////////////////////////////////////////////////////////////////////
 //
 #ifndef SYMSHELL2_MULTI_FILTER_SOUR_HPP_INCLUDED_
@@ -19,18 +20,31 @@
 
 namespace sym2 { namespace data {
 
-/// Szablon klasy bazowej dla klas liczących podstawowe parametry statystyczne innego źródła.
-/// Wyliczone parametry są podawane w arbitralnej kolejności lub poprzez skalarne źródła pośrednie.
+/// @brief
+///   \PL{ Szablon klasy bazowej dla klas liczących podstawowe parametry statystyczne innego źródła. }
+///   \EN{ Base class template for classes calculating basic statistical parameters from another source. }
+/// @details
+///   \PL{ Wyliczone parametry są podawane w arbitralnej kolejności lub poprzez skalarne źródła pośrednie. }
+///   \EN{ The calculated parameters are given in an arbitrary order or through scalar intermediate sources. }
 template<class DATA_SOURCE>
 class multi_filter_source_base : public template_filter_source_base<DATA_SOURCE>
 //------------------------------------------------------------------------------
 {
 protected:
-    /// Klasa skalarna na wyniki.
+    /// @brief \PL{ Źródło skalarne na wyniki. } \EN{ Scalar source for results. }
+#ifdef USE_ENGLISH_IF_POSSIBLE //TODO To rozwiązanie rozwala tooltipy CLiona dla danej klasy.
+    /// @details
+    /// A somewhat artificial single-element source class with notification to the appropriate "basic statistics filter" class.
+    /// Informs that current data will be needed.
+    /// In descendant classes, it's certainly safe to substitute a virtual `get` method.
+    class local_scalar_source : public scalar_source<double>
+#else
+    /// @details
     /// Nieco sztuczna klasa źródła jednoelementowego z powiadamianiem właściwej klasy "filtra podstawowych statystyk".
-    /// Informuje że beda potrzebne aktualne dane.
+    /// Informuje, że będą potrzebne aktualne dane.
     /// W klasach potomnych na pewno bezpiecznie można podstawić wirtualną metodę `get`.
     class local_scalar_source : public scalar_source<double>
+#endif
     {
         multi_filter_source_base *Father;
 

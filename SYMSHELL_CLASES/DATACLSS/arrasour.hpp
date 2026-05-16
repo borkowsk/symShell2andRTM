@@ -1,7 +1,7 @@
 /// @file
-/// @brief Specific source classes — access to data in linear arrays/
-///        Konkretne klasy źródeł — dostęp do danych w tablicach liniowych.
-/// @date 2026-05-15 (modified)
+/// @brief **Specific source classes — access to data in linear arrays** /<br>
+///         _Konkretne klasy źródeł — dostęp do danych w tablicach liniowych._
+/// @date 2026-05-16 (modified)
 // ********************************************************************************************************************
 // PL: W tym pliku użyto warunkowej kompilacji do selekcji języka dokumentacji.
 // NIESTETY rozbija to podpowiedzi (tooltips) nawet w CLion.

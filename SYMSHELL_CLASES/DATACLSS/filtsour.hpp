@@ -1,6 +1,7 @@
 /// @file
-/// @brief Różne klasy jednoźródłowych filtrów danych.
-/// @date 2026-05-15 (modified)
+/// @brief __Different classes of single-source data filters.__ /<br>
+///         _Różne klasy jednoźródłowych filtrów danych._
+/// @date 2026-05-16 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_FILTERS_SOUR_HPP_INCLUDED_

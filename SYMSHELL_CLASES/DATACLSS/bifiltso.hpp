@@ -1,7 +1,7 @@
 /// @file
-/// @brief Different classes of dual-source data filters/
-///        Różne klasy dwuźródłowych filtrów danych.
-/// @date 2026-05-14 (modified)
+/// @brief **Different classes of dual-source data filters** /<br>
+///         _Różne klasy dwuźródłowych filtrów danych._
+/// @date 2026-05-16 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_BI_FILTER_SOUR_HPP_INCLUDED_

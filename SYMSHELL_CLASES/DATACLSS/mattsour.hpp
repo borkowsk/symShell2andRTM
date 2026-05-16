@@ -1,6 +1,7 @@
 /// @file
-/// @brief Konkretne klasy źródeł — dostęp do danych w tablicach dwuwymiarowych.
-/// @date 2026-05-15 (modified)
+/// @brief __Specific source classes - access to data in two-dimensional arrays.__ /<br>
+///         _Konkretne klasy źródeł — dostęp do danych w tablicach dwuwymiarowych._
+/// @date 2026-05-16 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_MATRIX_SOUR_HPP_INCLUDED_

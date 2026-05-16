@@ -1,7 +1,7 @@
 /// @file
-/// @brief UNUSED correlation filter class - a two-source, single-value data filter/
-///        NIEUŻYWANA klasa  filtru korelacji — dwuźródłowego, jednowartościowego filtru danych.
-/// @date 2026-05-14 (modified)
+/// @brief __UNUSED correlation filter class - a two-source, single-value data filter__ /<br>
+///         _NIEUŻYWANA klasa  filtru korelacji — dwuźródłowego, jednowartościowego filtru danych._
+/// @date 2026-05-16 (modified)
 // ********************************************************************************************************************
 //
 //#error SKOMPLIKOWANE W IMPLEMENTACJI, ALE MOŻNA BY KIEDYŚ SPRÓBOWAĆ.

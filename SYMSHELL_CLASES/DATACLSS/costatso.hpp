@@ -1,6 +1,7 @@
 /// @file
-/// @brief Podstawowa klasa dla ko-filtrów statystycznych — statystyk z dwu serii.
-/// @date 2026-05-15 (modified)
+/// @brief __Base class for statistical co-filters - two-series statistics.__ /<br>
+///         _Podstawowa klasa dla ko-filtrów statystycznych — statystyk z dwu serii.
+/// @date 2026-05-16 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_CO_STAT_SOUR_HPP_INCLUDED_

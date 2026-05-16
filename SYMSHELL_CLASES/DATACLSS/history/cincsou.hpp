@@ -1,12 +1,13 @@
 /// @file
 /// @brief STARY WADLIWY (już niekompatybilny) filtr liczący koincydencje klas dwu serii i pochodne statystyki (Hi^2 itp).
-/// @date 2026-05-14 (modified)
+///        <br> __OBSOLETE__
+/// @date 2026-05-16 (modified)
 // ********************************************************************************************************************
-//
+//  Coś dziwnego Tidy robi z tym plikiem. Nie jest w stanie znaleźć systemowych nagłówków.
 #ifndef SYMSHELL2_COINCIDENCE_SOUR_HPP_INCLUDED_
 #define SYMSHELL2_COINCIDENCE_SOUR_HPP_INCLUDED_
 
-#include "costatso.hpp"
+#include "../costatso.hpp"
 #include <cassert>
 
 namespace sym2 { namespace data {

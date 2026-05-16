@@ -1,6 +1,7 @@
 /// @file
-/// @brief Filtr liczący liczebność klas serii i pochodne statystyki przestrzenne, w tym korelacje przestrzenne.
-/// @date 2026-05-15 (modified)
+/// @brief __A filter that calculates the number of series classes and derived spatial statistics, including spatial correlations.__ /<br>
+///         _Filtr liczący liczebność klas serii i pochodne statystyki przestrzenne, w tym korelacje przestrzenne._
+/// @date 2026-05-16 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_SPATIAL_CORRELATION_SOUR_HPP_INCLUDED_

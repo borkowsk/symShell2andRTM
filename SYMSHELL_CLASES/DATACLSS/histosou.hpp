@@ -1,6 +1,7 @@
 /// @file
-/// @brief Starszy filtr liczący liczebności klas serii i pochodne statystyki.
-/// @date 2026-05-15 (modified)
+/// @brief __Legacy filter for counting series class counts and derived statistics.__ /<br>
+///         _Starszy filtr liczący liczebności klas serii i pochodne statystyki._
+/// @date 2026-05-16 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_HISTOGRAM_SOUR_HPP_INCLUDED_

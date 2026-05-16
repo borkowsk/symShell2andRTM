@@ -1,7 +1,7 @@
 /// @file
-/// @brief Specific source classes. A file that combines various "includes"/
-///        Konkretne klasy źródeł. Plik łączący różne "includy".
-/// @date 2026-05-06 (modified)
+/// @brief __Specific source classes. A file that combines various "includes"__ /<br>
+///         _Konkretne klasy źródeł. Plik łączący różne "includy"._
+/// @date 2026-05-16 (modified)
 // ********************************************************************************************************************
 //
 #ifndef __SIMPSOUR_HPP__

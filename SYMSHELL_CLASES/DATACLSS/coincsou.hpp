@@ -1,6 +1,7 @@
 /// @file
-/// @brief Filtr liczący koincydencje klas dwu serii i pochodne statystyki (Hi^2 itp.).
-/// @date 2026-05-15 (modified)
+/// @brief **A filter that counts the coincidences of classes of two series and derived statistics (Hi^2 etc.).** /<br>
+///         _Filtr liczący koincydencje klas dwu serii i pochodne statystyki (Hi^2 itp.)._
+/// @date 2026-05-16 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_COINCIDENCE_SOUR_HPP_INCLUDED_

@@ -1,6 +1,7 @@
 /// @file
-/// @brief Filtr liczący różne rodzaje klasteringu dla serii  g e o m e t r i a!!!
-/// @date 2026-05-14 (modified)
+/// @brief **Filter counting different types of clustering for series with geometry** /<br>
+///         _Filtr liczący różne rodzaje klasteringu dla serii z  g e o m e t r i ą.__
+/// @date 2026-05-16 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_CLUST_SOUR_HPP_INCLUDED_

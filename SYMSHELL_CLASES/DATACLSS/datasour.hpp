@@ -1,6 +1,6 @@
 /// @file
-/// @brief INTERFACES of the most basic data source classes /
-///        INTERFACE-y najbardziej podstawowych klas źródeł danych.
+/// @brief __INTERFACES of the most basic data source classes__ /<br>
+///         _INTERFACE-y najbardziej podstawowych klas źródeł danych._
 /// @date 2026-05-16 (modified)
 // *********************************************************************************************************************
 //
@@ -18,15 +18,14 @@ using wbrtm::wb_dynarray;
 
 namespace sym2 { namespace data {
 
-/// @defgroup GRUPA_DATACLSS System źródeł danych
-/// @brief	Różne źródła danych bazujące na wspólnym interfejsie i z możliwościami czerpania od siebie.
+/// @defgroup GRUPA_DATACLSS
 /// @{
 
 #ifdef USE_ENGLISH_IF_POSSIBLE
-/// A base class of data source passing a single data/value.
+/// \EN{ A base class of data source passing a single data/value. }
 class scalar_source_base : public data_source_base, public title_util
 #else
-/// Klasa bazowa źródła danych przekazującego pojedynczą daną/wartość.
+/// \PL{ Klasa bazowa źródła danych przekazującego pojedynczą daną/wartość. }
 class scalar_source_base : public data_source_base, public sym2::title_util
 #endif
 //-------------------------------------------------------------------
