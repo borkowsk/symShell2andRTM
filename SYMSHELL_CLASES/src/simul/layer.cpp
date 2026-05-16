@@ -13,26 +13,28 @@
 #include "layer.hpp"
 #include "../visual/toitoutoll.hpp"
 
+namespace sym2 { namespace shell {
+
 //Sprawdzenie, czy jest agent w tym miejscu.
-bool symshell2::rectangle_layer::filled(int /*X*/,int /*Y*/)
+bool rectangle_layer::filled(int /*X*/, int /*Y*/)
 {
     return true;
 }
 
 //Czyszczenie linii.
 [[maybe_unused]]//NIGDY JESZCZE NIE ZAIMPLEMENTOWANE? TODO
-void symshell2::rectangle_layer::clean_line(int /*X1*/,int /*Y1*/,int /*X2*/,int /*Y2*/)
+void rectangle_layer::clean_line(int /*X1*/, int /*Y1*/, int /*X2*/, int /*Y2*/)
 {}
 
 //Czyszczenie wiersza punktów.
-void symshell2::rectangle_layer::clean_horizontal(int xxp,int yyp,size_t n)
+void rectangle_layer::clean_horizontal(int xxp, int yyp, size_t n)
 {
     for(unsigned i=0;i<n;i++)
         clean(xxp+i,yyp);
 }
 
 //Czyszczenie losowo wybranych elementów.
-void symshell2::rectangle_layer::clean_randomly(int how_many)
+void rectangle_layer::clean_randomly(int how_many)
 {
     int Width=toi(this->MainGeometry.get_width());
     int Heigh=toi(this->MainGeometry.get_height());									assert(how_many<Width*Heigh); //Inaczej pętla nieskończona
@@ -43,14 +45,14 @@ void symshell2::rectangle_layer::clean_randomly(int how_many)
         int y=RANDOM(Heigh);
 
         if(filled(x,y)) //Troche nieefektywne, ale kiedyś się skończy.
-            clean(x,y);                  
+            clean(x,y);
         else
             i--;        //Nie trafiony, jeszcze raz
     }
 }
 
 //Czyszczenie kola
-void symshell2::rectangle_layer::clean_circle(int x,int y,size_t r)
+void rectangle_layer::clean_circle(int x, int y, size_t r)
 {
     if(r==0) return;
     // Robi dziurę w obszarze symulacji.
@@ -149,6 +151,8 @@ void symshell2::rectangle_layer::clean_circle(int x,int y,size_t r)
 
 }
 }
+
+}} //namespaces
 
 /* ****************************************************************** */
 /*               SYMSHELL2  version 2006/2022/2026                    */

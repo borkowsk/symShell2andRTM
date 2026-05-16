@@ -8,8 +8,8 @@
 //*////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #include "world.hpp"
 
-namespace symshell2
-{
+namespace sym2 { namespace shell {
+
 
     ostream &operator<<(ostream &o, const world &w)
     {
@@ -20,7 +20,7 @@ namespace symshell2
         return o;
     }
 
-}
+}}
 
 /* ****************************************************************** */
 /*               SYMSHELL2  version 2006/2022/2026                    */

@@ -8,11 +8,11 @@
 
 #include "world.hpp"
 
-char  symshell2::world::separator='\t';
+char  sym2::shell::world::separator='\t';
 
-int symshell2::world::implement_output(ostream& o) const
+int sym2::shell::world::implement_output(ostream& o) const
 {
-    o<<Licznik<<separator;
+    o << StepCounter << separator;
     o<<TimeStamp<<separator<<endl;
     o<<MaxIterations<<separator;
     o<<LogRatio<<separator;

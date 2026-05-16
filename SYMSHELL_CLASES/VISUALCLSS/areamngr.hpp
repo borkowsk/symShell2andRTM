@@ -16,7 +16,7 @@
 #pragma ide diagnostic ignored "google-default-arguments"
 
 /// Zmodernizowane klasy do symulacji w C++
-namespace symshell2
+namespace sym2
 {
 
     /// INTERFACE DO DOWOLNEGO ZARZĄDCY OBSZARU.
@@ -326,7 +326,7 @@ namespace symshell2
         int arrange(const wb_dynarray<int> &lst) override; //Inteligentnie rearanżuje.
     };
 
-} // namespace symshell2
+} // namespace sym2
 
 #pragma clang diagnostic pop
 /* ****************************************************************** */

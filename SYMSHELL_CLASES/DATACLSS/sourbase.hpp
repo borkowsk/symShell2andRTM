@@ -57,11 +57,13 @@ public:
 
     /// @name SKRÓTY NAZW TYPÓW
     /// @{
-    typedef symshell2::iterator_h iterator_h; ///< Skrót dla typu uchwytu iterator-a.
+    typedef sym2::shell::iterator_h iterator_h; ///< Skrót dla typu uchwytu iterator-a.
     typedef iterator_h iteratorh; ///< Kompatybilność wsteczna ze starą formą.
-    typedef symshell2::geometry_base geometry_base;
+    typedef sym2::shell::geometry_base geometry_base;
     typedef geometry_base geometry;
     typedef geometry::index_t  index_t;
+    template<class SCALAR>
+    using default_missing = wbrtm::default_missing<SCALAR>;
     static_assert(sizeof(index_t)==sizeof(iterator_h), "Types `index_t` and `iterator_h` must have the same sizes!");
     /// @}
 
@@ -172,7 +174,7 @@ public:
     /// Constructor.
     data_source_base()
     : my_geometry(NULL), local_geometry(false), cur_step(-1), no_change(0),
-      y_min(0), y_max(0), miss(symshell2::default_missing<double>())
+      y_min(0), y_max(0), miss(default_missing<double>())
     {}
 
     /// Destructor. Wymuszenie wirtualności.
@@ -211,7 +213,7 @@ double data_source_base::get_missing()
 // Zapewnia właściwą inicjację i obsługę wartości "miss"
 // Ale, czy to "really" potrzebne?
 {
-    double tmp = symshell2::default_missing<double>(); //Klasy szablonowe muszą to reimplementować
+    double tmp = default_missing<double>(); //Klasy szablonowe muszą to reimplementować
     // Używamy porównania zawartości pamięci, bo niekoniecznie tmp musi być poprawną liczbą typu double.
     if(memcmp(&miss, &tmp, sizeof(miss)) != 0) //TODO A TU NIE POWINNO BYĆ == zamiast != ???
         return miss; // Jeśli ustawione lub już domyślne.

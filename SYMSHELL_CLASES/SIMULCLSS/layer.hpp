@@ -24,21 +24,27 @@
 // --checks=-google-default-arguments.
 #pragma ide diagnostic ignored "google-default-arguments"
 
-namespace symshell2 {
+namespace sym2 { namespace shell {
 
 #ifdef USE_ENGLISH_IF_POSSIBLE
-/// Base class for all types of simulation layers.
+/// @brief Base class for all types of simulation layers.
 class any_layer_base
 #else
-/// Klasa bazowa dla wszystkich typów warstw symulacji.
+/// @brief Klasa bazowa dla wszystkich typów warstw symulacji.
 class any_layer_base
 #endif
 //---------------------------
 {
 public:
-    /// Typ indeksu dowolnego obiektu w warstwie.
-    /// @note Wzięty z geometrii i aktualnie tożsamy z size_t, więc trudno wykryć niespójności.
+    /// @if POLISH
+    /// @brief Typ indeksu dowolnego obiektu w warstwie.
+    /// @note Wzięty z geometrii i aktualnie tożsamy z `size_t`, więc trudno wykryć niespójności.
     /// Niezależnie od geometrii warstwy każdy element powinien być też dostępny w iteracji liniowej.
+    /// @elseif ENGLISH
+    /// @brief The index type of any object in the layer.
+    /// @note Taken from the geometry and currently identical to `size_t`, so inconsistencies are difficult to detect.
+    /// Regardless of the layer geometry, each element should also be accessible in linear iteration.
+    /// @endif
     typedef geometry_base::index_t lin_index_t;
 
     /// Największa wartość dowolnego indeksu — marker nieznalezienia itp. Kiedyś było `static const unsigned long FULL`.
@@ -78,11 +84,11 @@ public:
 };
 
 #ifdef USE_ENGLISH_IF_POSSIBLE
-/// A layer template for elements of a given type. Used to enforce the `get` method.
+/// @brief A layer template for elements of a given type. Used to enforce the `get` method.
 template<class TYPE>
 class layer:public any_layer_base
 #else
-/// Szablon warstwy elementów o zadanym typie. Służy do wymuszenia metody `get`.
+/// @brief Szablon warstwy elementów o zadanym typie. Służy do wymuszenia metody `get`.
 template<class TYPE>
 class layer:public any_layer_base
 #endif
@@ -93,20 +99,20 @@ public:
 };
 
 #ifdef USE_ENGLISH_IF_POSSIBLE
-/// A class implementing the properties typical of a rectangular layer.
-// / Designed for multiple inheritance, so it does not inherit from `layer`.
+/// @brief A class implementing the properties typical of a rectangular layer.
+/// @details Designed for multiple inheritance, so it does not inherit from `layer`.
 class rectangle_layer
 #else
-/// Klasa implementująca własności typowe dla warstwy prostokątnej.
-/// Przeznaczona do wielodziedziczenia, dlatego nie dziedziczy po `layer`.
+/// @brief Klasa implementująca własności typowe dla warstwy prostokątnej.
+/// @details Przeznaczona do wielodziedziczenia, dlatego nie dziedziczy po `layer`.
 /// TODO powinna się może inaczej nazywać? Np. ze słowem "implementation"?
 class rectangle_layer
 #endif
 //---------------------
 {
 protected:
-    rectangle_geometry		MainGeometry; //Geometria dla operacji na warstwie
-    //rectangle_geometry	VisoGeometry; //Geometria dla serii danych - w celu ich wizualizacji. TODO POMYSŁ PORZUCONY?
+    rectangle_geometry		MainGeometry; ///< Geometria dla operacji na tej warstwie.
+    //rectangle_geometry	VisoGeometry; ///< Geometria dla serii danych - w celu ich wizualizacji. TODO POMYSŁ PORZUCONY?
 
 public:
     /// @name AKCESORY ZALEŻNE OD WŁASNOŚCI PROSTOKĄTA
@@ -156,7 +162,7 @@ public:
 
     //virtual rectangle_source_base* make_source(const char* name)=0; //Tworzy zawsze/wielokrotnie taka sama, ale nie ta sama warstwę.
 
-    /// @name KONSTRUKTOR/DESTRUKTOR
+    /// @name KONSTRUKTOR i DESTRUKTOR.
     /// @{
 
     /// Konstruktor przede wszystkim ustawia geometrię warstwy.
@@ -175,10 +181,11 @@ public:
 };
 
 #ifdef USE_ENGLISH_IF_POSSIBLE
-///
+/// @brief Rectangular layer template for any scalar (non-pointer!) type.
+/// @details Interface taken from `layer<>` and implementation from `rectangle_layer`.
 #else
-/// Szablon warstwy prostokątnej dla dowolnego typu skalarnego (nie-wskaźnikowego!).
-/// Interface bierze z `layer<>` a implementację z `rectangle_layer`.
+/// @brief Szablon warstwy prostokątnej dla dowolnego typu skalarnego (nie-wskaźnikowego!).
+/// @details Interface bierze z `layer<>` a implementację z `rectangle_layer`.
 #endif
 template<class SCALAR>
 class rectangle_unilayer:public layer<SCALAR>,public rectangle_layer
@@ -251,8 +258,9 @@ public:
     void clean(size_t TargetX,size_t TargetY) override
     { get(TargetX,TargetY)=cleaner;}
 
+    /// Zamiana elementów.
     void swap(size_t TargetX,size_t TargetY,size_t SourceX,size_t SourceY) override
-    //Zamiana elementów
+
     {
         SCALAR& Target=get(TargetX,TargetY);
         SCALAR& Source=get(SourceX,SourceY);
@@ -261,16 +269,16 @@ public:
         Source=tmp;
     }
 
+    /// Sprawdzenie, czy jest agent w tym miejscu. Coś zawsze jest, bo to skalary, ale może powinien porównywać z "cleaner"?
     bool filled(int X,int Y) override
-    //Sprawdzenie, czy jest agent w tym miejscu. Cos zawsze jest, bo to skalary, ale może powinien porównywać z "cleaner"?
     {
         return true;
     }
 
+    /// Przypisanie elementowi wartości RGB. Zazwyczaj z bitmapy — domyślnie przekształcone na szarość.
     void assign_rgb(size_t TargetX,size_t TargetY,
                     unsigned char Red,unsigned char Green,unsigned char Blue,
                     void* user_data=0) override
-    // Przypisanie elementowi wartości RGB z bitmapy — domyślnie przekształcone na szarość.
     {
         //Uproszczone, bo możnaby zastosować specjalny wzór z wagami,
         unsigned long pom=(unsigned long)Red+(unsigned long)Green+(unsigned long)Blue;
@@ -312,9 +320,9 @@ public:
 };
 
 #ifdef USE_ENGLISH_IF_POSSIBLE
-/// ...
+/// @brief Rectangular layer template for any structure type.
 #else
-/// Szablon warstwy prostokątnej dla dowolnego typu strukturalnego.
+/// @brief Szablon warstwy prostokątnej dla dowolnego typu strukturalnego.
 #endif
 template<class STRUCT_T>
 class rectangle_layer_of_struct:public layer<STRUCT_T>,public rectangle_layer
@@ -365,8 +373,9 @@ public:
 // Metody specyficzne dla warstw prostokątnych
 // /////////////////////////////////////////////////////////////////////////
 
+    /// Bezpośredni dostęp do pola.
     STRUCT_T&	get(size_t X,size_t Y)
-    //Bezpośredni dostęp do pola
+
     {
         size_t lindex=MainGeometry.get(X,Y);
         assert(lindex!=rectangle_geometry::FULL); //Jedyne sprawdzanie zakresów, żeby nie spowalniać przetestowanej symulacji
@@ -462,131 +471,131 @@ public:
     virtual
     struct_matrix_source<STRUCT_T,unsigned>* make_source(const char* name,unsigned STRUCT_T::* field_ptr)
     {
-    return new struct_matrix_source<STRUCT_T,unsigned>(
-                                           name,
-                                           MainGeometry,
-                                           table.get_ptr_val(),
-                                           field_ptr
-                                           );
+        return new struct_matrix_source<STRUCT_T,unsigned>(
+                                               name,
+                                               MainGeometry,
+                                               table.get_ptr_val(),
+                                               field_ptr
+                                               );
     }
 
     /// Warstwa danych, gdy typ pola jest `unsigned short`.
     virtual
     struct_matrix_source<STRUCT_T,unsigned short>* make_source(const char* name,unsigned short STRUCT_T::* field_ptr)
     {
-    return new struct_matrix_source<STRUCT_T,unsigned short>(
-                                           name,
-                                           MainGeometry,
-                                           table.get_ptr_val(),
-                                           field_ptr
-                                           );
+        return new struct_matrix_source<STRUCT_T,unsigned short>(
+                                               name,
+                                               MainGeometry,
+                                               table.get_ptr_val(),
+                                               field_ptr
+                                               );
     }
 
     /// Warstwa danych, gdy typ pola jest `unsigned char`.
     virtual
     struct_matrix_source<STRUCT_T,unsigned char>* make_source(const char* name,unsigned char STRUCT_T::* field_ptr)
     {
-    return new struct_matrix_source<STRUCT_T,unsigned char>(
-                                           name,
-                                           MainGeometry,
-                                           table.get_ptr_val(),
-                                           field_ptr
-                                           );
+        return new struct_matrix_source<STRUCT_T,unsigned char>(
+                                               name,
+                                               MainGeometry,
+                                               table.get_ptr_val(),
+                                               field_ptr
+                                               );
     }
 
     /// Warstwa danych, gdy typ pola jest `double`.
     virtual
     struct_matrix_source<STRUCT_T,double>* make_source(const char* name,double STRUCT_T::* field_ptr)
     {
-    return new struct_matrix_source<STRUCT_T,double>(
-                                           name,
-                                           MainGeometry,
-                                           table.get_ptr_val(),
-                                           field_ptr
-                                           );
+        return new struct_matrix_source<STRUCT_T,double>(
+                                               name,
+                                               MainGeometry,
+                                               table.get_ptr_val(),
+                                               field_ptr
+                                               );
     }
 
     /// Warstwa danych, gdy typ pola jest `double`, ale dostęp przez metodę.
     virtual
     method_matrix_source<STRUCT_T,double>* make_source(const char* name,double (STRUCT_T::* method_ptr)() )
     {
-    return new method_matrix_source<STRUCT_T,double>(
-                                           name,
-                                           MainGeometry,
-                                           table.get_ptr_val(),
-                                           method_ptr
-                                           );
+        return new method_matrix_source<STRUCT_T,double>(
+                                               name,
+                                               MainGeometry,
+                                               table.get_ptr_val(),
+                                               method_ptr
+                                               );
     }
 
     /// Warstwa danych, gdy typ pola jest `short int`, ale dostęp przez metodę.
     virtual
     method_matrix_source<STRUCT_T,short int>* make_source(const char* name,short int (STRUCT_T::* method_ptr)())
     {
-    return new method_matrix_source<STRUCT_T,short int>(
-                                           name,
-                                           MainGeometry,
-                                           table.get_ptr_val(),
-                                           method_ptr
-                                           );
+        return new method_matrix_source<STRUCT_T,short int>(
+                                               name,
+                                               MainGeometry,
+                                               table.get_ptr_val(),
+                                               method_ptr
+                                               );
     }
 
     /// Warstwa danych, gdy typ pola jest `bool`, ale dostęp przez metodę.
     virtual
     method_matrix_source<STRUCT_T,bool>* make_source(const char* name,bool (STRUCT_T::* method_ptr)())
     {
-    return new method_matrix_source<STRUCT_T,bool>(
-                                           name,
-                                           MainGeometry,
-                                           table.get_ptr_val(),
-                                           method_ptr
-                                           );
+        return new method_matrix_source<STRUCT_T,bool>(
+                                               name,
+                                               MainGeometry,
+                                               table.get_ptr_val(),
+                                               method_ptr
+                                               );
     }
 
     /// Warstwa danych, gdy typ pola jest `int`, ale dostęp przez metodę.
     virtual
     method_matrix_source<STRUCT_T,int>* make_source(const char* name,int (STRUCT_T::* method_ptr)())
     {
-    return new method_matrix_source<STRUCT_T,int>(
-                                           name,
-                                           MainGeometry,
-                                           table.get_ptr_val(),
-                                           method_ptr
-                                           );
+        return new method_matrix_source<STRUCT_T,int>(
+                                               name,
+                                               MainGeometry,
+                                               table.get_ptr_val(),
+                                               method_ptr
+                                               );
     }
 
     /// Warstwa danych, gdy typ pola jest `long`, ale dostęp przez metodę.
     virtual
     method_matrix_source<STRUCT_T,long>* make_source(const char* name,long (STRUCT_T::* method_ptr)())
     {
-    return new method_matrix_source<STRUCT_T,long>(
-                                           name,
-                                           MainGeometry,
-                                           table.get_ptr_val(),
-                                           method_ptr
-                                           );
+        return new method_matrix_source<STRUCT_T,long>(
+                                               name,
+                                               MainGeometry,
+                                               table.get_ptr_val(),
+                                               method_ptr
+                                               );
     }
 
     /// Warstwa danych, gdy typ pola jest `unsigned`, ale dostęp przez metodę.
     virtual
     method_matrix_source<STRUCT_T,unsigned>* make_source(const char* name,unsigned (STRUCT_T::* method_ptr)())
     {
-    return new method_matrix_source<STRUCT_T,unsigned>(
-                                           name,
-                                           MainGeometry,
-                                           table.get_ptr_val(),
-                                           method_ptr
-                                           );
+        return new method_matrix_source<STRUCT_T,unsigned>(
+                                               name,
+                                               MainGeometry,
+                                               table.get_ptr_val(),
+                                               method_ptr
+                                               );
     }
 
     /// Warstwa danych, gdy typ pola jest `unsigned long`, ale dostęp przez metodę.
     virtual method_matrix_source<STRUCT_T,unsigned long>* make_source(const char* name,unsigned long (STRUCT_T::* method_ptr)())
     {
-    return new method_matrix_source<STRUCT_T,unsigned long>(
-                                           name,
-                                           MainGeometry,
-                                           table.get_ptr_val(),
-                                           method_ptr
-                                           );
+        return new method_matrix_source<STRUCT_T,unsigned long>(
+                                               name,
+                                               MainGeometry,
+                                               table.get_ptr_val(),
+                                               method_ptr
+                                               );
     }
     /// @}
 
@@ -612,9 +621,9 @@ public:
 };
 
 #ifdef USE_ENGLISH_IF_POSSIBLE
-///
+/// Definition of the agent interface that must be met for the layers to be able to support.
 #else
-/// Definicja interface'u agenta, który musi być spełniony, żeby warstwy mogły obsługiwać/
+/// Definicja interfejsu agenta, który musi być spełniony, żeby warstwy mogły obsługiwać.
 #endif
 class agent_base
 //--------------------------------------------------
@@ -635,17 +644,17 @@ public:
 }; //!< Prosty kontener na dane.
 
 #ifdef USE_ENGLISH_IF_POSSIBLE
-///
+/// A layer template of a structured type compatible with the `agent_base` type.
 #else
 /// Szablon warstwy typu strukturalnego zgodnego z typem `agent_base`.
 #endif
 template<class AGENT>
 class rectangle_layer_of_agents:public layer<AGENT>,public rectangle_layer
-//----------------------------------------------
+//------------------------------------------------------------------------
 {
-    wb_dynarray<AGENT>	      table; //!< Prosty kontener na dane.
-    AGENT				    cleaner; //!< Obiekt do zamazywania.
-    int					use_cleaner; //!< Czy potrzebne jest użycie cleanera,
+    wb_dynarray<AGENT>		  table; //!< Prosty kontener na dane.
+    AGENT					cleaner; //!< Obiekt do zamazywania.
+    int					use_cleaner; //!< Czy potrzebne jest użycie "cleanera",
                                      //!<, czy wystarczy konstruktor bezparametrowy i/albo `clean`.
 public:
     /// Constructor 1.
@@ -669,11 +678,10 @@ public:
                 size_t Height,
                 int   i_use_cleaner,
                 const AGENT* i_clean
-        ):
-        rectangle_layer(Width,Height),
-        table(Width*Height),		//odpowiednia ilość pól
-        use_cleaner(i_use_cleaner),
-        cleaner(*i_clean)
+            )
+    : rectangle_layer(Width,Height),
+      table(Width*Height),		//odpowiednia ilość pól
+      use_cleaner(i_use_cleaner), cleaner(*i_clean)
     {
         if(use_cleaner)	//Na wypadek, gdy konstruktor nie wystarcza
         {
@@ -709,19 +717,19 @@ public:
 // Metody Pure-virtual, które muszą zostać zdefiniowane dla każdej warstwy
 // /////////////////////////////////////////////////////////////////////////
 
+    /// Wskaźnik do obowiązującej geometrii warstwy. Wypełnienie obowiązku pure-virtual
     const geometry_base* get_geometry()
-    //Wypełnienie obowiązku pure-virtual
     { return &MainGeometry;}
 
+    /// Daje dostęp do elementu o indeksie obliczonym przez geometrie.
     AGENT& get(size_t index)
-    //Daje dostęp do elementu o indeksie obliczonym przez geometrie
     { return table[index]; }
 
 // Metody specyficzne dla warstw prostokątnych
 // /////////////////////////////////////////////////////////////////////////
 
+    /// Bezpośredni dostęp do pola.
     AGENT&	get(size_t X,size_t Y)
-    //Bezpośredni dostęp do pola
     {
         size_t lindex=MainGeometry.get(X,Y);
         assert(lindex!=rectangle_geometry::FULL); //Jedyne sprawdzanie zakresów, żeby nie spowalniać przetestowanej symulacji
@@ -733,8 +741,8 @@ public:
         return get(X,Y);
     }
 
+    /// Czyszczenie pojedynczego pola. Konieczne, bo pure-virtual.
     void clean(size_t TargetX,size_t TargetY) override
-    //Czyszczenie pojedynczego pola. Konieczne, bo pure-virtual
     {
         if(use_cleaner)
             get(TargetX,TargetY)=cleaner;
@@ -766,6 +774,8 @@ public:
     /// @{
     typedef void (AGENT::* assign_rgb_fun)(unsigned char,unsigned char,unsigned char);
 
+    /// @brief @PL{ Pomocnicza struktura wykonująca przypisanie RGB. }
+    ///        @EN{ A helper structure that performs RGB assignment. }
     struct assign_rgb_stc
     {
         assign_rgb_fun AssFun;
@@ -778,7 +788,7 @@ public:
         return rectangle_layer::init_from_bitmap(filename,&user_fun);
     }
 
-    // Przypisanie polu wartości RGB z bitmapy — domyślnie przekształcone na szarość.
+    /// Przypisanie polu wartości RGB. Zwykle z bitmapy — domyślnie przekształcone na szarość.
     void assign_rgb(size_t TargetX,size_t TargetY,		//tez konieczne bo pure-virtual
                     unsigned char Red,unsigned char Green,unsigned char Blue,
                     void* user_data=0
@@ -797,191 +807,191 @@ public:
     virtual /*rectangle_source_base**/
     struct_matrix_source<AGENT,bool>* make_source(const char* name,bool AGENT::* field_ptr)
     {
-    return new struct_matrix_source<AGENT,bool>(
-                                           name,
-                                           MainGeometry,
-                                           table.get_ptr_val(),
-                                           field_ptr
-                                           );
+        return new struct_matrix_source<AGENT,bool>(
+                                               name,
+                                               MainGeometry,
+                                               table.get_ptr_val(),
+                                               field_ptr
+                                               );
     }
 
     virtual /*rectangle_source_base**/
     struct_matrix_source<AGENT,short>* make_source(const char* name,short AGENT::* field_ptr)
     {
-    return new struct_matrix_source<AGENT,short>(
-                                           name,
-                                           MainGeometry,
-                                           table.get_ptr_val(),
-                                           field_ptr
-                                           );
+        return new struct_matrix_source<AGENT,short>(
+                                               name,
+                                               MainGeometry,
+                                               table.get_ptr_val(),
+                                               field_ptr
+                                               );
     }
 
     virtual /*rectangle_source_base**/
     struct_matrix_source<AGENT,unsigned short>* make_source(const char* name,unsigned short AGENT::* field_ptr)
     {
-    return new struct_matrix_source<AGENT,unsigned short>(
-                                           name,
-                                           MainGeometry,
-                                           table.get_ptr_val(),
-                                           field_ptr
-                                           );
+        return new struct_matrix_source<AGENT,unsigned short>(
+                                               name,
+                                               MainGeometry,
+                                               table.get_ptr_val(),
+                                               field_ptr
+                                               );
     }
 
     virtual /*rectangle_source_base**/
     struct_matrix_source<AGENT,int>* make_source(const char* name,int AGENT::* field_ptr)
     {
-    return new struct_matrix_source<AGENT,int>(
-                                           name,
-                                           MainGeometry,
-                                           table.get_ptr_val(),
-                                           field_ptr
-                                           );
+        return new struct_matrix_source<AGENT,int>(
+                                               name,
+                                               MainGeometry,
+                                               table.get_ptr_val(),
+                                               field_ptr
+                                               );
     }
 
     virtual /*rectangle_source_base**/
     struct_matrix_source<AGENT,unsigned>* make_source(const char* name,unsigned AGENT::* field_ptr)
     {
-    return new struct_matrix_source<AGENT,unsigned>(
-                                           name,
-                                           MainGeometry,
-                                           table.get_ptr_val(),
-                                           field_ptr
-                                           );
+        return new struct_matrix_source<AGENT,unsigned>(
+                                               name,
+                                               MainGeometry,
+                                               table.get_ptr_val(),
+                                               field_ptr
+                                               );
     }
 
     virtual /*rectangle_source_base**/
     struct_matrix_source<AGENT,long>* make_source(const char* name,long AGENT::* field_ptr)
     {
-    return new struct_matrix_source<AGENT,long>(
-                                           name,
-                                           MainGeometry,
-                                           table.get_ptr_val(),
-                                           field_ptr
-                                           );
+        return new struct_matrix_source<AGENT,long>(
+                                               name,
+                                               MainGeometry,
+                                               table.get_ptr_val(),
+                                               field_ptr
+                                               );
     }
 
     virtual /*rectangle_source_base**/
     struct_matrix_source<AGENT,unsigned long>* make_source(const char* name,unsigned long AGENT::* field_ptr)
     {
-    return new struct_matrix_source<AGENT,unsigned long>(
-                                           name,
-                                           MainGeometry,
-                                           table.get_ptr_val(),
-                                           field_ptr
-                                           );
+        return new struct_matrix_source<AGENT,unsigned long>(
+                                               name,
+                                               MainGeometry,
+                                               table.get_ptr_val(),
+                                               field_ptr
+                                               );
     }
 
     virtual /*rectangle_source_base**/
     struct_matrix_source<AGENT,unsigned char>* make_source(const char* name,unsigned char AGENT::* field_ptr)
     {
-    return new struct_matrix_source<AGENT,unsigned char>(
-                                           name,
-                                           MainGeometry,
-                                           table.get_ptr_val(),
-                                           field_ptr
-                                           );
+        return new struct_matrix_source<AGENT,unsigned char>(
+                                               name,
+                                               MainGeometry,
+                                               table.get_ptr_val(),
+                                               field_ptr
+                                               );
     }
 
     virtual /*rectangle_source_base**/
     struct_matrix_source<AGENT,double>* make_source(const char* name,double AGENT::* field_ptr)
     {
-    return new struct_matrix_source<AGENT,double>(
-                                           name,
-                                           MainGeometry,
-                                           table.get_ptr_val(),
-                                           field_ptr
-                                           );
+        return new struct_matrix_source<AGENT,double>(
+                                               name,
+                                               MainGeometry,
+                                               table.get_ptr_val(),
+                                               field_ptr
+                                               );
     }
 
     virtual
     method_matrix_source<AGENT,bool>* make_source(const char* name,bool (AGENT::* method_ptr)())
     {
-    return new method_matrix_source<AGENT,bool>(
-                                           name,
-                                           MainGeometry,
-                                           table.get_ptr_val(),
-                                           method_ptr
-                                           );
+        return new method_matrix_source<AGENT,bool>(
+                                               name,
+                                               MainGeometry,
+                                               table.get_ptr_val(),
+                                               method_ptr
+                                               );
     }
 
 
     virtual
     method_matrix_source<AGENT,short>* make_source(const char* name,short (AGENT::* method_ptr)())
     {
-    return new method_matrix_source<AGENT,short int>(
-                                           name,
-                                           MainGeometry,
-                                           table.get_ptr_val(),
-                                           method_ptr
-                                           );
+        return new method_matrix_source<AGENT,short int>(
+                                               name,
+                                               MainGeometry,
+                                               table.get_ptr_val(),
+                                               method_ptr
+                                               );
     }
 
     virtual
     method_matrix_source<AGENT,unsigned short>* make_source(const char* name,unsigned short (AGENT::* method_ptr)())
     {
-    return new method_matrix_source<AGENT,unsigned short>(
-                                           name,
-                                           MainGeometry,
-                                           table.get_ptr_val(),
-                                           method_ptr
-                                           );
+        return new method_matrix_source<AGENT,unsigned short>(
+                                               name,
+                                               MainGeometry,
+                                               table.get_ptr_val(),
+                                               method_ptr
+                                               );
     }
 
     virtual
     method_matrix_source<AGENT,int>* make_source(const char* name,int (AGENT::* method_ptr)())
     {
-                                                assert(name!=NULL);
-                                                assert(method_ptr!=NULL);
-    return new method_matrix_source<AGENT,int>(
-                                           name,
-                                           MainGeometry,
-                                           table.get_ptr_val(),
-                                           method_ptr
-                                           );
+                                                    assert(name!=NULL);
+                                                    assert(method_ptr!=NULL);
+        return new method_matrix_source<AGENT,int>(
+                                               name,
+                                               MainGeometry,
+                                               table.get_ptr_val(),
+                                               method_ptr
+                                               );
     }
 
     virtual
     method_matrix_source<AGENT,unsigned>* make_source(const char* name,unsigned (AGENT::* method_ptr)())
     {
-    return new method_matrix_source<AGENT,unsigned>(
-                                           name,
-                                           MainGeometry,
-                                           table.get_ptr_val(),
-                                           method_ptr
-                                           );
+        return new method_matrix_source<AGENT,unsigned>(
+                                               name,
+                                               MainGeometry,
+                                               table.get_ptr_val(),
+                                               method_ptr
+                                               );
     }
 
     virtual
     method_matrix_source<AGENT,long>* make_source(const char* name,long (AGENT::* method_ptr)())
     {
-    return new method_matrix_source<AGENT,long>(
-                                           name,
-                                           MainGeometry,
-                                           table.get_ptr_val(),
-                                           method_ptr
-                                           );
+        return new method_matrix_source<AGENT,long>(
+                                               name,
+                                               MainGeometry,
+                                               table.get_ptr_val(),
+                                               method_ptr
+                                               );
     }
 
     virtual
     method_matrix_source<AGENT,unsigned long>* make_source(const char* name,unsigned long (AGENT::* method_ptr)())
     {
-    return new method_matrix_source<AGENT,unsigned long>(
-                                           name,
-                                           MainGeometry,
-                                           table.get_ptr_val(),
-                                           method_ptr
-                                           );
+        return new method_matrix_source<AGENT,unsigned long>(
+                                               name,
+                                               MainGeometry,
+                                               table.get_ptr_val(),
+                                               method_ptr
+                                               );
     }
 
     virtual
     method_matrix_source<AGENT,double>* make_source(const char* name,double (AGENT::* method_ptr)() )
     {
-    return new method_matrix_source<AGENT,double>(
-                                           name,
-                                           MainGeometry,
-                                           table.get_ptr_val(),
-                                           method_ptr
-                                           );
+        return new method_matrix_source<AGENT,double>(
+                                               name,
+                                               MainGeometry,
+                                               table.get_ptr_val(),
+                                               method_ptr
+                                               );
     }
     /// @}
 
@@ -1009,7 +1019,7 @@ public:
 };
 
 #ifdef USE_ENGLISH_IF_POSSIBLE
-///
+/// A template layer of pointers to a structured type compatible with `agent_base`.
 #else
 /// Szablon warstwy wskaźników do typu strukturalnego zgodnego z `agent_base`.
 #endif
@@ -1017,38 +1027,38 @@ template<class AGENT>
 class rectangle_layer_of_ptr_to_agents:public layer<AGENT>,public rectangle_layer
 //--------------------------------------------------------------
 {
-    wb_dynarray<wb_ptr<AGENT> >	      table; //!< Kontener na dane.
-    wb_ptr<AGENT>				     initer; //!< Obiekt do zamazywania.
-    wb_ptr<AGENT>				empty_guard; //!< Zwracany jako reprezentant pustych pól.
-    int						full_allocation; //!< Wszystkie wskaźniki mają być pełne.
+    wb_dynarray<wb_ptr<AGENT> >			table; //!< Kontener na dane.
+    wb_ptr<AGENT>				 model_object; //!< Obiekt do zamazywania.
+    wb_ptr<AGENT>				  empty_guard; //!< Zwracany jako reprezentant pustych pól.
+    int						  full_allocation; //!< Wszystkie wskaźniki mają być pełne.
 
 public:
     /// Konstruktor.
     /// @param Width, Height to wymiary prostokąta.
-    /// @param iiniter to obiekt czyszczący przekazywany przez adres, żeby można oznaczać brak.
+    /// @param initializer to obiekt czyszczący przekazywany przez adres, żeby można oznaczać brak.
     rectangle_layer_of_ptr_to_agents(
         size_t Width,
         size_t Height,
-        const  AGENT* iiniter=NULL,
+        const  AGENT* initializer=NULL,
         int    allocate_all=0
-        ):
-        rectangle_layer(Width,Height),
-        table(Width*Height),		//odpowiednia ilość pól
-        initer((iiniter?iiniter->clone():NULL)),
-        empty_guard((iiniter?iiniter->clone():NULL)),
-        full_allocation(allocate_all)
-        {
-            assert(sizeof(wb_ptr<AGENT>)==sizeof(AGENT*)); //Będzie taki cast w środku.
-            if(allocate_all)	//Na wypadek, gdy konstruktor nie wystarcza
-                reallocate_all(); //Realokuje lub klonuje wszystkie
-            else
-                deallocate_all(); //Wpisuje wszędzie NULL dla pewności
-        }
+        )
+    : rectangle_layer(Width,Height),
+      table(Width*Height),		//odpowiednia ilość pól
+      model_object((initializer?initializer->clone():NULL)),
+      empty_guard((initializer?initializer->clone():NULL)),
+      full_allocation(allocate_all)
+    {
+        assert(sizeof(wb_ptr<AGENT>)==sizeof(AGENT*)); //Będzie taki cast w środku.
+        if(allocate_all)	  //Na wypadek, gdy konstruktor nie wystarcza.
+            reallocate_all(); //Realokuje lub klonuje wszystkie
+        else
+            deallocate_all(); //Wpisuje wszędzie NULL dla pewności
+    }
 
     void reallocate_all()
     {
         size_t N=table.get_size();
-        if(!initer)
+        if(!model_object)
         {
             for(size_t i=0;i<N;i++)
                 table[i]=new AGENT();
@@ -1056,7 +1066,7 @@ public:
         else
         {
             for(size_t i=0;i<N;i++)
-                table[i]=initer->clone();
+                table[i]=model_object->clone();
         }
     }
 
@@ -1091,8 +1101,8 @@ public:
         return &MainGeometry;
     }
 
+    /// Daje dostęp do elementu o indeksie obliczonym przez geometrie.
     AGENT& get(size_t index)
-    //Daje dostęp do elementu o indeksie obliczonym przez geometrie
     {
         //assert(index<);Sprawdzenie zakresu
                                             assert(index!=any_layer_base::FULL);
@@ -1145,12 +1155,13 @@ public:
             return false;
     }
 
+    /// Czyszczenie pojedynczej struktury.
     void clean(size_t TargetX,size_t TargetY) override
-    //Konieczne, bo pure-virtual, czyszczenie pojedynczej struktury
+    //Konieczne, bo pure-virtual,
     {
         if(full_allocation)
         {
-            get_ptr(TargetX,TargetY)=initer->clone();
+            get_ptr(TargetX,TargetY)=model_object->clone();
         }
         else
         {
@@ -1174,11 +1185,11 @@ public:
     /// @{
     typedef void (AGENT::* assign_rgb_fun)(unsigned char,unsigned char,unsigned char);
 
-    // Struktura do przechowywania (?) funkcji wczytującej kolory
+    /// @brief Struktura do przechowywania (?) funkcji wczytującej kolory.
     struct assign_rgb_stc
     {
         assign_rgb_fun AssFun;
-        /// Constructor has to be without `explicit`!
+        /// @note This constructor has to be without `explicit`.
         assign_rgb_stc(assign_rgb_fun par):AssFun(par){} // NOLINT(*-explicit-constructor)
     };
 
@@ -1188,7 +1199,7 @@ public:
         return rectangle_layer::init_from_bitmap(filename,&user_fun);
     }
 
-    // Przypisanie polu wartości RGB z bitmapy — domyślnie przekształcone na szarość.
+    /// Przypisanie polu wartości RGB z bitmapy. Domyślnie przekształcone na szarość.
     void assign_rgb(size_t TargetX,size_t TargetY,		//tez konieczne bo pure-virtual
         unsigned char Red,unsigned char Green,unsigned char Blue,void* user_data) override
     {
@@ -1197,10 +1208,10 @@ public:
 
         if(!Target)
         {
-            if(!initer)
+            if(!model_object)
                 Target=new AGENT();
             else
-                Target=initer->clone();
+                Target=model_object->clone();
         }
         assert(Target.OK());
         assert(AssignFun!=NULL);
@@ -1341,7 +1352,7 @@ public:
     /// @{
     int		implement_output(ostream& o) const
     {
-        o<<table<<' '<<initer<<' '; //Obiekt do zamazywania
+        o << table << ' ' << model_object << ' '; //Obiekt do zamazywania
         o<<empty_guard<<' '<<full_allocation<<' '; //Zwracany jako reprezentant pustych pól
         return 1;
     }
@@ -1349,7 +1360,7 @@ public:
     int		implement_input(istream& i)
     {
         i>>table;
-        i>>initer;
+        i >> model_object;
         i>>empty_guard;
         i>>full_allocation;
         if(i.fail())
@@ -1359,7 +1370,7 @@ public:
     /// @}
 };
 
-} //namespace symshell2
+}} //namespace sym2::shell
 
 #pragma clang diagnostic pop
 

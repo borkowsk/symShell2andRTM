@@ -10,8 +10,7 @@
 
 using namespace std;
 
-namespace symshell2
-{
+namespace sym2 { namespace shell {
 
     istream &operator>>(istream &i, any_layer_base &w)
     {
@@ -32,7 +31,7 @@ namespace symshell2
         return i;
     }
 
-}
+}}
 
 /* ****************************************************************** */
 /*               SYMSHELL2  version 2006/2022/2026                    */

@@ -17,6 +17,7 @@ using wbrtm::wb_dynarray;
 #pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
 
 namespace sym2 { namespace data {
+    using namespace sym2::shell;
 
 /// @defgroup GRUPA_DATACLSS
 /// @{
@@ -91,7 +92,7 @@ protected:
     /// @param max  to wymuszone maksimum zakresu.
     explicit template_scalar_source_base(const char *nam, double min = 0, double max = 0)
     : scalar_source_base(nam, min, max)
-    { miss = symshell2::default_missing<T>(); }
+    { miss = default_missing<T>(); }
 
     /// Destructor.
     ~template_scalar_source_base() override = default;
@@ -109,7 +110,7 @@ public:
     }
 
     /// Przetwarzanie indeksu uzyskanego z geometrii dla źródła skalarnego daje zawsze tę samą wartość.
-    double get(symshell2::geometry::index_t ) override
+    double get(geometry::index_t ) override
     {
         return get();
     }
@@ -235,7 +236,7 @@ public:
 
     /// WYMAGANA implementacja dostępu do wartości na podstawie indeksu z geometrii.
     /// Najczęściej wystarczy przeliczyć wartość źródłową lub przekazać ją alno "missing".
-    double get(symshell2::geometry::index_t index) override=0;
+    double get(geometry::index_t index) override=0;
 };
 
 #ifdef USE_ENGLISH_IF_POSSIBLE
@@ -362,9 +363,9 @@ class rectangle_source_base : public data_source_base, public title_util
 //--------------------------------------------------------------
 {
 public:
-    typedef symshell2::rectangle_geometry rect_geometry;
+    typedef rectangle_geometry rect_geometry;
 private:
-    symshell2::rectangle_geometry *my_geometry; ///< Wskaźnik do geometrii danych.
+    rectangle_geometry *my_geometry; ///< Wskaźnik do geometrii danych.
     bool             local_geometry; ///< Określa CZY geometria jest jego własna, czy pożyczona.
 
 protected:
@@ -378,12 +379,12 @@ protected:
     rectangle_source_base(
             const char  *i_tit, size_t i_A, size_t i_B, int i_torus,
             const int   *i_section = NULL, //AKTUALNIE NIE UŻYWANE, ALE MOŻE KIEDYŚ ZNOWU.
-            double       i_miss = symshell2::default_missing<double>()
+            double       i_miss = default_missing<double>()
             )
     : title_util(i_tit), my_geometry(NULL), local_geometry(false)
     {
         set_missing(i_miss);
-        my_geometry = new symshell2::rectangle_geometry(i_A, i_B, i_torus);
+        my_geometry = new rectangle_geometry(i_A, i_B, i_torus);
         assert(my_geometry != NULL);
         local_geometry = true;
         //TODO What about `i_section`? WYPADŁO Z UŻYCIA.
@@ -396,8 +397,8 @@ protected:
     /// \param i_miss to nietypowa wartość podawana przy skanowaniu wycinka wychodzącego poza macierz.
     rectangle_source_base(
             const char *i_tit,
-            symshell2::rectangle_geometry &geom,  //Geometria z zewnątrz — dealokacja nie będzie zarządzana
-            double i_miss = symshell2::default_missing<double>(),
+            rectangle_geometry &geom,  //Geometria z zewnątrz — dealokacja nie będzie zarządzana
+            double i_miss = default_missing<double>(),
             const int *i_section = NULL // NIE UŻYWANE, ALE MOŻE KIEDYŚ...
             )
     : title_util(i_tit), my_geometry(NULL), local_geometry(false) //Nie będzie zarządzać dealokacją geometrii.

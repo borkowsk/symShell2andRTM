@@ -8,8 +8,7 @@
 
 #include "world.hpp"
 
-namespace symshell2
-{
+namespace sym2 { namespace shell {
 
     istream &operator>>(istream &i, world &w)
     {
@@ -37,7 +36,7 @@ namespace symshell2
         return i;
     }
 
-}
+}}
 
 /* ****************************************************************** */
 /*               SYMSHELL2  version 2006/2022/2026                    */

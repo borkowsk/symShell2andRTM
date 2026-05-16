@@ -30,7 +30,7 @@ public:
     /// \param i_miss to wartość dla "missing data".
     /// \param format to sposób tworzenia nazwy filtra z nazwy źródła.
     explicit log_F_filter(SOURCE_TYPE *ini = NULL,
-                          double i_miss = symshell2::default_missing<double>(),
+                          double i_miss = default_missing<double>(),
                           const char *format = "log(%s)")
     : template_filter_source_base<SOURCE_TYPE>(ini, format)
     { data_source_base::set_missing(i_miss); }
@@ -103,7 +103,7 @@ public:
     /// \param i_miss to wartość dla "missing data".
     /// \param format to sposób tworzenia nazwy filtra z nazwy źródła.
     explicit log_1_plus_F_filter(SOURCE_TYPE *ini = NULL,
-                                 double i_miss = symshell2::default_missing<double>(),
+                                 double i_miss = default_missing<double>(),
                                  const char *format = "log(1+%s)")
     : template_filter_source_base<SOURCE_TYPE>(ini, format)
     {
@@ -189,7 +189,7 @@ public:
     /// \param format to sposób tworzenia nazwy filtra z nazwy źródła i progu(?).
     explicit threshold_filter_base(double i_thr,
                                    SOURCE_TYPE *ini = NULL,
-                                   double i_miss = symshell2::default_missing<double>()/*DEFAULT_MISSING*/,
+                                   double i_miss = default_missing<double>()/*DEFAULT_MISSING*/,
                                    const char *format = "(%s) @ %g")
 
     : template_filter_source_base<SOURCE_TYPE>(ini, format), thr_val(i_thr)
@@ -231,7 +231,7 @@ public:
     /// \param format to sposób tworzenia nazwy filtra z nazwy źródła i progu(?).
     explicit EQ_filter(double i_val,
                        SOURCE_TYPE *ini = NULL,
-                       double i_miss = symshell2::default_missing<double>()/*DEFAULT_MISSING*/,
+                       double i_miss = default_missing<double>()/*DEFAULT_MISSING*/,
                        const char *format = "(%s)=%g")
     : threshold_filter_base<SOURCE_TYPE>(i_val, ini, i_miss, format)
     {}
@@ -264,7 +264,7 @@ public:
     /// \param format to sposób tworzenia nazwy filtra z nazwy źródła i progu(?).
     explicit LT_filter(double i_val,
                        SOURCE_TYPE *ini = NULL,
-                       double i_miss = symshell2::default_missing<double>()/*DEFAULT_MISSING*/,
+                       double i_miss = default_missing<double>()/*DEFAULT_MISSING*/,
                        const char *format = "(%s)<%g")
     : threshold_filter_base<SOURCE_TYPE>(i_val, ini, i_miss, format)
     {}
@@ -297,7 +297,7 @@ public:
     /// \param format to sposób tworzenia nazwy filtra z nazwy źródła i progu(?).
     explicit LE_filter(double i_val,
                        SOURCE_TYPE *ini = NULL,
-                       double i_miss = symshell2::default_missing<double>()/*DEFAULT_MISSING*/,
+                       double i_miss = default_missing<double>()/*DEFAULT_MISSING*/,
                         const char *format = "(%s)<=%g")
     : threshold_filter_base<SOURCE_TYPE>(i_val, ini, i_miss, format)
     {}
@@ -330,7 +330,7 @@ public:
     /// \param format to sposób tworzenia nazwy filtra z nazwy źródła i progu(?).
     explicit GT_filter( double i_val,
                         SOURCE_TYPE *ini = NULL,
-                        double i_miss = symshell2::default_missing<double>()/*DEFAULT_MISSING*/,
+                        double i_miss = default_missing<double>()/*DEFAULT_MISSING*/,
                         const char *format = "(%s)>%g")
     : threshold_filter_base<SOURCE_TYPE>(i_val, ini, i_miss, format)
     {}
@@ -364,7 +364,7 @@ public:
     /// \param format to sposób tworzenia nazwy filtra z nazwy źródła i progu(?).
     explicit GE_filter(double        i_val,
                        SOURCE_TYPE   *ini = NULL,
-                       double      i_miss = symshell2::default_missing<double>()/*DEFAULT_MISSING*/,
+                       double      i_miss = default_missing<double>()/*DEFAULT_MISSING*/,
                        const char *format = "(%s)>=%g")
     : threshold_filter_base<SOURCE_TYPE>(i_val, ini, i_miss, format)
     {}

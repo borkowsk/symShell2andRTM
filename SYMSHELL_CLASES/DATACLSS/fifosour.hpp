@@ -168,7 +168,7 @@ float fifo_source<float>::get_missing()
     double pom = linear_source_base::get_missing();
     float pomT = float(pom);                   //NOTE: missing should be inside T
     if(double(pomT) != double(pom))  //check this constraining!
-        pomT = symshell2::default_missing<float>();
+        pomT = default_missing<float>();
     return pomT;
 }
 
@@ -178,7 +178,7 @@ long fifo_source<long>::get_missing()
     double pom = linear_source_base::get_missing();
     long pomT = long(pom);                   //NOTE: missing should be inside T
     if(double(pomT) != double(pom))  //check this constraining!
-        pomT = symshell2::default_missing<long>();
+        pomT = default_missing<long>();
     return pomT;
 }
 
@@ -188,7 +188,7 @@ int fifo_source<int>::get_missing()
     double pom = linear_source_base::get_missing();
     int pomT = int(pom);                   //NOTE: missing should be inside T
     if(double(pomT) != double(pom))  //check this constraining!
-        pomT = symshell2::default_missing<int>();
+        pomT = default_missing<int>();
     return pomT;
 }
 
@@ -198,7 +198,7 @@ unsigned long fifo_source<unsigned long>::get_missing()
     double pom = linear_source_base::get_missing();
     unsigned long pomT((unsigned long) (pom));                   //NOTE: missing should be inside T
     if(double(pomT) != double(pom))  //check this constraining!
-        pomT = symshell2::default_missing<unsigned long>();
+        pomT = default_missing<unsigned long>();
     return pomT;
 }
 
@@ -208,7 +208,7 @@ unsigned int fifo_source<unsigned int>::get_missing()
     double pom = linear_source_base::get_missing();
     unsigned int pomT((unsigned int) (pom));                   //NOTE: missing should be inside T
     if(double(pomT) != double(pom))  //check this constraining!
-        pomT = symshell2::default_missing<unsigned int>();
+        pomT = default_missing<unsigned int>();
     return pomT;
 }
 
@@ -216,7 +216,7 @@ template<class T> inline
 T fifo_source<T>::get_missing()
 {
     double pom = linear_source_base::get_missing();
-    T pomT{symshell2::default_missing<T>()};  //NOTE: missing value should be inside type T
+    T pomT{default_missing<T>()};  //NOTE: missing value should be inside type T
     assert(double(pomT)==double(pom));  //check this constraining!
     return pomT;
 }

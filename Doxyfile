@@ -1,5 +1,4 @@
 # Doxyfile 1.9.1
-# @date 2026-05-16 (last modification)
 
 # This file describes the settings to be used by the documentation system
 # doxygen (www.doxygen.org) for a project.
@@ -272,7 +271,10 @@ TAB_SIZE               = 4
 # a double escape (\\{ and \\})
 
 ALIASES                = PL{1}=\1 \
-                         EN{1}=
+                         EN{1}= \
+                         I3{3|}=\1 \
+                         i3{3|}=\1 \
+                         in{2|}=\1
 
 # Set the OPTIMIZE_OUTPUT_FOR_C tag to YES if your project consists of C sources
 # only. Doxygen will then generate output that is more tailored for C. For
@@ -1256,7 +1258,7 @@ HTML_FILE_EXTENSION    = .html
 # for information on how to generate the default header that doxygen normally
 # uses.
 # Note: The header is subject to change so you typically have to regenerate the
-# default header when upgrading to a newer version of doxygen. For a description# @date 2026-05-16 (last modification)
+# default header when upgrading to a newer version of doxygen. For a description
 # of the possible markers and block names see the documentation.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 

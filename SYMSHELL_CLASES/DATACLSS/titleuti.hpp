@@ -44,7 +44,7 @@ namespace sym2
             delete title; //Deleting NULL pointer has no effect.
         }
 
-        /// Title/name change. <br> Zmiana tytułu/nazwy.
+        /// \EN{ Title/name change. <br>} \PL{ Zmiana tytułu/nazwy. }
         void set_title(const char *i_tit)
         {
             //if(title)
@@ -56,7 +56,7 @@ namespace sym2
                 title = NULL;
         }
 
-        /// Current title without checking for NULL. <br> Aktualny tytuł bez sprawdzania, czy nie NULL.
+        /// \EN{ Current title without checking for NULL. <br>} \PL{ Aktualny tytuł bez sprawdzania, czy nie NULL. }
         virtual
         const char *get_title()
         {
@@ -70,7 +70,7 @@ namespace sym2
     //        return title;    //Zwraca nazwę albo NULL
     //    }
 
-        /// Returns title/name or empty string. Never NULL.<br> Zwraca tytuł/nazwę albo pusty łańcuch. Nigdy NULL.
+        /// \EN{ Returns title/name or empty string. Never NULL.<br>} \PL{ Zwraca tytuł/nazwę albo pusty łańcuch. Nigdy NULL. }
         const char *name()
         {
             return title != NULL?title:"";

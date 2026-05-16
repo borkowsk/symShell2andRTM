@@ -13,7 +13,7 @@
 #include "drawable.hpp"
 
 /// Zmodernizowane klasy do symulacji w C++.
-namespace symshell2
+namespace sym2
 {
 
 /// @brief KLASA OBSZARU "TELETYPE".
@@ -70,7 +70,7 @@ public:
     void		_replot() override;
 };
 
-} // namespace symshell2
+} // namespace sym2
 
 /* ****************************************************************** */
 /*               SYMSHELL2  version 2006/2022/2026                    */

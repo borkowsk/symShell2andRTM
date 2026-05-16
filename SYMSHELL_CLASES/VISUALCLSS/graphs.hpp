@@ -24,7 +24,7 @@
 #pragma ide diagnostic ignored "google-default-arguments"
 
 /// Zmodernizowane klasy do symulacji w C++.
-namespace symshell2
+namespace sym2
 {
     using namespace sym2::data;
 
@@ -1138,7 +1138,7 @@ void fast_carpet_graph<DATA_SOURCE, DIRECT_COLOR>::_replot()
 class scatter3D_graph:public graph//Punkty w trzech wymiarach (dowolne X,Y,Z)
 */
 
-} // namespace symshell2
+} // namespace sym2
 
 #pragma clang diagnostic pop
 /* ****************************************************************** */

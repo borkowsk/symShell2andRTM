@@ -44,7 +44,17 @@
  *  ....
  *
  * ---------------------------------------------------------------------------------------------------------------
- *
+ */
+ /// Symshell2 library.
+namespace sym2{
+    /// Data sources hierarchy.
+    namespace data {}
+    /// Graphic areas hierarchy.
+    namespace visual {}
+    /// World, layers and agents.
+    namespace shell{}
+}
+ /**
  * @copyright Wojciech Borkowski wborkowski (_at_) uw.edu.pl
  *
  */

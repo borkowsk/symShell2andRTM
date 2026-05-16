@@ -8,7 +8,8 @@
 
 #include "world.hpp"
 
-ostream& operator << (ostream& o,const symshell2::world& w)
+/// Wersja globalna. Na to wygląda...
+ostream& operator << (ostream& o,const sym2::shell::world& w)
 {
     if(!o || o.bad())
     {

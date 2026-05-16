@@ -12,11 +12,11 @@
 #include "world.hpp"
 
 using namespace std;
-using namespace symshell2;
+using namespace sym2;
 
-int symshell2::world::implement_input(istream& i)
+int sym2::shell::world::implement_input(istream& i)
 {
-    i>>Licznik;
+    i >> StepCounter;
     i>>TimeStamp;
     if(!int(StartTime))
         StartTime=clone_str(TimeStamp.get());
@@ -32,7 +32,7 @@ int symshell2::world::implement_input(istream& i)
 
 // wczytanie pojedynczego obrazu symulacji dla inicjalizacji
 // Jeśli nie ma nazwy to z nazwy OutName
-void symshell2::world::initialize_from_image(const char* FileName)
+void sym2::shell::world::initialize_from_image(const char* FileName)
 {
 
     if(!FileName && !int(OutName))
@@ -52,8 +52,8 @@ void symshell2::world::initialize_from_image(const char* FileName)
 #endif
 #ifdef __MSVC_2000__
                         ,_SH_SECURE //zamiast ios_base::_Openprot
-//Brak stalych choc kiedys byly
-                        ,filebuf::sh_none		//Nie czyta z otwartego i nic nie pozwala dopisywac w trakcie
+//Brak takich stałych, choć kiedyś były
+                        ,filebuf::sh_none		//Nie czyta z otwartego i nic nie pozwala dopisywać w trakcie
 #endif */
                         );
 
@@ -136,7 +136,7 @@ void world::read_loop(int ret_after)
         // //////////////////////////////////////
         if(AreaManager==NULL || AreaManager->background_enabled())
         {
-            unsigned long OldLicznik=Licznik; //Dostep do pola protected, fuj!
+            unsigned long OldLicznik=StepCounter; //Dostep do pola protected, fuj!
 
             char cpom;
             do{
@@ -149,7 +149,7 @@ void world::read_loop(int ret_after)
             (*Out)>>(*this);
             after_read_from_image(); //actions after read state from a file.
 
-            if(Licznik!=OldLicznik)	//Bo na początku wczytuje już wczytany stan z kroku 0
+            if(StepCounter != OldLicznik)	//Bo na początku wczytuje już wczytany stan z kroku 0
                 Sources.new_data_version(1,1); //Oznajmia seriom, że dane się uaktualniły
         }
 

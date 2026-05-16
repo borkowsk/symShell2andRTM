@@ -6,13 +6,13 @@
 //*////////////////////////////////////////////////////////////////////
 #include "world.hpp"
 
-using namespace symshell2;
+using namespace sym2::shell;
 
 char world::separator='\t';
 
 int world::implement_output(ostream& o) const
 {
-    o<<Licznik<<separator;
+    o << StepCounter << separator;
     o<<MaxIterations<<separator;
     o<<LogRatio<<separator;
 //	assert("world::implement_output() not implemented");

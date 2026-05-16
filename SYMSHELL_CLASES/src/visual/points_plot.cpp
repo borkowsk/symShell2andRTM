@@ -7,7 +7,7 @@
 #include "symshell.h"
 #include "graphs.hpp"
 
-using namespace symshell2;
+using namespace sym2;
 
 void config_point::plot(int x, int y,unsigned short /*s*/,wb_color /*c*/)
 //KLASA BAZOWA

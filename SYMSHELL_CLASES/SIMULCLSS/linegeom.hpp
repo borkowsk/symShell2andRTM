@@ -1,7 +1,7 @@
 /// @file
 /// @brief **LINEAR GEOMETRY** (under construction) /<br> _GEOMETRIA LINIOWA._
 /// @date 2026-05-16 (modified)
-///      W trakcie przeróbki z rectangular geometry. Nigdy nie zakończonej.
+///      W trakcie przeróbki z rectangular geometry (Nigdy nie zakończonej!)
 // ********************************************************************************************************************
 //
 #error NOT IMPLEMENTED YET!!!
@@ -13,8 +13,9 @@
 //#include "wbminmax.hpp"
 #include "wb_rand.hpp"
 
-namespace symshell2 {
+namespace sym2 { namespace shell {
 
+/// @brief @EN{ LINEAR GEOMETRY (under construction). } @PL{ GEOMETRIA LINIOWA (NIEDOKOŃCZONA). }
 class linear_geometry:public geometry_base
 //---------------------------------------------
 {
@@ -34,10 +35,9 @@ public:
         long horiz_start;
 
         //Konstruktor — sSZER,sWYS,lSZER,lWYS
-        iterator(long hors,size_t subw):
-                    i(0),
-                    geometry_base::iterator_base(subw), ///???
-                    horiz_start(hors),sub_width(subw)
+        iterator(long hors,size_t subw)
+        : geometry_base::iterator_base(subw),i(0), ///???
+          horiz_start(hors),sub_width(subw)
         {}
 
         virtual
@@ -46,24 +46,24 @@ public:
             //	cerr<<"linear_geometry::~iterator() ";
         }
 
-        //Implementacja pobrania nastepnego elementu
+        //Implementacja pobrania następnego elementu
         void _next(const geometry_base& geo,size_t& ret,size_t& end)
         {
-            linear_geometry* MyGeo=(linear_geometry*)&geo; //Dostęp do pol
+            linear_geometry* MyGeo=(linear_geometry*)&geo; //Dostęp do pól.
             size_t I_S=horiz_start+i;
             size_t J_W=vert_start+j;
 
-            ret=MyGeo->get(I_S,J_W); //FULL gdy nie w tablicy
+            ret=MyGeo->get(I_S,J_W); //`FULL`, gdy nie w tablicy.
 
             if((i=(i+1)%sub_width)==0)	//Inkrementacja kolumn
                 if((j=j+1)==sub_height)	//i czasami wierszy
-                    {//Jeśli j==lb to jestesmy za oknem
-                    end=1; //Konczymy z tym iteratorem
+                    {//Jeśli `j == lb` to jesteśmy za oknem
+                    end=1; //Kończymy z tym iteratorem
                     }
         }
     }; //koniec klasy iteratora globalnego
 
-    //Struktura do losowej iteracji po tablicy
+    /// Struktura do losowej iteracji po tablicy.
     struct monte_carlo_iterator:public geometry_base::iterator_base
     {
         size_t	ile; //Do zliczania w d�l
@@ -82,12 +82,12 @@ public:
         //	cerr<<"~monte_carlo_iterator() ";
         }
 
-        //Implementacja pobrania nastepnego elementu
+        //Implementacja pobrania następnego elementu
         void _next(const geometry_base& geo,size_t& ret,size_t& end)
         {
             linear_geometry* MyGeo=(linear_geometry*)&geo; //Dostęp do pol
             size_t i=_wb_random(sub_width); //Jeśli wycinek wybiega za tablice to może
-            size_t j=_wb_random(sub_height); // nie być wewnatrz tablicy elementów
+            size_t j=_wb_random(sub_height); // nie być wewnątrz tablicy elementów
             size_t I_S=horiz_start+i;
             size_t J_W=vert_start+j;
 
@@ -95,19 +95,19 @@ public:
 
             ile--; //już zaliczony
             if(ile==0)
-                end=1; //Konczymy z tym iteratorem
+                end=1; //Kończymy z tym iteratorem
         }
     }; //koniec klasy iteratora monte-carlo
 
 
-// METODY IMPLEMENTUJACE OGOLNE WLASCIWOSCI GEOMETRII
+// METODY IMPLEMENTUJĄCE OGÓLNE WŁAŚCIWOŚCI GEOMETRII
 // /////////////////////////////////////////////////////
 
     int  compare(geometry_base& bsec)
     {
         if( _compare_geometry_base(&bsec)==0 )	//Czy jest tego samego typu i wymiaru
             {
-            linear_geometry& sec=*(linear_geometry*)&bsec; //Można zrzutowac
+            linear_geometry& sec=*(linear_geometry*)&bsec; //Można zrzutować
             if(		sec.N==N && //Długość źródła
                     sec.start==start &&
                     sec.len==len )	//Parametry zaznaczonego wycinka
@@ -127,7 +127,7 @@ public:
         return Info;
     }
 
-    //Informacja o położeniu i zasiegu kamery dla view_iteratora
+    //Informacja o położeniu i zasięgu kamery dla view_iteratora
     view_info* get_view_info(view_info* Info=NULL) const
     {
         if(Info==NULL) Info=new view_info;
@@ -142,17 +142,17 @@ public:
         return Info;
     }
 
-    //Ustawianie położeniu i zasiegu kamery dla view_iteratora
+    //Ustawianie położeniu i zasięgu kamery dla view_iteratora
     //sst jest ignorowane.
     int set_view_info(const view_info* Info)
     {
         double dstart=0,dlen=0;
         if(Info==NULL) goto RESET;
-        //Przeliczanie na wewnetrzny sposob reprezentacji wycinka
+        //Przeliczanie na wewnętrzny sposób reprezentacji wycinka
         dsSZER=round(Info->pos.X-Info->dia.X);
         dlSZER=round(2*Info->dia.X);
 
-        //Sprawdzanie poprawnosci parametrów
+        //Sprawdzanie poprawności parametrów
         if(dlSZER<1 || dlSZER>Szerokość)
                       goto ERROR;
         if(torus)
@@ -186,13 +186,13 @@ public:
         return -1;
     }
 
-    //Tworzy iterator po całości. Umozliwia nastepnie czytanie od poczatku tablicy lub wycinka
+    //Tworzy iterator po całości. Umożliwia następnie czytanie od początku tablicy lub wycinka
     iteratorh make_global_iterator() const
     {
         return new iterator(0,0,Szerokosc,Wysokość);
     }
 
-    //Tworzy iterator po obszarze wizualizacji. Umozliwia nastepnie czytanie wycinka wybranego do wizualizacji
+    //Tworzy iterator po obszarze wizualizacji. Umożliwia następnie czytanie wycinka wybranego do wizualizacji
     virtual iteratorh make_view_iterator() const
     {
         return new iterator(sSZER,sWYS,lSZER,lWYS);
@@ -206,7 +206,7 @@ public:
         return new monte_carlo_iterator(how_many,0,0,Szerokosc,Wysokość);
     }
 
-    //Tworzy iterator po sasiadach
+    //Tworzy iterator po sąsiadach
     iteratorh make_neighbour_iterator(size_t center,size_t dist=1)  const
     {
         long x=center%Szerokosc-dist;
@@ -216,7 +216,7 @@ public:
         return new iterator(x,y,lenx,leny);
     }
 
-    //Tworzy losowy iterator po sasiadach
+    //Tworzy losowy iterator po sąsiadach
     iteratorh make_random_neighbour_iterator(size_t center,size_t dist=1,size_t how_many=-1)  const
     {
         long x=center%Szerokosc-dist;
@@ -224,7 +224,7 @@ public:
         long y=center/Szerokosc-dist;
         long leny=1+2*dist;
         if(how_many==-1)
-            how_many=lenx*leny; //Dla pełnego kroku monte-carlo	sasiedztwa
+            how_many=lenx*leny; //Dla pełnego kroku monte-carlo	sąsiedztwa
         return new monte_carlo_iterator(how_many,x,y,lenx,leny);
     }
 
@@ -241,21 +241,21 @@ public:
     //Specyficzna dla tej geometrii transformacja do indeksu liniowego
     long get(long x,long y) const
     // Gwarantuje poprawna prace dla zakresu
-    //			x in < -Szerokość, 2*Szerokosc )
+    //			x in < -Szerokość, 2*Szerokość )
     //			y in < -Wysokość, 2*Wysokość )
     // o ile Wysokość lub Szerokość nie jest w zakresie (0,LONG_MAX/2)
     {
-        long ret=FULL; //Sygnal ze nie w tablicy
+        long ret=FULL; //Sygnał, że nie w tablicy
 
-        if( x>=0 && x<Szerokosc && y>=0 && y<Wysokość )	//Czy wewnatrz danych
-                ret=y*Szerokosc+x; //Można obliczyc index
+        if( x>=0 && x<Szerokosc && y>=0 && y<Wysokość )	//Czy wewnątrz danych
+                ret=y*Szerokosc+x; //Można obliczyć index
                 else	//Jeśli nie to jak torus
                 if(torus)
                     {
                     if(x<0) x=Szerokosc+x;
                     if(y<0) y=Wysokosc+y;
-                    assert(x>=0 && y>=0); //Sprawdzanie, czyod dolu jest w tablicy
-                    ret=(y%Wysokosc)*Szerokosc+(x%Szerokosc); //można obliczyc index
+                    assert(x>=0 && y>=0); //Sprawdzanie, czy od dołu jest w tablicy
+                    ret=(y%Wysokosc)*Szerokosc+(x%Szerokosc); //można obliczyć index
                     }
 
         //Zwrot wyniku
@@ -266,7 +266,7 @@ public:
     // ////////////////////////////
     ~linear_geometry(){}
 
-    linear_geometry(	size_t iN,			//Szerokosc pełnego obszaru
+    linear_geometry(	size_t iN,			//Szerokość pełnego obszaru
                         int  itorus=1		//Czy włączyć geometrie torusa.
                     )
                 :geometry_base(2),
@@ -279,7 +279,7 @@ public:
     }
 };
 
-} //namespace symshell2
+}} //namespace sym2::shell
 
 /* ****************************************************************** */
 /*               SYMSHELL2  version 2006/2022/2026                    */

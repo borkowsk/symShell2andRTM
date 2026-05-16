@@ -24,12 +24,17 @@
 // --checks=-google-default-arguments.
 #pragma ide diagnostic ignored "google-default-arguments"
 
-namespace symshell2 {
+namespace sym2 { namespace shell {
 
-/// Typ uchwytowy do iteratorów geometrii.
-/// Wersja trochę stara, ale wciąż lata...
+/// @brief
+/// @PL{ Typ uchwytowy do iteratorów geometrii. Idea trochę stara, ale wciąż lata... }
+/// @EN{ A handle type for geometry iterators. A bit old, but still flying... }
 typedef void* iterator_h;
-typedef iterator_h iteratorh; //Stara wersja dla kompatybilności.
+
+/// @brief
+/// @PL{ Typ uchwytowy do iteratorów geometrii. Jeszcze starsza wersja dla kompatybilności. }
+/// @EN{ A handle type for geometry iterators. Even older version for backward compatibility. }
+typedef iterator_h iteratorh;
 
 /*
 class geometry_base::iterator_base; //???Pomysły na wersję zabezpieczoną?
@@ -47,10 +52,17 @@ class iterator_h
 };
 */
 
-/// INTERFACE dla geometrii świata symulacji.
+/// @if POLSKI
+/// @brief INTERFACE dla geometrii świata symulacji.
 /// @details
-///    Geometria jest obiektem, który potrafi opisać położenie agentów w warstwie
-///    a także wzajemnie względem siebie i przetworzyć je na liniowy indeks tablicy.
+///     Geometria jest obiektem, który potrafi opisać położenie agentów w warstwie
+///     a także wzajemnie względem siebie i przetworzyć je na liniowy indeks tablicy.
+/// @elseif ENGLISH
+/// @brief INTERFACE for the geometry of the simulation world.
+/// @details
+///     Geometry is an object that can describe the position of agents in a layer
+///     and relative to each other, and convert it into a linear array index.
+/// @endif
 class geometry_base 
 //-----------------
 {
@@ -105,7 +117,9 @@ public:
         coord sst;	//!< Sugerowany minimalny krok przesuwu.
     };
 
-    /// Klasa bazowa dla wszystkich iteratorów geometrii.
+    /// @brief
+    /// @PL{ Klasa bazowa dla wszystkich iteratorów geometrii. }
+    /// @EN{ Base class for all geometry iterators. }
     class iterator_base
     //------------------
     {
@@ -232,7 +246,8 @@ public:
 
 };
 
-/// Tymczasem nazwa "geometry" zarezerwowana...
+/// @PL{ Rezerwacja nazwy "geometry". }
+/// @EN{ Reservation of the name "geometry". }
 typedef geometry_base geometry;
 
 
@@ -309,7 +324,7 @@ double     geometry_base::get_distance(size_t first,size_t second) const
 #endif
 }
 
-} //namespace symshell2
+}} //namespace sym2::shell
 
 #pragma clang diagnostic pop
 /* ****************************************************************** */

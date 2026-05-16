@@ -20,7 +20,7 @@ extern "C" gdImagePtr gdImageCreateFromBmp(FILE *f); //Uzupełnienie dla BMP
 //const unsigned long any_layer_base::FULL=UINT_MAX;
 
 //Wczytanie pliku GIF lub BMP
-int symshell2::rectangle_layer::init_from_bitmap(const char* filename,void* user_data)
+int sym2::shell::rectangle_layer::init_from_bitmap(const char* filename, void* user_data)
 {
     size_t Width=0,i=0,Height=0,j=0; //Rozmiary i indeksy pętli
     if(filename==nullptr || filename[0]=='\0')

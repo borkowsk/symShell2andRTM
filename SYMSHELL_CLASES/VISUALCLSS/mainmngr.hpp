@@ -19,7 +19,7 @@
 #pragma ide diagnostic ignored "google-default-arguments"
 
 /// Zmodernizowane klasy do symulacji w C++.
-namespace symshell2
+namespace sym2
 {
 
 /// @brief Klasa głównego zarządcy obszarów aplikacji jednookiennych oparta na przenośnym interfejsie _SymShellLight_.
@@ -54,7 +54,7 @@ class main_area_manager: public area_manager
 
     /// @name Zabezpieczenia przed wielokrotnymi instancjami.
     /// @{
-    static int		counter;		///< Licznik obiektów typu "main_area_manager". Ma być 1.
+    static int		counter;		///< StepCounter obiektów typu "main_area_manager". Ma być 1.
     /// Operacja przypisania jest zabroniona.
     void operator = (const main_area_manager&); //Nie wolno!!!
     /// @}
@@ -199,7 +199,7 @@ protected:
     /// @}
 };
 
-} // namespace symshell2
+} // namespace sym2
 
 #pragma clang diagnostic pop
 /* ****************************************************************** */

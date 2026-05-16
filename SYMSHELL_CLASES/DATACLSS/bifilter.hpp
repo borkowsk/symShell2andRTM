@@ -219,7 +219,7 @@ data_source_base *bi_filter_source_base::get_first_source()
 }
 
 inline
-symshell2::geometry_base *bi_filter_source_base::get_geometry()
+geometry_base *bi_filter_source_base::get_geometry()
 {
     return NULL;
 }

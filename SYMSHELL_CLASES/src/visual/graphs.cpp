@@ -20,7 +20,7 @@
 #include "graphs.hpp"
 #include "toitoutoll.hpp"
 
-using namespace symshell2;
+using namespace sym2;
 
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "modernize-use-auto"
@@ -886,7 +886,7 @@ void bars_graph::_replot() // Rysuje właściwy wykres a pod nim ewentualnie leg
     {
         data_source_base::iterator_h h = datas->reset();
         data_source_base::iterator_h c = colors?colors->reset():nullptr;
-        for(unsigned i = 0; i < num_height; i++) //64 bitowe size_t to już za dużo tutaj! :-D
+        for(unsigned i = 0; i < num_height; i++) //64-bitowe `size_t` to już za dużo tutaj! :-D
         {
             double test;
             double r[2] = {-1, -1};
@@ -931,9 +931,9 @@ void bars_graph::_replot() // Rysuje właściwy wykres a pod nim ewentualnie leg
     }
 }
 
-// reals[] zawiera  wysokość słupka i wartość ustalająca kolor albo -1
+
 int bars_graph::_rescale_data_point(const double reals[], long in_area[])
-//zwraca -1 jeśli nie w oknie
+//zwraca -1, jeśli nie w oknie; reals[] zawiera  wysokość słupka i wartość ustalająca kolor albo -1.
 {
     int flaga = 0;
 
@@ -1029,7 +1029,7 @@ const geometry_base *manhattan_graph::read_dim(size_t &aa, size_t &bb)
         return deputy.get_ptr_val();
     } else
     {
-        //Sprawdzenie czy serie się nie zgadzaja — czy mają ta sama geometrie
+        //Sprawdzenie, czy serie się nie zgadzają — czy mają ta sama geometrie
         if(colors != nullptr)
         {
             geometry_base *ColGeom = colors->get_geometry();
@@ -1070,7 +1070,7 @@ int manhattan_graph::configure(const void *p)
 
 
 int manhattan_graph::set_series(size_t index, data_source_base *idata, int imenage)
-//zwraca -1 jeśli indeks za duży
+//zwraca -1, jeśli indeks za duży
 {
     if(index > 1) return -1; //Tylko dwie serie
     assert(idata != nullptr);
@@ -1089,7 +1089,7 @@ int manhattan_graph::set_series(size_t index, data_source_base *idata, int imena
 }
 
 data_source_base *manhattan_graph::get_series(size_t index)
-//zwraca nullptr jeśli indeks za duży
+//zwraca nullptr, jeśli indeks za duży
 {
     if(index > 0)
         return nullptr;
@@ -1100,7 +1100,7 @@ data_source_base *manhattan_graph::get_series(size_t index)
 }
 
 
-void manhattan_graph::_replot() // Rysuje właściwy wykres a pod nim ewentualnie legende
+void manhattan_graph::_replot() // Rysuje właściwy wykres a pod nim ewentualnie legendę
 {
     int x1 = get_start_x();
     int y1 = get_start_y();
@@ -1113,27 +1113,27 @@ void manhattan_graph::_replot() // Rysuje właściwy wykres a pod nim ewentualni
     unsigned width = x2 - x1;
     int flaga = 0;
 
-//Trzeba sprawdzic wymiary obszaru wizualizacji
+//Trzeba sprawdzić wymiary obszaru wizualizacji
     const geometry_base *MyGeometry = read_dim(A, B);
 
-//Legenda wtedy jeśli jest potrzebna
+//Legenda wtedy, jeśli jest potrzebna
     if(t_colors.start != get_background() || (t_colors.end != get_background() && colors))
         height -= 2 * char_height('0'); //będzie legenda
 
-//Strzalka jeśli jest potrzebna
+//Strzałka, jeśli jest potrzebna
     if(t_colors.start != get_background())
-        width -= 3; //Na strzalko-ramke
+        width -= 3; //Na strzałko-ramkę
 
-//Skala jeśli jest potrzebna
+//Skala, jeśli jest potrzebna
     if(t_colors.end != get_background() && colors != nullptr)
         width -= 5;
 
-//Danina wysokości i szerokości na perspektywe
+//Danina wysokości i szerokości na perspektywę
     anty_width = size_t(width * h_offs);
     width = size_t(width * (1 - h_offs));
     height = size_t(height * (1 - v_offs));
 
-//Danina na podzielnosc przez A i B
+//Danina na podzielność przez A i B
     if(A <= 1 || B <= 1) //Nie ma danych
     {
         print_width(x1, (y1 + y2) / 2, x2 - x1, t_colors.start, get_background(), "%@CInvalid data");
@@ -1141,7 +1141,7 @@ void manhattan_graph::_replot() // Rysuje właściwy wykres a pod nim ewentualni
     }
 
     anty_width += width % A; //Z szerokości cos wpada do antyszerokości
-    width -= width % A; //W szerokości musi się miescic A kolumn
+    width -= width % A; //W szerokości musi się mieścić A kolumn
 
 //już wiadomo,jeśli się nie zmiesci
     if(width == 0 || anty_width / B * B == 0) //W antyszerokości musi bys co najmniej po 1 piksel na wiersz
@@ -1151,7 +1151,7 @@ void manhattan_graph::_replot() // Rysuje właściwy wykres a pod nim ewentualni
         return;
     }
 
-//min,max do skalowania slupkow
+//minimum i maksimum do skalowania słupków
     {
         size_t num_height;
         datas->bounds(num_height, min, max);
@@ -1159,7 +1159,7 @@ void manhattan_graph::_replot() // Rysuje właściwy wykres a pod nim ewentualni
 
     miss = datas->get_missing();
     if(mode == 1)
-        if(min > 0) min = 0; // Slupki co najmniej od zera
+        if(min > 0) min = 0; // Słupki co najmniej od zera
     s_data.set(min, max, height + 0.999);
 
 //Do skalowania kolorów, jeśli jest seria
@@ -1181,7 +1181,7 @@ void manhattan_graph::_replot() // Rysuje właściwy wykres a pod nim ewentualni
         flaga = 1;
     }
 
-//...i dla drugiej
+// i dla drugiej
     if(t_colors.end != get_background() && (colors != nullptr))
     {
         int loc_width = print_width(x2 - (((x2 - x1) / 3) * 2), y1, ((x2 - x1) / 3) * 2,
@@ -1213,7 +1213,7 @@ void manhattan_graph::_replot() // Rysuje właściwy wykres a pod nim ewentualni
         c_range.plot(x2 - 5, y1, x2, y2);
         x2 -= 5;
     }
-//NIE_DA_SIĘ:;
+//NIE_DA_SIĘ:  ;
 
 //Ramka dla Y-kow
     if(x2 - x1 > 10 && y2 - y1 > 10)
@@ -1227,7 +1227,7 @@ void manhattan_graph::_replot() // Rysuje właściwy wykres a pod nim ewentualni
         x1 += 3;
     }
 
-//Rysowanie wlasciwych slupkow
+//Rysowanie wlasciwych słupkow
     int zero = y2;
     if(min < 0 && max > 0)
     {
@@ -1235,8 +1235,8 @@ void manhattan_graph::_replot() // Rysuje właściwy wykres a pod nim ewentualni
         //fill_rect(x1,zero,x2+1,zero+1,t_colors.start);
     }
 
-    int gristH = toi(width / A ); //Grubosc slupka w poziomie
-    int gristV = toi((y2 - y1 - height) / B); //Grubosc slupka w pionie
+    int gristH = toi(width / A ); //Grubosc słupka w poziomie
+    int gristV = toi((y2 - y1 - height) / B); //Grubosc słupka w pionie
     int offsetH = toi((x2 - x1 - width) / B); //Przesuniecie kolejnych wierszy
 
     if(gristH >= 1 && gristV >= 1 && offsetH >= 1)
@@ -1256,8 +1256,8 @@ void manhattan_graph::_replot() // Rysuje właściwy wykres a pod nim ewentualni
                 c = color_geom->make_view_iterator();
         }
 
-        for(unsigned Bpos = 0; Bpos < B; Bpos++) //W ktorym wierszu
-            for(unsigned Apos = 0; Apos < A; Apos++) //W ktorej kolumnie
+        for(unsigned Bpos = 0; Bpos < B; Bpos++) //W którym wierszu
+            for(unsigned Apos = 0; Apos < A; Apos++) //W której kolumnie
             {
                 double test;
                 int X, Y, Y2;          //Robocze pozycje
@@ -1301,7 +1301,7 @@ void manhattan_graph::_replot() // Rysuje właściwy wykres a pod nim ewentualni
 
 }
 
-// reals[] zawiera  wysokosc słupka i wartość ustalająca kolor, albo -1
+// reals[] zawiera  wysokosc słupka i wartość ustalająca kolor albo -1
 int manhattan_graph::_rescale_data_point(const double reals[], long in_area[])
 //zwraca -1, jeśli nie w oknie
 {
@@ -1342,15 +1342,15 @@ sequence_graph::~sequence_graph()
 
 //CONSTRUCTOR(S) for  series_info* & for data_source_base*
 sequence_graph::sequence_graph(int ix1, int iy1, int ix2, int iy2, //Położenie obszaru
-                               int N,            //Ilosc serii
+                               int N,            //Liczba serii
                                series_info *iseries,
-                               int imode,    //0 - tryb z pelnym reskalowaniem
-        //1 - tryb ze wspólnym minimum, maximum, pobieranym z parametrów i serii
-        //2 - tryb z zafiksowanym minimum i maksimum
+                               int imode,    //0 - tryb z pełnym reskalowaniem
+                               //1 - tryb ze wspólnym minimum, maximum, pobieranym z parametrów i serii
+                               //2 - tryb z zafiksowanym minimum i maksimum
                                double imin, double imax
-) :  //Tablica struktur zawierających informacje o seriach
-        graph(ix1, iy1, ix2, iy2), M(0),
-        series(nullptr), scales(nullptr), mode(imode), scale_y(imin, imax)
+                               )  //Tablica struktur zawierających informacje o seriach
+: graph(ix1, iy1, ix2, iy2), M(0),
+  series(nullptr), scales(nullptr), mode(imode), scale_y(imin, imax)
 {
     assert(scale_y.min <= scale_y.max);
     wb_ptr<series_info> se(new series_info[N]);
@@ -1375,9 +1375,9 @@ sequence_graph::sequence_graph(int ix1, int iy1, int ix2, int iy2, //Położenie
 }
 
 sequence_graph::sequence_graph(int ix1, int iy1, int ix2, int iy2, //Położenie obszaru
-                               int N,            //Ilosc serii
+                               int N,            //Liczba serii
                                data_source_base **iseries,
-                               int imode,    //0 - tryb z pelnym reskalowaniem
+                               int imode,    //0 - tryb z pełnym reskalowaniem
         //1 - tryb ze wspolnym minimum,maximum,pobieranym z parametrow i serii
         //2 - tryb z zafiksowanym minimum i maksimum
                                double imin, double imax
@@ -1421,7 +1421,7 @@ int sequence_graph::configure(const void *config)
 }
 
 int sequence_graph::set_series(size_t index, data_source_base *data, int menage)
-//zwraca -1 jeśli indeks za duży
+//zwraca -1, jeśli indeks za duży
 {
     assert(series != nullptr);
     if(index >= M)
@@ -1434,7 +1434,7 @@ int sequence_graph::set_series(size_t index, data_source_base *data, int menage)
 }
 
 data_source_base *sequence_graph::get_series(size_t index)
-//zwraca nullptr jeśli indeks za duzy
+//zwraca nullptr, jeśli indeks za duzy
 {
     assert(series != nullptr);
     if(index >= M)
@@ -1442,9 +1442,9 @@ data_source_base *sequence_graph::get_series(size_t index)
     return series[index].ptr;
 }
 
-// reals[] zawiera wysokosc i wartość ustalajaca kolor
+// reals[] zawiera wysokosc i wartość ustalająca kolor
 int sequence_graph::_rescale_data_point(const double reals[], long in_area[])
-//zwraca -1 jeśli nie w oknie
+//zwraca -1, jeśli nie w oknie
 {
     int flaga = 0;
 
@@ -1497,12 +1497,12 @@ inline unsigned sequence_graph::color(unsigned ind)
 
 
 void sequence_graph::_replot()
-// Rysuje wlasciwy wykres a pod nim ewentualnie legende
+// Rysuje właściwy wykres a pod nim ewentualnie legende
 {
     unsigned i, MaxNum = 0;
     int x1 = get_start_x();
     int y1 = get_start_y();
-    int x2 = x1 + get_width() - 1; //-1 bo width obejmuje pierwszy piksel
+    int x2 = x1 + get_width() - 1; //-1, bo width obejmuje pierwszy piksel
     int y2 = y1 + get_height() - 1;
     int height = y2 - y1;
     int width = x2 - x1;
@@ -1543,7 +1543,7 @@ void sequence_graph::_replot()
     {
         //assert(scale_y.min<scale_y.max);
         if(scale_y.min >= scale_y.max)
-        {//Awaria - zle parametry
+        {//Awaria — zle parametry
             print_width(x1, (y1 + y2) / 2, x2 - x1, t_colors.start, get_background(), "%@CInvalid min,max range:<%g,%g>",
                         scale_y.min, scale_y.max);
             return;
@@ -1551,7 +1551,7 @@ void sequence_graph::_replot()
     } else
     {
         if(scale_y.min > scale_y.max)
-        {//Awaria - zle parametry
+        {//Awaria — zle parametry
             print_width(x1, (y1 + y2) / 2, x2 - x1, t_colors.start, get_background(), "%@CInvalid min,max range:<%g,%g>",
                         scale_y.min, scale_y.max);
             return;
@@ -1778,7 +1778,7 @@ rainbow_graph::~rainbow_graph()
 
 //CONSTRUCTOR(S)
 rainbow_graph::rainbow_graph(int ix1, int iy1, int ix2, int iy2, //Położenie obszaru
-                             data_source_base *i_datas, int menage_d, //datas-dane==wartości
+                             data_source_base *i_datas, int menage_d, //datas-dane == wartości
                              data_source_base *i_colors, int menage_c, //colors-źródło danych o kolorach
                              const char *iformat   //format liczby — nie może być wiecej niż 1 parametr!
 ) : graph(ix1, iy1, ix2, iy2),
@@ -1830,7 +1830,7 @@ int rainbow_graph::configure(const void *vformat)
 }
 
 int rainbow_graph::set_series(size_t index, data_source_base *idata, int imenage)
-//zwraca -1 jeśli indeks za duzy
+//zwraca -1, jeśli indeks za duzy
 {
     if(index > 1) return -1; //Tylko dwie serie
     assert(idata != nullptr);
@@ -1849,7 +1849,7 @@ int rainbow_graph::set_series(size_t index, data_source_base *idata, int imenage
 }
 
 data_source_base *rainbow_graph::get_series(size_t index)
-//zwraca nullptr jeśli indeks za duzy
+//zwraca nullptr, jeśli indeks za duzy
 {
     if(index > 0)
         return nullptr;
@@ -1885,11 +1885,11 @@ void rainbow_graph::_replot()
 //Trzeba znac num!
     datas->bounds(num, minc, maxc);
 
-//Legenda wtedy jeśli jest potrzebna
+//Legenda wtedy, jeśli jest potrzebna
     if(t_colors.start != get_background() || (t_colors.end != get_background() && colors))
         height = (y2 - y1) - 2 * char_height('0'); //będzie legenda
     else
-        height = y2 - y1; //NIe będzie legendy
+        height = y2 - y1; //nie będzie legendy
 
 //Do skalowania kolorów, jeśli jest seria
     if(colors != nullptr)
@@ -1908,7 +1908,7 @@ void rainbow_graph::_replot()
         flaga = 1;
     }
 
-//... i dla drugiej
+// i dla drugiej
     if(t_colors.end != default_transparent && t_colors.end != get_background() && colors != nullptr)
     {
         int width = print_width(x2 - (x2 - x1) / 2, y1, (x2 - x1) / 2,
@@ -1926,7 +1926,7 @@ void rainbow_graph::_replot()
         flaga++;
     }
 
-//Zawerzenie po y-grekach
+//Zawężenie po y-grekach
     if(flaga == 2)
     {
         y1 += toi(char_height('0'));
@@ -2009,9 +2009,9 @@ void rainbow_graph::_replot()
 }
 
 
-// reals[] zawiera wartość ustalajaca kolor albo (min - 1)
+// reals[] zawiera wartość ustalająca kolor albo (min - 1)
 int rainbow_graph::_rescale_data_point(const double reals[], long in_area[])
-// zwraca -1 jeśli nie w oknie
+// zwraca -1, jeśli nie w oknie
 {
     if(reals[0] <= s_colo.max && reals[0] >= s_colo.min)
     {
@@ -2120,7 +2120,7 @@ int scatter_graph::configure(const void *p)
 }
 
 int scatter_graph::set_series(size_t index, data_source_base *data, int menage)
-//zwraca -1 jeśli indeks za duzy
+//zwraca -1, jeśli indeks za duzy
 {
     assert(data != nullptr);
     switch(index)
@@ -2156,7 +2156,7 @@ int scatter_graph::set_series(size_t index, data_source_base *data, int menage)
 }
 
 int net_graph::set_series(size_t index, data_source_base *data, int menage)
-//zwraca -1 jeśli indeks za duzy
+//zwraca -1, jeśli indeks za duzy
 {
     assert(data != nullptr);
     switch(index)
@@ -2234,7 +2234,7 @@ data_source_base *scatter_graph::get_series(size_t index)
 }
 
 data_source_base *net_graph::get_series(size_t index)
-//zwraca nullptr jeśli indeks za duzy
+//zwraca nullptr, jeśli indeks za duzy
 {
     switch(index)
     {
@@ -2261,7 +2261,7 @@ data_source_base *net_graph::get_series(size_t index)
 
 
 int scatter_graph::_rescale_data_point(const double reals[], long in_area[])
-//zwraca -1 jeśli cos nie tak
+//zwraca -1, jeśli cos nie tak
 {
     int flaga = 0;
 
@@ -2303,7 +2303,7 @@ void scatter_graph::_replot()
 {
     int x1 = get_start_x();
     int y1 = get_start_y();
-    int x2 = x1 + get_width() - 1; //-1 bo width obejmuje pierwszy piksel
+    int x2 = x1 + get_width() - 1; //-1, bo width obejmuje pierwszy piksel
     int y2 = y1 + get_height() - 1;
     size_t num, num_X, num_Y, num_color, num_size; //Number of values in each series
     double missX, missY, missColor, missSize;    //missing values for each series
@@ -2324,43 +2324,43 @@ void scatter_graph::_replot()
         }
         width = (x2 - x1) - 3;
         if(colors != nullptr && t_colors.end != get_background())
-            width -= 10; //Musi być jakis odstep
+            width -= 10; //Musi być jakis odstęp
     } else
     {
-        height = y2 - y1; //NIe będzie legendy
+        height = y2 - y1; //nie będzie legendy
         width = x2 - x1;
     }
 
-    {//Ustawianie struktow skalujacych
+    {//Ustawianie struktur skalujących
         double min = 0;
         double max = -1; //Byle co, i tak zaraz zostanie przypisane
 
 //Do skalowania X-ow
         assert(Xdata != nullptr);
         Xdata->bounds(num_X, min, max);
-        if(num_X == 0 || min == max || min > max) goto SKIP; //Seria wadliwa - PUSTA?
+        if(num_X == 0 || min == max || min > max) goto SKIP; //Seria wadliwa — PUSTA?
         missX = Xdata->get_missing();
         scale_x.set(min, max, width);
 
 //Do skalowania Y-ow
         assert(Ydata != nullptr);
         Ydata->bounds(num_Y, min, max);
-        if(num_Y == 0 || min == max || min > max) goto SKIP; //Seria wadliwa - PUSTA?
+        if(num_Y == 0 || min == max || min > max) goto SKIP; //Seria wadliwa — PUSTA?
         missY = Ydata->get_missing();
         scale_y.set(min, max, height);
 
-//Do skalowania kolorów, jeśli jest seria i ma odstep miedzy min i max
+//Do skalowania kolorów, jeśli jest seria i ma odstęp między min i max
         if(colors != nullptr)
         {
             colors->bounds(num_color, min, max);
             missColor = colors->get_missing();
-            if(num_color == 0 || min == max || min > max) //Seria wadliwa - PUSTA?
+            if(num_color == 0 || min == max || min > max) //Seria wadliwa — PUSTA?
             {
-                num_color = num_X; //Ale zeby się rysowalo bez tego - taki sygnal...
+                num_color = num_X; //Trzeba, żeby się rysowało bez tego — taki sygnał...
             } else
             {
                 scale_c.set(min, max, c_range.end - c_range.start +
-                                      0.999); //Do kolorów potrzebna poprawka 0.999 w skalowaniu bo nie będzie bialego (max)
+                                      0.999); //Do kolorów potrzebna poprawka 0.999 w skalowaniu, bo nie będzie białego (max.)
             }
         } else num_color = num_X;
 
@@ -2370,9 +2370,9 @@ void scatter_graph::_replot()
             //DEBUG min=max=0;
             sizes->bounds(num_size, min, max);
             missSize = sizes->get_missing();
-            if(num_size == 0 || min == max || min > max) //Seria wadliwa - PUSTA?
+            if(num_size == 0 || min == max || min > max) //Seria wadliwa — PUSTA?
             {
-                num_size = num_X; //Ale zeby się rysowalo bez tego - taki sygnal...
+                num_size = num_X; //Trzeba, żeby się rysowało bez tego — taki sygnał...
             } else
             {
                 CurrConfig->base_len = min_(this->get_width(), this->get_height());
@@ -2418,12 +2418,12 @@ void scatter_graph::_replot()
     }
 
     SKIP:
-    // Wypisywanie legendy dla 1 i 2 serii.
+    // Wypisywanie legendy dla 1. i 2. seri.
     if(t_colors.start != default_transparent && t_colors.start != get_background() && vis_leg1)
     {
         int swidth = 0;
         int pos = x1;
-        //Do drukowania max Y
+        //Do drukowania maksimum Y
         print_width(x1, y1, (x2 - x1) / 2, t_colors.start, get_background(),
                     "%g", scale_y.max);
 
@@ -2455,7 +2455,7 @@ void scatter_graph::_replot()
     }
 
     SKIP2:
-    //...i dla trzeciej
+    // i dla trzeciej
     if(t_colors.end != default_transparent && t_colors.end != get_background() && (colors != nullptr) && vis_leg2)
     {
         int swidth = (x2 - x1) / 2;
@@ -2581,7 +2581,7 @@ void net_graph::_replot()
         Arrows->bounds(num_a, mina, maxa);
         if(num_a == 0) goto ERROR_HAPPENED;
     } else
-        num_a = num_so; //Jak nie ma to zeby num było dobrze ustawione
+        num_a = num_so; //Jak nie ma to, żeby num było dobrze ustawione
 
     //Do skalowania kolorów, jeśli jest seria
     if(ArrColors != nullptr)
@@ -2590,14 +2590,14 @@ void net_graph::_replot()
         if(num_c == 0) goto ERROR_HAPPENED;
         //if(mina==maxa){mina--;maxa++;}???
         scale_ac.set(mina, maxa, c_range.end - c_range.start); //(c_range.end-1)-c_range.start+0.999);
-    } else num_c = num_so; //Jak nie ma to zeby num było dobrze ustawione
+    } else num_c = num_so; //Jak nie ma, to żeby num było dobrze ustawione
 
-    //USTAWIANIE num NA DLUGOSC NAJKROTSZEJ SERII
+    //USTAWIANIE num NA DŁUGOŚĆ NAJKRÓTSZEJ SERII
     num = min_(min_(num_so, num_t), min_(num_a, num_c));
 
     if(num > 0)
     {
-        //Wszystkie serie musza udostepniac bezpośrednie czytanie!!!
+        //Wszystkie serie muszą udostępniać bezpośrednie czytanie!!!
         //for(size_t i=0;i<num;i++)
         for(size_t j = 0, i = num - 1; j < num; i--, j++) //W odwrotnej kolejności!
         {
@@ -2624,7 +2624,7 @@ void net_graph::_replot()
             }
 
             assert(Si == size_t(Si));
-            double ASize = 0.05; //Dlugosc grota =5% dlugosci strzalki
+            double ASize = 0.05; //Długość grota =5% długości strzałki
             double test;
 
             double r[4] = {-1, -1, -DBL_MAX, -DBL_MAX};
@@ -2632,22 +2632,22 @@ void net_graph::_replot()
             long a2[4] = {0, 0, -INT_MAX, -INT_MAX};
 
             r[0] = test = Xdata->get(
-                    size_t(Si)); //Seria reprezentowana przez Si zawiera indeksy obiektow, pobieramy wspolrzedne
+                    size_t(Si)); //Seria reprezentowana przez Si zawiera indeksy obiektów, pobieramy współrzędne
             if(Xdata->is_missing(test))
                 goto ERROR_HAPPENED;
 
-            r[1] = test = Ydata->get(size_t(Si)); //Ta seria jest zawiera indeksy obiektow
+            r[1] = test = Ydata->get(size_t(Si)); //Ta seria jest zawiera indeksy obiektów
             if(Ydata->is_missing(test))
                 goto ERROR_HAPPENED;
 
             _rescale_data_point(r, a1); //Odziedziczone po scatter_plot
             assert(Ti == size_t(Ti));
             r[0] = test = Xdata->get(
-                    size_t(Ti)); //Seria reprezentowana przez Ti zawiera indeksy obiektow, pobieramy wspolrzedne
+                    size_t(Ti)); //Seria reprezentowana przez Ti zawiera indeksy obiektów, pobieramy współrzędne
             if(Xdata->is_missing(test))
                 goto ERROR_HAPPENED;
 
-            r[1] = test = Ydata->get(size_t(Ti)); //Ta seria jest zawiera indeksy obiektow
+            r[1] = test = Ydata->get(size_t(Ti)); //Ta seria jest zawiera indeksy obiektów
             if(Ydata->is_missing(test))
                 goto ERROR_HAPPENED;
 

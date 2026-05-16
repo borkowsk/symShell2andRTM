@@ -23,7 +23,7 @@
 #pragma ide diagnostic ignored "google-default-arguments"
 
 /// Zmodernizowane klasy do symulacji w C++
-namespace symshell2
+namespace sym2
 {
     using namespace sym2::data;;
 
@@ -322,7 +322,7 @@ public:
     }
 };
 
-} // namespace symshell2
+} // namespace sym2
 
 #pragma clang diagnostic pop
 /* ****************************************************************** */

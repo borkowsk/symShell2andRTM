@@ -11,9 +11,9 @@
 #pragma ide diagnostic ignored "modernize-use-nullptr"
 #pragma ide diagnostic ignored "modernize-use-auto"
 
-bool symshell2::world::continuous_dump=false;
+bool sym2::shell::world::continuous_dump=false;
 
-int	symshell2::world::set_simulation_name(const char* name)
+int	sym2::shell::world::set_simulation_name(const char* name)
 //Zwraca 1 jak się udało. Może być niedozwolone
 {
     SimulName=name;
@@ -21,7 +21,7 @@ int	symshell2::world::set_simulation_name(const char* name)
 }
 
 
-int	symshell2::world::set_history_stream(const char* name)
+int	sym2::shell::world::set_history_stream(const char* name)
 //Ustawianie strumienia do zapisu historii
 {
     if( int(OutName) && strcmp(name,OutName)!=0 && Out)
@@ -31,7 +31,7 @@ int	symshell2::world::set_history_stream(const char* name)
 }
 
 
-void symshell2::world::make_default_visualisation()
+void sym2::shell::world::make_default_visualisation()
 //Tworzenie obowiązkowego lufcika na informacje tekstowe.
 {
     if(!HasAreaMenager()) {//SKORO NIE MA MANAGERA, TO NIE MA CO ROBIĆ, ALE TO JEST BŁĄD!
@@ -40,23 +40,22 @@ void symshell2::world::make_default_visualisation()
     }
 
     //UTWORZENIE OBOWIĄZKOWEGO LUFCIKA NA INFORMACJE TEKSTOWE.
-    OutArea=new symshell2::text_area(0,0,8*80,25*16,
-        "Initializing in progress..."
-        ,
-        default_white,default_black,128,40);
+    OutArea=new sym2::text_area(0, 0, 8 * 80, 25 * 16,
+                                "Initializing in progress...",
+                                default_white, default_black, 128, 40);
 
    // if(!OutArea) goto ERROR; //To się już nie może zdarzyć od C++11
 
     OutArea->set_title("STATUS");
 
-    this->MyAreaMenager().insert(/*dynamic_cast<drawable_base*>*/(OutArea));
+    this->MyAreaManager().insert(/*dynamic_cast<drawable_base*>*/(OutArea));
 
 ERROR://...akcja na niepogodę
     ; //error_message(...) ???
 }
 
 
-void symshell2::world::initialize(symshell2::main_area_manager* mainAreaManager, int Replay)
+void sym2::shell::world::initialize(sym2::main_area_manager* mainAreaManager, int Replay)
 // Ustawia stan startowy symulacji.
 {
     wb_cpu_clock timer;
@@ -71,7 +70,7 @@ void symshell2::world::initialize(symshell2::main_area_manager* mainAreaManager,
         make_basic_sources();        // tworzy je i umieszcza we własnym zarządcy danych
     } else { //Manager już jest wypełniony seriami...
         Sources.new_data_version();  // Zatem tylko oznakowujemy, że to start nowej symulacji
-        Licznik=0;
+        StepCounter=0;
     }
 
     if(AreaManager==nullptr ) //Nie było jeszcze ustawionego wskaźnika do zarządcy ekranu
@@ -110,10 +109,10 @@ void symshell2::world::initialize(symshell2::main_area_manager* mainAreaManager,
             OutArea->add_text(ClockTime.get());
 }
 
-void symshell2::world::restart()
+void sym2::shell::world::restart()
 {
     Log.try_writing();				//Zapis ostatniego stanu symulacji
-    Licznik=0;
+    StepCounter=0;
 
     Sources.restart_data_version(); //Będzie zniszczenie i odbudowa od nowa
     Log.restart_data_version();		//Wymuszenie dla źle zarządzanych pod-źródeł danych
@@ -135,7 +134,7 @@ void symshell2::world::restart()
 }
 
 
-void symshell2::world::simulate(unsigned Steps)
+void sym2::shell::world::simulate(unsigned Steps)
 // kolejny(e) krok(i) symulacji
 {
     unsigned i=0,pom;
@@ -143,12 +142,12 @@ void symshell2::world::simulate(unsigned Steps)
         cerr<<endl;
     do
     {
-        if((pom=(Licznik%LogRatio))==0)
+        if((pom=(StepCounter % LogRatio)) == 0)
         {
             Log.try_writing();	//Na wszelki wypadek?
 
             if(int(DumpNetName))
-                dump_net_file(DumpNetName.get(),Licznik);
+                dump_net_file(DumpNetName.get(), StepCounter);
 
             if(int(OutName) && (*OutName)!='\0'
             && !int(Out) //Jeżeli jest niepusta nazwa, ale nie ma strumienia
@@ -198,11 +197,11 @@ void symshell2::world::simulate(unsigned Steps)
 
         simulate_one_step(); //Właściwa symulacja
 
-        Licznik++; //Ogólny licznik kroków
+        StepCounter++; //Ogólny licznik kroków
         i++;       //Lokalny licznik kroków
 
         if(Steps>2)
-            cerr<<'\r'<<Licznik<<'\t'<<i<<"                         "; //Żeby było wiadomo, że coś wciąż robi
+            cerr << '\r' << StepCounter << '\t' << i << "                         "; //Żeby było wiadomo, że coś wciąż robi
 
         Sources.new_data_version(1,1); //Oznajmia seriom danych, że dane się w layer-ach uaktualniły
 
@@ -244,7 +243,7 @@ void symshell2::world::simulate(unsigned Steps)
 }
 
 
-void symshell2::world::actualize_out_area()
+void sym2::shell::world::actualize_out_area()
 // aktualizacja zawartości `OutArea` po `n` krokach symulacji
 {
     if(OutArea)
@@ -259,7 +258,7 @@ void symshell2::world::actualize_out_area()
 }
 
 
-void symshell2::world::simulation_loop(int ret_after)
+void sym2::shell::world::simulation_loop(int ret_after)
 {
     if(AreaManager && !AreaManager->should_continue()) {
         cerr<<"Visualization manager isn't connected and/or continuation is not possible."<<endl;
@@ -333,24 +332,24 @@ void symshell2::world::simulation_loop(int ret_after)
     }while(true);
 }
 
-void symshell2::world::make_basic_sources()
+void sym2::shell::world::make_basic_sources()
 //Umieszcza serie danych w swoim zarządcy serii danych
 {
     //Zerowa seria w zarządcy danych powinna być pusta, gdyż służy
     //do kontroli wersji danych.
     //Zarządca może tworzyć ją sam, ale zawsze można potem podmienić.
-    ptr_to_scalar_source<unsigned long>* sca=new ptr_to_scalar_source<unsigned long>(&Licznik,"Step:");
+    ptr_to_scalar_source<unsigned long>* sca=new ptr_to_scalar_source<unsigned long>(&StepCounter, "Step:");
     // if(!sca) goto ERROR; //Od roku 2011 to już niemożliwe.
     Sources.replace(size_t(0),sca);
 }
 
-void   symshell2::world::make_basic_sources(sources_manager& WhatSourMen)
+void   sym2::shell::world::make_basic_sources(sources_manager& WhatSourMen)
 //NA RAZIE NIE WOLNO TAKIEJ FUNKCJI! Pomysł zewnętrznego manager-a danych okazał się nieudany.
 {
     assert("Never use: world::make_basic_sources(sources_manager& WhatSourMen) !"==nullptr);
 }
 
-symshell2::world::~world() {
+sym2::shell::world::~world() {
     //TODO - Tu jest błąd (ERROR)
     //Jeśli jakieś źródło zarejestrowane w logu nie jest używane w wizualizacji
     //to destruktor próbuje obliczać wartości ze zniszczonego już świata!!!

@@ -64,9 +64,9 @@ int clustering_source<DATA_SOURCE>::_calculate()
     if(!basic_statistics_source<DATA_SOURCE>::_calculate())
         return 0;
 
-    unsigned testowanie = 0; //Licznik wartości centralnych
+    unsigned testowanie = 0; //StepCounter wartości centralnych
     double Stress = basics_::miss;      //Suma stresów
-    symshell2::geometry *MyGeom = basics_::Source->get_geometry(); //Wskaźnik do geometrii
+    sym2::geometry *MyGeom = basics_::Source->get_geometry(); //Wskaźnik do geometrii
 
     if(MyGeom != NULL) //Jest znana geometria — da się policzyć
     {
@@ -79,7 +79,7 @@ int clustering_source<DATA_SOURCE>::_calculate()
         while(Glob)
         {
             size_t index = MyGeom->get_next(Glob); // Uzyskujemy index agenta...
-            assert(index != symshell2::any_layer_base::FULL); // Tutaj nie powinno się zdarzyć
+            assert(index != sym2::any_layer_base::FULL); // Tutaj nie powinno się zdarzyć
             double CenterVal = basics_::Source->get(index);   // Uzyskujemy referencje do agenta
             if(basics_::Source->is_missing(CenterVal))        // Sprawdzamy, czynie jest miss.
                 continue;                          // bo wtedy robić dalej byłoby bez sensu.
@@ -93,7 +93,7 @@ int clustering_source<DATA_SOURCE>::_calculate()
             while(Neigh)
             {
                 size_t index2 = MyGeom->get_next(Neigh); //Uzyskujemy index sąsiada
-                if(index2 == symshell2::any_layer_base::FULL || index2 == index)    //jeśli poza obszarem symulacji lub w
+                if(index2 == sym2::any_layer_base::FULL || index2 == index)    //jeśli poza obszarem symulacji lub w
                     continue;                   //centrum obszaru to dalej byłoby bez sensu.
 
                 double pery_val = basics_::Source->get(index2);  //Uzyskujemy referencje do sąsiada

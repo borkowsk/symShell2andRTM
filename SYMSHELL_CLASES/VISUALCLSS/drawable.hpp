@@ -23,7 +23,7 @@ using namespace wbrtm;
 #pragma ide diagnostic ignored "google-default-arguments"
 
 /// Modernized classes for C++ simulation/Zmodernizowane klasy do symulacji w C++.
-namespace symshell2
+namespace sym2
 {
 
 /// @brief Parameters of a designated area on the screen or in a window/
@@ -272,7 +272,7 @@ inline void     drawable_base::set_title_colors(wb_color color, wb_color back)
     tit_bck=back;
 }
 
-} // namespace symshell2
+} // namespace sym2
 
 #pragma clang diagnostic pop
 /* ****************************************************************** */

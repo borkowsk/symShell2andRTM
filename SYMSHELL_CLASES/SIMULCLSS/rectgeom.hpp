@@ -16,11 +16,12 @@
 #pragma ide diagnostic ignored "modernize-use-nullptr"
 #pragma ide diagnostic ignored "modernize-use-auto"
 
-namespace symshell2 {
+namespace sym2 { namespace shell {
 
 using namespace wbrtm;
 
-/// Klasa geometrii komórkowej 2D.
+/// @brief @PL{ Klasa geometrii komórkowej 2D.}
+///        @EN{ 2D Cell Geometry Class. }
 class rectangle_geometry:public geometry_base
 //---------------------------------------------
 {
@@ -466,7 +467,7 @@ public:
 
 };
 
-} //namespace symshell2
+}} //namespace sym2::shell
 
 #pragma clang diagnostic pop
 /* ****************************************************************** */

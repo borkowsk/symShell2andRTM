@@ -159,7 +159,7 @@ int spatial_correlation_source<DATA_SOURCE>::_calculate()
     assert(N == -1);  //Tylko tryb "integer-owy" - tyle klas ile liczb całkowitych
 
     // Ustalenie, czy mieści się w maksymalnej odległości:
-    symshell2::geometry *MyGeom = this->Source->get_geometry(); ///< Wskaźnik do geometrii
+    sym2::geometry *MyGeom = this->Source->get_geometry(); ///< Wskaźnik do geometrii
 
     //Musi być dostępna realna i co najmniej jednowymiarowa geometria symulacji, inaczej dupa blada.
     if(MyGeom != NULL && MyGeom->get_dimension() > 0)

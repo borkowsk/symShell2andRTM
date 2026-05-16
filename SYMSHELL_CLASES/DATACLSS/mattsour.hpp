@@ -8,6 +8,7 @@
 #define SYMSHELL2_MATRIX_SOUR_HPP_INCLUDED_
 
 #include "datasour.hpp"
+#include "geombase.hpp"
 
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "modernize-use-auto"
@@ -16,6 +17,7 @@
 #pragma ide diagnostic ignored "google-default-arguments"
 
 namespace sym2 { namespace data {
+    using namespace sym2::shell;
 
 /// Klasa udostępniająca dowolną tablicę prostokątną oraz jej wycinki (albo i nie?).
 /// @details
@@ -44,7 +46,7 @@ public:
                   void         *i_array,
                   int           i_torus = 1,
                   const int    *i_section = NULL,
-                  double         i_miss = symshell2::default_missing<double>()
+                  double         i_miss = default_missing<double>()
                   )
     : rectangle_source_base(i_tit, iA, iB, i_torus, i_section, i_miss), arra((T *) i_array)
     {}
@@ -59,7 +61,7 @@ public:
                   const char *i_tit,
                   int i_torus
                  )
-    : rectangle_source_base(i_tit, iA, iB, i_torus, NULL, symshell2::default_missing<double>()), arra((T *) i_array)
+    : rectangle_source_base(i_tit, iA, iB, i_torus, NULL, default_missing<double>()), arra((T *) i_array)
     {}
 
     /// 3. OBSOLETE
@@ -72,7 +74,7 @@ public:
                   rect_geometry &geom,
                   void *i_array,
                   const int *i_section = NULL,
-                  double i_miss = symshell2::default_missing<double>()
+                  double i_miss = default_missing<double>()
                  )
     : rectangle_source_base(i_tit, geom, i_miss,i_section),//rectangle_source_base(i_tit, geom, i_section, i_miss),
       arra(i_array)
@@ -143,7 +145,7 @@ public:
                          TYP_POLA  i_component,
                          int          i_torus = 1,
                          const int *i_section = NULL,
-                         double        i_miss = symshell2::default_missing<double>()
+                         double        i_miss = default_missing<double>()
     )
     : rectangle_source_base(i_tit, iA, iB, i_torus, i_section, i_miss),//rectangle_source_base(iA,iB,i_tit,i_torus,i_section,i_miss),
       arra(i_array), component(i_component)
@@ -163,7 +165,7 @@ public:
                          STRUCT_T     *i_array,
                          TYP_POLA  i_component,
                          const int *i_section = NULL,
-                         double        i_miss = symshell2::default_missing<double>()
+                         double        i_miss = default_missing<double>()
                         )
     : rectangle_source_base(i_tit, geom, i_miss,i_section),
       arra(i_array), component(i_component)
@@ -240,7 +242,7 @@ public:
                                 TYP_POLA  i_component,
                                 int          i_torus = 1,
                                 const int *i_section = NULL,
-                                double        i_miss = symshell2::default_missing<double>()
+                                double        i_miss = default_missing<double>()
                                 )
     : rectangle_source_base(i_tit, iA, iB, i_torus, i_section, i_miss),
       arra(i_array), component(i_component)
@@ -252,7 +254,7 @@ public:
                                 STRUCT_T    **i_array,
                                 TYP_POLA  i_component,
                                 const int *i_section = NULL,
-                                double        i_miss = symshell2::default_missing<double>()
+                                double        i_miss = default_missing<double>()
                                 )
     : rectangle_source_base(i_tit, geom, i_miss,i_section),
       arra(i_array), component(i_component)
@@ -329,7 +331,7 @@ public:
                          TYP_METODY   i_method,
                          int          i_torus = 1,
                          const int *i_section = NULL,
-                         double        i_miss = symshell2::default_missing<double>()
+                         double        i_miss = default_missing<double>()
                         )
     : rectangle_source_base(i_tit, iA, iB, i_torus, i_section, i_miss),//rectangle_source_base(iA, iB, i_tit, i_torus, i_section, i_miss),
       arra(i_array),method(i_method),
@@ -342,7 +344,7 @@ public:
                          STRUCT_T         *i_array,
                          TYP_METODY       i_method,
                          const int     *i_section = NULL,
-                         double            i_miss = symshell2::default_missing<double>()
+                         double            i_miss = default_missing<double>()
                         )
     : rectangle_source_base(i_tit, geom, i_miss,i_section),
       arra(i_array), method(i_method),
@@ -437,7 +439,7 @@ public:
                                 TYP_METODY   i_method,
                                 int          i_torus = 1,
                                 const int *i_section = NULL,
-                                double        i_miss = symshell2::default_missing<double>()
+                                double        i_miss = default_missing<double>()
                                )
     : rectangle_source_base(i_tit, iA, iB, i_torus, i_section, i_miss),
       arra(i_array), method(i_method),
@@ -450,7 +452,7 @@ public:
                                 STRUCT_T    **i_array,
                                 TYP_METODY   i_method,
                                 const int *i_section = NULL,
-                                double        i_miss = symshell2::default_missing<double>()
+                                double        i_miss = default_missing<double>()
                                )
     : rectangle_source_base(i_tit, geom, i_miss,i_section),
       arra(i_array),method(i_method),

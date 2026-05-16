@@ -21,7 +21,7 @@
 #include "toitoutoll.hpp"
 
 using namespace std;
-using namespace symshell2;
+using namespace sym2;
 
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "modernize-use-auto"
@@ -40,7 +40,7 @@ using namespace symshell2;
 ssh_menu_item_definition* TopPopup=context_menu_default; //Próba wymuszenia linkowania modułu definicji menu z biblioteki klas.
 
 int			main_area_manager::initialized=0;
-int			main_area_manager::counter=0; //Licznik obiektów tego typu. Ma być 1
+int			main_area_manager::counter=0; //StepCounter obiektów tego typu. Ma być 1
 int			main_area_manager::idle_must_work; //Flaga wywoływania on_idle
 wb_color	main_area_manager::color_marker=0; //Kolor do znakowania przez "user-a"
 wb_pchar	main_area_manager::def_dump_name("dump" );

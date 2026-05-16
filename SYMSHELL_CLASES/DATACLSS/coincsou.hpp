@@ -27,7 +27,7 @@ class coincidence_source : public co_statistics_source
 //------------------------------------------------------------------------------
 {
 public:
-    typedef symshell2::rectangle_geometry my_geometry_t;
+    typedef sym2::rectangle_geometry my_geometry_t;
 
 protected:
     size_t N; ///< Required number of Class of First

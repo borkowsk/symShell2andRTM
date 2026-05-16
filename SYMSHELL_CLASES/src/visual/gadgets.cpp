@@ -12,7 +12,7 @@
 #include "textarea.hpp"
 #include "toitoutoll.hpp"
 
-using namespace symshell2;
+using namespace sym2;
 
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "modernize-use-auto"
@@ -626,7 +626,7 @@ int text_area::add_text(const char* ini)
 
     if(linie.get_size()==0) //Trzeba zaalokować jakieś linie
         {
-        size_t licznik=0; //Licznik końców linii.
+        size_t licznik=0; //StepCounter końców linii.
         char* iter=pom;   //assert(iter);
         // Zliczanie końców linii.
         while(*iter!='\0') //To na pewno nie będzie null!!!

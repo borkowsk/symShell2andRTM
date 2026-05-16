@@ -12,7 +12,7 @@
 #include "wb_ptr.hpp"
 #include "toitoutoll.hpp"
 
-using namespace symshell2;
+using namespace sym2;
 
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "modernize-use-auto"
