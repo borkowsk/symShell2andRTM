@@ -1,6 +1,6 @@
 /// @file
 /// @brief **Interface for the base world-class** /<br> _Interfejs dla bazy światowej klasy._
-/// @date 2026-05-16 (modified)
+/// @date 2026-05-17 (modified)
 // ********************************************************************************************************************
 //
 #if !defined(WORLD_HPP_INCLUDED_)
@@ -80,7 +80,7 @@ public:
     /// @}
 public:
     //Konstrukcja i destrukcja:
-    // ////////////////////////
+    //=========================
 
     /// Główny konstruktor.
     explicit world(const char* log_name,
@@ -96,7 +96,7 @@ public:
     virtual  ~world();
 
     // Wymagane albo zachęcające do implementacji specyficznych akcji:
-    // ///////////////////////////////////////////////////////////////
+    //================================================================
 
     /// WYMAGANA: Właściwa implementacja jednego kroku symulacji — do zaimplementowania.
     virtual void		simulate_one_step()=0;
@@ -125,7 +125,7 @@ public:
     virtual int		implement_input(istream& i)=0;
 
     //Akcesory:
-    // ////////
+    //=========
 
     /// Ustawianie nazwy symulacji.  @returns 1 jak się udało, ale może być niedozwolone.
     virtual //TODO Dlaczego wirtualne?
@@ -160,7 +160,7 @@ public:
     ostream&		MyLogStream();
 
     // Główne akcje świata:
-    // ////////////////////
+    //=====================
 
     /// Przygotowuje stan startowy symulacji.
     /// Jeśli pierwszy raz to
@@ -210,7 +210,7 @@ public:
 };
 
 // Lokalne implementacje `inline`:
-//-///////////////////////////////
+//-===============================
 
 inline
 ostream& world::MyLogStream()

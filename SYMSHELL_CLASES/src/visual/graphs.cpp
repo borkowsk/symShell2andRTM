@@ -1,8 +1,8 @@
 /// @file
 /// @brief **IMPLEMENTATION OF BASIC GRAPH CLASSES** /<br>
 ///         _IMPLEMENTACJA PODSTAWOWYCH KLAS GRAFÓW._
-/// @date 2026-05-16 (modified)
-// /////////////////////////////////////////////////////////////////////////////////////////
+/// @date 2026-05-17 (modified)
+//==========================================================================================
 
 //#include <cstdarg>
 //#include <cerrno>

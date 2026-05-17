@@ -1,7 +1,7 @@
 /// @file
 /// @brief IMPLEMENTATION OF THE "KWORLD" (old example for SymShell implementing Kruglansky like model)
-// /////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @date 2026-05-16 (modified)
+//======================================================================================================
+/// @date 2026-05-17 (modified)
 
 #include <cstring>
 #include <cmath>
@@ -16,7 +16,7 @@ extern const int RAMKA=4;
 extern const char* SIMULATION_NAME;
 
 // Statyczne pola `kagent`-ów:
-// //////////////////////////////////////////////////////////////
+//===============================================================
 
 short	kagent::Max_power=256;		///< Maksymalna sila agenta.
 int     kagent::Threshold=256;		///< Granica domknięcia poglądu.
@@ -25,7 +25,7 @@ double  kagent::Minority=0.05;		///< Początkowa liczba białych, czyli prawych.
 double	kagent::NoiseLevel=0;		///< Prawd. spontanicznej zmiany.
 
 // IMPLEMENTACJA KONSTRUKCJI ŚWIATA:
-// /////////////////////////////////
+//==================================
 
 extern unsigned internal_log;
 extern unsigned spatial_correlation_mode;
@@ -90,7 +90,7 @@ CountMig(0)
 
 
 // AKCJE SYMULACYJNE:
-// //////////////////
+//===================
 
 void kworld::after_read_from_image()
 //Actions after read state from file. Aktualizacja pol static kagent'a!!!

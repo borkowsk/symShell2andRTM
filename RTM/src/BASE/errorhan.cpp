@@ -2,7 +2,7 @@
 /// Przechwytywanie błędów programowych WBRTM i inne sztuczki - stare więc  nie wiadomo czy bezpieczne
 /// Zobacz też: https://www.thegeekstuff.com/2010/10/linux-error-codes/
 ///  \date 2022-10-25 (last modification)
-//*///////////////////////////////////////////////////////////////////////////////////////////////////////////
+//============================================================================================================
 
 #include <sstream>
 #include <cstdio> //scanf? TODO

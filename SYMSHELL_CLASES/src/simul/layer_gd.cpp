@@ -1,11 +1,11 @@
 /// @file
 /// @brief **Implementation of loading the simulation layer from graphic files** /<br>
 ///        _Implementacja wczytywania warstwy symulacji z plików graficznych._
-/// @date 2026-05-16 (modified)
+/// @date 2026-05-17 (modified)
 ///       -------------------------------------------------------------------
 /// @details
 ///             ...
-//*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//======================================================================================================================
 
 #include <limits.h>
 #include "../../third_party/GD2/gd.h"
@@ -39,7 +39,7 @@ int sym2::shell::rectangle_layer::init_from_bitmap(const char* filename, void* u
         mapa=gdImageCreateFromBmp(file);
 
     if(!mapa)
-        return 0; //Raczej nie wywoluje bo wczesniej wypada
+        return 0; //Raczej nie wywołuje, bo wcześniej wypada
 
     fclose(file);
 

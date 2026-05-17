@@ -1,7 +1,7 @@
 // Virtual Input methods  implementation of the aworld class.
 // Its is rather simply implementation. You can replace it if you need.
-// ////////////////////////////////////////////////////////////////////
-// @date 2026-05-16 (modification)
+//=====================================================================
+// @date 2026-05-17 (modification)
 
 #include "aworld.h"
 

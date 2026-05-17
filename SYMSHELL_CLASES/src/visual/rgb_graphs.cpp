@@ -1,8 +1,8 @@
 /// @file
 /// @brief **Implementation of graph classes using RGB coloring** /<br>
 ///         _IMPLEMENTACJA KLAS GRAFÓW UŻYWAJĄCYCH KOLOROWANIA RGB._
-/// @date 2026-05-16 (modification)
-// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// @date 2026-05-17 (modification)
+//======================================================================================================================
 
 #include <cstdio> //sprintf!!!
 #include <iostream>

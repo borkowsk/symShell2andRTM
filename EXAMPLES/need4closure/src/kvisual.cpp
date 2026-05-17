@@ -1,7 +1,7 @@
 /// @file
 /// @brief ... (old example for SymShell implementing Kruglanskis like model)
-// //////////////////////////////////////////////////////////////////////////
-/// @date 2026-05-16 (modified)
+//===========================================================================
+/// @date 2026-05-17 (modified)
 
 #include <cstring>
 #include <cmath>
@@ -23,13 +23,13 @@ const int RAMKA=4;
 extern const char* SIMULATION_NAME;
 
 // KONSTRUKCJA	WIZUALIZACJI
-// //////////////////////////////////
+//===================================
 extern unsigned internal_log;
 extern unsigned spatial_correlation_mode;
 
 
 // Generuje podstawowe źródła dla wbudowanego zarządcy danych lub innego
-// //////////////////////////////////////////////////////////////////////////
+//===========================================================================
 void kworld::make_basic_sources()
 {
     sources_manager& WhatSourMen=this->Sources;

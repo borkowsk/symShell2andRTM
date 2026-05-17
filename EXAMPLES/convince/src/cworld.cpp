@@ -1,7 +1,7 @@
 /// @file
 /// @brief Implementation of the world of the convinced (D. Stauffer idea).
-/// @date 2026-05-16 (modified)
-// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// @date 2026-05-17 (modified)
+//======================================================================================================================
 
 #include <cstring>
 #include <cmath>
@@ -20,7 +20,7 @@ const int RAMKA=4;
 extern const char* SIMULATION_NAME;
 
 // Construction of agents:
-// ///////////////////////
+//========================
 
 anAgent::anAgent(const anAgent& ini)
 {
@@ -54,7 +54,7 @@ anAgent::anAgent()
 }
 
 // Static Agent Fields for Initialization:
-// ///////////////////////////////////////
+//========================================
 
 short   anAgent::MinStrength=10;
 short	anAgent::MaxStrength=100;	//Maximum agent power/force.
@@ -67,7 +67,7 @@ double  anAgent::ReverseProb=1;	//Probability of reversal of views to 0 - no ide
 double  anAgent::SupportLevel=0.5;	//The power of support when you have some companions.
 
 // CONSTRUCTION OF THE WORLD:
-// //////////////////////////
+//===========================
 
 extern unsigned InternalLogLen;
 
@@ -137,7 +137,7 @@ void aWorld::make_default_visualisation()
 // Works with the display manager and the log.
 // Registers derived series, creates default "windows" and places them in the "Manager".
 {
-    area_manager_base& Manager=this->MyAreaMenager();
+    area_manager_base& Manager=this->MyAreaManager();
     int iFirst=0,iSecond=0,iPower=0,iClassif=0;
 
     // Getting the indexes of basic series from the manager:
@@ -229,7 +229,7 @@ void aWorld::make_default_visualisation()
     Log.insert(CorrFS->Tau_a_Goodman_Kruskal());
 
     // BASIC DATA SERIES VISUALIZATION CONSTRUCTION:
-    // /////////////////////////////////////////////
+    //==============================================
 
     // WE GET THE DEFAULT WINDOW DIMENSIONS:
     unsigned szer= Manager.get_width();
@@ -384,7 +384,7 @@ void aWorld::make_default_visualisation()
 
 
 // SIMULATION ACTIONS:
-// ////////////////////
+//=====================
 
 void aWorld::after_read_from_image()
 //Action after loading the initialization file. NOTE! Also updating the agent class's static fields!!!
@@ -447,7 +447,7 @@ void aWorld::initialize_layers()
         <<"\nNum of Kl="<<Log.separator()<<anAgent::NumOfCate;
 
     //	ACTUAL AGENT STATES DETERMINATION:
-    // ///////////////////////////////////
+    //====================================
 
     //It loads using the constructor, so it initializes the rest of the fields as well:
     int from1= Agenci.init_from_bitmap(MappName.get_ptr_val(),&anAgent::assignPow);

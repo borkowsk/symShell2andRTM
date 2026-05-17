@@ -1,5 +1,5 @@
 // Call HTML viewer
-//*//////////////////////////////////////////////
+//===============================================
 #include <iostream>
 #include "compatyb.hpp"
 #include "wb_ptr.hpp"

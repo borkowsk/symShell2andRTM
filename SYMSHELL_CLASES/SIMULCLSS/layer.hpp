@@ -1,7 +1,7 @@
 /// @file
 /// @brief **Definition of the base class and simulation layer templates** /<br>
 ///         _Definicja bazy i szablonów warstw symulacji._
-/// @date 2026-05-16 (modified)
+/// @date 2026-05-17 (modified)
 ///      ...
 // ********************************************************************************************************************
 #ifndef SYMSHELL2_LAYER_HPP_INCLUDED_
@@ -155,7 +155,7 @@ public:
     /// @}
 
 // Akcesory i metody ogólne
-// ///////////////////////////////
+//================================
 
     const rectangle_geometry* get_rect_geometry()
     { return &MainGeometry; }
@@ -232,7 +232,7 @@ public:
     }
 
 // Metody Pure-virtual, które muszą zostać zdefiniowane dla każdej warstwy
-// /////////////////////////////////////////////////////////////////////////
+//==========================================================================
 
     const geometry_base* get_geometry()
     //Wypełnienie obowiązku pure-virtual
@@ -360,7 +360,7 @@ public:
     }
 
 // Metody Pure-virtual, które muszą zostać zdefiniowane dla każdej warstwy
-// /////////////////////////////////////////////////////////////////////////
+//==========================================================================
 
     const geometry_base* get_geometry()
     //Wypełnienie obowiązku pure-virtual
@@ -371,7 +371,7 @@ public:
     { return table[index]; }
 
 // Metody specyficzne dla warstw prostokątnych
-// /////////////////////////////////////////////////////////////////////////
+//==========================================================================
 
     /// Bezpośredni dostęp do pola.
     STRUCT_T&	get(size_t X,size_t Y)
@@ -715,7 +715,7 @@ public:
     }
 
 // Metody Pure-virtual, które muszą zostać zdefiniowane dla każdej warstwy
-// /////////////////////////////////////////////////////////////////////////
+//==========================================================================
 
     /// Wskaźnik do obowiązującej geometrii warstwy. Wypełnienie obowiązku pure-virtual
     const geometry_base* get_geometry()
@@ -726,7 +726,7 @@ public:
     { return table[index]; }
 
 // Metody specyficzne dla warstw prostokątnych
-// /////////////////////////////////////////////////////////////////////////
+//==========================================================================
 
     /// Bezpośredni dostęp do pola.
     AGENT&	get(size_t X,size_t Y)
@@ -1093,7 +1093,7 @@ public:
     }
 
     // Metody Pure-virtual, które muszą zostać zdefiniowane dla każdej warstwy
-    // /////////////////////////////////////////////////////////////////////////
+    //==========================================================================
 
     const geometry_base* get_geometry()
     //Wypełnienie obowiązku pure-virtual
@@ -1125,7 +1125,7 @@ public:
 
 
     // Metody specyficzne dla warstw prostokątnych
-    // /////////////////////////////////////////////////////////////////////////
+    //==========================================================================
 
     AGENT&	get(size_t X,size_t Y)
     // Bezpośredni dostęp do struktury

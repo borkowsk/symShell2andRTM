@@ -1,6 +1,6 @@
 /// @file
 /// @brief **LINEAR GEOMETRY** (under construction) /<br> _GEOMETRIA LINIOWA._
-/// @date 2026-05-16 (modified)
+/// @date 2026-05-17 (modified)
 ///      W trakcie przeróbki z rectangular geometry (Nigdy nie zakończonej!)
 // ********************************************************************************************************************
 //
@@ -101,7 +101,7 @@ public:
 
 
 // METODY IMPLEMENTUJĄCE OGÓLNE WŁAŚCIWOŚCI GEOMETRII
-// /////////////////////////////////////////////////////
+//======================================================
 
     int  compare(geometry_base& bsec)
     {
@@ -229,7 +229,7 @@ public:
     }
 
 // METODY SPECYFICZNE TYLKO DLA GEOMETRII PROSTOKĄTNEJ
-// /////////////////////////////////////////////////////////////////
+//==================================================================
 
     // bezpośrednie akcesory rozmiarowe
     size_t get_size() const { return N;}
@@ -263,7 +263,7 @@ public:
     }
 
     // KONSTRUKTORY/DESTRUKTORY
-    // ////////////////////////////
+    //=============================
     ~linear_geometry(){}
 
     linear_geometry(	size_t iN,			//Szerokość pełnego obszaru

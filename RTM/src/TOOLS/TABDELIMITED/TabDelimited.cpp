@@ -171,9 +171,9 @@ bool TabelaTabDelimited::ZapiszDoPliku(const char* _Nazwa,char Delimiter)
     if(Delimiter!=-1)
         this->ZmienDelimiter(Delimiter);
 
-	// ///////////////////
+	//====================
 	oplik<<*this;   // WŁAŚCIWY ZAPIS!
-	// ///////////////////
+	//====================
 
 	if(Delimiter!=-1) //Przywraca stary delimiter
 		this->ZmienDelimiter(old_delim);

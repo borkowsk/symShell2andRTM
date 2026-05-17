@@ -117,7 +117,7 @@ int vobject::Save(const char* name) const
 
 
 // STREAM & BINARY IO IMPLEMENTATION:
-//*//////////////////////////////////
+//===================================
 
 /**
  * @details

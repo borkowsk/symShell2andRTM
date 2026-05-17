@@ -2,8 +2,8 @@
 /// Implementation of the lifeworld class. Virtual output method.
 //---------------------------------------------------------------
 /// Its is rather simply implementation. You can replace it if you need.
-// /////////////////////////////////////////////////////////////////////
-/// @date 2026-03-27 (modified)
+//======================================================================
+/// @date 2026-05-17 (modified)
 
 #include "lworld.h"
 
@@ -23,11 +23,11 @@ int lifeworld::implement_output(ostream& o) const
     return 1;
 }
 
-// /////////////////////////////////////////////
+//==============================================
 // Example for SYMSHELL CLASSES library.
 /// @author Wojciech Borkowski, iss.uw.edu.pl
 // https://github.com/borkowsk/symShell2andRTM
 /// @copyright 2000 - 2026
-// /////////////////////////////////////////////
+//==============================================
 
 

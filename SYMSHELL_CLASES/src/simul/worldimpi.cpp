@@ -1,10 +1,10 @@
 /// @file
 /// @brief **Implementation of the world class -- Virtual input methods and operator >>  **
-/// @date 2026-05-16 (modified)
-/////     ------------------------------------------------------------------------
+/// @date 2026-05-17 (modified)
+//===----------------------------------------------------------------------------
 /// @details
 ///     Its is rather simply implementation. You can replace it if you need.
-//*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//======================================================================================================================
 
 //#include "INCLUDE/platform.hpp"
 #include <fstream>
@@ -114,7 +114,7 @@ void world::read_loop(int ret_after)
     }
 
     // Wstepne działania
-    // //////////////////
+    //===================
     if(AreaManager)
     {
         AreaManager->enable_background(); //Dla pewności
@@ -133,7 +133,7 @@ void world::read_loop(int ret_after)
             }
 
         // Wczytanie kolejnego kroku symulacji z zapisu
-        // //////////////////////////////////////
+        //=======================================
         if(AreaManager==NULL || AreaManager->background_enabled())
         {
             unsigned long OldLicznik=StepCounter; //Dostep do pola protected, fuj!
@@ -154,7 +154,7 @@ void world::read_loop(int ret_after)
         }
 
         // Obsluga okna przed krokiem symulacji
-        // //////////////////////////////////////
+        //=======================================
         if(AreaManager)
         {
             actualize_out_area();		//Aktualizacja informacji
@@ -163,7 +163,7 @@ void world::read_loop(int ret_after)
         }
 
         // Obsluga okna po kroku symulacji lub bez niej
-        // //////////////////////////////////////////////
+        //===============================================
         if(AreaManager)
         {
             AreaManager->process_input(); //Obsluga zdarzen zewnetrznych

@@ -1,8 +1,8 @@
 /// @file
 /// @brief __The base class for filters containing subsources__ /<br>
 ///         _Podstawowa klasa dla filtrów zawierających pod-źródła_
-/// @date 2026-05-16 (modified)
-// /////////////////////////////////////////////////////////////////////////////
+/// @date 2026-05-17 (modified)
+//==============================================================================
 //
 #ifndef SYMSHELL2_MULTI_FILTER_SOUR_HPP_INCLUDED_
 #define SYMSHELL2_MULTI_FILTER_SOUR_HPP_INCLUDED_

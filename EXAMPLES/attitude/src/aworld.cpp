@@ -1,7 +1,7 @@
 /// @file
 /// @brief IMPLEMENTATION OF   W O R L D  FOR "attitudes" SIMULATION.
-/// @date 2026-05-16 (modification)
-// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// @date 2026-05-17 (modification)
+//======================================================================================================================
 
 //#include <limits.h>
 //#include <assert.h>
@@ -25,7 +25,7 @@ const int RAMKA=4;
 extern const char* SIMULATION_NAME;
 
 // Konstrukcja agentów:
-// ////////////////////
+//=====================
 
 aagent::aagent(const aagent& ini)
     {
@@ -48,7 +48,7 @@ aagent::aagent()
     }
 
 // Statyczne pola aAgent-ów dla inicjalizacji:
-// ///////////////////////////////////////////
+//============================================
 
 short	aagent::str_grow=1;  //Maksymalny skok siły
 short	aagent::max_str=256; //Maksymalna siła agenta
@@ -57,7 +57,7 @@ short	aagent::cate_shift=0; //Przesuniecie dla wczytywania gifa
 double	aagent::mutation_prob=0; //Prawd. spontanicznej zmiany poglądów (0..1)
 
 // KONSTRUKCJA	ŚWIATA:
-// ////////////////////
+//=====================
 
 extern unsigned InternalLogLen;
 
@@ -107,7 +107,7 @@ aworld::aworld(size_t Width,		//Szerokość torusa macierzy agentów
     }
 
 // Generuje podstawowe źródła dla wbudowanego manager-a danych lub innego:
-// ///////////////////////////////////////////////////////////////////////
+//========================================================================
 
 void aworld::make_basic_sources()
 {
@@ -132,13 +132,13 @@ void aworld::make_basic_sources()
 
 
 // Współpraca z zarządcą wyświetlania, a także logiem:
-// ///////////////////////////////////////////////////
+//====================================================
 
 void aworld::make_default_visualisation()
 //Rejestruje pochodne serie, tworzy domyślne "lufciki" i wkłada w "Manager"
 {
-    area_manager_base& Manager=this->MyAreaMenager();
-    int iFirst=0,iSecond=0,iPower=0,iClassif=0;
+    area_manager_base& Manager=this->MyAreaManager();
+    int iFirst=0,iSecond=0,iPower=0,iClassify=0;
     //Uzyskanie indeksów podstawowych serii z zarządcy
     {
     if(Firsts) iFirst=Sources.search(Firsts->name());
@@ -150,7 +150,7 @@ void aworld::make_default_visualisation()
     if(Powers) iPower=Sources.search(Powers->name());
         else  goto ERROR;
 
-    if(Firsts)  iClassif=Sources.search(Firsts->name());
+    if(Firsts) iClassify=Sources.search(Firsts->name());
         else  goto ERROR;
 
 
@@ -363,7 +363,7 @@ void aworld::make_default_visualisation()
                                               (rectangle_source_base*)Sources.get(iSecond),
                                               //(rectangle_source_base*)Sources.get(iThird),
                                               (rectangle_source_base*)Sources.get(iPower),
-                                              (rectangle_source_base*)Sources.get(iClassif),
+                                              (rectangle_source_base*)Sources.get(iClassify),
                                               -1
                                               );
     drawable_base* pom=new steering_wheel(szer-49,0,szer,5*(char_height('X')+RAMKA),tmp);
@@ -382,7 +382,7 @@ void aworld::make_default_visualisation()
 
 
 // AKCJE SYMULACYJNE:
-// //////////////////
+//===================
 
 void aworld::after_read_from_image()
 //actions after read state from file. Aktualizacja pol static aAgent'a!!!

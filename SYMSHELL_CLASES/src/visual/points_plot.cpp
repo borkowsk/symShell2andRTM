@@ -1,8 +1,8 @@
 /// @file
 /// @brief **Implementation of basic primitives classes** /<br>
 ///         _Implementacja podstawowych klas prymitywów graficznych._
-/// @date 2026-05-16 (modification)
-// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// @date 2026-05-17 (modification)
+//======================================================================================================================
 
 #include "symshell.h"
 #include "graphs.hpp"

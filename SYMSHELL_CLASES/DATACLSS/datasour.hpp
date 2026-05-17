@@ -1,7 +1,7 @@
 /// @file
 /// @brief __INTERFACES of the most basic data source classes__ /<br>
 ///         _INTERFACE-y najbardziej podstawowych klas źródeł danych._
-/// @date 2026-05-16 (modified)
+/// @date 2026-05-17 (modified)
 // *********************************************************************************************************************
 //
 #ifndef SYMSHELL2_DATA_SOURCES_HPP_INCLUDED_
@@ -531,7 +531,7 @@ public:
 //{...};
 
 //	INLINE IMPLEMENTATION(S):
-// //////////////////////////
+//===========================
 
 inline
 const char* filter_source_base::name()

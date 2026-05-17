@@ -1,8 +1,8 @@
 /// @file
 /// Virtual output methods implementation of the aWorld class.
 /// Its is rather simply implementation. You can replace it if you need.
-// /////////////////////////////////////////////////////////////////////
-/// @date 2026-04-07 (modified)
+//======================================================================
+/// @date 2026-05-17 (modified)
 
 #include "cworld.h"
 

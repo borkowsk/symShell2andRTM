@@ -1,10 +1,10 @@
 /// @file
 /// @brief **Implementation of the world class -- output operator <<  ** /<br>
 ///         _Implementacja operatora << dla klasy świata._
-/// @date 2026-05-16 (modified)
+/// @date 2026-05-17 (modified)
 // ----------------------------------------------
 // Its is rather simply implementation. You can replace it if you need.
-//*////////////////////////////////////////////////////////////////////
+//=====================================================================
 
 #include "world.hpp"
 

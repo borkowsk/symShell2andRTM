@@ -1,12 +1,12 @@
 /// @file
 /// @brief ... (old example for SymShell implementing Kruglanskis like model)
-// //////////////////////////////////////////////////////////////////////////
-/// @date 2026-03-31 (modified)
+//===========================================================================
+/// @date 2026-05-17 (modified)
 // implementation of the kworld class.
 //	Virtual output methods 
 //----------------------------------------------
 // Its is rather simply implementation. You can replace it if you need.
-// ////////////////////////////////////////////////////////////////////
+//=====================================================================
 #include "kworld.h"
 
 int kworld::implement_output(ostream& o) const

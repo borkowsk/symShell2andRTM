@@ -1,7 +1,7 @@
 /// @file
 /// @brief IMPLEMENTATION OF THE WORLD FOR "attitudeS" SIMULATION (kattitude old example for SymShell)
-/// @date 2026-05-16 (modified)
-// /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// @date 2026-05-17 (modified)
+//==============================================================================================================
 
 //#include <limits.h>
 //#include <assert.h>
@@ -27,7 +27,7 @@ extern const char* SIMULATION_NAME;
 
 
 // Konstrukcja agentów:
-// ////////////////////
+//=====================
 short aagent::DrawAttitude()
     {
         if(0<Majority && Majority<1) //Uwaga! Może być faktycznie w mniejszości!!!
@@ -75,7 +75,7 @@ aagent::aagent()
     }
 
 // Statyczne pola aagent-ów dla inicjalizacji:
-// ///////////////////////////////////////////
+//============================================
 
 short	aagent::Power_change=1;	//Maksymalny skok sily
 short	aagent::Max_power=256;	//Maksymalna sila agenta
@@ -85,7 +85,7 @@ double  aagent::Majority=-1;	//Domyślnie nie ma znaczącej większości!!!
 double	aagent::MutationLevel=0;	//Prawd. spontanicznej zmiany poglądów (0..1)
 
 // KONSTRUKCJA	ŚWIATA:
-// ////////////////////
+//=====================
 extern unsigned internal_log;
 extern unsigned spatial_correlation_mode;
 
@@ -215,7 +215,7 @@ void    aworld::actualize_out_area()
 //Rejestruje pochodne serie, tworzy domyślne "lufciki" i wkłada w zarządcę obszarów.
 void aworld::make_default_visualisation()
 {
-    area_manager_base& manager=this->MyAreaMenager();
+    area_manager_base& manager=this->MyAreaManager();
     int iFirst=0,iSecond=0,iPower=0,iPressure=0,iChangeCnt,iMigrationCnt;
     //Uzyskanie indeksów podstawowych serii z menadżera danych.
     {
@@ -529,7 +529,7 @@ void aworld::make_default_visualisation()
 
 
 // AKCJE SYMULACYJNE
-// ////////////////////
+//=====================
 
 //Actions after read state from a file. Aktualizacja pól static aagent-a!!!
 void aworld::after_read_from_image()

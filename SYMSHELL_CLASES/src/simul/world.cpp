@@ -1,8 +1,8 @@
 /// @file
 /// @brief **Implementation of the world-class** /<br>
 ///        _Implementacja rozwiązań klasy reprezentującej świat._
-/// @date 2026-05-16 (modified)
-// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// @date 2026-05-17 (modified)
+//======================================================================================================================
 
 #include "world.hpp"
 #include "wb_cpucl.hpp"
@@ -266,7 +266,7 @@ void sym2::shell::world::simulation_loop(int ret_after)
     }
 
     // Wstępne działania:
-    // //////////////////
+    //===================
     if(AreaManager)
     {
 //      AreaManager->enable_background();	//Dla pewności?
@@ -295,7 +295,7 @@ void sym2::shell::world::simulation_loop(int ret_after)
         }
 
         // Obsługa okna przed krokiem symulacji:
-        // /////////////////////////////////////
+        //======================================
         if(AreaManager != nullptr)
         {
             actualize_out_area();		//Aktualizacja informacji
@@ -304,7 +304,7 @@ void sym2::shell::world::simulation_loop(int ret_after)
         }
 
         // Właściwa symulacja:
-        // ///////////////////
+        //====================
 
         //Jak w ogóle nie ma zarządcy wizualizacji (why!?) albo praca w tle jest dozwolona:
         if(AreaManager==nullptr || AreaManager->background_enabled())
@@ -321,7 +321,7 @@ void sym2::shell::world::simulation_loop(int ret_after)
                           // do czasu następnego kroku
 
         // Obsługa okna po kroku symulacji lub bez niej:
-        // /////////////////////////////////////////////
+        //==============================================
         if(AreaManager)
         {
             AreaManager->process_input();			//Obsługa zdarzeń zewnętrznych

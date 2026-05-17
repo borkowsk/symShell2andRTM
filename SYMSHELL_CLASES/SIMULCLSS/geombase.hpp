@@ -1,7 +1,7 @@
 /// @file
 /// @brief **GEOMETRY — THE WAY OF ORGANIZING AGENTS OR DATA IN A LAYER.GEOMETRIA** /<br>
 ///         _GEOMETRIA — SPOSÓB ORGANIZACJI AGENTÓW LUB DANYCH W WARSTWIE._
-/// @date 2026-05-16 (modified)
+/// @date 2026-05-17 (modified)
 // *********************************************************************************************************************
 //
 #ifndef SYMSHELL2_GEOM_BASE_HPP_INCLUDED_
@@ -169,7 +169,7 @@ protected:
 
 public:
     // METODY INFORMACYJNE:
-    // ////////////////////
+    //=====================
 
     /// Informacja o liczbie wymiarów topologicznych geometrii. Może być 0, jeśli to pojęcie nie ma sensu (np. dla grafowych).
     int					get_dimension() const {return dimension;}
@@ -252,7 +252,7 @@ typedef geometry_base geometry;
 
 
 // IMPLEMENTATIONS:
-// ////////////////
+//=================
 
 inline
 int geometry_base::_compare_geometry_base(geometry_base* second)

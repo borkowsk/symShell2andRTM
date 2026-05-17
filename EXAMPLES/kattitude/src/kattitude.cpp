@@ -1,13 +1,13 @@
 /// @file
 /// @brief Symulacja zmiany poglądów - attitudes (kattitude old example for SymShell)
-// //////////////////////////////////////////////////////////////////////////////////
-/// @date 2026-05-16 (modified)
+//===================================================================================
+/// @date 2026-05-17 (modified)
 /// @details
 ///     Uzyskana niegdyś przez uproszczenie programu LANGUAGES.
 ///     Uzupełniona o wagi opinii innych, jako fragmentaryczna implementacja teorii Arie Kruglanskiego.
 ///     Dodano także inicjowanie z niekompletnym wypełnieniem przestrzeni symulacji
 ///     oraz różnych procentów jednej z klas (minority vs. majority).
-// /////////////////////////////////////////////////////////////////////////////////////////////////////
+//======================================================================================================
 /// Historia:
 /// =========
 /// * v 0.6 - dodanie losowania nieproporcjonalnego, znaczne zmiany w statystykach, zmiany z bazowej bibliotece

@@ -1,8 +1,8 @@
 /// @file
 /// A fairly simple simulation of a change of opinion implementing Professor D. Stauffer's model.
 /// (Obtained by simplifying the LANGUAGES program)
-// ///////////////////////////////////////////////////////////////////////////////////////////
-/// @date 2026-05-16 (modified)
+//============================================================================================
+/// @date 2026-05-17 (modified)
 
 const char* WINDOW_HEADER="CONVINCE ver. 0.01c";
 const char* SIMULATION_NAME="convinces_v0.01";
@@ -307,7 +307,7 @@ int main(const int argc,const char* argv[])
             Lufciki.maximize(statusWin);
             for(int symulacja=0;symulacja<AUTOSTART;symulacja++)
                 {
-                ////MAIN SIMULATION LOOP STEP BY STEP
+               //====MAIN SIMULATION LOOP STEP BY STEP
                 cout<<WINDOW_HEADER<<": SIMULATION "<<symulacja<<" STARTED."<<endl;
                 theWorld.simulation_loop(1);
                 cout<<WINDOW_HEADER<<": SIMULATION "<<symulacja<<" DONE."<<endl;

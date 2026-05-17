@@ -1,10 +1,10 @@
 /// @file
 /// @brief Virtual Input method implementation of the aworld class. (kattitude old example for SymShell)
-/// @date 2026-05-16 (modified)
+/// @date 2026-05-17 (modified)
 ///       ---------------------
 /// @details
 ///     Its is rather simply implementation. You can replace it if you need.
-// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//======================================================================================================================
 #include "aworld.h"
 
 int aworld::implement_input(istream& i)

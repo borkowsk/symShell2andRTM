@@ -1,12 +1,12 @@
 /// @file
 /// @brief ... (old example for SymShell implementing Kruglanskis like model)
-// //////////////////////////////////////////////////////////////////////////
-/// @date 2026-05-16 (modified)
+//===========================================================================
+/// @date 2026-05-17 (modified)
 // implementation of the kworld class.
 //	Virtual Input methods 
 //----------------------------------------------
 // Its is rather simply implementation. You can replace it if you need.
-// ////////////////////////////////////////////////////////////////////
+//=====================================================================
 #include "kworld.h"
 
 int kworld::implement_input(istream& i)

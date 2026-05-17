@@ -1,7 +1,7 @@
 /// @file
 /// IMPLEMENTATION OF   W O R L D  FOR "Conways Life" SIMULATION.
-/// @date 2026-05-16 (modified)
-// //////////////////////////////////////////////////////////////
+/// @date 2026-05-17 (modified)
+//===============================================================
 
 //#include <limits.h>
 //#include <assert.h>
@@ -35,7 +35,7 @@ inline void wb_swap(T& a,T& b)
 */
 
 // Konstrukcja agentów:
-// ////////////////////
+//=====================
 
 lifeagent::lifeagent(const lifeagent& ini)
     {
@@ -60,7 +60,7 @@ lifeagent::lifeagent()
     }
 
 // Statyczne pola `lifeagent`-ów dla inicjalizacji:
-// ////////////////////////////////////////////////
+//=================================================
 
 short	lifeagent::ile_kate=2;      //!< Liczba kategorii w mapach
 short	lifeagent::kate_shift=7;
@@ -69,7 +69,7 @@ double	lifeagent::MutationLevel=0; //!< Prawd. spontanicznej zmiany poglądów (
 double  lifeagent::InitProp=0.5;    //!< Proporcje inicjowania losowego
 
 // KONSTRUKCJA	ŚWIATA:
-// ////////////////////
+//=====================
 extern unsigned internal_log;
 
 lifeworld::lifeworld(
@@ -116,7 +116,7 @@ lifeworld::lifeworld(
         }
 
 // Generujemy podstawowe źródła dla wbudowanego manager-a danych:
-// //////////////////////////////////////////////////////////////
+//===============================================================
 void lifeworld::make_basic_sources()
 {
     world::make_basic_sources(); //TWORZY SERIĘ "STEP"
@@ -138,13 +138,13 @@ void lifeworld::make_basic_sources()
 
 
 // Współpraca z managerem wyświetlania, a także logiem:
-// ////////////////////////////////////////////////////
+//=====================================================
 
 void lifeworld::make_default_visualisation()
 //Współpraca z zarządcą wyświetlania.
 //Rejestruje pochodne serie, tworzy domyślne "lufciki" i wkłada w "Manager"
 {
-    area_manager_base& Menager=this->MyAreaMenager(); //ustawiane w this->initialise()
+    area_manager_base& Manager=this->MyAreaManager(); //ustawiane w this->initialise()
 
     if(!Firsts) {
         cerr<<"`Firsts` obligatory data serie was not found!"<<endl;
@@ -238,15 +238,15 @@ void lifeworld::make_default_visualisation()
 
         //PODSTAWOWA WIZUALIZACJA SERII DANYCH
         //WYMIARY DOMYŚLNEGO OKNA
-        unsigned szer = Menager.get_width();
-        unsigned wyso = Menager.get_height();
+        unsigned szer = Manager.get_width();
+        unsigned wyso = Manager.get_height();
         assert(szer > 50 && wyso > 40); //Najmniejsze sensowne okno
 
         //Obszary domyślne — np. obszar STATUSU
         world::make_default_visualisation(); // this->initialize(Manager);
         if (OutArea) {
             OutArea->set(1, 1, szer / 2 - 1, wyso / 2 - 1);
-            Menager.as_original(Menager.search(OutArea->name()));
+            Manager.as_original(Manager.search(OutArea->name()));
         }
 
         // WŁAŚCIWE LUFCIKI:
@@ -262,7 +262,7 @@ void lifeworld::make_default_visualisation()
 
         pom1->set_frame(128);
         pom1->set_title("HISTORY OF CLASSIFICATION");
-        Menager.insert(pom1);
+        Manager.insert(pom1);
 
         //inne mniej potrzebne
         graph *pom = new sequence_graph(szer / 2 - 1, 1, szer - 50, wyso / 4 - 1,  //domyślne współrzędne
@@ -275,20 +275,20 @@ void lifeworld::make_default_visualisation()
         if (!pom) goto ERROR;
         pom->set_frame(128);
         pom->set_title("HISTORY OF STRESS");
-        Menager.insert(pom);
+        Manager.insert(pom);
 
         pom = new carpet_graph(1, wyso / 2, szer / 3, wyso - 1,//domyślne współrzędne
                                Firsts); //I  //TODO!!! danych
         pom->set_data_colors(0, 255);
         pom->set_title("Map of current state");
-        Menager.insert(pom);
+        Manager.insert(pom);
 
         pom = new bars_graph(szer / 3 + 1, wyso / 2, szer / 3 * 2,
                              wyso - 1,//domyślne współrzędne  szer-49,7*char_height('X')+7,szer,8*char_height('X')+9
                              ClassStat);
         pom->set_data_colors(0, 255);
         pom->set_title("Histogram of state");
-        Menager.insert(pom);
+        Manager.insert(pom);
 
         pom = new manhattan_graph(szer / 3 * 2 + 1, wyso / 2, szer, wyso - 1,//domyślne współrzędne
                                   CorrFS, 0,    //I źródło danych
@@ -299,7 +299,7 @@ void lifeworld::make_default_visualisation()
         pom->set_data_colors(0, 255);
         pom->set_text_colors(0);
         pom->set_title("Determination of curr. state by prev. state");
-        Menager.insert(pom);
+        Manager.insert(pom);
 
         //PRZYCISKI
         pom = new carpet_graph(szer - 49, 5 * (char_height('X') + RAMKA), szer,
@@ -308,7 +308,7 @@ void lifeworld::make_default_visualisation()
         pom->set_data_colors(0, 255);
         pom->set_frame(0);
         pom->set_title("Map of previous state");
-        Menager.insert(pom);
+        Manager.insert(pom);
 
 
         pom1 = new sequence_graph(szer - 49, 9 * (char_height('X') + RAMKA), szer, 10 * (char_height('X') + RAMKA),
@@ -321,7 +321,7 @@ void lifeworld::make_default_visualisation()
         if (!pom1) goto ERROR;
         pom1->set_frame(128);
         pom1->set_title("HISTORY OF ENTROPY OF DETERMINATION");
-        Menager.insert(pom1);
+        Manager.insert(pom1);
 
 
         pom = new sequence_graph(szer - 49, 11 * (char_height('X') + RAMKA), szer, 12 * (char_height('X') + RAMKA),
@@ -334,7 +334,7 @@ void lifeworld::make_default_visualisation()
         if (!pom) goto ERROR;
         pom->set_frame(128);
         pom->set_title("HISTORY OF Prev. TO Curr. CORRELATION");
-        Menager.insert(pom);
+        Manager.insert(pom);
 
         //Tworzenie obszaru sterującego:
         {
@@ -345,7 +345,7 @@ void lifeworld::make_default_visualisation()
             drawable_base *pom = new steering_wheel(szer - 49, 0, szer, 5 * (char_height('X') + RAMKA), tmp);
             assert(pom != nullptr);
             pom->set_background(10);
-            Menager.insert(pom);
+            Manager.insert(pom);
         }
 
         Sources.new_data_version(1, 1); //Oznajmia seriom, że dane się uaktualniły	(po inicjacji)
@@ -358,7 +358,7 @@ void lifeworld::make_default_visualisation()
 
 
 // AKCJE SYMULACYJNE:
-// //////////////////
+//===================
 
 void lifeworld::after_read_from_image()
 //Actions after read state from a file. Aktualizacja pól statycznych `lifeagent`-a!!!
@@ -572,9 +572,9 @@ int lifeworld::CheckChange(const geometry_base* MyGeom,
     }
 }
 
-// /////////////////////////////////////////////
+//==============================================
 // Example for SYMSHELL CLASSES library.
 /// @author Wojciech Borkowski, iss.uw.edu.pl
 // https://github.com/borkowsk/symShell2andRTM
 /// @copyright 2000 - 2026
-// /////////////////////////////////////////////
+//==============================================

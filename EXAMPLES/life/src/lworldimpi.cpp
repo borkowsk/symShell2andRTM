@@ -1,9 +1,9 @@
 /// @file
 /// @brief Implementation of the lifeworld class - virtual Input method
-/// @date 2026-05-16 (modified)
+/// @date 2026-05-17 (modified)
 //---------------------------------------------------------------------
 // Its is rather simply implementation. You can replace it if you need.
-// /////////////////////////////////////////////////////////////////////
+//======================================================================
 
 
 #include "lworld.h"
@@ -27,10 +27,10 @@ int lifeworld::implement_input(istream& i)
     return 0;
 }
 
-// /////////////////////////////////////////////
+//==============================================
 // Example for SYMSHELL CLASSES library.
 /// @author Wojciech Borkowski, iss.uw.edu.pl
 // https://github.com/borkowsk/symShell2andRTM
 /// @copyright 2000 - 2026
-// /////////////////////////////////////////////
+//==============================================
 

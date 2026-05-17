@@ -1,13 +1,13 @@
 /// @file
 /// @brief Przykładowy program SYMSHELL-z z klasami.
-/// @date 2026-05-16 (modified)
+/// @date 2026-05-17 (modified)
 ///       ------------------------------------------
 /// @details
 ///     Demonstracja stosowania obiektowego pietra SYMSHELL-a
 ///     Tworzy kilka przykładowych seri danych i umieszcza je w zarządcy danych.
 ///     Tworzy kilka obszarów i umieszcza je pod zarządem managera obszarów.
 ///     Ostatecznie oddaje sterowanie zarządcy obszarów opartemu na SYMSHELL-u.
-// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//======================================================================================================================
 
 
 #include <cmath> //cos tam jest potrzebne

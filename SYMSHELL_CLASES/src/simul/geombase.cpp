@@ -1,8 +1,8 @@
 /// @file
 /// @brief **ITERATOR ALLOCATION CACHE IMPLEMENTATION** /<br>
 ///         _IMPLEMENTACJA CACHE-U ALOKACJI ITERATORÓW._
-/// @date 2026-05-16 (modified)
-//*////////////////////////////////////////////////////////////////////////////
+/// @date 2026-05-17 (modified)
+//=============================================================================
 
 //#include "INCLUDE/platform.hpp"
 //#include <cstdlib>

@@ -1,7 +1,7 @@
 /// @file
 /// @brief SYMULACJA KONFLIKTÓW BOCA 2005 (plik główny)
-//-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @date 2026-05-16 (last update)
+//-=====================================================================================================================
+/// @date 2026-05-17 (last update)
 /// @details
 /// UZUPEŁNIONY 10-11.2005, 9-2010, 02-2014, 04-2026
 /// ## HISTORIA
@@ -148,9 +148,9 @@ double niby_gauss_max(double mean,double max,unsigned steps=6)	//12
 }
 
 // Świat - GŁÓWNA KLASA SYMULACYJNA i JEJ PODJEDNOSTKI Agent & Connection.
-// /////////////////////////////////////////////////////////////////////////
+//==========================================================================
 class LocalWorld: public world
-// ///////////////////////////
+//============================
 {
 public:
     class Agent
@@ -781,9 +781,9 @@ inline void LocalWorld::Connection::set(size_t s, size_t e, double w)
 
 //Klasa do przechowywania i wizualizowania danych spoza świata symulacji
 //i/albo o poszczególnych światach symulacji (dla różnych parametrów)
-// ///////////////////////////////////////////////////////////////////////////////
+//================================================================================
 class MetaExperiment
-// //////////////////
+//===================
 {
     class tangens//Klasa funkcyjna opakowująca tangens
     {
@@ -1075,7 +1075,7 @@ else
 }
 
 // Przygotowanie danych i świata symulacji
-// /////////////////////////////////////////
+//==========================================
 //inicjalizacja globalnych randomizer-ów (TODO dlaczego obu na raz?)
 TheRandG.Reset();
 TheRandSTDC.Reset();

@@ -1,7 +1,7 @@
 /// @file
 /// Wariacje na temat life Conway-a — program główny.
-// //////////////////////////////////////////////////
-/// @date 2026-05-16 (modified)
+//===================================================
+/// @date 2026-05-17 (modified)
 
 const char* WINDOW_HEADER="RAND-LIFE version 1.01d (by Wojciech Borkowski)";
 const char* SIMULATION_NAME="randlife_v1.01d";
@@ -377,9 +377,9 @@ int main(const int argc,const char* argv[])
 /* STATIC ALLOCATION */
 //unsigned agent::max=0; //jaki jest największy taxon
 
-// /////////////////////////////////////////////
+//==============================================
 // Example for SYMSHELL CLASSES library.
 /// @author Wojciech Borkowski, iss.uw.edu.pl
 // https://github.com/borkowsk/symShell2andRTM
 /// @copyright 2000 - 2026
-// /////////////////////////////////////////////
+//==============================================

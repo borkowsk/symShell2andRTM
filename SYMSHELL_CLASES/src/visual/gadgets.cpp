@@ -1,8 +1,8 @@
 /// @file
 /// @brief **IMPLEMENTATION OF DIFFERENT TYPES OF NON-GRAPH AREAS** /<br>
 ///         _IMPLEMENTACJA ROŻNYCH TYPóW OBSZARóW NIE BĘDĄCYCH GRAFAMI._
-/// @date 2026-05-16 (last modification)
-//*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// @date 2026-05-17 (last modification)
+//======================================================================================================================
 // Wersja z kosmetyką XI 2012 i późniejszymi zmianami.
 
 #include "wb_clone.hpp"

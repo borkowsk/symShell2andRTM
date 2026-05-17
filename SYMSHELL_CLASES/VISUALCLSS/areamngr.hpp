@@ -1,6 +1,6 @@
 /// @file
 /// @brief **SCREEN AREA MANAGERS CLASSES** /<br> _KLASY ZARZĄDCÓW OBSZARÓW EKRANU._
-/// @date 2026-05-16 (modified)
+/// @date 2026-05-17 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_AREA_MNGR_HPP_INCLUDED_
@@ -40,7 +40,7 @@ namespace sym2
 
     public:
         // Sterowanie przerywaniem działania zarządcy
-        //*///////////////////////////////////////////
+        //============================================
 
         /// Ustawianie wymagania zakończenia.
         virtual void need_break_action(int Yes = 1)

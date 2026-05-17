@@ -1,6 +1,6 @@
 /// @file
 /// @brief **RECTANGULAR GEOMETRY** /<br> _GEOMETRIA PROSTOKĄTNA._
-/// @date 2026-05-16 (modified)
+/// @date 2026-05-17 (modified)
 ///      Pierwsza i główna specjalizacja. Heksagonalnej i sieciowej nigdy nie napisałem, choć były w planie.
 // ********************************************************************************************************************
 //
@@ -131,7 +131,7 @@ public:
     }; //koniec klasy iterator-a monte-carlo
 
     // METODY IMPLEMENTUJĄCE OGÓLNE WŁAŚCIWOŚCI GEOMETRII:
-    //*///////////////////////////////////////////////////
+    //====================================================
 
     /// Porównanie geometrii z założeniem, że ta dryga też jest prostokątna.
     /// Najpierw jednak używa `geometry_base::_compare_geometry_base`.
@@ -293,7 +293,7 @@ public:
     }
 
     // METODY SPECYFICZNE TYLKO DLA GEOMETRII PROSTOKĄTNEJ:
-    //*////////////////////////////////////////////////////
+    //=====================================================
 
     /// @name bezpośrednie akcesory rozmiarowe
     /// @{
@@ -336,7 +336,7 @@ public:
     }
 
     //  KONSTRUKTORY/DESTRUKTORY
-    //*////////////////////////////
+    //=============================
     ~rectangle_geometry() override = default;
 
     rectangle_geometry(	size_t iA,				//!< Szerokość pełnego obszaru.

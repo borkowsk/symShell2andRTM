@@ -1,5 +1,5 @@
 //SYMULACJA KONFLIKTOW BOCA 2005 - UZUPELNIONY 10-11.2005
-////////////////////////////////////////////////////////////
+============================================================
 //1.1 Dodano obsluge wczytywania sieci z pliku
 //1.2 Dodano obsluge parametr�w wywolania 
 //      i symetryczne traktowanie polaczen wczytanych z pliku
@@ -133,9 +133,9 @@ double niby_gauss_max(double mean,double max,unsigned steps=6)//12
 }
 
 //Swiat - GLOWNA KLASA SYMULACYJNA i JEJ PODJEDNOSTKI Agent & Connection
-///////////////////////////////////////////////////////////////////////////
+===========================================================================
 class Swiat:public world
-////////////////////////
+========================
 {
 public:
     class Agent
@@ -751,9 +751,9 @@ inline void Swiat::Connection::set(size_t s,size_t e,double w)
 
 //Klasa do przechowywania i wizualizowania danych spoza swiata swiata symulacji
 //i/lub o poszczegolnych swiatach symulacji (dla roznych parametrow)
-/////////////////////////////////////////////////////////////////////////////////
+=================================================================================
 class MetaExperyment  
-////////////////////
+====================
 {
     class tangens//Klasa funkcyjna opakowujaca tangens
     {
@@ -1040,7 +1040,7 @@ else
 }
 
 //Przygotowanie danych i Swiata symulacji
-///////////////////////////////////////////
+===========================================
 //inicjalizacja globalnego randomizer�w 
 TheRandG.Reset();
 TheRandSTDC.Reset();

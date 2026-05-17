@@ -1,8 +1,8 @@
 /// @file
 /// @brief **A screen or window area manager, implemented directly based on SYMSHELL functions.** /<br>
 ///         _Zarządca obszarów ekranu lub okna, zaimplementowany bezpośrednio na bazie funkcji SYMSHELL-a._
-/// @date 2026-05-16 (last modification)
-//*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// @date 2026-05-17 (last modification)
+//======================================================================================================================
 //  Do obsługi całego ekranu/okna SYMSHELL-a.
 
 //#include "INCLUDE/platform.hpp"

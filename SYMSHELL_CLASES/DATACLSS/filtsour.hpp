@@ -1,7 +1,7 @@
 /// @file
 /// @brief __Different classes of single-source data filters.__ /<br>
 ///         _Różne klasy jednoźródłowych filtrów danych._
-/// @date 2026-05-16 (modified)
+/// @date 2026-05-17 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_FILTERS_SOUR_HPP_INCLUDED_
@@ -389,7 +389,7 @@ typedef GE_filter<data_source_base> generic_GE_filter;
 
 
 // IMPLEMENTACJE METOD:
-// ////////////////////
+//=====================
 
 template<class SOURCE_TYPE>
 const char *threshold_filter_base<SOURCE_TYPE>::name()

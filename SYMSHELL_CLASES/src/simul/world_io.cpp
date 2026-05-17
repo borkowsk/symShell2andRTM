@@ -1,9 +1,9 @@
 /// @file
 /// @brief **Implementation of the world class -- Virtual output methods and operator.**
-/// @date 2026-05-16 (modified)
+/// @date 2026-05-17 (modified)
 // ---------------------------------------------------------------------------------
 // Its is rather simply implementation. You can replace it if you need.
-//*////////////////////////////////////////////////////////////////////
+//=====================================================================
 #include "world.hpp"
 
 using namespace sym2::shell;
