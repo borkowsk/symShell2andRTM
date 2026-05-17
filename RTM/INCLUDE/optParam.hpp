@@ -1,6 +1,6 @@
 /// \file optParam.hpp
 /// \brief KLASY potrzebne do obsługi parametrów wywołania programu
-/// @date 2026-05-11 (last modification)
+/// @date 2026-05-17 (last modification)
 ///        ========================================================
 /// \details
 ///     Obsługiwane są typy standardowe numeryczne oraz
@@ -95,7 +95,7 @@ static
 };
 
 // Klasy potomne
-// /////////////////
+//==================
 
 /// \brief  Klasa do rozdzielania parametrów w tablicy i w helpie \ingroup MAINandPARS
 class ParameterLabel:public OptionalParameterBase
@@ -180,12 +180,12 @@ class OptEnumParametr:public OptionalParameter<T>
 	T convert(const char* str);
 };
 
-// /////////////////////////////
+//==============================
 // IMPLEMENTACJE on line
-// /////////////////////////////
+//==============================
 
 //  Funkcje sprawdzania poprawności
-// ////////////////////////////////////
+//=====================================
 
 /// \details  Implementacja ogólna sprawdzania poprawności \ingroup MAINandPARS
 /// \return   Czy wartość mieści się w zadanym zakresie.
@@ -229,7 +229,7 @@ bool OptionalParameter<const char*>::check(const char* const& val)
 
 
 // Funkcje konwersji
-// //////////////////////////////////////////////////////////////////////////////
+//===============================================================================
 
 /// \details Implementacja konwersji dla typu  'char*'.  \ingroup MAINandPARS
 /// \return użyteczny łańcuch alokowany na stercie.
@@ -377,7 +377,7 @@ T OptionalParameter<T>::convert(const char* str)
 //typedef OptionalParameter<class T> OptPar<class T>;  ??? TODO HOW TO DECLARE THAT?
 
 //	Główne metody
-// //////////////////////////////////////////////////////////////////////////////
+//===============================================================================
 
 /// \details Zapis parametrów do pliku "raportu" \ingroup MAINandPARS
 /// \param Out - strumień do zapisu
@@ -548,7 +548,7 @@ int OptionalParameter<string>::CheckStr(const char* argv,char sep/*arator*/)
 }
 
 // NIETYPOWE METODY DRUKOWANIA HELPU DO PARAMETRÓW TEKSTOWYCH
-// //////////////////////////////////////////////////////////////////////////////
+//===============================================================================
 
 /// \brief  funkcja drukowania helpu parametru dla typu 'string' \ingroup MAINandPARS
 template<> inline

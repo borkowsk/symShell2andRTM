@@ -1,6 +1,6 @@
 /** @file
 *  \brief    Base class for creating associative arrays.
-*  @date 2026-05-13 (last modification)
+*  @date 2026-05-17 (last modification)
 *====================================================================================================================
 *  \details Obsolete and not improved part of the wb_rtm library.
 *           It was established before 2000.
@@ -81,7 +81,7 @@ void PrintTo( ostream& o ) const ;
 //Szablon wyjatku dla dowolnego klucza — za kosztowny
 template<class K>
 class AnyKeyNotFoundExcp:public AssocKeyNotFoundExcp
-/////////////////////////////////////////////////////
+=====================================================
 {
 char* what;
 public:

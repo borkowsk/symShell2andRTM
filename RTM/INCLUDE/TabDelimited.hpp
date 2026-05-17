@@ -1,7 +1,7 @@
 /**
 * \file
 * \brief   KLASA DO OPEROWANIU NA TABLICACH z plików TAB-DELIMITED
-* @date 2026-05-11 (last modification)
+* @date 2026-05-17 (last modification)
 *        -------------------------------------------------------------
 * \details
 *          Contents:
@@ -83,7 +83,7 @@ namespace wbrtm {
                     unsigned pozk) const;
 
         // Akcesory — dostęp do atrybutów obiektu
-        // ///////////////////////////////////////////////////////////////////////
+        //========================================================================
 
         /// \brief Pełny dostęp do zawartości komórki
         std::string &operator()(int w, int k);
@@ -115,7 +115,7 @@ namespace wbrtm {
         const char *JakaNazwa() const;
 
         // Obsługa wejścia-wyjścia
-        // //////////////////////////////
+        //===============================
 
         /// \brief Operacja wyprowadzania na dowolny strumień. Używa ustalonego wcześniej ogranicznika (delimiter).
         friend

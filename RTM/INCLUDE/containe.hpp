@@ -1,8 +1,8 @@
 /// @file
 /// @brief Klasy definiujące interface do wszelkiego rodzaju kontenerów zawierających obiekty typu T
-/// @date 2026-05-11 (modified)
+/// @date 2026-05-17 (modified)
 /// @note Cała biblioteka WB_RTM to jest nieco odremontowane muzeum kodu z wieku XX.!!!
-// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//======================================================================================================================
 #ifndef _CONTAINER_HPP_
 #define _CONTAINER_HPP_
 //#include "pix.hpp"
@@ -18,7 +18,7 @@ namespace wbrtm { //WOJCIECH BORKOWSKI RUN TIME LIBRARY
 /// Zamkniety w typie kontenerowym. Uzywaja funkcje lv klas tablicowych.
 template<class TT>
 class lvptr
-// //////////////////////////////////
+//===================================
 {
 TT*& reftoptr;
 unsigned flags;
@@ -42,7 +42,7 @@ TT* operator = (TT* asi)//Symuluje lvptr
 
 /// Baza kontenerow - glownie definiuje wyliczenia.
 class container_base:public wbrtm::vobject
-// ////////////////////////////////////////////////////
+//=====================================================
 {
 public:
 container_base(void){}

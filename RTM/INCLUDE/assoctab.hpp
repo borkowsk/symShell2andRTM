@@ -1,6 +1,6 @@
 /** @file
 *  \brief    The simplest associative arrays.
-*  @date 2026-05-13 (last modification)
+*  @date 2026-05-17 (last modification)
 *====================================================================================================================
 *  \details Obsolete and not improved part of the wb_rtm library.
 *           It was established before 2000.
@@ -149,7 +149,7 @@ lvptr<V> lv(K index)
 };
 
 // IMPLEMENTACJA METOD DLA TABLIC ASOCJACYJNYCH
-// //////////////////////////////////////////////////////////////////////////////////////////
+//===========================================================================================
 /* GLOBAL TEMPLATES FOR CONVERSION  */
 
 /// \brief Obsolete class
@@ -161,9 +161,9 @@ unitype pom;
 assert(sizeof(T)<=sizeof(unitype));
 
 // Operacja umieszczenia na obiekcie unitype
-// /////////////////////////////////////////
+//==========================================
 new (&pom)T(key);//Klasa T musi miec operacje inicjacji z obiektu tego samego typu
-// /////////////////
+//==================
 
 return pom;//Tu już przepisanie binarne
 }
