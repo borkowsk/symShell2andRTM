@@ -18,7 +18,9 @@
 
 namespace sym2 { namespace data {
 
-/// @brief Klasa kolejkująca wartości ze źródła skalarnego.
+/// @brief @EN{ . }
+///        @PL{ Klasa kolejkująca wartości ze źródła skalarnego. }
+/// @details ...
 /// @tparam T — typ wartości w buforze. Nie koniecznie `double` !!!
 template<class T>
 class fifo_source : public linear_source_base

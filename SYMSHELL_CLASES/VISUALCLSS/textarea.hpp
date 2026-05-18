@@ -1,7 +1,7 @@
 /// @file
 /// @brief **WINDOW AREA ("LUFCIK") IMITATING A TERMINAL**/<br>
 ///         _OBSZAR OKNA ("LUFCIK") NAŚLADUJĄCY TERMINAL._
-/// @date 2026-05-16 (modified)
+/// @date 2026-05-18 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_TEXT_AREA_HPP_INCLUDED_
@@ -16,7 +16,8 @@
 namespace sym2
 {
 
-/// @brief KLASA OBSZARU "TELETYPE".
+/// @brief @EN{ . }
+///        @PL{ KLASA OBSZARU "TELETYPE". }
 /// @details Obsługuje tylko tekst. Mogą być w nim znaki \n oraz %@R^L^C zaraz po nich.
 class text_area:public drawable_base
 //----------------------------------

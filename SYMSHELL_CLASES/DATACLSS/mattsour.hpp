@@ -19,11 +19,13 @@
 namespace sym2 { namespace data {
     using namespace sym2::shell;
 
-/// Klasa udostępniająca dowolną tablicę prostokątną oraz jej wycinki (albo i nie?).
-/// @details
-///     Jeśli zdefiniowany wycinek wykracza poza tablicę źródłową, to funkcja
-///     `get` zwraca wartość "miss" podawana w konstruktorze.
+/// @brief @EN{ . }
+///        @PL{ Klasa udostępniająca dowolną tablicę prostokątną oraz jej wycinki (albo i nie?). }
+/// @details ...
+///     Jeśli zdefiniowany wycinek wykracza poza tablicę źródłową, to funkcja `get` zwraca wartość "miss" podawana w konstruktorze.
 ///     Alternatywnie wycinek może realizować geometrie torusa i wtedy `miss` nie jest potrzebne.
+///     ...
+///     ...
 template<class T>
 class matrix_source : public rectangle_source_base
 {
@@ -118,7 +120,10 @@ public:
 
 };
 
-/// Klasa czytająca z dowolnej prostokątnej tablicy struktur za pomocą wskaźników do składowych.
+/// @brief @EN{ . }
+///        @PL{ Klasa czytająca z dowolnej prostokątnej tablicy struktur za pomocą wskaźników do składowych. }
+/// @details ...
+///          ...
 template<class STRUCT_T, class FIELD_T>
 class struct_matrix_source : public rectangle_source_base
 //------------------------------------------------
@@ -219,9 +224,11 @@ public:
 
 };
 
-
-/// Klasa czytająca z dowolnej prostokątnej tablicy wskaźników do struktur za pomocą wskaźników do składowych.
-/// Czyli dostęp wskaźnik tablicy->wskaźnik struktury->wskaźnik komponentu.
+/// @brief @EN{ . }
+///        @PL{ Klasa czytająca z dowolnej prostokątnej tablicy wskaźników do struktur za pomocą wskaźników do składowych. }
+/// @details ...
+/// Czyli dostęp `wskaźnik tablicy->wskaźnik struktury->wskaźnik` komponentu.
+/// ...
 template<class STRUCT_T, class FIELD_T>
 class ptr_to_struct_matrix_source : public rectangle_source_base
 //------------------------------------------------
@@ -306,7 +313,9 @@ public:
 
 };
 
-/// Klasa czytająca z dowolnej prostokątnej tablicy struktur za pomocą wskaźnika do metody.
+/// @brief @EN{ . }
+///        @PL{ Klasa czytająca z dowolnej prostokątnej tablicy struktur za pomocą wskaźnika do metody.. }
+/// @details ...
 template<class STRUCT_T, class METHOD_T>
 class method_matrix_source : public rectangle_source_base
 //------------------------------------------------
@@ -414,7 +423,9 @@ public:
 
 };
 
-/// Klasa czytająca z dowolnej prostokątnej tablicy wskaźników do struktur za pomocą wskaźnika do metody.
+/// @brief @EN{ . }
+///        @PL{ Klasa czytająca z dowolnej prostokątnej tablicy wskaźników do struktur za pomocą wskaźnika do metody. }
+/// @details ...
 template<class STRUCT_T, class METHOD_T>
 class method_by_ptr_matrix_source : public rectangle_source_base
 //------------------------------------------------

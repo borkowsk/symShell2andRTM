@@ -22,8 +22,9 @@
 namespace sym2
 {
 
-/// @brief Klasa głównego zarządcy obszarów aplikacji jednookiennych oparta na przenośnym interfejsie _SymShellLight_.
-/// @details
+/// @brief @EN{ . }
+///        @PL{ Klasa głównego zarządcy obszarów aplikacji jednookiennych oparta na przenośnym interfejsie _SymShellLight. }
+/// @details ...
 /// J e d n o w c i e l e n i o w a  czyli w danej aplikacji SymShell-a może być tylko jedna instancja tej klasy.
 /// Zajmuje się inicjalizacja grafiki i obsługa zdarzeń w dwu trybach:
 ///		- wywołania w reakcji na zdarzenie.

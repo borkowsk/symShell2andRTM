@@ -12,7 +12,9 @@
 
 namespace sym2 { namespace data {
 
-/// @brief Filtr liczący koincydencje klas dwu serii i pochodne statystyki (Hi^2 itp.)
+/// @brief @EN{ . }
+///        @PL{ Filtr liczący koincydencje klas dwu serii i pochodne statystyki (Hi^2 itp.). }
+/// @details ...
 template<class DATA_SOURCE>
 class coincidention_source : public co_statistics_source//<DATA_SOURCE>
 //------------------------------------------------------------------------------

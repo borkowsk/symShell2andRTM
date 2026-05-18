@@ -1,7 +1,7 @@
 /// @file
 /// @brief **GADGETS, I.E. AUXILIARY TYPES OF WINDOW AREAS** /<br>
 ///         _GADŻETY CZYLI POMOCNICZE TYPY OBSZARÓW OKNA._
-/// @date 2026-05-16 (modified)
+/// @date 2026-05-18 (modified)
 ///     Służą głównie jako typy bazowe dla klas specjalizowanych, wykonujących
 ///     jakieś akcje w metodzie `_on_click` i ewentualnie podobnych.
 // ********************************************************************************************************************
@@ -25,9 +25,11 @@
 /// Zmodernizowane klasy do symulacji w C++
 namespace sym2
 {
-    using namespace sym2::data;;
+    using namespace sym2::data;
 
-/// Klasa bazowa wszystkich gadżetów ekranowych.
+/// @brief @EN{ . }
+///        @PL{ Klasa bazowa wszystkich gadżetów ekranowych. }
+/// @details ...
 class gadget:public drawable_base
 //-------------------------------------
 {
@@ -61,7 +63,9 @@ public:
 
 };
 
-/// Klasa bazowa dla gadżetów reagujących na zdarzenia użytkownika.
+/// @brief @EN{ . }
+///        @PL{  Klasa bazowa dla gadżetów reagujących na zdarzenia użytkownika. }
+/// @details ...
 class sensitive_area:public gadget
 //--------------------------------------------
 {
@@ -83,7 +87,9 @@ public:
 
 typedef sensitive_area empty_area;
 
-/// Klasa gadżetu implementująca przycisk.
+/// @brief @EN{ . }
+///        @PL{ Klasa gadżetu implementująca przycisk. }
+/// @details ...
 /// Dwa możliwe tryby wyświetlania:
 /// 0 -> vertical print mode
 /// 1 -> horizontal print mode
@@ -116,7 +122,9 @@ public:
     //			{return 2;}							  //i zwracać 2, jeśli "obsłużono".
 };
 
-/// Klasa gadżetu implementująca strzałkę w jednym z czterech kierunków lub tarcze (jako 3 wymiar albo coś).
+/// @brief @EN{ . }
+///        @PL{ Klasa gadżetu implementująca strzałkę w jednym z czterech kierunków lub tarcze (jako 3 wymiar albo coś). }
+/// @details ...
 /// Znaczenie `mode` lub parametru `imode` konstruktora:
 /// 0 — print target (-(+)-)
 /// 1 — print up arrow
@@ -144,7 +152,9 @@ public:
 
 };
 
-/// Klasa gadżetu łącząca strzałkę w lewo i strzałkę w prawo.
+/// @brief @EN{ . }
+///        @PL{ Klasa gadżetu łącząca strzałkę w lewo i strzałkę w prawo. }
+/// @details ...
 /// @note To jest klasa bazowa dla klas reimplementujących `_user_action`.
 class left_right_button: public sensitive_area
 //==============================================
@@ -174,7 +184,9 @@ public:
 
 };
 
-/// Klasa gadżetu do zmiany pola widzenia na prostokątną serię danych.
+/// @brief @EN{ . }
+///        @PL{ Klasa gadżetu do zmiany pola widzenia na prostokątną serię danych. }
+/// @details ...
 /// Pozwala zmieniać wielkość okna i przesuwać to okno w czterech kierunkach.
 /// Tło gadżetu domyślnie jest takie, jakie dla całego okna!
 class steering_wheel:public sensitive_area
@@ -236,7 +248,10 @@ public:
 
 };
 
-/// Szablon klasy gadżetu do zmiany wartości zmiennej liczbowej dowolnego typu.
+/// @brief @EN{ . }
+///        @PL{ Szablon klasy gadżetu do zmiany wartości zmiennej liczbowej dowolnego typu. }
+/// @details ...
+/// ...
 template<class NUMBER>
 class knob_for_value:public left_right_button
 // ----------------------------------------

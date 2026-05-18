@@ -22,14 +22,18 @@
 
 namespace sym2 { namespace data {
 
+/// @brief @EN{ . }
+///        @PL{ . }
+/// @details ...
 /// Klasa licząca podstawowe parametry statystyczne dla dwu źródeł — np. korelacje.
 /// Wyniki są poprzez jednowartościowe źródła pośrednie.
-//template<class DATA_SOURCE1,class DATA_SOURCE2> //NA RAZIE NIE JEST SZABLONEM.
+/// `template<class DATA_SOURCE1,class DATA_SOURCE2>` //NA RAZIE NIE JEST SZABLONEM.
 class co_statistics_source : public bi_filter_source_base //public template_bi_filter<DATA_SOURCE1,DATA_SOURCE2>
 //--------------------------------------------------------
 {
 protected:
-    /// @brief Pod-źródło statystyczne prezentujące wynik jako pojedynczy skalar.
+    /// @brief @PL{ Pod-źródło statystyczne prezentujące wynik jako pojedynczy skalar. }
+    ///        @EN{ . }
     /// @details
     /// Nieco sztuczna klasa źródła jednoelementowego z powiadamianiem właściwej klasy "filtra podstawowych statystyk".
     /// Powiadamia, że będą potrzebne aktualne dane.

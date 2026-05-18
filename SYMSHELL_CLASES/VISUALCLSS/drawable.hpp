@@ -25,8 +25,8 @@ using namespace wbrtm;
 namespace sym2
 {
 
-/// @brief Parameters of a designated area on the screen or in a window/
-///        Parametry obszaru wydzielonego na ekranie albo w oknie.
+/// @brief @EN{ Parameters of a designated area on the screen or in a window. }
+///        @PL{ Parametry obszaru wydzielonego na ekranie albo w oknie. }
 class gps_area
 //------------------------------------------------------
 {
@@ -118,8 +118,9 @@ public:
     int  is_overlapped(const gps_area& t) const;
 };
 
-/// @brief Base type for screen areas such as graphs/
-///        Klasa bazowa dla obszarów ekranu, takich jak wykresy(graphs).
+/// @brief @EN{ Base type for screen areas such as graphs . }
+///        @PL{ Klasa bazowa dla obszarów ekranu, takich jak wykresy(graphs). }
+/// @details ...
 class drawable_base:public gps_area,public sym2::title_util
 //------------------------------------------------------------
 {

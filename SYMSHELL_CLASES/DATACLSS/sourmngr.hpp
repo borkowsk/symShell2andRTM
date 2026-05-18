@@ -1,6 +1,6 @@
 /// @file
 /// @brief __DATA SERIES MANAGER CLASS__ /<br> _KLASA ZARZĄDCY SERI DANYCH._
-/// @date 2026-05-17 (modified)
+/// @date 2026-05-18 (modified)
 //======================================================================================================================
 //
 #ifndef SYMSHELL2_SOURCES_MNGR_HPP_INCLUDED_
@@ -19,7 +19,9 @@ namespace sym2 { namespace data {
 //+using namespace sym2;
 //using ssh2 = sym2; //C++17
 
-/// Interface zarządcy danych.
+/// @brief @EN{ . }
+///        @PL{ Interface zarządcy danych. }
+/// @details ...
 class sources_manager_base
 //------------------------
 {
@@ -67,17 +69,26 @@ public:
     //int	save(ostream& script); //Zapisuje się w formacie skryptu łączenia danych.
 };
 
-/// @brief NAJPROSTSZY ZARZĄDCA DANYCH.
-/// @details
+/// @brief @EN{ . }
+///        @PL{ NAJPROSTSZY ZARZĄDCA DANYCH.. }
+/// @details ...
 ///     Zakłada pełne panowanie nad "włożonymi" do niego seriami, które muszą być utworzone w pamięci dynamicznej.
 ///     Chyba że w metodach `insert` lub `replace` podano inaczej, tzn. `not_menage == 1` (czyli że obiekt statyczny).
 ///     Normalnie zwalnianie wykonuje zarządca w swoim destruktorze.
 ///     Ręcznie można użyć do tego metody `replace` z parametrem NULL.
+///
+///
+///
+///
+///
 class sources_manager : public sources_manager_base
 //-----------------------------------------------
 {
 private:
-    /// Wewnętrzna klasa reprezentująca źródło danych.
+    /// @brief @EN{ . }
+    ///        @PL{ Wewnętrzna klasa reprezentująca źródło danych. }
+    /// @details ...
+    /// ...
     class internal
     //------------
     {

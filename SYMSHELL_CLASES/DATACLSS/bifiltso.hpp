@@ -18,6 +18,9 @@
 
 namespace sym2 { namespace data {
 
+/// @brief @EN{ . }
+///        @PL{ . }
+/// @details ...
 /// Prosta klasa SUMUJĄCA dwa źródła bez użycia cache'a.
 class summ_source : public bi_filter_source_base
 //----------------------------------------------------
@@ -68,6 +71,9 @@ public:
 
 };
 
+/// @brief @EN{ . }
+///        @PL{ . }
+/// @details ...
 /// Klasa zwracająca wartości z drugiego źródła, jeśli pierwsze, traktowane jako warunek zwraca wartość "nie-missing".
 class if_then_source : public bi_filter_source_base
 //---------------------------------------------------

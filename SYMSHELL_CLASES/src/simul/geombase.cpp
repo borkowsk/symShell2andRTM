@@ -1,5 +1,5 @@
 /// @file
-/// @brief **ITERATOR ALLOCATION CACHE IMPLEMENTATION** /<br>
+/// @brief __IMPLEMENTATION OF ITERATOR ALLOCATION CACHE__ /<br>
 ///         _IMPLEMENTACJA CACHE-U ALOKACJI ITERATORÓW._
 /// @date 2026-05-18 (modified)
 //=============================================================================
@@ -12,8 +12,6 @@
 using namespace std;
 
 #include "geombase.hpp"
-
-
 
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "modernize-use-auto"

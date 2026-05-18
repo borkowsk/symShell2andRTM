@@ -43,11 +43,12 @@ constexpr unsigned ZAPAS_NA_CYFRY = (DBL_DIG * 2); ///< Do wyświetlania: DBL_DI
 #ifdef USE_ENGLISH_IF_POSSIBLE
 /// @brief Definition of the data source's interface.
 /// @details Each data source must implement these methods, but may also have others.
+class data_source_base
 #else
 /// @brief Definicja INTERFACE-u źródła danych.
 /// @details Każde źródło musi mieć zaimplementowane takie metody, ale może mieć też inne.
-#endif
 class data_source_base
+#endif
 //--------------------
 {
 public:

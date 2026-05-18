@@ -23,10 +23,10 @@ namespace sym2 { namespace data {
 /// @{
 
 #ifdef USE_ENGLISH_IF_POSSIBLE
-/// \EN{ A base type of data source passing a single data/value. }
+/// @brief @EN{ A base type of data source passing a single data/value. }
 class scalar_source_base : public data_source_base, public title_util
 #else
-/// \PL{ Klasa bazowa źródła danych przekazującego pojedynczą daną/wartość. }
+/// @brief @PL{ Klasa bazowa źródła danych przekazującego pojedynczą daną/wartość. }
 class scalar_source_base : public data_source_base, public sym2::title_util
 #endif
 //-------------------------------------------------------------------
@@ -75,11 +75,11 @@ public:
 };
 
 #ifdef USE_ENGLISH_IF_POSSIBLE
-/// A template for typed single-element sources.
+/// @brief A template for typed single-element sources.
 template<class T>
 class template_scalar_source_base : public scalar_source_base
 #else
-/// Szablon klasa dla utypowionych źródeł jedno-elementowych.
+/// @brief Szablon klasa dla utypowionych źródeł jedno-elementowych.
 template<class T>
 class template_scalar_source_base : public scalar_source_base
 #endif
@@ -122,10 +122,10 @@ public:
 };
 
 #ifdef USE_ENGLISH_IF_POSSIBLE
-/// A data source that filters data from another source.
+/// @brief A data source that filters data from another source.
 class filter_source_base : public data_source_base, public title_util
 #else
-/// Źródło filtrujące dane z innego źródła.
+/// @brief Źródło filtrujące dane z innego źródła.
 class filter_source_base : public data_source_base, public title_util
 #endif
 //-------------------------------------------------------------------
@@ -240,11 +240,11 @@ public:
 };
 
 #ifdef USE_ENGLISH_IF_POSSIBLE
-/// Data source template filtering data from another source — for greater efficiency (reducing virtual calls?)
+/// @brief Data source template filtering data from another source — for greater efficiency (reducing virtual calls?)
 template<class SOURCE_TYPE>
 class template_filter_source_base : public filter_source_base
 #else
-/// Szablon źródła filtrujące dane z innego źródła — dla większej efektywności (ograniczenie wywołań wirtualnych?)
+/// @brief Szablon źródła filtrujące dane z innego źródła — dla większej efektywności (ograniczenie wywołań wirtualnych?)
 template<class SOURCE_TYPE>
 class template_filter_source_base : public filter_source_base
 #endif
@@ -293,10 +293,10 @@ public:
 };
 
 #ifdef USE_ENGLISH_IF_POSSIBLE
-/// Base type for sources passing data linearly.
+/// @brief Base type for sources passing data linearly.
 class linear_source_base : public data_source_base, public title_util
 #else
-/// Klasa bazowa dla źródeł przekazujących dane liniowo.
+/// @brief Klasa bazowa dla źródeł przekazujących dane liniowo.
 class linear_source_base : public data_source_base, public title_util
 #endif
 //-------------------------------------------------------------------
@@ -355,9 +355,9 @@ public:
 };
 
 #ifdef USE_ENGLISH_IF_POSSIBLE
-/// Base type for sources providing rectangular data with slices.
+/// @brief Base type for sources providing rectangular data with slices.
 #else
-/// Klasa bazowa dla źródeł udostępniających dane prostokątne wraz z wycinkami.
+/// @brief Klasa bazowa dla źródeł udostępniających dane prostokątne wraz z wycinkami.
 #endif
 class rectangle_source_base : public data_source_base, public title_util
 //--------------------------------------------------------------
@@ -466,10 +466,10 @@ public:
 };
 
 #ifdef USE_ENGLISH_IF_POSSIBLE
-/// Base type for the function source. To minimize the number of duplicate methods.
+/// @brief Base type for the function source. To minimize the number of duplicate methods.
 class function_source_base : public data_source_base, public title_util
 #else
-/// Klasa podstawowa źródła funkcyjnego. Żeby zminimalizować liczbę powtarzających się metod.
+/// @brief Klasa podstawowa źródła funkcyjnego. Żeby zminimalizować liczbę powtarzających się metod.
 class function_source_base : public data_source_base, public title_util
 #endif
 //---------------------------------------------------------------------

@@ -19,7 +19,9 @@
 
 namespace sym2 { namespace data {
 
-/// Klasa źródła przechowującego i dającego pojedyncza wartość.
+/// @brief @EN{ . }
+///        @PL{ Klasa źródła przechowującego i dającego pojedyncza wartość.. }
+/// @details ...
 template<class SCALAR_TYPE>
 class scalar_source:public  template_scalar_source_base<SCALAR_TYPE>
 //------------------------------------------------------------------
@@ -62,7 +64,9 @@ public:
 
 };
 
-/// Klasa źródła dającego pojedyncza wartość, czytaną przez wskaźnik.
+/// @brief @EN{ . }
+///        @PL{ Klasa źródła dającego pojedyncza wartość, czytaną przez wskaźnik. }
+/// @details ...
 template<class SCALAR_T>
 class ptr_to_scalar_source:public  template_scalar_source_base<SCALAR_T>
 //----------------------------------------------------------------------
@@ -115,7 +119,9 @@ public:
 
 };
 
-/// Klasa źródła dającego pojedynczą wartość uzyskiwaną przez wywołanie bezparametrowej funkcji lub statycznej metody.
+/// @brief @EN{ . }
+///        @PL{ Klasa źródła dającego pojedynczą wartość uzyskiwaną przez wywołanie bezparametrowej funkcji lub statycznej metody.. }
+/// @details ...
 template<class RET_SCALAR>
 class ptr_to_function_source: public  template_scalar_source_base<RET_SCALAR>
 //---------------------------------------------------------------------------

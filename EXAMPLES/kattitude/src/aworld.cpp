@@ -338,7 +338,7 @@ void aworld::make_default_visualisation()
     Log.insert(SpatialCorr->ApproximatedClusterSize());
     for(int k=0;k<this->IleKate;k++) //Źródła histogramu muszą być na końcu, bo jest zmienna liczba.
     {
-        Log.insert(ClassStat->Class(k));
+        Log.insert(ClassStat->Categories(k));
     }
 
     //PODSTAWOWA WIZUALIZACJA SERII DANYCH

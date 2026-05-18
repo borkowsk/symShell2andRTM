@@ -18,8 +18,10 @@
 #pragma ide diagnostic ignored "google-default-arguments"
 
 namespace sym2 { namespace data {
-
-/// @brief Filtr liczący  pochodne statystyki przestrzenne, w tym korelacje przestrzenne, ale też liczebność klas serii(?).
+/// @brief @EN{ . }
+///        @PL{ Filtr liczący  pochodne statystyki przestrzenne, w tym korelacje przestrzenne, ale też liczebność klas serii(?). }
+/// @details ...
+/// ...
 template<class DATA_SOURCE>
 class spatial_correlation_source : public multi_filter_source_base<DATA_SOURCE>
 //------------------------------------------------------------------------------

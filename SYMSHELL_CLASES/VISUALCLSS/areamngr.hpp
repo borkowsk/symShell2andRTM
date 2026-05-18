@@ -1,6 +1,6 @@
 /// @file
 /// @brief **SCREEN AREA MANAGERS CLASSES** /<br> _KLASY ZARZĄDCÓW OBSZARÓW EKRANU._
-/// @date 2026-05-17 (modified)
+/// @date 2026-05-18 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_AREA_MNGR_HPP_INCLUDED_
@@ -18,8 +18,10 @@
 /// Zmodernizowane klasy do symulacji w C++
 namespace sym2
 {
-
-    /// INTERFACE DO DOWOLNEGO ZARZĄDCY OBSZARU.
+    /// @brief @EN{ . }
+    ///        @PL{ INTERFACE DO DOWOLNEGO ZARZĄDCY OBSZARU. }
+    /// @details ...
+    /// ....
     /// Dobrze, żeby można było zestawiać zarządców w hierarchie.
     class area_manager_base : public drawable_base
     //------------------------------------------
@@ -205,17 +207,18 @@ namespace sym2
         /// @}
     };
 
-
-/// Klasa najprostszego, nieagresywnego, zarządcy obszarów.
-/// @details
-/// Implementuje, co się uda bez wiedzy o niskopoziomowej podstawie soft-hard.
-/// Zakłada pełna władze nad obszarami, a w szczególności nad ich pamięcią.
-/// Zdarzenia zewnętrzne trzeba przekazać "explicite" -
-///  - taki zarządca nie zawłaszcza ich samodzielnie, a tym bardziej nie zabiera wątku sterowania.
+    /// @brief @EN{ . }
+    ///        @PL{ Klasa najprostszego, nieagresywnego, zarządcy obszarów. }
+    /// @details ...
+    /// Implementuje, co się uda bez wiedzy o niskopoziomowej podstawie soft-hard.
+    /// Zakłada pełna władze nad obszarami, a w szczególności nad ich pamięcią.
+    /// Zdarzenia zewnętrzne trzeba przekazać "explicite" -
+    ///  - taki zarządca nie zawłaszcza ich samodzielnie, a tym bardziej nie zabiera wątku sterowania.
     class area_manager : public area_manager_base
     {
     protected:
-        /// Wewnętrzna struktura przechowywania informacji o obszarach.
+        /// @brief @EN{ . }
+        ///        @PL{ Wewnętrzna struktura przechowywania informacji o obszarach. }
         struct internal
         {
             wb_ptr<drawable_base> ptr; //!< Wskaźnik do obszaru.

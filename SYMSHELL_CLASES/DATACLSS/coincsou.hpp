@@ -22,6 +22,9 @@ namespace sym2 { namespace data {
 #define SIZE_MAX (std::numeric_limits<size_t>::max())
 #endif
 
+/// @brief @EN{ . }
+///        @PL{ . }
+/// @details ...
 /// Filtr liczący koincydencje klas dwu serii i pochodne statystyki (Hi^2 itp.).
 class coincidence_source : public co_statistics_source
 //------------------------------------------------------------------------------

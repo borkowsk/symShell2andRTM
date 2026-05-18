@@ -17,7 +17,9 @@
 
 namespace sym2 { namespace data {
 
-/// @brief Filtr liczący liczebność dyskretnych klas serii i pochodne statystyki.
+/// @brief @EN{ . }
+///        @PL{ Filtr liczący liczebność dyskretnych klas serii i pochodne statystyki. }
+/// @details ...
 /// @note UWAGA NA DZIEDZICZENIE! N jest zmienne więc liczba serii pochodnych też.
 template<class DATA_SOURCE>
 class discrete_histogram_source : public basic_statistics_source<DATA_SOURCE>
@@ -78,7 +80,7 @@ public:
         return this->GetMonoSource(10, format);
     }
 
-    scalar_source<double> *Class(size_t number, const char *format = "N%d(%s)")
+    scalar_source<double> *Categories(size_t number, const char *format = "N%d(%s)")
     {
         char bufor[200]; //Z dużym zapasem
         int pom = int(number) + Sta;
@@ -137,7 +139,7 @@ public:
         NumOfClass();
         Entropy();
         for(size_t i = 0; i < Num; i++)
-            Class(i); //Alokacja źródeł liczebności klas
+            Categories(i); //Alokacja źródeł liczebności klas
     }
 
     /// Początek iteracji po koszykach.

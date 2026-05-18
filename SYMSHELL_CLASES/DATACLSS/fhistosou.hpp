@@ -17,7 +17,9 @@
 
 namespace sym2 { namespace data {
 
-/// @brief Filtr liczący liczebność określonej liczby klas serii i pochodne statystyki.
+/// @brief @EN{ . }
+///        @PL{ Filtr liczący liczebność określonej liczby klas serii i pochodne statystyki. }
+/// @details ...
 /// @note UWAGA NA DZIEDZICZENIE! N jest zmienne więc liczba serii pochodnych też.
 template<class DATA_SOURCE>
 class fix_histogram_source : public basic_statistics_source<DATA_SOURCE>
@@ -70,7 +72,7 @@ public:
 
     /// Źródło skalarne dla N-tego koszyka histogramu.
     /// @param index to określenie, który koszyk histogramu.
-    scalar_source<double> *Class(size_t index, const char *format = "C<%g,%g)(%s)")
+    scalar_source<double> *Categories(size_t index, const char *format = "C<%g,%g)(%s)")
     {
         char bufor[500]; //Z dużym zapasem
         double step = (FixMax - FixMin) / Num;
@@ -127,7 +129,7 @@ public:
         NumOfClass();
         Entropy();
         for(size_t i = 0; i < Num; i++)
-            Class(i); //Alokacja źródeł liczebności koszyków.
+            Categories(i); //Alokacja źródeł liczebności koszyków.
     }
 
     /// Ile koszyków, liczebności w najmniejszym i największym koszyku.

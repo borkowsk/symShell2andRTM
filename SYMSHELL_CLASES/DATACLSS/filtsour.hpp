@@ -19,6 +19,9 @@
 
 namespace sym2 { namespace data {
 
+/// @brief @EN{ . }
+///        @PL{ . }
+/// @details ...
 /// Szablon filtru "log 10".
 template<class SOURCE_TYPE>
 class log_F_filter : public template_filter_source_base<SOURCE_TYPE>
@@ -91,7 +94,9 @@ public:
 typedef log_F_filter<data_source_base> generic_log_F_filter;
 //--------------------------------------------------------------------------
 
-/// Szablon filtru "1+log10".
+/// @brief @EN{ . }
+///        @PL{ Szablon filtru "1+log10". }
+/// @details ...
 /// Przydatne w wizualizacji. Dodanie jedynki gwarantuje, że wartość logarytmu nigdy nie będzie ujemna.
 template<class SOURCE_TYPE>
 class log_1_plus_F_filter : public template_filter_source_base<SOURCE_TYPE>
@@ -173,7 +178,9 @@ public:
 typedef log_1_plus_F_filter<data_source_base> generic_log_1_plus_F_filter;
 //--------------------------------------------------------------------------
 
-/// Bazowy szablon filtru porównującego wartości ze źródła ze skalarem.
+/// @brief @EN{ . }
+///        @PL{ Bazowy szablon filtru porównującego wartości ze źródła ze skalarem. }
+/// @details ...
 template<class SOURCE_TYPE>
 class threshold_filter_base : public template_filter_source_base<SOURCE_TYPE>
 //---------------------------------------------------------------------------------
@@ -218,7 +225,9 @@ public:
     }
 };
 
-/// Szablon filtru porównującego "Equal".
+/// @brief @EN{ . }
+///        @PL{ Szablon filtru porównującego typu "Equal". }
+/// @details ...
 template<class SOURCE_TYPE>
 class EQ_filter : public threshold_filter_base<SOURCE_TYPE>
 //---------------------------------------------------------
@@ -252,7 +261,10 @@ public:
 typedef EQ_filter<data_source_base> generic_EQ_filter;
 //--------------------------------------------------------------------------
 
-template<class SOURCE_TYPE>	//Szablon filtru - LessThan
+/// @brief @EN{ . }
+///        @PL{ Szablon filtru - LessThan. }
+/// @details ...
+template<class SOURCE_TYPE>
 class LT_filter : public threshold_filter_base<SOURCE_TYPE>
 //---------------------------------------------------------
 {
@@ -285,7 +297,10 @@ public:
 typedef LT_filter<data_source_base> generic_LT_filter;
 //--------------------------------------------------------------------------
 
-template<class SOURCE_TYPE>	//Szablon filtru - LessEqual
+/// @brief @EN{ . }
+///        @PL{ Szablon filtru - LessEqual. }
+/// @details ...
+template<class SOURCE_TYPE>
 class LE_filter : public threshold_filter_base<SOURCE_TYPE>
 //---------------------------------------------------------
 {
@@ -318,7 +333,10 @@ public:
 typedef LE_filter<data_source_base> generic_LE_filter;
 //--------------------------------------------------------------------------
 
-template<class SOURCE_TYPE>	//Szablon filtru - MoreThan
+/// @brief @EN{ . }
+///        @PL{ Szablon filtru - MoreThan. }
+/// @details ...
+template<class SOURCE_TYPE>
 class GT_filter : public threshold_filter_base<SOURCE_TYPE>
 //---------------------------------------------------------
 {
@@ -351,7 +369,9 @@ public:
 typedef GT_filter<data_source_base> generic_GT_filter;
 //--------------------------------------------------------------------------
 
-/// Szablon filtru "Equal of more".
+/// @brief @EN{ . }
+///        @PL{ Szablon filtru "Equal or more". }
+/// @details ...
 template<class SOURCE_TYPE>
 class GE_filter : public threshold_filter_base<SOURCE_TYPE>
 //---------------------------------------------------------

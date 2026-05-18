@@ -226,7 +226,7 @@ void kworld::make_default_visualisation()
         Log.insert(SpatialCorr->ApproximatedClusterSize());
         for(int k=0;k<3;k++) //Źródła histogramu — muszą być na końcu, bo zmienia na liczbę
         {
-            Log.insert(ClassStat->Class(k));
+            Log.insert(ClassStat->Categories(k));
         }
         
         //PODSTAWOWA WIZUALIZACJA SERII DANYCH

@@ -31,8 +31,9 @@ namespace sym2
 //INTERFACE DO GRAFU — KLASY WYPROWADZONE POWINNY TYLKO IMPLEMENTOWAĆ:
 //--------------------------------------------------------------------
 
-/// @brief Base type for data point display configuration./<br>
-///        Klasa bazowa dla konfiguracji wyświetlania punktów danych.
+/// @brief @EN{ Base type for data point display configuratio. }
+///        @PL{ Klasa bazowa dla konfiguracji wyświetlania punktów danych. }
+/// @details ...
 class config_point
 {
     float base_fract; ///< Rozmiar minimalny punktu. Jako ułamek obszaru (default 5%%).
@@ -61,8 +62,9 @@ public:
     virtual void plot(int x, int y, unsigned short size, wb_color color); //Defaultowe rysowanie
 };
 
-/// The type, which draws a simple point (Ignores size!!!)/<br>
-/// Klasa rysująca prosty punkt (Ignoruje rozmiar!!!).
+/// @brief @EN{ The type, which draws a simple point (Ignores size!!!). }
+///        @PL{ Klasa rysująca prosty punkt (Ignoruje rozmiar!!!). }
+/// @details ...
 class simple_point:public config_point
 {
 public:
@@ -70,8 +72,9 @@ public:
     void plot(int x,int y, unsigned short size, wb_color color) override;
 };
 
-/// The type, which draws a cross/hash./<br>
-/// Klasa rysująca krzyżyk.
+/// @brief @EN{ The type, which draws a cross/hash. }
+///        @PL{ Klasa rysująca punkt jako krzyżyk. }
+/// @details ...
 class hash_point:public config_point
 {
 public:
@@ -80,8 +83,9 @@ public:
     void plot(int x,int y, unsigned  short size, wb_color color) override;
 };
 
-/// The type, which draws a circle/<br>
-/// Klasa rysująca kólko.
+/// @brief @EN{ The type, which draws point as a circle. }
+///        @PL{ Klasa rysująca punkt jako kólko. }
+/// @details ...
 class circle_point:public config_point
 {
 public:
@@ -90,8 +94,9 @@ public:
     void plot(int x,int y, unsigned short size, wb_color color) override;
 };
 
-/// The type, which draws a rhombus/<br>
-/// Klasa rysująca romb.
+/// @brief @EN{ The type, which draws a rhombus. }
+///        @PL{ Klasa rysująca romb. }
+/// @details ...
 class rhomb_point:public config_point {
 public:
     rhomb_point() = default;
@@ -99,8 +104,9 @@ public:
     void plot(int x, int y, unsigned short size, wb_color color) override;
 };
 
-/// Square/Rectangle Drawing Type (UNUSED?)/<br>
-/// Klasa rysująca kwadracik/prostokąt (NIEUŻYWANA?).
+/// @brief @EN{ Square/Rectangle Drawing Type (UNUSED?). }
+///        @PL{ Klasa rysująca kwadracik/prostokąt (NIEUŻYWANA?). }
+/// @details ...
 class rect_point:public config_point
 {
 public:
@@ -109,14 +115,16 @@ public:
     void plot(int x,int y, unsigned short size, wb_color color) override;
 };
 
-/// @brief COMMON USER INTERFACE for all charts and similar areas./<br>
-///        WSPÓLNY INTERFACE UŻYTKOWNIKA dla wszystkich wykresów i klas podobnych.
+/// @brief @EN{ COMMON USER INTERFACE for all charts and similar area. }
+///        @PL{ WSPÓLNY INTERFACE UŻYTKOWNIKA dla wszystkich wykresów i klas podobnych. }
+/// @details ...
 class graph:public drawable_base
 //------------------------------
 {
 public:
-
-    /// Klasa informacji o serii dla wykresów o nieustalonej liczbie serii.
+    /// @brief @EN{ . }
+    ///        @PL{ Klasa informacji o serii dla wykresów o nieustalonej liczbie serii. }
+    /// @details ...
     class series_info
     {
     public:

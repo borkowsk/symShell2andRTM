@@ -21,6 +21,9 @@ using namespace std;
 
 namespace sym2 { namespace data {
 
+/// @brief @EN{ . }
+///        @PL{ . }
+/// @details ...
 /// INTERFACE bazowy zapisywania do pliku danych ze źródeł jednowartościowych.
 class data_logfile_base
 //---------------------
@@ -50,7 +53,9 @@ public:
     { return separator_char; }
 };
 
-/// NAJPROSTSZA IMPLEMENTACJA ZAPISYWANIA DO PLIKÓW `log`.
+/// @brief @EN{ . }
+///        @PL{ NAJPROSTSZA IMPLEMENTACJA ZAPISYWANIA ŹRÓDEŁ SKALARNYCH DO PLIKÓW `log`.. }
+/// @details ...
 class logfile : public data_logfile_base
 //-----------------------------------------------------
 {

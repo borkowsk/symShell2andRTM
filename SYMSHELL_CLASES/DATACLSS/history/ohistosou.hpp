@@ -14,8 +14,9 @@
 
 namespace sym2 { namespace data {
 
-/// @brief Filtr liczący liczebność klas serii i pochodne statystyki.
-/// @details
+/// @brief @EN{ . }
+///        @PL{ Filtr liczący liczebność klas serii i pochodne statystyki. }
+/// @details ...
 ///     WERSJA PIERWOTNA — LICZY TYLKO HISTOGRAMY CAŁKOWITOLICZBOWE
 ///     Z RUCHOMĄ LICZBĄ KLAS, więc nie jest przystosowana do współpracy z plikiem logu symulacji.
 template<class DATA_SOURCE>

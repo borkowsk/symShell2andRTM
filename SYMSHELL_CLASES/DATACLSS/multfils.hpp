@@ -32,19 +32,18 @@ class multi_filter_source_base : public template_filter_source_base<DATA_SOURCE>
 {
 protected:
     /// @brief \PL{ Źródło skalarne na wyniki. } \EN{ Scalar source for results. }
-#ifdef USE_ENGLISH_IF_POSSIBLE //TODO To rozwiązanie rozwala tooltipy CLiona dla danej klasy.
+    /// @if ENGLISH
     /// @details
     /// A somewhat artificial single-element source type with notification to the appropriate "basic statistics filter" `father`.
     /// Informs that current data will be needed.
     /// In descendant types, it's certainly safe to substitute a virtual `get` method.
-    class local_scalar_source : public scalar_source<double>
-#else
+    /// @elseif POLISH
     /// @details
     /// Nieco sztuczna klasa źródła jednoelementowego z powiadamianiem właściwej klasy "filtra podstawowych statystyk".
     /// Informuje, że będą potrzebne aktualne dane.
     /// W klasach potomnych na pewno bezpiecznie można podstawić wirtualną metodę `get`.
+    /// @endif
     class local_scalar_source : public scalar_source<double>
-#endif
     {
         multi_filter_source_base *Father;
 

@@ -18,8 +18,11 @@
 
 namespace sym2 { namespace data {
 
-/// @brief Starszy filtr liczący liczebności klas serii i pochodne statystyki.
-/// WERSJA PIERWOTNA — LICZY TYLKO HISTOGRAMY CAŁKOWITOLICZBOWE Z RUCHOMĄ LICZBĄ KLAS.
+/// @brief @EN{ . }
+///        @PL{ Starszy filtr liczący liczebności klas serii i pochodne statystyki.. }
+/// @details ...
+/// @PL{ WERSJA PIERWOTNA — LICZY TYLKO HISTOGRAMY CAŁKOWITOLICZBOWE Z RUCHOMĄ LICZBĄ KLAS. }
+/// @EN{  }
 template<class DATA_SOURCE>
 class histogram_source : public basic_statistics_source<DATA_SOURCE>
 //------------------------------------------------------------------------------

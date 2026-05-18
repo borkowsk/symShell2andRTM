@@ -20,6 +20,9 @@
 
 namespace sym2 { namespace data {
 
+/// @brief @EN{ . }
+///        @PL{ . }
+/// @details ...
 /// Bazowy szablon klasy liczącej podstawowe parametry statystyczne innego źródła.
 /// Parametry są podawane w arbitralnej kolejności lub poprzez jednowartościowe źródła pośrednie.
 template<class DATA_SOURCE>

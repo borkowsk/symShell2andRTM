@@ -13,7 +13,10 @@
 
 namespace sym2 { namespace data {
 
-/// Klasa  filtru korelacji — dwuźródłowego, jednowartościowego filtru danych.
+/// @brief @EN{ . }
+///        @PL{ . }
+/// @details ...
+/// Klasa filtru korelacji — dwuźródłowego, jednowartościowego filtru danych.
 /// Nie wygląda na używaną.
 class correlation_source : public template_scalar_source_base<double>,
                            public bi_filter_source_base

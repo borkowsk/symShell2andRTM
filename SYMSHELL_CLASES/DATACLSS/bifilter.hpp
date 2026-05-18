@@ -15,6 +15,9 @@
 
 namespace sym2 { namespace data {
 
+/// @brief @EN{ . }
+///        @PL{ . }
+/// @details ...
 /// Baza źródła danych filtrującego dane łączone z dwóch innych źródeł.
 class bi_filter_source_base : public filter_source_base
 //-----------------------------------------------------

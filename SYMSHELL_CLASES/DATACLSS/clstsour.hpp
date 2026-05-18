@@ -1,7 +1,7 @@
 /// @file
 /// @brief **Filter counting different types of clustering for series with geometry** /<br>
 ///         _Filtr liczący różne rodzaje klasteringu dla serii z  g e o m e t r i ą.__
-/// @date 2026-05-16 (modified)
+/// @date 2026-05-18 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_CLUST_SOUR_HPP_INCLUDED_
@@ -16,7 +16,8 @@
 
 namespace sym2 { namespace data {
 
-/// @brief Filtr liczący różne rodzaje klasteringu dla serii z   g e o m e t r i ą!!!
+/// @brief @PL{ Filtr liczący różne rodzaje klasteringu dla serii z   g e o m e t r i ą!!! }
+///        @EN{...}
 template<class DATA_SOURCE>
 class clustering_source : public basic_statistics_source<DATA_SOURCE>
 //------------------------------------------------------------------------------
