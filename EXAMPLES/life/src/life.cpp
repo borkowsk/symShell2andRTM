@@ -1,7 +1,7 @@
 /// @file
 /// Wariacje na temat life Conway-a — program główny.
 //===================================================
-/// @date 2026-05-17 (modified)
+/// @date 2026-05-18 (modified)
 
 const char* WINDOW_HEADER="RAND-LIFE version 1.01d (by Wojciech Borkowski)";
 const char* SIMULATION_NAME="randlife_v1.01d";
@@ -83,7 +83,7 @@ int parse_options(const int argc,const char* argv[])
         }
         /*
         else
-        if((pom=strstr(rob,"CLSS="))!=nullptr) //Nie nullptr czyli jest
+        if((pom=strstr(rob,"CLSS="))!=nullptr) //Nie nullptr, czyli jest
         {
         LiczbaKlas=atol(pom+5);
         if(LiczbaKlas<2)
@@ -304,7 +304,7 @@ int main(const int argc,const char* argv[])
             iWidth,
             LogName,
             MapLName,
-                               ProcentSzumu/100.0,//Szum od 0-1
+                               ProcentSzumu/100.0, //Szum od 0-1
                                LiczbaKlas,
             ROtoczenia,
             IluZOtoczenia,
@@ -319,7 +319,7 @@ int main(const int argc,const char* argv[])
 //        }
 
     //INICJALIZACJA
-    RANDOMIZE()//; //inicjalizacja globalnego randomizer-a
+    RANDOMIZE() //; //inicjalizacja globalnego randomizer-a
     theWorld.set_max_iteration(iMaxIterations); //Ile najwięcej kroków
     theWorld.set_input_ratio(iViewRatio);
     theWorld.set_log_ratio(iLogRatio);

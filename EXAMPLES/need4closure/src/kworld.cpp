@@ -1,7 +1,7 @@
 /// @file
 /// @brief IMPLEMENTATION OF THE "KWORLD" (old example for SymShell implementing Kruglansky like model)
 //======================================================================================================
-/// @date 2026-05-17 (modified)
+/// @date 2026-05-18 (modified)
 
 #include <cstring>
 #include <cmath>
@@ -18,7 +18,7 @@ extern const char* SIMULATION_NAME;
 // Statyczne pola `kagent`-ów:
 //===============================================================
 
-short	kagent::Max_power=256;		///< Maksymalna sila agenta.
+short	kagent::Max_power=256;		///< Maksymalna siła agenta.
 int     kagent::Threshold=256;		///< Granica domknięcia poglądu.
 double  kagent::Majority=0.10;		///< Początkowa liczba czarnych, czyli lewych.
 double  kagent::Minority=0.05;		///< Początkowa liczba białych, czyli prawych.
@@ -36,7 +36,7 @@ kworld::kworld(size_t Width,		// Określa ile kolumn torusa macierzy agentów.
                char* mapp_name,		// Nazwa pliku mapy inicjującej "siły".
                char* live_mask,		// Czarne w tej mapie są kasowane.
                double noise,		// Szum informacyjny.
-               short	max_sila,	// Maksymalna sila agenta.
+               short	max_sila,	// Maksymalna siła agenta.
                              
                short	how_many_neib,		// 8 == gęstość losowania sąsiedztwa
                double how_use_self,		// Z jaka waga ma brać siebie.
@@ -57,7 +57,7 @@ MappName(clone_str(mapp_name)),
 MaskName(clone_str(live_mask)),
 //Sub-obiekty właściwe dla tej symulacji:
 MyWidth(Width),
-Agenci(Width,Width,nullptr), //`Initer == nullptr`, wiec tworzone przez konstruktor, a nie klonowanie
+Agenci(Width,Width,nullptr), //`Initer == nullptr`, więc tworzone przez konstruktor, a nie klonowanie
 MaxSila(max_sila),
 Treshold(treshold),
 IleSasiad(how_many_neib),
@@ -71,7 +71,7 @@ Synchronic(synchronicly),
 //Wskaźniki do podstawowych seri danych
 Firsts(nullptr),
 Seconds(nullptr),
-Powers(nullptr),//,classif(nullptr)
+Powers(nullptr), //,classif(nullptr)
 ForRight(nullptr),
 ForLeft(nullptr),
 ptrStres(nullptr),
@@ -84,7 +84,7 @@ CountMig(0)
     kagent::Majority=majority;
     kagent::Minority=minority;
     world::set_simulation_name(SIMULATION_NAME);
-    kagent::Max_power=MaxSila; //Maksymalna sila agenta
+    kagent::Max_power=MaxSila; //Maksymalna siła agenta
     kagent::NoiseLevel=spontanic;
 }
 
@@ -93,7 +93,7 @@ CountMig(0)
 //===================
 
 void kworld::after_read_from_image()
-//Actions after read state from file. Aktualizacja pol static kagent'a!!!
+//Actions after read state from file. Aktualizacja pol static kagent-a!!!
 {   
     //...
 }
@@ -102,7 +102,7 @@ void kworld::after_read_from_image()
 void kworld::initialize_layers()
 //-------------------------------------
 {
-    kagent::Max_power=MaxSila; //Maksymalna sila agenta
+    kagent::Max_power=MaxSila; //Maksymalna siła agenta
     
     static int first=1; //EWENTUALNE WYŁĄCZENIE WYDRUKÓW GDY SYMULACJA
     
@@ -120,7 +120,7 @@ void kworld::initialize_layers()
             <<endl;
     
     //			USTALANIE STANÓW AGENTÓW 
-    //Wczytuje, używając konstruktora lub klonowania, gdy niema, wiec inicjuje resztę pól.
+    //Wczytuje, używając konstruktora lub klonowania, gdy niema, więc inicjuje resztę pól.
     int from1= Agenci.init_from_bitmap(MappName.get_ptr_val(),&kagent::assignPow);
     int from2= Agenci.init_from_bitmap(MaplName.get_ptr_val(),&kagent::assign_curr);
     //   int from3= Agenci.init_from_bitmap(MaplName.get_ptr_val(),kagent::assign_prev);
@@ -165,7 +165,7 @@ void kworld::simulate_one_step()
                 continue;						// bo wtedy robić dalej byłoby bez sensu.
             
             if(CenterAgent.DurCh)
-                continue;                       //Ten już byl sprawdzany, tylko ze się przeniósł.
+                continue;                       //Ten już był sprawdzany, tylko ze się przeniósł.
             
             
             CheckChange(MyGeom,index,CenterAgent); //Sprawdzamy zmianę stanu
@@ -286,7 +286,7 @@ int kworld::CheckChange(const rectangle_geometry* MyGeom,
         }
     else
         {
-            CenterAgent.new_attitude(CenterAgent.First); //nic nie trzeba zmieniać, wiec nic nie zmieniamy (faktycznie)
+            CenterAgent.new_attitude(CenterAgent.First); //nic nie trzeba zmieniać, więc nic nie zmieniamy (faktycznie)
         }
 
     return 0;

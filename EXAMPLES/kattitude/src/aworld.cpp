@@ -1,6 +1,6 @@
 /// @file
 /// @brief IMPLEMENTATION OF THE WORLD FOR "attitudeS" SIMULATION (kattitude old example for SymShell)
-/// @date 2026-05-17 (modified)
+/// @date 2026-05-18 (modified)
 //==============================================================================================================
 
 //#include <limits.h>
@@ -77,8 +77,8 @@ aagent::aagent()
 // Statyczne pola aagent-ów dla inicjalizacji:
 //============================================
 
-short	aagent::Power_change=1;	//Maksymalny skok sily
-short	aagent::Max_power=256;	//Maksymalna sila agenta
+short	aagent::Power_change=1;	//Maksymalny skok siły
+short	aagent::Max_power=256;	//Maksymalna siła agenta
 short	aagent::Kate_num=256;	//Liczba kategorii w mapach
 short	aagent::Kate_shift=0;	//Przesuniecie dla wczytywania gifa
 double  aagent::Majority=-1;	//Domyślnie nie ma znaczącej większości!!!
@@ -95,7 +95,7 @@ aworld::aworld(size_t Width,	//Szerokość torusa macierzy agentów
       char* mapp_name,			//Nazwa pliku mapy inicjującej "siły"
       char* live_mask,			//Czarne w tej mapie są kasowane
       double noise,				//Szum informacyjny
-      short	max_sila,			//Maksymalna sila agenta
+      short	max_sila,			//Maksymalna siła agenta
       short	ile_kate,			//Liczba kategorii w mapach
       short	nei_radius,			//Rozmiar/promień sąsiedztwa
       short	nei_density,		//8 == gęstość sąsiedztwa
@@ -124,14 +124,14 @@ aworld::aworld(size_t Width,	//Szerokość torusa macierzy agentów
         Noise(noise),
         LifeFill(fill),
         MigrProb(migration_prob),
-        WeightOfSelf(need_use_self),     //Z jaką wagą brać siebie pod uwagę (0..1)
-        NeedForClosure(need_for_closure),//Z jaką wagą brani są inni. Domyślnie 1
+        WeightOfSelf(need_use_self),     //Z jaką wagą brać siebie pod uwagę (0..1).
+        NeedForClosure(need_for_closure), //Z jaką wagą brani są inni. Domyślnie 1.
         Synchronic(synchronously),
         TakeAll(0), //Sąsiedztwo bez losowania
         //Wskaźniki do podstawowych seri danych
         Firsts(nullptr),
         Seconds(nullptr),
-        Powers(nullptr),//,Classif(nullptr)
+        Powers(nullptr), //,Classif(nullptr)
         ptrStres(nullptr),
         ptrClsSize(nullptr),
         ptrLastChanged(nullptr),
@@ -182,7 +182,7 @@ CountMig=ptrLastMigration->get_missing();
 //if(Classif)
 //	Classif->set_min_max(0,IleKate*IleKate*IleKate-1); //Max class ==IleKate^3 bo trzy niezależne płaszczyzny
 
-//Umieszczenie głównych serii w zarządcy serii
+//Umieszczenie głównych serii w zarządcy serii.
 WhatSourMen.insert(Firsts);
 WhatSourMen.insert(Seconds);
 WhatSourMen.insert(Powers);
@@ -194,17 +194,17 @@ WhatSourMen.insert(ptrLastMigration);
 }
 
 
-//Wypisywanie/dopisywanie na konsole statusu
+//Wypisywanie/dopisywanie na konsole statusu.
 void    aworld::actualize_out_area()
 {
     world::actualize_out_area();
 
     if(OutArea)
     {
-        wb_pchar bufor(1024); //ze sporym zapasem
+        wb_pchar bufor(1024); //ze sporym zapasem.
         //assert(ptrStres->);
-        double Stres=ptrStres->get();      //Zakładamy, że to źródła jednowartościowe
-        double ClsSiz=ptrClsSize->get();   //ptrStres; ptrClsSize; - Do przekazywania aktualnie najważniejszych danych na okno statusu
+        double Stres=ptrStres->get();      //Zakładamy, że to źródła jednowartościowe.
+        double ClsSiz=ptrClsSize->get();   //ptrStres; ptrClsSize; - Do przekazywania aktualnie najważniejszych danych na okno statusu.
         bufor.prn("Stress: %g \nApproximated cluster size: %g",Stres,ClsSiz);
         OutArea->add_text(bufor.get_ptr_val());
     }
@@ -272,7 +272,7 @@ void aworld::make_default_visualisation()
     //if(!EntropyFSLog) goto ERROR; // Od C++11 new rzuca wyjątkiem, zamiast zwracać `nullptr`!
     int iEntropyFS=Sources.insert(EntropyFSLog);
 
-    fifo_source<double>* CorrFSLogR=new fifo_source<double>(CorrFS->Tau_a_Goodman_Kruskal(),internal_log); //Kolejka typu fifo dla korelacji pierwszych z drugimi
+    fifo_source<double>* CorrFSLogR=new fifo_source<double>(CorrFS->Tau_a_Goodman_Kruskal(),internal_log); //Kolejka typu FIFO dla korelacji pierwszych z drugimi
     //if(!CorrFSLogR) goto ERROR; // Od C++11 new rzuca wyjątkiem, zamiast zwracać `nullptr`!
     int iCorrFSR=Sources.insert(CorrFSLogR);
 
@@ -283,16 +283,16 @@ void aworld::make_default_visualisation()
     //if(!MeanPressLog) goto ERROR; // Od C++11 new rzuca wyjątkiem, zamiast zwracać `nullptr`!
     int iMeanPress=Sources.insert(MeanPressLog);
     /*
-    fifo_source<double>* StressFirstLog=new fifo_source<double>(FirstStat->Stress(),internal_log); //Fifo ze stresu klasycznego
+    fifo_source<double>* StressFirstLog=new fifo_source<double>(FirstStat->Stress(),internal_log); //FIFO ze stresu klasycznego
     if(!StressFirstLog) goto ERROR;
     int iSFirst=Sources.insert(StressFirstLog);
 
-    fifo_source<double>* StressSecondLog=new fifo_source<double>(SecondStat->Stress(),internal_log); //Fifo ze starego stresu
+    fifo_source<double>* StressSecondLog=new fifo_source<double>(SecondStat->Stress(),internal_log); //FIFO ze starego stresu
     if(!StressSecondLog) goto ERROR;
     int iSSecond=Sources.insert(StressSecondLog);
     */
 
-    fifo_source<double>* ClusterSizeLog=new fifo_source<double>(SpatialCorr->ApproximatedClusterSize(),internal_log); //Fifo z rozmiaru klastra
+    fifo_source<double>* ClusterSizeLog=new fifo_source<double>(SpatialCorr->ApproximatedClusterSize(),internal_log); //FIFO z rozmiaru klastra
     //if(!ClusterSizeLog) goto ERROR; // Od C++11 new rzuca wyjątkiem, zamiast zwracać `nullptr`!
     int iClusterSize=Sources.insert(ClusterSizeLog);
 
@@ -386,28 +386,28 @@ void aworld::make_default_visualisation()
         pom->set_title("HISTORY OF CLUSTERIZATION");
     manager.insert(pom);
 
-    pom=new carpet_graph(1, w_height / 2, w_width / 3, w_height - 1,//domyślne współrzędne
+    pom=new carpet_graph(1, w_height / 2, w_width / 3, w_height - 1, //domyślne współrzędne
                             Firsts); //I źródło danych...
 
         pom->set_data_colors(0, 255);
         pom->set_title("Map of current attitude");
     manager.insert(pom);
 
-    pom=new bars_graph(w_width / 3 + 1, w_height / 2, w_width / 3 * 2, w_height - 1,//domyślne współrzędne  w_width-49,7*char_height('X')+7,w_width,8*char_height('X')+9
+    pom=new bars_graph(w_width / 3 + 1, w_height / 2, w_width / 3 * 2, w_height - 1, //domyślne współrzędne  w_width-49,7*char_height('X')+7,w_width,8*char_height('X')+9
                             ClassStat);
         pom->set_data_colors(0, 255);
         pom->set_title("Histogram of attitude");
     manager.insert(pom);
 
 
-    pom=new carpet_graph(w_width / 3 * 2 + 1, w_height / 2, w_width, w_height - 1,//domyślne współrzędne:  w_width-49,7*char_height('X')+7,w_width,8*char_height('X')+9
+    pom=new carpet_graph(w_width / 3 * 2 + 1, w_height / 2, w_width, w_height - 1, //domyślne współrzędne:  w_width-49,7*char_height('X')+7,w_width,8*char_height('X')+9
                             Pressure);
         pom->set_data_colors(0, 255);
         pom->set_title("Map of instantaneous social pressure");
     manager.insert(pom);
 
     //PRZYCISKI
-    pom=new carpet_graph(w_width - 49, 5 * (char_height('X') + RAMKA), w_width, 6 * (char_height('X') + RAMKA),//domyślne współrzędne
+    pom=new carpet_graph(w_width - 49, 5 * (char_height('X') + RAMKA), w_width, 6 * (char_height('X') + RAMKA), //domyślne współrzędne
                             Seconds); //I źródło danych...
         pom->set_data_colors(0, 255);
         pom->set_frame(0);
@@ -415,16 +415,16 @@ void aworld::make_default_visualisation()
     manager.insert(pom);
 
 
-    pom=new carpet_graph(w_width - 49, 6 * (char_height('X') + RAMKA), w_width, 7 * (char_height('X') + RAMKA),//domyślne współrzędne
+    pom=new carpet_graph(w_width - 49, 6 * (char_height('X') + RAMKA), w_width, 7 * (char_height('X') + RAMKA), //domyślne współrzędne
                             Powers); //I źródło danych...
         pom->set_data_colors(0, 255);
         pom->set_frame(0);
         pom->set_title("Map of power");
     manager.insert(pom);
 
-    pom=new manhattan_graph(w_width - 49, 7 * (char_height('X') + RAMKA), w_width, 8 * (char_height('X') + RAMKA),//domyślne współrzędne
-                            Powers, 0,//I źródło danych o wysokościach (niezarządzane)
-                            Firsts, 0,//źródło danych o kolorach (niezarządzane)
+    pom=new manhattan_graph(w_width - 49, 7 * (char_height('X') + RAMKA), w_width, 8 * (char_height('X') + RAMKA), //domyślne współrzędne
+                            Powers, 0, //I źródło danych o wysokościach (niezarządzane)
+                            Firsts, 0, //źródło danych o kolorach (niezarządzane)
                             1,		//Słupki zaczynają się co najmniej od 0!
                                             //Jeśli 0 to zaczynają się od min>0
                             0.22,		//Ułamek szerokości przeznaczony na perspektywę
@@ -435,7 +435,7 @@ void aworld::make_default_visualisation()
         pom->set_title("A composed map of strength and attitude of agents");
     manager.insert(pom);
 
-    pom=new manhattan_graph(w_width - 49, 8 * (char_height('X') + RAMKA), w_width, 9 * (char_height('X') + RAMKA),//domyślne współrzędne
+    pom=new manhattan_graph(w_width - 49, 8 * (char_height('X') + RAMKA), w_width, 9 * (char_height('X') + RAMKA), //domyślne współrzędne
                                 CorrFS, 0,	//I dane
                                 CorrFS, 0,
                             1,
@@ -473,7 +473,7 @@ void aworld::make_default_visualisation()
 
     pom=new sequence_graph(w_width - 49, 11 * (char_height('X') + RAMKA), w_width, 12 * (char_height('X') + RAMKA),
                            1, Sources.make_series_info(
-                                            iCorrFSR,//iCorrFS,
+                                            iCorrFSR, //iCorrFS,
                                                 -1
                                             ).get_ptr_val(),
                            1/*Wspólne minimum/maximum*/
@@ -565,7 +565,7 @@ void aworld::initialize_layers()
     if(first_call)
         Log.GetStream()<<"attitude SIMULATION:";
 
-    aagent::Max_power=MaxPower; //Maksymalna sila agenta
+    aagent::Max_power=MaxPower; //Maksymalna siła agenta
     aagent::Kate_num=IleKate; //Liczba kategorii w mapach
 
     switch(IleKate)
@@ -816,13 +816,13 @@ int aworld::CheckChange(const rectangle_geometry* MyGeom,
 
     assert(indF!=-1); //Czy jest maksimum
 
-    //Trzeba cos zrobić, ale co?
+    //Trzeba coś zrobić, ale co?
     if(MigrProb != 0 && LifeFill < 1 && (MigrProb == 1 || DRAND() < MigrProb)  ) //Decyzja
     { //Migracja
         if(CenterAgent.First!=indF) //Jednak tylko, gdy trzeba zmienić pogląd
         {
             CenterAgent.Press=maxF; //Specjalny znacznik
-            CenterAgent.new_attitude(CenterAgent.First); //wiec nic nie zmieniamy w jego poglądach
+            CenterAgent.new_attitude(CenterAgent.First); //więc nic nie zmieniamy w jego poglądach
             DoMigration(MyGeom,index,CenterAgent); //za to zmieniamy pozycje w świecie
             CountMig++;                      
             return 0; //Trzeba wyjść, bo "index" jest nieaktualny i zasygnalizować to wyżej
@@ -830,7 +830,7 @@ int aworld::CheckChange(const rectangle_geometry* MyGeom,
         else
         {
             CenterAgent.Press=0;
-            CenterAgent.new_attitude(CenterAgent.First); //nie potrzeba migrować wiec nic nie zmieniamy
+            CenterAgent.new_attitude(CenterAgent.First); //nie potrzeba migrować więc nic nie zmieniamy
             return 0;
         }
     }
@@ -846,7 +846,7 @@ int aworld::CheckChange(const rectangle_geometry* MyGeom,
         else                                    //nie znaleziono
         {
             CenterAgent.Press=0;
-            CenterAgent.new_attitude(CenterAgent.First); //wiec nic nie zmieniamy
+            CenterAgent.new_attitude(CenterAgent.First); //więc nic nie zmieniamy
             return 0;
         }
     }

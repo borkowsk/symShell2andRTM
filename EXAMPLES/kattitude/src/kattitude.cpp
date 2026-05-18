@@ -1,7 +1,7 @@
 /// @file
 /// @brief Symulacja zmiany poglądów - attitudes (kattitude old example for SymShell)
 //===================================================================================
-/// @date 2026-05-17 (modified)
+/// @date 2026-05-18 (modified)
 /// @details
 ///     Uzyskana niegdyś przez uproszczenie programu LANGUAGES.
 ///     Uzupełniona o wagi opinii innych, jako fragmentaryczna implementacja teorii Arie Kruglanskiego.
@@ -46,7 +46,7 @@ unsigned iViewRatio=1;
 
 int  RuchomaSila=0;			///< Określa, czy siła się powiększa "z wiekiem".
 int  MaksymalnaSila=100;	///< Jaka największa siła.
-int  TresProcent=100;		///< Powyżej jakiej wartości sily zmiany "poglądu" są już niemożliwe.
+int  TresProcent=100;		///< Powyżej jakiej wartości siły zmiany "poglądu" są już niemożliwe.
 
 int    LiczbaKlas=2;		///< Tu oznacza liczbę poglądów.
 double Fill=1;				///< 0.001 do 1 - początkowe wypełnienie przestrzeni agentów (wykonywane przez losowe usuwanie!!!).
@@ -78,7 +78,7 @@ for(int i=1;i<argc;i++)
     char*    rob=hand.get_ptr_val();
     char*    pom=strchr(rob,'=');
     if(pom==nullptr)
-            goto ERROR; //TO FATALNA SYTUACJA ;-) Parametr musi zaczynać się od `-` albo miec w środku `=`.
+            goto ERROR; //TO FATALNA SYTUACJA ;-) Parametr musi zaczynać się od `-` albo miec w środku ` = `.
     *pom='\0';
     strupr(rob);
     *pom='=';
@@ -198,7 +198,7 @@ for(int i=1;i<argc;i++)
     else
         {
         cerr<<"Threshold of strength for change parameters = "<<int(TresProcent)<<"%"<<endl;
-        if(RuchomaSila==0) //Nie ma sensu TRSP, gdy nie jest ruchoma sila
+        if(RuchomaSila==0) //Nie ma sensu TRSP, gdy nie jest ruchoma siła
             {
             RuchomaSila=1;
             cerr<<"Automatically set WPOW to "<<RuchomaSila<<endl;
@@ -482,14 +482,14 @@ aworld& theWorld=*new aworld(iWidth,
                              MapLName,
                              MapPName,
                              MaskName,
-                           ProcentSzumu/100.0,//Szum od 0-1
-                           MaksymalnaSila,//Żeby była w przedziale
+                           ProcentSzumu/100.0, //Szum od 0-1
+                           MaksymalnaSila, //Żeby była w przedziale
                            LiczbaKlas,
                              NeighborhoodRadius,
                              NumberOfNeighbors,
                              WagaSiebie,
                              NeedForClosure,
-                             (TypSymulacji==0?true:false),//Synchroniczna czy nie
+                             (TypSymulacji==0?true:false), //Synchroniczna czy nie
                            RuchomaSila,
                              MaksymalnaSila*TresProcent/100.0,
                              MutacjeSpon,

@@ -1,7 +1,7 @@
 // Virtual Input methods  implementation of the aworld class.
 // Its is rather simply implementation. You can replace it if you need.
 //=====================================================================
-// @date 2026-05-17 (modification)
+// @date 2026-05-18 (modification)
 
 #include "aworld.h"
 
@@ -9,12 +9,12 @@ int aworld::implement_input(istream& i)
 {
     int ret=sym2::world::implement_input(i);
     if(ret!=1) return ret;
-    i >> MyWidth;		//Obwod torusa
+    i >> MyWidth;		//Obwód torusa
     i >> MaxSila;		//Maksymalna siła agenta
-    i >> NofCateg;		//Liczba kategori w mapach
+    i >> NofCateg;		//Liczba kategorii w mapach
     i >> NofNeigh;	//8 == Gęstość sąsiedztwa
     i >> NeighRadius;	//Rozmiar sąsiedztwa
-    i >> UseSelf;		//Czy ma brac siębie pod uwage
+    i >> UseSelf;		//Czy ma brać siębie pod uwagę
     i >> Noise;		//Szum informacyjny
     sym2::rectangle_geometry* Geom=(sym2::rectangle_geometry*)Agents.get_geometry();
     assert(Geom!=NULL);

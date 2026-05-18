@@ -1,6 +1,6 @@
 /// @file
 /// @brief Virtual Input method implementation of the aworld class. (kattitude old example for SymShell)
-/// @date 2026-05-17 (modified)
+/// @date 2026-05-18 (modified)
 ///       ---------------------
 /// @details
 ///     Its is rather simply implementation. You can replace it if you need.
@@ -12,7 +12,7 @@ int aworld::implement_input(istream& i)
     int ret=world::implement_input(i);
     if(ret!=1) return ret;
     i>>MyWidth;			//Obwód torusa
-    i >> MaxPower;		//Maksymalna sila agenta
+    i >> MaxPower;		//Maksymalna siła agenta
     i>>IleKate;			//Liczba kategorii w mapach
     i >> NeiDens;		//Gęstość sąsiedztwa
     i >> NeiSize;		//Rozmiar sąsiedztwa

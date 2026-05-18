@@ -1,7 +1,7 @@
 /// @file
-/// @brief ... (old example for SymShell implementing Kruglanskis like model)
+/// @brief ... (old example for SymShell implementing the Kruglanski's like model)
 //===========================================================================
-/// @date 2026-05-17 (modified)
+/// @date 2026-05-18 (modified)
 // implementation of the kworld class.
 //	Virtual output methods 
 //----------------------------------------------
@@ -14,11 +14,11 @@ int kworld::implement_output(ostream& o) const
     int ret=world::implement_output(o);
     if(ret!=1) return ret;
     o<<separator;
-    o<<MyWidth<<separator;	//Obwod (?) torusa
-    o<<MaxSila<<separator;	//Maksymalna sila agenta
-    o<<IleSasiad<<separator;	//8==Gestosc sasiedztwa
-    o<<WeightOfSelf<<separator; //Jak ma brac siebie pod uwage
-    o<<NeedForClosure<<separator; //Jak ma brac innych (waga)
+    o<<MyWidth<<separator;	//Obwód (?) torusa
+    o<<MaxSila<<separator;	//Maksymalna siła agenta
+    o<<IleSasiad<<separator;	//8 == Gęstość sąsiedztwa
+    o<<WeightOfSelf<<separator; //Jak ma brać siebie pod uwagę
+    o<<NeedForClosure<<separator; //Jak ma brać innych (waga)
     o<<Noise<<separator<<endl;		//Szum informacyjny
     o<<Agenci<<endl;
     return 1;

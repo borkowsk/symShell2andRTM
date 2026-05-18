@@ -1,6 +1,6 @@
 /// @file
 /// @brief Przykładowy program SYMSHELL-z z klasami.
-/// @date 2026-05-17 (modified)
+/// @date 2026-05-18 (modified)
 ///       ------------------------------------------
 /// @details
 ///     Demonstracja stosowania obiektowego pietra SYMSHELL-a
@@ -10,7 +10,7 @@
 //======================================================================================================================
 
 
-#include <cmath> //cos tam jest potrzebne
+#include <cmath> //coś tam jest potrzebne
 
 #include <cstdio>
 #include <cstdlib>
@@ -31,7 +31,7 @@ using namespace sym2::data;
 
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "modernize-use-nullptr"
-//#include "symshell.h" - niepotrzebne — juz opakowane obiektami
+//#include "symshell.h" - niepotrzebne — już opakowane obiektami
 //int x,y,vx,vy;
 
 /// @name INICJALNE ROZMIARY OKNA.
@@ -79,7 +79,7 @@ float aweights[conlen]=     {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18};
 /// Obiekt zarządcy danych. Inicjowany ad hoc tworzonymi seriami czerpiącymi z tablic przykładowych.
 /// Zarządca danych nie sortuje serii i trzyma je w takiej kolejności
 /// , jak programista je wkładał w konstruktorze i później...
-/// Powyższa właściwość powinna byc zachowana w klasach potomnych!
+/// Powyższa właściwość powinna być zachowana w klasach potomnych!
 sources_manager Series
             (16,
             new matrix_source<int>("A-matrix",5,5,dane1),
@@ -207,8 +207,8 @@ void make_test_areas()
     pom=new sequence_graph(90,180,179,269,4,
                            Series.make_series_info(0,2,3,4,-1).get_ptr_val(),
                            1,-5/*Wspólne min/max*/);										assert(pom!=NULL);
-                                                                //2,-10,40/*Fixed min/max*/);
-                                                                //2,-0.0001,18/*Za mały zakres min/max */);    assert(pom!=NULL);
+                                                                //2,-10,40/*Fixed min/max*/
+                                                                //2,-0.0001,18/*Za mały zakres min/max */    assert(pom!=NULL);
     pom->set_title("OTHER TIME SERIES");
     pom->set_frame(253);
     Lufciki.insert(pom);
@@ -220,7 +220,7 @@ void make_test_areas()
     pom->set_title("MANHATTAN PLOT");
     Lufciki.insert(pom);
 
-    //Tworzenie obszaru sterującego - na raty dla debugingu
+    //Tworzenie obszaru sterującego — na raty dla debugging-u
     auto* ser1=Series.get(0);                                                   assert(ser1->valid_memory());
     auto* ser2=Series.get(2);                                                   assert(ser2->valid_memory());
     auto* rer1=(rectangle_source_base*)ser1;                                    assert(rer1->valid_memory());

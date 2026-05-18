@@ -1,6 +1,6 @@
 /// @file
 /// @brief Implementation of the world of the convinced (D. Stauffer idea).
-/// @date 2026-05-17 (modified)
+/// @date 2026-05-18 (modified)
 //======================================================================================================================
 
 #include <cstring>
@@ -73,9 +73,9 @@ extern unsigned InternalLogLen;
 
 aWorld::aWorld(	
         unsigned iWidth,		//Width of the torus of the agent matrix.
-        double iToBeNewProb,	//=0.1,//Likelihood of spontaneous change of opinion.
-        double iInfectProb,		//=0.9,//Probability of reversal of views on 0.
-        double iSupportLevel,	//=0.5,//The power of support when he has some friends.
+        double iToBeNewProb,	//=0.1, //Likelihood of spontaneous change of opinion.
+        double iInfectProb,		//=0.9, //Probability of reversal of views on 0.
+        double iSupportLevel,	//=0.5, //The power of support when he has some friends.
         const char* iLog_name,	//="convince.log", //File name for saving history.
         const char* iMapL_name,	//=NULL,	//The name of the bitmap initializing the "components".
         const char* iMapP_name,	//=NULL,	//The name of the agent force initialization bitmap.
@@ -349,7 +349,7 @@ void aWorld::make_default_visualisation()
 
     pom=new sequence_graph(szer-49, 11*(char_height('X')+RAMKA),szer,12*(char_height('X')+RAMKA),
                                     1,Sources.make_series_info(
-                                            iCorrFSR,//iCorrFS,
+                                            iCorrFSR, //iCorrFS,
                                                 -1
                                             ).get_ptr_val(),
                                     1

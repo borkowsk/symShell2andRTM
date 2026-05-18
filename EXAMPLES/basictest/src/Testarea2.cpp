@@ -1,4 +1,4 @@
-#include <math.h> //cos jest potrzebne
+#include <math.h> //coś jest potrzebne
 
 #include <cstdio>
 #include <cstdlib>
@@ -18,9 +18,9 @@
 const unsigned SWIDTH=360;
 const unsigned SHEIGHT=270;
 
-wb_ptr<drawable_base> lufcik[16];//Wskazniki do 16 obszarow wykresow
+wb_ptr<drawable_base> lufcik[16]; //Wskaźniki do 16 obszarów wykresów
 
-// Tablice przykladowych danych
+// Tablice przykładowych danych
 int dane1[16]={1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16};
 double dane2[16]={-2,-1.8,-1.2,-0.96,-0.45,-0.1,0.1,0.48,0.88,1.33,1.8,2.3,3.1,4.5,6.6,7.8};
 int dane3[16]={0,1,0,1,
@@ -50,7 +50,7 @@ matrix_source<int> Zoom1(4,4,dane1,"\"A\"matrix",0);
 array_source<double> Seria2(sizeof(dane2)/sizeof(*dane2),dane2,"\"B\"data ");
 array_source<int> Seria3(sizeof(dane3)/sizeof(*dane3),dane3,"\"C\"data ");
 array_source<float> Seria4(sizeof(dane4)/sizeof(*dane4),dane4,"\"D\"data ");
-function_source<cosinus> Seria5(16,0,3.1415,"Cos(x)",-1,1);//Podane dokladne min i max
+function_source<cosinus> Seria5(16,0,3.1415,"Cos(x)",-1,1); //Podane dokładne min i max
 function_source<sinus> Seria6(16,0,9.45,"Sin(x)");
 
 //array_source<int> Seria5(sizeof(dane5)/sizeof(*dane5),dane5,"Parabola ");
@@ -64,7 +64,7 @@ graph::series_info Series[7]={
 	graph::series_info(&Seria5,0,-1),
 	graph::series_info(&Seria6,0,-1)
 							 };
-// FUNKCJE TESTUJACA
+// FUNKCJE TESTUJĄCA
 //------------------------------
 void test_series()
 {
@@ -77,7 +77,7 @@ graph* pom;
 lufcik[0]=pom=new carpet_graph(1,1,89,89,	4,4,&Seria1);
 assert(pom!=NULL);
 pom->settitle("CARPET GRAPH");
-//pom->setdatacolors(16,255);//Jesli Zoom jest bez torusa to rezerwuje czarny na miss-value
+//pom->setdatacolors(16,255); //Jeśli Zoom jest bez torusa to rezerwuje czarny na miss-value
 
 lufcik[1]=pom=new carpet_graph(90,1,179,89,	4,4,&Seria2);
 assert(pom!=NULL);
@@ -86,8 +86,8 @@ pom->setframe(150);
 
 lufcik[2]=pom=new carpet_graph(180,1,269,89,	3,3,&Zoom1);
 int subtab[]={2,3,1,3};
-//int ret=Zoom1.setsub(subtab);//Wycinek tablicy            ???????????
-//assert(ret==0);//Wycinek prawidlowy
+//int ret=Zoom1.setsub(subtab); //Wycinek tablicy            ???????????
+//assert(ret==0); //Wycinek prawidłowy
 assert(pom!=NULL);
 //pom->settitle("ZOOM-TORUS");
 pom->settitle("ZOOM");
@@ -126,8 +126,8 @@ lufcik[9]=pom=new sequence_graph(1,180,89,269,		4,Series+3);
 pom->settitle("TIME SERIES");
 
 lufcik[10]=pom=new sequence_graph(90,180,179,269,		4,Series,1,-5/*Wspolne min/max*/);
-																 //2,-10,40/*Fixed min/max*/);															
-																 //2,-0.0001,18/*Za maly zakres min/max */);
+																 //2,-10,40/*Fixed min/max*/
+																 //2,-0.0001,18/*Za mały zakres min/max */
 
 
 pom->setframe(253);
@@ -138,12 +138,12 @@ pom->settitle("MANHATTAN PLOT");
 
 /* OGOLNA FUNKCJA REPLOT */
 /*-----------------------*/
-int Index=-1;//Index wyroznionego lucfika
-gps_area old_settings;//Stare polozenie wyroznionego lufcika
+int Index=-1; //Index wyróżnionego lufcika
+gps_area old_settings; //Stare położenie wyróżnionego lufcika
 
 void mouse_check()
 {
-int xpos=0,ypos=0,click=0;//Myszowate
+int xpos=0,ypos=0,click=0; //Myszowate
 get_mouse_event(&xpos,&ypos,&click);
 if(Index==-1)
  {
@@ -191,12 +191,12 @@ mouse_activity(old);
 int main(int argc,const char* argv[])
 {
 //int i=0;
-int cont=1;//flaga kontynuacji
+int cont=1; //flaga kontynuacji
 int std=0;
 test_series();
 mouse_activity(1);
 set_background(20);
-//buffering_setup(1);/* Wlaczona animacja */
+//buffering_setup(1);/* Włączona animacja */
 shell_setup("SYMSHELL's PAINT AREA TEST",argc,argv);
 printf("COLORS= 256 q-quit s-swich stdout on/off\n"
 	   "setup options:\n"
@@ -205,7 +205,7 @@ printf("COLORS= 256 q-quit s-swich stdout on/off\n"
 /*
 RANDOMIZE();
 */
-if(!init_plot(SWIDTH,SHEIGHT,0,0))//4x3 Lufciki 90x90
+if(!init_plot(SWIDTH,SHEIGHT,0,0)) //4x3 Lufciki 90x90
 		{
 		 printf("%s\n","Can't initialize graphics");
 		 exit(1);

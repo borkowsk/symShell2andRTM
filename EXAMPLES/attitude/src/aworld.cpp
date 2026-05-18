@@ -1,6 +1,6 @@
 /// @file
 /// @brief IMPLEMENTATION OF   W O R L D  FOR "attitudes" SIMULATION.
-/// @date 2026-05-17 (modification)
+/// @date 2026-05-18 (modification)
 //======================================================================================================================
 
 //#include <limits.h>
@@ -63,8 +63,8 @@ extern unsigned InternalLogLen;
 
 aworld::aworld(size_t Width,		//Szerokość torusa macierzy agentów
       char* log_name,	//Nazwa pliku do zapisywania historii
-      char* mapl_name,	//Nazwa (bit)mapy inicjującej "składowe"
-      char* mapp_name,	//Nazwa (bit)mapy inicjującej "sily"
+      char* mapl_name,	//Nazwa (bit-) mapy inicjującej "składowe"
+      char* mapp_name,	//Nazwa (bit-) mapy inicjującej "siły"
       char* live_mask,	//Czarne w tej mapie są kasowane
       double noise_p,	//Szum informacyjny
       short	max_str,	//Maksymalna siła agenta
@@ -78,8 +78,8 @@ aworld::aworld(size_t Width,		//Szerokość torusa macierzy agentów
       double spon_prob
         ):
         world(log_name,50),
-        MaplName(clone_str(mapl_name)), //Nazwa (bit)mapy 1. inicjującej agentów
-        MappName(clone_str(mapp_name)), //Nazwa (bit)mapy 2. inicjującej agentów
+        MaplName(clone_str(mapl_name)), //Nazwa (bit-) mapy 1. inicjującej agentów
+        MappName(clone_str(mapp_name)), //Nazwa (bit-) mapy 2. inicjującej agentów
         MaskName(clone_str(live_mask)), //Nazwa bitmapy maskującej (kasującej agentów)
     //Sub-obiekty właściwe dla tej symulacji
         MyWidth(Width),
@@ -262,14 +262,14 @@ void aworld::make_default_visualisation()
                                                 -1
                                             ).get_ptr_val(),
                                     //0// Z reskalowaniem
-                                   1); //Wspolne minimum/maximum
+                                   1); //Wspólne minimum/maximum
     if(!pom) goto ERROR;
         pom->set_frame(128);
         pom->set_title("HISTORY OF STRESS");
     Manager.insert(pom);
 
     pom=new carpet_graph(1,wyso/2,szer/3,wyso-1,	//domyślne współrzędne
-                            Firsts); //I źródlo danych
+                            Firsts); //I źródło danych
         pom->set_data_colors(0, 255);
         pom->set_title("Map of current attitude");
     Manager.insert(pom);
@@ -285,7 +285,7 @@ void aworld::make_default_visualisation()
                                 CorrFS,0,
                                 1,
                                 0.22,		//Ułamek szerokości przeznaczony na perspektywę
-                                0.77);		//Ułamek wysokości  przeznaczony na perspektywe
+                                0.77);		//Ułamek wysokości  przeznaczony na perspektywę
         pom->set_data_colors(0, 255);
         pom->set_text_colors(0);
         pom->set_title("Dynamism: curr. attit. vers. prev. attitude");
@@ -293,7 +293,7 @@ void aworld::make_default_visualisation()
 
     //PRZYCISKI
     pom=new carpet_graph(szer-49,5*(char_height('X')+RAMKA),szer,6*(char_height('X')+RAMKA),	//domyślne współrzędne
-                            Seconds); //I źródlo danych
+                            Seconds); //I źródło danych
         pom->set_data_colors(0, 255);
         pom->set_frame(0);
         pom->set_title("Map of previous attitude");
@@ -308,13 +308,13 @@ void aworld::make_default_visualisation()
     Manager.insert(pom);
 
     pom=new manhattan_graph(szer-49, 7*(char_height('X')+RAMKA),szer,8*(char_height('X')+RAMKA), 	//domyślne współrzędne
-                            Powers,0, //I źródlo danych o wysokościach, niezarządzane
-                            Firsts,0, //Zrodlo danych o kolorach — niezarządzane
+                            Powers,0, //I źródło danych o wysokościach, niezarządzane
+                            Firsts,0, //Źródło danych o kolorach — niezarządzane
                             1,		//Słupki zaczynają się co najmniej od 0!
-                                        //Jesli 0 to zaczynają się od min>0
+                                        //Jeśli 0 to zaczynają się od min>0
                             0.22,		//Ułamek szerokości przeznaczony na perspektywę
                             0.77		//Ułamek wysokości  przeznaczony na perspektywę
-                            ); //I źródlo danych
+                            ); //I źródło danych
         pom->set_data_colors(0, 255);
         pom->set_frame(0);
         pom->set_title("A composed map of strength & attitude of agents");
@@ -347,7 +347,7 @@ void aworld::make_default_visualisation()
 
     pom=new sequence_graph(szer-49, 11*(char_height('X')+RAMKA),szer,12*(char_height('X')+RAMKA),
                                     1,Sources.make_series_info(
-                                            iCorrFSR, //iCorrFS,
+                                            iCorrFSR, //iCorrFS,???
                                                 -1
                                             ).get_ptr_val(),
                                     1
@@ -385,7 +385,7 @@ void aworld::make_default_visualisation()
 //===================
 
 void aworld::after_read_from_image()
-//actions after read state from file. Aktualizacja pol static aAgent'a!!!
+//actions after read state from file. Aktualizacja pól `static aAgent`-a!!!
 {
     aagent::max_str=MaxSila; //Maksymalna siła agenta
     aagent::n_of_cate=NofCateg; //Liczba kategorii w mapach
@@ -449,7 +449,7 @@ void aworld::initialize_layers()
               << "\nNaighborhood=" << Log.separator() << NofNeigh << "/(" << (1 + 2 * NeighRadius) << "*" << (1 + 2 * NeighRadius) << ")\n";
 
     //			USTALANIE STANÓW AGENTÓW:
-    // Wczytuje używając konstruktora lub klonowania, gdy go niema, wiec inicjuje resztę pól.
+    // Wczytuje, używając konstruktora lub klonowania, gdy go niema, więc inicjuje resztę pól.
     int from1= Agents.init_from_bitmap(MappName.get_ptr_val(),&aagent::assignPow);
     int from2= Agents.init_from_bitmap(MaplName.get_ptr_val(),&aagent::assign123);
 
@@ -483,7 +483,7 @@ void aworld::simulate_one_step()
 
             aagent& CenterAgent=*(Agents.get_ptr(index).get_ptr_val()); // Uzyskujemy referencje do agenta omijając asercje na NULL
 
-            if(Agents.is_empty(CenterAgent))	// Sprawdzamy, czy nie jest to pusta kom�rka (NULL)
+            if(Agents.is_empty(CenterAgent))	// Sprawdzamy, czy nie jest to pusta komórka (NULL)
                 continue;						// bo wtedy robić dalej byłoby bez sensu.
 
             if(CenterAgent.Power <= ThrsStr)		// Czy nie ma już immunitetu na zmiany
@@ -503,7 +503,7 @@ void aworld::simulate_one_step()
 
             aagent& CenterAgent=*(Agents.get_ptr(index).get_ptr_val()); // Uzyskujemy referencje do agenta omijając asercje na NULL
 
-            if(Agents.is_empty(CenterAgent))	// Sprawdzamy, czy nie jest to pusta kom�rka (NULL)
+            if(Agents.is_empty(CenterAgent))	// Sprawdzamy, czy nie jest to pusta komórka (NULL)
                 continue;
 
             wb_swap(CenterAgent.First,CenterAgent.Second);  //Ma nowy stan
@@ -525,7 +525,7 @@ void aworld::simulate_one_step()
             assert(index!=any_layer_base::FULL);				//... tutaj nie powinno się zdarzyć
 
             aagent& CenterAgent=*(Agents.get_ptr(index).get_ptr_val()); // Uzyskujemy referencje do agenta omijając asercje na NULL
-            if(Agents.is_empty(CenterAgent))	// Sprawdzamy, czy nie jest to pusta kom�rka (NULL)
+            if(Agents.is_empty(CenterAgent))	// Sprawdzamy, czy nie jest to pusta komórka (NULL)
                 continue;						// bo wtedy robić dalej byłoby bez sensu.
 
             if(CenterAgent.Power <= ThrsStr)		// Czy nie ma już immunitetu na zmiany
@@ -577,7 +577,7 @@ int aworld::CheckChange(const geometry_base* MyGeom,
     }
 
     //`iterator_h Neigh=MyGeom->make_neighbour_iterator(index,NeighRadius);`
-    unsigned zliczanie=0; //Zliczanie sasiad�w
+    unsigned zliczanie=0; //Zliczanie sąsiadów
 
     while(Neigh)
     {
@@ -586,7 +586,7 @@ int aworld::CheckChange(const geometry_base* MyGeom,
             continue;				//centrum obszaru to dalej jest bez sensu.
 
         aagent& PeryfAgent=*(Agents.get_ptr(index2).get_ptr_val()); //Uzyskujemy referencje do sąsiada omijając asercje na NULL
-        if(Agents.is_empty(PeryfAgent))		//Sprawdzamy, czy nie jest to pusta kom�rka (NULL)
+        if(Agents.is_empty(PeryfAgent))		//Sprawdzamy, czy nie jest to pusta komórka (NULL)
             continue;					   // bo wtedy robić dalej byłoby bez sensu.
 
         zliczanie++;

@@ -1,6 +1,6 @@
 /// @file
-/// IMPLEMENTATION OF   W O R L D  FOR "Conways Life" SIMULATION.
-/// @date 2026-05-17 (modified)
+/// IMPLEMENTATION OF   W O R L D   FOR "Conways Life" SIMULATION.
+/// @date 2026-05-18 (modified)
 //===============================================================
 
 //#include <limits.h>
@@ -13,7 +13,7 @@
 #include "lrand.h"
 #include "lworld.h"
 #include "histosou.hpp"
-#include "clstsour.hpp" //Jest tez statsour (?)
+#include "clstsour.hpp" //Jest też statsour (?)
 #include "coincsou.hpp"
 #include "gadgets.hpp" 
 #include "wb_ptrio.h"
@@ -88,7 +88,7 @@ lifeworld::lifeworld(
     //Sub-obiekty właściwe dla tej symulacji:
 
         MyWidth(Width),
-        //Agenci(Width,Width,false,nullptr), //Initer == nullptr wiec tworzony przez konstruktor, a nie klonowanie
+        //Agenci(Width,Width,false,nullptr), //Initer == nullptr więc tworzony przez konstruktor, a nie klonowanie
         Agenci(Width,Width),       //Zakładamy, że wystarcza to, co robi bezparametrowy konstruktor agenta
         IleKate(ile_kate),                //Liczba kategorii w mapach
         IleSasiad(ile_sasiad),            //8 == gęstość sąsiedztwa
@@ -277,20 +277,20 @@ void lifeworld::make_default_visualisation()
         pom->set_title("HISTORY OF STRESS");
         Manager.insert(pom);
 
-        pom = new carpet_graph(1, wyso / 2, szer / 3, wyso - 1,//domyślne współrzędne
+        pom = new carpet_graph(1, wyso / 2, szer / 3, wyso - 1, //domyślne współrzędne
                                Firsts); //I  //TODO!!! danych
         pom->set_data_colors(0, 255);
         pom->set_title("Map of current state");
         Manager.insert(pom);
 
         pom = new bars_graph(szer / 3 + 1, wyso / 2, szer / 3 * 2,
-                             wyso - 1,//domyślne współrzędne  szer-49,7*char_height('X')+7,szer,8*char_height('X')+9
+                             wyso - 1, //domyślne współrzędne  szer-49,7*char_height('X')+7,szer,8*char_height('X')+9
                              ClassStat);
         pom->set_data_colors(0, 255);
         pom->set_title("Histogram of state");
         Manager.insert(pom);
 
-        pom = new manhattan_graph(szer / 3 * 2 + 1, wyso / 2, szer, wyso - 1,//domyślne współrzędne
+        pom = new manhattan_graph(szer / 3 * 2 + 1, wyso / 2, szer, wyso - 1, //domyślne współrzędne
                                   CorrFS, 0,    //I źródło danych
                                   CorrFS, 0,
                                   1,
@@ -303,7 +303,7 @@ void lifeworld::make_default_visualisation()
 
         //PRZYCISKI
         pom = new carpet_graph(szer - 49, 5 * (char_height('X') + RAMKA), szer,
-                               6 * (char_height('X') + RAMKA),//domyślne współrzędne
+                               6 * (char_height('X') + RAMKA), //domyślne współrzędne
                                Seconds); //I źródło danych
         pom->set_data_colors(0, 255);
         pom->set_frame(0);
@@ -326,7 +326,7 @@ void lifeworld::make_default_visualisation()
 
         pom = new sequence_graph(szer - 49, 11 * (char_height('X') + RAMKA), szer, 12 * (char_height('X') + RAMKA),
                                  1, Sources.make_series_info(
-                        iCorrFSR,//iCorrFS,
+                        iCorrFSR, //iCorrFS,
                         -1
                 ).get_ptr_val(),
                                  1
@@ -393,7 +393,7 @@ void lifeworld::initialize_layers()
     static int first=1; //TYMCZASOWE WYŁĄCZENIE NADMIARU WYDRUKÓW!!!
     if(first)
         Log.GetStream()<<"attitude SIMULATION:";
-    //odl_sasiad = 1,//Rozmiar sąsiedztwa
+    //odl_sasiad = 1, //Rozmiar sąsiedztwa
     //ile_sasiad = 8 //8 == gęstość sąsiedztwa
 
     lifeagent::ile_kate=IleKate; //Liczba kategorii w mapach
@@ -424,7 +424,7 @@ void lifeworld::initialize_layers()
         <<"\nNeighborhood="<<Log.separator()<<IleSasiad<<"/("<<(1+2*OdlSasiad)<<"*"<<(1+2*OdlSasiad)<<")\n";
 
     //			USTALANIE STANÓW AGENTÓW
-    //Wczytuje, używając konstruktora lub klonowania, gdy nie ma, wiec inicjuje resztę pól.
+    //Wczytuje, używając konstruktora lub klonowania, gdy nie ma, więc inicjuje resztę pól.
     rectangle_layer_of_agents<lifeagent>::assign_rgb_fun tmp=&lifeagent::assign123;
     char* fname=MaplName.get_ptr_val();
     //Jeśli nie zainicjowane z bitmapy to zostaje to z konstruktorów!
@@ -512,7 +512,7 @@ void lifeworld::simulate_one_step()
 int lifeworld::CheckChange(const geometry_base* MyGeom,
                         size_t index,
                         lifeagent& CenterAgent
-                        )//KOD NA SZUKANIE ZMIAN
+                        ) //KOD NA SZUKANIE ZMIAN
 { 
     int testowanie=0;
 
@@ -562,7 +562,7 @@ int lifeworld::CheckChange(const geometry_base* MyGeom,
     else
     if(alive==3 ) //&& CenterAgent.First!=0)
     {
-        CenterAgent.Second=1; // + `CenterAgent.First;` //zmieniamy w agencie centralnym
+        CenterAgent.Second=1; // + `CenterAgent . First;` //zmieniamy w agencie centralnym
         return 1;
     }
     else //Nic się nie zmienia

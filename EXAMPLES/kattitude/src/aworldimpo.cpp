@@ -1,7 +1,7 @@
 /// @file
 /// @brief Virtual output method implementation of the aworld class. (kattitude old example for SymShell)
 //=====================================================================================================================
-/// @date 2026-05-17 (modified)
+/// @date 2026-05-18 (modified)
 /// @details
 ///     Its is rather simply implementation. You can replace it if you need.
 //=====================================================================================================================
@@ -13,7 +13,7 @@ int aworld::implement_output(ostream& o) const
     if(ret!=1) return ret;
     o<<separator;
     o<<MyWidth<<separator;		//Obwód (?) torusa
-    o << MaxPower << separator;	//Maksymalna sila agenta
+    o << MaxPower << separator;	//Maksymalna siła agenta
     o<<IleKate<<separator;		//Liczba kategorii w mapach
     o << NeiDens << separator;	//Gęstość sąsiedztwa
     o << NeiSize << separator;	//Rozmiar sąsiedztwa

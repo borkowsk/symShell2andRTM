@@ -1,7 +1,7 @@
 /// @file
 /// @brief SYMULACJA KONFLIKTÓW BOCA 2005 (plik główny)
 //-=====================================================================================================================
-/// @date 2026-05-17 (last update)
+/// @date 2026-05-18 (last update)
 /// @details
 /// UZUPEŁNIONY 10-11.2005, 9-2010, 02-2014, 04-2026
 /// ## HISTORIA
@@ -9,8 +9,8 @@
 /// * 1.2 Dodano obsługę parametrów wywołania
 ///       i symetryczne traktowanie połączeń wczytanych z pliku
 /// * 1.21 Poprawiono obsługę parametrów — błąd dla stringów
-///       Dodano parametry kontroli wydruku oraz Min-Max dla skali stan�w
-/// * 1.22 "Updajte" do poprawionej wersji bibliotek SYMSHELL i WBRTM.
+///       Dodano parametry kontroli wydruku oraz Min-Max dla skali stanów
+/// * 1.22 "Updajt" do poprawionej wersji bibliotek SYMSHELL i WBRTM.
 /// * 1.23 Ponowny "updejt" do stanu bibliotek na 2026.04
 ///
 //#include "platform.hpp" //????
@@ -285,7 +285,7 @@ public:
     
     
     //Trzeba wybrać którąś z metod inicjalizacji sieci
-    //int     /*def_*/mode=1; //0-bez połączeń, 1-symetryczne połączenia 2-asymetryczne połączenia
+    //int     /*def_*/mode = 1; //0-bez połączeń, 1-symetryczne połączenia 2-asymetryczne połączenia
     void InitialiseNotConnected(unsigned HowManyAgents);
     void InitialiseFullyConnected(unsigned HowManyAgents);
     void InitialiseRandomConnected(unsigned HowManyAgents);
@@ -393,7 +393,7 @@ void LocalWorld::_MakeStates(double mean, double max, unsigned start, unsigned e
  
     for(unsigned i=start;i<end;i++)
     {
-        agents[i]._setstate(0);	//Bo mogą byc stare wartości
+        agents[i]._setstate(0);	//Bo mogą być stare wartości
         agents[i].add_directly(niby_gauss_max(mean,mean+max));
     }
 }
@@ -423,7 +423,7 @@ void LocalWorld::InitialiseNotConnected(unsigned HowManyAgents)
         agents.alloc(HowManyAgents);
     //connections.alloc(1);
     //connections[0].set(0,0,0);	//Dummy connection
-    _MakeCircle();	//Układa wszystkich w domyślne kolo
+    _MakeCircle();	//Układa wszystkich w domyślne koło
     _MakeStates(m_init_st,r_init_st); //Ustala agentom stany z rozkładu
 }
 
@@ -432,11 +432,11 @@ void LocalWorld::InitialiseFullyConnected(unsigned HowManyAgents)
     if(agents.get_size()!=HowManyAgents)	//Wszakże jak nie równe i reinicjalizacja to kicha!!!
         agents.alloc(HowManyAgents);    
     
-    _MakeCircle();	//Układa wszystkich w domyślne kolo
+    _MakeCircle();	//Układa wszystkich w domyślne koło
     _MakeStates(m_init_st,r_init_st); //Ustala agentom stany z rozkładu
 
     unsigned how_many_con=((HowManyAgents*HowManyAgents)-HowManyAgents)/2; //( n^2-n )/ 2
-    if(how_many_con!=connections.get_size())//Wszakże jak nie równe i reinicjalizacja to kicha!!!
+    if(how_many_con!=connections.get_size()) //Wszakże jak nie równe i reinicjalizacja to kicha!!!
         connections.alloc(how_many_con);
 
     unsigned count_conn=0; //zliczanie/przesuwanie
@@ -455,7 +455,7 @@ void LocalWorld::InitialiseRandomConnected(unsigned HowManyAgents)
     if(agents.get_size()!=HowManyAgents)	//Wszakże jak nie równe i reinicjalizacja to kicha!!!
         agents.alloc(HowManyAgents);    
 
-    _MakeCircle();	//Układa wszystkich w domyślne kolo
+    _MakeCircle();	//Układa wszystkich w domyślne koło
     _MakeStates(m_init_st,r_init_st); //Ustala agentom stany z rozkładu
     
     unsigned how_many_con=(HowManyAgents*HowManyAgents)-HowManyAgents; //n^2-n
@@ -488,7 +488,7 @@ void LocalWorld::InitialiseFromWiesiekFile(const char* FileName)
                                                         assert(HowManyAgents>=0);
 
     if(HowManyAgents>0 && HowManyAgents<1000) //DLACZEGO 1000 ??? TODO
-        if(agents.get_size()==unsigned(HowManyAgents))//Rzut bo warning
+        if(agents.get_size()==unsigned(HowManyAgents)) //Rzut bo warning
         { //Już było czytane
             _MakeStates(m_init_st,r_init_st); //Ustala agentom stany z rozkładu
             for(unsigned c=0;c<connections.get_size();c++)
@@ -618,7 +618,7 @@ void LocalWorld::AllocSources() //Tworzy źródła danych
     }
     pNodeDelta=new struct_array_source<Agent,double>(agents.get_size(),agents.get_ptr_val(),&Agent::delta,"Delta");  //Dawna aktywność węzłów
     
-    pConnStart=new struct_array_source<Connection,size_t>(connections.get_size(),connections.get_ptr_val(),&Connection::start_node,lang("Początki","Starts"));	//Indeksy pocz�tk�w linii łączących węzły sieci
+    pConnStart=new struct_array_source<Connection,size_t>(connections.get_size(),connections.get_ptr_val(),&Connection::start_node,lang("Początki","Starts"));	//Indeksy początków linii łączących węzły sieci
     pConnEnd=new struct_array_source<Connection,size_t>(connections.get_size(),connections.get_ptr_val(),&Connection::end_node,lang("Końce","Ends"));	//Indeksy końców linii łączących węzły sieci
     pConnWeight=new struct_array_source<Connection,double>(connections.get_size(),connections.get_ptr_val(),&Connection::weight,lang("Wagi","Weights"));	//Wagi połączeń
     pConnAcct=new struct_array_source<Connection,double>(connections.get_size(), connections.get_ptr_val(), &Connection::last_act, lang("Aktywność", "Activity"));	//Aktywności połączeń
@@ -640,7 +640,7 @@ void LocalWorld::make_basic_sources()
 
     AllocSources();
     //Series ---> this->Sources
-    Sources.insert(pNodeX); //1 oznacza, ze menager ma nie zwalniać
+    Sources.insert(pNodeX); //1 oznacza, ze manager ma nie zwalniać
     Sources.insert(pNodeY);
     Sources.insert(pNodeR);
     Sources.insert(pNodeState);
@@ -734,7 +734,7 @@ void LocalWorld::make_default_visualisation() // area_manager_base& Lufciki     
     //pom->series_info->setminmx();
     this->MyAreaManager().insert(pom);
 
-    //STATYSTYKA STAN�W 
+    //STATYSTYKA STANÓW 
     {
     data_source_base* data[4]={MinStateLog,MeanStateLog,MaxStateLog,NULL};
     pom=new sequence_graph(1,250,250,550,	//domyślne współrzędne
@@ -885,7 +885,7 @@ class MetaExperiment
 
        void make_areas(area_manager& Lufciki); //Generowanie lufcików demonstracyjnych meta-świata
        void save_for_spreadsheet(const char* filename);
-};	//end of META-SWIAT
+};	//end of META-ŚWIAT
 
 void MetaExperiment::AddExperiment(double X,    //Tutaj będzie to średni szum
                                    double Y0, double Y1, double Y2,	//Początkowy średni stan, środkowy i końcowy
@@ -1048,15 +1048,15 @@ cout<<"Use '-help' for graphics setup information,\nor 'HELP' for information ab
 if(OptionalParameterBase::parse_options(argc,argv,Parameters,sizeof(Parameters)/sizeof(Parameters[0])))
     return 1;
 LocalWorld MyNetworkWorld( //Model symulacyjny z różnymi parametrami
-               def_mode,	//=2; //0-bez połączeń, 1-symetryczne połączenia 2-asymetryczne połączenia
-               def_num_of_nodes,	//=50; //Ile jest węzłów 
+               def_mode,	//= 2; //0-bez połączeń, 1-symetryczne połączenia 2-asymetryczne połączenia
+               def_num_of_nodes,	//= 50; //Ile jest węzłów
 
-               def_m_init_st,	//=0,  //Średni stan początkowy
-               def_r_init_st,	//=0.5,   //Odchylenie od średniego stanu początkowego
-               def_m_of_noise,	//=0,  //Średni poziom szumu/sygnału dodawanego do węzłów
-               def_r_of_noise,	//=0.5,  //Odchylenie od śred. szumu/sygnału dodawanego do węzłów
-               def_m_of_weight,	//=0.5, //Średnia waga krawędzi
-               def_r_of_weight,	//=0.1 //Odchylenie od śred. wagi krawędzi
+               def_m_init_st,	//= 0,  //Średni stan początkowy
+               def_r_init_st,	//= 0.5,   //Odchylenie od średniego stanu początkowego
+               def_m_of_noise,	//= 0,  //Średni poziom szumu/sygnału dodawanego do węzłów
+               def_r_of_noise,	//= 0.5,  //Odchylenie od śred. szumu/sygnału dodawanego do węzłów
+               def_m_of_weight,	//= 0.5, //Średnia waga krawędzi
+               def_r_of_weight,	//= 0.1 //Odchylenie od śred. wagi krawędzi
                def_asymmetry
                );
 MetaExperiment MyMetaExp; //Obsługa meta-eksperymentu dla wielu ustawień symulacji

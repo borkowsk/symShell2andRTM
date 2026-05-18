@@ -1,7 +1,7 @@
 // Virtual output methods implementation of the aworld class.
 //Its is rather simply implementation. You can replace it if you need.
 //=====================================================================
-// @date 2026-05-17 (modification)
+// @date 2026-05-18 (modification)
 #include "aworld.h"
 
 int aworld::implement_output(ostream& o) const
@@ -9,12 +9,12 @@ int aworld::implement_output(ostream& o) const
     int ret=world::implement_output(o);
     if(ret!=1) return ret;
     o << separator;
-    o << MyWidth<<separator;	//Obwod (?) torusa
+    o << MyWidth<<separator;	//Obwód (?) torusa
     o << MaxSila<<separator;	//Maksymalna siła agenta
-    o << NofCateg << separator;	//Liczba kategori w mapach
+    o << NofCateg << separator;	//Liczba kategorii w mapach
     o << NofNeigh << separator;	//8 == Gęstość sąsiedztwa
     o << NeighRadius << separator;	//Rozmiar sąsiedztwa
-    o << UseSelf<<separator;	//Czy ma brac siębie pod uwage
+    o << UseSelf<<separator;	//Czy ma brać siębie pod uwagę
     o << Noise<<separator<<endl;		//Szum informacyjny
     o << Agents << endl;
     return 1;
