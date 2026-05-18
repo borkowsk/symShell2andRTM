@@ -1,5 +1,5 @@
 /// @file
-/// @brief __Definitions of basic (interface) data source class__ /<br>
+/// @brief __Definitions of basic (interface) data source__ /<br>
 ///         _Definicje podstawowej klasy źródła danych (interfejsu)._
 /// @date 2026-05-18 (modified)
 // ********************************************************************************************************************

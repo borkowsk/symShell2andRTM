@@ -109,7 +109,7 @@ public:
     void plot(int x,int y, unsigned short size, wb_color color) override;
 };
 
-/// @brief COMMON USER INTERFACE for all charts and similar classes./<br>
+/// @brief COMMON USER INTERFACE for all charts and similar areas./<br>
 ///        WSPÓLNY INTERFACE UŻYTKOWNIKA dla wszystkich wykresów i klas podobnych.
 class graph:public drawable_base
 //------------------------------

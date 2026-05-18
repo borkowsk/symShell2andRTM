@@ -1,5 +1,5 @@
 /// @file
-/// @brief __INTERFACES of the most basic data source classes__ /<br>
+/// @brief __INTERFACES of the most basic data source types__ /<br>
 ///         _INTERFACE-y najbardziej podstawowych klas źródeł danych._
 /// @date 2026-05-18 (modified)
 // *********************************************************************************************************************
@@ -304,7 +304,7 @@ class linear_source_base : public data_source_base, public title_util
 protected:
     size_t N; ///< Ile elementów. Chronione, a nie prywatne, bo np. `fifo_source<> modyfikuje`.
 
-    /// Constructor only for derived classes.
+    /// Constructor only for derived types.
     /// @param i_N to oczekiwana liczba elementów (do sprawdzeń).
     /// @param i_tit to nazwa tego źródła danych.
     linear_source_base(size_t i_N, const char *i_tit)

@@ -1,5 +1,5 @@
 /// @file
-/// @brief **Implementation of graph classes using RGB coloring** /<br>
+/// @brief **Implementation of graphs which use RGB coloring** /<br>
 ///         _IMPLEMENTACJA KLAS GRAFÓW UŻYWAJĄCYCH KOLOROWANIA RGB._
 /// @date 2026-05-18 (modification)
 //======================================================================================================================

@@ -1,5 +1,5 @@
 /// @file
-/// @brief __A filter that calculates the number of series classes and derived spatial statistics, including spatial correlations.__ /<br>
+/// @brief __A filter that calculates the number of series categories and derived spatial statistics, including spatial correlations.__ /<br>
 ///         _Filtr liczący liczebność klas serii i pochodne statystyki przestrzenne, w tym korelacje przestrzenne._
 /// @date 2026-05-18 (modified)
 // ********************************************************************************************************************

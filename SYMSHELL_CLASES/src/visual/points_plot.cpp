@@ -1,7 +1,7 @@
 /// @file
-/// @brief **Implementation of basic primitives classes** /<br>
+/// @brief **Implementation of basic primitive types** /<br>
 ///         _Implementacja podstawowych klas prymitywów graficznych._
-/// @date 2026-05-17 (modification)
+/// @date 2026-05-18 (modification)
 //======================================================================================================================
 
 #include "symshell.h"

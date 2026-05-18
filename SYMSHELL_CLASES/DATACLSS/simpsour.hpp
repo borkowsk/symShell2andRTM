@@ -1,5 +1,5 @@
 /// @file
-/// @brief __Specific source classes. A file that combines various "includes"__ /<br>
+/// @brief __Specific source types. A file that combines various "includes"__ /<br>
 ///         _Konkretne klasy źródeł. Plik łączący różne "include-y"._
 /// @date 2026-05-18 (modified)
 // ********************************************************************************************************************

@@ -22,7 +22,6 @@ using namespace wbrtm;
 // --checks=-google-default-arguments.
 #pragma ide diagnostic ignored "google-default-arguments"
 
-/// Modernized classes for C++ simulation/Zmodernizowane klasy do symulacji w C++.
 namespace sym2
 {
 

@@ -51,7 +51,7 @@ protected:
         if(!co_statistics_source/*<DATA_SOURCE>*/::_calculate())
             return 0;
 
-        size_t nn, mm; //Real numbers of classes
+        size_t nn, mm; //Real numbers of categories
 /*	
     {//OBLICZANIE HISTOGRAMU
     assert(N==-1); //Tylko tryb integer-owy zaimplementowany

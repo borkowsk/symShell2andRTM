@@ -1,5 +1,5 @@
 /// @file
-/// @brief __Filter counting the number of discrete series classes and derived statistics.__ /<br>
+/// @brief __Filter counting the number of categories in discrete data serie and derived statistics.__ /<br>
 ///         _Filtr liczący liczebność dyskretnych klas serii i pochodne statystyki._
 /// @date 2026-05-18 (modified)
 // ********************************************************************************************************************

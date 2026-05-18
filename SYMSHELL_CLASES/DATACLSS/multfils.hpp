@@ -22,7 +22,7 @@ namespace sym2 { namespace data {
 
 /// @brief
 ///   \PL{ Szablon klasy bazowej dla klas liczących podstawowe parametry statystyczne innego źródła. }
-///   \EN{ Base class template for classes calculating basic statistical parameters from another source. }
+///   \EN{ Base template for data sources calculating basic statistical parameters from another source. }
 /// @details
 ///   \PL{ Wyliczone parametry są podawane w arbitralnej kolejności lub poprzez skalarne źródła pośrednie. }
 ///   \EN{ The calculated parameters are given in an arbitrary order or through scalar intermediate sources. }
@@ -36,7 +36,7 @@ protected:
     /// @details
     /// A somewhat artificial single-element source type with notification to the appropriate "basic statistics filter" `father`.
     /// Informs that current data will be needed.
-    /// In descendant classes, it's certainly safe to substitute a virtual `get` method.
+    /// In descendant types, it's certainly safe to substitute a virtual `get` method.
     class local_scalar_source : public scalar_source<double>
 #else
     /// @details

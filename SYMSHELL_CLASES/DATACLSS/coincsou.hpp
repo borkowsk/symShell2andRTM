@@ -1,5 +1,5 @@
 /// @file
-/// @brief **A filter that counts the coincidences of classes of two series and derived statistics (Hi^2 etc.).** /<br>
+/// @brief **A filter that counts the coincidences of categories in two series and derived statistics (Hi^2 etc.).** /<br>
 ///         _Filtr liczący koincydencje klas dwu serii i pochodne statystyki (Hi^2 itp.)._
 /// @date 2026-05-18 (modified)
 // ********************************************************************************************************************
@@ -259,7 +259,7 @@ int coincidence_source::_calculate()
         data_source_base *source1 = get_first_source();
         data_source_base *source2 = get_second_source();
         double min1, max1, min2, max2;
-        size_t N1, N2; ///< Numbers of pairs, items and real numbers of classes
+        size_t N1, N2; ///< Numbers of pairs, items and real numbers of categories
         size_t i, j;
 
         source1->bounds(N1, min1, max1);

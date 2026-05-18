@@ -1,5 +1,5 @@
 /// @file
-/// @brief __A filter that counts the number of series classes and derived statistics.__ /<br>
+/// @brief __A filter that counts the number of categories and derived statistics.__ /<br>
 ///         _Filtr liczący liczebność określonej liczby klas serii i pochodne statystyki._
 /// @date 2026-05-18 (modified)
 // ********************************************************************************************************************

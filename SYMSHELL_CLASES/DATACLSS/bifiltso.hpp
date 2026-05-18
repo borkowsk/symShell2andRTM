@@ -1,5 +1,5 @@
 /// @file
-/// @brief **Different classes of dual-source data filters** /<br>
+/// @brief **Different types of dual-source data filters** /<br>
 ///         _Różne klasy dwuźródłowych filtrów danych._
 /// @date 2026-05-18 (modified)
 // ********************************************************************************************************************

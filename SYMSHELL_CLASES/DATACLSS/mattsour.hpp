@@ -1,5 +1,5 @@
 /// @file
-/// @brief __Specific source classes - access to data in two-dimensional arrays.__ /<br>
+/// @brief __Specific source types - access to data in two-dimensional arrays.__ /<br>
 ///         _Konkretne klasy źródeł — dostęp do danych w tablicach dwuwymiarowych._
 /// @date 2026-05-18 (modified)
 // ********************************************************************************************************************

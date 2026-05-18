@@ -1,7 +1,7 @@
 /// @file
-/// @brief  __Specific source classes - access to data in variables__ /<br>
+/// @brief  __Specific source types - access to data in variables__ /<br>
 ///          _Konkretne klasy źródeł — dostęp do danych w zmiennych._
-/// @date 2026-05-16 (modified)
+/// @date 2026-05-18 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_SCALAR_SOUR_HPP_INCLUDED_

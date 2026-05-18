@@ -1,5 +1,5 @@
 /// @file
-/// @brief __Different classes of single-source data filters.__ /<br>
+/// @brief __Different types of single-source data filters.__ /<br>
 ///         _Różne klasy jednoźródłowych filtrów danych._
 /// @date 2026-05-18 (modified)
 // ********************************************************************************************************************
