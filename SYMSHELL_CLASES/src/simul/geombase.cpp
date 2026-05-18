@@ -1,7 +1,7 @@
 /// @file
 /// @brief **ITERATOR ALLOCATION CACHE IMPLEMENTATION** /<br>
 ///         _IMPLEMENTACJA CACHE-U ALOKACJI ITERATORÓW._
-/// @date 2026-05-17 (modified)
+/// @date 2026-05-18 (modified)
 //=============================================================================
 
 //#include "INCLUDE/platform.hpp"
@@ -44,7 +44,7 @@ namespace sym2 { namespace shell
 #ifndef NDEBUG
                 if(cal_num > 0)
                 {
-                    //if(cerr.good()&& (!cerr.eof()))//Może już go nie być, ale to sprawdzenie i tak nie za bardzo działa!!!
+                    //if(cerr.good()&& (!cerr.eof())) //Może już go nie być, ale to sprawdzenie i tak nie za bardzo działa!!!
                     //	cerr<<"Iterator's allocator buffer:\n"
                     //	<<"max len.="<<max_size<<"\n"
                     //	<<"hit rat.="<<hit_num/double(cal_num)<<endl;
@@ -52,7 +52,7 @@ namespace sym2 { namespace shell
                             "hit rat.=", double(hit_num) / double(cal_num));
                 } else
                 {
-                    //if(cerr.good()&& (!cerr.eof()))//Może już go nie być (!!!), ale to sprawdzenie i tak nie za bardzo działa!!!
+                    //if(cerr.good()&& (!cerr.eof())) //Może już go nie być (!!!), ale to sprawdzenie i tak nie za bardzo działa!!!
                     //	cerr<<"Iterator's allocator buffer never been used.\n";
                     fprintf(stderr, "%s\n", "Iterator's allocator buffer has never been used.");
                 }

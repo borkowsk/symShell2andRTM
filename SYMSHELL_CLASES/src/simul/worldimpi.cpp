@@ -1,6 +1,6 @@
 /// @file
 /// @brief **Implementation of the world class -- Virtual input methods and operator >>  **
-/// @date 2026-05-17 (modified)
+/// @date 2026-05-18 (modified)
 //===----------------------------------------------------------------------------
 /// @details
 ///     Its is rather simply implementation. You can replace it if you need.
@@ -31,7 +31,7 @@ int sym2::shell::world::implement_input(istream& i)
 }
 
 // wczytanie pojedynczego obrazu symulacji dla inicjalizacji
-// Jeśli nie ma nazwy to z nazwy OutName
+// Jeśli nie ma nazwy to z nazwy `OutName`.
 void sym2::shell::world::initialize_from_image(const char* FileName)
 {
 
@@ -42,13 +42,13 @@ void sym2::shell::world::initialize_from_image(const char* FileName)
     }
 
     ifstream InFile(FileName?FileName:OutName.get()
-                // ,	//Preferuje nazwe podana explicite
-                        //ios::in|				//Otwiera do odczytu oczywiscie
+                // ,	//Preferuje nazwę podana explicite
+                        //ios::in|				//Otwiera do odczytu oczywiście
 /*
 #ifdef CHALA_____//NEW_FASHION_CPP
                         ios::_Nocreate
 #else
-                        ios::nocreate			//Nie tworzy jeśli nie ma
+                        ios::nocreate			//Nie tworzy, jeśli nie ma
 #endif
 #ifdef __MSVC_2000__
                         ,_SH_SECURE //zamiast ios_base::_Openprot
@@ -63,9 +63,9 @@ void sym2::shell::world::initialize_from_image(const char* FileName)
         return;
     }
 
-    InFile>>(*this); //Wlasciwe wczytanie
+    InFile>>(*this); //Właściwe wczytanie
 
-    after_read_from_image(); //actions after read state from file.
+    after_read_from_image(); //actions after read state from a file.
 
     //Niejawnie zamyka InFile w destruktorze
 }
@@ -96,12 +96,12 @@ void world::read_loop(int ret_after)
 #ifdef NEW_FASHION_CPP
                         |   ios::_Nocreate
 #else
-                        |   ios::nocreate			//Nie tworzy jeśli nie ma
+                        |   ios::nocreate			//Nie tworzy, jeśli nie ma
 #endif
 #ifdef __MSVC_2000__
                         ,_SH_SECURE //zamiast ios_base::_Openprot
-//Brak stalych choc kiedys by�y
-                        ,filebuf::sh_read		//Nie czyta z otwartego i nic nie pozwala dopisywac w trakcie
+//Brak stałych choć kiedyś były
+                        ,filebuf::sh_read		//Nie czyta z otwartego i nic nie pozwala dopisywać w trakcie
 #endif
 */
                         ));
@@ -113,7 +113,7 @@ void world::read_loop(int ret_after)
         }
     }
 
-    // Wstepne działania
+    // Wstępne działania
     //===================
     if(AreaManager)
     {
@@ -136,7 +136,7 @@ void world::read_loop(int ret_after)
         //=======================================
         if(AreaManager==NULL || AreaManager->background_enabled())
         {
-            unsigned long OldLicznik=StepCounter; //Dostep do pola protected, fuj!
+            unsigned long OldLicznik=StepCounter; //Dostęp do pola protected, fuj!
 
             char cpom;
             do{
@@ -144,7 +144,7 @@ void world::read_loop(int ret_after)
             }while(cpom=='\n'); //Ignoruje puste linie
 
             if(Out->eof())
-                    break; //Gdyby byly puste linie na koncu pliku
+                    break; //Gdyby były puste linie na końcu pliku
             Out->putback(cpom);	   //A jeśli nie to oddajemy znak
             (*Out)>>(*this);
             after_read_from_image(); //actions after read state from a file.
@@ -153,7 +153,7 @@ void world::read_loop(int ret_after)
                 Sources.new_data_version(1,1); //Oznajmia seriom, że dane się uaktualniły
         }
 
-        // Obsluga okna przed krokiem symulacji
+        // Obsługa okna przed krokiem symulacji
         //=======================================
         if(AreaManager)
         {
@@ -162,11 +162,11 @@ void world::read_loop(int ret_after)
             AreaManager->flush();
         }
 
-        // Obsluga okna po kroku symulacji lub bez niej
+        // Obsługa okna po kroku symulacji lub bez niej
         //===============================================
         if(AreaManager)
         {
-            AreaManager->process_input(); //Obsluga zdarzen zewnetrznych
+            AreaManager->process_input(); //Obsługa zdarzeń zewnętrznych
             if(!AreaManager->should_continue() )	//CZY NIE KONIEC?
                     break; //Koniec zabawy!!!
         }

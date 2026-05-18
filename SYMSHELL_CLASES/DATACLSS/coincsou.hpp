@@ -1,7 +1,7 @@
 /// @file
 /// @brief **A filter that counts the coincidences of classes of two series and derived statistics (Hi^2 etc.).** /<br>
 ///         _Filtr liczący koincydencje klas dwu serii i pochodne statystyki (Hi^2 itp.)._
-/// @date 2026-05-16 (modified)
+/// @date 2026-05-18 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_COINCIDENCE_SOUR_HPP_INCLUDED_
@@ -34,7 +34,7 @@ protected:
     size_t M; ///< Required number of Class of Second
     wb_ptr<my_geometry_t> my_geometry; ///< Geometria macierzy koincydencji (prostokątna).
     wb_dynmatrix<unsigned long>  arra; ///< Macierz koincydencji (aż 64-bitowe liczniki to chyba trochę za dużo?)
-    //wb_dynmatrix<unsigned>  arra; ///< Macierz koincydencji. Ale tak wywoływała pad przy alokacji... DZIWNE.
+    //wb_dynmatrix<unsigned>  arra; ///< Macierz koincydencji. Jednak tak wywoływała pad przy alokacji... DZIWNE.
     unsigned iHi; ///< Indeks dla pozycji Hi-kwadrat (`size_t`, czyli u64 to chyba trochę za dużo)?
 
     /// Bezpośrednio siega do tablicy `arra`.
@@ -281,7 +281,7 @@ int coincidence_source::_calculate()
            my_geometry->get_height() != NNHeight ||
            my_geometry->get_width() != MMWidth)
         {
-            if(arra.alloc(NNHeight, MMWidth) == 0)	//błąd alokacji — za malo/za dużo?
+            if(arra.alloc(NNHeight, MMWidth) == 0)	//błąd alokacji — za mało/za dużo?
                 goto ERROR;
 
             my_geometry = new my_geometry_t(MMWidth, NNHeight, 0);
@@ -392,7 +392,7 @@ int coincidence_source::_calculate()
                     Zb += pom * ((SumaKolumn - pom) / SumaKolumn);
             }
 
-    }//Koniec obliczeń składowych
+    } //Koniec obliczeń składowych
 
     if(table[iHi] != NULL)
         table[iHi]->change_val(Hi);

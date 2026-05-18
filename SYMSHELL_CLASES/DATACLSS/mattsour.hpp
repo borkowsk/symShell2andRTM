@@ -1,7 +1,7 @@
 /// @file
 /// @brief __Specific source classes - access to data in two-dimensional arrays.__ /<br>
 ///         _Konkretne klasy źródeł — dostęp do danych w tablicach dwuwymiarowych._
-/// @date 2026-05-16 (modified)
+/// @date 2026-05-18 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_MATRIX_SOUR_HPP_INCLUDED_
@@ -281,7 +281,7 @@ public:
             if(pom2)
                 return pom2->*component;
         }
-        //Nie udało się, bo cos tam.
+        //Nie udało się, bo coś tam.
         return miss;
     }
 
@@ -296,7 +296,7 @@ public:
             if(pom2)
                 return pom2->*component;
         }
-        //Nie udało się, bo cos tam.
+        //Nie udało się, bo coś tam.
         return miss;
     }
 

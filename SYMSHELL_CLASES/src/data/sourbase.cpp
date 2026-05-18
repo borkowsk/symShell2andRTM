@@ -1,7 +1,7 @@
 /// @file
 /// @brief **DEPRECATED "COUNTING" of IEEE tags: INF and NAN** /<br>
 ///         _PRZESTARZAŁE "LICZENIE" znaczników IEEE: INF i NAN._
-/// @date 2026-05-17 (modification)
+/// @date 2026-05-18 (modification)
 //-----------------------------------------------------------
 /// DAWNO NIE TESTOWANE, CHYBA NIE DZIAŁA, I NIE JEST NAPRAWDĘ POTRZEBNE
 //========================================================================
@@ -28,8 +28,8 @@
     #endif
     /// @}
 
-    /// Typ będący unią typów zmiennoprzcinkowych i ich pól specjalnych.
-    /// @note Prawdopodobnie nie jest już potrzebna taka komplikacja bo NaN i INF można wziąć od kompilatora.
+    /// Typ będący unią typów zmiennoprzecinkowych i ich pól specjalnych.
+    /// @note Prawdopodobnie nie jest już potrzebna taka komplikacja, bo NaN i INF można wziąć od kompilatora.
     typedef union {
         unsigned short _W[5];
         float _F;
@@ -60,7 +60,7 @@
 
 #else
     //double data_source_base::inf()
-    //Liczy INF wg IEEE - może generować SIGFPE na części platform
+    //Liczy INF wg IEEE — może generować SIGFPE na części platform
     //{
     //	double zero=0;
     //	return 1./zero; //-INF. jako znacznik braku

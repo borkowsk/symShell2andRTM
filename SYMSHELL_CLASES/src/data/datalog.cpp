@@ -1,7 +1,7 @@
 /// @file
 /// @brief **Implementation of the simplest class for writing data from single-value sources to a file** /<br>
 ///         _Implementacja najprostszej klasy zapisywania do pliku danych ze źródeł jednowartościowych._
-/// @date 2026-05-17 (modified)
+/// @date 2026-05-18 (modified)
 //======================================================================================================================
 
 #include "logfile.hpp"
@@ -45,7 +45,7 @@ void  logfile::restart_data_version()
 
 
 int logfile::try_writing()
-//Jeśli choc jedna seria ma nową wersję, to wypluwa cala linie danych. Jeśli użyto link_data_source
+//Jeśli choć jedna seria ma nową wersję, to wypluwa cala linie danych. Jeśli użyto link_data_source
 //to wypluwa też wiersz nagłówków
 {
     size_t i=0;

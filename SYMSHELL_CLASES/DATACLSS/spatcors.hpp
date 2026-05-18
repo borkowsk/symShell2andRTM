@@ -1,7 +1,7 @@
 /// @file
 /// @brief __A filter that calculates the number of series classes and derived spatial statistics, including spatial correlations.__ /<br>
 ///         _Filtr liczący liczebność klas serii i pochodne statystyki przestrzenne, w tym korelacje przestrzenne._
-/// @date 2026-05-16 (modified)
+/// @date 2026-05-18 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_SPATIAL_CORRELATION_SOUR_HPP_INCLUDED_
@@ -335,7 +335,7 @@ bool spatial_correlation_source<DATA_SOURCE>::_count_randomly()
         //size_t radius=size_t(   (1-TheRandG.DRand()*TheRandG.DRand()*TheRandG.DRand() ) * NN   );       //Rozkład trafień wychodzi jednomodalny z maksimum w środku.
         //size_t radius=size_t(TheRandG.DRand()*NN/2)+((1-TheRandG.DRand()*TheRandG.DRand())*NN/2);       //Tu podobnie...
         //size_t radius=size_t(TheRandG.Random(NN);                                                       //A tu niemal liniowy spadek trafień wraz z odległością.
-        //size_t radius=NN;                                                                               //Rozkłąd staje się jednomodalny z 0 przy odległości 1.
+        //size_t radius=NN;                                                                               //Rozkład staje się jednomodalny z 0 przy odległości 1.
         size_t radius = (TheRandG.DRand() > 0.5?size_t(TheRandG.Random(NN))
                                                :NN);    //Troche lepiej, ale nie idealnie — mało dla odległości największych.
 

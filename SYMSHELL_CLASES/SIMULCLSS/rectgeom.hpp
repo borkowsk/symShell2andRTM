@@ -1,6 +1,6 @@
 /// @file
 /// @brief **RECTANGULAR GEOMETRY** /<br> _GEOMETRIA PROSTOKĄTNA._
-/// @date 2026-05-17 (modified)
+/// @date 2026-05-18 (modified)
 ///      Pierwsza i główna specjalizacja. Heksagonalnej i sieciowej nigdy nie napisałem, choć były w planie.
 // ********************************************************************************************************************
 //
@@ -396,7 +396,7 @@ public:
     /// @note Mogłoby mieć "cache-owanie" obliczonych odległości, ale aktualnie wykomentowane.
     double      get_distance(size_t first,size_t second) const override
     {/*
-        if(distances.IsOK()) //To sprawdzenie niestety dodaje pewien procent roboty gdy nie używa się wcale tablicy
+        if(distances.IsOK()) //To sprawdzenie niestety dodaje pewien procent roboty, gdy nie używa się wcale tablicy
         {
             if(distances[first][second]!=-1)
             {

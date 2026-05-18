@@ -1,7 +1,7 @@
 /// @file
 /// @brief **Definition of the base class and simulation layer templates** /<br>
 ///         _Definicja bazy i szablonów warstw symulacji._
-/// @date 2026-05-17 (modified)
+/// @date 2026-05-18 (modified)
 ///      ...
 // ********************************************************************************************************************
 #ifndef SYMSHELL2_LAYER_HPP_INCLUDED_
@@ -59,7 +59,7 @@ public:
     virtual int registry_sources(sources_manager_base&		Sources)
     {return 0;}
 
-    /// Zwraca wskaźnik do geometrii. Nie wolno go z-delet-ować.
+    /// Zwraca wskaźnik do geometrii. Nie wolno go z-delete-ować.
     virtual const geometry_base* get_geometry()=0;
 
     //virtual void swap(size_t index1,size_t index2)=0; //Zamienia ze soba dwa elementy
@@ -428,7 +428,7 @@ public:
     }
 
     /// Przypisanie polu wartości RGB z bitmapy — domyślnie przekształcone na szarość.
-    void assign_rgb(size_t TargetX,size_t TargetY,		//tez konieczne bo pure-virtual
+    void assign_rgb(size_t TargetX,size_t TargetY,		//też konieczne bo pure-virtual
                     unsigned char Red,unsigned char Green,unsigned char Blue,
                     void* user_data=0
                     ) override
@@ -654,7 +654,7 @@ class rectangle_layer_of_agents:public layer<AGENT>,public rectangle_layer
 {
     wb_dynarray<AGENT>		  table; //!< Prosty kontener na dane.
     AGENT					cleaner; //!< Obiekt do zamazywania.
-    int					use_cleaner; //!< Czy potrzebne jest użycie "cleanera",
+    int					use_cleaner; //!< Czy potrzebne jest użycie `cleaner`-a,
                                      //!<, czy wystarczy konstruktor bezparametrowy i/albo `clean`.
 public:
     /// Constructor 1.
@@ -789,7 +789,7 @@ public:
     }
 
     /// Przypisanie polu wartości RGB. Zwykle z bitmapy — domyślnie przekształcone na szarość.
-    void assign_rgb(size_t TargetX,size_t TargetY,		//tez konieczne bo pure-virtual
+    void assign_rgb(size_t TargetX,size_t TargetY,		//też konieczne bo pure-virtual
                     unsigned char Red,unsigned char Green,unsigned char Blue,
                     void* user_data=0
                     ) override
@@ -1139,7 +1139,7 @@ public:
         return get(X,Y);
     }
 
-    /// Dostęp do (pół-)inteligentnego wskaźnika budującego warstwę.
+    /// Dostęp do (pół-) inteligentnego wskaźnika budującego warstwę.
     wb_ptr<AGENT>&	get_ptr(size_t X,size_t Y)
     {
         size_t lindex=MainGeometry.get(X,Y);
@@ -1200,7 +1200,7 @@ public:
     }
 
     /// Przypisanie polu wartości RGB z bitmapy. Domyślnie przekształcone na szarość.
-    void assign_rgb(size_t TargetX,size_t TargetY,		//tez konieczne bo pure-virtual
+    void assign_rgb(size_t TargetX,size_t TargetY,		//też konieczne bo pure-virtual
         unsigned char Red,unsigned char Green,unsigned char Blue,void* user_data) override
     {
         assign_rgb_fun AssignFun=((assign_rgb_stc*)user_data)->AssFun;

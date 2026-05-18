@@ -1,7 +1,7 @@
 /// @file
 /// @brief **IMPLEMENTATION OF DIFFERENT TYPES OF NON-GRAPH AREAS** /<br>
 ///         _IMPLEMENTACJA ROŻNYCH TYPóW OBSZARóW NIE BĘDĄCYCH GRAFAMI._
-/// @date 2026-05-17 (last modification)
+/// @date 2026-05-18 (last modification)
 //======================================================================================================================
 // Wersja z kosmetyką XI 2012 i późniejszymi zmianami.
 
@@ -74,7 +74,7 @@ void button::_replot()
     const char* text=name(); //Podręczny wskaźniczek.
     if(vh_mode == 0) //Vertical mode
         {
-        if(x2-x1<char_width('X')) return; //Za malo miejsca
+        if(x2-x1<char_width('X')) return; //Za mało miejsca
         int height=toi(char_height('X'));
         while(*text!='\0' && (y2-y1)>=height)
             {
@@ -87,7 +87,7 @@ void button::_replot()
     if(vh_mode == 1)
         {
         int height=toi(string_height(text));
-        if(y2-y1<height) return; //Za malo miejsca
+        if(y2-y1<height) return; //Za mało miejsca
         int y_start= (y1 + y2) / 2 - height / 2; //Środek
         if(y_start < y1) y_start=y1; //jak wylezie za wysoko
         print_width(x1, y_start, x2 - x1, draw_color, get_background(), text); //samo rysowanie
@@ -306,7 +306,7 @@ steering_wheel::steering_wheel(
 }
 
 //steering_wheel( int ix1,int iy1,int ix2,int iy2,
-//					rectangle_source_base*  idat);//Pamięć Żadnej z seri nie jest tu zarządzana
+//					rectangle_source_base*  idat); //Pamięć Żadnej z seri nie jest tu zarządzana
 
 
 int left_right_button::on_change(const gps_area& new_ar)
@@ -372,7 +372,7 @@ int left_right_button::_user_action(int left_or_right, int /*ignoruje click*/)
 int left_right_button::on_click(int x, int y, int click)
         //Przepytuje składowe i jeśli któraś została trafiona to ...
 {
-    if(!is_inside(x, y))//sprawdzenie dla całości
+    if(!is_inside(x, y)) //sprawdzenie dla całości
         return 0;  //"Nie moja sprawa!"
 
     int retval = 0;
@@ -482,7 +482,7 @@ int steering_wheel::on_click(int x,int y,int click)
     */
     }
     else //Żaden z pod-obiektów
-    return is_inside(x,y);//Wychodzi się.
+    return is_inside(x,y); //Wychodzi się.
 
     //Ustawia tak samo pozostałym zarządzanym seriom
     size_t i;
@@ -507,7 +507,7 @@ int steering_wheel::on_click(int x,int y,int click)
 ERROR://Nie zaimplementowano koniecznej operacja lub inny błąd
     {
     wb_color bf= get_frame(); //Użyte jako tymczasowa
-        set_frame(254); //Jasny ale nie bialy
+        set_frame(254); //Jasny, ale nie biały
     replot();
         set_frame(bf);
     }
@@ -522,7 +522,7 @@ int text_area::on_click(int x,int y,int click)
 int ins=is_inside(x,y);
 if(ins==1)
     {
-    ins=_on_click(x,y,click);//Może zmienić wynik
+    ins=_on_click(x,y,click); //Może zmienić wynik
     }
 return ins;
 }
@@ -567,10 +567,10 @@ void text_area::_replot()
 
 void text_area::clean()
 {
-    linie.dispose();//Usuwa stare
+    linie.dispose(); //Usuwa stare
     index=0;		//Umożliwia alokowanie linii od początku.
-    if(user_size!=size_t(-1))//Tylko gdy user_size ustalone
-        linie.alloc(user_size);// Alokuje nowe
+    if(user_size!=size_t(-1)) //Tylko gdy user_size ustalone
+        linie.alloc(user_size); // Alokuje nowe
 }
 
 int text_area::add_line(const char* ini) //ret 1 jeśli OK
@@ -581,7 +581,7 @@ int text_area::add_line(const char* ini) //ret 1 jeśli OK
 
     char* pom=clone_str(ini); //Kopia łańcucha
 
-   // if(pom==nullptr) return 0; //Wpadka na braku pamięci podobno sie już nie zdarza.
+   // if(pom==nullptr) return 0; //Wpadka na braku pamięci podobno się już nie zdarza.
    // else
         Ini.set_dynamic_ptr_val(pom,strlen(pom)+1);
 
@@ -589,7 +589,7 @@ int text_area::add_line(const char* ini) //ret 1 jeśli OK
     if(index<linie.get_size())
         //Jest jeszcze miejsce. Czyli tablica niezerowego rozmiar
         {
-            linie[index]=Ini;//Jeśli przepisze to nie zwolni
+            linie[index]=Ini; //Jeśli przepisze to nie zwolni
             index++;
         }
     else
@@ -606,7 +606,7 @@ int text_area::add_line(const char* ini) //ret 1 jeśli OK
                 }
             size_t outsize;
             linie[index-1].give_dynamic_ptr_val(outsize); //Zabiera mu z zarządu
-            linie[index-1]=Ini;//Jeśli przepisze to nie zwolni
+            linie[index-1]=Ini; //Jeśli przepisze to nie zwolni
         }
 
     return 1;

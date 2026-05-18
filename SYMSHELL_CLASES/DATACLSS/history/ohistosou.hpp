@@ -1,7 +1,7 @@
 /// @file
 /// @brief Stary filtr liczący liczebność klas serii i pochodne statystyki. NIE DA SIĘ OBECNIE SKOMPILOWAĆ.
 ///        <br> __OBSOLETE and INVALID__
-/// @date 2026-05-16 (modified)
+/// @date 2026-05-18 (modified)
 // ********************************************************************************************************************
 // Coś dziwnego Tidy robi z tym plikiem. Nie jest w stanie znaleźć systemowych nagłówków.
 #ifndef __OLD_HISTOGRAM_SOUR_HPP__
@@ -71,7 +71,7 @@ protected:
                 goto ERROR;
 
             arra.alloc(KL);
-            if(!arra.IsOK()) //błąd alokacji — za malo/za dużo?
+            if(!arra.IsOK()) //błąd alokacji — za mało/za dużo?
                 goto ERROR;
 
             for(i = 0; i < KL; i++)
@@ -158,7 +158,7 @@ protected:
             }
 
             return 1;
-        }//Musial przeliczyć
+        } //Musial przeliczyć
 
         ERROR:
         if(table[10] != NULL)

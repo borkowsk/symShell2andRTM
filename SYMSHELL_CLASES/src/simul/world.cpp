@@ -1,7 +1,7 @@
 /// @file
 /// @brief **Implementation of the world-class** /<br>
 ///        _Implementacja rozwiązań klasy reprezentującej świat._
-/// @date 2026-05-17 (modified)
+/// @date 2026-05-18 (modified)
 //======================================================================================================================
 
 #include "world.hpp"
@@ -14,7 +14,7 @@
 bool sym2::shell::world::continuous_dump=false;
 
 int	sym2::shell::world::set_simulation_name(const char* name)
-//Zwraca 1 jak się udało. Może być niedozwolone
+//Zwraca 1, jak się udało. Może być niedozwolone
 {
     SimulName=name;
     return 1;
@@ -34,7 +34,7 @@ int	sym2::shell::world::set_history_stream(const char* name)
 void sym2::shell::world::make_default_visualisation()
 //Tworzenie obowiązkowego lufcika na informacje tekstowe.
 {
-    if(!HasAreaMenager()) {//SKORO NIE MA MANAGERA, TO NIE MA CO ROBIĆ, ALE TO JEST BŁĄD!
+    if(!HasAreaMenager()) {//SKORO NIE MA MANAGERA, TO NIE MA CO ROBIĆ, ALE TO JEST BŁĄD! TODO Menager!!!
         cerr<<"Visualization manager not connected - default graphs could not be created."<<endl;
         goto ERROR;
     }
@@ -354,7 +354,7 @@ sym2::shell::world::~world() {
     //Jeśli jakieś źródło zarejestrowane w logu nie jest używane w wizualizacji
     //to destruktor próbuje obliczać wartości ze zniszczonego już świata!!!
     //TODO SPRAWDZIĆ!
-    Log.try_writing(); //Stan końcowy, jeśli nie byl zapisany  */
+    Log.try_writing(); //Stan końcowy, jeśli nie był zapisany  */
 }
 
 #pragma clang diagnostic pop

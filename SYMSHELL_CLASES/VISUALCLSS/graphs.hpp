@@ -1,7 +1,7 @@
 /// @file
 /// @brief **CLASSES DEFINING VARIOUS TYPES OF CHARTS** /<br>
 ///         _KLASY DEFINIUJĄCE RÓŻNORODNE TYPY WYKRESÓW._
-/// @date 2026-05-16 (modified)
+/// @date 2026-05-18 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_GRAPHS_HPP_INCLUDED_
@@ -261,7 +261,7 @@ public:
             return scale*(val-min);
         }
 
-        /// Rysuje w zadanym oknie os 0X.
+        /// Rysuje w zadanym oknie oś 0X.
         void OX_axis(int x1, int y1, int x2, int y2, wb_color col, wb_color bcg) const;
 
         /// Rysuje w zadanym oknie oś 0Y.
@@ -453,7 +453,7 @@ public:
     /// @}
 
     /// Rysuje właściwy wykres, a pod nim ewentualnie legendę.
-    /// Typ źródła jest ustalony na DATA_SOURCE, wiec wywołania wewnętrzne mogą być rozwijane inline.
+    /// Typ źródła jest ustalony na DATA_SOURCE, więc wywołania wewnętrzne mogą być rozwijane inline.
     void _replot() override;
 
 };
@@ -671,7 +671,7 @@ public:
     "\n";}
 
     /// @name CONSTRUCTOR(S) and DESTRUCTOR
-    /// @details Serie danych muszą mieć the_same geometrie.
+    /// @details Serie danych muszą mieć te same geometrie.
     /// @param RedData,GreenData,BlueData to serie danych, z których brane są składowe RBG.
     /// @param menage_r,menage_g,menage_b to flagi zarządzania pamięcią poszczególnych serii.
     /// @{
@@ -749,7 +749,7 @@ private:
 };
 
 /// @brief A typical line graph. Consecutive points optionally connected by lines. Any number of series./<br>
-///        Typowy wykres liniowy.  Kolejne punkty ewentualnie połączone liniami. Dowolna ilość seri.
+///        Typowy wykres liniowy.  Kolejne punkty ewentualnie połączone liniami. Dowolna liczba seri.
 class sequence_graph:public graph
 //-----------------------------------------------------------------------------------------------------
 {
@@ -1060,7 +1060,7 @@ void fast_carpet_graph<DATA_SOURCE, DIRECT_COLOR>::_replot()
     //Rysowanie skali — jeśli są co najmniej dwa kolory i jest miejsce na co najmniej 2 piksele.
     if(!DIRECT_COLOR)
         if((x2 - x1) >= double((AA > BB?AA:BB) + 6) &&
-           //W zasadzie dobrze, ale male szanse, żeby przekroczyło zakres uint32
+           //W zasadzie dobrze, ale małe szanse, żeby przekroczyło zakres uint32
            c_range.end > c_range.start &&
            c_range.end - c_range.start >= 2)
         {
@@ -1068,7 +1068,7 @@ void fast_carpet_graph<DATA_SOURCE, DIRECT_COLOR>::_replot()
             x2 -= 7;
         }
 
-    //Rysowanie punktów vel "KWADRACIKÓW"  a właściwie tylko punktów
+    //Rysowanie punktów vel "KWADRACIKÓW",  a właściwie tylko punktów
     KWADRACIKI:
     assert(x2 > x1);
     assert(y2 > y1);

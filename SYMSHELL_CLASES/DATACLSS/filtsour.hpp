@@ -1,7 +1,7 @@
 /// @file
 /// @brief __Different classes of single-source data filters.__ /<br>
 ///         _Różne klasy jednoźródłowych filtrów danych._
-/// @date 2026-05-17 (modified)
+/// @date 2026-05-18 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_FILTERS_SOUR_HPP_INCLUDED_
@@ -110,7 +110,7 @@ public:
         data_source_base::set_missing(i_miss);
     }
 
-    /// Liczba danych jak w źródle, ale minimum i maksimum to logarytm powiększonych o 1 wartości ze źródła.
+    /// Liczba danych jak w źródle, ale minimum i maksimum to logarytm powiększony o 1 wartości ze źródła.
     void bounds(size_t &N, double &min, double &max) override
     {
         template_filter_source_base<SOURCE_TYPE>::bounds(N, min, max);

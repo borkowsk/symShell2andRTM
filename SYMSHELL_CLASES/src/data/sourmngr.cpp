@@ -1,7 +1,7 @@
 /// @file
 /// @brief  **DATA SOURCE MANAGER IMPLEMENTATION** /<br>
 ///          _IMPLEMENTACJA ZARZĄDCY ŹRÓDEŁ DANYCH._
-/// @date 2026-05-16 (modified)
+/// @date 2026-05-18 (modified)
 //*********************************************************************************************************************
 
 #include <stdarg.h>
@@ -18,7 +18,7 @@ using namespace sym2::data;
 #pragma ide diagnostic ignored "google-default-arguments"
 
 // NAJPROSTSZA IMPLEMENTACJA — Z PRZESZUKIWANIEM LINIOWYM.
-// Może być malo efektywna przy większej liczbie seri.
+// Może być mało efektywna przy większej liczbie seri.
 // ZARZĄDCA zakłada pełne panowanie nad "włożonymi" do niego seriami.
 // Muszą być one utworzone w pamięci dynamicznej i nie wolno ich
 // usunąć w inny sposób, niż odbierając je uprzednio zarządcy.
@@ -217,7 +217,7 @@ data_source_base/*const*/* sources_manager::get(size_t index) //Nie wolno zwalni
 
 
 #ifdef __BORLANDC__
-#include <alloc.h> //Pod borlandami jest heapcheck()
+#include <alloc.h> //Pod kompilatorami Borlanda jest `heapcheck()``
 sources_manager::~sources_manager()
         {
                 assert( heapcheck() != _HEAPCORRUPT );

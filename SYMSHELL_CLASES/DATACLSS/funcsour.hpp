@@ -1,7 +1,7 @@
 /// @file
 /// @brief __Classes of functional sources and their parameters__ /<br>
 ///         _Klasy źródeł funkcyjnych i ich parametrów._
-/// @date 2026-05-16 (modified)
+/// @date 2026-05-18 (modified)
 // ********************************************************************************************************************
 //                       Zmodyfikowana znacząco 05.04.2008
 //
@@ -47,7 +47,7 @@ public:
 };
 
 #ifdef USE_ENGLISH_IF_POSSIBLE
-/// A functional class wrapping the linear function `y = x` — needed e.g. to make a scatterplot for one series.
+/// A functional class wrapping the linear function `y = x` — needed e.g., to make a scatterplot for one series.
 #else
 /// Klasa funkcyjna opakowująca funkcje liniowa `y = x` — potrzebna np. do zrobienia scatterplot-a dla jednej serii.
 #endif

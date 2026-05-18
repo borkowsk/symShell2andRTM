@@ -1,7 +1,7 @@
 /// @file
-/// @brief STARY WADLIWY (już niekompatybilny) filtr liczący koincydencje klas dwu serii i pochodne statystyki (Hi^2 itp).
+/// @brief STARY WADLIWY (już niekompatybilny) filtr liczący koincydencje klas dwu serii i pochodne statystyki (Hi^2 itp.).
 ///        <br> __OBSOLETE__
-/// @date 2026-05-16 (modified)
+/// @date 2026-05-18 (modified)
 // ********************************************************************************************************************
 //  Coś dziwnego Tidy robi z tym plikiem. Nie jest w stanie znaleźć systemowych nagłówków.
 #ifndef SYMSHELL2_COINCIDENCE_SOUR_HPP_INCLUDED_
@@ -67,7 +67,7 @@ protected:
         goto ERROR;
 
     arra.alloc(KL);
-    if(!arra) //błąd alokacji — za malo/za dużo?
+    if(!arra) //błąd alokacji — za mało/za dużo?
         goto ERROR;
 
     for(i=0;i<KL;i++)
@@ -124,11 +124,11 @@ protected:
 
     if(table[8]!=NULL)
         {
-        table[8]->change_val(maxp+smin+0.5); //0.5 bo środek przedziału całkowitego
+        table[8]->change_val(maxp+smin+0.5); //0.5, bo środek przedziału całkowitego
         }
 
     return 1;
-    }//Musial przeliczyć
+    } //Musial przeliczyć
 */
         ERROR:
         arra.dispose();
@@ -197,7 +197,7 @@ public:
     /// Ile elementów.
     size_t get_size()
     {
-        check_version_(); //Uaktualnia tez wersje pod-źródła, jeśli trzeba
+        check_version_(); //Uaktualnia też wersje pod-źródła, jeśli trzeba
         _calculate(); //Sprawdza, czynie trzeba policzyć i ewentualnie liczy
         if(!my_geometry)
             return 0;
@@ -250,7 +250,7 @@ public:
 
     {
 #ifdef CAREFULLY_GET //Raczej niepotrzebne, bo robi to już i get_geometry() i bounds() i get_size();
-        check_version(); //Uaktualnia tez wersje podźrodła, jeśli trzeba
+        check_version(); //Uaktualnia też wersje podźrodła, jeśli trzeba
         _calculate(); //Sprawdza, czynie trzeba policzyc i ewentualnie liczy
 #endif
         assert(index < get_size());

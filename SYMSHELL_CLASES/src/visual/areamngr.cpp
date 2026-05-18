@@ -1,7 +1,7 @@
 /// @file
 /// @brief **Implementation of the base area manager** /<br>
 ///         _Implementacja bazowego zarządcy obszarów._
-/// @date 2026-05-17 (modified)
+/// @date 2026-05-18 (modified)
 //---------------------------------------------------------------------------
 //  Wersja z kosmetyką XI 2012
 //======================================================================================================================
@@ -360,7 +360,7 @@ int    area_manager::is_minimized(size_t index)
  }
 
  int    area_manager::maximize(size_t index)
-//Oddaje pod-obszarowi cały zarządzany obszar
+//Oddaje pod-obszarówi cały zarządzany obszar
  {
     if( //index>=0 &&
         index<tab.get_size() &&
@@ -399,7 +399,7 @@ int    area_manager::is_minimized(size_t index)
         replot(*tab[index].ptr); //odrysowuje wszystkie dotychczas zasłonięte
 
         tab[index].ptr->set(0,0,0,0); //Zeruje rozmiar, ale nie informuje o tym
-                                //bo by to groziło całkowitą degeneracja informacji! :-)
+                                //bo by to groziło całkowitą degeneracją informacji! :-)
         return 0;
     }
     return -1;

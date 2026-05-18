@@ -1,7 +1,7 @@
 /// @file
 /// @brief __Legacy filter for counting series class counts and derived statistics.__ /<br>
 ///         _Starszy filtr liczący liczebności klas serii i pochodne statystyki._
-/// @date 2026-05-16 (modified)
+/// @date 2026-05-18 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_HISTOGRAM_SOUR_HPP_INCLUDED_
@@ -221,7 +221,7 @@ int histogram_source<DATA_SOURCE>::_calculate()
 
         this->Source->close(Ind);
 
-        //PĘTLA MIN/MAX
+        //PĘTLA MIN/MAX.
         this->y_min = DBL_MAX;
         this->y_max = 0;
 
@@ -302,7 +302,7 @@ int histogram_source<DATA_SOURCE>::_calculate()
 
 typedef histogram_source<data_source_base> generic_histogram_source;
 
-}} // end-of-namespaces sym2::data
+}} // end-of-namespaces `sym2::data`
 
 #pragma clang diagnostic pop
 /* ****************************************************************** */

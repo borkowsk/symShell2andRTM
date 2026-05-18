@@ -1,7 +1,7 @@
 /// @file
 /// @brief **Different classes of dual-source data filters** /<br>
 ///         _Różne klasy dwuźródłowych filtrów danych._
-/// @date 2026-05-16 (modified)
+/// @date 2026-05-18 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_BI_FILTER_SOUR_HPP_INCLUDED_
@@ -34,7 +34,7 @@ public:
     {}
 
 //DOSTĘP DO DANYCH:
-//UWAGA: Złożona iteracja wykonuje się do konca krótszego ze źródeł.
+//UWAGA: Złożona iteracja wykonuje się do końca krótszego ze źródeł.
 //--------------------------------------------------------------------
 
     /// Reimplementacja decyzji o wartości minimalnej i maksymalnej.
@@ -87,7 +87,7 @@ public:
     {}
 
 //DOSTĘP DO DANYCH:
-//UWAGA: Liniowa iteracja wykonuje się do konca krótszego ze źródeł.
+//UWAGA: Liniowa iteracja wykonuje się do końca krótszego ze źródeł.
 //--------------------------------------------------------------------
 
     /// Reimplementacja decyzji o wartości minimalnej i maksymalnej

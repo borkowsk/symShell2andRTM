@@ -1,7 +1,7 @@
 /// @file
 /// @brief __Base class for statistical co-filters - two-series statistics.__ /<br>
 ///         _Podstawowa klasa dla ko-filtrów statystycznych — statystyk z dwu serii.
-/// @date 2026-05-16 (modified)
+/// @date 2026-05-18 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_CO_STAT_SOUR_HPP_INCLUDED_
@@ -32,7 +32,7 @@ protected:
     /// @brief Pod-źródło statystyczne prezentujące wynik jako pojedynczy skalar.
     /// @details
     /// Nieco sztuczna klasa źródła jednoelementowego z powiadamianiem właściwej klasy "filtra podstawowych statystyk".
-    /// Powiadamia, że beda potrzebne aktualne dane.
+    /// Powiadamia, że będą potrzebne aktualne dane.
     /// W klasach potomnych na pewno bezpiecznie można podstawić wirtualną metodę `get`.
     class local_scalar_source : public scalar_source<double>
     {
@@ -186,7 +186,7 @@ protected:
 
             if(summ2 <= 0 || summ3 <= 0) goto ERROR; // Bo pierwiastek i dzielenie
             Correlation = summ1 / (sqrt(summ2) * sqrt(summ3));
-        }//KONIEC LICZENIA
+        } //KONIEC LICZENIA
 
         ERROR: //Tu ląduje przeskok obliczeń
         if(table[0] != NULL)

@@ -1,7 +1,7 @@
 /// @file
 /// @brief __A filter that counts the number of series classes and derived statistics.__ /<br>
 ///         _Filtr liczący liczebność określonej liczby klas serii i pochodne statystyki._
-/// @date 2026-05-16 (modified)
+/// @date 2026-05-18 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_FIXED_CLAS_HISTOGRAM_SOUR_HPP_INCLUDED_
@@ -255,7 +255,7 @@ int fix_histogram_source<DATA_SOURCE>::_calculate()
 
         if(base_class::table[9] != NULL)
         {
-            if(Entropy != 0)	//Jeśli cos się zsumowało
+            if(Entropy != 0)	//Jeśli coś się zsumowało
                 base_class::table[9]->change_val(-Entropy);
             else
                 base_class::table[9]->change_val(base_class::table[9]->get_missing());
@@ -265,7 +265,7 @@ int fix_histogram_source<DATA_SOURCE>::_calculate()
         {
             double KL = std::trunc(s_max - s_min + 1); //Ile jednostek całkowitych zakresu realnego
             assert(KL > 0);
-            if(Entropy != 0)	//Jeśli cos się zsumowało
+            if(Entropy != 0)	//Jeśli coś się zsumowało
                 base_class::table[10]->change_val( -Entropy / log( KL) ); //A może powinno być dla zadanego?
             else
                 base_class::table[10]->change_val( base_class::table[10]->get_missing() );
@@ -281,7 +281,7 @@ int fix_histogram_source<DATA_SOURCE>::_calculate()
         }
 
         return 1;
-    }//Musial przeliczyć
+    } //Musial przeliczyć
 
     ERROR:
     if(base_class::table[10] != NULL)

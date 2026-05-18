@@ -1,7 +1,7 @@
 /// @file
 /// @brief **IMPLEMENTATION OF BASIC GRAPH CLASSES** /<br>
 ///         _IMPLEMENTACJA PODSTAWOWYCH KLAS GRAFÓW._
-/// @date 2026-05-17 (modified)
+/// @date 2026-05-18 (modified)
 //==========================================================================================
 
 //#include <cstdarg>
@@ -244,8 +244,8 @@ void drawable_base::replot(int need_flush)
 
         if(col1==col2) //Jeśli takie same To tlo staje się takie jak całości obszaru
             if((col2= get_background()) == col1) //a jeśli już niestety było
-                if((col1=default_black)==col2) //to text czarny, a jak już byl
-                    col1=default_white; //to bialy
+                if((col1=default_black)==col2) //to text czarny, a jak już był
+                    col1=default_white; //to biały
 
         printc(tx+(tw/2-sw/2),ty,col1,col2,"%s",pom);
 
@@ -484,7 +484,7 @@ data_source_base* carpet_graph::get_series(size_t index)
 }
 
 void carpet_graph::_replot()
-// Rysuje wlasciwy wykres a pod nim ewentualnie legende.
+// Rysuje właściwy wykres a pod nim ewentualnie legendę.
 {
     unsigned CO_ILE_KOMOREK=1;
     int x1= get_start_x();
@@ -554,7 +554,7 @@ void carpet_graph::_replot()
         x2-=7;
         }
 
-    //Rysowanie kwadracikow
+    //Rysowanie kwadracików
     KWADRACIKI:                                                             assert(x2>x1);
                                                                             assert(y2>y1);
     while(!( A/CO_ILE_KOMOREK <= (x2-x1+1) && B/CO_ILE_KOMOREK <= (y2-y1+1)))
@@ -568,7 +568,7 @@ void carpet_graph::_replot()
                                                                             assert(c_range.end-c_range.start>=1);
         size_t i,j; //Indeksy po wierszach i kolumnach
         int width=x2-x1+1; //Już moga być inne
-        int height=y2-y1+1; //Niż dla calego obszaru
+        int height=y2-y1+1; //Niż dla całego obszaru
 
         int gruboscA,gruboscB;
         if(CO_ILE_KOMOREK==1)
@@ -578,7 +578,7 @@ void carpet_graph::_replot()
         }
         else gruboscA=gruboscB=1;
 
-        //Musi być kwadratowo, bo inaczej jest nieladnie
+        //Musi być kwadratowo, bo inaczej jest nieładnie
         if(gruboscA>1 && gruboscB>1)
             {
             if(gruboscA>gruboscB)
@@ -588,7 +588,7 @@ void carpet_graph::_replot()
             }
         else
             {
-            gruboscA=gruboscB=1; //Pixelami będzie !!!
+            gruboscA=gruboscB=1; //Pikselami będzie !!!
             }
 
         int offsetA=toi(width -gruboscA*(A/CO_ILE_KOMOREK))/2;
@@ -600,9 +600,9 @@ void carpet_graph::_replot()
 
         data_source_base::iterator_h h=MyGeometry->make_view_iterator();                                     assert(h != nullptr);
         wb_color back= get_background(); //Dla sprawdzania, kiedy kolor kwadratu taki jak kolor tla.
-        if(gruboscA==1) //starczy jedna sprawdzic, bo kwadrat
+        if(gruboscA==1) //starczy jedna sprawdzić, bo kwadrat
             {
-            //Pixelami panowie!!!
+            //Pikselami panowie!!!
             for(j=0;j<B;j+=CO_ILE_KOMOREK)
               for(i=0;i<A;i+=CO_ILE_KOMOREK)
                 {
@@ -693,7 +693,7 @@ void carpet_graph::_replot()
     print_width(x1,toi((y1+y2)/2+char_height('X')),x2-x1, t_colors.start, get_background(), "%@CProbably min or max not properly set.");
 }
 
-// reals[] zawiera jedynie wartość ustalająca kolor albo cos spoza zakresu
+// reals[] zawiera jedynie wartość ustalająca kolor albo coś spoza zakresu
 int carpet_graph::_rescale_data_point(const double reals[],long in_area[])
 //zwraca -1, jeśli nie w oknie
 {
@@ -724,9 +724,9 @@ bars_graph::~bars_graph()
 
 //CONSTRUCTOR(S)
 bars_graph::bars_graph(  int ix1, int iy1, int ix2, int iy2, //Położenie obszaru
-                         data_source_base* i_datas, int menage_d, //datas-dane o wysokośćiach
+                         data_source_base* i_datas, int menage_d, //datas-dane o wysokościach
                          data_source_base* i_colors, int menage_c, //colors-źródło danych o kolorach
-                         int zero_mod) //tryb wyswietlania
+                         int zero_mod) //tryb wyświetlania
 : graph(ix1,iy1,ix2,iy2),datas(i_datas), d_menage(menage_d),colors(i_colors), c_menage(menage_c),mode(zero_mod)
 {
     bars_graph::set_data_colors(128, 129);
@@ -993,7 +993,7 @@ manhattan_graph::manhattan_graph(int ix1, int iy1, int ix2, int iy2, //Położen
 }
 
 manhattan_graph::manhattan_graph(int ix1, int iy1, int ix2, int iy2, //Położenie obszaru
-                                 data_source_base *i_datas, int menage_d, //datas-dane o wysokośćiach
+                                 data_source_base *i_datas, int menage_d, //datas-dane o wysokościach
                                  data_source_base *i_colors, int menage_c, //colors-źródło danych o kolorach
                                  int zero_mod,         // tryb wyświetlania
                                  double H_offs,        // Ułamek szerokości przeznaczony na perspektywę
@@ -1034,7 +1034,7 @@ const geometry_base *manhattan_graph::read_dim(size_t &aa, size_t &bb)
         {
             geometry_base *ColGeom = colors->get_geometry();
             if(*MyGeometry != *ColGeom)
-            {//jeśli nie to pozbywany się koloru
+            {//jeśli nie to pozbywamy się koloru
                 if(c_menage) delete colors;
                 colors = nullptr;
             }
@@ -1140,10 +1140,10 @@ void manhattan_graph::_replot() // Rysuje właściwy wykres a pod nim ewentualni
         return;
     }
 
-    anty_width += width % A; //Z szerokości cos wpada do antyszerokości
+    anty_width += width % A; //Z szerokości coś wpada do antyszerokości
     width -= width % A; //W szerokości musi się mieścić A kolumn
 
-//już wiadomo,jeśli się nie zmiesci
+//już wiadomo,jeśli się nie zmieści
     if(width == 0 || anty_width / B * B == 0) //W antyszerokości musi bys co najmniej po 1 piksel na wiersz
     {
         print_width(x1, (y1 + y2) / 2, x2 - x1, t_colors.start, get_background(), "%@CTo small area for %ux%u graph", A,
@@ -1213,13 +1213,13 @@ void manhattan_graph::_replot() // Rysuje właściwy wykres a pod nim ewentualni
         c_range.plot(x2 - 5, y1, x2, y2);
         x2 -= 5;
     }
-//NIE_DA_SIĘ:  ;
+//NIE_DA_SIĘ: ;
 
 //Ramka dla Y-kow
     if(x2 - x1 > 10 && y2 - y1 > 10)
     {
         int awidth = toi(anty_width / B * B);
-        int oddolu = toi((y2 - y1 - height) / B * B); //Ile tylna os jest podsunięta do gory
+        int oddolu = toi((y2 - y1 - height) / B * B); //Ile tylna oś jest podsunięta do gory
         line(x1 + 3, toi(y2 - height), x1 + 3 + awidth, toi(y2 - height - oddolu), t_colors.start);
         line(x1 + 3, y2, x1 + 3 + awidth, y2 - oddolu, t_colors.start);
         s_data.OY_axis(x1, toi(y2 - height), x1 + 6, y2, t_colors.start, get_background());
@@ -1227,7 +1227,7 @@ void manhattan_graph::_replot() // Rysuje właściwy wykres a pod nim ewentualni
         x1 += 3;
     }
 
-//Rysowanie wlasciwych słupkow
+//Rysowanie właściwych słupków
     int zero = y2;
     if(min < 0 && max > 0)
     {
@@ -1235,8 +1235,8 @@ void manhattan_graph::_replot() // Rysuje właściwy wykres a pod nim ewentualni
         //fill_rect(x1,zero,x2+1,zero+1,t_colors.start);
     }
 
-    int gristH = toi(width / A ); //Grubosc słupka w poziomie
-    int gristV = toi((y2 - y1 - height) / B); //Grubosc słupka w pionie
+    int gristH = toi(width / A ); //Grubość słupka w poziomie
+    int gristV = toi((y2 - y1 - height) / B); //Grubość słupka w pionie
     int offsetH = toi((x2 - x1 - width) / B); //Przesuniecie kolejnych wierszy
 
     if(gristH >= 1 && gristV >= 1 && offsetH >= 1)
@@ -1266,7 +1266,7 @@ void manhattan_graph::_replot() // Rysuje właściwy wykres a pod nim ewentualni
                 size_t hi = MyGeometry->get_next(h); //czyta index
                 r[0] = test = datas->get(hi); //i czyta wartość
                 if(test == miss) //Jeśli missing
-                {//Wywal odpowiadajaca wartość dla color
+                {//Wywal odpowiadająca wartość dla color
                     if(color_geom)
                         color_geom->get_next(c);
                     continue; //Nie rysuj
@@ -1301,7 +1301,7 @@ void manhattan_graph::_replot() // Rysuje właściwy wykres a pod nim ewentualni
 
 }
 
-// reals[] zawiera  wysokosc słupka i wartość ustalająca kolor albo -1
+// reals[] zawiera  wysokość słupka i wartość ustalająca kolor albo -1
 int manhattan_graph::_rescale_data_point(const double reals[], long in_area[])
 //zwraca -1, jeśli nie w oknie
 {
@@ -1378,10 +1378,10 @@ sequence_graph::sequence_graph(int ix1, int iy1, int ix2, int iy2, //Położenie
                                int N,            //Liczba serii
                                data_source_base **iseries,
                                int imode,    //0 - tryb z pełnym reskalowaniem
-        //1 - tryb ze wspolnym minimum,maximum,pobieranym z parametrow i serii
+        //1 - tryb ze wspólnym minimum,maximum,pobieranym z parametrów i serii
         //2 - tryb z zafiksowanym minimum i maksimum
                                double imin, double imax
-) :  //Tablica struktur zawierajacych informacje o seriach
+) :  //Tablica struktur zawierających informacje o seriach
         graph(ix1, iy1, ix2, iy2), M(0),
         series(nullptr), scales(nullptr), mode(imode), scale_y(imin, imax)
 {
@@ -1434,7 +1434,7 @@ int sequence_graph::set_series(size_t index, data_source_base *data, int menage)
 }
 
 data_source_base *sequence_graph::get_series(size_t index)
-//zwraca nullptr, jeśli indeks za duzy
+//zwraca nullptr, jeśli indeks za duży
 {
     assert(series != nullptr);
     if(index >= M)
@@ -1442,7 +1442,7 @@ data_source_base *sequence_graph::get_series(size_t index)
     return series[index].ptr;
 }
 
-// reals[] zawiera wysokosc i wartość ustalająca kolor
+// reals[] zawiera wysokość i wartość ustalająca kolor
 int sequence_graph::_rescale_data_point(const double reals[], long in_area[])
 //zwraca -1, jeśli nie w oknie
 {
@@ -1497,7 +1497,7 @@ inline unsigned sequence_graph::color(unsigned ind)
 
 
 void sequence_graph::_replot()
-// Rysuje właściwy wykres a pod nim ewentualnie legende
+// Rysuje właściwy wykres a pod nim ewentualnie legendę
 {
     unsigned i, MaxNum = 0;
     int x1 = get_start_x();
@@ -1556,7 +1556,7 @@ void sequence_graph::_replot()
                         scale_y.min, scale_y.max);
             return;
         }
-        if(scale_y.min == scale_y.max) //Np default ==0
+        if(scale_y.min == scale_y.max) //Np. default ==0
         {//Do ustalenia w czasie przeszukiwania serii
             scale_y.min = DBL_MAX;
             scale_y.max = -DBL_MAX;
@@ -1596,7 +1596,7 @@ void sequence_graph::_replot()
     scale_x.set(0, MaxNum, width); //Dla osi X
     s_colors.set(0,toi(M), c_range.end - c_range.start + 1); //Dla kolorów serii
 
-    if(t_colors.start != default_transparent && t_colors.start != get_background()) //Rysujemy legende
+    if(t_colors.start != default_transparent && t_colors.start != get_background()) //Rysujemy legendę
     {
         char bufor[80];
         int thickness = toi((x2 - x1) / M);
@@ -1644,22 +1644,22 @@ void sequence_graph::_replot()
                 scale_y.OY_axis(x1, y1, x1 + 6, y2, t_colors.start, get_background());
             } else
             {
-                scaling_info pom(DBL_MAX / 2.0, DBL_MAX, INT_MAX); //Zeby nie było zadnej skali ani 0
+                scaling_info pom(DBL_MAX / 2.0, DBL_MAX, INT_MAX); //Żeby nie było żadnej skali ani 0
                 pom.OY_axis(x1, y1, x1 + 6, y2, t_colors.start, get_background());
             }
             x1 += 4;
         }
 
-    }//KONIEC LEGENDY
+    } //KONIEC LEGENDY
 
-//WYPISANIE LICZBY PROBEK
+//WYPISANIE LICZBY PRÓBEK
     if(t_colors.end != default_transparent && t_colors.end != get_background())
     {
         print_width(x2 - (x2 - x1) / 3, toi(y2 - char_height('0')), (x2 - x1) / 3, get_background(), t_colors.end,
                     "%@R%u", MaxNum);
     }
 
-//Rysowanie punktow lub linii
+//Rysowanie punktów lub linii
 //...
     if(x2 - x1 > 10 && y2 - y1 > 5) //Musi być troszkę miejsca i troche danych
     {
@@ -1670,24 +1670,24 @@ void sequence_graph::_replot()
                 H[i] = series[i].ptr->reset();
                 C[i] = color(i);
             } else C[i] = default_color;
-            R[i] = scales[i].max; //Takze w R cos na poczatek zeby nie było przypadkowo
+            R[i] = scales[i].max; //także w R coś na początek, żeby nie było przypadkowo
         }
 
 
         for(unsigned j = 0; j < MaxNum; j++) // Iteracja po krokach
         {
             double test;
-            long *pom = (j % 2 == 0?A:B); //Wybor aktualnej tablicy wynikow
-            long *old = (j % 2 == 1?A:B); //Wybor starej tablicy wynikow
+            long *pom = (j % 2 == 0?A:B); //Wybór aktualnej tablicy wyników
+            long *old = (j % 2 == 1?A:B); //Wybór starej tablicy wyników
             R[M] = j;
 
-            for(i = 0; i < M; i++) //Ladowanie. Petla po seriach
+            for(i = 0; i < M; i++) //Ładowanie. Pętla po seriach
                 if(C[i] != -1) //Seria aktywna
                 {
                     OK[i] = 1; //Z zaufaniem, że jest dobrze
                     if(j >= Num[i])
                     {
-                        C[i] = default_color; //Zakonczono rysowanie tej seri
+                        C[i] = default_color; //Zakończono rysowanie tej seri
                         continue;
                     }
 
@@ -1706,7 +1706,7 @@ void sequence_graph::_replot()
                 if(mode != 2)
                 {
                     assert(1);
-                    continue;    //Nie rysuje, gdy cos wylazi
+                    continue;    //Nie rysuje, gdy coś wyłazi
                 }
             }
             else
@@ -1748,7 +1748,7 @@ void sequence_graph::_replot()
                     }
         }
 
-        //Zamykanie iteratorow
+        //Zamykanie iteratorów
         for(i = 0; i < M; i++)
             if(series[i].ptr != nullptr)
                 series[i].ptr->close(H[i]);
@@ -1780,7 +1780,7 @@ rainbow_graph::~rainbow_graph()
 rainbow_graph::rainbow_graph(int ix1, int iy1, int ix2, int iy2, //Położenie obszaru
                              data_source_base *i_datas, int menage_d, //datas-dane == wartości
                              data_source_base *i_colors, int menage_c, //colors-źródło danych o kolorach
-                             const char *iformat   //format liczby — nie może być wiecej niż 1 parametr!
+                             const char *iformat   //format liczby — nie może być więcej niż 1 parametr!
 ) : graph(ix1, iy1, ix2, iy2),
     datas(i_datas), d_menage(menage_d),
     colors(i_colors), c_menage(menage_c),
@@ -1812,7 +1812,7 @@ int rainbow_graph::configure(const void *vformat)
         if(*pom == '%' || *pom == '@')
         {
             pom++;
-            continue; //Nie liczba — powtorz!
+            continue; //Nie liczba — powtórz!
         }
         while(!isalpha(*pom)) pom++;
         if(tolower(*pom) == 'g' ||
@@ -1822,7 +1822,7 @@ int rainbow_graph::configure(const void *vformat)
         else
             return -1; //Niedopuszczalny!
     }
-    if(licznik != 1) return -1; //Za duzo lub za malo
+    if(licznik != 1) return -1; //Za dużo lub za mało
     //if(format)
     delete format;
     format = clone_str(iformat);
@@ -1830,7 +1830,7 @@ int rainbow_graph::configure(const void *vformat)
 }
 
 int rainbow_graph::set_series(size_t index, data_source_base *idata, int imenage)
-//zwraca -1, jeśli indeks za duzy
+//zwraca -1, jeśli indeks za duży
 {
     if(index > 1) return -1; //Tylko dwie serie
     assert(idata != nullptr);
@@ -1849,7 +1849,7 @@ int rainbow_graph::set_series(size_t index, data_source_base *idata, int imenage
 }
 
 data_source_base *rainbow_graph::get_series(size_t index)
-//zwraca nullptr, jeśli indeks za duzy
+//zwraca nullptr, jeśli indeks za duży
 {
     if(index > 0)
         return nullptr;
@@ -1882,7 +1882,7 @@ void rainbow_graph::_replot()
         Format += 3;
     }
 
-//Trzeba znac num!
+//Trzeba znać num!
     datas->bounds(num, minc, maxc);
 
 //Legenda wtedy, jeśli jest potrzebna
@@ -2058,7 +2058,7 @@ scatter_graph::scatter_graph(int ix1, int iy1, int ix2, int iy2, //Położenie o
                              data_source_base *iYdata, int imenage_y, //dane o Y-ach
                              data_source_base *icolors, int imenage_c, //dane o kolorach
                              data_source_base *isizes, int imenage_s, //dane o rozmiarach
-                             config_point *ifig, int f_menage//figura domyslna
+                             config_point *ifig, int f_menage//figura domyślna
 ) :
         graph(ix1, iy1, ix2, iy2),
         CurrConfig(nullptr), menage_p(false),
@@ -2079,20 +2079,20 @@ scatter_graph::scatter_graph(int ix1, int iy1, int ix2, int iy2, //Położenie o
 net_graph::net_graph(int ix1, int iy1, int ix2, int iy2, //Położenie obszaru
                      data_source_base *iXdata, int imenage_x, //dane o X-ach
                      data_source_base *iYdata, int imenage_y, //dane o Y-ach
-                     data_source_base *iSources, int imenage_so, //indeksy zrodel
+                     data_source_base *iSources, int imenage_so, //indeksy źródeł
                      data_source_base *iTargets, int imenage_t, //indeksy celów
                      data_source_base *iColors, int imenage_c, //dane o kolorach
                      data_source_base *iSizes, int imenage_s, //dane o rozmiarach
-                     data_source_base *iArrows, int imenage_a, //rozmiary strzalek - 0 brak
-                     data_source_base *iArrColors, int imenage_ac, //Kolory strzalek
-                     config_point *ifig, int menage_f//figura domyslna
+                     data_source_base *iArrows, int imenage_a, //rozmiary strzałek - 0 brak
+                     data_source_base *iArrColors, int imenage_ac, //Kolory strzałek
+                     config_point *ifig, int menage_f //figura domyślna
 ) :
         scatter_graph(ix1, iy1, ix2, iy2,
                       iXdata, imenage_x, //dane o X-ach
                       iYdata, imenage_y, //dane o Y-ach
                       iColors, imenage_c, //dane o kolorach
                       iSizes, imenage_s, //dane o rozmiarach
-                      ifig, menage_f //Domyslny może być brak rysowania wezlów sieci
+                      ifig, menage_f //Domyślny może być brak rysowania węzłów sieci
         ),
         Sources(iSources), Targets(iTargets), Arrows(iArrows), ArrColors(iArrColors),
         menage_so(imenage_so), menage_t(imenage_t), menage_a(imenage_a), menage_ac(imenage_ac)
@@ -2120,7 +2120,7 @@ int scatter_graph::configure(const void *p)
 }
 
 int scatter_graph::set_series(size_t index, data_source_base *data, int menage)
-//zwraca -1, jeśli indeks za duzy
+//zwraca -1, jeśli indeks za duży
 {
     assert(data != nullptr);
     switch(index)
@@ -2156,7 +2156,7 @@ int scatter_graph::set_series(size_t index, data_source_base *data, int menage)
 }
 
 int net_graph::set_series(size_t index, data_source_base *data, int menage)
-//zwraca -1, jeśli indeks za duzy
+//zwraca -1, jeśli indeks za duży
 {
     assert(data != nullptr);
     switch(index)
@@ -2234,7 +2234,7 @@ data_source_base *scatter_graph::get_series(size_t index)
 }
 
 data_source_base *net_graph::get_series(size_t index)
-//zwraca nullptr, jeśli indeks za duzy
+//zwraca nullptr, jeśli indeks za duży
 {
     switch(index)
     {
@@ -2261,7 +2261,7 @@ data_source_base *net_graph::get_series(size_t index)
 
 
 int scatter_graph::_rescale_data_point(const double reals[], long in_area[])
-//zwraca -1, jeśli cos nie tak
+//zwraca -1, jeśli coś nie tak
 {
     int flaga = 0;
 
@@ -2299,7 +2299,7 @@ int scatter_graph::_rescale_data_point(const double reals[], long in_area[])
 
 
 void scatter_graph::_replot()
-// Rysuje wlasciwy wykres a pod nim ewentualnie legende
+// Rysuje właściwy wykres a pod nim ewentualnie legendę
 {
     int x1 = get_start_x();
     int y1 = get_start_y();
@@ -2311,7 +2311,7 @@ void scatter_graph::_replot()
 
     num = num_X = num_Y = num_color = num_size = 0; //Abrakadabra
 
-//Miejsce na legende, wtedy gdy jest potrzebna
+//Miejsce na legendę, wtedy gdy jest potrzebna
     unsigned height, width;
     if((t_colors.start != default_transparent && t_colors.start != get_background()) ||
        (t_colors.end != default_transparent && t_colors.end != get_background() && (colors || sizes)))
@@ -2324,7 +2324,7 @@ void scatter_graph::_replot()
         }
         width = (x2 - x1) - 3;
         if(colors != nullptr && t_colors.end != get_background())
-            width -= 10; //Musi być jakis odstęp
+            width -= 10; //Musi być jakiś odstęp
     } else
     {
         height = y2 - y1; //nie będzie legendy
@@ -2364,7 +2364,7 @@ void scatter_graph::_replot()
             }
         } else num_color = num_X;
 
-//Do skalowania rozmiarow, jeśli jest seria i ma odstep miedzy min i max
+//Do skalowania rozmiarów, jeśli jest seria i ma odstęp miedzy min i max
         if(sizes != nullptr)
         {
             //DEBUG min=max=0;
@@ -2507,21 +2507,21 @@ void scatter_graph::_replot()
         x1 += 3;
     }
 
-//Rysowanie punktow
+//Rysowanie punktów
     num = min_(min_((size_t) num_X, num_Y), min_((size_t) num_size, num_color)); //cast for gcc
 
     graph_core.set(x1, y1, x2, y2); //Zapamiętanie gdzie lezy właściwy obszar rysowania
 
     if(num > 0 && x2 - x1 > 10 && y2 - y1 > 10)
     {
-        if(CurrConfig != nullptr) //Jeśli uzytkownik w ogole zyczy sobie rysowac jakies punkty (bo klasa potomna może nie chciec!)
+        if(CurrConfig != nullptr) //Jeśli użytkownik w ogóle życzy sobie rysować jakieś punkty (bo klasa potomna może nie chcieć!)
         {
             data_source_base::iterator_h ix = Xdata->reset();
             data_source_base::iterator_h iy = Ydata->reset();
             data_source_base::iterator_h ic = colors?colors->reset():nullptr;
             data_source_base::iterator_h is = sizes?sizes->reset():nullptr;
             if(CurrConfig !=
-               nullptr) //Jeśli uzytkownik w ogole zyczy sobie rysowac jakies punkty (bo klasa potomna moze nie chciec!)
+               nullptr) //Jeśli użytkownik w ogóle życzy sobie rysować jakieś punkty (bo klasa potomna może nie chcieć!)
                 for(unsigned i = 0; i < num; i++)
                 {
                     CurrConfig->base_len = x2 - x1; //Ustawiamy bazowy rozmiar obszaru rysowania
@@ -2560,7 +2560,7 @@ void scatter_graph::_replot()
 
 void net_graph::_replot()
 // Rysuje wykres punktowy a pod nim ewentualnie legendę
-//a do tego laczy punkty liniami
+//a do tego łączy punkty liniami
 {
     scatter_graph::_replot();
 
@@ -2624,7 +2624,7 @@ void net_graph::_replot()
             }
 
             assert(Si == size_t(Si));
-            double ASize = 0.05; //Długość grota =5% długości strzałki
+            double ASize = 0.05; //Długość grota `== 5%` długości strzałki
             double test;
 
             double r[4] = {-1, -1, -DBL_MAX, -DBL_MAX};

@@ -1,6 +1,6 @@
 /// @file
 /// @brief **LINEAR GEOMETRY** (under construction) /<br> _GEOMETRIA LINIOWA._
-/// @date 2026-05-17 (modified)
+/// @date 2026-05-18 (modified)
 ///      W trakcie przeróbki z rectangular geometry (Nigdy nie zakończonej!)
 // ********************************************************************************************************************
 //
@@ -66,7 +66,7 @@ public:
     /// Struktura do losowej iteracji po tablicy.
     struct monte_carlo_iterator:public geometry_base::iterator_base
     {
-        size_t	ile; //Do zliczania w d�l
+        size_t	ile; //Do zliczania w dół
         size_t	sub_width; //Parametry zaznaczonego wycinka
         long	horiz_start;
 
@@ -85,13 +85,13 @@ public:
         //Implementacja pobrania następnego elementu
         void _next(const geometry_base& geo,size_t& ret,size_t& end)
         {
-            linear_geometry* MyGeo=(linear_geometry*)&geo; //Dostęp do pol
+            linear_geometry* MyGeo=(linear_geometry*)&geo; //Dostęp do pól
             size_t i=_wb_random(sub_width); //Jeśli wycinek wybiega za tablice to może
             size_t j=_wb_random(sub_height); // nie być wewnątrz tablicy elementów
             size_t I_S=horiz_start+i;
             size_t J_W=vert_start+j;
 
-            ret=MyGeo->get(I_S,J_W); //FULL gdy nie w tablicy
+            ret=MyGeo->get(I_S,J_W); //FULL, gdy nie w tablicy
 
             ile--; //już zaliczony
             if(ile==0)
@@ -267,7 +267,7 @@ public:
     ~linear_geometry(){}
 
     linear_geometry(	size_t iN,			//Szerokość pełnego obszaru
-                        int  itorus=1		//Czy włączyć geometrie torusa.
+                        int  itorus=1		//Określa, czy włączyć geometrie torusa.
                     )
                 :geometry_base(2),
                  N(iN),

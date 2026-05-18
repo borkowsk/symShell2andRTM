@@ -1,7 +1,7 @@
 /// @file
 /// @brief **GEOMETRY — THE WAY OF ORGANIZING AGENTS OR DATA IN A LAYER.GEOMETRIA** /<br>
 ///         _GEOMETRIA — SPOSÓB ORGANIZACJI AGENTÓW LUB DANYCH W WARSTWIE._
-/// @date 2026-05-17 (modified)
+/// @date 2026-05-18 (modified)
 // *********************************************************************************************************************
 //
 #ifndef SYMSHELL2_GEOM_BASE_HPP_INCLUDED_
@@ -37,7 +37,7 @@ typedef void* iterator_h;
 typedef iterator_h iteratorh;
 
 /*
-class geometry_base::iterator_base; //???Pomysły na wersję zabezpieczoną?
+class geometry_base::iterator_base; // Pomysły na wersję zabezpieczoną???
 
 class iterator_h
 //----------------
@@ -233,7 +233,7 @@ public:
     /// Zeruje iterator, jeśli koniec danych. Zwraca `FULL` jeżeli nie ma w tym miejscu agenta (missing).
     virtual index_t		get_next(iterator_h& p) const;
 
-    /// Likwiduje już niepotrzebny iterator. Np. taki któremu nie dano dojść do konca.
+    /// Likwiduje już niepotrzebny iterator. Np. taki któremu nie dano dojść do końca.
     virtual void		destroy_iterator(iterator_h& p) const;
 
     // CONSTRUCTION/DESTRUCTION:
@@ -271,7 +271,7 @@ geometry_base::index_t geometry_base::get_next(iterator_h& p) const
     index_t ret=FULL; //TODO rozważyć użycie `uintptr_t`
     index_t end=0;
     
-    iterator_base* pom=(iterator_base*)p; //NIEŁADNY CHWYT ALE DZIAŁA
+    iterator_base* pom=(iterator_base*)p; //NIEŁADNY CHWYT, ALE DZIAŁA
     //iterator_base* pom1=(iterator_base*)(&p); assert(pom1==pom); --> A TAK NIE DZIAŁA (
                                                                                       assert(pom!=nullptr);
                                                                                       assert(pom->is_iterator());
@@ -296,7 +296,7 @@ void    geometry_base::destroy_iterator(iterator_h& p) const
         return; // Czy to się zdarza?
     }
     void* ptr=p; //Uwolnić samą wartość.
-    iterator_base* pom=(iterator_base*)ptr ; //NIEŁADNY CHWYT, ALE DZIAŁA, choc dobrze sprawdzić, czy faktycznie
+    iterator_base* pom=(iterator_base*)ptr ; //NIEŁADNY CHWYT, ALE DZIAŁA, choć dobrze sprawdzić, czy faktycznie
                                                                                      assert(pom->is_iterator());
     delete pom; //Usuwany iterator
     p=nullptr;

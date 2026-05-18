@@ -1,7 +1,7 @@
 /// @file
 /// @brief __Definitions of basic (interface) data source class__ /<br>
 ///         _Definicje podstawowej klasy źródła danych (interfejsu)._
-/// @date 2026-05-16 (modified)
+/// @date 2026-05-18 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_DATA_SOURCE_BASE_HPP_INCLUDED_
@@ -211,7 +211,7 @@ int data_source_base::is_missing(double val) const
 inline
 double data_source_base::get_missing()
 // Zapewnia właściwą inicjację i obsługę wartości "miss"
-// Ale, czy to "really" potrzebne?
+// Jednak, czy to "really" potrzebne?
 {
     double tmp = default_missing<double>(); //Klasy szablonowe muszą to reimplementować
     // Używamy porównania zawartości pamięci, bo niekoniecznie tmp musi być poprawną liczbą typu double.

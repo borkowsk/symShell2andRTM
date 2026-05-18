@@ -1,7 +1,7 @@
 /// @file
 /// @brief __A class that queues values from a scalar source.__ /<br>
 ///         _Klasa kolejkująca wartości ze źródła skalarnego._
-/// @date 2026-05-16 (modified)
+/// @date 2026-05-18 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_FIFO_SOUR_HPP_INCLUDED_

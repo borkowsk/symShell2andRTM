@@ -1,12 +1,12 @@
 /// @file
 /// @brief **Specific source classes — access to data in linear arrays** /<br>
 ///         _Konkretne klasy źródeł — dostęp do danych w tablicach liniowych._
-/// @date 2026-05-16 (modified)
+/// @date 2026-05-18 (modified)
 // ********************************************************************************************************************
 // PL: W tym pliku użyto warunkowej kompilacji do selekcji języka dokumentacji.
 // NIESTETY rozbija to podpowiedzi (tooltips) nawet w CLion.
 // EN: This file uses conditional compilation to select the documentation language.
-// UNFORTUNATELY this breaks tooltips even in CLion.
+// UNFORTUNATELY, this breaks tooltips even in CLion.
 #ifndef SYMSHELL2_ARRAY_SOUR_HPP_INCLUDED_
 #define SYMSHELL2_ARRAY_SOUR_HPP_INCLUDED_
 
@@ -237,7 +237,7 @@ public:
 
     /// @brief
     /// @PL{ Przetwarza index liniowy na wartość z serii. O ile jest możliwe czytanie w losowej kolejności. Tu jest możliwe. }
-    /// @EN{ Converts a linear index to a series value. If possible, reading in random order. This is possible here. }
+    /// @EN{ Converts a linear index to a series value. If reading in random order is possible. This is possible here. }
     double get(size_t index) override
     {
         assert(index < get_size());

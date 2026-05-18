@@ -1,7 +1,7 @@
 /// @file
 /// @brief **Implementation of graph classes using RGB coloring** /<br>
 ///         _IMPLEMENTACJA KLAS GRAFÓW UŻYWAJĄCYCH KOLOROWANIA RGB._
-/// @date 2026-05-17 (modification)
+/// @date 2026-05-18 (modification)
 //======================================================================================================================
 
 #include <cstdio> //sprintf!!!
@@ -72,7 +72,7 @@ true_color_carpet_graph::true_color_carpet_graph(int ix1,int iy1,int ix2,int iy2
                                                  data_source_base* RedData,int menage_r,
                                                  data_source_base* GreenData,int menage_g,
                                                  data_source_base* BlueData,int menage_b
-                                                 )//data-źródło danych o kolorach
+                                                 ) //data-źródło danych o kolorach
 : graph(ix1,iy1,ix2,iy2),AA(iA),BB(iB),menage{false,false,false},data{NULL,NULL,NULL}
 {
     data[0]=RedData;menage[0]=menage_r;
@@ -86,7 +86,7 @@ true_color_carpet_graph::true_color_carpet_graph(int ix1,int iy1,int ix2,int iy2
                                                  data_source_base* RedData,int menage_r, //Serie muszą mieć taką samą geometrię 2D!
                                                  data_source_base* GreenData,int menage_g,
                                                  data_source_base* BlueData,int menage_b
-                                                 )//data-źródło danych o kolorach
+                                                 ) //data-źródło danych o kolorach
 : graph(ix1,iy1,ix2,iy2),AA(1),BB(1),menage{false,false,false},data{NULL,NULL,NULL}
 {
     data[0]=RedData;menage[0]=menage_r;
@@ -384,7 +384,7 @@ KWADRACIKI:
                 {																		assert(h!=nullptr);
             size_t G_ind=MyGeometry->get_next(h); //rectangle_geometry
             double test[3]={0,0,0};
-            wb_color color[3]={0,0,0}; //Na razie wb_color jest `unsigned`, wiec działa, ale ...
+            wb_color color[3]={0,0,0}; //Na razie wb_color jest `unsigned`, więc działa, ale ...
             if(data[0]!=nullptr)
             {
                 test[0]=data[0]->get(G_ind);
@@ -695,7 +695,7 @@ void true_color_manhattan_graph::_replot() // Rysuje właściwy wykres a pod nim
         return;
     }
 
-    anty_width+= width % A; //Z szerokości cos wpada do antyszerokości
+    anty_width+= width % A; //Z szerokości coś wpada do antyszerokości
     width-=width%A; //W szerokości musi się mieścić `A` kolumn
 
     //Już wiadomo, jeśli się nie zmieści
@@ -832,7 +832,7 @@ RYSOWANIE:
     if(x2-x1>10 && y2-y1>10)
     {
         int a_width= toi(anty_width / B * B );
-        int fr_below= toi( (y2 - y1 - height) / B * B ); //Ile tylna os jest podsunięta do gory
+        int fr_below= toi( (y2 - y1 - height) / B * B ); //Ile tylna oś jest podsunięta do gory
         line(x1+3,toi( y2-height), x1 + 3 + a_width, toi(y2 - height - fr_below), t_colors.start);
         line(x1+3, y2, x1 + 3 + a_width, y2 - fr_below, t_colors.start);
         s_data.OY_axis(x1, toi(y2 - height), x1 + 6, y2, t_colors.start, get_background());

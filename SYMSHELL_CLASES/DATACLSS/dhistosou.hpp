@@ -1,7 +1,7 @@
 /// @file
 /// @brief __Filter counting the number of discrete series classes and derived statistics.__ /<br>
 ///         _Filtr liczący liczebność dyskretnych klas serii i pochodne statystyki._
-/// @date 2026-05-16 (modified)
+/// @date 2026-05-18 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_DISCR_HISTOGRAM_SOUR_HPP_INCLUDED_
@@ -24,7 +24,7 @@ class discrete_histogram_source : public basic_statistics_source<DATA_SOURCE>
 //------------------------------------------------------------------------------------------------------
 {
 protected:
-    typedef unsigned int counter_type;/// Tablica liczników. 64 bity to chyba za dużo. Ale jak się uprzesz...
+    typedef unsigned int counter_type; /// Tablica liczników. 64 bity to chyba za dużo. Ale jak się uprzesz...
     size_t Num; ///< Number of Class;
     int    Sta; ///< Lowest integer class (offset?).
 
@@ -302,7 +302,7 @@ int discrete_histogram_source<DATA_SOURCE>::_calculate()
         {
             double KL = std::trunc(s_max - s_min + 1); //Ile jednostek całkowitych zakresu realnego.
             assert(KL > 0);
-            if(Entropy != 0)	//Jeśli cos się zsumowało.
+            if(Entropy != 0)	//Jeśli coś się zsumowało.
                 this->table[10]->change_val(-Entropy / log( KL )); //A może powinno być dla zadanego?
             else
                 this->table[10]->change_val(this->table[10]->get_missing());
@@ -318,7 +318,7 @@ int discrete_histogram_source<DATA_SOURCE>::_calculate()
         }
 
         return 1;
-    }//Musial przeliczyć
+    } //Musial przeliczyć
 
     ERROR:
     if(this->table[10] != NULL)

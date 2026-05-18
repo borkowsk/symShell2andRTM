@@ -1,7 +1,7 @@
 /// @file
 /// @brief __Base class for statistical filters.__ /<br>
 ///         _Podstawowa klasa dla filtrów statystycznych._
-/// @date 2026-05-16 (modified)
+/// @date 2026-05-18 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_STAT_SOUR_HPP_INCLUDED_

@@ -1,7 +1,7 @@
 /// @file
 /// @brief **BASIC INTERFACE DECLARATIONS FOR SCREEN AREAS** /<br>
 ///         _DEKLARACJE PODSTAWOWEGO "SPRZĘGU" DLA OBSZARÓW EKRANU._
-/// @date 2026-05-16 (modified)
+/// @date 2026-05-18 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_DRAWABLE_HPP_INCLUDED_

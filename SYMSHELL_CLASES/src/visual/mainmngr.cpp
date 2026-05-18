@@ -1,7 +1,7 @@
 /// @file
 /// @brief **A screen or window area manager, implemented directly based on SYMSHELL functions.** /<br>
 ///         _Zarządca obszarów ekranu lub okna, zaimplementowany bezpośrednio na bazie funkcji SYMSHELL-a._
-/// @date 2026-05-17 (last modification)
+/// @date 2026-05-18 (last modification)
 //======================================================================================================================
 //  Do obsługi całego ekranu/okna SYMSHELL-a.
 
@@ -89,7 +89,7 @@ void	main_area_manager::enable_background() // NOLINT(*-convert-member-functions
 }
 
 int		main_area_manager::set_marker(wb_color new_mark) // NOLINT(*-convert-member-functions-to-static)
-//zwraca 1 jeśli OK, lub 0
+//zwraca 1, jeśli OK, lub 0
 {
     if( // new_mark >= 0 && //Już nie może być ujemne!
         new_mark < 255)
@@ -120,9 +120,9 @@ main_area_manager::main_area_manager( size_t size, //Konstruktor dający zarząd
 }
 
 /*
-main_area_manager(size_t size,	//Konstruktor z lista częściowo wypełniona
+main_area_manager(size_t size,	//Konstruktor z listą częściowo wypełniona
                   int width,int height,
-                  //bkg i frm domyślne - można zmienić potem
+                  //bkg i frm domyślne — można zmienić potem
                   drawable_base* //first...nullptr
                   );
 */
@@ -197,7 +197,7 @@ int main_area_manager::set_main_title(const char* win_title) // NOLINT(*-convert
 
 int    main_area_manager::insert(wb_ptr<drawable_base>	drw)
 {
-    const char* pom=drw->name();    assert(pom!=nullptr); //Musi być tu bo po replace drw jest juz puste!!!
+    const char* pom=drw->name();    assert(pom!=nullptr); //Musi być tu bo po replace drw jest już puste!!!
     int ret=area_manager::replace(how_many_areas, drw);
     if(ret>-1)
     {
