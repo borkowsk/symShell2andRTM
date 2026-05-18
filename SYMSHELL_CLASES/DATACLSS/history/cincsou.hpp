@@ -18,8 +18,8 @@ class coincidention_source : public co_statistics_source//<DATA_SOURCE>
 //------------------------------------------------------------------------------
 {
 protected:
-    size_t N; ///< Required number of Class of First
-    size_t M; ///< Required number of Class of Second
+    size_t N; ///< Required number of categories of First
+    size_t M; ///< Required number of categories of Second
 
     wb_ptr<rect_geometry> my_geometry; //Redundantna?
     wb_dynmatrix<unsigned long> arra;
@@ -148,7 +148,6 @@ public:
     void all_subseries_required()
     {
         co_statistics_source<DATA_SOURCE>::all_subseries_required();
-        //MAX CLASS
         Hi();
     }
 

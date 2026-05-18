@@ -21,7 +21,7 @@
 namespace sym2 { namespace data {
 
 #if USE_ENGLISH_IF_POSSIBLE
-/// @brief Data source class passing subsequent values from a linear array.
+/// @brief Data source type passing subsequent values from a linear array.
 /// @details Data in the array can change, but probably not during iteration ;)
 template<class T>
 class array_source : public linear_source_base
@@ -47,7 +47,7 @@ public:
     }
 
     /// @brief @in{ Specyficzna dla tej klasy metoda zmiany tablicy danych źródłowych. }
-    ///           { A method specific to this class for changing the source data array. }
+    ///           { A method specific to this type for changing the source data array. }
     void set_source(size_t NewN, T *in_array)
     {
         assert(NewN>0 && in_array!=NULL);
@@ -90,7 +90,7 @@ public:
 /// @if POLSKI
 /// @brief Klasa przekazująca kolejne dane z liniowej tablicy struktur za pomocą wskaźników do składowych.
 /// @endif @if ENGLISH
-/// @brief A class that passes subsequent data from a linear array of structures using pointers to members.
+/// @brief A type that passes subsequent data from a linear array of structures using pointers to members.
 /// @endif
 template<class STRUCT_T, class FIELD_T>
 class struct_array_source : public linear_source_base
@@ -120,7 +120,7 @@ public:
     }
 
     /// @brief @i3{ Specyficzna dla tej klasy metoda zmiany tablicy danych źródłowych. |<BR>|
-    ///             A method specific to this class for changing the source data array. }
+    ///             A method specific to this type for changing the source data array. }
     void set_source(size_t NewN, STRUCT_T *i_array)
     {
         arra = i_array; linear_source_base::N = NewN;
@@ -165,7 +165,7 @@ public:
 };
 
 #if USE_ENGLISH_IF_POSSIBLE
-/// @brief A class that passes subsequent data from a linear array of pointers to structures
+/// @brief A type that passes subsequent data from a linear array of pointers to structures
 /// , using a pointer to the member. MAY BE POORLY TESTED.
 template<class STRUCT_T, class FIELD_T>
 class ptr_to_struct_array_source : public linear_source_base
@@ -203,7 +203,7 @@ public:
     }
 
     /// @brief @PL{ Specyficzna dla tej klasy metoda zmiany tablicy danych źródłowych.}
-    ///        @EN{ A method specific to this class for changing the source data array.}
+    ///        @EN{ A method specific to this type for changing the source data array.}
     void set_source(size_t NewN, STRUCT_T **i_array)
     {
         arra = i_array;

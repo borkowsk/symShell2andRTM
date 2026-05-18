@@ -1,7 +1,7 @@
 /// @file
-/// @brief __The base class for filters containing subsources__ /<br>
+/// @brief __The base type for filters containing subsources__ /<br>
 ///         _Podstawowa klasa dla filtrów zawierających pod-źródła_
-/// @date 2026-05-17 (modified)
+/// @date 2026-05-18 (modified)
 //==============================================================================
 //
 #ifndef SYMSHELL2_MULTI_FILTER_SOUR_HPP_INCLUDED_
@@ -34,7 +34,7 @@ protected:
     /// @brief \PL{ Źródło skalarne na wyniki. } \EN{ Scalar source for results. }
 #ifdef USE_ENGLISH_IF_POSSIBLE //TODO To rozwiązanie rozwala tooltipy CLiona dla danej klasy.
     /// @details
-    /// A somewhat artificial single-element source class with notification to the appropriate "basic statistics filter" class.
+    /// A somewhat artificial single-element source type with notification to the appropriate "basic statistics filter" `father`.
     /// Informs that current data will be needed.
     /// In descendant classes, it's certainly safe to substitute a virtual `get` method.
     class local_scalar_source : public scalar_source<double>

@@ -1,7 +1,7 @@
 /// @file
-/// @brief **Implementation of the world class -- output operator <<  ** /<br>
+/// @brief **Implementation of the world type -- output operator <<  ** /<br>
 ///         _Implementacja operatora << dla klasy świata._
-/// @date 2026-05-17 (modified)
+/// @date 2026-05-18 (modified)
 ///       -------- ----------------------------------------------
 /// @details
 ///     Its is rather simply implementation. You can replace it if you need.

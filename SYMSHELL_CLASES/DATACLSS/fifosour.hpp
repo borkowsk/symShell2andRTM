@@ -1,5 +1,5 @@
 /// @file
-/// @brief __A class that queues values from a scalar source.__ /<br>
+/// @brief __The type that queues values from a scalar source.__ /<br>
 ///         _Klasa kolejkująca wartości ze źródła skalarnego._
 /// @date 2026-05-18 (modified)
 // ********************************************************************************************************************

@@ -25,8 +25,8 @@ class discrete_histogram_source : public basic_statistics_source<DATA_SOURCE>
 {
 protected:
     typedef unsigned int counter_type; /// Tablica liczników. 64 bity to chyba za dużo. Ale jak się uprzesz...
-    size_t Num; ///< Number of Class;
-    int    Sta; ///< Lowest integer class (offset?).
+    size_t Num; ///< Number of categories;
+    int    Sta; ///< Lowest integer category (offset?).
 
     //`int Real_Lowest; //Historycznie-aktualnie najniższa wartość ze źródła.`
     //`int Real_Highest; //Historycznie-aktualnie najwyższa wartość ze źródła.`
@@ -88,24 +88,24 @@ public:
     /// @}
 
     /// Konstruktor.
-    /// \param LowestClass jaka jest najniższa klasa (dyskretna), która nas interesuje.
-    /// \param HowManyClass ile klas nas interesuje powyżej klasy najniższej (dyskretnych w sensie `int`).
+    /// \param the_lowest jaka jest najniższa klasa (dyskretna), która nas interesuje.
+    /// \param how_many_categories ile klas nas interesuje powyżej klasy najniższej (dyskretnych w sensie `int`).
     /// \param ini wskaźnik do serii, której histogram dyskretny chcemy otrzymać.
     /// \param format sposób tworzenia nazwy histogramu z nazwy serii źródłowej.
     /// \param my_manager wskaźnik do zarządcy danych, w którym zostaną zarejestrowane wynikowe pod-źródła skalarne.
     /// \param table_size ile pod-źródeł jest potrzebnych (z uwzględnieniem potrzeb klasy potomnej).
     discrete_histogram_source(
-            int LowestClass,          //Najniższa klasa
-            size_t HowManyClass,      //Ile klas od niej
-            DATA_SOURCE *ini = NULL,  //Klasa serii źródłowej.
+            int            the_lowest,   //Najniższa klasa
+            size_t how_many_categories,  //Ile klas od niej
+            DATA_SOURCE    *ini = NULL,  //Klasa serii źródłowej.
             //Jeśli nie pokrywa się z minX-maxX to faktycznie liczony jest wycinek
             const char *format = "DISCR.DISTRIBUTION(%s[%d..%d])",
             sources_manager_base *my_manager = NULL,
             size_t table_size = 11/*BEZ ZAPASU*/
     )
-    : Num(HowManyClass),Sta(LowestClass),
+    : Num(how_many_categories), Sta(the_lowest),
       basic_statistics_source<DATA_SOURCE>( ini, my_manager,
-                                            table_size + HowManyClass,		//Alokuje miejsce na pod-źródła klasowe
+                                            table_size + how_many_categories,		//Alokuje miejsce na pod-źródła klasowe
                                             format)
     {
         wb_pchar bufor(strlen(format) + 2 * 100); //Z za dużym zapasem jak na dwa integer-y, ale...
@@ -132,7 +132,6 @@ public:
     void all_subseries_required()
     {
         basic_statistics_source<DATA_SOURCE>::all_subseries_required();
-        //MAX CLASS
         MainClass();
         WhichMain();
         NumOfClass();

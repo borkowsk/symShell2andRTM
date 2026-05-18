@@ -1,7 +1,7 @@
 /// @file
 /// @brief __INTERFACES of the most basic data source classes__ /<br>
 ///         _INTERFACE-y najbardziej podstawowych klas źródeł danych._
-/// @date 2026-05-17 (modified)
+/// @date 2026-05-18 (modified)
 // *********************************************************************************************************************
 //
 #ifndef SYMSHELL2_DATA_SOURCES_HPP_INCLUDED_
@@ -23,7 +23,7 @@ namespace sym2 { namespace data {
 /// @{
 
 #ifdef USE_ENGLISH_IF_POSSIBLE
-/// \EN{ A base class of data source passing a single data/value. }
+/// \EN{ A base type of data source passing a single data/value. }
 class scalar_source_base : public data_source_base, public title_util
 #else
 /// \PL{ Klasa bazowa źródła danych przekazującego pojedynczą daną/wartość. }
@@ -75,7 +75,7 @@ public:
 };
 
 #ifdef USE_ENGLISH_IF_POSSIBLE
-/// Template class for typed single-element sources.
+/// A template for typed single-element sources.
 template<class T>
 class template_scalar_source_base : public scalar_source_base
 #else
@@ -293,7 +293,7 @@ public:
 };
 
 #ifdef USE_ENGLISH_IF_POSSIBLE
-/// Base class for sources passing data linearly.
+/// Base type for sources passing data linearly.
 class linear_source_base : public data_source_base, public title_util
 #else
 /// Klasa bazowa dla źródeł przekazujących dane liniowo.
@@ -355,7 +355,7 @@ public:
 };
 
 #ifdef USE_ENGLISH_IF_POSSIBLE
-/// Base class for sources providing rectangular data with slices.
+/// Base type for sources providing rectangular data with slices.
 #else
 /// Klasa bazowa dla źródeł udostępniających dane prostokątne wraz z wycinkami.
 #endif
@@ -466,7 +466,7 @@ public:
 };
 
 #ifdef USE_ENGLISH_IF_POSSIBLE
-/// Base class for the function source. To minimize the number of duplicate methods.
+/// Base type for the function source. To minimize the number of duplicate methods.
 class function_source_base : public data_source_base, public title_util
 #else
 /// Klasa podstawowa źródła funkcyjnego. Żeby zminimalizować liczbę powtarzających się metod.

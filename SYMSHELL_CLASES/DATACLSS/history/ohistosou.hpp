@@ -22,8 +22,8 @@ template<class DATA_SOURCE>
 class flex_histogram_source : public basic_statistics_source<DATA_SOURCE>
 //---------------------------------------------------------------------
 {
-    typedef basic_statistics_source<DATA_SOURCE>::size_t size_t;
-    typedef basic_statistics_source<DATA_SOURCE>::iterator_h iteratorh;
+    typedef typename basic_statistics_source<DATA_SOURCE>::size_t size_t;
+    typedef typename basic_statistics_source<DATA_SOURCE>::iterator_h iteratorh;
     using basic_statistics_source<DATA_SOURCE>::Source;
     using basic_statistics_source<DATA_SOURCE>::table;
     using basic_statistics_source<DATA_SOURCE>::y_min;
@@ -34,10 +34,10 @@ class flex_histogram_source : public basic_statistics_source<DATA_SOURCE>
     using basic_statistics_source<DATA_SOURCE>::from_source_is_missing_;
 
 protected:
-    size_t N; //Number of Class;
+    size_t N; ///< Number of categories.
     wb_dynarray<unsigned long> arra;
 
-    // Przemieszcza iterator o jednostkę. Zeruje, jeśli koniec tablicy
+    /// Przemieszcza iterator o jednostkę. Zeruje, jeśli koniec tablicy.
     size_t _next(iteratorh &p)
     {
         assert(p != NULL); //Nie wolno wywołać dla NULL
@@ -49,8 +49,8 @@ protected:
         return pom;
     }
 
-
-    int _calculate() //Zwraca 1, jeśli musial przeliczyć
+    /// @brief Ciężkie, acz leniwe, obliczenia. @returns 1, jeśli musiał przeliczyć.
+    int _calculate()
     {
         if(!basic_statistics_source<DATA_SOURCE>::_calculate())
             return 0;
@@ -212,10 +212,13 @@ public:
             basic_statistics_source<DATA_SOURCE>(ini, my_manager, table_size, format)
     {}
 
+    /// Destructor.
     ~flex_histogram_source()
     {}
 
-// Methods
+// Methods:
+//=========
+
     size_t get_size()
     {
         check_version(); //Uaktualnia też wersje pod-źródła, jeśli trzeba
@@ -223,18 +226,18 @@ public:
         return arra.get_size();
     }
 
-    void all_subseries_required()	//Alokuje i ewentualnie  wszystkie serie rejestruje w zarządcy
+    /// Alokuje i ewentualnie rejestruje wszystkie serie w zarządcy.
+    void all_subseries_required()
     {
         basic_statistics_source<DATA_SOURCE>::all_subseries_required();
-        //MAX CLASS
         MainClass();
         WhichMain();
         NumOfClass();
         Entropy();
     }
 
+    /// Umożliwia czytanie od początku.
     iteratorh reset()
-    //Umożliwia czytanie od początku
     {
         check_version(); //Uaktualnia też wersje pod-źródła, jeśli trzeba
         _calculate(); //Sprawdza, czynie trzeba policzyć i ewentualnie liczy

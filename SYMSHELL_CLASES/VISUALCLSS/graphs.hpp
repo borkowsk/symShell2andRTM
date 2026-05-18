@@ -31,7 +31,7 @@ namespace sym2
 //INTERFACE DO GRAFU — KLASY WYPROWADZONE POWINNY TYLKO IMPLEMENTOWAĆ:
 //--------------------------------------------------------------------
 
-/// @brief Base class for data point display configuration./<br>
+/// @brief Base type for data point display configuration./<br>
 ///        Klasa bazowa dla konfiguracji wyświetlania punktów danych.
 class config_point
 {
@@ -61,7 +61,7 @@ public:
     virtual void plot(int x, int y, unsigned short size, wb_color color); //Defaultowe rysowanie
 };
 
-/// Class to draw a simple point (Ignores size!!!)/<br>
+/// The type, which draws a simple point (Ignores size!!!)/<br>
 /// Klasa rysująca prosty punkt (Ignoruje rozmiar!!!).
 class simple_point:public config_point
 {
@@ -70,7 +70,7 @@ public:
     void plot(int x,int y, unsigned short size, wb_color color) override;
 };
 
-/// A class drawing a cross/hash./<br>
+/// The type, which draws a cross/hash./<br>
 /// Klasa rysująca krzyżyk.
 class hash_point:public config_point
 {
@@ -80,7 +80,7 @@ public:
     void plot(int x,int y, unsigned  short size, wb_color color) override;
 };
 
-/// A class that draws a circle/<br>
+/// The type, which draws a circle/<br>
 /// Klasa rysująca kólko.
 class circle_point:public config_point
 {
@@ -90,7 +90,7 @@ public:
     void plot(int x,int y, unsigned short size, wb_color color) override;
 };
 
-/// A class that draws a rhombus/<br>
+/// The type, which draws a rhombus/<br>
 /// Klasa rysująca romb.
 class rhomb_point:public config_point {
 public:
@@ -99,7 +99,7 @@ public:
     void plot(int x, int y, unsigned short size, wb_color color) override;
 };
 
-/// Square/Rectangle Drawing Class (UNUSED?)/<br>
+/// Square/Rectangle Drawing Type (UNUSED?)/<br>
 /// Klasa rysująca kwadracik/prostokąt (NIEUŻYWANA?).
 class rect_point:public config_point
 {
@@ -351,7 +351,7 @@ public:
     /// @}
 
 protected:
-    // ONLY FOR DEVELOPERS OF THIS CLASS:
+    // ONLY FOR DEVELOPERS OF THIS TYPE:
     /// Czyta wymiary z geometrii lub z ustawionego AA i BB.
     const geometry_base* read_dim(size_t& aa,size_t& bb);
 
@@ -415,7 +415,7 @@ public:
     void _replot() override;
     /// @}
 protected:
-    // ONLY FOR DEVELOPERS OF THIS CLASS:
+    // ONLY FOR DEVELOPERS OF THIS TYPE:
     /// Czyta wymiary z geometrii lub z ustawionego AA i BB.
     const geometry_base* read_dim(size_t& aa,size_t& bb);
 
@@ -504,7 +504,8 @@ public:
     /// Rysuje właściwy wykres a pod nim ewentualnie legendę.
     void _replot() override;
     /// @}
-private:    // ONLY FOR DEVELOPERS OF THIS CLASS
+private:
+    // ONLY FOR DEVELOPERS OF THIS TYPE
     int					mode;
     bool				d_menage;
     bool				c_menage;
@@ -555,7 +556,7 @@ public:
     /// Rysuje "tęczę" z liczbami.
     void _replot() override;
 
-private:    // ONLY FOR DEVELOPERS OF THIS CLASS
+private:    // ONLY FOR DEVELOPERS OF THIS TYPE
     bool					d_menage;
     bool					c_menage;
     data_source_base*		datas;
@@ -632,7 +633,7 @@ public:
     void _replot() override;
 
 private:
-    // ONLY FOR DEVELOPERS OF THIS CLASS
+    // ONLY FOR DEVELOPERS OF THIS TYPE
     /// Czyta wymiary z geometrii lub z ustawionego A i B.
     const geometry_base* read_dim(size_t& aa,size_t& bb);
 
@@ -728,7 +729,7 @@ public:
     /// @}
 
 private:
-    // ONLY FOR DEVELOPERS OF THIS CLASS
+    // ONLY FOR DEVELOPERS OF THIS TYPE
     /// Czyta wymiary z geometrii lub z ustawionego A i B.
     const geometry_base* read_dim(size_t& aa,size_t& bb);
 
@@ -816,11 +817,11 @@ public:
     void _replot() override;
     /// @}
 
-    /// Class specific method.
+    /// Method specific for this type.
     unsigned color(unsigned val);
 
 private:
-    // ONLY FOR DEVELOPERS OF THIS CLASS
+    // ONLY FOR DEVELOPERS OF THIS TYPE
     int    M;				///< Rozmiar tablicy serii. Nie wszystkie muszą być pełne.
     int mode;				///< Aktualny tryb pracy.
     series_info*   series;	///< Tablica serii.
@@ -886,7 +887,7 @@ public:
     void _replot() override;
     /// @}
 
-    /// @name Specials for this class.
+    /// @name Specials for this type.
     /// @{
 
     /// Zafiksowanie zakresu X lub od-fiksowanie gdy `min == max. == -DBL_MAX`.
@@ -897,7 +898,7 @@ public:
     /// @}
 
 protected:
-    // ONLY FOR DEVELOPERS OF THIS CLASS
+    // ONLY FOR DEVELOPERS OF THIS TYPE
     config_point*		CurrConfig;
     bool				menage_p;
     data_source_base*	Xdata;
@@ -979,7 +980,7 @@ public:
     /// @}
 
 protected:
-    // ONLY FOR DEVELOPERS OF THIS CLASS
+    // ONLY FOR DEVELOPERS OF THIS TYPE
     data_source_base*	Sources;
     int					menage_so;
     data_source_base*	Targets;

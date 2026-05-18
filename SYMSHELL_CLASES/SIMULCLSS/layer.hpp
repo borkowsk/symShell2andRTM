@@ -1,8 +1,7 @@
 /// @file
-/// @brief **Definition of the base class and simulation layer templates** /<br>
+/// @brief **Definition of the base type and templates specialization of simulation layers ** /<br>
 ///         _Definicja bazy i szablonów warstw symulacji._
 /// @date 2026-05-18 (modified)
-///      ...
 // ********************************************************************************************************************
 #ifndef SYMSHELL2_LAYER_HPP_INCLUDED_
 #define SYMSHELL2_LAYER_HPP_INCLUDED_
@@ -27,10 +26,10 @@
 namespace sym2 { namespace shell {
 
 #ifdef USE_ENGLISH_IF_POSSIBLE
-/// @brief Base class for all types of simulation layers.
+/// @brief Base types for all derived types of simulation layers.
 class any_layer_base
 #else
-/// @brief Klasa bazowa dla wszystkich typów warstw symulacji.
+/// @brief Klasa bazowa dla wszystkich pochodnych typów warstw symulacji.
 class any_layer_base
 #endif
 //---------------------------
@@ -99,7 +98,7 @@ public:
 };
 
 #ifdef USE_ENGLISH_IF_POSSIBLE
-/// @brief A class implementing the properties typical of a rectangular layer.
+/// @brief A type implementing the properties typical of a rectangular layer.
 /// @details Designed for multiple inheritance, so it does not inherit from `layer`.
 class rectangle_layer
 #else

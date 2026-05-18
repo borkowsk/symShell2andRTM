@@ -25,7 +25,7 @@ class spatial_correlation_source : public multi_filter_source_base<DATA_SOURCE>
 //------------------------------------------------------------------------------
 {
 protected:
-    size_t                           N;  ///< Number of distance class;
+    size_t                           N;  ///< Number of distance categories/bins;
     int                      rand_mult;  ///< How many times for random counting. If 0 the _count_all() is used instead _count_randomly()
     wb_dynarray<double>           arra;  ///< Data. Musi być `double`, bo inaczej źle przechowuje "missing value"
     wb_dynarray<unsigned>     the_same;
@@ -55,19 +55,19 @@ protected:
 public:
     /// Konstruktor.
     /// \param ini to wskaźnik do źródła danych, które ma być analizowane.
-    /// \param number_Of_class to liczba klas histogramu(?), gdzie `-1` oznacza tryb całkowitoliczbowy.
+    /// \param number_of_categories to liczba klas histogramu(?), gdzie `-1` oznacza tryb całkowitoliczbowy.
     /// \param count_mode to multiplikator liczby losowań. Jednak 0 oznacza przeliczenie wszystkich możliwości.
     /// \param my_manager to wskaźnik do zarządcy danych.
     /// \param table_size to rozmiar tablicy pod-źródeł. Ta klasa potrzebuje tylko jednego.
     /// \param format to sposób tworzenia nazwy tego obiektu z nazwy obiektu źródłowego.
     explicit spatial_correlation_source( DATA_SOURCE *ini = NULL,
-                                         size_t number_Of_class = -1,
+                                         size_t number_of_categories = -1,
                                          int count_mode = 2,
                                          sources_manager_base *my_manager = NULL,
                                          size_t table_size = 1 /*DAJEMY JEDNO POD_ŹRÓDŁO, BEZ ZAPASU*/,
                                          const char *format = "SPATIAL CORRELATION(%s)") 
     : multi_filter_source_base<DATA_SOURCE>(ini, my_manager, table_size, format),
-      rand_mult(count_mode), N(number_Of_class)
+      rand_mult(count_mode), N(number_of_categories)
     {}
 
     ~spatial_correlation_source() = default;
@@ -85,7 +85,6 @@ public:
     void all_subseries_required()
     {
         //multi_filter_source_base<DATA_SOURCE>::all_subseries_required(); - pure virtual!
-        //MAX CLASS
         ApproximatedClusterSize();
     }
     /// @}

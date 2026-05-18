@@ -1,7 +1,7 @@
 /// @file
-/// @brief  **A helper class that manages the name of a data series object and more** /<br>
+/// @brief  **A helper type that manages the name of a data series object and more** /<br>
 ///          _Klasa pomocnicza zarządzająca nazwą obiektu serii danych i nie tylko._
-/// @date 2026-05-16 (modified)
+/// @date 2026-05-18 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_TITLE_UTIL_HPP_INCLUDED_
@@ -19,7 +19,7 @@ namespace sym2
     //using namespace wbrtm;
     using wbrtm::clone_str;
 
-    /// @brief \EN{ A helper class that manages the name of a data series object and more. }
+    /// @brief \EN{ A helper type that manages the name of a data series object and more. }
     ///        \PL{ Klasa pomocnicza zarządzająca nazwą obiektu serii danych i nie tylko. }
     class title_util
     //--------------

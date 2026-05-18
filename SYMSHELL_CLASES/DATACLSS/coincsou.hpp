@@ -30,8 +30,8 @@ public:
     typedef sym2::rectangle_geometry my_geometry_t;
 
 protected:
-    size_t N; ///< Required number of Class of First
-    size_t M; ///< Required number of Class of Second
+    size_t N; ///< Required number of categories of `First`-s
+    size_t M; ///< Required number of categories of `Second`-s
     wb_ptr<my_geometry_t> my_geometry; ///< Geometria macierzy koincydencji (prostokątna).
     wb_dynmatrix<unsigned long>  arra; ///< Macierz koincydencji (aż 64-bitowe liczniki to chyba trochę za dużo?)
     //wb_dynmatrix<unsigned>  arra; ///< Macierz koincydencji. Jednak tak wywoływała pad przy alokacji... DZIWNE.

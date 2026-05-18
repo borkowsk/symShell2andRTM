@@ -1,6 +1,6 @@
 /// @file
-/// @brief __Legacy filter for counting series class counts and derived statistics.__ /<br>
-///         _Starszy filtr liczący liczebności klas serii i pochodne statystyki._
+/// @brief __Legacy filter for counting series categories and derived statistics.__ /<br>
+///         _Starszy filtr liczący liczebności kategorii w serii i pochodne statystyki._
 /// @date 2026-05-18 (modified)
 // ********************************************************************************************************************
 //
@@ -31,7 +31,7 @@ public:
     using basics_::table; ///< Skrócony dostęp do tablicy danych klasy bazowej.
 
 protected:
-    size_t N; ///< Number of Class/histogram bins.
+    size_t N; ///< Number of categories/histogram bins.
     wb_dynarray<unsigned long> arra; ///< Histogram bins/koszyki.
 
     /// Przemieszcza iterator o jednostkę. Zeruje, jeśli koniec tablicy koszyków (używa `N`).
@@ -82,16 +82,16 @@ public:
 
     /// Konstruktor.
     /// \param ini to wskaźnik do serii źródłowej.
-    /// \param NumberOfClass to wymagana liczba klas histogramu, ale 1 oznacza tryb całkowitoliczbowy.
+    /// \param number_of_categories to wymagana liczba klas histogramu, ale 1 oznacza tryb całkowitoliczbowy.
     /// \param my_manager to wskaźnik do zarządcy danych.
     /// \param table_size to wymagany rozmiar tablicy pod-źródeł.
     /// \param format to sposób tworzenia nazwy tego źródła pochodnego z nazwy źródła jego danych.
-    explicit histogram_source(  DATA_SOURCE *ini = NULL,
-                                size_t NumberOfClass = -1,		//-1 oznacza tryb całkowitoliczbowy
+    explicit histogram_source(  DATA_SOURCE                 *ini = NULL,
+                                size_t      number_of_categories = -1,		//-1 oznacza tryb całkowitoliczbowy
                                 sources_manager_base *my_manager = NULL,
-                                size_t table_size = 11/*BEZ ZAPASU*/,
-                                const char *format = "HISTOGRAM(%s)")
-    : basic_statistics_source<DATA_SOURCE>(ini, my_manager, table_size, format), N(NumberOfClass)
+                                size_t                table_size = 11/*BEZ ZAPASU*/,
+                                const char               *format = "HISTOGRAM(%s)")
+    : basic_statistics_source<DATA_SOURCE>(ini, my_manager, table_size, format), N(number_of_categories)
     {}
 
     /// Destruktor.
@@ -112,7 +112,6 @@ public:
     void all_subseries_required() override
     {
         basic_statistics_source<DATA_SOURCE>::all_subseries_required();
-        //MAX CLASS
         MainClass();
         WhichMain();
         NumOfClass();

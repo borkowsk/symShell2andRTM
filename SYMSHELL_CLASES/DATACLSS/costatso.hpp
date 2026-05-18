@@ -1,5 +1,5 @@
 /// @file
-/// @brief __Base class for statistical co-filters - two-series statistics.__ /<br>
+/// @brief __Base type for statistical co-filters - two-series statistics.__ /<br>
 ///         _Podstawowa klasa dla ko-filtrów statystycznych — statystyk z dwu serii.
 /// @date 2026-05-18 (modified)
 // ********************************************************************************************************************

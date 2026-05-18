@@ -25,12 +25,13 @@ namespace sym2 { namespace data {
 /// @{
 
 #ifdef USE_ENGLISH_IF_POSSIBLE
-/// A function class defining a constant function, i.e. one that always returns the same value.
+/// @brief A function type defining a constant function, i.e. one that always returns the same value.
+template<int VDef> class constans
 #else
-/// Klasa funkcyjna definiująca funkcję stałą, czyli zwracająca zawsze te sama wartość.
+/// @brief Klasa funkcyjna definiująca funkcję stałą, czyli zwracająca zawsze te sama wartość.
+template<int VDef> class constans
 #endif
-template<int VDef>
-class constans
+//-------------------------------
 {
     double value; ///< Wartość tej "stałej".
 
@@ -47,11 +48,13 @@ public:
 };
 
 #ifdef USE_ENGLISH_IF_POSSIBLE
-/// A functional class wrapping the linear function `y = x` — needed e.g., to make a scatterplot for one series.
+/// A functional type wrapping the linear function `y = x` — needed e.g., to make a scatterplot for one series.
+class y_eq_x
 #else
 /// Klasa funkcyjna opakowująca funkcje liniowa `y = x` — potrzebna np. do zrobienia scatterplot-a dla jednej serii.
-#endif
 class y_eq_x
+#endif
+//----------
 {
 public:
     /// Operator obliczeniowy. @returns x.
@@ -60,11 +63,13 @@ public:
 };
 
 #ifdef USE_ENGLISH_IF_POSSIBLE
-/// A functional class wrapping cosine.
+/// A functional type wrapping cosine.
+class cosinus
 #else
 /// Klasa funkcyjna opakowująca cosinus.
-#endif
 class cosinus
+#endif
+//-----------
 {
 public:
     /// Operator obliczeniowy. @returns `cos(x)`.
@@ -73,11 +78,13 @@ public:
 };
 
 #ifdef USE_ENGLISH_IF_POSSIBLE
-/// A functional class that wraps the sine.
+/// A functional type that wraps the sine.
+class sinus
 #else
 /// Klasa funkcyjna opakowująca sinus.
-#endif
 class sinus
+#endif
+//---------
 {
 public:
     /// Operator obliczeniowy. @returns `sin(x)`.
@@ -88,13 +95,15 @@ public:
 
 #ifdef USE_ENGLISH_IF_POSSIBLE
 /// A function source template parameterized by a function type.
-/// @tparam F must be a class with a parameterless constructor and a main method defined as `double operator () (double)`.
+/// @tparam F must be a type with a parameterless constructor and a main method defined as `double operator () (double)`.
+template<class F>
+class function_source : public function_source_base
 #else
 /// Szablon źródła funkcyjnego sparametryzowany typem funkcyjnym.
 /// @tparam F musi być klasą z bezparametrowym konstruktorem i główną metodą o definicji `double operator () (double)`.
-#endif
 template<class F>
 class function_source : public function_source_base
+#endif
 //-------------------------------------------------
 {
 protected:

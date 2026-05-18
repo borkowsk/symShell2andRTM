@@ -1,6 +1,6 @@
 /// @file
-/// @brief **Implementation of the world class -- Virtual output methods and operator.**
-/// @date 2026-05-17 (modified)
+/// @brief **Implementation of the world type -- Virtual output methods and operator.**
+/// @date 2026-05-18 (modified)
 // ---------------------------------------------------------------------------------
 // Its is rather simply implementation. You can replace it if you need.
 //=====================================================================

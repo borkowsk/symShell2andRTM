@@ -1,7 +1,7 @@
 /// @file
-/// @brief **MAIN "SCREEN" AREA MANAGER CLASS** /<br>
+/// @brief **THE TYPE OF MAIN "SCREEN" AREA MANAGER** /<br>
 ///         _KLASA GŁÓWNEGO ZARZĄDCY OBSZARÓW "EKRANU"._
-/// @date 2026-05-16 (modified)
+/// @date 2026-05-18 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_MAIN_MNGR_HPP_INCLUDED_

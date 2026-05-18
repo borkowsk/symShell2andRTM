@@ -119,7 +119,7 @@ public:
 
     /// @brief
     /// @PL{ Klasa bazowa dla wszystkich iteratorów geometrii. }
-    /// @EN{ Base class for all geometry iterators. }
+    /// @EN{ Base type for all geometry iterators. }
     class iterator_base
     //------------------
     {
@@ -258,7 +258,7 @@ inline
 int geometry_base::_compare_geometry_base(geometry_base* second)
 {
     /// @internal
-    ///  The second operand of this 'memcmp' call is a pointer to dynamic class 'geometry_base';
+    ///  The second operand of this 'memcmp' call is a pointer to dynamic type 'geometry_base';
     ///  vtable pointer will be compared. (AND THIS IS INTENTIONAL!)
     return memcmp((void*)this, second, sizeof(geometry_base)); // NOLINT(*-suspicious-memory-comparison)
 }

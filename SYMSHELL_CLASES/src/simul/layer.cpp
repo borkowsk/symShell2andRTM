@@ -1,7 +1,7 @@
 /// @file
-/// @brief **Implementations for the simulation layer base class** /<br>
+/// @brief **Implementations for the simulation layer base type** /<br>
 ///         _Implementacje dla klasy bazowej warstwy symulacji._
-/// @date 2026-05-17 (modified)
+/// @date 2026-05-18 (modified)
 //=====================================================================
 // Klasy czysto wirtualnej, ale implementacje funkcji muszą (powinny być).
 //

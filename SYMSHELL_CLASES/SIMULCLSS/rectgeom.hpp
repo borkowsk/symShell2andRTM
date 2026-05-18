@@ -20,8 +20,8 @@ namespace sym2 { namespace shell {
 
 using namespace wbrtm;
 
-/// @brief @PL{ Klasa geometrii komórkowej 2D.}
-///        @EN{ 2D Cell Geometry Class. }
+/// @brief @PL{ Typ geometrii komórkowej 2D.}
+///        @EN{ 2D Cell Geometry Type. }
 class rectangle_geometry:public geometry_base
 //---------------------------------------------
 {

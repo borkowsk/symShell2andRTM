@@ -1,5 +1,5 @@
 /// @file
-/// @brief **Implementation of the world class -- Virtual input methods and operator >>  **
+/// @brief **Implementation of the world type -- Virtual input methods and operator >>  **
 /// @date 2026-05-18 (modified)
 //===----------------------------------------------------------------------------
 /// @details

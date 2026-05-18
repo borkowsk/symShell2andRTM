@@ -40,12 +40,13 @@ public:
     ///      Dzięki temu można wykonywać skalowanie obszarów w szerokim zakresie rozmiarów.
     typedef double xy_info;
 
-    friend class drawable_base; ///< Access to private attributes of the child class/
-                                ///< Dostęp do atrybutów prywatnych klasy potomnej.
+    /// @EN{ Access to private attributes of the child type. }
+    /// @PL{ Dostęp do atrybutów prywatnych klasy potomnej. }
+    friend class drawable_base;
 
 private:
-    xy_info x1,y1; ///< upper-left corner
-    xy_info x2,y2; ///< lower-right corner
+    xy_info x1,y1; ///< @EN{ upper-left corner. }
+    xy_info x2,y2; ///< @EN{ lower-right corner. }
 
 public:
     /// Default constructor.
@@ -118,7 +119,7 @@ public:
     int  is_overlapped(const gps_area& t) const;
 };
 
-/// @brief Base class for screen areas such as graphs/
+/// @brief Base type for screen areas such as graphs/
 ///        Klasa bazowa dla obszarów ekranu, takich jak wykresy(graphs).
 class drawable_base:public gps_area,public sym2::title_util
 //------------------------------------------------------------

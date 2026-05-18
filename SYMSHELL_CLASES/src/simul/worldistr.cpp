@@ -1,6 +1,6 @@
 /// @file
-/// @brief **Implementation of the world class -- input operator >>  **
-/// @date 2026-05-17 (modified)
+/// @brief **Implementation of the world type -- input operator >>  **
+/// @date 2026-05-18 (modified)
 ///       ------------------------------------------------------------
 /// @details
 ///     Its is rather simply implementation. You can replace it if you need.

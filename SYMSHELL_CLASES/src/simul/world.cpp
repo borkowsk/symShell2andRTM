@@ -1,5 +1,5 @@
 /// @file
-/// @brief **Implementation of the world-class** /<br>
+/// @brief **Implementation of the world type** /<br>
 ///        _Implementacja rozwiązań klasy reprezentującej świat._
 /// @date 2026-05-18 (modified)
 //======================================================================================================================

@@ -1,7 +1,7 @@
 /// @file
-/// @brief **Base class of a two-source dependent filter** /<br>
-///         _Klasa bazowa filtra zależnego od dwu źródeł._
-/// @date 2026-05-16 (modified)
+/// @brief **The base type of two-source dependent filters** /<br>
+///         _Klasa bazowa filtrów zależnych od dwu źródeł._
+/// @date 2026-05-18 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_bi_filter_hpp_INCLUDED_

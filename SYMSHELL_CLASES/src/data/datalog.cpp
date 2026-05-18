@@ -1,5 +1,5 @@
 /// @file
-/// @brief **Implementation of the simplest class for writing data from single-value sources to a file** /<br>
+/// @brief **Implementation of the simplest type for writing data from single-value sources to a file** /<br>
 ///         _Implementacja najprostszej klasy zapisywania do pliku danych ze źródeł jednowartościowych._
 /// @date 2026-05-18 (modified)
 //======================================================================================================================
