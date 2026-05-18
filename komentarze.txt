@@ -1,7 +1,7 @@
 SYMSHELL_CLASES/src/data/datalog.cpp:1:/// @file
 SYMSHELL_CLASES/src/data/datalog.cpp:2:/// @brief **Implementation of the simplest class for writing data from single-value sources to a file** /<br>
 SYMSHELL_CLASES/src/data/datalog.cpp:3:///         _Implementacja najprostszej klasy zapisywania do pliku danych ze źródeł jednowartościowych._
-SYMSHELL_CLASES/src/data/datalog.cpp:4:/// @date 2026-05-17 (modified)
+SYMSHELL_CLASES/src/data/datalog.cpp:4:/// @date 2026-05-18 (modified)
 SYMSHELL_CLASES/src/data/datalog.cpp:5://======================================================================================================================
 SYMSHELL_CLASES/src/data/datalog.cpp:15:// --checks=-google-default-arguments.
 SYMSHELL_CLASES/src/data/datalog.cpp:19://Wirtualny destruktor
@@ -22,7 +22,7 @@ SYMSHELL_CLASES/src/data/datalog.cpp:120:/*        WWW:  http://moderato.iss.uw.
 SYMSHELL_CLASES/src/data/sourmngr.cpp:1:/// @file
 SYMSHELL_CLASES/src/data/sourmngr.cpp:2:/// @brief  **DATA SOURCE MANAGER IMPLEMENTATION** /<br>
 SYMSHELL_CLASES/src/data/sourmngr.cpp:3:///          _IMPLEMENTACJA ZARZĄDCY ŹRÓDEŁ DANYCH._
-SYMSHELL_CLASES/src/data/sourmngr.cpp:4:/// @date 2026-05-16 (modified)
+SYMSHELL_CLASES/src/data/sourmngr.cpp:4:/// @date 2026-05-18 (modified)
 SYMSHELL_CLASES/src/data/sourmngr.cpp:5://*********************************************************************************************************************
 SYMSHELL_CLASES/src/data/sourmngr.cpp:17:// --checks=-google-default-arguments.
 SYMSHELL_CLASES/src/data/sourmngr.cpp:20:// NAJPROSTSZA IMPLEMENTACJA — Z PRZESZUKIWANIEM LINIOWYM.
@@ -90,7 +90,7 @@ SYMSHELL_CLASES/src/data/sourmngr.cpp:238:/*        WWW:  http://moderato.iss.uw
 SYMSHELL_CLASES/src/data/sourbase.cpp:1:/// @file
 SYMSHELL_CLASES/src/data/sourbase.cpp:2:/// @brief **DEPRECATED "COUNTING" of IEEE tags: INF and NAN** /<br>
 SYMSHELL_CLASES/src/data/sourbase.cpp:3:///         _PRZESTARZAŁE "LICZENIE" znaczników IEEE: INF i NAN._
-SYMSHELL_CLASES/src/data/sourbase.cpp:4:/// @date 2026-05-17 (modification)
+SYMSHELL_CLASES/src/data/sourbase.cpp:4:/// @date 2026-05-18 (modification)
 SYMSHELL_CLASES/src/data/sourbase.cpp:5://-----------------------------------------------------------
 SYMSHELL_CLASES/src/data/sourbase.cpp:6:/// DAWNO NIE TESTOWANE, CHYBA NIE DZIAŁA, I NIE JEST NAPRAWDĘ POTRZEBNE
 SYMSHELL_CLASES/src/data/sourbase.cpp:7://========================================================================
@@ -120,7 +120,7 @@ SYMSHELL_CLASES/src/data/sourbase.cpp:68:    //double data_source_base::nan(); /
 SYMSHELL_CLASES/src/data/sourbase.cpp:77:/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk               */
 SYMSHELL_CLASES/src/simul/worldistr.cpp:1:/// @file
 SYMSHELL_CLASES/src/simul/worldistr.cpp:2:/// @brief **Implementation of the world class -- input operator >>  **
-SYMSHELL_CLASES/src/simul/worldistr.cpp:3:/// @date 2026-05-17 (modified)
+SYMSHELL_CLASES/src/simul/worldistr.cpp:3:/// @date 2026-05-18 (modified)
 SYMSHELL_CLASES/src/simul/worldistr.cpp:4:///       ------------------------------------------------------------
 SYMSHELL_CLASES/src/simul/worldistr.cpp:5:/// @details
 SYMSHELL_CLASES/src/simul/worldistr.cpp:6:///     Its is rather simply implementation. You can replace it if you need.
@@ -130,7 +130,7 @@ SYMSHELL_CLASES/src/simul/worldistr.cpp:48:/*        WWW:  http://moderato.iss.u
 SYMSHELL_CLASES/src/simul/world.cpp:1:/// @file
 SYMSHELL_CLASES/src/simul/world.cpp:2:/// @brief **Implementation of the world-class** /<br>
 SYMSHELL_CLASES/src/simul/world.cpp:3:///        _Implementacja rozwiązań klasy reprezentującej świat._
-SYMSHELL_CLASES/src/simul/world.cpp:4:/// @date 2026-05-17 (modified)
+SYMSHELL_CLASES/src/simul/world.cpp:4:/// @date 2026-05-18 (modified)
 SYMSHELL_CLASES/src/simul/world.cpp:5://======================================================================================================================
 SYMSHELL_CLASES/src/simul/world.cpp:17://Zwraca 1 jak się udało. Może być niedozwolone
 SYMSHELL_CLASES/src/simul/world.cpp:25://Ustawianie strumienia do zapisu historii
@@ -233,7 +233,7 @@ SYMSHELL_CLASES/src/simul/world.cpp:357:    Log.try_writing(); //Stan końcowy, 
 SYMSHELL_CLASES/src/simul/world.cpp:368:/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk               */
 SYMSHELL_CLASES/src/simul/world_io.cpp:1:/// @file
 SYMSHELL_CLASES/src/simul/world_io.cpp:2:/// @brief **Implementation of the world class -- Virtual output methods and operator.**
-SYMSHELL_CLASES/src/simul/world_io.cpp:3:/// @date 2026-05-17 (modified)
+SYMSHELL_CLASES/src/simul/world_io.cpp:3:/// @date 2026-05-18 (modified)
 SYMSHELL_CLASES/src/simul/world_io.cpp:4:// ---------------------------------------------------------------------------------
 SYMSHELL_CLASES/src/simul/world_io.cpp:5:// Its is rather simply implementation. You can replace it if you need.
 SYMSHELL_CLASES/src/simul/world_io.cpp:6://=====================================================================
@@ -242,7 +242,7 @@ SYMSHELL_CLASES/src/simul/world_io.cpp:29:/*        WWW:  http://moderato.iss.uw
 SYMSHELL_CLASES/src/simul/geombase.cpp:1:/// @file
 SYMSHELL_CLASES/src/simul/geombase.cpp:2:/// @brief **ITERATOR ALLOCATION CACHE IMPLEMENTATION** /<br>
 SYMSHELL_CLASES/src/simul/geombase.cpp:3:///         _IMPLEMENTACJA CACHE-U ALOKACJI ITERATORÓW._
-SYMSHELL_CLASES/src/simul/geombase.cpp:4:/// @date 2026-05-17 (modified)
+SYMSHELL_CLASES/src/simul/geombase.cpp:4:/// @date 2026-05-18 (modified)
 SYMSHELL_CLASES/src/simul/geombase.cpp:5://=============================================================================
 SYMSHELL_CLASES/src/simul/geombase.cpp:7://#include "INCLUDE/platform.hpp"
 SYMSHELL_CLASES/src/simul/geombase.cpp:8://#include <cstdlib>
@@ -273,7 +273,7 @@ SYMSHELL_CLASES/src/simul/geombase.cpp:158:}} //namespaces
 SYMSHELL_CLASES/src/simul/geombase.cpp:168:/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk               */
 SYMSHELL_CLASES/src/simul/worldimpi.cpp:1:/// @file
 SYMSHELL_CLASES/src/simul/worldimpi.cpp:2:/// @brief **Implementation of the world class -- Virtual input methods and operator >>  **
-SYMSHELL_CLASES/src/simul/worldimpi.cpp:3:/// @date 2026-05-17 (modified)
+SYMSHELL_CLASES/src/simul/worldimpi.cpp:3:/// @date 2026-05-18 (modified)
 SYMSHELL_CLASES/src/simul/worldimpi.cpp:4://===----------------------------------------------------------------------------
 SYMSHELL_CLASES/src/simul/worldimpi.cpp:5:/// @details
 SYMSHELL_CLASES/src/simul/worldimpi.cpp:6:///     Its is rather simply implementation. You can replace it if you need.
@@ -330,7 +330,7 @@ SYMSHELL_CLASES/src/simul/worldimpi.cpp:171:                    break; //Koniec 
 SYMSHELL_CLASES/src/simul/worldimpi.cpp:184:/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk               */
 SYMSHELL_CLASES/src/simul/worldimpo.cpp:1:/// @file
 SYMSHELL_CLASES/src/simul/worldimpo.cpp:2:/// @brief  **Implementation of the world class -- Virtual output methods and operator <<  **
-SYMSHELL_CLASES/src/simul/worldimpo.cpp:3:/// @date 2026-05-17 (modified)
+SYMSHELL_CLASES/src/simul/worldimpo.cpp:3:/// @date 2026-05-18 (modified)
 SYMSHELL_CLASES/src/simul/worldimpo.cpp:4:///         ----------------------------------------------
 SYMSHELL_CLASES/src/simul/worldimpo.cpp:5:/// @details
 SYMSHELL_CLASES/src/simul/worldimpo.cpp:6:///     Its is rather simply implementation. You can replace it if you need.
@@ -339,7 +339,7 @@ SYMSHELL_CLASES/src/simul/worldimpo.cpp:29:/*        WWW:  http://moderato.iss.u
 SYMSHELL_CLASES/src/simul/worldstrm.cpp:1:/// @file
 SYMSHELL_CLASES/src/simul/worldstrm.cpp:2:/// @brief **Implementation of the world class -- output operator <<  ** /<br>
 SYMSHELL_CLASES/src/simul/worldstrm.cpp:3:///         _Implementacja operatora << dla klasy świata._
-SYMSHELL_CLASES/src/simul/worldstrm.cpp:4:/// @date 2026-05-17 (modified)
+SYMSHELL_CLASES/src/simul/worldstrm.cpp:4:/// @date 2026-05-18 (modified)
 SYMSHELL_CLASES/src/simul/worldstrm.cpp:5:///       -------- ----------------------------------------------
 SYMSHELL_CLASES/src/simul/worldstrm.cpp:6:/// @details
 SYMSHELL_CLASES/src/simul/worldstrm.cpp:7:///     Its is rather simply implementation. You can replace it if you need.
@@ -348,7 +348,7 @@ SYMSHELL_CLASES/src/simul/worldstrm.cpp:18:        w.implement_output(o); //Call
 SYMSHELL_CLASES/src/simul/worldstrm.cpp:32:/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk               */
 SYMSHELL_CLASES/src/simul/aleyerostr.cpp:1:/// @file
 SYMSHELL_CLASES/src/simul/aleyerostr.cpp:2:/// @brief **Implementation of `any_layer` class -- output operator <<  **
-SYMSHELL_CLASES/src/simul/aleyerostr.cpp:3:/// @date 2026-05-17 (modified)
+SYMSHELL_CLASES/src/simul/aleyerostr.cpp:3:/// @date 2026-05-18 (modified)
 SYMSHELL_CLASES/src/simul/aleyerostr.cpp:4:///       ----------------------------------------------
 SYMSHELL_CLASES/src/simul/aleyerostr.cpp:5:/// @details
 SYMSHELL_CLASES/src/simul/aleyerostr.cpp:6:///     Its is rather simply implementation. You can replace it if you need.
@@ -358,7 +358,7 @@ SYMSHELL_CLASES/src/simul/aleyerostr.cpp:32:/*        WWW:  http://moderato.iss.
 SYMSHELL_CLASES/src/simul/layer_gd.cpp:1:/// @file
 SYMSHELL_CLASES/src/simul/layer_gd.cpp:2:/// @brief **Implementation of loading the simulation layer from graphic files** /<br>
 SYMSHELL_CLASES/src/simul/layer_gd.cpp:3:///        _Implementacja wczytywania warstwy symulacji z plików graficznych._
-SYMSHELL_CLASES/src/simul/layer_gd.cpp:4:/// @date 2026-05-17 (modified)
+SYMSHELL_CLASES/src/simul/layer_gd.cpp:4:/// @date 2026-05-18 (modified)
 SYMSHELL_CLASES/src/simul/layer_gd.cpp:5:///       -------------------------------------------------------------------
 SYMSHELL_CLASES/src/simul/layer_gd.cpp:6:/// @details
 SYMSHELL_CLASES/src/simul/layer_gd.cpp:7:///             ...
@@ -375,7 +375,7 @@ SYMSHELL_CLASES/src/simul/layer_gd.cpp:81:/*        WWW:  http://moderato.iss.uw
 SYMSHELL_CLASES/src/simul/layer.cpp:1:/// @file
 SYMSHELL_CLASES/src/simul/layer.cpp:2:/// @brief **Implementations for the simulation layer base class** /<br>
 SYMSHELL_CLASES/src/simul/layer.cpp:3:///         _Implementacje dla klasy bazowej warstwy symulacji._
-SYMSHELL_CLASES/src/simul/layer.cpp:4:/// @date 2026-05-17 (modified)
+SYMSHELL_CLASES/src/simul/layer.cpp:4:/// @date 2026-05-18 (modified)
 SYMSHELL_CLASES/src/simul/layer.cpp:5://=====================================================================
 SYMSHELL_CLASES/src/simul/layer.cpp:6:// Klasy czysto wirtualnej, ale implementacje funkcji muszą (powinny być).
 SYMSHELL_CLASES/src/simul/layer.cpp:7://
@@ -406,7 +406,7 @@ SYMSHELL_CLASES/src/simul/layer.cpp:155:}} //namespaces
 SYMSHELL_CLASES/src/simul/layer.cpp:164:/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk               */
 SYMSHELL_CLASES/src/simul/alayeristr.cpp:1:/// @file
 SYMSHELL_CLASES/src/simul/alayeristr.cpp:2:/// @brief **Implementation of `any_layer` class -- Input operator >>  **
-SYMSHELL_CLASES/src/simul/alayeristr.cpp:3:/// @date 2026-05-17 (modified)
+SYMSHELL_CLASES/src/simul/alayeristr.cpp:3:/// @date 2026-05-18 (modified)
 SYMSHELL_CLASES/src/simul/alayeristr.cpp:4:///       ----------------------------------------------
 SYMSHELL_CLASES/src/simul/alayeristr.cpp:5:/// @details
 SYMSHELL_CLASES/src/simul/alayeristr.cpp:6:///      Its is rather simply implementation. You can replace it if you need.
@@ -417,7 +417,7 @@ SYMSHELL_CLASES/src/simul/alayeristr.cpp:43:/*        WWW:  http://moderato.iss.
 SYMSHELL_CLASES/src/simul/worldostr.cpp:1:/// @file
 SYMSHELL_CLASES/src/simul/worldostr.cpp:2:/// @brief **Implementation of the world class -- output operator <<  ** /<br>
 SYMSHELL_CLASES/src/simul/worldostr.cpp:3:///         _Implementacja operatora << dla klasy świata._
-SYMSHELL_CLASES/src/simul/worldostr.cpp:4:/// @date 2026-05-17 (modified)
+SYMSHELL_CLASES/src/simul/worldostr.cpp:4:/// @date 2026-05-18 (modified)
 SYMSHELL_CLASES/src/simul/worldostr.cpp:5:// ----------------------------------------------
 SYMSHELL_CLASES/src/simul/worldostr.cpp:6:// Its is rather simply implementation. You can replace it if you need.
 SYMSHELL_CLASES/src/simul/worldostr.cpp:7://=====================================================================
@@ -427,7 +427,7 @@ SYMSHELL_CLASES/src/simul/worldostr.cpp:45:/*        WWW:  http://moderato.iss.u
 SYMSHELL_CLASES/src/visual/graphs.cpp:1:/// @file
 SYMSHELL_CLASES/src/visual/graphs.cpp:2:/// @brief **IMPLEMENTATION OF BASIC GRAPH CLASSES** /<br>
 SYMSHELL_CLASES/src/visual/graphs.cpp:3:///         _IMPLEMENTACJA PODSTAWOWYCH KLAS GRAFÓW._
-SYMSHELL_CLASES/src/visual/graphs.cpp:4:/// @date 2026-05-17 (modified)
+SYMSHELL_CLASES/src/visual/graphs.cpp:4:/// @date 2026-05-18 (modified)
 SYMSHELL_CLASES/src/visual/graphs.cpp:5://==========================================================================================
 SYMSHELL_CLASES/src/visual/graphs.cpp:7://#include <cstdarg>
 SYMSHELL_CLASES/src/visual/graphs.cpp:8://#include <cerrno>
@@ -893,7 +893,7 @@ SYMSHELL_CLASES/src/visual/graphs.cpp:2741:/*        WWW:  http://moderato.iss.u
 SYMSHELL_CLASES/src/visual/areamngr.cpp:1:/// @file
 SYMSHELL_CLASES/src/visual/areamngr.cpp:2:/// @brief **Implementation of the base area manager** /<br>
 SYMSHELL_CLASES/src/visual/areamngr.cpp:3:///         _Implementacja bazowego zarządcy obszarów._
-SYMSHELL_CLASES/src/visual/areamngr.cpp:4:/// @date 2026-05-17 (modified)
+SYMSHELL_CLASES/src/visual/areamngr.cpp:4:/// @date 2026-05-18 (modified)
 SYMSHELL_CLASES/src/visual/areamngr.cpp:5://---------------------------------------------------------------------------
 SYMSHELL_CLASES/src/visual/areamngr.cpp:6://  Wersja z kosmetyką XI 2012
 SYMSHELL_CLASES/src/visual/areamngr.cpp:7://======================================================================================================================
@@ -1013,7 +1013,7 @@ SYMSHELL_CLASES/src/visual/areamngr.cpp:625:/*        WWW:  http://moderato.iss.
 SYMSHELL_CLASES/src/visual/points_plot.cpp:1:/// @file
 SYMSHELL_CLASES/src/visual/points_plot.cpp:2:/// @brief **Implementation of basic primitives classes** /<br>
 SYMSHELL_CLASES/src/visual/points_plot.cpp:3:///         _Implementacja podstawowych klas prymitywów graficznych._
-SYMSHELL_CLASES/src/visual/points_plot.cpp:4:/// @date 2026-05-17 (modification)
+SYMSHELL_CLASES/src/visual/points_plot.cpp:4:/// @date 2026-05-18 (modification)
 SYMSHELL_CLASES/src/visual/points_plot.cpp:5://======================================================================================================================
 SYMSHELL_CLASES/src/visual/points_plot.cpp:13://KLASA BAZOWA
 SYMSHELL_CLASES/src/visual/points_plot.cpp:15:    ::plot(x,y,0); // Czarny punkt.
@@ -1025,7 +1025,7 @@ SYMSHELL_CLASES/src/visual/points_plot.cpp:65:/*        WWW:  http://moderato.is
 SYMSHELL_CLASES/src/visual/rgb_graphs.cpp:1:/// @file
 SYMSHELL_CLASES/src/visual/rgb_graphs.cpp:2:/// @brief **Implementation of graph classes using RGB coloring** /<br>
 SYMSHELL_CLASES/src/visual/rgb_graphs.cpp:3:///         _IMPLEMENTACJA KLAS GRAFÓW UŻYWAJĄCYCH KOLOROWANIA RGB._
-SYMSHELL_CLASES/src/visual/rgb_graphs.cpp:4:/// @date 2026-05-17 (modification)
+SYMSHELL_CLASES/src/visual/rgb_graphs.cpp:4:/// @date 2026-05-18 (modification)
 SYMSHELL_CLASES/src/visual/rgb_graphs.cpp:5://======================================================================================================================
 SYMSHELL_CLASES/src/visual/rgb_graphs.cpp:7:#include <cstdio> //sprintf!!!
 SYMSHELL_CLASES/src/visual/rgb_graphs.cpp:21:// --checks=-google-default-arguments.
@@ -1177,7 +1177,7 @@ SYMSHELL_CLASES/src/visual/rgb_graphs.cpp:977:/*        WWW:  http://moderato.is
 SYMSHELL_CLASES/src/visual/gadgets.cpp:1:/// @file
 SYMSHELL_CLASES/src/visual/gadgets.cpp:2:/// @brief **IMPLEMENTATION OF DIFFERENT TYPES OF NON-GRAPH AREAS** /<br>
 SYMSHELL_CLASES/src/visual/gadgets.cpp:3:///         _IMPLEMENTACJA ROŻNYCH TYPóW OBSZARóW NIE BĘDĄCYCH GRAFAMI._
-SYMSHELL_CLASES/src/visual/gadgets.cpp:4:/// @date 2026-05-17 (last modification)
+SYMSHELL_CLASES/src/visual/gadgets.cpp:4:/// @date 2026-05-18 (last modification)
 SYMSHELL_CLASES/src/visual/gadgets.cpp:5://======================================================================================================================
 SYMSHELL_CLASES/src/visual/gadgets.cpp:6:// Wersja z kosmetyką XI 2012 i późniejszymi zmianami.
 SYMSHELL_CLASES/src/visual/gadgets.cpp:21:// --checks=-google-default-arguments.
@@ -1312,7 +1312,7 @@ SYMSHELL_CLASES/src/visual/gadgets.cpp:667:/*        WWW:  http://moderato.iss.u
 SYMSHELL_CLASES/src/visual/toitoutoll.hpp:1:/// @file
 SYMSHELL_CLASES/src/visual/toitoutoll.hpp:2:/// @brief **Templates of functions that convert various numeric types with saturation** /<br>
 SYMSHELL_CLASES/src/visual/toitoutoll.hpp:3:///         _Szablony funkcji konwertujących z wysyceniem różne typy liczbowe._
-SYMSHELL_CLASES/src/visual/toitoutoll.hpp:4:/// @date 2026-05-16 (modified)
+SYMSHELL_CLASES/src/visual/toitoutoll.hpp:4:/// @date 2026-05-18 (modified)
 SYMSHELL_CLASES/src/visual/toitoutoll.hpp:5:/// @details
 SYMSHELL_CLASES/src/visual/toitoutoll.hpp:6:///      Created by borkowsk on 13.05.26.
 SYMSHELL_CLASES/src/visual/toitoutoll.hpp:7://
@@ -1345,7 +1345,7 @@ SYMSHELL_CLASES/src/visual/toitoutoll.hpp:137:#endif //SYMSHELL2_TOI_TOU_TOLL_HP
 SYMSHELL_CLASES/src/visual/mainmngr.cpp:1:/// @file
 SYMSHELL_CLASES/src/visual/mainmngr.cpp:2:/// @brief **A screen or window area manager, implemented directly based on SYMSHELL functions.** /<br>
 SYMSHELL_CLASES/src/visual/mainmngr.cpp:3:///         _Zarządca obszarów ekranu lub okna, zaimplementowany bezpośrednio na bazie funkcji SYMSHELL-a._
-SYMSHELL_CLASES/src/visual/mainmngr.cpp:4:/// @date 2026-05-17 (last modification)
+SYMSHELL_CLASES/src/visual/mainmngr.cpp:4:/// @date 2026-05-18 (last modification)
 SYMSHELL_CLASES/src/visual/mainmngr.cpp:5://======================================================================================================================
 SYMSHELL_CLASES/src/visual/mainmngr.cpp:6://  Do obsługi całego ekranu/okna SYMSHELL-a.
 SYMSHELL_CLASES/src/visual/mainmngr.cpp:8://#include "INCLUDE/platform.hpp"
@@ -1484,7 +1484,7 @@ SYMSHELL_CLASES/src/visual/mainmngr.cpp:597:/*        WWW:  http://moderato.iss.
 SYMSHELL_CLASES/DATACLSS/multfils.hpp:1:/// @file
 SYMSHELL_CLASES/DATACLSS/multfils.hpp:2:/// @brief __The base class for filters containing subsources__ /<br>
 SYMSHELL_CLASES/DATACLSS/multfils.hpp:3:///         _Podstawowa klasa dla filtrów zawierających pod-źródła_
-SYMSHELL_CLASES/DATACLSS/multfils.hpp:4:/// @date 2026-05-17 (modified)
+SYMSHELL_CLASES/DATACLSS/multfils.hpp:4:/// @date 2026-05-18 (modified)
 SYMSHELL_CLASES/DATACLSS/multfils.hpp:5://==============================================================================
 SYMSHELL_CLASES/DATACLSS/multfils.hpp:6://
 SYMSHELL_CLASES/DATACLSS/multfils.hpp:18:// --checks=-google-default-arguments.
@@ -1563,7 +1563,7 @@ SYMSHELL_CLASES/DATACLSS/multfils.hpp:238:/*        WWW:  http://moderato.iss.uw
 SYMSHELL_CLASES/DATACLSS/spatcors.hpp:1:/// @file
 SYMSHELL_CLASES/DATACLSS/spatcors.hpp:2:/// @brief __A filter that calculates the number of series classes and derived spatial statistics, including spatial correlations.__ /<br>
 SYMSHELL_CLASES/DATACLSS/spatcors.hpp:3:///         _Filtr liczący liczebność klas serii i pochodne statystyki przestrzenne, w tym korelacje przestrzenne._
-SYMSHELL_CLASES/DATACLSS/spatcors.hpp:4:/// @date 2026-05-16 (modified)
+SYMSHELL_CLASES/DATACLSS/spatcors.hpp:4:/// @date 2026-05-18 (modified)
 SYMSHELL_CLASES/DATACLSS/spatcors.hpp:5:// ********************************************************************************************************************
 SYMSHELL_CLASES/DATACLSS/spatcors.hpp:6://
 SYMSHELL_CLASES/DATACLSS/spatcors.hpp:17:// --checks=-google-default-arguments.
@@ -1684,7 +1684,7 @@ SYMSHELL_CLASES/DATACLSS/spatcors.hpp:388:#endif //SYMSHELL2_SPATIAL_CORRELATION
 SYMSHELL_CLASES/DATACLSS/fifosour.hpp:1:/// @file
 SYMSHELL_CLASES/DATACLSS/fifosour.hpp:2:/// @brief __A class that queues values from a scalar source.__ /<br>
 SYMSHELL_CLASES/DATACLSS/fifosour.hpp:3:///         _Klasa kolejkująca wartości ze źródła skalarnego._
-SYMSHELL_CLASES/DATACLSS/fifosour.hpp:4:/// @date 2026-05-16 (modified)
+SYMSHELL_CLASES/DATACLSS/fifosour.hpp:4:/// @date 2026-05-18 (modified)
 SYMSHELL_CLASES/DATACLSS/fifosour.hpp:5:// ********************************************************************************************************************
 SYMSHELL_CLASES/DATACLSS/fifosour.hpp:6://
 SYMSHELL_CLASES/DATACLSS/fifosour.hpp:16:// --checks=-google-default-arguments.
@@ -1779,7 +1779,7 @@ SYMSHELL_CLASES/DATACLSS/fifosour.hpp:348:#endif //SYMSHELL2_FIFO_SOUR_HPP_INCLU
 SYMSHELL_CLASES/DATACLSS/titleuti.hpp:1:/// @file
 SYMSHELL_CLASES/DATACLSS/titleuti.hpp:2:/// @brief  **A helper class that manages the name of a data series object and more** /<br>
 SYMSHELL_CLASES/DATACLSS/titleuti.hpp:3:///          _Klasa pomocnicza zarządzająca nazwą obiektu serii danych i nie tylko._
-SYMSHELL_CLASES/DATACLSS/titleuti.hpp:4:/// @date 2026-05-16 (modified)
+SYMSHELL_CLASES/DATACLSS/titleuti.hpp:4:/// @date 2026-05-18 (modified)
 SYMSHELL_CLASES/DATACLSS/titleuti.hpp:5:// ********************************************************************************************************************
 SYMSHELL_CLASES/DATACLSS/titleuti.hpp:6://
 SYMSHELL_CLASES/DATACLSS/titleuti.hpp:19:    //using namespace wbrtm;
@@ -1808,7 +1808,7 @@ SYMSHELL_CLASES/DATACLSS/titleuti.hpp:95:#endif //SYMSHELL2_TITLE_UTIL_HPP_INCLU
 SYMSHELL_CLASES/DATACLSS/clstsour.hpp:1:/// @file
 SYMSHELL_CLASES/DATACLSS/clstsour.hpp:2:/// @brief **Filter counting different types of clustering for series with geometry** /<br>
 SYMSHELL_CLASES/DATACLSS/clstsour.hpp:3:///         _Filtr liczący różne rodzaje klasteringu dla serii z  g e o m e t r i ą.__
-SYMSHELL_CLASES/DATACLSS/clstsour.hpp:4:/// @date 2026-05-16 (modified)
+SYMSHELL_CLASES/DATACLSS/clstsour.hpp:4:/// @date 2026-05-18 (modified)
 SYMSHELL_CLASES/DATACLSS/clstsour.hpp:5:// ********************************************************************************************************************
 SYMSHELL_CLASES/DATACLSS/clstsour.hpp:6://
 SYMSHELL_CLASES/DATACLSS/clstsour.hpp:19:/// @brief Filtr liczący różne rodzaje klasteringu dla serii z   g e o m e t r i ą!!!
@@ -1850,7 +1850,7 @@ SYMSHELL_CLASES/DATACLSS/clstsour.hpp:136:}} // end-of-namespaces sym2::data
 SYMSHELL_CLASES/DATACLSS/clstsour.hpp:146:/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk               */
 SYMSHELL_CLASES/DATACLSS/sourmngr.hpp:1:/// @file
 SYMSHELL_CLASES/DATACLSS/sourmngr.hpp:2:/// @brief __DATA SERIES MANAGER CLASS__ /<br> _KLASA ZARZĄDCY SERI DANYCH._
-SYMSHELL_CLASES/DATACLSS/sourmngr.hpp:3:/// @date 2026-05-17 (modified)
+SYMSHELL_CLASES/DATACLSS/sourmngr.hpp:3:/// @date 2026-05-18 (modified)
 SYMSHELL_CLASES/DATACLSS/sourmngr.hpp:4://======================================================================================================================
 SYMSHELL_CLASES/DATACLSS/sourmngr.hpp:5://
 SYMSHELL_CLASES/DATACLSS/sourmngr.hpp:11:// --checks=-google-default-arguments.
@@ -1942,7 +1942,7 @@ SYMSHELL_CLASES/DATACLSS/sourmngr.hpp:211:#endif //SYMSHELL2_SOURCES_MNGR_HPP_IN
 SYMSHELL_CLASES/DATACLSS/histosou.hpp:1:/// @file
 SYMSHELL_CLASES/DATACLSS/histosou.hpp:2:/// @brief __Legacy filter for counting series class counts and derived statistics.__ /<br>
 SYMSHELL_CLASES/DATACLSS/histosou.hpp:3:///         _Starszy filtr liczący liczebności klas serii i pochodne statystyki._
-SYMSHELL_CLASES/DATACLSS/histosou.hpp:4:/// @date 2026-05-16 (modified)
+SYMSHELL_CLASES/DATACLSS/histosou.hpp:4:/// @date 2026-05-18 (modified)
 SYMSHELL_CLASES/DATACLSS/histosou.hpp:5:// ********************************************************************************************************************
 SYMSHELL_CLASES/DATACLSS/histosou.hpp:6://
 SYMSHELL_CLASES/DATACLSS/histosou.hpp:16:// --checks=-google-default-arguments.
@@ -2011,7 +2011,7 @@ SYMSHELL_CLASES/DATACLSS/histosou.hpp:315:/*        WWW:  http://moderato.iss.uw
 SYMSHELL_CLASES/DATACLSS/scalsour.hpp:1:/// @file
 SYMSHELL_CLASES/DATACLSS/scalsour.hpp:2:/// @brief  __Specific source classes - access to data in variables__ /<br>
 SYMSHELL_CLASES/DATACLSS/scalsour.hpp:3:///          _Konkretne klasy źródeł — dostęp do danych w zmiennych._
-SYMSHELL_CLASES/DATACLSS/scalsour.hpp:4:/// @date 2026-05-16 (modified)
+SYMSHELL_CLASES/DATACLSS/scalsour.hpp:4:/// @date 2026-05-18 (modified)
 SYMSHELL_CLASES/DATACLSS/scalsour.hpp:5:// ********************************************************************************************************************
 SYMSHELL_CLASES/DATACLSS/scalsour.hpp:6://
 SYMSHELL_CLASES/DATACLSS/scalsour.hpp:17:// --checks=-google-default-arguments.
@@ -2082,14 +2082,14 @@ SYMSHELL_CLASES/DATACLSS/scalsour.hpp:258:#endif //SYMSHELL2_SCALAR_SOUR_HPP_INC
 SYMSHELL_CLASES/DATACLSS/simpsour.hpp:1:/// @file
 SYMSHELL_CLASES/DATACLSS/simpsour.hpp:2:/// @brief __Specific source classes. A file that combines various "includes"__ /<br>
 SYMSHELL_CLASES/DATACLSS/simpsour.hpp:3:///         _Konkretne klasy źródeł. Plik łączący różne "includy"._
-SYMSHELL_CLASES/DATACLSS/simpsour.hpp:4:/// @date 2026-05-16 (modified)
+SYMSHELL_CLASES/DATACLSS/simpsour.hpp:4:/// @date 2026-05-18 (modified)
 SYMSHELL_CLASES/DATACLSS/simpsour.hpp:5:// ********************************************************************************************************************
 SYMSHELL_CLASES/DATACLSS/simpsour.hpp:6://
 SYMSHELL_CLASES/DATACLSS/simpsour.hpp:22:/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk               */
 SYMSHELL_CLASES/DATACLSS/filtsour.hpp:1:/// @file
 SYMSHELL_CLASES/DATACLSS/filtsour.hpp:2:/// @brief __Different classes of single-source data filters.__ /<br>
 SYMSHELL_CLASES/DATACLSS/filtsour.hpp:3:///         _Różne klasy jednoźródłowych filtrów danych._
-SYMSHELL_CLASES/DATACLSS/filtsour.hpp:4:/// @date 2026-05-17 (modified)
+SYMSHELL_CLASES/DATACLSS/filtsour.hpp:4:/// @date 2026-05-18 (modified)
 SYMSHELL_CLASES/DATACLSS/filtsour.hpp:5:// ********************************************************************************************************************
 SYMSHELL_CLASES/DATACLSS/filtsour.hpp:6://
 SYMSHELL_CLASES/DATACLSS/filtsour.hpp:17:// --checks=-google-default-arguments.
@@ -2212,7 +2212,7 @@ SYMSHELL_CLASES/DATACLSS/filtsour.hpp:421:#endif //SYMSHELL2_FILTERS_SOUR_HPP_IN
 SYMSHELL_CLASES/DATACLSS/bifilter.hpp:1:/// @file
 SYMSHELL_CLASES/DATACLSS/bifilter.hpp:2:/// @brief **Base class of a two-source dependent filter** /<br>
 SYMSHELL_CLASES/DATACLSS/bifilter.hpp:3:///         _Klasa bazowa filtra zależnego od dwu źródeł._
-SYMSHELL_CLASES/DATACLSS/bifilter.hpp:4:/// @date 2026-05-16 (modified)
+SYMSHELL_CLASES/DATACLSS/bifilter.hpp:4:/// @date 2026-05-18 (modified)
 SYMSHELL_CLASES/DATACLSS/bifilter.hpp:5:// ********************************************************************************************************************
 SYMSHELL_CLASES/DATACLSS/bifilter.hpp:6://
 SYMSHELL_CLASES/DATACLSS/bifilter.hpp:18:/// Baza źródła danych filtrującego dane łączone z dwóch innych źródeł.
@@ -2279,7 +2279,7 @@ SYMSHELL_CLASES/DATACLSS/bifilter.hpp:258:#endif //SYMSHELL2_bi_filter_hpp_INCLU
 SYMSHELL_CLASES/DATACLSS/datasour.hpp:1:/// @file
 SYMSHELL_CLASES/DATACLSS/datasour.hpp:2:/// @brief __INTERFACES of the most basic data source classes__ /<br>
 SYMSHELL_CLASES/DATACLSS/datasour.hpp:3:///         _INTERFACE-y najbardziej podstawowych klas źródeł danych._
-SYMSHELL_CLASES/DATACLSS/datasour.hpp:4:/// @date 2026-05-17 (modified)
+SYMSHELL_CLASES/DATACLSS/datasour.hpp:4:/// @date 2026-05-18 (modified)
 SYMSHELL_CLASES/DATACLSS/datasour.hpp:5:// *********************************************************************************************************************
 SYMSHELL_CLASES/DATACLSS/datasour.hpp:6://
 SYMSHELL_CLASES/DATACLSS/datasour.hpp:10:#include "sourbase.hpp" //Podstawowy interface
@@ -2472,7 +2472,7 @@ SYMSHELL_CLASES/DATACLSS/datasour.hpp:597:#endif //SYMSHELL2_DATA_SOURCES_HPP_IN
 SYMSHELL_CLASES/DATACLSS/fhistosou.hpp:1:/// @file
 SYMSHELL_CLASES/DATACLSS/fhistosou.hpp:2:/// @brief __A filter that counts the number of series classes and derived statistics.__ /<br>
 SYMSHELL_CLASES/DATACLSS/fhistosou.hpp:3:///         _Filtr liczący liczebność określonej liczby klas serii i pochodne statystyki._
-SYMSHELL_CLASES/DATACLSS/fhistosou.hpp:4:/// @date 2026-05-16 (modified)
+SYMSHELL_CLASES/DATACLSS/fhistosou.hpp:4:/// @date 2026-05-18 (modified)
 SYMSHELL_CLASES/DATACLSS/fhistosou.hpp:5:// ********************************************************************************************************************
 SYMSHELL_CLASES/DATACLSS/fhistosou.hpp:6://
 SYMSHELL_CLASES/DATACLSS/fhistosou.hpp:15:// --checks=-google-default-arguments.
@@ -2565,7 +2565,7 @@ SYMSHELL_CLASES/DATACLSS/fhistosou.hpp:366:/*        WWW:  http://moderato.iss.u
 SYMSHELL_CLASES/DATACLSS/corrsour.hpp:1:/// @file
 SYMSHELL_CLASES/DATACLSS/corrsour.hpp:2:/// @brief __UNUSED correlation filter class - a two-source, single-value data filter__ /<br>
 SYMSHELL_CLASES/DATACLSS/corrsour.hpp:3:///         _NIEUŻYWANA klasa  filtru korelacji — dwuźródłowego, jednowartościowego filtru danych._
-SYMSHELL_CLASES/DATACLSS/corrsour.hpp:4:/// @date 2026-05-16 (modified)
+SYMSHELL_CLASES/DATACLSS/corrsour.hpp:4:/// @date 2026-05-18 (modified)
 SYMSHELL_CLASES/DATACLSS/corrsour.hpp:5:// ********************************************************************************************************************
 SYMSHELL_CLASES/DATACLSS/corrsour.hpp:6://
 SYMSHELL_CLASES/DATACLSS/corrsour.hpp:7://#error SKOMPLIKOWANE W IMPLEMENTACJI, ALE MOŻNA BY KIEDYŚ SPRÓBOWAĆ.
@@ -2589,7 +2589,7 @@ SYMSHELL_CLASES/DATACLSS/corrsour.hpp:80:#endif //SYMSHELL2_CORR_SOUR_HPP_INCLUD
 SYMSHELL_CLASES/DATACLSS/costatso.hpp:1:/// @file
 SYMSHELL_CLASES/DATACLSS/costatso.hpp:2:/// @brief __Base class for statistical co-filters - two-series statistics.__ /<br>
 SYMSHELL_CLASES/DATACLSS/costatso.hpp:3:///         _Podstawowa klasa dla ko-filtrów statystycznych — statystyk z dwu serii.
-SYMSHELL_CLASES/DATACLSS/costatso.hpp:4:/// @date 2026-05-16 (modified)
+SYMSHELL_CLASES/DATACLSS/costatso.hpp:4:/// @date 2026-05-18 (modified)
 SYMSHELL_CLASES/DATACLSS/costatso.hpp:5:// ********************************************************************************************************************
 SYMSHELL_CLASES/DATACLSS/costatso.hpp:6://
 SYMSHELL_CLASES/DATACLSS/costatso.hpp:20:// --checks=-google-default-arguments.
@@ -2690,7 +2690,7 @@ SYMSHELL_CLASES/DATACLSS/costatso.hpp:360:#endif //SYMSHELL2_CO_STAT_SOUR_HPP_IN
 SYMSHELL_CLASES/DATACLSS/bifiltso.hpp:1:/// @file
 SYMSHELL_CLASES/DATACLSS/bifiltso.hpp:2:/// @brief **Different classes of dual-source data filters** /<br>
 SYMSHELL_CLASES/DATACLSS/bifiltso.hpp:3:///         _Różne klasy dwuźródłowych filtrów danych._
-SYMSHELL_CLASES/DATACLSS/bifiltso.hpp:4:/// @date 2026-05-16 (modified)
+SYMSHELL_CLASES/DATACLSS/bifiltso.hpp:4:/// @date 2026-05-18 (modified)
 SYMSHELL_CLASES/DATACLSS/bifiltso.hpp:5:// ********************************************************************************************************************
 SYMSHELL_CLASES/DATACLSS/bifiltso.hpp:6://
 SYMSHELL_CLASES/DATACLSS/bifiltso.hpp:10://#include "math.h" /*DLA FILTRÓW */
@@ -2741,7 +2741,7 @@ SYMSHELL_CLASES/DATACLSS/bifiltso.hpp:161:/*        WWW:  http://moderato.iss.uw
 SYMSHELL_CLASES/DATACLSS/mattsour.hpp:1:/// @file
 SYMSHELL_CLASES/DATACLSS/mattsour.hpp:2:/// @brief __Specific source classes - access to data in two-dimensional arrays.__ /<br>
 SYMSHELL_CLASES/DATACLSS/mattsour.hpp:3:///         _Konkretne klasy źródeł — dostęp do danych w tablicach dwuwymiarowych._
-SYMSHELL_CLASES/DATACLSS/mattsour.hpp:4:/// @date 2026-05-16 (modified)
+SYMSHELL_CLASES/DATACLSS/mattsour.hpp:4:/// @date 2026-05-18 (modified)
 SYMSHELL_CLASES/DATACLSS/mattsour.hpp:5:// ********************************************************************************************************************
 SYMSHELL_CLASES/DATACLSS/mattsour.hpp:6://
 SYMSHELL_CLASES/DATACLSS/mattsour.hpp:16:// --checks=-google-default-arguments.
@@ -2917,7 +2917,7 @@ SYMSHELL_CLASES/DATACLSS/mattsour.hpp:696:#endif //SYMSHELL2_MATRIX_SOUR_HPP_INC
 SYMSHELL_CLASES/DATACLSS/coincsou.hpp:1:/// @file
 SYMSHELL_CLASES/DATACLSS/coincsou.hpp:2:/// @brief **A filter that counts the coincidences of classes of two series and derived statistics (Hi^2 etc.).** /<br>
 SYMSHELL_CLASES/DATACLSS/coincsou.hpp:3:///         _Filtr liczący koincydencje klas dwu serii i pochodne statystyki (Hi^2 itp.)._
-SYMSHELL_CLASES/DATACLSS/coincsou.hpp:4:/// @date 2026-05-16 (modified)
+SYMSHELL_CLASES/DATACLSS/coincsou.hpp:4:/// @date 2026-05-18 (modified)
 SYMSHELL_CLASES/DATACLSS/coincsou.hpp:5:// ********************************************************************************************************************
 SYMSHELL_CLASES/DATACLSS/coincsou.hpp:6://
 SYMSHELL_CLASES/DATACLSS/coincsou.hpp:16:// --checks=-google-default-arguments.
@@ -3045,7 +3045,7 @@ SYMSHELL_CLASES/DATACLSS/coincsou.hpp:492:#endif //SYMSHELL2_COINCIDENCE_SOUR_HP
 SYMSHELL_CLASES/DATACLSS/logfile.hpp:1:/// @file
 SYMSHELL_CLASES/DATACLSS/logfile.hpp:2:/// @brief __The base class of the interface for writing data from single-value sources to a file and its simplest implementation.__ /<br>
 SYMSHELL_CLASES/DATACLSS/logfile.hpp:3:/// _Klasa bazowa interface-u zapisywania do pliku danych ze źródeł jednowartościowych oraz jego najprostsza implementacja._
-SYMSHELL_CLASES/DATACLSS/logfile.hpp:4:/// @date 2026-05-16 (modified)
+SYMSHELL_CLASES/DATACLSS/logfile.hpp:4:/// @date 2026-05-18 (modified)
 SYMSHELL_CLASES/DATACLSS/logfile.hpp:5:// ********************************************************************************************************************
 SYMSHELL_CLASES/DATACLSS/logfile.hpp:6://
 SYMSHELL_CLASES/DATACLSS/logfile.hpp:19:// --checks=-google-default-arguments.
@@ -3086,7 +3086,7 @@ SYMSHELL_CLASES/DATACLSS/logfile.hpp:141:/*        WWW:  http://moderato.iss.uw.
 SYMSHELL_CLASES/DATACLSS/history/cincsou.hpp:1:/// @file
 SYMSHELL_CLASES/DATACLSS/history/cincsou.hpp:2:/// @brief STARY WADLIWY (już niekompatybilny) filtr liczący koincydencje klas dwu serii i pochodne statystyki (Hi^2 itp).
 SYMSHELL_CLASES/DATACLSS/history/cincsou.hpp:3:///        <br> __OBSOLETE__
-SYMSHELL_CLASES/DATACLSS/history/cincsou.hpp:4:/// @date 2026-05-16 (modified)
+SYMSHELL_CLASES/DATACLSS/history/cincsou.hpp:4:/// @date 2026-05-18 (modified)
 SYMSHELL_CLASES/DATACLSS/history/cincsou.hpp:5:// ********************************************************************************************************************
 SYMSHELL_CLASES/DATACLSS/history/cincsou.hpp:6://  Coś dziwnego Tidy robi z tym plikiem. Nie jest w stanie znaleźć systemowych nagłówków.
 SYMSHELL_CLASES/DATACLSS/history/cincsou.hpp:15:/// @brief Filtr liczący koincydencje klas dwu serii i pochodne statystyki (Hi^2 itp.)
@@ -3151,7 +3151,7 @@ SYMSHELL_CLASES/DATACLSS/history/cincsou.hpp:277:#endif //SYMSHELL2_COINCIDENCE_
 SYMSHELL_CLASES/DATACLSS/history/ohistosou.hpp:1:/// @file
 SYMSHELL_CLASES/DATACLSS/history/ohistosou.hpp:2:/// @brief Stary filtr liczący liczebność klas serii i pochodne statystyki. NIE DA SIĘ OBECNIE SKOMPILOWAĆ.
 SYMSHELL_CLASES/DATACLSS/history/ohistosou.hpp:3:///        <br> __OBSOLETE and INVALID__
-SYMSHELL_CLASES/DATACLSS/history/ohistosou.hpp:4:/// @date 2026-05-16 (modified)
+SYMSHELL_CLASES/DATACLSS/history/ohistosou.hpp:4:/// @date 2026-05-18 (modified)
 SYMSHELL_CLASES/DATACLSS/history/ohistosou.hpp:5:// ********************************************************************************************************************
 SYMSHELL_CLASES/DATACLSS/history/ohistosou.hpp:6:// Coś dziwnego Tidy robi z tym plikiem. Nie jest w stanie znaleźć systemowych nagłówków.
 SYMSHELL_CLASES/DATACLSS/history/ohistosou.hpp:10:#include <cstdio> //sprintf!!!
@@ -3200,7 +3200,7 @@ SYMSHELL_CLASES/DATACLSS/history/ohistosou.hpp:288:/*        WWW:  http://modera
 SYMSHELL_CLASES/DATACLSS/dhistosou.hpp:1:/// @file
 SYMSHELL_CLASES/DATACLSS/dhistosou.hpp:2:/// @brief __Filter counting the number of discrete series classes and derived statistics.__ /<br>
 SYMSHELL_CLASES/DATACLSS/dhistosou.hpp:3:///         _Filtr liczący liczebność dyskretnych klas serii i pochodne statystyki._
-SYMSHELL_CLASES/DATACLSS/dhistosou.hpp:4:/// @date 2026-05-16 (modified)
+SYMSHELL_CLASES/DATACLSS/dhistosou.hpp:4:/// @date 2026-05-18 (modified)
 SYMSHELL_CLASES/DATACLSS/dhistosou.hpp:5:// ********************************************************************************************************************
 SYMSHELL_CLASES/DATACLSS/dhistosou.hpp:6://
 SYMSHELL_CLASES/DATACLSS/dhistosou.hpp:15:// --checks=-google-default-arguments.
@@ -3293,7 +3293,7 @@ SYMSHELL_CLASES/DATACLSS/dhistosou.hpp:351:/*        WWW:  http://moderato.iss.u
 SYMSHELL_CLASES/DATACLSS/statsour.hpp:1:/// @file
 SYMSHELL_CLASES/DATACLSS/statsour.hpp:2:/// @brief __Base class for statistical filters.__ /<br>
 SYMSHELL_CLASES/DATACLSS/statsour.hpp:3:///         _Podstawowa klasa dla filtrów statystycznych._
-SYMSHELL_CLASES/DATACLSS/statsour.hpp:4:/// @date 2026-05-16 (modified)
+SYMSHELL_CLASES/DATACLSS/statsour.hpp:4:/// @date 2026-05-18 (modified)
 SYMSHELL_CLASES/DATACLSS/statsour.hpp:5:// ********************************************************************************************************************
 SYMSHELL_CLASES/DATACLSS/statsour.hpp:6://
 SYMSHELL_CLASES/DATACLSS/statsour.hpp:18:// --checks=-google-default-arguments.
@@ -3336,7 +3336,7 @@ SYMSHELL_CLASES/DATACLSS/statsour.hpp:193:/*        WWW:  http://moderato.iss.uw
 SYMSHELL_CLASES/DATACLSS/arrasour.hpp:1:/// @file
 SYMSHELL_CLASES/DATACLSS/arrasour.hpp:2:/// @brief **Specific source classes — access to data in linear arrays** /<br>
 SYMSHELL_CLASES/DATACLSS/arrasour.hpp:3:///         _Konkretne klasy źródeł — dostęp do danych w tablicach liniowych._
-SYMSHELL_CLASES/DATACLSS/arrasour.hpp:4:/// @date 2026-05-16 (modified)
+SYMSHELL_CLASES/DATACLSS/arrasour.hpp:4:/// @date 2026-05-18 (modified)
 SYMSHELL_CLASES/DATACLSS/arrasour.hpp:5:// ********************************************************************************************************************
 SYMSHELL_CLASES/DATACLSS/arrasour.hpp:6:// PL: W tym pliku użyto warunkowej kompilacji do selekcji języka dokumentacji.
 SYMSHELL_CLASES/DATACLSS/arrasour.hpp:7:// NIESTETY rozbija to podpowiedzi (tooltips) nawet w CLion.
@@ -3460,7 +3460,7 @@ SYMSHELL_CLASES/DATACLSS/arrasour.hpp:331:#endif //SYMSHELL2_ARRAY_SOUR_HPP_INCL
 SYMSHELL_CLASES/DATACLSS/sourbase.hpp:1:/// @file
 SYMSHELL_CLASES/DATACLSS/sourbase.hpp:2:/// @brief __Definitions of basic (interface) data source class__ /<br>
 SYMSHELL_CLASES/DATACLSS/sourbase.hpp:3:///         _Definicje podstawowej klasy źródła danych (interfejsu)._
-SYMSHELL_CLASES/DATACLSS/sourbase.hpp:4:/// @date 2026-05-16 (modified)
+SYMSHELL_CLASES/DATACLSS/sourbase.hpp:4:/// @date 2026-05-18 (modified)
 SYMSHELL_CLASES/DATACLSS/sourbase.hpp:5:// ********************************************************************************************************************
 SYMSHELL_CLASES/DATACLSS/sourbase.hpp:6://
 SYMSHELL_CLASES/DATACLSS/sourbase.hpp:31:// --checks=-google-default-arguments.
@@ -3577,7 +3577,7 @@ SYMSHELL_CLASES/DATACLSS/sourbase.hpp:292:#endif //SYMSHELL2_DATA_SOURCE_BASE_HP
 SYMSHELL_CLASES/DATACLSS/funcsour.hpp:1:/// @file
 SYMSHELL_CLASES/DATACLSS/funcsour.hpp:2:/// @brief __Classes of functional sources and their parameters__ /<br>
 SYMSHELL_CLASES/DATACLSS/funcsour.hpp:3:///         _Klasy źródeł funkcyjnych i ich parametrów._
-SYMSHELL_CLASES/DATACLSS/funcsour.hpp:4:/// @date 2026-05-16 (modified)
+SYMSHELL_CLASES/DATACLSS/funcsour.hpp:4:/// @date 2026-05-18 (modified)
 SYMSHELL_CLASES/DATACLSS/funcsour.hpp:5:// ********************************************************************************************************************
 SYMSHELL_CLASES/DATACLSS/funcsour.hpp:6://                       Zmodyfikowana znacząco 05.04.2008
 SYMSHELL_CLASES/DATACLSS/funcsour.hpp:7://
@@ -3623,7 +3623,7 @@ SYMSHELL_CLASES/DATACLSS/funcsour.hpp:176:#endif //SYMSHELL2_FUNCTION_SOURCES_HP
 SYMSHELL_CLASES/VISUALCLSS/textarea.hpp:1:/// @file
 SYMSHELL_CLASES/VISUALCLSS/textarea.hpp:2:/// @brief **WINDOW AREA ("LUFCIK") IMITATING A TERMINAL**/<br>
 SYMSHELL_CLASES/VISUALCLSS/textarea.hpp:3:///         _OBSZAR OKNA ("LUFCIK") NAŚLADUJĄCY TERMINAL._
-SYMSHELL_CLASES/VISUALCLSS/textarea.hpp:4:/// @date 2026-05-16 (modified)
+SYMSHELL_CLASES/VISUALCLSS/textarea.hpp:4:/// @date 2026-05-18 (modified)
 SYMSHELL_CLASES/VISUALCLSS/textarea.hpp:5:// ********************************************************************************************************************
 SYMSHELL_CLASES/VISUALCLSS/textarea.hpp:6://
 SYMSHELL_CLASES/VISUALCLSS/textarea.hpp:15:/// Zmodernizowane klasy do symulacji w C++.
@@ -3661,7 +3661,7 @@ SYMSHELL_CLASES/VISUALCLSS/textarea.hpp:82:/*        WWW:  http://moderato.iss.u
 SYMSHELL_CLASES/VISUALCLSS/gadgets.hpp:1:/// @file
 SYMSHELL_CLASES/VISUALCLSS/gadgets.hpp:2:/// @brief **GADGETS, I.E. AUXILIARY TYPES OF WINDOW AREAS** /<br>
 SYMSHELL_CLASES/VISUALCLSS/gadgets.hpp:3:///         _GADŻETY CZYLI POMOCNICZE TYPY OBSZARÓW OKNA._
-SYMSHELL_CLASES/VISUALCLSS/gadgets.hpp:4:/// @date 2026-05-16 (modified)
+SYMSHELL_CLASES/VISUALCLSS/gadgets.hpp:4:/// @date 2026-05-18 (modified)
 SYMSHELL_CLASES/VISUALCLSS/gadgets.hpp:5:///     Służą głównie jako typy bazowe dla klas specjalizowanych, wykonujących
 SYMSHELL_CLASES/VISUALCLSS/gadgets.hpp:6:///     jakieś akcje w metodzie `_on_click` i ewentualnie podobnych.
 SYMSHELL_CLASES/VISUALCLSS/gadgets.hpp:7:// ********************************************************************************************************************
@@ -3809,7 +3809,7 @@ SYMSHELL_CLASES/VISUALCLSS/gadgets.hpp:335:/*        WWW:  http://moderato.iss.u
 SYMSHELL_CLASES/VISUALCLSS/mainmngr.hpp:1:/// @file
 SYMSHELL_CLASES/VISUALCLSS/mainmngr.hpp:2:/// @brief **MAIN "SCREEN" AREA MANAGER CLASS** /<br>
 SYMSHELL_CLASES/VISUALCLSS/mainmngr.hpp:3:///         _KLASA GŁÓWNEGO ZARZĄDCY OBSZARÓW "EKRANU"._
-SYMSHELL_CLASES/VISUALCLSS/mainmngr.hpp:4:/// @date 2026-05-16 (modified)
+SYMSHELL_CLASES/VISUALCLSS/mainmngr.hpp:4:/// @date 2026-05-18 (modified)
 SYMSHELL_CLASES/VISUALCLSS/mainmngr.hpp:5:// ********************************************************************************************************************
 SYMSHELL_CLASES/VISUALCLSS/mainmngr.hpp:6://
 SYMSHELL_CLASES/VISUALCLSS/mainmngr.hpp:18:// --checks=-google-default-arguments.
@@ -3933,7 +3933,7 @@ SYMSHELL_CLASES/VISUALCLSS/mainmngr.hpp:216:#endif //SYMSHELL2_MAIN_MNGR_HPP_INC
 SYMSHELL_CLASES/VISUALCLSS/graphs.hpp:1:/// @file
 SYMSHELL_CLASES/VISUALCLSS/graphs.hpp:2:/// @brief **CLASSES DEFINING VARIOUS TYPES OF CHARTS** /<br>
 SYMSHELL_CLASES/VISUALCLSS/graphs.hpp:3:///         _KLASY DEFINIUJĄCE RÓŻNORODNE TYPY WYKRESÓW._
-SYMSHELL_CLASES/VISUALCLSS/graphs.hpp:4:/// @date 2026-05-16 (modified)
+SYMSHELL_CLASES/VISUALCLSS/graphs.hpp:4:/// @date 2026-05-18 (modified)
 SYMSHELL_CLASES/VISUALCLSS/graphs.hpp:5:// ********************************************************************************************************************
 SYMSHELL_CLASES/VISUALCLSS/graphs.hpp:6://
 SYMSHELL_CLASES/VISUALCLSS/graphs.hpp:23:// --checks=-google-default-arguments.
@@ -4357,7 +4357,7 @@ SYMSHELL_CLASES/VISUALCLSS/graphs.hpp:1141:} // namespace sym2
 SYMSHELL_CLASES/VISUALCLSS/graphs.hpp:1151:/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk               */
 SYMSHELL_CLASES/VISUALCLSS/areamngr.hpp:1:/// @file
 SYMSHELL_CLASES/VISUALCLSS/areamngr.hpp:2:/// @brief **SCREEN AREA MANAGERS CLASSES** /<br> _KLASY ZARZĄDCÓW OBSZARÓW EKRANU._
-SYMSHELL_CLASES/VISUALCLSS/areamngr.hpp:3:/// @date 2026-05-17 (modified)
+SYMSHELL_CLASES/VISUALCLSS/areamngr.hpp:3:/// @date 2026-05-18 (modified)
 SYMSHELL_CLASES/VISUALCLSS/areamngr.hpp:4:// ********************************************************************************************************************
 SYMSHELL_CLASES/VISUALCLSS/areamngr.hpp:5://
 SYMSHELL_CLASES/VISUALCLSS/areamngr.hpp:15:// --checks=-google-default-arguments.
@@ -4519,7 +4519,7 @@ SYMSHELL_CLASES/VISUALCLSS/areamngr.hpp:343:#endif //SYMSHELL2_AREA_MNGR_HPP_INC
 SYMSHELL_CLASES/VISUALCLSS/drawable.hpp:1:/// @file
 SYMSHELL_CLASES/VISUALCLSS/drawable.hpp:2:/// @brief **BASIC INTERFACE DECLARATIONS FOR SCREEN AREAS** /<br>
 SYMSHELL_CLASES/VISUALCLSS/drawable.hpp:3:///         _DEKLARACJE PODSTAWOWEGO "SPRZĘGU" DLA OBSZARÓW EKRANU._
-SYMSHELL_CLASES/VISUALCLSS/drawable.hpp:4:/// @date 2026-05-16 (modified)
+SYMSHELL_CLASES/VISUALCLSS/drawable.hpp:4:/// @date 2026-05-18 (modified)
 SYMSHELL_CLASES/VISUALCLSS/drawable.hpp:5:// ********************************************************************************************************************
 SYMSHELL_CLASES/VISUALCLSS/drawable.hpp:6://
 SYMSHELL_CLASES/VISUALCLSS/drawable.hpp:14:#include "titleuti.hpp" //title_util
@@ -4631,7 +4631,7 @@ SYMSHELL_CLASES/VISUALCLSS/drawable.hpp:275:} // namespace sym2
 SYMSHELL_CLASES/VISUALCLSS/drawable.hpp:285:/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk               */
 SYMSHELL_CLASES/SIMULCLSS/rectgeom.hpp:1:/// @file
 SYMSHELL_CLASES/SIMULCLSS/rectgeom.hpp:2:/// @brief **RECTANGULAR GEOMETRY** /<br> _GEOMETRIA PROSTOKĄTNA._
-SYMSHELL_CLASES/SIMULCLSS/rectgeom.hpp:3:/// @date 2026-05-17 (modified)
+SYMSHELL_CLASES/SIMULCLSS/rectgeom.hpp:3:/// @date 2026-05-18 (modified)
 SYMSHELL_CLASES/SIMULCLSS/rectgeom.hpp:4:///      Pierwsza i główna specjalizacja. Heksagonalnej i sieciowej nigdy nie napisałem, choć były w planie.
 SYMSHELL_CLASES/SIMULCLSS/rectgeom.hpp:5:// ********************************************************************************************************************
 SYMSHELL_CLASES/SIMULCLSS/rectgeom.hpp:6://
@@ -4774,7 +4774,7 @@ SYMSHELL_CLASES/SIMULCLSS/rectgeom.hpp:480:/*        WWW:  http://moderato.iss.u
 SYMSHELL_CLASES/SIMULCLSS/layer.hpp:1:/// @file
 SYMSHELL_CLASES/SIMULCLSS/layer.hpp:2:/// @brief **Definition of the base class and simulation layer templates** /<br>
 SYMSHELL_CLASES/SIMULCLSS/layer.hpp:3:///         _Definicja bazy i szablonów warstw symulacji._
-SYMSHELL_CLASES/SIMULCLSS/layer.hpp:4:/// @date 2026-05-17 (modified)
+SYMSHELL_CLASES/SIMULCLSS/layer.hpp:4:/// @date 2026-05-18 (modified)
 SYMSHELL_CLASES/SIMULCLSS/layer.hpp:5:///      ...
 SYMSHELL_CLASES/SIMULCLSS/layer.hpp:6:// ********************************************************************************************************************
 SYMSHELL_CLASES/SIMULCLSS/layer.hpp:16://#include "sourmngr.hpp" any_layer_base::const unsigned long FULL=UINT_MAX;
@@ -5062,7 +5062,7 @@ SYMSHELL_CLASES/SIMULCLSS/layer.hpp:1384:/*        WWW:  http://moderato.iss.uw.
 SYMSHELL_CLASES/SIMULCLSS/geombase.hpp:1:/// @file
 SYMSHELL_CLASES/SIMULCLSS/geombase.hpp:2:/// @brief **GEOMETRY — THE WAY OF ORGANIZING AGENTS OR DATA IN A LAYER.GEOMETRIA** /<br>
 SYMSHELL_CLASES/SIMULCLSS/geombase.hpp:3:///         _GEOMETRIA — SPOSÓB ORGANIZACJI AGENTÓW LUB DANYCH W WARSTWIE._
-SYMSHELL_CLASES/SIMULCLSS/geombase.hpp:4:/// @date 2026-05-17 (modified)
+SYMSHELL_CLASES/SIMULCLSS/geombase.hpp:4:/// @date 2026-05-18 (modified)
 SYMSHELL_CLASES/SIMULCLSS/geombase.hpp:5:// *********************************************************************************************************************
 SYMSHELL_CLASES/SIMULCLSS/geombase.hpp:6://
 SYMSHELL_CLASES/SIMULCLSS/geombase.hpp:24:// --checks=-google-default-arguments.
@@ -5181,7 +5181,7 @@ SYMSHELL_CLASES/SIMULCLSS/geombase.hpp:337:/*        WWW:  http://moderato.iss.u
 SYMSHELL_CLASES/SIMULCLSS/geombase.hpp:341:#endif //SYMSHELL2_GEOM_BASE_HPP_INCLUDED_
 SYMSHELL_CLASES/SIMULCLSS/linegeom.hpp:1:/// @file
 SYMSHELL_CLASES/SIMULCLSS/linegeom.hpp:2:/// @brief **LINEAR GEOMETRY** (under construction) /<br> _GEOMETRIA LINIOWA._
-SYMSHELL_CLASES/SIMULCLSS/linegeom.hpp:3:/// @date 2026-05-17 (modified)
+SYMSHELL_CLASES/SIMULCLSS/linegeom.hpp:3:/// @date 2026-05-18 (modified)
 SYMSHELL_CLASES/SIMULCLSS/linegeom.hpp:4:///      W trakcie przeróbki z rectangular geometry (Nigdy nie zakończonej!)
 SYMSHELL_CLASES/SIMULCLSS/linegeom.hpp:5:// ********************************************************************************************************************
 SYMSHELL_CLASES/SIMULCLSS/linegeom.hpp:6://
@@ -5264,7 +5264,7 @@ SYMSHELL_CLASES/SIMULCLSS/linegeom.hpp:282:}} //namespace sym2::shell
 SYMSHELL_CLASES/SIMULCLSS/linegeom.hpp:291:/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk               */
 SYMSHELL_CLASES/SIMULCLSS/world.hpp:1:/// @file
 SYMSHELL_CLASES/SIMULCLSS/world.hpp:2:/// @brief **Interface for the base world-class** /<br> _Interfejs dla bazy światowej klasy._
-SYMSHELL_CLASES/SIMULCLSS/world.hpp:3:/// @date 2026-05-17 (modified)
+SYMSHELL_CLASES/SIMULCLSS/world.hpp:3:/// @date 2026-05-18 (modified)
 SYMSHELL_CLASES/SIMULCLSS/world.hpp:4:// ********************************************************************************************************************
 SYMSHELL_CLASES/SIMULCLSS/world.hpp:5://
 SYMSHELL_CLASES/SIMULCLSS/world.hpp:11:#endif // _MSC_VER >= 1000
@@ -5403,7 +5403,7 @@ RTM/src/VIRTUALIO/vobject.cpp:138:} //namespace
 RTM/src/VIRTUALIO/vobject.cpp:146:/*         WWW:  https://github.com/borkowsk                         */
 RTM/src/VIRTUALIO/iocharp.cpp:1:/// @file
 RTM/src/VIRTUALIO/iocharp.cpp:2:/// @brief Implementacja wejścia wyjścia dla `char*`
-RTM/src/VIRTUALIO/iocharp.cpp:3:/// @date 2026-05-13 (modified)
+RTM/src/VIRTUALIO/iocharp.cpp:3:/// @date 2026-05-18 (modified)
 RTM/src/VIRTUALIO/iocharp.cpp:4://-----------------------------------------------------------------------------
 RTM/src/VIRTUALIO/iocharp.cpp:16:namespace wbrtm { //WOJCIECH BORKOWSKI RUN TIME LIBRARY
 RTM/src/VIRTUALIO/iocharp.cpp:19:// Ignoruje wszystko do znaku=delimiter lub końca pliku
@@ -5455,7 +5455,7 @@ RTM/src/VIRTUALIO/iosuppor.cpp:47:} //namespace
 RTM/src/VIRTUALIO/iosuppor.cpp:55:/*         WWW:  http://wwww.iss.uw.edu.pl/~borkowsk/                */
 RTM/src/TOOLS/SMARTLOG/smartlog.cpp:1:/// @file
 RTM/src/TOOLS/SMARTLOG/smartlog.cpp:2:/// @brief  wb_smartlog.cpp: implementation of the wb_smartlog class.
-RTM/src/TOOLS/SMARTLOG/smartlog.cpp:3:/// @date 2026-05-17 (modified)
+RTM/src/TOOLS/SMARTLOG/smartlog.cpp:3:/// @date 2026-05-18 (modified)
 RTM/src/TOOLS/SMARTLOG/smartlog.cpp:4://=====================================================================
 RTM/src/TOOLS/SMARTLOG/smartlog.cpp:16://=====================================================================
 RTM/src/TOOLS/SMARTLOG/smartlog.cpp:17:// Construction/Destruction
@@ -5622,7 +5622,7 @@ RTM/src/EXCEPT/boundexc.cpp:10:///    \ingroup ERRORHANDLING
 RTM/src/EXCEPT/boundexc.cpp:17:} //namespace
 RTM/src/_ikeycon.cpp:1:/// @file
 RTM/src/_ikeycon.cpp:2:/// @brief Statics for private bases for an array class family.
-RTM/src/_ikeycon.cpp:3:/// @date 2026-05-02 (modified)
+RTM/src/_ikeycon.cpp:3:/// @date 2026-05-18 (modified)
 RTM/src/_ikeycon.cpp:4:/// @ingroup OBSOLETE
 RTM/src/_ikeycon.cpp:5:// ********************************************************************************************************************
 RTM/src/_ikeycon.cpp:6://
@@ -5699,7 +5699,7 @@ RTM/src/BASE/virtualConstructor.cpp:34:/// \note Implementacja oparta na globaln
 RTM/src/BASE/virtualConstructor.cpp:38:    // ... A jak nie ma takiego klucza? Wtedy co się dzieje? TODO ?
 RTM/src/BASE/viewHtmlStr.cpp:1:/// @file
 RTM/src/BASE/viewHtmlStr.cpp:2:/// @brief Call HTML viewer - string version
-RTM/src/BASE/viewHtmlStr.cpp:3:/// @date 2026-05-17 (modified)
+RTM/src/BASE/viewHtmlStr.cpp:3:/// @date 2026-05-18 (modified)
 RTM/src/BASE/viewHtmlStr.cpp:4://================================================
 RTM/src/BASE/viewHtmlStr.cpp:14:// MS Windows Header
 RTM/src/BASE/viewHtmlStr.cpp:21:    int ret=WinExec(bufor.c_str(),SW_SHOWMINIMIZED); //Jak dla Windows 98
@@ -5753,7 +5753,7 @@ RTM/INCLUDE/outdated/platform.hpp:53:/*  //Insert this where you want:
 RTM/INCLUDE/outdated/platform.hpp:67:/*        WWW:  http://borkowski.iss.uw.edu.pl/                      */
 RTM/INCLUDE/wb_cpucl.hpp:1:/// \file wb_cpucl.hpp
 RTM/INCLUDE/wb_cpucl.hpp:2:/// \brief Klasa stopera liczącego czas CPU.
-RTM/INCLUDE/wb_cpucl.hpp:3:/// @date 2026-05-11 (last modification)
+RTM/INCLUDE/wb_cpucl.hpp:3:/// @date 2026-05-18 (last modification)
 RTM/INCLUDE/wb_cpucl.hpp:4:///        ---------------------------------
 RTM/INCLUDE/wb_cpucl.hpp:5:///
 RTM/INCLUDE/wb_cpucl.hpp:6:/// \details liczy od momentu utworzenia lub wywołania reset() do chwili pobrania
@@ -5965,7 +5965,7 @@ RTM/INCLUDE/wb_smartlog.hpp:188:/*    GITHUB: https://github.com/borkowsk       
 RTM/INCLUDE/wb_smartlog.hpp:192:#endif// !defined(AFX_WB_SMARTLOG_H__C0EDBBE3_72CF_11D5_AB82_444553540000__INCLUDED_)
 RTM/INCLUDE/containe.hpp:1:/// @file
 RTM/INCLUDE/containe.hpp:2:/// @brief Klasy definiujące interface do wszelkiego rodzaju kontenerów zawierających obiekty typu T
-RTM/INCLUDE/containe.hpp:3:/// @date 2026-05-17 (modified)
+RTM/INCLUDE/containe.hpp:3:/// @date 2026-05-18 (modified)
 RTM/INCLUDE/containe.hpp:4:/// @note Cała biblioteka WB_RTM to jest nieco odremontowane muzeum kodu z wieku XX.!!!
 RTM/INCLUDE/containe.hpp:5://======================================================================================================================
 RTM/INCLUDE/containe.hpp:8://#include "pix.hpp"
@@ -5996,7 +5996,7 @@ RTM/INCLUDE/containe.hpp:90:} //namespace
 RTM/INCLUDE/containe.hpp:98:/*        WWW:  http://wwww.iss.uw.edu.pl/~borkowsk/                */
 RTM/INCLUDE/viewHtml.hpp:1:/// @file
 RTM/INCLUDE/viewHtml.hpp:2:/// @brief Wyświetlanie pliku HTML poprzez system shell.
-RTM/INCLUDE/viewHtml.hpp:3:/// @date 2026-05-11 (modified)
+RTM/INCLUDE/viewHtml.hpp:3:/// @date 2026-05-18 (modified)
 RTM/INCLUDE/viewHtml.hpp:4:/// @note Cała biblioteka WB_RTM to jest nieco odremontowane muzeum kodu z wieku XX., ale ten pomysł wciąż działa :-)
 RTM/INCLUDE/viewHtml.hpp:9:/// @name Odpalanie pliku w przeglądarce WWW albo w ogóle w  viewerze/edytorze domyślnym w danym systemie.
 RTM/INCLUDE/viewHtml.hpp:10:/// @details tak naprawdę to wszystkiego, co może wyświetlić przeglądarka
@@ -6007,7 +6007,7 @@ RTM/INCLUDE/viewHtml.hpp:23:/*    GITHUB: https://github.com/borkowsk           
 RTM/INCLUDE/var_contr.hpp:1:/// @file
 RTM/INCLUDE/var_contr.hpp:2:/// @brief Szablon klasy pozwalającej na zmianę wartości zmiennej w taki sposób,
 RTM/INCLUDE/var_contr.hpp:3:///        że po wyjściu z bloku przywracana jest wartość pierwotna.
-RTM/INCLUDE/var_contr.hpp:4:/// @date 2026-05-17 (modified)
+RTM/INCLUDE/var_contr.hpp:4:/// @date 2026-05-18 (modified)
 RTM/INCLUDE/var_contr.hpp:5:/// @note Cała biblioteka WB_RTM to jest nieco odremontowane muzeum kodu z wieku XX.!!!
 RTM/INCLUDE/var_contr.hpp:6://=====================================================================================
 RTM/INCLUDE/var_contr.hpp:18:		OrginalVal=*OrginalPos; //Zabezpieczenie starej wartości
@@ -6024,7 +6024,7 @@ RTM/INCLUDE/var_contr.hpp:48:/*    WWW: https://www.researchgate.net/profile/WOJ
 RTM/INCLUDE/var_contr.hpp:49:/*    GITHUB: https://github.com/borkowsk                           */
 RTM/INCLUDE/lingo.hpp:1:/// @file
 RTM/INCLUDE/lingo.hpp:2:/// @brief Selektor języka komunikatów ekranowych.
-RTM/INCLUDE/lingo.hpp:3:/// @date 2026-05-11 (modified)
+RTM/INCLUDE/lingo.hpp:3:/// @date 2026-05-18 (modified)
 RTM/INCLUDE/lingo.hpp:4:/// @details Poprawiony z bardzo starej wersji.
 RTM/INCLUDE/lingo.hpp:5:/// @note Cała biblioteka WB_RTM to jest nieco odremontowane muzeum kodu z wieku XX.!!!
 RTM/INCLUDE/lingo.hpp:9:namespace wbrtm { //WOJCIECH BORKOWSKI RUN TIME LIBRARY
@@ -6035,7 +6035,7 @@ RTM/INCLUDE/lingo.hpp:42:/*    WWW: https://www.researchgate.net/profile/WOJCIEC
 RTM/INCLUDE/lingo.hpp:43:/*    GITHUB: https://github.com/borkowsk                           */
 RTM/INCLUDE/optParam.hpp:1:/// \file optParam.hpp
 RTM/INCLUDE/optParam.hpp:2:/// \brief KLASY potrzebne do obsługi parametrów wywołania programu
-RTM/INCLUDE/optParam.hpp:3:/// @date 2026-05-17 (last modification)
+RTM/INCLUDE/optParam.hpp:3:/// @date 2026-05-18 (last modification)
 RTM/INCLUDE/optParam.hpp:4:///        ========================================================
 RTM/INCLUDE/optParam.hpp:5:/// \details
 RTM/INCLUDE/optParam.hpp:6:///     Obsługiwane są typy standardowe numeryczne oraz
@@ -6258,7 +6258,7 @@ RTM/INCLUDE/TabDelimited.hpp:149:/*    GITHUB: https://github.com/borkowsk      
 RTM/INCLUDE/TabDelimited.hpp:153:#endif //TAB_DELIMITED_HPP
 RTM/INCLUDE/_ikeycon.hpp:1:/// @file
 RTM/INCLUDE/_ikeycon.hpp:2:/// @brief Private base for an array class family.
-RTM/INCLUDE/_ikeycon.hpp:3:/// @date 2026-05-11 (modified)
+RTM/INCLUDE/_ikeycon.hpp:3:/// @date 2026-05-18 (modified)
 RTM/INCLUDE/_ikeycon.hpp:4:// ********************************************************************************************************************
 RTM/INCLUDE/_ikeycon.hpp:5:// UWAGA! To jest nieco odremontowane muzeum kodu z wieki XX.!!!
 RTM/INCLUDE/_ikeycon.hpp:8:///  @ingroup OBSOLETE
@@ -6398,7 +6398,7 @@ RTM/INCLUDE/arr_base.hpp:210:/*    WWW: https://www.researchgate.net/profile/WOJ
 RTM/INCLUDE/arr_base.hpp:211:/*    GITHUB: https://github.com/borkowsk                           */
 RTM/INCLUDE/wb_ptr.hpp:1:/// \file wb_ptr.hpp
 RTM/INCLUDE/wb_ptr.hpp:2:/// \brief Proste szablony inteligentnych wskaźników oraz tablic dynamicznych.
-RTM/INCLUDE/wb_ptr.hpp:3:/// @date 2026-05-14 (last modification)
+RTM/INCLUDE/wb_ptr.hpp:3:/// @date 2026-05-18 (last modification)
 RTM/INCLUDE/wb_ptr.hpp:4:///        ===================================================================
 RTM/INCLUDE/wb_ptr.hpp:5:///
 RTM/INCLUDE/wb_ptr.hpp:6:/// \details
@@ -6822,7 +6822,7 @@ RTM/INCLUDE/errorhan.hpp:53:/*    WWW: https://www.researchgate.net/profile/WOJC
 RTM/INCLUDE/errorhan.hpp:54:/*    GITHUB: https://github.com/borkowsk                           */
 RTM/INCLUDE/wb_limits.hpp:1:/// \file wb_limits.hpp
 RTM/INCLUDE/wb_limits.hpp:2:/// \brief LIMITS FOR SCALAR TYPES in `wbrtm`/ Limity dla skalarów w "wbrtm".
-RTM/INCLUDE/wb_limits.hpp:3:/// @date 2026-05-05 (last modification)
+RTM/INCLUDE/wb_limits.hpp:3:/// @date 2026-05-18 (last modification)
 RTM/INCLUDE/wb_limits.hpp:4:///       -----------------------------------
 RTM/INCLUDE/wb_limits.hpp:5:///
 RTM/INCLUDE/wb_limits.hpp:6:/// \author borkowsk
@@ -7013,7 +7013,7 @@ RTM/INCLUDE/wb_swap.hpp:86:#endif //WB_SWAP_HPP_INCLUDED_
 EXAMPLES/conflicts/src/conf1main.cpp:1:/// @file
 EXAMPLES/conflicts/src/conf1main.cpp:2:/// @brief SYMULACJA KONFLIKTÓW BOCA 2005 (plik główny)
 EXAMPLES/conflicts/src/conf1main.cpp:3://-=====================================================================================================================
-EXAMPLES/conflicts/src/conf1main.cpp:4:/// @date 2026-05-17 (last update)
+EXAMPLES/conflicts/src/conf1main.cpp:4:/// @date 2026-05-18 (last update)
 EXAMPLES/conflicts/src/conf1main.cpp:5:/// @details
 EXAMPLES/conflicts/src/conf1main.cpp:6:/// UZUPEŁNIONY 10-11.2005, 9-2010, 02-2014, 04-2026
 EXAMPLES/conflicts/src/conf1main.cpp:7:/// ## HISTORIA
@@ -7337,7 +7337,7 @@ EXAMPLES/convince/src/convince.cpp:1:/// @file
 EXAMPLES/convince/src/convince.cpp:2:/// A fairly simple simulation of a change of opinion implementing Professor D. Stauffer's model.
 EXAMPLES/convince/src/convince.cpp:3:/// (Obtained by simplifying the LANGUAGES program)
 EXAMPLES/convince/src/convince.cpp:4://============================================================================================
-EXAMPLES/convince/src/convince.cpp:5:/// @date 2026-05-17 (modified)
+EXAMPLES/convince/src/convince.cpp:5:/// @date 2026-05-18 (modified)
 EXAMPLES/convince/src/convince.cpp:32:unsigned	InternalLogLen=7000;	//!< Length of internal history logs. NOTE!
 EXAMPLES/convince/src/convince.cpp:33:                                    //!< Not Object-wise passed to the source initialization method
 EXAMPLES/convince/src/convince.cpp:34:unsigned	LogWriteRatio=1;		//!< After how many simulation steps will a log be saved?
@@ -7384,7 +7384,7 @@ EXAMPLES/convince/src/convince.cpp:327:    delete &theWorld; //Deallocation of t
 EXAMPLES/convince/src/convince.cpp:337:/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk             */
 EXAMPLES/convince/src/cworld.cpp:1:/// @file
 EXAMPLES/convince/src/cworld.cpp:2:/// @brief Implementation of the world of the convinced (D. Stauffer idea).
-EXAMPLES/convince/src/cworld.cpp:3:/// @date 2026-05-17 (modified)
+EXAMPLES/convince/src/cworld.cpp:3:/// @date 2026-05-18 (modified)
 EXAMPLES/convince/src/cworld.cpp:4://======================================================================================================================
 EXAMPLES/convince/src/cworld.cpp:12:#include "clstsour.hpp" //There is also statsour!
 EXAMPLES/convince/src/cworld.cpp:22:// Construction of agents:
@@ -7498,7 +7498,7 @@ EXAMPLES/convince/src/cworld.cpp:563:                //When there is no neighbor
 EXAMPLES/convince/src/cworld.cpp:577:/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk             */
 EXAMPLES/convince/src/cworldimpi.cpp:1:/// @file
 EXAMPLES/convince/src/cworldimpi.cpp:2:/// @brief Virtual Input method implementation of the aWorld class.
-EXAMPLES/convince/src/cworldimpi.cpp:3:/// @date 2026-05-17 (modified)
+EXAMPLES/convince/src/cworldimpi.cpp:3:/// @date 2026-05-18 (modified)
 EXAMPLES/convince/src/cworldimpi.cpp:4:///       ------------------------------------------------------------
 EXAMPLES/convince/src/cworldimpi.cpp:5:/// @details
 EXAMPLES/convince/src/cworldimpi.cpp:6:///     Its is rather simply implementation. You can replace it if you need.
@@ -7508,11 +7508,11 @@ EXAMPLES/convince/src/cworldimpo.cpp:1:/// @file
 EXAMPLES/convince/src/cworldimpo.cpp:2:/// Virtual output methods implementation of the aWorld class.
 EXAMPLES/convince/src/cworldimpo.cpp:3:/// Its is rather simply implementation. You can replace it if you need.
 EXAMPLES/convince/src/cworldimpo.cpp:4://======================================================================
-EXAMPLES/convince/src/cworldimpo.cpp:5:/// @date 2026-05-17 (modified)
+EXAMPLES/convince/src/cworldimpo.cpp:5:/// @date 2026-05-18 (modified)
 EXAMPLES/convince/src/cworldimpo.cpp:28:/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk             */
 EXAMPLES/basictest/src/Testmngr2.cpp:1:/// @file
 EXAMPLES/basictest/src/Testmngr2.cpp:2:/// @brief Przykładowy program SYMSHELL-z z klasami.
-EXAMPLES/basictest/src/Testmngr2.cpp:3:/// @date 2026-05-17 (modified)
+EXAMPLES/basictest/src/Testmngr2.cpp:3:/// @date 2026-05-18 (modified)
 EXAMPLES/basictest/src/Testmngr2.cpp:4:///       ------------------------------------------
 EXAMPLES/basictest/src/Testmngr2.cpp:5:/// @details
 EXAMPLES/basictest/src/Testmngr2.cpp:6:///     Demonstracja stosowania obiektowego pietra SYMSHELL-a
@@ -7594,7 +7594,7 @@ EXAMPLES/basictest/src/Testarea2.cpp:214://replot();
 EXAMPLES/attitude/src/aworldimpo.cpp:1:// Virtual output methods implementation of the aworld class.
 EXAMPLES/attitude/src/aworldimpo.cpp:2://Its is rather simply implementation. You can replace it if you need.
 EXAMPLES/attitude/src/aworldimpo.cpp:3://=====================================================================
-EXAMPLES/attitude/src/aworldimpo.cpp:4:// @date 2026-05-17 (modification)
+EXAMPLES/attitude/src/aworldimpo.cpp:4:// @date 2026-05-18 (modification)
 EXAMPLES/attitude/src/aworldimpo.cpp:12:    o << MyWidth<<separator;	//Obwod (?) torusa
 EXAMPLES/attitude/src/aworldimpo.cpp:13:    o << MaxSila<<separator;	//Maksymalna siła agenta
 EXAMPLES/attitude/src/aworldimpo.cpp:14:    o << NofCateg << separator;	//Liczba kategori w mapach
@@ -7606,7 +7606,7 @@ EXAMPLES/attitude/src/aworldimpo.cpp:28:/*        WWW:  http://moderato.iss.uw.e
 EXAMPLES/attitude/src/aworldimpi.cpp:1:// Virtual Input methods  implementation of the aworld class.
 EXAMPLES/attitude/src/aworldimpi.cpp:2:// Its is rather simply implementation. You can replace it if you need.
 EXAMPLES/attitude/src/aworldimpi.cpp:3://=====================================================================
-EXAMPLES/attitude/src/aworldimpi.cpp:4:// @date 2026-05-17 (modification)
+EXAMPLES/attitude/src/aworldimpi.cpp:4:// @date 2026-05-18 (modification)
 EXAMPLES/attitude/src/aworldimpi.cpp:12:    i >> MyWidth;		//Obwod torusa
 EXAMPLES/attitude/src/aworldimpi.cpp:13:    i >> MaxSila;		//Maksymalna siła agenta
 EXAMPLES/attitude/src/aworldimpi.cpp:14:    i >> NofCateg;		//Liczba kategori w mapach
@@ -7617,7 +7617,7 @@ EXAMPLES/attitude/src/aworldimpi.cpp:18:    i >> Noise;		//Szum informacyjny
 EXAMPLES/attitude/src/aworldimpi.cpp:35:/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk               */
 EXAMPLES/attitude/src/aworld.cpp:1:/// @file
 EXAMPLES/attitude/src/aworld.cpp:2:/// @brief IMPLEMENTATION OF   W O R L D  FOR "attitudes" SIMULATION.
-EXAMPLES/attitude/src/aworld.cpp:3:/// @date 2026-05-17 (modification)
+EXAMPLES/attitude/src/aworld.cpp:3:/// @date 2026-05-18 (modification)
 EXAMPLES/attitude/src/aworld.cpp:4://======================================================================================================================
 EXAMPLES/attitude/src/aworld.cpp:6://#include <limits.h>
 EXAMPLES/attitude/src/aworld.cpp:7://#include <assert.h>
@@ -7790,7 +7790,7 @@ EXAMPLES/attitude/src/aworld.cpp:648:/*        WWW:  http://moderato.iss.uw.edu.
 EXAMPLES/attitude/src/attitude.cpp:1:// Dosyć prosta symulacja zmiany poglądów — attitude wg. modelu A. Nowak-a.
 EXAMPLES/attitude/src/attitude.cpp:2:// Uzyskana przez uproszczenie programu LANGUAGES
 EXAMPLES/attitude/src/attitude.cpp:3://=========================================================================
-EXAMPLES/attitude/src/attitude.cpp:4:// @date 2026-05-17 (modification)
+EXAMPLES/attitude/src/attitude.cpp:4:// @date 2026-05-18 (modification)
 EXAMPLES/attitude/src/attitude.cpp:7:// * 15.02.2006 - 1.01: Zrekompilowane z nową wersją biblioteki lufcików.
 EXAMPLES/attitude/src/attitude.cpp:8:// * 07.04.2026 - 1.01: Zrekompilowane z nową wersją biblioteki lufcików po 20 latach!
 EXAMPLES/attitude/src/attitude.cpp:23:unsigned	InternalLogLen=7000;	//Nieobiektowo przekazywane do metody inicjalizacji źródeł.
@@ -7853,7 +7853,7 @@ EXAMPLES/attitude/src/attitude.cpp:453:/*        WWW:  http://moderato.iss.uw.ed
 EXAMPLES/kattitude/src/aworldimpo.cpp:1:/// @file
 EXAMPLES/kattitude/src/aworldimpo.cpp:2:/// @brief Virtual output method implementation of the aworld class. (kattitude old example for SymShell)
 EXAMPLES/kattitude/src/aworldimpo.cpp:3://=====================================================================================================================
-EXAMPLES/kattitude/src/aworldimpo.cpp:4:/// @date 2026-05-17 (modified)
+EXAMPLES/kattitude/src/aworldimpo.cpp:4:/// @date 2026-05-18 (modified)
 EXAMPLES/kattitude/src/aworldimpo.cpp:5:/// @details
 EXAMPLES/kattitude/src/aworldimpo.cpp:6:///     Its is rather simply implementation. You can replace it if you need.
 EXAMPLES/kattitude/src/aworldimpo.cpp:7://=====================================================================================================================
@@ -7868,7 +7868,7 @@ EXAMPLES/kattitude/src/aworldimpo.cpp:22:    o<<Noise<<separator<<endl;		//Szum 
 EXAMPLES/kattitude/src/aworldimpo.cpp:32:/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk             */
 EXAMPLES/kattitude/src/aworldimpi.cpp:1:/// @file
 EXAMPLES/kattitude/src/aworldimpi.cpp:2:/// @brief Virtual Input method implementation of the aworld class. (kattitude old example for SymShell)
-EXAMPLES/kattitude/src/aworldimpi.cpp:3:/// @date 2026-05-17 (modified)
+EXAMPLES/kattitude/src/aworldimpi.cpp:3:/// @date 2026-05-18 (modified)
 EXAMPLES/kattitude/src/aworldimpi.cpp:4:///       ---------------------
 EXAMPLES/kattitude/src/aworldimpi.cpp:5:/// @details
 EXAMPLES/kattitude/src/aworldimpi.cpp:6:///     Its is rather simply implementation. You can replace it if you need.
@@ -7885,7 +7885,7 @@ EXAMPLES/kattitude/src/aworldimpi.cpp:37:/*        WWW:  http://moderato.iss.uw.
 EXAMPLES/kattitude/src/kattitude.cpp:1:/// @file
 EXAMPLES/kattitude/src/kattitude.cpp:2:/// @brief Symulacja zmiany poglądów - attitudes (kattitude old example for SymShell)
 EXAMPLES/kattitude/src/kattitude.cpp:3://===================================================================================
-EXAMPLES/kattitude/src/kattitude.cpp:4:/// @date 2026-05-17 (modified)
+EXAMPLES/kattitude/src/kattitude.cpp:4:/// @date 2026-05-18 (modified)
 EXAMPLES/kattitude/src/kattitude.cpp:5:/// @details
 EXAMPLES/kattitude/src/kattitude.cpp:6:///     Uzyskana niegdyś przez uproszczenie programu LANGUAGES.
 EXAMPLES/kattitude/src/kattitude.cpp:7:///     Uzupełniona o wagi opinii innych, jako fragmentaryczna implementacja teorii Arie Kruglanskiego.
@@ -7977,7 +7977,7 @@ EXAMPLES/kattitude/src/kattitude.cpp:565://unsigned agent::max=0; //jaki jest na
 EXAMPLES/kattitude/src/kattitude.cpp:573:/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk             */
 EXAMPLES/kattitude/src/aworld.cpp:1:/// @file
 EXAMPLES/kattitude/src/aworld.cpp:2:/// @brief IMPLEMENTATION OF THE WORLD FOR "attitudeS" SIMULATION (kattitude old example for SymShell)
-EXAMPLES/kattitude/src/aworld.cpp:3:/// @date 2026-05-17 (modified)
+EXAMPLES/kattitude/src/aworld.cpp:3:/// @date 2026-05-18 (modified)
 EXAMPLES/kattitude/src/aworld.cpp:4://==============================================================================================================
 EXAMPLES/kattitude/src/aworld.cpp:6://#include <limits.h>
 EXAMPLES/kattitude/src/aworld.cpp:7://#include <assert.h>
@@ -8221,7 +8221,7 @@ EXAMPLES/kattitude/src/aworld.cpp:849:            CenterAgent.new_attitude(Cente
 EXAMPLES/kattitude/src/aworld.cpp:861:/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk             */
 EXAMPLES/life/src/lworldimpi.cpp:1:/// @file
 EXAMPLES/life/src/lworldimpi.cpp:2:/// @brief Implementation of the lifeworld class - virtual Input method
-EXAMPLES/life/src/lworldimpi.cpp:3:/// @date 2026-05-17 (modified)
+EXAMPLES/life/src/lworldimpi.cpp:3:/// @date 2026-05-18 (modified)
 EXAMPLES/life/src/lworldimpi.cpp:4://---------------------------------------------------------------------
 EXAMPLES/life/src/lworldimpi.cpp:5:// Its is rather simply implementation. You can replace it if you need.
 EXAMPLES/life/src/lworldimpi.cpp:6://======================================================================
@@ -8241,7 +8241,7 @@ EXAMPLES/life/src/lworldimpo.cpp:2:/// Implementation of the lifeworld class. Vi
 EXAMPLES/life/src/lworldimpo.cpp:3://---------------------------------------------------------------
 EXAMPLES/life/src/lworldimpo.cpp:4:/// Its is rather simply implementation. You can replace it if you need.
 EXAMPLES/life/src/lworldimpo.cpp:5://======================================================================
-EXAMPLES/life/src/lworldimpo.cpp:6:/// @date 2026-05-17 (modified)
+EXAMPLES/life/src/lworldimpo.cpp:6:/// @date 2026-05-18 (modified)
 EXAMPLES/life/src/lworldimpo.cpp:15:    o<<MyWidth<<separator;	    //Obwód (?) torusa
 EXAMPLES/life/src/lworldimpo.cpp:17:    o<<IleKate<<separator;	    //Liczba kategorii w mapach
 EXAMPLES/life/src/lworldimpo.cpp:18:    o<<IleSasiad<<separator;	//8 == gęstość sąsiedztwa
@@ -8255,7 +8255,7 @@ EXAMPLES/life/src/lworldimpo.cpp:30:/// @copyright 2000 - 2026
 EXAMPLES/life/src/lworldimpo.cpp:31://==============================================
 EXAMPLES/life/src/lworld.cpp:1:/// @file
 EXAMPLES/life/src/lworld.cpp:2:/// IMPLEMENTATION OF   W O R L D  FOR "Conways Life" SIMULATION.
-EXAMPLES/life/src/lworld.cpp:3:/// @date 2026-05-17 (modified)
+EXAMPLES/life/src/lworld.cpp:3:/// @date 2026-05-18 (modified)
 EXAMPLES/life/src/lworld.cpp:4://===============================================================
 EXAMPLES/life/src/lworld.cpp:6://#include <limits.h>
 EXAMPLES/life/src/lworld.cpp:7://#include <assert.h>
@@ -8410,7 +8410,7 @@ EXAMPLES/life/src/lworld.cpp:580://=============================================
 EXAMPLES/life/src/life.cpp:1:/// @file
 EXAMPLES/life/src/life.cpp:2:/// Wariacje na temat life Conway-a — program główny.
 EXAMPLES/life/src/life.cpp:3://===================================================
-EXAMPLES/life/src/life.cpp:4:/// @date 2026-05-17 (modified)
+EXAMPLES/life/src/life.cpp:4:/// @date 2026-05-18 (modified)
 EXAMPLES/life/src/life.cpp:21:unsigned internal_log=7000; //Nieobiektowo przekazywane do metody inicjalizacji źródeł
 EXAMPLES/life/src/life.cpp:35:short  ROtoczenia=1; //3x3-1
 EXAMPLES/life/src/life.cpp:36:short  IluZOtoczenia=-1; //Wszyscy sąsiedzi — nielosowo. 8. - losowo!!!
@@ -8472,7 +8472,7 @@ EXAMPLES/life/src/life.cpp:385://==============================================
 EXAMPLES/need4closure/src/need4clos.cpp:1:/// @file
 EXAMPLES/need4closure/src/need4clos.cpp:2:/// @brief ... (old example for SymShell implementing Kruglanskis like model)
 EXAMPLES/need4closure/src/need4clos.cpp:3://===========================================================================
-EXAMPLES/need4closure/src/need4clos.cpp:4:/// @date 2026-05-17 (modified)
+EXAMPLES/need4closure/src/need4clos.cpp:4:/// @date 2026-05-18 (modified)
 EXAMPLES/need4closure/src/need4clos.cpp:5:///
 EXAMPLES/need4closure/src/need4clos.cpp:6:// Symulacja Need for closure wg teorii Arie Kruglanskiego
 EXAMPLES/need4closure/src/need4clos.cpp:7:// Uzyskana z przerobienia programu ATTITUDEs
@@ -8565,7 +8565,7 @@ EXAMPLES/need4closure/src/need4clos.cpp:526:/*        WWW:  http://www.iss.uw.ed
 EXAMPLES/need4closure/src/kworldimpo.cpp:1:/// @file
 EXAMPLES/need4closure/src/kworldimpo.cpp:2:/// @brief ... (old example for SymShell implementing Kruglanskis like model)
 EXAMPLES/need4closure/src/kworldimpo.cpp:3://===========================================================================
-EXAMPLES/need4closure/src/kworldimpo.cpp:4:/// @date 2026-05-17 (modified)
+EXAMPLES/need4closure/src/kworldimpo.cpp:4:/// @date 2026-05-18 (modified)
 EXAMPLES/need4closure/src/kworldimpo.cpp:5:// implementation of the kworld class.
 EXAMPLES/need4closure/src/kworldimpo.cpp:6://	Virtual output methods 
 EXAMPLES/need4closure/src/kworldimpo.cpp:7://----------------------------------------------
@@ -8581,7 +8581,7 @@ EXAMPLES/need4closure/src/kworldimpo.cpp:33:/*        WWW:  http://www.iss.uw.ed
 EXAMPLES/need4closure/src/kworldimpi.cpp:1:/// @file
 EXAMPLES/need4closure/src/kworldimpi.cpp:2:/// @brief ... (old example for SymShell implementing Kruglanskis like model)
 EXAMPLES/need4closure/src/kworldimpi.cpp:3://===========================================================================
-EXAMPLES/need4closure/src/kworldimpi.cpp:4:/// @date 2026-05-17 (modified)
+EXAMPLES/need4closure/src/kworldimpi.cpp:4:/// @date 2026-05-18 (modified)
 EXAMPLES/need4closure/src/kworldimpi.cpp:5:// implementation of the kworld class.
 EXAMPLES/need4closure/src/kworldimpi.cpp:6://	Virtual Input methods 
 EXAMPLES/need4closure/src/kworldimpi.cpp:7://----------------------------------------------
@@ -8597,7 +8597,7 @@ EXAMPLES/need4closure/src/kworldimpi.cpp:37:/*        WWW:  http://www.iss.uw.ed
 EXAMPLES/need4closure/src/kvisual.cpp:1:/// @file
 EXAMPLES/need4closure/src/kvisual.cpp:2:/// @brief ... (old example for SymShell implementing Kruglanskis like model)
 EXAMPLES/need4closure/src/kvisual.cpp:3://===========================================================================
-EXAMPLES/need4closure/src/kvisual.cpp:4:/// @date 2026-05-17 (modified)
+EXAMPLES/need4closure/src/kvisual.cpp:4:/// @date 2026-05-18 (modified)
 EXAMPLES/need4closure/src/kvisual.cpp:11:#include "dhistosou.hpp" //Nowsza wersja - poprawiona
 EXAMPLES/need4closure/src/kvisual.cpp:12:#include "clstsour.hpp"  //Jest też statsour
 EXAMPLES/need4closure/src/kvisual.cpp:25:// KONSTRUKCJA	WIZUALIZACJI
@@ -8689,7 +8689,7 @@ EXAMPLES/need4closure/src/kvisual.cpp:438:/*        WWW:  http://www.iss.uw.edu.
 EXAMPLES/need4closure/src/kworld.cpp:1:/// @file
 EXAMPLES/need4closure/src/kworld.cpp:2:/// @brief IMPLEMENTATION OF THE "KWORLD" (old example for SymShell implementing Kruglansky like model)
 EXAMPLES/need4closure/src/kworld.cpp:3://======================================================================================================
-EXAMPLES/need4closure/src/kworld.cpp:4:/// @date 2026-05-17 (modified)
+EXAMPLES/need4closure/src/kworld.cpp:4:/// @date 2026-05-18 (modified)
 EXAMPLES/need4closure/src/kworld.cpp:18:// Statyczne pola `kagent`-ów:
 EXAMPLES/need4closure/src/kworld.cpp:19://===============================================================
 EXAMPLES/need4closure/src/kworld.cpp:21:short	kagent::Max_power=256;		///< Maksymalna siła agenta.
