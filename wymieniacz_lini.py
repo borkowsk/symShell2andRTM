@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 ## @file 
 ## @brief  Problem polega na wymianie wielu linii w wielu plikach tekstowych. 
-## @date 2026 (modified)
+## @date 2026-05-18 (modified)
 # ==============================================================================
 #
 # Instrukcja ma formę pliku tekstowego UTF-8 w formacie linii:
@@ -97,9 +97,9 @@ for sciezka, modyfikacje in zadania.items():
                 linie_pliku.append(nowa_tresc + '\n')
                 
         # Zapisujemy zmodyfikowany plik
-        #with open(sciezka, 'w', encoding='utf-8') as f:
-        #    f.writelines(linie_pliku)
-        #print(f"Zaktualizowano: {sciezka}")
+        with open(sciezka, 'w', encoding='utf-8') as f:
+            f.writelines(linie_pliku)
+        print(f"Zaktualizowano: {sciezka}")
         
     except Exception as e:
         print(f"Błąd podczas przetwarzania {sciezka}: {e}")
