@@ -1,7 +1,7 @@
 /**
 * @file     typenames.hpp
 * \brief    How do I convert T to a string that says what T is?
-* @date 2026-05-11 (last modification)
+* @date 2026-05-18 (last modification)
 *          -----------------------------------------------------
 *
 * \details  While playing with templates in C++ I encountered a problem converting typename T to string.
@@ -23,7 +23,7 @@
 *
  *  @note Cała biblioteka WB_RTM to jest nieco odremontowane muzeum kodu z wieku XX.!!!
 */
-#ifndef _MSC_VER //# warning still not work under Microsoft C++ (really still?)
+#ifndef _MSC_VER //# warning still doesn't work under Microsoft C++ (really still?)
 #warning  "This code is OBSOLETE and not tested in C++11 standard"
 #endif
 
@@ -71,7 +71,7 @@ struct TypeName<int>
 /// \endcode
 #define ENABLE_TYPENAME(A) template<> struct TypeName<A> { static const char *Get() { return #A; }};
 
-// Default specialisation for simple types
+// Default specialization for simple types
 ENABLE_TYPENAME(bool)         ///< \brief `TypeName` specialization for type 'bool'.
 ENABLE_TYPENAME(char)         ///< \brief `TypeName` specialization for type 'char'.
 ENABLE_TYPENAME(float)        ///< \brief `TypeName` specialization for type 'float'.

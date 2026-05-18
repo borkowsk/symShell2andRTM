@@ -1,6 +1,6 @@
 /// \file optParam.hpp
 /// \brief KLASY potrzebne do obsługi parametrów wywołania programu
-/// @date 2026-05-17 (last modification)
+/// @date 2026-05-18 (last modification)
 ///        ========================================================
 /// \details
 ///     Obsługiwane są typy standardowe numeryczne oraz
@@ -48,12 +48,12 @@ namespace wbrtm {
 class OptionalParameterBase
 {
 public:
-    /// \brief  Funkcja interfejsu sprawdzania parametrów obiektami hierarchii OptionalParametr
+    /// \brief  Funkcja interfejsu sprawdzania parametrów obiektami hierarchii `OptionalParametr`
 virtual
     int CheckStr(const char* argv,char sep='=')
     { return 0;} //0: Nie moja sprawa; 1: moje i dobre; -1: Moje, ale zly format
 
-    /// \brief  Funkcja interfejsu  drukowania linii HELP'u
+    /// \brief  Funkcja interfejsu  drukowania linii HELP-u
 virtual
     void HelpPrn(ostream& o) {o<<"UPSSss..."<<endl;}
 
@@ -104,7 +104,7 @@ protected:
 	wb_pchar	Lead;
 	wb_pchar	Info;
 
-    /// \brief  Implementacja metody drukowania linii HELP'u wymaganej przez klasę bazową
+    /// \brief  Implementacja metody drukowania linii HELP-u wymaganej przez klasę bazową
 	void HelpPrn(ostream& o)
 	{o<<Lead.get()<<' '<<Info.get()<<endl;}
 
@@ -148,7 +148,7 @@ class OptionalParameter:public OptionalParameterBase
 	virtual T convert(const char* str);
 
     /// \brief   Sprawdzenie domyślne wartości.
-    /// \details Sprawdza czy wartość w zakresie, ale może być zmienione dla danego typu T
+    /// \details Sprawdza, czy wartość w zakresie, ale może być zmienione dla danego typu T
     ///          (np. wb_pchar czy char* wymagają zupełnie innego sprawdzenia)
 	virtual bool check(const T& _val);
 };
@@ -231,15 +231,15 @@ bool OptionalParameter<const char*>::check(const char* const& val)
 // Funkcje konwersji
 //===============================================================================
 
-/// \details Implementacja konwersji dla typu  'char*'.  \ingroup MAINandPARS
+/// \details Implementacja konwersji dla typu 'char*'.  \ingroup MAINandPARS
 /// \return użyteczny łańcuch alokowany na stercie.
 template<> inline
 char* OptionalParameter<char*>::convert(const char* str)
 {
-	return clone_str(str);//Bez zwalniania pamięci, bo to przecież parametr wywołania!
+	return clone_str(str); //Bez zwalniania pamięci, bo to przecież parametr wywołania!
 }
 
-/// \details Implementacja konwersji dla typu  'const char*'. \ingroup MAINandPARS
+/// \details Implementacja konwersji dla typu 'const char*'. \ingroup MAINandPARS
 /// \return  Zwraca po prostu ten sam łańcuch. To przecież kawałek parametru wywołania, więc nie może się zmienić!
 template<> inline
 const char* OptionalParameter<const char*>::convert(const char* str)
@@ -255,35 +255,35 @@ wb_pchar OptionalParameter<wb_pchar>::convert(const char* str)
 	return wb_pchar(str);
 }
 
-/// \details Implementacja konwersji dla typu  'string' \ingroup MAINandPARS
+/// \details Implementacja konwersji dla typu 'string' \ingroup MAINandPARS
 template<> inline
 string OptionalParameter<string>::convert(const char* str)
 {
 	return string(str);
 }
 
-/// \details Implementacja konwersji dla typu  'double' \ingroup MAINandPARS
+/// \details Implementacja konwersji dla typu 'double' \ingroup MAINandPARS
 template<> inline
 double OptionalParameter<double>::convert(const char* str)
 {
 	return atof(str);
 }
 
-/// \details Implementacja konwersji dla typu  'float' \ingroup MAINandPARS
+/// \details Implementacja konwersji dla typu 'float' \ingroup MAINandPARS
 template<> inline
 float OptionalParameter<float>::convert(const char* str)
 {
-	return (float)atof(str);// conversion from 'double' to 'float', possible loss of data
+	return (float)atof(str); // conversion from 'double' to 'float', possible loss of data
 }
 
-/// \details Implementacja konwersji dla typu  'long' \ingroup MAINandPARS
+/// \details Implementacja konwersji dla typu 'long' \ingroup MAINandPARS
 template<> inline
 long OptionalParameter<long>::convert(const char* str)
 {
 	return atol(str);
 }
 
-/// \details Implementacja konwersji dla typu  'long long' \ingroup MAINandPARS
+/// \details Implementacja konwersji dla typu 'long long' \ingroup MAINandPARS
 template<> inline
 long long OptionalParameter<long long>::convert(const char* str)
 {
@@ -294,8 +294,8 @@ long long OptionalParameter<long long>::convert(const char* str)
 #endif
 }
 
-/// \details Implementacja konwersji dla typu  'unsigned long long'. \ingroup MAINandPARS
-/// \return  Wynik działania na \p str funkcji atoll() lub atof() (w MSVC++)
+/// \details Implementacja konwersji dla typu 'unsigned long long'. \ingroup MAINandPARS
+/// \return  Wynik działania na `str` funkcji atoll() lub atof() (w MSVC++)
 template<> inline
 unsigned long long OptionalParameter<unsigned long long>::convert(const char* str)
 {
@@ -306,23 +306,23 @@ unsigned long long OptionalParameter<unsigned long long>::convert(const char* st
 #endif
 }
 
-/// \details Implementacja konwersji dla typu  'unsigned int' \ingroup MAINandPARS
-/// \return  Wynik działania na \p str funkcji atol()
+/// \details Implementacja konwersji dla typu 'unsigned int' \ingroup MAINandPARS
+/// \return  Wynik działania na `str` funkcji atol()
 template<> inline
 unsigned OptionalParameter<unsigned>::convert(const char* str)
 {
 	return atol(str);
 }
 
-/// \details Implementacja konwersji dla typu  'int' \ingroup MAINandPARS
-/// \return  Wynik działania na \p str funkcji atoi()
+/// \details Implementacja konwersji dla typu 'int' \ingroup MAINandPARS
+/// \return  Wynik działania na `str` funkcji atoi()
 template<> inline
 int OptionalParameter<int>::convert(const char* str)
 {
 	return atoi(str);
 }
 
-/// \details Implementacja konwersji dla typu  'bool' \ingroup MAINandPARS
+/// \details Implementacja konwersji dla typu 'bool' \ingroup MAINandPARS
 /// \return true, jeżeli pierwszy ZNAK jest 'Y','y','T','t' albo '1'.
 template<> inline
 bool OptionalParameter<bool>::convert(const char* str)
@@ -337,7 +337,7 @@ T OptEnumParametr<T>::convert(const char* str)
 {
     if(('A'<=str[0] && str[0]<='Z')
             || ('a'<=str[0] && str[0]<='z')
-            || (str[0] == '_') )//Czy jest identyfikator
+            || (str[0] == '_') ) //Czy jest identyfikator
     {
         for(unsigned i=0;i<NofEn;i++)
             if(std::strcmp(str,EnNames[i])==0) //Jest?
@@ -347,7 +347,7 @@ T OptEnumParametr<T>::convert(const char* str)
             }
         return T(-9999);
     }
-    else //W przeciwnym razie probujemy liczbowo
+    else //W przeciwnym razie próbujemy liczbowo
     {
         int pom=atol(str);
         return T(pom);
@@ -360,16 +360,16 @@ T OptEnumParametr<T>::convert(const char* str)
 ///          Podstawowe typy i tak są obsłużone oddzielnie,
 ///          więc sprawa dotyczy nietypowych enum-s i jakichś pomysłów na używanie klas użytkownika
 ///          Na razie nic bardziej ogólnego nie wymyśliłem.
-/// \return  wartość -9999 rzutowana na dany typ. Najprawdopodobniej w tym miejscu będzie już błąd kompilacji!
+/// \return  wartość -9999 rzutowaną na dany typ. Najprawdopodobniej w tym miejscu będzie już błąd kompilacji!
 template<class T> inline
 T OptionalParameter<T>::convert(const char* str)
 {
   /*
     istrstream Strm(str); //Gdyby dało się ogólnie
 	T Val;
-	Strm>>Val; //Ale wiele typów i tak nie ma, np. różne enum
+	Strm>>Val; //Jednak wiele typów i tak nie ma, np. różne enum
   */
-	return T(-9999);//Zazwyczaj -9999 nie będzie poprawną daną.
+	return T(-9999); //Zazwyczaj -9999 nie będzie poprawną daną.
 }
 
 
@@ -438,7 +438,7 @@ void OptionalParameterBase::table(ostream& Out,OptionalParameterBase* Parameters
 /// \param argv - wartości argumentów programu ( z main() )
 /// \param Parameters - tabela parametrów
 /// \param Len - rozmiar tabeli parametrów
-/// \return 0 jeśli OK, -1 gdy jakiś "syntax error"
+/// \return 0, jeśli OK, -1, gdy jakiś "syntax error"
 inline
 int OptionalParameterBase::parse_options(const int argc,const char* argv[],
                                          OptionalParameterBase* Parameters[],int  Len)
@@ -447,7 +447,7 @@ int OptionalParameterBase::parse_options(const int argc,const char* argv[],
     {
         if( *argv[i]=='-' )
             continue; // Opcja X11 lub symshell'a, czy inne zaczynające się zwykle na '-', które chcemy obsłużyć inaczej
-        if(std::strcmp(argv[i],"HELP")==0) //Bez kwalifikacji std:: może być kłopot w zakresie działania definicji friend'ów wb_pchar
+        if(std::strcmp(argv[i],"HELP")==0) //Bez kwalifikacji `std::` może być kłopot w zakresie działania definicji friend'ów `wb_pchar`
         {
             cout<<endl<<"*** NAMES OF PARAMETERS:"<<endl<<flush;
             for(int j=0;j<Len;j++) Parameters[j]->HelpPrn(cout);
@@ -498,17 +498,17 @@ int OptionalParameter<T>::CheckStr(const char* argv,char sep/*arator*/)
         {
             Value=temp;
             cout<<"* Value "<<Name.get()<<" was changed into '"<<Value<<'\''<<endl;
-            return 1;//Moja poprawna wartość
+            return 1; //Moja poprawna wartość
         }
         else
         {
             cerr<<"* Value "<<Name.get()<<" cannot be changed into '"<<Value<<'\''<<endl;
             cerr<<"** Proper values should be beetween "<<LBound<<" and "<<HBound<<endl;
             cerr<<"* ("<<Name.get()<<":"<<Info.get()<<')'<<endl;
-            return -1;//Moja, ale niepoprawna wartość
+            return -1; //Moja, ale niepoprawna wartość
         }
     }
-    return 0;//Nie MOJA wartość. Szukaj dalej!
+    return 0; //Nie MOJA wartość. Szukaj dalej!
 }
 
 /// \brief  funkcji sprawdzania łańcucha parametru dla typu 'string' \ingroup MAINandPARS
@@ -519,7 +519,7 @@ template<> inline
 int OptionalParameter<string>::CheckStr(const char* argv,char sep/*arator*/)
 {
     const char* pom=NULL;
-    if((pom=std::strstr(argv,Name.get()))!=NULL) //Bez kwalifikacji std:: może być kłopot w zakresie działania definicji friend'ów wb_pchar
+    if((pom=std::strstr(argv,Name.get()))!=NULL) //Bez kwalifikacji `std::` może być kłopot w zakresie działania definicji friend'ów `wb_pchar`
     {
         pom+=std::strlen(Name.get());
         if(*pom!=sep)
@@ -528,23 +528,23 @@ int OptionalParameter<string>::CheckStr(const char* argv,char sep/*arator*/)
             return -1;
         }
 
-        string temp=convert(++pom);//Musi istnieć taka funkcja pośrednicząca zwracająca wartość niemodyfikowalną
+        string temp=convert(++pom); //Musi istnieć taka funkcja pośrednicząca zwracająca wartość niemodyfikowalną
 
         if(check(temp))
         {
             Value=temp;
             cout<<"* Value "<<Name.get()<<" was changed into '"<<Value.c_str()<<'\''<<endl;
-            return 1;//Moja poprawna warto��
+            return 1; //Moja poprawna wartość
         }
         else
         {
             cerr<<"* Value "<<Name.get()<<" cannot be changed into \""<<Value.c_str()<<'"'<<endl;
             cerr<<"** Proper value may looks like \""<<LBound.c_str()<<"\" and \""<<HBound.c_str()<<"\""<<endl;
             cerr<<"* ("<<Name.get()<<":"<<Info.get()<<')'<<endl;
-            return -1;//Moja, ale niepoprawna warto��
+            return -1; //Moja, ale niepoprawna wartość
         }
     }
-    return 0;//Nie MOJA sprawa
+    return 0; //Nie MOJA sprawa
 }
 
 // NIETYPOWE METODY DRUKOWANIA HELPU DO PARAMETRÓW TEKSTOWYCH
@@ -594,7 +594,7 @@ void OptEnumParametr<T>::HelpPrn(ostream& o)
      <<this->EnNames[this->Value-this->LBound]<<"="<<this->Value<<endl;
 }
 
-}//NAMESPACE WBRTM
+} //NAMESPACE WBRTM
 ///@}
 
 /* ******************************************************************/

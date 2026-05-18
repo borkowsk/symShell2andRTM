@@ -1,6 +1,6 @@
 /** \file
 *	\brief WB CLONING SUPPORT FOR ANY C++ OBJECTS
-*   @date 2026-05-11 (last modification)
+*   @date 2026-05-18 (last modification)
 *          --------------------------------------
 *
 * \details
@@ -65,7 +65,7 @@ inline char* clone(char* p)
 /// \return  NULL, jeśli nie może zaalokować!
 template<class T>
 #ifndef __BORLANDC__
-inline 			//W Borlandzie 4.X powoduje pad :-D - a to ci stara historia!
+inline 			//W Borlandzie `4.X` powoduje pad :-D — a to ci stara historia!
 #else
 static
 #endif

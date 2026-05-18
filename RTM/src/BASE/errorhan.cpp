@@ -1,5 +1,5 @@
 /// \file
-/// Przechwytywanie błędów programowych WBRTM i inne sztuczki - stare więc  nie wiadomo czy bezpieczne
+/// Przechwytywanie błędów programowych WBRTM i inne sztuczki — stare więc nie wiadomo czy bezpieczne.
 /// Zobacz też: https://www.thegeekstuff.com/2010/10/linux-error-codes/
 ///  \date 2022-10-25 (last modification)
 //============================================================================================================
@@ -57,17 +57,17 @@ _premain_force_endl()
 	cerr<<"WBRTM - DEBUG VERSION "<<__DATE__<<' '<<__TIME__<<'\n';
 #endif
 #endif
-//atexit(high_endln_forcer);//Nie ma sposobu sprawdzenia, ze std::cerr jeszcze nie wywołało destruktora!!!
+//atexit(high_endln_forcer); //Nie ma sposobu sprawdzenia, ze std::cerr jeszcze nie wywołało destruktora!!!
 }
 
 ~_premain_force_endl()
 {
-//high_endln_forcer();//Nie ma sposobu sprawdzenia, ze std::cerr jeszcze nie wywołało destruktora!!!
+//high_endln_forcer(); //Nie ma sposobu sprawdzenia, ze std::cerr jeszcze nie wywołało destruktora!!!
 }
 
 } _preamain_forcer; ///< singleton
 
-/// \details Very simple version for compiler without exception support
+/// \details A very simple version for compilers without exception support
 int error_handling::Error(const WB_Exception_base& e)
 {
 cerr<<e<<'\n';
@@ -88,7 +88,7 @@ if(!e.Recoverable())
 		  {
 		  cerr<<"\nApplication error""\n(Press ENTER to exit)\n";
 		  cin.get();
-		  WB_error_enter_before_clean=0;// Juz zrobione
+		  WB_error_enter_before_clean=0; // Już zrobione
 		  }
 #endif
 		exit(e.ExitCode());
@@ -102,7 +102,7 @@ if(!e.Recoverable())
 	}
 	else
 	{//Caller may try to recovery
-	// Return 1 if try to cleanup
+	// Return 1 if try to clean up
 	// Return 0 if try to resume
 	//OK zwraca 1, CANCEL zwraca 2
 	#if defined( __WIN32__ ) || defined( __WIN16__ )

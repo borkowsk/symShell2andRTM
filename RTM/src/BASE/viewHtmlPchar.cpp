@@ -15,12 +15,12 @@ int ViewHtml(const char* URL)
 {
 	wb_pchar bufor(strlen(URL)+80);
 	bufor.prn("start /max %s",URL);
-	int ret=WinExec(bufor.get(),SW_SHOWMINIMIZED);//Jak dla Windows 98
+	int ret=WinExec(bufor.get(),SW_SHOWMINIMIZED); //Jak dla Windows 98
 
 	if(ret==ERROR_FILE_NOT_FOUND  ||  ret==ERROR_PATH_NOT_FOUND )
 	{
 		bufor.prn("cmd /C start /max %s",URL);
-		ret=WinExec(bufor.get(),SW_SHOWMINIMIZED);//Jak dla Windows NT
+		ret=WinExec(bufor.get(),SW_SHOWMINIMIZED); //Jak dla Windows NT
 	}
 
 	return ret;

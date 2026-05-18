@@ -1,7 +1,7 @@
 /// @file
 /// @brief Szablon klasy pozwalającej na zmianę wartości zmiennej w taki sposób,
 ///        że po wyjściu z bloku przywracana jest wartość pierwotna.
-/// @date 2026-05-17 (modified)
+/// @date 2026-05-18 (modified)
 /// @note Cała biblioteka WB_RTM to jest nieco odremontowane muzeum kodu z wieku XX.!!!
 //=====================================================================================
 #ifndef WB_RTM_VARIABLE_CONTROLLER_HPP_INCLUDED_
@@ -16,28 +16,28 @@ public:
 	przechwytywacz(K& What,const V& NewValue):OrginalPos(&What)
 	{
 		OrginalVal=*OrginalPos; //Zabezpieczenie starej wartości
-		//What=(K&)NewValue;	 //Zamienienie na nowa — Niebezpieczne
-        //K pom=const_cast<K>(static_cast<const K>(NewValue)); //Za malo uniwersalne
+		//What=(K&)NewValue;	 //Zamienienie na nową — Niebezpieczne
+        //K pom=const_cast<K>(static_cast<const K>(NewValue)); //Za mało uniwersalne
         K pom=(K&)NewValue;     //Niestety nadal niebezpieczne
         *OrginalPos=pom;  
 	}
 	
 	przechwytywacz(K& What):OrginalPos(&What)
 	{
-		OrginalVal=*OrginalPos;//Zabezpieczenie starej wartości
+		OrginalVal=*OrginalPos; //Zabezpieczenie starej wartości
 	}
 
 	~przechwytywacz()
 	{
-		*OrginalPos=OrginalVal;//Przywrócenie oryginalnej wartości
+		*OrginalPos=OrginalVal; //Przywrócenie oryginalnej wartości
 	}
 };
 
-//template<class K, class V>        //JAK ZDEFINIOWAC SZABLONOWY TYPEDEF ???
+//template<class K, class V>        //JAK ZDEFINIOWAĆ SZABLONOWY TYPEDEF ???
 //typedef przechwytywacz<K,V> przechwytywacz_t; //Tak się kompiluje, ale nie działa
 
-//typedef przechwytywacz<> przechwytywacz_t;   //A tak sie nawet nie kompiluje
-//typedef przechwytywacz przechwytywacz_t;     //I tak tez sie nie kompiluje
+//typedef przechwytywacz<> przechwytywacz_t;   //A tak się nawet nie kompiluje
+//typedef przechwytywacz przechwytywacz_t;     //I tak też się nie kompiluje
 
 /* ******************************************************************/
 /*                WBRTM  version 2022 for GuestXR                   */

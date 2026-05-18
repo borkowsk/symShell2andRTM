@@ -13,10 +13,10 @@
 #include "virtualConstructor.h"
 
 /// \brief Ukryta lokalnie mapa konstruktorów dla implementacji rejestracji i odnajdywania wirtualnych konstruktorów.
-/// \note Można wyobrazić sobie inne implementacje niz oparte obiekcie typu std::map<>
+/// \note Można wyobrazić sobie inne implementacje niż oparte obiekcie typu `std::map<>`
 static std::map<std::string,wbrtm::InterfaceOfVirtualConstructor*> *mapOfVirtualConstructors=nullptr;
 
-/// \note Implementacja oparta na globalnym obiekcie typu std::map<>
+/// \note Implementacja oparta na globalnym obiekcie typu `std::map<>`
 void  wbrtm::InterfaceOfVirtualConstructor::registerThis(InterfaceOfVirtualConstructor* what)
 {
     if(mapOfVirtualConstructors== nullptr)

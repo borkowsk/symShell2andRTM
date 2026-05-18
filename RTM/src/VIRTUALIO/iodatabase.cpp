@@ -25,15 +25,15 @@ const IO_type_info_base& _io_database::GetInfoFor(const char* name)const
 //Szczyt listy informacyjnej dla inteligentnego i/o
 IO_type_info_base*	IO_type_info_base::top=NULL;
 
-//Pomocnicza, zeby nie przeszukiwac ciagle od nowa jak sie powtarza
+//Pomocnicza, żeby nie przeszukiwać ciągle od nowa, gdy się powtarza
 static IO_type_info_base*	last=NULL;
 
 const IO_type_info_base* _io_database::GetInfoPtr(const char* name)const
-//NULL jeśli brak w bazie
+//NULL, jeśli brak w bazie
 {
 IO_type_info_base*	current=IO_type_info_base::top;
 
-//Zanim wchodzi w petle to sprawdza czy juz aby ostatnio nie znalazl takiego
+//Zanim wejdzie w pętlę, sprawdza, czy już, aby ostatnio nie znalazł takiego
 if(last!=NULL && ::strcmp(last->Name(),name)==0)
 	return last;
 

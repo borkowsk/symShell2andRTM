@@ -98,7 +98,7 @@ istream& operator>>(istream& s,wb_pchar& p)
 			char poms[1024]; //Wielki zaps
 			s.putback(pom);
 			s>>poms;                                                                     assert(::strlen(poms)<1024);
-			p.take(	clone_str(poms) );//Tylko wczytane
+			p.take(	clone_str(poms) ); //Tylko wczytane
 		}
 
 		return s;

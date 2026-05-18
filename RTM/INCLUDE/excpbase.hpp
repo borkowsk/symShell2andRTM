@@ -1,7 +1,7 @@
 /**
 * \file   excpbase.hpp
 * \brief  Base exception class, and derived simple multipurpose exception classes.
-* @date 2026-05-11 (last modification)
+* @date 2026-05-18 (last modification)
 *        --------------------------------------------------------------------------
 * \details
 *        Contents:
@@ -63,7 +63,7 @@ namespace wbrtm { //WOJCIECH BORKOWSKI RUN TIME LIBRARY
 class WB_Exception_base
 {
 EXCP_NECESSARY(WB_Exception_base) // VMT - exist ! Virtual function exist.
-int not_recoverable; ///< 0 gdy program może byc kontynuowany.
+int not_recoverable; ///< 0, gdy program może być kontynuowany.
 protected:
 	WB_Exception_base():not_recoverable(1){}
 public:
@@ -122,7 +122,7 @@ void PrintTo(std::ostream&) const;
 };
 
 
-/// \brief Base for all numeric & math exceptions. \ingroup ERRORHANDLING
+/// \brief Base for all numeric and math exceptions. \ingroup ERRORHANDLING
 class NumericExcp:public ExcpRaisePosition
 {
 EXCP_NECESSARY(NumericExcp)
@@ -133,7 +133,7 @@ void PrintTo(std::ostream&) const;
 };
 
 
-/// \brief Base for all ranging & indexing exceptions. \ingroup ERRORHANDLING
+/// \brief Base for all ranging and indexing exceptions. \ingroup ERRORHANDLING
 class RangCheckExcp:public ExcpRaisePosition
 {
 EXCP_NECESSARY(RangCheckExcp)
@@ -143,7 +143,7 @@ int  ExitCode() const    { return 1; }
 void PrintTo(std::ostream&) const;
 };
 
-/// \brief Base for all search & (not)found exceptions. \ingroup ERRORHANDLING
+/// \brief Base for all searches and (not)found exceptions. \ingroup ERRORHANDLING
 class SearchingExcp:public ExcpRaisePosition
 {
 EXCP_NECESSARY(SearchingExcp)

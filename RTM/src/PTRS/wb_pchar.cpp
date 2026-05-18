@@ -13,7 +13,7 @@
 #pragma warning(disable : 4996) //deprecated functions
 #pragma warning(disable : 4521) //multiple copy constructor
 #pragma warning(disable : 4522) //multiple assigment operator
-//TYMCZASEM - OSTRZE�ENIA O "conversion from 'A' to 'B', possible loss of data"
+//TYMCZASEM - OSTRZEŻENIA O "conversion from 'A' to 'B', possible loss of data"
 //#pragma warning(disable : 4267)
 //#pragma warning(disable : 4244)
 #endif
@@ -53,15 +53,15 @@ wb_pchar& wb_pchar::add(const char* format,...)
    return *this;
 }
 
-/// \details Pomocnicza funkcja lokalna dla implementacji wbrtm::replace
+/// \details Pomocnicza funkcja lokalna dla implementacji `wbrtm::replace`
 /// \note Used only internally
 static char* _find(char* where,const char* forfind,bool fullwords)
 {
 	do{
-		char* poz=::strstr(where,forfind);//Szuka
+		char* poz=::strstr(where,forfind); //Szuka
 
 		if(poz==NULL) 
-			return NULL;//W ogóle nie znalazł
+			return NULL; //W ogóle nie znalazł
 
 		if(!fullwords)
 		{
@@ -89,7 +89,7 @@ static char* _find(char* where,const char* forfind,bool fullwords)
 
 /// \details Wstawia łańcuch tekstowy do bufora na określonej pozycji
 /// \param bufor - wejście/wyjście
-/// \param pos - pozycja za którą wstawić
+/// \param pos - pozycja, za którą wstawić
 /// \param whatins - co wstawić
 /// \return 'true' jeśli wykonał akcję, a 'false' jeśli nie znalazł
 /// \note    TODO CHECK? bufor jest sztafetowany! 
@@ -98,11 +98,11 @@ bool insert(wb_pchar& bufor,unsigned pos,const char* whatins)
     if(pos>::strlen(bufor.get()))
         return false;
 
-    wb_pchar pom=bufor;//sztafeta!!?
+    wb_pchar pom=bufor; //sztafeta!!?
     bufor.alloc(::strlen(pom.get())+::strlen(whatins)+1);
     char* posptr=pom.get_ptr_val()+pos;
     char  point=*posptr;
-    *posptr='\0';//ciach
+    *posptr='\0'; //ciach
     posptr++;
     bufor.prn("%s%s%c%s",pom.get(),whatins,point,posptr);
 
@@ -120,7 +120,7 @@ bool insert(wb_pchar& bufor,unsigned pos,const char* whatins)
 /// \note TODO CHECK? Bufor jest sztafetowany!!!
 bool replace(wb_pchar& bufor,const char* forrep,const char* whatins,bool fullwords,unsigned startpos)
 {
-	wb_pchar pom=bufor;//sztafeta!!!
+	wb_pchar pom=bufor; //sztafeta!!!
 
 	char* poz=NULL;
 	poz=_find(pom.get_ptr_val()+startpos,forrep,fullwords);
@@ -128,7 +128,7 @@ bool replace(wb_pchar& bufor,const char* forrep,const char* whatins,bool fullwor
 	//cerr<<"REPLACE("<<pom<<" , "<<forrep<<" , "<<whatins<<")"<<(poz?"OK":"NO")<<endl;
 	
 	if(poz==NULL) 
-		return false;//nie ma tego do zamiany
+		return false; //nie ma tego do zamiany
 
 	while(poz!=NULL)
 	{

@@ -1,6 +1,6 @@
 /** @file
 *  \brief    Dynamic arra-s — some resizable
-*  @date 2026-05-11 (last modification)
+*  @date 2026-05-18 (last modification)
 *  \details Obsolete and not improved part of the wb_rtm library.
 *           It was established before 2000.
 *  \copyright Wojciech T. Borkowski
@@ -10,7 +10,7 @@
 #define _ARRAY_HPP_
 ///  @ingroup OBSOLETE
 
-#ifndef _MSC_VER //# warning still not work under Microsoft C++
+#ifndef _MSC_VER //# warning still doesn't work under Microsoft C++
 //#warning  "This code is OBSOLETE and not tested in C++11 standard"
 #endif
 
@@ -26,9 +26,9 @@
 
 namespace wbrtm { //WOJCIECH BORKOWSKI RUN TIME LIBRARY
 
-/// \brief Obsolete class template for const size array.
+/// \brief Obsolete class template for a const size array.
 /// Not RESIZEABLE. User must set size in construction.
-/// For scalar & class with << & >> operators;
+/// For scalar and class with << & >> operators;
 template<class T>
 class array_constsize:public array_base<T>
 {
@@ -40,12 +40,12 @@ class array_constsize:public array_base<T>
     VIRTUAL_NECESSARY_AND_IO( array_constsize<T> )
 public:
     array_constsize(const array_base<T>& a):array_base<T>(a){}
-    array_constsize(size_t N=1):array_base<T>(N) //1 zeby byl jakis bezparametrowy
+    array_constsize(size_t N=1):array_base<T>(N) //1, żeby był jakiś bezparametrowy
     { // Alloc array of N items
                                                 assert(N>0);
-          NewMaxIndex(N-1); // save index for iterators & High function
+          NewMaxIndex(N-1); // save an index for iterators & High function
     }
-    ~array_constsize(){}                  // destroy array
+    ~array_constsize(){}                  // destroy `array`
     T&   operator  () (size_t i);		 // raise exception if "i" not into
     int Expand(size_t nsize); // Tu faktycznie nie powiększa, ale sprawdza, czy jest jeszcze miejsce w ramach alokacji
 };
@@ -61,8 +61,8 @@ public:
 	array_template(size_t isize=0):array_base<T>(isize) {}
 	array_template(const array_base<T>& a):array_base<T>(a){}
 	T&   operator  () (size_t i); // Automatic array expansion if index not in allocated block
-	int Expand(size_t nsize);// Realloc array with coping data
-	int Insert(size_t posit);// Insert empty element at posit(ion). Move the rest of table.
+	int Expand(size_t nsize); // Realloc array with coping data
+	int Insert(size_t posit); // Insert empty element at posit(ion). Move the rest of table.
 };
 
 /// \brief A dynamic array for no class types — construction/destruction maybe not handled properly.
@@ -89,10 +89,10 @@ class array_of_class:public array_template<T>
     void force_init_table(void* mem,size_t items);
 public:
 	~array_of_class(); // special handling destruction!
-	// Special handling construction because special behavior of expand
+	// Special handling construction because special behavior of `expand` function.
 	array_of_class(size_t isize=0):array_template<T>(0) {array_of_class::Expand(isize);}
-	array_of_class(const array_base<T>& a);//Use Expand for allocation
-	int Expand(size_t nsize);// Realloc with construction & destruction
+	array_of_class(const array_base<T>& a); //Use Expand for allocation
+	int Expand(size_t nsize); // Realloc with construction and destruction
 };
 
 /// \brief only for pointers, rather pointing to heap allocated blocks.
@@ -104,10 +104,10 @@ class array_of_ptr:public array_template< T* >
 	void _Force_Pointers_Item_Only_(){ *this->tab[0]; }
 protected:
 	virtual
-	int KickOf(size_t pos);	//Poprawione ze wzgledu na ewentualnie zaalokowany obiekt.
+	int KickOf(size_t pos);	//Poprawione ze względu na ewentualnie zaalokowany obiekt.
 public:
 	int  DataAreStatic(){ return g_mem_mode!=container_base::DYNAMIC_VAL;}
-	void ReallocData();//Move data to current heap
+	void ReallocData(); //Move data to current heap
 	~array_of_ptr();
 	array_of_ptr(const array_base< T* >& a):array_template<T*>(a){}
 	array_of_ptr(size_t isize=0,
@@ -117,12 +117,12 @@ public:
 		if(this->tab)
 			memset(this->tab,0x0,array_template< T* >::GetSize()*sizeof(T*));
 	}
-	// Very safe indexing. Doing neccesary dealocation if used as lvalue
+	// Very safe indexing. Doing necessary deallocation if used as lvalue
 	lvptr<T> lv(size_t index)
 	{
 		return lvptr<T>((*this)(index),g_mem_mode);
 	}
-	int Expand(size_t nsize);// Realloc with clear pointers
+	int Expand(size_t nsize); // Realloc with clear pointers
 };
 
 #include "arrays.imp"

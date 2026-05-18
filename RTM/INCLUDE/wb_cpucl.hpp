@@ -1,6 +1,6 @@
 /// \file wb_cpucl.hpp
 /// \brief Klasa stopera liczącego czas CPU.
-/// @date 2026-05-11 (last modification)
+/// @date 2026-05-18 (last modification)
 ///        ---------------------------------
 ///
 /// \details liczy od momentu utworzenia lub wywołania reset() do chwili pobrania
@@ -80,7 +80,7 @@ inline ostream& __pretty(ostream& s,const_wb_cpu_clock_ref _cl) { _cl.PrettyPrin
 inline SMANIP(const_wb_cpu_clock_ref)      pretty(const_wb_cpu_clock_ref _c) { return SMANIP(const_wb_cpu_clock_ref)(__pretty, _c); }
 */
 
-//Wersja mniej generalna, ale tez powinna dzialac
+//Wersja mniej generalna, ale też powinna działać
 class pretty
 {
     const wb_cpu_clock& what;

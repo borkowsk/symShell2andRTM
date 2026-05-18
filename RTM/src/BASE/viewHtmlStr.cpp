@@ -1,6 +1,6 @@
 /// @file
 /// @brief Call HTML viewer - string version
-/// @date 2026-05-17 (modified)
+/// @date 2026-05-18 (modified)
 //================================================
 
 #include <cstdlib>
@@ -18,20 +18,20 @@ bool ViewHtml(string URL)
 {
     string bufor;
     bufor=string("start /max ")+URL;
-    int ret=WinExec(bufor.c_str(),SW_SHOWMINIMIZED);//Jak dla Windows 98
+    int ret=WinExec(bufor.c_str(),SW_SHOWMINIMIZED); //Jak dla Windows 98
 
     if(ret==ERROR_FILE_NOT_FOUND  ||  ret==ERROR_PATH_NOT_FOUND )
     {
         bufor=string("cmd /C start /max ")+URL;
-        ret=WinExec(bufor.c_str(),SW_SHOWMINIMIZED);//Jak dla Windows NT
+        ret=WinExec(bufor.c_str(),SW_SHOWMINIMIZED); //Jak dla Windows NT
     }
 
     if(ret<33)
     {
-        return false;//Strange convention for WinExec
+        return false; //Strange convention for WinExec
     }
 
-    return true;//but only for starting cmd interpreter, not for its commands
+    return true; //but only for starting cmd interpreter, not for its commands
 }
 #else
 #include <iostream>

@@ -1,6 +1,6 @@
 /// @file
 /// @brief Statics for private bases for an array class family.
-/// @date 2026-05-02 (modified)
+/// @date 2026-05-18 (modified)
 /// @ingroup OBSOLETE
 // ********************************************************************************************************************
 //

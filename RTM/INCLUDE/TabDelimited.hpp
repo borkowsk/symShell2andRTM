@@ -1,7 +1,7 @@
 /**
 * \file
 * \brief   KLASA DO OPEROWANIU NA TABLICACH z plików TAB-DELIMITED
-* @date 2026-05-17 (last modification)
+* @date 2026-05-18 (last modification)
 *        -------------------------------------------------------------
 * \details
 *          Contents:
@@ -72,8 +72,8 @@ namespace wbrtm {
         void PrzekopiujZ(const TabelaTabDelimited &Zrodlo, ///< Tabela, z której bierzemy zawartość.
                          unsigned startw = 0,  ///< Początkowy wiersz.
                          unsigned startk = 0,  ///< Początkowa kolumna.
-                         unsigned endw = -1,   ///< Końcowy wiersz albo do konca.
-                         unsigned endk = -1,   ///< Końcowa kolumna albo do konca.
+                         unsigned endw = -1,   ///< Końcowy wiersz albo do końca.
+                         unsigned endk = -1,   ///< Końcowa kolumna albo do końca.
                          unsigned celw = 0,    ///< Pierwsza komórka docelowa — numer wiersza.
                          unsigned celk = 0     ///< Pierwsza komórka docelowa — numer kolumny.
         );

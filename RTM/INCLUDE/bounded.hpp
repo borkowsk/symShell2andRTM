@@ -1,5 +1,5 @@
 /** \file   bounded.hpp
- *  @date 2026-05-11 (last modification)
+ *  @date 2026-05-18 (last modification)
  *  \brief  wbrtm::bounded class & dedicated exception
  *  \author borkowsk
  *  @note Cała biblioteka WB_RTM to jest nieco odremontowane muzeum kodu z wieku XX.!!!
@@ -16,7 +16,7 @@
 
 namespace wbrtm { //WOJCIECH BORKOWSKI RUN TIME LIBRARY
 
-/// \brief klasa wyjątku specjalnie dla szablonu wbrtm::bounded
+/// \brief klasa wyjątku specjalnie dla szablonu `wbrtm::bounded`
 class BoundExcp:public RangCheckExcp
 {
 EXCP_NECESSARY(BoundExcp)
@@ -33,7 +33,7 @@ void PrintTo(std::ostream&) const;
 
 /// \brief Klasa zapewniająca kontrolę wartości przypisywanych na zmienną
 /// \details
-///     Jest to szablon parametryzowany typem T.
+///     Jest to szablon sparametryzowany typem T.
 ///     Wymagane jest zdefiniowanie operatorów <= i >= dla typu T
 ///     i liczb (?).
 ///     Generuje wyjątek, gdy wartość inicjująca lub przypisywana jest spoza zakresu.

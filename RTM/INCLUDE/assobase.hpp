@@ -1,6 +1,6 @@
 /** @file
 *  \brief    Base class for creating associative arrays.
-*  @date 2026-05-17 (last modification)
+*  @date 2026-05-18 (last modification)
 *====================================================================================================================
 *  \details Obsolete and not improved part of the wb_rtm library.
 *           It was established before 2000.
@@ -14,7 +14,7 @@
 
 *  @ingroup OBSOLETE
 */
-#ifndef _MSC_VER //# warning still not work under Microsoft C++
+#ifndef _MSC_VER //# warning still doesn't work under Microsoft C++
 #warning  "This code is OBSOLETE and not tested in C++11 standard"
 #endif
 
@@ -78,7 +78,7 @@ void PrintTo( ostream& o ) const ;
 
 /*
 /// \brief Obsolete class
-//Szablon wyjatku dla dowolnego klucza — za kosztowny
+//Szablon wyjątku dla dowolnego klucza — za kosztowny
 template<class K>
 class AnyKeyNotFoundExcp:public AssocKeyNotFoundExcp
 =====================================================
@@ -112,27 +112,27 @@ class assoc_base//:pure virtual base implementation class for assoc_tables
 private:
 int      _remove( size_t i ); //Używana do usuwania i-temu z tab
 int      _insert( size_t i ); //Używana do zrobienia miejsca w tab
-int      _search( const unitype, size_t& index );// Ustawia index do assoitem z tab,ret=1 jeśli jest faktycznie
+int      _search( const unitype, size_t& index ); // Ustawia index do `assoitem` z tab, ret=1, jeśli jest faktycznie
 protected:
 /* IMPLEMENTATION OF SEARCHING SUPPORT -  */
 /* DIRECTLY FROM ARRAY_OF. DON't CHANGE */
 pix 	 	_first() const { return tab.first(); }
 pix 	 	_next(pix p) const{ return tab.next(p); }
 void     	_destroy(pix& p) const { tab.destroy(p); }
-int    	      	_remove(pix); // Remove item. Return 1 on succes
+int    	      	_remove(pix); // Remove item. Return 1 on success
 const unitype* 	_key(pix p) const ;
-// return key for current object setting by  First,Next or Search
+// return key for current object setting by First, Next or Search
 unitype* _value(pix p)
-// return key for current object setting by  First,Next or Search
+// return key for current object setting by First, Next or Search
 {
 assoitem* pom=&tab.value(p);
 return   &(pom->val);
 }
 
 protected:
-array_of_class< assoitem > tab;// Tablica lacznikow
-int    sorted;		       // jeśli ==1 to tablica zawsze posortowana
-int    reverse;	       // jeśli ==1 to malejaco (Reverse order)
+array_of_class< assoitem > tab; // Tablica łączników
+int    sorted;		       // jeśli `== 1` to tablica zawsze posortowana
+int    reverse;	       // jeśli `== 1` to malejąco (Reverse order)
 
 // M E T O D Y
 size_t	  CurrSize() const 
@@ -142,18 +142,18 @@ size_t	  CurrSize() const
 
 void	  Truncate() 
 {
-	tab.Truncate(0); //Ale pozostaje już zaalokowana i nie wywoluje destruktorow
+	tab.Truncate(0); //Jednak pozostaje już zaalokowana i nie wywołuje destruktorów
 }
 
-// znajduje item lub go tworzy (make==1), zwraca NULL
-assoitem* _Search(/*const*/unitype,int make=1); // ALbo wskaznik do znalezionego asso
-// usuwa item. Przedtem wywoluje "before_deletion" zeby klasa potomna
-int       _Remove(/*const*/unitype); // mogla zareagowac, choc nie musi koniecznie
+// znajduje item lub go tworzy (make == 1), zwraca NULL
+assoitem* _Search(/*const*/unitype,int make=1); // ALbo wskaźnik do znalezionego asso
+// usuwa item. Przedtem wywołuje "before_deletion" żeby klasa potomna
+int       _Remove(/*const*/unitype); // mogła zareagować, choć nie musi koniecznie
 
 /* DO ZAIMPLEMENTOWANIA W KLASACH POTOMNYCH */
-virtual	//Porownuje dwa klucze. Zwraca 0 gdy ==, 1 gdy first>second
+virtual	//Porównuje dwa klucze. Zwraca `0` gdy równe, `1` gdy `first > second`
 int 	  Compare(const unitype first,const unitype second)=0;
-virtual //Wywolywana zawsze przed usunieciem i-temu z tab.
+virtual //Wywoływana zawsze przed usunięciem i-temu z tab.
 	//UWAGA .ptr o wartości NULL lub FULL oznacza oczyszczony unitype!
 void      BeforeDeletion( assoitem& )=0;
 virtual //Używany do wyprowadzania
@@ -168,10 +168,10 @@ assoc_base(int isrt,int irev):
 assoc_base(size_t Lenght,int isrt,int irev):
 	tab(Lenght),sorted(isrt),reverse(irev) 
 	{
-		tab.Truncate(0); //Ale pozostaje już zaalokowana
+		tab.Truncate(0); //Jednak pozostaje już zaalokowana
 	}
 
-virtual ~assoc_base();// Call before deletion for all items
+virtual ~assoc_base(); // Call before deletion for all items
 IO_PUBLIC_DECLARE
 };
 

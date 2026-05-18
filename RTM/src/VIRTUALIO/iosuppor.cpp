@@ -34,13 +34,13 @@ ReadDynamicVal<vobject>::ReadDynamicVal(istream& file,const vobject* user)
 	sprintf(bufor,"%s is undefined for I/O",name);
 	user->Raise(ExcpIO(NULL,file.tellg(),bufor));
 	}
-  ptr=pom->Create();//tworzenie
-  file>>*ptr;//Wczytywanie
+  ptr=pom->Create(); //tworzenie
+  file>>*ptr; //Wczytywanie
 }
 
-//Obiekty do uruchamiania Raise jesli używa sie
-//funkcji iosupportu z poziomu bez dostepu do
-//jakiegos obiektu pochodnego od vobject
+//Obiekty do uruchamiania `Raise`, jeśli używa się
+//funkcji iosupport-u z poziomu bez dostępu do
+//jakiegoś obiektu pochodnego od vobject
 _io_default_raiser IO_default_raiser;
 _io_fail_raiser    IO_fail_raiser;
 

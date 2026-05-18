@@ -1,6 +1,6 @@
 /// @file
 /// @brief  wb_smartlog.cpp: implementation of the wb_smartlog class.
-/// @date 2026-05-17 (modified)
+/// @date 2026-05-18 (modified)
 //=====================================================================
 
 #include <cerrno>
@@ -52,7 +52,7 @@ bool wb_smartlog::SetName(const char* logname)
     {
         assert(!filename.OK());
         filename.take(clone_str(logname));
-        return true;//Udalo sie
+        return true; //Udało się
     }
     else
     {
@@ -62,7 +62,7 @@ bool wb_smartlog::SetName(const char* logname)
 
 
 bool	wb_smartlog::Connect()
-//Wiaze ze strumieniem - Otwiera log jako plik albo wiaze z clog
+//Wiąże ze strumieniem — otwiera log jako plik albo wiąże z clog
 {
     if(filename.OK()==0)
         {
@@ -89,10 +89,10 @@ bool	wb_smartlog::Connect()
 }
 
 bool	wb_smartlog::Disconnect()
-//Odwiazuje od strumienia
+//Odwiązuje od strumienia
 {
     if(ptrToMyStream==nullptr)
-        return false; //Nia ma czego zamykac
+        return false; //Nie ma czego zamykać
 
     if(!filename.OK())
     {
@@ -100,7 +100,7 @@ bool	wb_smartlog::Disconnect()
     }
     else
     {
-        if(ptrToMyStream) //Może nie byc bo nie używany
+        if(ptrToMyStream) //Może nie być, bo nie używany
         {
             ofstream* pom=dynamic_cast<ofstream*>(ptrToMyStream);
             assert(pom!=nullptr);
@@ -119,9 +119,9 @@ ostream& wb_smartlog::MyStream()
         if(!Connect())
         {
             cerr<<"LOG NOT SET (nullptr)."<<endl;
-            exit(-1);//NA RAZIE - PROWIZORKA
-            //powinien zglosic Exception!!!
-            return *(ostream*)nullptr;//Bo użycie tego na pewno zle sie skonczy
+            exit(-1); //NA RAZIE - PROWIZORKA
+            //powinien zgłosić Exception!!!
+            return *(ostream*)nullptr; //Bo użycie tego na pewno zle się skończy
         }
     }
     else
@@ -129,9 +129,9 @@ ostream& wb_smartlog::MyStream()
         if(ptrToMyStream->bad())
         {
             cerr<<"LOG IS IN BAD STATE."<<endl;
-            exit(-1);//NA RAZIE - PROWIZORKA
-            //powinien zglosic Exception!!!
-            return *(ostream*)nullptr;//Bo użycie tego na pewno zle sie skonczy
+            exit(-1); //NA RAZIE - PROWIZORKA
+            //powinien zgłosić Exception!!!
+            return *(ostream*)nullptr; //Bo użycie tego na pewno zle się skończy
         }
     }
 
@@ -139,20 +139,20 @@ ostream& wb_smartlog::MyStream()
 }
 
 int	wb_smartlog::CurrCallLevel()
-//Daje aktualny poziom wywolania - ze sledzenia przez block markery
+//Daje aktualny poziom wywołania — ze śledzenia przez block markery
 {
     return call_level;
 }
 
 int		wb_smartlog::log_level=0;
 int		wb_smartlog::use_fname=1;
-int		wb_smartlog::call_level=0;//Glebokosc wywolan funckji liczona przez Block_checker'y
+int		wb_smartlog::call_level=0; //Głębokość wywołań funkcji liczona przez Block_checker'y
 const char*	wb_smartlog::SEPAR="\t";
 
 #ifdef unix
-const char	wb_smartlog::SLASH_FOR_LOG='/';//Co separuje nazwy  w strukturze katalogow
+const char	wb_smartlog::SLASH_FOR_LOG='/'; //Co separuje nazwy  w strukturze katalogów
 #else
-const char	wb_smartlog::SLASH_FOR_LOG='\\';//Co separuje nazwy  w strukturze katalogow
+const char	wb_smartlog::SLASH_FOR_LOG='\\'; //Co separuje nazwy  w strukturze katalogów
 #endif
 
 /* ****************************************************************** */

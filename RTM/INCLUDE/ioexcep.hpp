@@ -1,7 +1,7 @@
 /**
 * \file
 * \brief   Generic "input/output" exception.
-* @date 2026-05-11 (last modification)
+* @date 2026-05-18 (last modification)
 *        ----------------------------------------
 * \details
 *          Contents:
@@ -39,7 +39,7 @@ protected:
 	int			my_errno;
 	wb_pchar		comm;
 public:
-	//ZWYKLY KONSTRUKTOR
+	//ZWYKŁY KONSTRUKTOR
 	ExcpIO(const char* sname,
            const object_size_t posit=MAXOBJECTSIZE,
            wb_pchar            icomm= nullptr,
@@ -53,18 +53,18 @@ public:
 			my_errno= errno ;
 	}
 
-	//KONSTRUKTOR KOPIUJACY
+	//KONSTRUKTOR KOPIUJĄCY
 	ExcpIO(const ExcpIO& w):
-		stream_name(w.stream_name),	//Kopiowanie wb_pchar�w!!!
+		stream_name(w.stream_name),	//Kopiowanie wb_pchar-ów!!!
 		stream_ptr(w.stream_ptr),position(w.position),
 		my_errno(w.my_errno),comm(w.comm)
 	{}
 
-	//DESTRUKTOR VIRTUALNY
+	//DESTRUKTOR WIRTUALNY
 	virtual ~ExcpIO()
 	{}
 
-	//Wypisywanie na strumien (virtualne)
+	//Wypisywanie na strumień (wirtualne)
 	void PrintTo(ostream&) const;
 };
 

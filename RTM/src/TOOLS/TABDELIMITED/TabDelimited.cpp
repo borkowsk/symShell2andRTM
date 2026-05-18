@@ -20,7 +20,7 @@ using namespace std; // Łatwe użycie nazw z przestrzeni "std"
 namespace wbrtm {
 
 /// \details Wersja domyślna funkcji reakcji na błąd.
-///          Jak funkcja wyłapywania błędów zwróci 0 to kontynuujemy, ale domyślna tego nie robi.
+///          Jak funkcja wyłapywania błędów zwróci 0, to kontynuujemy, ale domyślna tego nie robi.
 int TabelaTabDelimited::PodstawowaFunkcjaBledu(int kod,const TabelaTabDelimited& self,std::ios& s)
 {
     cerr<<"Kod: "<<kod<<" ";
@@ -35,7 +35,7 @@ int TabelaTabDelimited::PodstawowaFunkcjaBledu(int kod,const TabelaTabDelimited&
 TabelaTabDelimited::funkcja_bledu* TabelaTabDelimited::AktualnaFunkcjaBledu=TabelaTabDelimited::PodstawowaFunkcjaBledu;
 
 /// \details Dostęp do nie modyfikowalnej treści komórki.
-/// \note TODO: Powód dla którego parametry sa typu `int` jest niejasny!
+/// \note TODO: Powód, dla którego parametry są typu `int` jest niejasny!
 const char* TabelaTabDelimited::operator ()(int w,int k) const
 {                                                                                        //Jeszcze jakieś sprawdzenia???
 	                                                                                           assert(w >= 0 && k >= 0);
@@ -58,7 +58,7 @@ const char* TabelaTabDelimited::operator ()(int w,int k) const
 }
 
 /// \details Pełny dostęp do zawartości komórki.
-/// \note TODO: Powód dla którego parametry sa typu `int` jest niejasny!
+/// \note TODO: Powód, dla którego parametry są typu `int` jest niejasny!
 string& TabelaTabDelimited::operator () (int w,int k)
        {
 	                                                                                            assert(w >= 0 && k >= 0);
@@ -82,7 +82,7 @@ string& TabelaTabDelimited::operator () (int w,int k)
 	   }
 
 /// \details Zmiana domyślnej nazwy pliku.
-///          Nie wpływa na realne pliki zanim nazwa nie zostanie użyta w jakiejś innej funkcji.
+///          Nie wpływa na realne pliki, zanim nazwa nie zostanie użyta w jakiejś innej funkcji.
 string   TabelaTabDelimited::ZmienNazwe(const char* nowa)
 {
 	string stara=NazwaPliku;
@@ -109,7 +109,7 @@ void  TabelaTabDelimited::UstalRozmiar(int w,int k)
     Tresc=new string[Rozmiar]; //alokacja tablicy stringów
 }
 
-/// \details Destruktor musi być bo są wewnątrz obiekty.
+/// \details Destruktor musi być, bo są wewnątrz obiekty.
 ///          Poza dealokacją zeruje Treść,Wiersz i Rozmiar, bo może być widoczne w debugger-ze, ale nie musi,
 ///          bo nowe debugger-y same wiedzą co jest już dealokowane.
 TabelaTabDelimited::~TabelaTabDelimited()
@@ -121,18 +121,18 @@ TabelaTabDelimited::~TabelaTabDelimited()
     cerr<<"Sukces dealokacji w destruktorze dla "<<NazwaPliku<<endl;
  //cin.get();
 #endif
- Tresc=nullptr; //Dla pewności i debugingu.
+ Tresc=nullptr; //Dla pewności i debugging-u.
  Wiersz=0;Rozmiar=0;
 }
 
 /// \details Implementacja kopiowania tabeli lub jej fragmentu.
 void TabelaTabDelimited::PrzekopiujZ(const TabelaTabDelimited& Zrodlo,
-						unsigned startw,  ///< Początkowy wiersz //=0,
+						unsigned startw,  ///< Początkowy wiersz // = 0,
 						unsigned startk,  ///< Początkowa kolumna
-						unsigned endw,    ///< Końcowy wiersz albo do konca //=-1,
-						unsigned endk,    ///< Końcowa kolumna albo do konca //=-1
-						unsigned celw,    ///< Pierwsza komórka docelowa - numer wiersza //=0,
-						unsigned celk	  ///< Pierwsza komórka docelowa - numer kolumny //=0
+						unsigned endw,    ///< Końcowy wiersz albo do końca // = -1,
+						unsigned endk,    ///< Końcowa kolumna albo do końca // = -1
+						unsigned celw,    ///< Pierwsza komórka docelowa — numer wiersza // = 0,
+						unsigned celk	  ///< Pierwsza komórka docelowa — numer kolumny // = 0
 						)
  {
 	 if(endw>Zrodlo.IleWierszy())
@@ -141,7 +141,7 @@ void TabelaTabDelimited::PrzekopiujZ(const TabelaTabDelimited& Zrodlo,
 		 endk=Zrodlo.IleKolumn()-1;
 
 	 if(IleKolumn()==0 || IleWierszy()==0) //Jak jeszcze nieustalony rozmiar tablicy docelowej
-		this->UstalRozmiar(endw-startw+1,endk-startk+1);//To alokacja tablicy odpowiedniej wielkości.
+		this->UstalRozmiar(endw-startw+1,endk-startk+1); //To alokacja tablicy odpowiedniej wielkości.
 
 	 for(unsigned i=startw;i<=endw;i++)
 		 for(unsigned j=startk;j<=endk;j++)
@@ -156,7 +156,7 @@ void TabelaTabDelimited::PrzekopiujZ(const TabelaTabDelimited& Zrodlo,
 
 /// \details Zapisuje do pliku. Bierze domyślny delimiter, chyba że podano inny.
 /// \param _Nazwa - nazwa pliku. Jeśli pusta to użyta zostaje nazwa poprzednio ustawiona.
-/// \param Delimiter - separator pól. Jeśli -1 to to zostaje użyty poprzednio ustawiony.
+/// \param Delimiter - separator pól. Jeśli -1, to zostaje użyty poprzednio ustawiony.
 bool TabelaTabDelimited::ZapiszDoPliku(const char* _Nazwa,char Delimiter)
 {
 	if(*_Nazwa!='\0') //Podano jakąś nazwę
@@ -184,10 +184,10 @@ bool TabelaTabDelimited::ZapiszDoPliku(const char* _Nazwa,char Delimiter)
 	else
 		return true;
 
-    //oplik.close(); //zamkniecie strumienia odbywa się w destruktorze
+    //oplik.close(); //zamknięcie strumienia odbywa się w destruktorze
 }
 
-/// \details Własna funkcja, która usuwa "białe" znaki, bo różnie bywało z dostępnością bibliotecznej.
+/// \details Własna funkcja, która usuwa "białe" znaki, bo różnie bywało z dostępnością wersji bibliotecznej.
 void TabelaTabDelimited::pomin_puste(istream& str)
 {
     while(!str.eof() && isspace(str.peek()) ) //Sprawdza, czy nie koniec i czy następny jest "biały"
@@ -197,13 +197,13 @@ void TabelaTabDelimited::pomin_puste(istream& str)
 /// \details Własna funkcja pobierania znaków do delimitera.
 void TabelaTabDelimited::wczytaj_do_delim(std::istream& str,std::string& buf)
 {
-	buf="";//Usuwa star¹ zawartoœæ
-	while(!str.eof() && str.peek()!='\n' && str.peek()!=Delimiter ) // Sprawdza, czy nie koniec i czy następny jest delimiter'em
-				buf+=str.get() ;//Wczytuje dodając do bufora i usuwa ze strumienia kolejny znak.
+	buf=""; //Usuwa star¹ zawartość
+	while(!str.eof() && str.peek()!='\n' && str.peek()!=Delimiter ) // Sprawdza, czy nie koniec i czy następny jest delimiter-em
+				buf+=str.get() ; //Wczytuje, dodając do bufora i usuwa ze strumienia kolejny znak.
 }
 
 /// \details Tnie buf na delimiterach i fragmenty umieszcza w komórkach.
-///          Trzeba uważać bo string może być w/t-stringiem i mieć niewidoczne znaki!!!
+///          Trzeba uważać, bo string może być wide-string-iem i mieć niewidoczne znaki!!!
 bool TabelaTabDelimited::parse_string(const string& bufek,unsigned w,unsigned& k)
 {
 	size_t len=bufek.length();
@@ -245,7 +245,7 @@ bool TabelaTabDelimited::parse_string(const string& bufek,unsigned w,unsigned& k
 }
 
 /// \brief Lokalna pomocnicza.
-/// \details Sprawdza ile znaków danego typu jest w string-u. Np. delimiterów.
+/// \details Sprawdza, ile znaków danego typu jest w string-u. Np. delimiterów.
 static
 unsigned ZliczZnaki(char Znak,const string& Tekst)
 {
@@ -285,14 +285,14 @@ bool TabelaTabDelimited::WczytajZPliku(const char* _Nazwa,char _Delimiter,unsign
 
 	while(!mojplik.eof())
 	{
-	  pom="";//Pusty
-	  getline(mojplik,pom,'\n');//Mo¿e sobie "zawieœæ", jak koniec pliku, a nie linii, ale nie mo¿e byæ "zly"
+	  pom=""; //Pusty
+	  getline(mojplik,pom,'\n'); //Może sobie "zawieść", jak koniec pliku, a nie linii, ale nie może być "zły"
 	  if(mojplik.bad()&& AktualnaFunkcjaBledu(-2,*this,mojplik))
 			{
 				if(Opisowo>0)cerr<<endl<<"Wiersz:"<<ilew+1<<' '<<endl;return false;
 			}
 
-	  if(pom[0]=='\0') //Koncowka pliku ...
+	  if(pom[0]=='\0') //Końcówka pliku ...
 	  {
 		//cerr<<"Pusty wiersz "<<ilew<<endl;
 		continue;
@@ -315,7 +315,7 @@ bool TabelaTabDelimited::WczytajZPliku(const char* _Nazwa,char _Delimiter,unsign
 			cerr<<"!!! W wierszu "<<ilew<<" wykryto jeszcze więcej kolumn: "<<Delimiterow<<endl;
 	  }
 	}
-	//if(pom.length()==0)ilew--;// Jeœli ostatnia linia pusta //To nie bêdzie potrzebna - zrobione wczeœniej
+	//if(pom.length()==0)ilew--; // Jeżeli ostatnia linia pusta //To nie będzie potrzebna — zrobione wcześniej
   }
 
   ilew=max(ilew, (spW!=-1?spW:0) ); //Ostatecznie ile jest tych wierszy
@@ -357,9 +357,9 @@ bool TabelaTabDelimited::WczytajZPliku(const char* _Nazwa,char _Delimiter,unsign
 	   {
 			if(Opisowo>0)cerr<<endl<<"Wiersz:"<<jw<<' '<<endl;
 			if(AktualnaFunkcjaBledu(-2,*this,mojplik))return false;
-	   }//Mo¿e pójœc dalej choc to raczej bez sensu
+	   } //Może pójść dalej, choć to raczej bez sensu
 
-	   if(!parse_string(pom,jw,ik) && pom.length()!=0)//Mo¿e byæ pusta linia, ale inne b³êdy nie wchodz¹
+	   if(!parse_string(pom,jw,ik) && pom.length()!=0) //Może być pusta linia, ale inne błędy nie wchodzą
 	   {
 		   if(Opisowo>0) cerr<<endl<<"Nie udany parsing wiersza "<<jw<<endl;
 		   if(AktualnaFunkcjaBledu(-3,*this,mojplik))return false;
@@ -385,7 +385,7 @@ bool wbrtm::TabelaTabDelimited::Znajdz(const char* Czego,unsigned& pozw,unsigned
 	 {
 		 if(this->IleWierszy() > pozw+1) pozw++;
 		 else
-		 return false; //Koniec tabeli, i nadal nic
+		 return false; //Koniec tabeli i nadal nic
 		 pozk=0; //Początek wiersza
 	 }
 	// clog<<pozw<<' '<<pozk<<';';
@@ -412,7 +412,7 @@ std::ostream& operator << (std::ostream &o, const TabelaTabDelimited &self)
             else break; //Przerywa pętle wypisywania tego wiersza
 
         }
-        //o<<'|';//DEBUG
+        //o<<'|'; //DEBUG
         o<<endl; //Koniec tego wiersza
         if(o.bad() && self.AktualnaFunkcjaBledu(-1,self,o))
             goto NIE_DA_SIE_DALEJ; //Powinien skończyć, ale może się uda?

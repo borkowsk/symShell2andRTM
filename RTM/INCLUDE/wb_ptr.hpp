@@ -1,6 +1,6 @@
 /// \file wb_ptr.hpp
 /// \brief Proste szablony inteligentnych wskaźników oraz tablic dynamicznych.
-/// @date 2026-05-14 (last modification)
+/// @date 2026-05-18 (last modification)
 ///        ===================================================================
 ///
 /// \details
@@ -39,7 +39,7 @@
 #define WBPTRLOG( _P_ )  {}
 #endif
 
-#include <stdarg.h>			//Jest konstruktor z nieznana liczba parametrow
+#include <stdarg.h>			//Jest konstruktor z nieznana liczba parametrów
 #include <assert.h>
 
 #include <iostream>
@@ -264,7 +264,7 @@ wb_ptr<T>& wb_ptr<T>::transfer_from(wb_ptr<T>& nini) //Jawnie nazwany operator p
 ///\details Klasa z rodziny inteligentnych wskaźników przeznaczona na uchwyt do łańcucha tekstowego
 ///         Pomiędzy obiektami klasy wb_pchar bez atrybutu const zawartość jest, jak zwykle, "sztafetowana",
 ///         więc jako parametr funkcji i metod musi być przekazywany przez referencję.
-///         Nie przechowuje długości łańcucha, wiec też jej nie sprawdza (zazwyczaj?)
+///         Nie przechowuje długości łańcucha, więc też jej nie sprawdza (zazwyczaj?)
 ///         Z char* const char* kopiuje, oczekując, że kończą się '\0'.
 class wb_pchar:public wb_sptr<char>
 {
@@ -304,7 +304,7 @@ public:
     wb_pchar(const wb_pchar& nini):wb_sptr<char>(NULL)
     {
         WBPTRLOG( "wb_pchar::COPY CONSTRUCTOR :"<<(nini.ptr?nini.ptr:"@") )
-        ptr=clone_str(nini.get_ptr_val());//Kopiowanie danych
+        ptr=clone_str(nini.get_ptr_val()); //Kopiowanie danych
     }
 
     /// \brief Przypisanie stałej tablicy znaków (const char*) zmienia zawartość wb_pchar na nowy klon danych
@@ -464,7 +464,7 @@ public:
             else ptr=NULL;
         }
 
-    /// \brief Konstruktor "kopiujący" - musi byc forsowany z const wiec jest niebezpieczny
+    /// \brief Konstruktor "kopiujący" - musi być forsowany z const więc jest niebezpieczny
     //explicit? (TODO TEST!)
     wb_dynarray(const wb_dynarray& nini/*,bool copy=false*/):size(nini.size),ptr(nini.ptr)
     {
@@ -656,16 +656,16 @@ public:
     void fill(const T& Val)
     {
         size_t i,H=get_size();
-        for(i=0;i<H;i++)//Po elementach
+        for(i=0;i<H;i++) //Po elementach
         {
-            (*this)[i]=Val;//Wypełnij ten element
+            (*this)[i]=Val; //Wypełnij ten element
         }
     }
 
     /// \brief Przesuniecie pojedynczego elementu tablicy na koniec
     void shift_left(size_t index)
     {
-        if(index>=size-1) return;//Wyjątkowo nic nie trzeba robić
+        if(index>=size-1) return; //Wyjątkowo nic nie trzeba robić
         char bufor[sizeof(T)];                                                                        assert(ptr!=NULL);
                                                                                                       assert(index<size);
         memcpy(bufor,ptr+index,sizeof(T));/* przemieszczamy memcpy, żeby nie używać przypisania */
@@ -692,7 +692,7 @@ public:
 };
 
 /// \brief Szablon prostej tablicy dwuwymiarowej o dowolnej liczbie wierszy i dowolnej długości każdego wiersza.
-/// \details Kontrole zakresów itp. assercje dziedziczy po klasie bazowej  \ingroup DYNMEMORY
+/// \details Kontrole zakresów itp. asercje dziedziczy po klasie bazowej  \ingroup DYNMEMORY
 template<class T>
 class wb_dynmatrix:public wb_dynarray< wb_dynarray<T> >
 {
@@ -716,7 +716,7 @@ public:
         va_list list;
         va_start(list,s);
         for(size_t i=0;i<s;i++)
-            (*this)[i]=*(va_arg(list,wb_dynarray<T>*));//Czy to wskaźnik, czy referencja to rybka
+            (*this)[i]=*(va_arg(list,wb_dynarray<T>*)); //Czy to wskaźnik, czy referencja to rybka
 
         va_end(list);
     }
@@ -727,7 +727,7 @@ public:
         WBPTRLOG( "wb_dynmatrix::TRANSFER CONSTRUCTOR("<<((void*)&nini)<<")" );
     }
 
-    /// \brief DESTRUKTOR. Dba o dealokacje.
+    /// \brief DESTRUKTOR. Dba o dealokację.
     ~wb_dynmatrix()
     {
         WBPTRLOG( "wb_dynmatrix::DESTRUCTOR" );
@@ -802,7 +802,7 @@ void fill(wb_dynmatrix<T>& Mat,const T& Val)
 }
 
 /// \details Rozszerzenie wektora. Przydatne do rozbudowy tablicy,
-///          ale albo niebezpieczne (bo memcpy) lub kosztowne (bo for) jak T ma konstruktory i destruktory.
+///          jednak albo niebezpieczne (bo memcpy) lub kosztowne (bo for) jak T ma konstruktory i destruktory.
 ///          Powiększamy, więc s > size (od poprzedniego rozmiaru)
 template<class T> inline
 size_t wb_dynarray<T>::expand(size_t s,const T& fillVal)
@@ -836,7 +836,7 @@ size_t wb_dynarray<T>::expand(size_t s,const T& fillVal)
 
 #if	HIDE_WB_PTR_IO != 1
 // Wejście wyjście strumieniowe dla inteligentnych wskaźników.
-// Tutaj tylko deklaracje. Implementacja musi byc w innym pliku (inline-y wb_pchario.h)
+// Tutaj tylko deklaracje. Implementacja musi być w innym pliku (inline-y wb_pchario.h)
 
 ostream& operator<<(ostream&,const wb_sptr<char>&); ///< Czy to gdzieś jest zaimplementowane? Tak w wb_pchario.h!
 istream& operator>>(istream&,wb_sptr<char>&);       ///< Czy to gdzieś jest zaimplementowane?
@@ -866,7 +866,7 @@ void escaped_pchar_write(std::ostream& s,const char* p,char enclos='\"');
 
 inline void write(ostream& o,const char* p)
 {
-        void escaped_pchar_write(std::ostream& s,const char* p,char enclos='\"');//wbrtm:: ?
+        void escaped_pchar_write(std::ostream& s,const char* p,char enclos='\"'); //wbrtm:: ?
         escaped_pchar_write(o,p);
 }
 

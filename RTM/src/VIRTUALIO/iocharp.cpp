@@ -1,6 +1,6 @@
 /// @file
 /// @brief Implementacja wejścia wyjścia dla `char*`
-/// @date 2026-05-13 (modified)
+/// @date 2026-05-18 (modified)
 //-----------------------------------------------------------------------------
 #include <cassert>
 #include <ctype.h>
@@ -16,7 +16,7 @@
 namespace wbrtm { //WOJCIECH BORKOWSKI RUN TIME LIBRARY
 
 int  IgnoreToEOF(istream& file,const vobject& user,char delimiter)
-// Ignoruje wszystko do znaku=delimiter lub konca pliku
+// Ignoruje wszystko do znaku `== delimiter` lub końca pliku
 {
 int znak;
 assert(&file!=NULL);
@@ -26,7 +26,7 @@ if(file.eof())
 while((znak=file.get())!=delimiter)
 	{
 	if(znak==EOF)
-		return EOF;//Koniec pliku
+		return EOF; //Koniec pliku
 
 	if(!file.good())
 		{
@@ -42,15 +42,15 @@ char* ReadToEOF(istream& file,const vobject& user,char delimiter,bool NULLIfEmpt
 {
 const int MINLEN=6;
 int  znak;
-size_t jednostek=1;// Ile jednostek alokacji juz jest
-size_t licznik=0;  // Ile znakow wczytano
-char* pom=new char[MINLEN+1];// Bufor na znaki
+size_t jednostek=1; // Ile jednostek alokacji już jest
+size_t licznik=0;  // Ile znaków wczytano
+char* pom=new char[MINLEN+1]; // Bufor na znaki
 if(pom==NULL) goto BRAK_PAMIECI;
 
 while((znak=file.get())!=EOF && znak!=delimiter)
 	{
 	JEST_MIEJSCE:
-	if( (licznik+1)<(jednostek*MINLEN) )//+1 na konczace \0
+	if( (licznik+1)<(jednostek*MINLEN) ) //+1 na kończące \0
 		{
 		pom[licznik]=char(znak);
 		licznik++;
@@ -69,7 +69,7 @@ while((znak=file.get())!=EOF && znak!=delimiter)
 
 pom[licznik]='\0';
 if(::strlen(pom)==0 &&  (NULLIfEmpty || znak==EOF) )
-//Zwraca pusty gdy koniec pliku i gdy pusta linia i tak chce user
+//Zwraca pusty, gdy koniec pliku i gdy pusta linia i tak chce user
 	{
 	delete pom;
 	return NULL;
@@ -79,19 +79,19 @@ if(::strlen(pom)==0 &&  (NULLIfEmpty || znak==EOF) )
 
 BRAK_PAMIECI:
 if(pom!=NULL)
-	delete pom;// Zeby pamiec nie wyciekala
+	delete pom; // Żeby pamięć nie wyciekała
 user.Raise(OutOfMemoryExcp(jednostek*MINLEN+1,__FILE__,__LINE__));
-return NULL;// Może cos byc juz wczytane
+return NULL; // Może coś być już wczytane
 }
 
 char* ReadToSeparators(istream& file,const vobject& user,const char* delimiters,int& what_delim,int ZAPAS)
 {
 const int MINLEN=6;
 int  znak;
-size_t jednostek=1;// Ile jednostek alokacji juz jest
-size_t ilealokowano=jednostek*MINLEN+1+ZAPAS;//Ile znakow faktycznie alokowano
-size_t licznik=0;  // Ile znakow wczytano
-char* pom=new char[ilealokowano];// Bufor na znaki
+size_t jednostek=1; // Ile jednostek alokacji już jest
+size_t ilealokowano=jednostek*MINLEN+1+ZAPAS; //Ile znaków faktycznie alokowano
+size_t licznik=0;  // Ile znaków wczytano
+char* pom=new char[ilealokowano]; // Bufor na znaki
 if(pom==NULL)
 		goto BRAK_PAMIECI;
 
@@ -101,7 +101,7 @@ while((znak=file.get())!=EOF && ::strchr(delimiters,znak)==NULL )
 	JEST_MIEJSCE:
 	if( (licznik+1) //jak jest licznik 0 to potrzebny jest jeden znak
 		<
-		(ilealokowano-1-ZAPAS) )//-1 na konczace \0
+		(ilealokowano-1-ZAPAS) ) //-1 na kończące \0
 		{
 		pom[licznik]=char(znak);
 		licznik++;
@@ -109,7 +109,7 @@ while((znak=file.get())!=EOF && ::strchr(delimiters,znak)==NULL )
 		else
 		{
 		jednostek*=2;
-		ilealokowano=jednostek*MINLEN+1+ZAPAS;//Ile znakow alokowac
+		ilealokowano=jednostek*MINLEN+1+ZAPAS; //Ile znaków alokować
 		char* pom2=new char[ilealokowano];
 		if(pom2==NULL)
 			goto BRAK_PAMIECI;
@@ -122,7 +122,7 @@ while((znak=file.get())!=EOF && ::strchr(delimiters,znak)==NULL )
 
 if(licznik==0)
 	{
-		delete pom;//Nic sie nie wczytalo, ale alokacja jest
+		delete pom; //Nic się nie wczytało, ale alokacja jest
 		return NULL;
 	}
 	else
@@ -135,14 +135,14 @@ if(licznik==0)
 
 BRAK_PAMIECI:
 if(pom!=NULL)
-	delete pom;// Zeby pamiec nie wyciekala
+	delete pom; // Żeby pamięć nie wyciekała
 user.Raise(OutOfMemoryExcp(jednostek*MINLEN+1,__FILE__,__LINE__));
-return NULL;// Może cos byc juz wczytane
+return NULL; // Może coś być już wczytane
 }
 
     int WriteEnclosedString(ostream& file,const char* str,const vobject& user,char delimiter)
-// Pisze lancuch w cudzyslowach lub czyms zamiast,
-// zwraca !=0 jesli jakis blad zamaskowany przez user'a
+// Pisze łańcuch w cudzysłowie lub czymś zamiast
+// zwraca !=0, jeśli jakiś błąd zamaskowany przez user'a
     {
         file.put(delimiter);
         while(*str!='\0')
@@ -164,13 +164,13 @@ return NULL;// Może cos byc juz wczytane
 
 
     char* ReadEnclosedString(istream& file,const vobject& user,char delimiter)
-// Czyta łańcuch w cudzysłowie, lub czymś zamiast.
-// Zwraca NULL, jeśli błąd-np brak pamięci lub brak zamknięcia
+// Czyta łańcuch w cudzysłowie lub czymś zamiast.
+// Zwraca NULL, jeśli błąd-np. brak pamięci lub brak zamknięcia
     {
         const int MINLEN=6;
         int  znak;
-        size_t jednostek=1;// Ile jednostek alokacji juz jest
-        size_t licznik=0;  // Ile znakow wczytano
+        size_t jednostek=1; // Ile jednostek alokacji już jest
+        size_t licznik=0;  // Ile znaków wczytano
 
         assert(&file!=NULL);
         if(!file.good())
@@ -182,26 +182,26 @@ return NULL;// Może cos byc juz wczytane
 
         eat_blanks(file); //Zjadanie odstępów wg. W.Borkowskiego
 
-        znak=file.get();//Powinien byc delimiter
+        znak=file.get(); //Powinien być delimiter
         if(znak!=delimiter)
         {
             if(user.Raise(ExcpIO(NULL,file.tellg(),"First delimiter not find"))==1)
                 return NULL;
         }
 
-        char* pom=new char[MINLEN+1];// Bufor na znaki
+        char* pom=new char[MINLEN+1]; // Bufor na znaki
         if(pom==NULL) goto BRAK_PAMIECI;
 
         while((znak=file.get())!=delimiter)
         {
-            if(znak==EOF) //Koniec lancucha
+            if(znak==EOF) //Koniec łańcucha
                 if(user.Raise(ExcpIO(NULL,file.tellg(),
                                      "Unexpected end of file"))==1)
                 {
                     delete pom;
                     return NULL;
                 }
-            if(znak=='\\' && (znak=file.get())==EOF)//Zeby moc użyć znaku "delimitera"
+            if(znak=='\\' && (znak=file.get())==EOF) //Żeby moc użyć znaku "delimitera"
                 if(user.Raise(ExcpIO(NULL,file.tellg(),
                                      "Syntax error or EOF"))==1)
                 {
@@ -228,15 +228,15 @@ return NULL;// Może cos byc juz wczytane
         }
 
         assert(MINLEN>=1);
-        pom[licznik]='\0';//Zakonczenie lancucha
+        pom[licznik]='\0'; //Zakończenie łańcucha
 
-        return pom;//Juz gotowy
+        return pom; //Już gotowy
 
         BRAK_PAMIECI:
         if(pom!=NULL)
-            delete pom;// Zeby pamiec nie wyciekala
+            delete pom; // Żeby pamięć nie wyciekała
         user.Raise(OutOfMemoryExcp(jednostek*MINLEN+1,__FILE__,__LINE__));
-        return NULL;// Może cos byc juz wczytane, ale bufor zwolniono
+        return NULL; // Może coś być już wczytane, ale bufor zwolniono
     }
 
 } //namespace

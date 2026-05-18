@@ -24,7 +24,7 @@ namespace wbrtm { //WOJCIECH BORKOWSKI RUN TIME LIBRARY
 
 /// \brief Znaki zabronione dla zwykłego zapisu.
 /// \note Można podstawić własna wersje przy linkowaniu, a nawet zmieniać w trakcie!!!
-extern const char* WB_PCHAR_VERBOTEN_CHARS;//=" \t\n\r\'\"\0\01\02\03\04\05\06\07\010";
+extern const char* WB_PCHAR_VERBOTEN_CHARS; //=" \t\n\r\'\"\0\01\02\03\04\05\06\07\010";
 
 /// \brief Czyta łańcuch zamknięty w cudzysłowie lub czymś zamiast niego.
 /// \return NULL, jeśli błąd — np. brak pamięci lub brak znaku zamknięcia.
@@ -44,7 +44,7 @@ if(!file.good())
 
 eat_blanks(file);
 
-znak=file.get();//Powinien byc delimiter
+znak=file.get(); //Powinien być delimiter
 if(znak!=delimiter)
 {
 	if(caller.Raise(ExcpIO(NULL, file.tellg(), "First delimiter not find")) == 1)
@@ -97,11 +97,11 @@ BRAK_PAMIECI: //???
 if(pom!=NULL)
 	delete[] pom; // Żeby pamięć nie wyciekała
 caller.Raise(OutOfMemoryExcp(jednostek * MINLEN + 1, __FILE__, __LINE__));
-return NULL;// Może coś być już wczytane, ale bufor zwolniono
+return NULL; // Może coś być już wczytane, ale bufor zwolniono
 }
 
 /// \brief Zapisuje łańcuch w cudzysłowie lub czymś zamiast niego.
-/// \return wartość !=0, jeśli jakiś błąd zamaskowany przez użytkownika.
+/// \return wartość != 0, jeśli jakiś błąd zamaskowany przez użytkownika.
 template<class Caller>
 int WriteEnclosedString(ostream& file, const char* str, const Caller& caller, char delimiter)
 {

@@ -1,5 +1,5 @@
 /**  \file     compatyb.hpp
-* @date 2026-05-11 (last modification)
+* @date 2026-05-18 (last modification)
 * \brief   Plik definiujący funkcje eat_blanks i eat_chars, w sposób zależny od platform kompilacji
 * **********************************************************************************************************************
 *
@@ -26,7 +26,7 @@ namespace wbrtm {
         int znak = 0;
 
         while ((znak = file.get()) != file.eof()
-               && isspace(znak))//Koniec gdy pierwszy nie bialy
+               && isspace(znak)) //Koniec, gdy pierwszy nie biały
             ;
 
         if (znak != file.eof()) {
@@ -43,7 +43,7 @@ namespace wbrtm {
         int znak = 0;
 
         while ((znak = file.get()) != file.eof()
-               && strchr(charset, znak) != NULL)//Koniec gdy pierwszy nie zawarty w zbiorze
+               && strchr(charset, znak) != NULL) //Koniec, gdy pierwszy nie zawarty w zbiorze
             ;
 
         if (znak != file.eof()) {
@@ -69,7 +69,7 @@ namespace wbrtm {
         while (  !file.eof() // czy pierwsze sprawdzenie to potrzebne?
             &&   (znak = file.get())!=EOF 
             &&   isspace(znak) 
-            )//Koniec gdy pierwszy nie bialy
+            ) //Koniec, gdy pierwszy nie biały
             ;
 
         if ( !file.eof() // czy pierwsze sprawdzenie to potrzebne?
@@ -83,12 +83,12 @@ namespace wbrtm {
     }
 
     /// \brief Zjada ze strumienia znaki, jeśli są w zadanym \p 'charset'.
-    inline int eat_chars(std::istream& file,const char* charset) //Zjada znaki jeśli są w charset
+    inline int eat_chars(std::istream& file,const char* charset) //Zjada znaki, jeśli są w charset
     {
         int znak=0;
 
         while( (znak=file.get())!=EOF
-                && ::strchr(charset,znak)!=NULL 		) //Koniec gdy pierwszy nie zawarty w zbiorze
+                && ::strchr(charset,znak)!=NULL 		) //Koniec, gdy pierwszy nie zawarty w zbiorze
                         ;
 
         if(znak!=EOF)
@@ -107,12 +107,12 @@ namespace wbrtm {
 
 namespace wbrtm {
 
-inline int eat_blanks(std::istream& file) //nakladka na istream::eatwhite w MSVC++
+inline int eat_blanks(std::istream& file) //nakładka na istream::eatwhite w MSVC++
 {
 	return eat_chars(file," \t\r\n");
 }
 
-inline int eat_blanks_2(istream& file) //nakladka na istream::eatwhite w starym MSVC++
+inline int eat_blanks_2(istream& file) //nakładka na istream::eatwhite w starym MSVC++
 {
 	file.eatwhite();
 
@@ -133,12 +133,12 @@ inline int eat_blanks_2(istream& file) //nakladka na istream::eatwhite w starym 
 
 namespace wbrtm {
 
-    inline int eat_chars(std::istream& file, const char* charset) //Zjada znaki jeśli sa w charset
+    inline int eat_chars(std::istream& file, const char* charset) //Zjada znaki, jeśli są w charset
     {
         int znak = 0;
 
         while ((znak = file.get()) != EOF
-            && ::strchr(charset, znak) != NULL)//Koniec gdy pierwszy nie zawarty w zbiorze
+            && ::strchr(charset, znak) != NULL) //Koniec, gdy pierwszy nie zawarty w zbiorze
             ;
 
         if (znak != EOF)

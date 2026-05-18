@@ -1,6 +1,6 @@
 /// \file wb_limits.hpp
 /// \brief LIMITS FOR SCALAR TYPES in `wbrtm`/ Limity dla skalarów w "wbrtm".
-/// @date 2026-05-05 (last modification)
+/// @date 2026-05-18 (last modification)
 ///       -----------------------------------
 ///
 /// \author borkowsk
@@ -26,7 +26,7 @@ namespace wbrtm { // Przestrzeń nazw biblioteki WBRTM
     /// Klasa do sprawdzania minimum i maksimum dla wszystkich typów skalarnych.
     /// \details Szablon klas implementujących limity dla skalarów
     ///          z możliwością dodania własnych specjalizacji.
-    ///          Pomysł z czasów gdy nie było tego jeszcze w standardzie C++
+    ///          Pomysł z czasów, gdy nie było tego jeszcze w standardzie C++
     ///          W przypadku konfliktu specjalizacji  zdefiniuj
     ///          ADD_OWN_SPECIALISATION_TO_WB_LIMITS_H przed włączeniem
     ///          tego pliku.

@@ -1,6 +1,6 @@
 /** \file wb_rand.hpp
 *  \brief BASIC CLASSES OF PSEUDORANDOM NUMBER GENERATORS
-*  @date 2026-05-11 (last modification)
+*  @date 2026-05-18 (last modification)
 *        =================================================
 *  \details
 *   Contents:

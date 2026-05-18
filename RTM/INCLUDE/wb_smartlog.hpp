@@ -1,6 +1,6 @@
 /** \file wb_smartlog.h
  *  \brief Zaawansowane logowanie aplikacji, wraz ze stosem (opcjonalnie)
- *  @date 2026-05-11 (last modification)
+ *  @date 2026-05-18 (last modification)
  *         ---------------------------------------------------------------
  *  \author Wojciech Borkowski @ Institut for Social Studies, University of Warsaw
  *
@@ -35,12 +35,12 @@ public:
     /// O ile nie wykonano już pierwszego zapisu do pliku logu
 	bool SetName(const char* logname);
 
-    /// \brief Wirtualny destruktor konieczny bo są metody wirtualne.
+    /// \brief Wirtualny destruktor konieczny, bo są metody wirtualne.
 	virtual ~wb_smartlog();
 	
 	virtual double GetTime();	 ///< Daje czas w postaci zegara procesora (sek. od rozpoczęcia procesu)
 
-	virtual	int	CurrCallLevel(); ///< Daje aktualny poziom wywołania - ze śledzenia przez `block` markery
+	virtual	int	CurrCallLevel(); ///< Daje aktualny poziom wywołania — ze śledzenia przez `block` markery.
 
     virtual const char* MyName();
 
@@ -130,13 +130,13 @@ private:
 	static const char*  SEPAR;  ///< Czym robić wcięcia itp
 	static const char	SLASH_FOR_LOG; ///< Co separuje nazwy w strukturze katalogów
 	static int		use_fname;  ///< Czy zapisywać nazwę z __FILE__ (tylko do logu plikowego)
-	static int		call_level; ///< Głębokość wywołań funkcji liczona przez Block_checker'y
+	static int		call_level; ///< Głębokość wywołań funkcji, liczona przez `block_checker`-y
 
 public:
     static const char* Sep() { return SEPAR; } ///< Odczyt separatora używanego do wcięć
 
-	static int		log_level; // To musi byc public ze względu na Lock
-                               // no i sterowanie z menu aplikacji i z parameytrów !!!
+	static int		log_level; // To musi być public ze względu na Lock
+                               // no i sterowanie z menu aplikacji i z parametrów !!!
 
     friend class Lock;
     friend class Block_checker;

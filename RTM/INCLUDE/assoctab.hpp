@@ -1,6 +1,6 @@
 /** @file
 *  \brief    The simplest associative arrays.
-*  @date 2026-05-17 (last modification)
+*  @date 2026-05-18 (last modification)
 *====================================================================================================================
 *  \details Obsolete and not improved part of the wb_rtm library.
 *           It was established before 2000.
@@ -24,7 +24,7 @@
 *  \copyright Wojciech T. Borkowski
 *  @ingroup OBSOLETE
 */
-#ifndef _MSC_VER //# warning still not work under Microsoft C++
+#ifndef _MSC_VER //# warning still doesn't work under Microsoft C++
 #warning  "This code is OBSOLETE and not tested in C++11 standard"
 #endif
 
@@ -40,21 +40,21 @@ namespace wbrtm { //WOJCIECH BORKOWSKI RUN TIME LIBRARY
 /// \brief Obsolete class
 template<class K,class V>
 class assoc_template : public key_container<K,V> ,protected assoc_base
-// Typ K i V musi zmiescic sie w unii "unitype" !!!
+// Typ K i V musi zmieścić się w unii "unitype" !!!
 {
 protected:
-// Reeksport metody z klasy bazowej ktora może sie przydac
-// znajduje item lub go tworzy (make==1), zwraca NULL
-// ALbo wskaznik do znalezionego assoitem
+// Reeksport metody z klasy bazowej, która może się przydać
+// znajduje item lub go tworzy (make == 1), zwraca NULL
+// Albo wskaźnik do znalezionego `assoitem`
 assoitem* _base_search(const unitype key,int make)
 	{ return assoc_base::_Search(key,make);}
 
-//Porownuje dwa klucze. Zwraca 0 gdy ==, 1 gdy first>second
+//Porównuje dwa klucze. Zwraca `0` gdy równe, `1` gdy `first > second`
 virtual
 int 	  Compare(const unitype first,const unitype second);
-//Wywolywana zawsze przed usunieciem i-temu z tab.
-//UWAGA .ptr o wartości NULL lub FULL oznacza oczyszczony unitype!
-void      BeforeDeletion( assoitem& ){}//W tym wypadku nic nie robia
+//Wywoływana zawsze przed usunięciem i-temu z tab.
+//UWAGA .ptr o wartości NULL lub FULL oznacza oczyszczony `unitype`!
+void      BeforeDeletion( assoitem& ){} //W tym wypadku nic nie robią
 //Używany do wyprowadzania
 int       AssoOutput(ostream&,const assoitem& /*what*/) const {return 0;} //KLASA BEZ I/O
 //Używany do wprowadzania
@@ -73,7 +73,7 @@ virtual K            copyOfKey(pix p) const ;
 /* OTHER PROPERTIES */
 virtual V* 	    Search( K key,int make=0 );
 virtual void   	Remove( K key );	// usuwa item.
-virtual void	RemoveAll();		// usuwa wszystko, mozna zapisywac od nowa
+virtual void	RemoveAll();		// usuwa wszystko, można zapisywać od nowa
 virtual V& 	operator [] ( K key );
 virtual V& 	operator () ( K key );
 
@@ -84,7 +84,7 @@ size_t CurrSize() const { return assoc_base::CurrSize();}
 assoc_template(int sorted=1,int rev=0):
 	assoc_base(sorted,rev)	    {}
 
-assoc_template(size_t lenght,int sorted,int rev)://With prealocation
+assoc_template(size_t lenght,int sorted,int rev): //With prealocation
 	assoc_base(lenght,sorted,rev)	    {}
 
 ~assoc_template(){}  //NOTHING TO DO THERE, BUT...
@@ -115,14 +115,14 @@ assoc_table(int sorted=container_base::SORTED,
 /// \brief Obsolete class
 template<class K,class V>
 class assoc_table_of_ptr: public assoc_template<K,V*>
-// only scalars in key & only pointers in val, rather heap allocated
+// only scalars in `key` and only pointers in `val`, rather heap allocated
 {
 IO_PUBLIC_DECLARE
 VIRTUAL_NECESSARY( assoc_table_of_ptr<K _COMA_ V> )
 cbase::memmode v_mem_mode;
 protected:
-//Wywolywana zawsze przed usunieciem i-temu z tab.
-//UWAGA .ptr o wartości NULL lub FULL oznacza oczyszczony unitype!
+//Wywoływana zawsze przed usunięciem i-temu z tab.
+//UWAGA .ptr o wartości NULL lub FULL oznacza oczyszczony `unitype`!
 void      BeforeDeletion( assoitem& );
 //Używany do wyprowadzania
 int       AssoOutput(ostream&,const assoitem& what) const;
@@ -132,18 +132,18 @@ public:
 int		DataAreStatic(){ return v_mem_mode!=cbase::DYNAMIC_VAL;}
 void	ReallocData();	//move user data to current heap
 virtual //Dla pewności
-void	RemoveAll();	//clean assoc_table. May be calling "delete".
+void	RemoveAll();	//Clean `assoc_table`. Maybe calling "delete".
 assoc_table_of_ptr(	int sorted=cbase::SORTED,
 					int rev=cbase::NORMAL_ORDER,
 					cbase::memmode m=cbase::DYNAMIC_VAL):
 	assoc_template<K,V*>(sorted,rev)
 				{v_mem_mode=m;}
-~assoc_table_of_ptr(); //call BeforeDeletion for all items & delete input_pom
-// Very safe indexing. Doing neccesary dealocation if used as lvalue
+~assoc_table_of_ptr(); //call BeforeDeletion for all items and delete input_pom
+// Very safe indexing. Doing necessary deallocation if used as lvalue
 lvptr<V> lv(K index)
 		{
 		V** pom=Search(index,1);
-		if(pom==FULL) pom=NULL;//lvptr nie osluguje FULL
+		if(pom==FULL) pom=NULL; //lvptr nie obsługuje FULL
 		return lvptr<V>(*pom,v_mem_mode);
 		}
 };
@@ -160,18 +160,18 @@ unitype _to_unitype_for_assoc_table(T& key)
 unitype pom;
 assert(sizeof(T)<=sizeof(unitype));
 
-// Operacja umieszczenia na obiekcie unitype
+// Operacja umieszczenia na obiekcie `unitype`
 //==========================================
-new (&pom)T(key);//Klasa T musi miec operacje inicjacji z obiektu tego samego typu
+new (&pom)T(key); //Klasa T musi miec operacje inicjacji z obiektu tego samego typu
 //==================
 
-return pom;//Tu już przepisanie binarne
+return pom; //Tu już przepisanie binarne
 }
 
 /// \brief Obsolete class
 template<class T>
 inline
-T _from_unitype_for_assoc_table(T&,unitype u)//
+T _from_unitype_for_assoc_table(T&,unitype u) //
 {
 return  *(T*)&(u);
 }
@@ -187,7 +187,7 @@ int       assoc_template<K,V>::Raise(const WB_Exception_base& e) const
 template<class K,class V>
 inline  V* assoc_template<K,V>::Search(K key,int make)
 {
-// Typ K musi byc rzutowalny na gkey_t
+// Typ K musi być rzutowalny na gkey_t
 assoitem* pom=assoc_base::_Search(_to_unitype_for_assoc_table(key),make);
 if(pom==NULL) return NULL;
    else return (V*)&(pom->val);
@@ -195,11 +195,11 @@ if(pom==NULL) return NULL;
 
 /// \brief Obsolete class
 template<class K,class V>
-//Porownuje dwa klucze. Zwraca 0 gdy ==, 1 gdy first>second
+//Porównuje dwa klucze. Zwraca 0 gdy == 1, gdy `first > second`
 int 	  assoc_template<K,V>::Compare(const unitype first,const unitype second)
 {
 K f=*(K*)&(first);
-K s=*(K*)&(second);// Nie mozna zwyczajnie bo K może byc wskaznikiem do klasy
+K s=*(K*)&(second); // Nie można zwyczajnie, bo K może być wskaźnikiem do klasy
 return compare(f,s);
 }
 
@@ -235,9 +235,9 @@ inline K           assoc_template<K,V>::copyOfKey(pix p) const { return *(K*)_ke
 /// \brief Obsolete class
 template<class K,class V>
 void	assoc_template<K,V>::RemoveAll()
-//clean assoc_table. May be calling "delete".
+//Clean assoc_table. Maybe calling "delete".
 {
-	assoc_base::Truncate();//Zapomina ze mial już elementy, ale nie dealokuje
+	assoc_base::Truncate(); //Zapomina, że miał już elementy, ale nie dealokuje
 }
 
 /// \brief Obsolete class
@@ -263,7 +263,7 @@ V&        assoc_template<K,V>::operator () (K key)
 {
 V* pom=Search(key,1/*Make*/);
 if(pom==NULL) 
-	Raise(ASSO_KEY_NOT_FOUND);//Can't find/make item
+	Raise(ASSO_KEY_NOT_FOUND); //Can't find/make item
 return *pom;
 }
 
@@ -315,10 +315,10 @@ template<class K,class V>
 void assoc_table_of_ptr<K,V>::ReallocData()
 {
 object_size_t size=this->tab.CurrSize();
-if(size>0)// Przealokowac statycznie alokowane wartości
+if(size>0) // można statycznie alokowane wartości
    for(size_t i=0;i<size;i++)
 		{
-		V* v1=_from_unitype_for_assoc_table(v1,(this->tab)[i].val);//V should be a ptr!!!
+		V* v1=_from_unitype_for_assoc_table(v1,(this->tab)[i].val); //V should be a ptr!!!
 		if(v1!=NULL && v1!=FULL)
 			{
 			V* v2=clone(v1);
@@ -330,7 +330,7 @@ if(size>0)// Przealokowac statycznie alokowane wartości
 				delete v1;
 			}
 		}
-v_mem_mode=container_base::DYNAMIC_VAL;//Zrobil z niego dynamic.
+v_mem_mode=container_base::DYNAMIC_VAL; //Zrobił z niego dynamic.
 }
 
 /// \brief Obsolete class
@@ -350,9 +350,9 @@ return !o.fail();
 /// \brief Obsolete class
 template<class K,class V>
 void      assoc_table_of_ptr<K,V>::BeforeDeletion( assoitem& a )
-//Wywolywana zawsze przed usunieciem i-temu z tab.
-//UWAGA .ptr o wartości NULL lub FULL oznacza oczyszczony unitype!
-//Tu dealokuje zmienna wskazywana przez val jeśli nie jest już pusta.
+//Wywoływana zawsze przed usunięciem i-temu z tab.
+//UWAGA .ptr o wartości NULL lub FULL oznacza oczyszczony `unitype`!
+//Tu dealokuje zmienna wskazywana przez `val`, jeśli nie jest już pusta.
 {
 if(!DataAreStatic() && a.val.ptr!=NULL && a.val.ptr!=FULL)
 	{
@@ -370,7 +370,7 @@ K k;
 V* v=NULL;
 inp>>k;
 if(inp.fail()) return 0;
-char c;//Do sprawdzanie @
+char c; //Do sprawdzanie @
 inp>>c;
 if(c!='@')
   {
@@ -414,17 +414,17 @@ if(!DataAreStatic())
 /// \brief Obsolete class
 template<class K,class V>
 void	assoc_table_of_ptr<K,V>::RemoveAll()
-//clean assoc_table. May be calling "delete".
+//Clean assoc_table. Maybe calling "delete".
 {
 object_size_t size=this->tab.CurrSize();
 
 if(!DataAreStatic())
   for(size_t i=0;i<size;i++)
   {
-	BeforeDeletion(this->tab[i]);//Tu powinien zdealokowac to co wskazywane
+	BeforeDeletion(this->tab[i]); //Tu powinien zdealokować to co wskazywane
   }
 
-assoc_template<K,V*>::RemoveAll();//A teraz po prostu usuwa
+assoc_template<K,V*>::RemoveAll(); //A teraz po prostu usuwa
 }
 
 DEFINE_VIRTUAL_NECESSARY_FOR_TEMPLATE( <class K _COMA_ class V> , assoc_table<K _COMA_ V> )
