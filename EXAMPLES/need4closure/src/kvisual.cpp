@@ -1,7 +1,7 @@
 /// @file
 /// @brief ... (old example for SymShell implementing a Kruglanskis like model)
 //===========================================================================
-/// @date 2026-05-18 (modified)
+/// @date 2026-05-19 (modified)
 
 #include <cstring>
 #include <cmath>
@@ -104,7 +104,7 @@ void    kworld::actualize_out_area()
 void kworld::make_default_visualisation()
 //Rejestruje pochodne serie, tworzy domyślne "lufciki" i wkłada w "Manager"
 {
-    area_manager_base& Menager=this->MyAreaMenager();
+    area_manager_base& Menager=this->MyAreaManager();
     int iFirst=0,iSecond=0,iPower=0,iPressure=0,iChangeCnt,iMigratCnt;
     //Uzyskanie indeksów podstawowych serii z managera
     {
