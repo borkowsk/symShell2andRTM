@@ -1,11 +1,11 @@
 # CMAKE configuration for WBRTM library `wbrtm`
 ######################################################
 # (c)ISS UW, @author Wojciech Borkowski
-# @date 2022-12-22 (last update)
+# @date 2026-05-19 (last update)
 ######################################################
 
 project(wbrtm)
-cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.00)
 
 set(CMAKE_CXX_STANDARD 11) # See: https://matgomes.com/setting-cpp-standard-cmake/
 set(CMAKE_CXX_STANDARD_REQUIRED On)
@@ -62,7 +62,12 @@ add_library( wbrtm STATIC
     "${WBRTM}/BASE/error_enter_before_clean.c"
     "${WBRTM}/COMPATIBILITY/stricmp.c"
     "${WBRTM}/COMPATIBILITY/struprstrlwr.c" 
-     INCLUDE/_obsolete.h
+    "${WBRTMINC}/_obsolete.h"
+    "${WBRTMINC}/arrays.hpp"
+     #assoctab.hpp  compatyb.hpp  excpmem.hpp   iocharp.hpp   mem_guard.h   random.h            var_contr.hpp         _voidnew.hpp  wb_limits.hpp   wb_rand.hpp
+     #arrays.imp    assoctab.IMP  containe.hpp  excpothr.hpp  ioexcep.hpp   _obsolete.h   TabDelimited.hpp    viewHtml.hpp          wb_bits.h     wb_pchario.hpp  wb_smartlog.hpp
+     #arr_base.hpp  bounded.hpp   errorhan.hpp  _groups.h     iosuppor.hpp  optParam.hpp  typenames.hpp       virtualConstructor.h  wb_clone.hpp  wb_ptr.hpp      wb_swap.hpp
+     #assobase.hpp  compatyb.h    excpbase.hpp  _ikeycon.hpp  lingo.hpp     outdated      use_math_defines.h  vobject.hpp           wb_cpucl.hpp  wb_ptrio.h      wb_tnames.h
      )
 endif()
 
@@ -72,7 +77,7 @@ endif()
 
 #KONIEC - THE END
 #********************************************************************/
-#*                   WBRTM version 2022-12                          */
+#*                     WBRTM version 2026                           */
 #********************************************************************/
 #*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
 #*            W O J C I E C H   B O R K O W S K I                   */
