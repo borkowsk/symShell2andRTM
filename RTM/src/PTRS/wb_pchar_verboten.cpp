@@ -1,7 +1,10 @@
-/** \file wb_pchar_verboten.cpp
+/** @file
+ *  @brief
+ *   @PL{  }
+ *   @EN{ Verboten character that must be enclosed when printing 'wbrtm::wb_pchar' }
+ *  @date 2026-05-19 (last modification)
+ *        ==========================================================================
  *  \author borkowsk
- *  \brief Verboten character that must be enclosed when printing 'wbrtm::wb_pchar'
- *  \date 2022-10-11 (last modification)
  */
 
 #include "wb_ptr.hpp"

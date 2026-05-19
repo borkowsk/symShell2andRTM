@@ -1,11 +1,13 @@
-/** \file stricmp.c
- * \brief Implementation of stricmp
- *
+/** @file
+ *  @brief
+ *   @PL{  }
+ *   @EN{ Implementation of stricmp }
+ *  @date 2026-05-19 (modified)
+ *        =================================================================
  * \author Peter 'png' Hille <peter@das-system-networks.de>
- *
- * https://github.com/png85/dsncompat/blob/master/string/stricmp.c
+ * \details
+ *      https://github.com/png85/dsncompat/blob/master/string/stricmp.c
  */
-
 #include <string.h>
 #include <assert.h>
 #include "compatyb.h"

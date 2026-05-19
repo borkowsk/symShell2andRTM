@@ -1,8 +1,10 @@
-/** \file TabDelimited.cpp
+/** @file
+ *  @brief
+ *  @PL{  }
+ *  @EN{ Implementation of wbrtm::TabDelimited class }
+ *  @date 2026-05-19 (modified)
+ *        ============================================
  *  \author borkowsk
- *  \brief Implementation of wbrtm::TabDelimited class
- *         -------------------------------------------
- *  \date 2022-10-25 (last modification)
  */
 
 #include <ctype.h> //Typy znaków - http://www.cppreference.com/wiki/string/character_classes

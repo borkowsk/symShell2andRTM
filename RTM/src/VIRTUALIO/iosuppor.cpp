@@ -1,3 +1,10 @@
+/// @file
+/// @brief
+/// @PL{ IMPLEMENTACJA WYJŚCIA?WYJŚCIA DLA OBIEKTÓW HETEROGENICZNYCH. }
+/// @EN{  }
+/// @date 2026-05-19 (modified)
+///       =================================================================
+///
 #include "vobject.hpp"
 #include "iosuppor.hpp"
 

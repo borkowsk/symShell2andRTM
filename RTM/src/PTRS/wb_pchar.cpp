@@ -1,7 +1,10 @@
-/** \file wb_pchar.cpp
+/** @file
+ *  @brief
+ *    @PL{  }
+ *    @EN{ Implementation of more "sophisticated" methods for 'wbrtm::wb_pchar' }
+ *  @date 2026-05-19 (last modification)
+ *        =======================================================================
  *  \author borkowsk
- *  \brief Implementation of more "sophisticated" methods for 'wbrtm::wb_pchar'
- *  \date 2022-10-11 (last modification)
  */
 
 #include <stdio.h>

@@ -1,3 +1,10 @@
+/// @file
+/// @brief
+/// @PL{ IMPLEMENTACJA TYPU PODSTAWOWEGO DLA OBIEKTÓW Z WIRTUALNYMI METODAMI. }
+/// @EN{  }
+/// @date 2026-05-19 (modified)
+///       =================================================================
+///
 #include <cassert>
 #include <fstream>
 #include "ioexcep.hpp"

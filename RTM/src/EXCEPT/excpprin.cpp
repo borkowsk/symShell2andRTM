@@ -1,8 +1,10 @@
-/** \file excpprin.cpp
+/** @file
+ *  @brief
+ *   @PL{  }
+ *   @EN{ Print functions for wbrtm exceptions. }
+ *  @date 2026-05-19 (modified)
+ *        =================================================================
  *  \author borkowsk
- *  \brief Print functions for wbrtm exceptions.
- *         ------------------------------------
- *  \date 2022-10-11 (last modification)
  */
 #include "excpbase.hpp"
 #include "excpmem.hpp"

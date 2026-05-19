@@ -1,5 +1,11 @@
-// Call HTML viewer
-//===============================================
+/// @file
+/// @brief
+///  @PL{  }
+///  @EN{ Call HTML viewer }
+/// @date 2026-05-19 (modified)
+///       =================================================================
+///
+
 #include <iostream>
 #include "compatyb.hpp"
 #include "wb_ptr.hpp"

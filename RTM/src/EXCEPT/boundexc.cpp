@@ -1,7 +1,10 @@
-/** \file excbounded.cpp
+/** @file
+ *  @brief
+ *  @PL{  }
+ *  @EN{ Print functions for exceptions for wbrtm::bounded }
+ *  @date 2026-05-19 (last modification)
+ *        =================================================================
  *  \author borkowsk
- *  \brief Print functions for exceptions for wbrtm::bounded
- *  \date 2022-10-13 (last modification)
  */
 #include "bounded.hpp"
 

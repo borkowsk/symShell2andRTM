@@ -1,6 +1,9 @@
 /// @file
-/// @brief CODE MOVED TO Assoctab.hpp 
-/// @date 2026-05-11 (modified)
+/// @brief
+///     @PL{  }
+///     @EN{ CODE MOVED TO Assoctab.hpp }
+/// @date 2026-05-19 (modified)
+///       ================================
 /// @note Cała biblioteka WB_RTM to jest nieco odremontowane muzeum kodu z wieku XX.!!!
 #ifndef _MSC_VER //# warning still not work under Microsoft C++
 #warning  "This code is OBSOLETE and not tested in C++11 standard"

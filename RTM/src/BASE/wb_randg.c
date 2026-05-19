@@ -1,12 +1,12 @@
-/********************************************************************
- * \file
- * \brief  randg generuje liczby losowe o rozkładzie prostym z przedziału (0,1)
- *====================================================================================================================
- *  \details Flaga dla "wb_rtm" kończenia z zapytaniem.
- *           Created by borkowsk before 2000.
- *  \copyright ....
- *  \date 2022-10-12 (last modification)
- */
+/// @file
+/// @brief
+/// @PL{ randg generuje liczby losowe o rozkładzie prostym z przedziału (0,1) }
+/// @EN{  }
+/// @date 2026-05-19 (last modification)
+///       =================================================================
+/// \details Flaga dla "wb_rtm" kończenia z zapytaniem.
+///         Created by borkowsk before 2000.
+///
 #include <stdlib.h>
 #include <stdio.h>
 #include <assert.h>

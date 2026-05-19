@@ -1,8 +1,12 @@
-/** \file ioexcep.cpp
+/** @file
+ *  @brief
+ *   @PL{  }
+ *   @EN{ Catching 'wbrtm' errors and other tricks. }
+ *  @date 2026-05-19 (last modification)
+ *        =================================================================
  *  \author borkowsk
- *  \brief Catching 'wbrtm' errors and other tricks.
+ *  \details
  *         Old so, it is not known if it is safe yet.
- *  \date 2022-10-25 (last modification)
  */
 
 #include <iostream>

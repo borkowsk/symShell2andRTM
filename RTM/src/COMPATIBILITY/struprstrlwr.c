@@ -1,8 +1,11 @@
-/** \file struprstrlwr.c
- * \brief Implementation of old strlwr & strupr
+/** @file
+ *  @brief
+ *   @PL{  }
+ *   @EN{ Implementation of old strlwr & strupr }
+ *  @date 2026-05-19 (modified)
+ *        =================================================================
  * \details Splited from stricmp.c on 11.10.22.
  * \author borkowsk
- * \date 2022-10-25 (last modification)
 */
 #include <ctype.h>
 #include <string.h>

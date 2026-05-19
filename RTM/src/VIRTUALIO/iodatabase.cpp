@@ -1,6 +1,9 @@
-// Bardzo prosta implementacja bazy klas inteligentnego I/O w postaci
-// listy liniowej
-//===========================================================================
+/// @file
+/// @brief
+/// @PL{ Bardzo prosta implementacja bazy klas inteligentnego I/O w postaci listy liniowej. }
+/// @EN{  }
+/// @date 2026-05-19 (modified)
+///       ===================================================================================
 #include "iosuppor.hpp"
 
 namespace wbrtm { //WOJCIECH BORKOWSKI RUN TIME LIBRARY

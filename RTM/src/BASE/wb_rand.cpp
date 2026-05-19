@@ -1,3 +1,10 @@
+/// @file
+/// @brief
+///  @PL{ Zmienne globalne generatorów liczb pseudolosowych. }
+///  @EN{  }
+/// @date 2026-05-19 (modified)
+///       =================================================================
+///
 #include "wb_rand.hpp"
 wbrtm::RandG		TheRandG;
 wbrtm::RandSTDC	    TheRandSTDC;

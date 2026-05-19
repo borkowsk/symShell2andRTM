@@ -1,7 +1,10 @@
 /// @file
-/// @brief Call HTML viewer - string version
-/// @date 2026-05-18 (modified)
-//================================================
+/// @brief
+///  @PL{  }
+///  @EN{ Call HTML viewer - string version }
+/// @date 2026-05-19 (modified)
+///       =================================================================
+///
 
 #include <cstdlib>
 #include <cstdio>

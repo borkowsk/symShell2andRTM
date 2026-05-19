@@ -1,12 +1,15 @@
-/** \file error_enter_before_clean.c
- *  Uzupełnienie do pakietu "Rozumek sieciowy".
- *====================================================================================================================
+/**
+ * @file
+ *  @brief
+ *  @PL{ Uzupełnienie do pakietu "Rozumek sieciowy". }
+ *  @EN{  }
+ *  @date 2026-05-19 (modified)
+ *        =================================================================
  *  \details Flaga dla "wb_rtm" kończenia z zapytaniem.
  *           Created by borkowsk on 12.08.22.
  *  \copyright Now, this is a part of GuestXR project.
  *  \date 2022-10-12
  */
-
 
 /// \brief Flaga dla "wb_rtm" kończenia z zapytaniem.
 ///---------------------------------------------------

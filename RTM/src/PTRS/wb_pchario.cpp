@@ -1,8 +1,10 @@
-/** \file wb_pchario.cpp
+/** @file
+ *  @brief
+ *   @PL{  }
+ *   @EN{ Special implementation of I/O for 'wbrtm::wb_sptr<char>' and  'wbrtm::wb_pchar'. }
+ *  @date 2026-05-19 (last modification)
+ *        =================================================================
  *  \author borkowsk
- *  \brief Special implementation of I/O for 'wbrtm::wb_sptr<char>' and  'wbrtm::wb_pchar'
- *         -------------------------------------------------------------------------------
- *  \date 2022-10-25 (last modification)
  */
 
 #define		ANSI            /* Comment out for UNIX V version  (var_arg)   */

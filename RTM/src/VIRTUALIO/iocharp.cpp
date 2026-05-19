@@ -1,5 +1,7 @@
 /// @file
-/// @brief Implementacja wejścia wyjścia dla `char*`
+/// @brief
+/// @PL{ Implementacja wejścia wyjścia dla `char*` }
+/// @EN{  }
 /// @date 2026-05-19 (modified)
 //-----------------------------------------------------------------------------
 #include <cassert>
