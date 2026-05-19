@@ -1,6 +1,8 @@
 /** @file
- * @brief Pi i inne stałe matematyczne, gdyby brakło.
- * @date 2026-05-11 (modified)
+ * @brief
+ *       @PL{ Pi i inne stałe matematyczne, gdyby brakło. }
+ *       @EN{  }
+ * @date 2026-05-19 (modified)
  * =====================================================================================
   @details
   - https://cplusplus.com/user/Anmol444/

@@ -1,12 +1,15 @@
 /// @file
-/// @brief Selektor języka komunikatów ekranowych.
-/// @date 2026-05-11 (modified)
+/// @brief
+///        @PL{ Selektor języka komunikatów ekranowych. }
+///        @EN{  }
+/// @date 2026-05-19 (modified)
+///       ===============================================
 /// @details Poprawiony z bardzo starej wersji.
 /// @note Cała biblioteka WB_RTM to jest nieco odremontowane muzeum kodu z wieku XX.!!!
 #ifndef _WBRTM_LINGO_HPP_
 #define _WBRTM_LINGO_HPP_
 
-namespace wbrtm { //WOJCIECH BORKOWSKI RUN TIME LIBRARY
+namespace wbrtm {
 
     extern "C" {
         /// Selektor języka komunikatów. 0-Polski, 1-Angielski.

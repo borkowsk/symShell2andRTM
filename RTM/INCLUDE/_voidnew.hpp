@@ -1,4 +1,8 @@
-/* Global operator new for forcing constructor calling */
+/// @brief
+///        @PL{  }
+///        @EN{ Global operator new for forcing constructor calling }
+/// @date 2026-05-19 (modified)
+///       ===========================================================
 #ifndef _VOIDNEW_HPP_
 #define _VOIDNEW_HPP_
 #include <new>

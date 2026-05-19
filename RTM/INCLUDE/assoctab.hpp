@@ -1,7 +1,9 @@
 /** @file
-*  \brief    The simplest associative arrays.
-*  @date 2026-05-18 (last modification)
-*====================================================================================================================
+*  \brief
+*            @PL{  }
+*            @EN{ The simplest associative arrays. }
+*  @date 2026-05-19 (last modification)
+*        ===========================================
 *  \details Obsolete and not improved part of the wb_rtm library.
 *           It was established before 2000.
 *           <br>

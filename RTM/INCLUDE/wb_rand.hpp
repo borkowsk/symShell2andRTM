@@ -1,19 +1,21 @@
 /** \file wb_rand.hpp
-*  \brief BASIC CLASSES OF PSEUDORANDOM NUMBER GENERATORS
-*  @date 2026-05-18 (last modification)
-*        =================================================
-*  \details
-*   Contents:
-*   - RandomGenerator - interface to random generators
-*   - RandSTDC	- Random generator build in standard C
-*   - RandG	- Random generator wrote in C based on "Numerical Recipes"
-* \note Like many others wbrtm files created around year 1996.
-* \warning OBSOLETE
-*   - RandBSD - Random generator from BSD UNIX
-*   - RandSVR4 - Random generator from System V UNIX
-*
-* \author Wojciech Borkowski @ Institut for Social Studies, University of Warsaw
-*/
+ *  \brief
+ *       @PL{  }
+ *       @EN{ BASIC CLASSES OF PSEUDORANDOM NUMBER GENERATORS. }
+ *  @date 2026-05-19 (last modification)
+ *        ======================================================
+ *  \details
+ *   Contents:
+ *   - RandomGenerator - interface to random generators
+ *   - RandSTDC	- Random generator build in standard C
+ *   - RandG	- Random generator wrote in C based on "Numerical Recipes"
+ * \note Like many others wbrtm files created around year 1996.
+ * \warning OBSOLETE
+ *   - RandBSD - Random generator from BSD UNIX
+ *   - RandSVR4 - Random generator from System V UNIX
+ *
+ * \author Wojciech Borkowski @ Institut for Social Studies, University of Warsaw
+ */
 
 #ifndef __cplusplus
 #error Only C++ supported!!!

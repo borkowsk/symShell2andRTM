@@ -1,7 +1,9 @@
 /**
 * \file
-* \brief   KLASA DO OPEROWANIU NA TABLICACH z plików TAB-DELIMITED
-* @date 2026-05-18 (last modification)
+* \brief
+*      @EN{  }
+*      @PL{ KLASA DO OPEROWANIU NA TABLICACH z plików TAB-DELIMITED. }
+* @date 2026-05-19 (last modification)
 *        -------------------------------------------------------------
 * \details
 *          Contents:

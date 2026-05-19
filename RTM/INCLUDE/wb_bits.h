@@ -1,6 +1,8 @@
 /** \file wb_bits.h
- * @brief Podstawowe operacje na 8 bitach bajtu
- * @date 2026-05-11 (last modification)
+ * @brief
+ *       @PL{ Podstawowe operacje na 8 bitach bajtu. }
+ *       @EN{  }
+ * @date 2026-05-19 (last modification)
  *       ---------------------------------------
  *  \details ... ...
  *           ... ...

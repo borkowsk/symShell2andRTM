@@ -1,10 +1,13 @@
 /** \file wb_tnames.h
- *  \brief Templates for input and output of wbrtm::wb_pchar objects
- *         ---------------------------------------------------------
- *  \author Wojciech Borkowski @ Institut for Social Studies, University of Warsaw
- *  \date   2023-01-23 (last modification)
+ *  \brief
+ *        @PL{  }
+ *        @EN{ Templates for input and output of 'wbrtm::wb_pchar' objects. }
+ *  @date 2026-05-19 (last modification)
+ *          ----------------------------------------------------------------
  *  \details ... ...
  *           ... ...
+ *
+ *  \author Wojciech Borkowski @ Institut for Social Studies, University of Warsaw
  *  \note Like many others wbrtm files created around year 1996.
  *  \ingroup DYNMEMORY
  */

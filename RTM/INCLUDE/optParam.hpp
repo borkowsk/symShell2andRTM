@@ -1,7 +1,9 @@
-/// \file optParam.hpp
-/// \brief KLASY potrzebne do obsługi parametrów wywołania programu
-/// @date 2026-05-18 (last modification)
-///        ========================================================
+/// \file
+/// \brief
+///        @PL{ KLASY potrzebne do obsługi parametrów wywołania programu }
+///        @EN{  }
+/// @date 2026-05-19 (last modification)
+///       ================================================================
 /// \details
 ///     Obsługiwane są typy standardowe numeryczne oraz
 ///      inne typy mające implementacje << >> na strumienie i

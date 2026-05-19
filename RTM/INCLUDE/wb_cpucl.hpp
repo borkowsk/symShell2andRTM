@@ -1,7 +1,9 @@
-/// \file wb_cpucl.hpp
-/// \brief Klasa stopera liczącego czas CPU.
-/// @date 2026-05-18 (last modification)
-///        ---------------------------------
+/// \file
+/// \brief
+///        @PL{ Klasa stopera liczącego czas CPU. }
+///        @EN{  }
+/// @date 2026-05-19 (last modification)
+///     ------------------------------------
 ///
 /// \details liczy od momentu utworzenia lub wywołania reset() do chwili pobrania
 ///          wartości za pomocą "operator double()"

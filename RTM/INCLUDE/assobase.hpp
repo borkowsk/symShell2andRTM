@@ -1,7 +1,9 @@
 /** @file
-*  \brief    Base class for creating associative arrays.
-*  @date 2026-05-18 (last modification)
-*====================================================================================================================
+*  \brief
+*          @PL{  }
+*          @EN{ Base type for creating associative arrays. }
+*  @date 2026-05-19 (last modification)
+*        ====================================================
 *  \details Obsolete and not improved part of the wb_rtm library.
 *           It was established before 2000.
 *           <br>
@@ -11,7 +13,6 @@
 *           w najprostszy sposób do przechowywania skalarów i wskaźników.
 *  @note Cała biblioteka WB_RTM to jest nieco odremontowane muzeum kodu z wieku XX.!!!
 *  \copyright Wojciech T. Borkowski
-
 *  @ingroup OBSOLETE
 */
 #ifndef _MSC_VER //# warning still doesn't work under Microsoft C++

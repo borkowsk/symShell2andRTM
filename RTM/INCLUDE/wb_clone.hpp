@@ -1,6 +1,8 @@
 /** \file
-*	\brief WB CLONING SUPPORT FOR ANY C++ OBJECTS
-*   @date 2026-05-18 (last modification)
+*	\brief
+*       @PL{  }
+*       @EN{ CLONING SUPPORT FOR ANY C++ OBJECTS }
+*   @date 2026-05-19 (last modification)
 *          --------------------------------------
 *
 * \details

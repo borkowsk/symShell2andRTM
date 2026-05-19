@@ -1,7 +1,9 @@
 /// @file
-/// @brief Szablon klasy pozwalającej na zmianę wartości zmiennej w taki sposób,
-///        że po wyjściu z bloku przywracana jest wartość pierwotna.
-/// @date 2026-05-18 (modified)
+/// @brief
+///        @PL{ Szablon klasy pozwalającej na zmianę wartości zmiennej w taki sposób, że po wyjściu z bloku przywracana jest wartość pierwotna. }
+///        @EN{  }
+/// @date 2026-05-19 (modified)
+///       =====================
 /// @note Cała biblioteka WB_RTM to jest nieco odremontowane muzeum kodu z wieku XX.!!!
 //=====================================================================================
 #ifndef WB_RTM_VARIABLE_CONTROLLER_HPP_INCLUDED_

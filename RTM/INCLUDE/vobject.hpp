@@ -1,7 +1,12 @@
-/*
-Base class for all class with virtual members
-Force VTBL as first member & destructor as virtual method.
-*/
+/// @file
+/// @brief
+///        @PL{  }
+///        @EN{ Base class for all class with virtual members.  }
+/// @date 2026-05-19 (modified)
+///       =======================================================
+/// @details
+///     Force VTBL as first member & destructor as virtual method.
+//================================================================
 
 #ifndef _VOBJECT_HPP_
 #define _VOBJECT_HPP_

@@ -1,5 +1,10 @@
-// Funkcje pomocnicze dla wejscia/wyjscia kodowanych lancuchow 
-//---------------------------------------------------------------
+/// @file
+/// @brief
+///        @PL{  }
+///        @EN{ Funkcje pomocnicze dla wejścia/wyjścia kodowanych lancuchow. }
+/// @date 2026-05-19 (modified)
+///       ====================================================================
+///
 #ifndef __IOCHARP_HPP__
 #define __IOCHARP_HPP__
 

@@ -1,7 +1,9 @@
-/// \file wb_limits.hpp
-/// \brief LIMITS FOR SCALAR TYPES in `wbrtm`/ Limity dla skalarów w "wbrtm".
-/// @date 2026-05-18 (last modification)
-///       -----------------------------------
+/// \file
+/// \brief
+///        @PL{ Limity dla skalarów w "wbrtm". }
+///        @EN{ LIMITS FOR SCALAR TYPES in `wbrtm` }
+/// @date 2026-05-19 (last modification)
+///       -----------------------------------------
 ///
 /// \author borkowsk
 /// @ingroup OBSOLETE

@@ -1,6 +1,9 @@
 /** @file
-*  \brief    Dynamic arra-s — some resizable
-*  @date 2026-05-18 (last modification)
+*  \brief
+*        @PL{  }
+*        @EN{ Dynamic arrays — some kind resizable }
+*  @date 2026-05-19 (last modification)
+*        ===========================================
 *  \details Obsolete and not improved part of the wb_rtm library.
 *           It was established before 2000.
 *  \copyright Wojciech T. Borkowski

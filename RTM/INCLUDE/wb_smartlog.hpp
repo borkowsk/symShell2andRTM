@@ -1,7 +1,9 @@
-/** \file wb_smartlog.h
- *  \brief Zaawansowane logowanie aplikacji, wraz ze stosem (opcjonalnie)
- *  @date 2026-05-18 (last modification)
- *         ---------------------------------------------------------------
+/** \file
+ *  \brief
+ *       @PL{ Zaawansowane logowanie aplikacji, wraz ze stosem (opcjonalnie). }
+ *       @EN{  }
+ *  @date 2026-05-19 (last modification)
+ *        ----------------------------------------------------------------------
  *  \author Wojciech Borkowski @ Institut for Social Studies, University of Warsaw
  *
  *  \details ... ...

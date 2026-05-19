@@ -1,8 +1,10 @@
 /**
-* \file   excpbase.hpp
-* \brief  Base exception class, and derived simple multipurpose exception classes.
-* @date 2026-05-18 (last modification)
-*        --------------------------------------------------------------------------
+* \file
+* \brief
+*        @PL{  }
+*        @EN{ Base exception class, and derived simple multipurpose exception classes. }
+* @date 2026-05-19 (last modification)
+*       ================================================================================
 * \details
 *        Contents:
 *        - class wbrtm::WB_Exception_base;

@@ -1,8 +1,10 @@
 /** @file
- * @brief A control value/field template with a given length and uniq value.
- * @date 2026-05-11 (last modification)
+ * @brief
+ *       @PL{  }
+ *       @EN{  A control value/field template with a given length and uniq value. }
+ * @date 2026-05-19 (last modification)
  *       -------------------------------------------------------------------
- * @details TO AKURAT STOSUNKOWO NOWY POMYSŁ :-)
+ * @note TO AKURAT STOSUNKOWO NOWY POMYSŁ POŻYCZONY Z "merry tools":-)
  */
 #ifndef MEMORY_GUARD_H
 #define MEMORY_GUARD_H
@@ -60,8 +62,10 @@ namespace merry_tools::memory {
 
 } //namespace merry_tools::memory
 
+/// @macro NO_MEMORY_GUARDS
+/// @brief Explicitly disable MEMORY_GUARDs for this file.
+///
 #ifdef NO_MEMORY_GUARDS
-/// Explicitly disable MEMORY_GUARDs for this file.
 #warning "Header for memory guards are used, but disabled by NO_MEMORY_GUARDS definition."
 #endif
 
@@ -75,7 +79,6 @@ namespace merry_tools::memory {
 #endif
 
 #ifdef NO_MEMORY_GUARDS
-/// _NDEBUG safe memory guard field placing.
 
 // It may have already been defined differently and the preprocessor/compiler will argue!
 // PL: Mogło byc już wcześniej zdefiniowane inaczej i preprocesor/kompilator będzie się kłócić!
@@ -83,6 +86,7 @@ namespace merry_tools::memory {
 #       undef MEMORY_GUARD
 #   endif
 
+/// _NDEBUG safe memory guard field placing.
 #   define MEMORY_GUARD(type,value) bool valid_memory(const void* ptr) const { return ptr!=nullptr; }
 
 #else
@@ -93,7 +97,7 @@ namespace merry_tools::memory {
 #       undef MEMORY_GUARD
 #   endif
 
-/// _NDEBUG safe memory guard field placing.
+/// @brief DEBUG safe memory guard field placing.
 /// @note Written in a lengthy manner on purpose so that there would be somewhere to insert brake-points!
 #   define MEMORY_GUARD(type,value) ::merry_tools::memory::guard<type,value> _debug_memory_marker; \
                             bool valid_memory(const void* ptr=(void*)1) const      \

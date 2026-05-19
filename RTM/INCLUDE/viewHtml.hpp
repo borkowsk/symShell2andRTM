@@ -1,6 +1,9 @@
 /// @file
-/// @brief Wyświetlanie pliku HTML poprzez system shell.
-/// @date 2026-05-18 (modified)
+/// @brief
+///        @PL{ Wyświetlanie pliku HTML poprzez system shell. }
+///        @EN{  }
+/// @date 2026-05-19 (modified)
+///       ====================================================
 /// @note Cała biblioteka WB_RTM to jest nieco odremontowane muzeum kodu z wieku XX, ale ten pomysł wciąż działa :-)
 #ifndef WB_RTM_VIEW_HTML_HPP_INCLUDED_
 #define WB_RTM_VIEW_HTML_HPP_INCLUDED_

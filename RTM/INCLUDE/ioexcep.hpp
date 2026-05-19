@@ -1,11 +1,14 @@
 /**
 * \file
-* \brief   Generic "input/output" exception.
-* @date 2026-05-18 (last modification)
-*        ----------------------------------------
+* \brief
+*       @PL{  }
+*       @EN{ Generic "input/output" exception. }
+* @date 2026-05-19 (last modification)
+*       ----------------------------------------
 * \details
 *          Contents:
 *          - class wbrtm::ExcpIO;
+*
 * @note Cała biblioteka WB_RTM to jest nieco odremontowane muzeum kodu z wieku XX.!!!
 *
 * \author  borkowsk

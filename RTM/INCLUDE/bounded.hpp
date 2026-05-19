@@ -1,6 +1,8 @@
-/** \file   bounded.hpp
- *  @date 2026-05-18 (last modification)
- *  \brief  wbrtm::bounded class & dedicated exception
+/** \file
+ *  \brief
+ *            @PL{  }
+ *            @EN{ Type for bounded values and dedicated exception. }
+ *  @date 2026-05-19 (last modification)
  *  \author borkowsk
  *  @note Cała biblioteka WB_RTM to jest nieco odremontowane muzeum kodu z wieku XX.!!!
  *  @ingroup OBSOLETE

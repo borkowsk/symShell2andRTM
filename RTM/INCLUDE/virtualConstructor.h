@@ -1,6 +1,8 @@
-/** @file virtualConstructor.h
-* @brief Definition of virtual constructors template & macros..
-* @date 2026-05-11 (last modification)
+/** @file
+* @brief
+*       @PL{  }
+*       @EN{ Definition of virtual constructors template & macros. }
+* @date 2026-05-19 (last modification)
 *====================================================================================================================
 *  \details Obiekty wirtualnych konstruktorów rejestrowane są na standardowej mapie z kluczem typu std::string.
 *           File created by borkowsk on 12.08.22.

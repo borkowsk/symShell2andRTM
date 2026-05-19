@@ -1,3 +1,8 @@
+/// @file
+/// @brief
+///        @PL{ Zapisywanie na strumień tekstowy obiektów heterogenicznych. }
+///        @EN{  }
+/// @date 2026-05-19 (modified)
 #ifndef __IOSUPPORT_HPP__
 #define __IOSUPPORT_HPP__
 

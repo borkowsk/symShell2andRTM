@@ -1,6 +1,7 @@
 /** @file
- * @brief DEFINICJE GRUP DOXYGENA DLA WB_RTM.
- * @date 2026-05-11 (modified)
+ * @brief @PL{ DEFINICJE GRUP DOXYGENA DLA WB_RTM. }
+ *        @EN{ ... }
+ * @date 2026-05-19 (modified)
  * @details
  *      Cała biblioteka WB_RTM jest baaaardzo stara. Początki ma w latach 90. XX wieku.
  *      Trochę była poprawiana i podtrzymywana ze względu na stare aplikacje,
@@ -76,6 +77,6 @@
 * ---------------------------------------------------------------------------------------------------------------
 *
 * @copyright Wojciech Borkowski wborkowski (_at_) uw.edu.pl
-* @date 2026-05-11 (last modification)
+* @date 2026-05-19 (last modification)
 * 
 */

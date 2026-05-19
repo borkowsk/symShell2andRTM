@@ -1,6 +1,8 @@
 /// \file wb_ptr.hpp
-/// \brief Proste szablony inteligentnych wskaźników oraz tablic dynamicznych.
-/// @date 2026-05-18 (last modification)
+/// \brief
+///        @PL{ Proste szablony inteligentnych wskaźników oraz tablic dynamicznych. }
+///        @EN{  }
+/// @date 2026-05-19 (last modification)
 ///        ===================================================================
 ///
 /// \details

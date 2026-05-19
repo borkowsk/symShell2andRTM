@@ -1,8 +1,9 @@
-/**  \file     compatyb.hpp
-* @date 2026-05-18 (last modification)
-* \brief   Plik definiujący funkcje eat_blanks i eat_chars, w sposób zależny od platform kompilacji
-* **********************************************************************************************************************
-*
+/**  \file
+ *   @brief
+ *   @PL{ Plik definiujący funkcje eat_blanks i eat_chars, w sposób zależny od platform kompilacji }
+ *   @EN{  }
+* @date 2026-05-19 (last modification)
+*       ********************************************************************************************
 *  @note Cała biblioteka WB_RTM to jest nieco odremontowane muzeum kodu z wieku XX.!!!
 */
 #ifndef _COMPATYB_HPP_INCLUDED_
@@ -36,7 +37,7 @@ namespace wbrtm {
             return file.eof();
     }
 
-    /// \brief Zjada ze strumienia znaki, jeśli są w zadanym \p 'charset'.
+    /// \brief Zjada ze strumienia znaki, jeśli są w zadanym przez 'charset' zbiorze.
     inline
     int eat_chars(std::istream &file, const char *charset)
     {
@@ -61,7 +62,7 @@ namespace wbrtm {
 namespace wbrtm {
 
     /// \brief Zjada wszelkie odstępy ze strumienia.
-    /// \note Zamiast istream::eatwhite (z Borlanda)
+    /// \note Zamiast `istream::eatwhite` (z Borlanda).
     inline int eat_blanks(std::istream& file)
     {
         int znak = 0;

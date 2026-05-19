@@ -1,6 +1,9 @@
 /** \file
- *  \brief   C++ EXCEPTIONS AND ERROR SUPPORT
- *  @date 2026-05-11 (last modification)
+ *  \brief
+ *        @PL{  }
+ *        @EN{ C++ EXCEPTIONS AND ERROR SUPPORT }
+ *  @date 2026-05-19 (last modification)
+ *        =======================================
  *  @note Cała biblioteka WB_RTM to jest nieco odremontowane muzeum kodu z wieku XX.!!!
  *  \ingroup ERRORHANDLING
  *  \author  borkowsk

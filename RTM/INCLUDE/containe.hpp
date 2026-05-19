@@ -1,6 +1,9 @@
 /// @file
-/// @brief Klasy definiujące interface do wszelkiego rodzaju kontenerów zawierających obiekty typu T
-/// @date 2026-05-18 (modified)
+/// @brief
+///        @PL{ Klasy definiujące interface do wszelkiego rodzaju kontenerów zawierających obiekty typu T }
+///        @EN{  }
+/// @date 2026-05-19 (modified)
+///       =================================================================================================
 /// @note Cała biblioteka WB_RTM to jest nieco odremontowane muzeum kodu z wieku XX.!!!
 //======================================================================================================================
 #ifndef _CONTAINER_HPP_

@@ -1,7 +1,9 @@
 /**
-* @file     typenames.hpp
-* \brief    How do I convert T to a string that says what T is?
-* @date 2026-05-18 (last modification)
+* @file
+* \brief
+*       @PL{  }
+*       @EN{ How do I convert T to a string that says what T is? }
+* @date 2026-05-19 (last modification)
 *          -----------------------------------------------------
 *
 * \details  While playing with templates in C++ I encountered a problem converting typename T to string.
@@ -23,9 +25,6 @@
 *
  *  @note Cała biblioteka WB_RTM to jest nieco odremontowane muzeum kodu z wieku XX.!!!
 */
-#ifndef _MSC_VER //# warning still doesn't work under Microsoft C++ (really still?)
-#warning  "This code is OBSOLETE and not tested in C++11 standard"
-#endif
 
 #ifndef _DEFINED_TypeName
 #define _DEFINED_TypeName

@@ -1,6 +1,8 @@
 /** @file
-*  \brief Base class for dynamic resizable arrays
-*  @date 2026-05-18 (last modification)
+*  \brief
+*        @PL{  }
+*        @EN{ Base class for dynamic resizable arrays. }
+*  @date 2026-05-19 (last modification)
 *  \details Obsolete and not improved part of the wb_rtm library.
 *           It was established before 2000.
 *  \copyright Wojciech T. Borkowski

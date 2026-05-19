@@ -1,8 +1,10 @@
 /**
 *  \file random.h
-*  \brief   INTERFACE "C" DO ROZMAITYCH GENERATORÓW LICZB PSEUDOLOSOWYCH
-*  @date 2026-05-11 (last modification)
-*         ---------------------------------------------------------------
+*  \brief
+*       @PL{ INTERFACE W "C" DO ROZMAITYCH GENERATORÓW LICZB PSEUDOLOSOWYCH. }
+*       @EN{  }
+*  @date 2026-05-19 (last modification)
+*        =====================================================================
 *
 *  \details Wybór generatora pseudolosowego zdefiniowanego makrami preprocesora.
  *          - USES_RANDG - z użyciem funkcji randg() z Numerical Recipies

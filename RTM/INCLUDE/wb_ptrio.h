@@ -1,9 +1,11 @@
-/** \file   wb_pchario.h
- *  \brief  I/O definitions for wbrtm:: smart pointers.
- *          -------------------------------------------
+/** \file
+ *  \brief
+ *         @PL{  }
+ *         @EN{ I/O definitions for wbrtm:: smart pointers. }
+ *  @date 2026-05-19 (last modification)
+ *        ---------------------------------------------------
  *  \details ... ...
  *           ... ...
- *  \date 2022-10-12 (last modification)
  *  \author    borkowsk
  *  \copyright Wojciech Borkowski @ Institut for Social Studies, University of Warsaw
  *  \note Like many others wbrtm files created around year 1996.

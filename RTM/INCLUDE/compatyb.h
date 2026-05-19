@@ -1,6 +1,9 @@
-/** @file     compatyb.h
- * @brief Plik definiujący zastępcze funkcje "C" (strlwr,strupr,sticmp).
- * @date 2026-05-11 (last modification)
+/** @file
+ * @brief
+ *        @PL{ Plik definiujący zastępcze funkcje "C" (strlwr,strupr,sticmp). }
+ *        @EN{  }
+ * @date 2026-05-19 (last modification)
+ *       =======================================================================
  * @details
  *    Funkcji tych  brak w poszczególnych lub większości kompilatorów.
  *    Prawdopodobnie pochodzą z rozszerzeń Borland C++ albo MSVC

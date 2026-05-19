@@ -1,11 +1,14 @@
 /// @file
-/// @brief Private base for an array class family.
-/// @date 2026-05-18 (modified)
+/// @brief
+///        @PL{ ... }
+///        @EN{ Private base type for an arrays family. }
+/// @date 2026-05-19 (modified)
 // ********************************************************************************************************************
-// UWAGA! To jest nieco odremontowane muzeum kodu z wieki XX.!!!
+/// @note UWAGA! To jest nieco odremontowane muzeum kodu z wieki XX.!!!
+///
 #ifndef SYMSHELL2_INT_KEY_CON_HPP_INCLUDED_
 #define SYMSHELL2_INT_KEY_CON_HPP_INCLUDED_
-///  @ingroup OBSOLETE
+
 //  Implement size_t key support
 //#include "pix.hpp"
 //#include "tnames.h"
@@ -14,9 +17,9 @@
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "modernize-use-auto"
 
-/// WOJCIECH BORKOWSKI RUN TIME LIBRARY.
+// WOJCIECH BORKOWSKI RUN TIME LIBRARY.
 namespace wbrtm {
-
+///  @ingroup OBSOLETE
   typedef void*                   pix; ///< @brief Do ukrywania realnej implementacji przed użytkownikiem klas.
   typedef uintptr_t            size_t; ///< @brief `uintptr_t` gwarantuje ten sam rozmiar co `void*` czyli `pix`?
   typedef uintptr_t     object_size_t; ///< @brief Powinien wystarczyć 32-bitowy, ale są rzuty (na `pix`?).
