@@ -1,6 +1,6 @@
 /// @file
 /// @brief **RECTANGULAR GEOMETRY** /<br> _GEOMETRIA PROSTOKĄTNA._
-/// @date 2026-05-18 (modified)
+/// @date 2026-05-19 (modified)
 ///      Pierwsza i główna specjalizacja. Heksagonalnej i sieciowej nigdy nie napisałem, choć były w planie.
 // ********************************************************************************************************************
 //
@@ -477,8 +477,8 @@ public:
 /*            W O J C I E C H   B O R K O W S K I                     */
 /*  Zakład Systematyki i Geografii Roślin Uniwersytetu Warszawskiego  */
 /*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego         */
-/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk               */
-/*        MAIL: borkowsk@iss.uw.edu.pl                                */
+/*        WWW:  http://iss.uw.edu.pl/wojciech-borkowski/              */
+/*        MAIL:  wborkowski@uw.edu.pl                                 */
 /*                               (Don't change or remove this note)   */
 /* ****************************************************************** */
 #endif

@@ -1,7 +1,7 @@
 /// @file
 /// @brief **Implementations for the simulation layer base type** /<br>
 ///         _Implementacje dla klasy bazowej warstwy symulacji._
-/// @date 2026-05-18 (modified)
+/// @date 2026-05-19 (modified)
 //=====================================================================
 // Klasy czysto wirtualnej, ale implementacje funkcji muszą (powinny być).
 //
@@ -161,7 +161,7 @@ void rectangle_layer::clean_circle(int x, int y, size_t r)
 /*            W O J C I E C H   B O R K O W S K I                     */
 /*  Zakład Systematyki i Geografii Roślin Uniwersytetu Warszawskiego  */
 /*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego         */
-/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk               */
-/*        MAIL: borkowsk@iss.uw.edu.pl                                */
+/*        WWW:  http://iss.uw.edu.pl/wojciech-borkowski/              */
+/*        MAIL:  wborkowski@uw.edu.pl                                 */
 /*                               (Don't change or remove this note)   */
 /* ****************************************************************** */

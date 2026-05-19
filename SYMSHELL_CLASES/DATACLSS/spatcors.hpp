@@ -1,7 +1,7 @@
 /// @file
 /// @brief __A filter that calculates the number of series categories and derived spatial statistics, including spatial correlations.__ /<br>
 ///         _Filtr liczący liczebność klas serii i pochodne statystyki przestrzenne, w tym korelacje przestrzenne._
-/// @date 2026-05-18 (modified)
+/// @date 2026-05-19 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_SPATIAL_CORRELATION_SOUR_HPP_INCLUDED_
@@ -382,8 +382,8 @@ typedef spatial_correlation_source<data_source_base> generic_spatial_correlation
 /*            W O J C I E C H   B O R K O W S K I                     */
 /*  Zakład Systematyki i Geografii Roślin Uniwersytetu Warszawskiego  */
 /*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego         */
-/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk               */
-/*        MAIL: borkowsk@iss.uw.edu.pl                                */
+/*        WWW:  http://iss.uw.edu.pl/wojciech-borkowski/              */
+/*        MAIL:  wborkowski@uw.edu.pl                                 */
 /*                               (Don't change or remove this note)   */
 /* ****************************************************************** */
 #endif //SYMSHELL2_SPATIAL_CORRELATION_SOUR_HPP_INCLUDED_

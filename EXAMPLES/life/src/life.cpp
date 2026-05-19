@@ -387,8 +387,8 @@ int main(const int argc,const char* argv[])
 /*            W O J C I E C H   B O R K O W S K I                     */
 /*  Zakład Systematyki i Geografii Roślin Uniwersytetu Warszawskiego  */
 /*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego         */
-/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk               */
-/*        MAIL: borkowsk@iss.uw.edu.pl                                */
+/*        WWW:  http://iss.uw.edu.pl/wojciech-borkowski/              */
+/*        MAIL:  wborkowski@uw.edu.pl                                 */
 /*                               (Don't change or remove this note)   */
 /* ****************************************************************** */
 

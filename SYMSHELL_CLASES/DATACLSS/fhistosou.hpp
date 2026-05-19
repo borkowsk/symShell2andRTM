@@ -1,7 +1,7 @@
 /// @file
 /// @brief __A filter that counts the number of categories and derived statistics.__ /<br>
 ///         _Filtr liczący liczebność określonej liczby klas serii i pochodne statystyki._
-/// @date 2026-05-18 (modified)
+/// @date 2026-05-19 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_FIXED_CLAS_HISTOGRAM_SOUR_HPP_INCLUDED_
@@ -364,8 +364,8 @@ typedef fix_histogram_source<data_source_base> generic_fix_histogram_source;
 /*            W O J C I E C H   B O R K O W S K I                     */
 /*  Zakład Systematyki i Geografii Roślin Uniwersytetu Warszawskiego  */
 /*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego         */
-/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk               */
-/*        MAIL: borkowsk@iss.uw.edu.pl                                */
+/*        WWW:  http://iss.uw.edu.pl/wojciech-borkowski/              */
+/*        MAIL:  wborkowski@uw.edu.pl                                 */
 /*                               (Don't change or remove this note)   */
 /* ****************************************************************** */
 #endif

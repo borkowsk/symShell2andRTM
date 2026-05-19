@@ -1,7 +1,7 @@
 /// @file
 /// @brief **Implementation of the world type -- output operator <<  ** /<br>
 ///         _Implementacja operatora << dla klasy świata._
-/// @date 2026-05-18 (modified)
+/// @date 2026-05-19 (modified)
 // ----------------------------------------------
 // Its is rather simply implementation. You can replace it if you need.
 //=====================================================================
@@ -42,8 +42,8 @@ ostream& operator << (ostream& o,const sym2::shell::world& w)
 /*            W O J C I E C H   B O R K O W S K I                   */
 /* Zaklad Systematyki i Geografii Roslin Uniwersytetu Warszawskiego */
 /*  & Instytut Studiow Spolecznych Uniwersytetu Warszawskiego       */
-/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk             */
-/*        MAIL: borkowsk@iss.uw.edu.pl                              */
+/*        WWW:  http://iss.uw.edu.pl/wojciech-borkowski/            */
+/*        MAIL:  wborkowski@uw.edu.pl                               */
 /*                               (Don't change or remove this note) */
 /********************************************************************/
 

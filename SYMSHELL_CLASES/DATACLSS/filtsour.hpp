@@ -1,7 +1,7 @@
 /// @file
 /// @brief __Different types of single-source data filters.__ /<br>
 ///         _Różne klasy jednoźródłowych filtrów danych._
-/// @date 2026-05-18 (modified)
+/// @date 2026-05-19 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_FILTERS_SOUR_HPP_INCLUDED_
@@ -434,8 +434,8 @@ const char *threshold_filter_base<SOURCE_TYPE>::name()
 /*            W O J C I E C H   B O R K O W S K I                     */
 /*  Zakład Systematyki i Geografii Roslin Uniwersytetu Warszawskiego  */
 /*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego         */
-/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk               */
-/*        MAIL: borkowsk@iss.uw.edu.pl                                */
+/*        WWW:  http://iss.uw.edu.pl/wojciech-borkowski/              */
+/*        MAIL:  wborkowski@uw.edu.pl                                 */
 /*                               (Don't change or remove this note)   */
 /* ****************************************************************** */
 #endif //SYMSHELL2_FILTERS_SOUR_HPP_INCLUDED_

@@ -1,7 +1,7 @@
 /// @file
 /// @brief __Specific source types - access to data in two-dimensional arrays.__ /<br>
 ///         _Konkretne klasy źródeł — dostęp do danych w tablicach dwuwymiarowych._
-/// @date 2026-05-18 (modified)
+/// @date 2026-05-19 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_MATRIX_SOUR_HPP_INCLUDED_
@@ -700,8 +700,8 @@ void method_by_ptr_matrix_source<STRUCT_T, METHOD_T>::bounds(size_t &num, double
 /*            W O J C I E C H   B O R K O W S K I                     */
 /*  Zakład Systematyki i Geografii Roslin Uniwersytetu Warszawskiego  */
 /*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego         */
-/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk               */
-/*        MAIL: borkowsk@iss.uw.edu.pl                                */
+/*        WWW:  http://iss.uw.edu.pl/wojciech-borkowski/              */
+/*        MAIL:  wborkowski@uw.edu.pl                                 */
 /*                               (Don't change or remove this note)   */
 /* ****************************************************************** */
 #endif //SYMSHELL2_MATRIX_SOUR_HPP_INCLUDED_

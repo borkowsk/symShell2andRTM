@@ -1,7 +1,7 @@
 /// @file
 /// @brief STARY WADLIWY (już niekompatybilny) filtr liczący koincydencje klas dwu serii i pochodne statystyki (Hi^2 itp.).
 ///        <br> __OBSOLETE__
-/// @date 2026-05-18 (modified)
+/// @date 2026-05-19 (modified)
 // ********************************************************************************************************************
 //  Coś dziwnego Tidy robi z tym plikiem. Nie jest w stanie znaleźć systemowych nagłówków.
 #ifndef SYMSHELL2_COINCIDENCE_SOUR_HPP_INCLUDED_
@@ -271,8 +271,8 @@ typedef coincidention_source<data_source_base> generic_coincidention_source;
 /*            W O J C I E C H   B O R K O W S K I                     */
 /*  Zakład Systematyki i Geografii Roślin Uniwersytetu Warszawskiego  */
 /*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego         */
-/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk               */
-/*        MAIL: borkowsk@iss.uw.edu.pl                                */
+/*        WWW:  http://iss.uw.edu.pl/wojciech-borkowski/              */
+/*        MAIL:  wborkowski@uw.edu.pl                                 */
 /*                               (Don't change or remove this note)   */
 /* ****************************************************************** */
 #endif //SYMSHELL2_COINCIDENCE_SOUR_HPP_INCLUDED_

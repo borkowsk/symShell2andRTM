@@ -1,7 +1,7 @@
 /// @file
 /// @brief __Classes of functional sources and their parameters__ /<br>
 ///         _Klasy źródeł funkcyjnych i ich parametrów._
-/// @date 2026-05-18 (modified)
+/// @date 2026-05-19 (modified)
 // ********************************************************************************************************************
 //                       Zmodyfikowana znacząco 05.04.2008
 //
@@ -178,8 +178,8 @@ double function_source<F>::get(size_t i) //Daje którąś z N liczb!!!
 /*            W O J C I E C H   B O R K O W S K I                     */
 /*  Zakład Systematyki i Geografii Roslin Uniwersytetu Warszawskiego  */
 /*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego         */
-/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk               */
-/*        MAIL: borkowsk@iss.uw.edu.pl                                */
+/*        WWW:  http://iss.uw.edu.pl/wojciech-borkowski/              */
+/*        MAIL:  wborkowski@uw.edu.pl                                 */
 /*                               (Don't change or remove this note)   */
 /* ****************************************************************** */
 #endif //SYMSHELL2_FUNCTION_SOURCES_HPP_INCLUDED_

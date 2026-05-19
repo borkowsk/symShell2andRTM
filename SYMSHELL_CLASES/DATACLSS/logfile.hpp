@@ -1,7 +1,7 @@
 /// @file
 /// @brief __The base type of the interface for writing data from single-value sources to a file and its simplest implementation.__ /<br>
 /// _Klasa bazowa interface-u zapisywania do pliku danych ze źródeł jednowartościowych oraz jego najprostsza implementacja._
-/// @date 2026-05-18 (modified)
+/// @date 2026-05-19 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_LOG_FILE_HPP_INCLUDED_
@@ -143,8 +143,8 @@ public:
 /*            W O J C I E C H   B O R K O W S K I                     */
 /*  Zakład Systematyki i Geografii Roslin Uniwersytetu Warszawskiego  */
 /*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego         */
-/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk               */
-/*        MAIL: borkowsk@iss.uw.edu.pl                                */
+/*        WWW:  http://iss.uw.edu.pl/wojciech-borkowski/              */
+/*        MAIL:  wborkowski@uw.edu.pl                                 */
 /*                               (Don't change or remove this note)   */
 /* ****************************************************************** */
 #endif

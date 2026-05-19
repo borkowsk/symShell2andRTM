@@ -1,7 +1,7 @@
 /// @file
 /// @brief  **A helper type that manages the name of a data series object and more** /<br>
 ///          _Klasa pomocnicza zarządzająca nazwą obiektu serii danych i nie tylko._
-/// @date 2026-05-18 (modified)
+/// @date 2026-05-19 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_TITLE_UTIL_HPP_INCLUDED_
@@ -88,8 +88,8 @@ namespace sym2
 /*            W O J C I E C H   B O R K O W S K I                     */
 /*  Zakład Systematyki i Geografii Roślin Uniwersytetu Warszawskiego  */
 /*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego         */
-/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk               */
-/*        MAIL: borkowsk@iss.uw.edu.pl                                */
+/*        WWW:  http://iss.uw.edu.pl/wojciech-borkowski/              */
+/*        MAIL:  wborkowski@uw.edu.pl                                 */
 /*                               (Don't change or remove this note)   */
 /* ****************************************************************** */
 #endif //SYMSHELL2_TITLE_UTIL_HPP_INCLUDED_

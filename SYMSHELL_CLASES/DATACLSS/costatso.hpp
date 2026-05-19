@@ -1,7 +1,7 @@
 /// @file
 /// @brief __Base type for statistical co-filters - two-series statistics.__ /<br>
 ///         _Podstawowa klasa dla ko-filtrów statystycznych — statystyk z dwu serii.
-/// @date 2026-05-18 (modified)
+/// @date 2026-05-19 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_CO_STAT_SOUR_HPP_INCLUDED_
@@ -357,8 +357,8 @@ typedef co_statistics_source generic_co_statistics_source;
 /*            W O J C I E C H   B O R K O W S K I                     */
 /*  Zakład Systematyki i Geografii Roślin Uniwersytetu Warszawskiego  */
 /*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego         */
-/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk               */
-/*        MAIL: borkowsk@iss.uw.edu.pl                                */
+/*        WWW:  http://iss.uw.edu.pl/wojciech-borkowski/              */
+/*        MAIL:  wborkowski@uw.edu.pl                                 */
 /*                               (Don't change or remove this note)   */
 /* ****************************************************************** */
 #endif //SYMSHELL2_CO_STAT_SOUR_HPP_INCLUDED_

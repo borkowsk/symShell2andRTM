@@ -1,7 +1,7 @@
 /// @file
 /// @brief **Implementation of loading the simulation layer from graphic files** /<br>
 ///        _Implementacja wczytywania warstwy symulacji z plików graficznych._
-/// @date 2026-05-17 (modified)
+/// @date 2026-05-19 (modified)
 ///       -------------------------------------------------------------------
 /// @details
 ///             ...
@@ -78,7 +78,7 @@ int sym2::shell::rectangle_layer::init_from_bitmap(const char* filename, void* u
 /*            W O J C I E C H   B O R K O W S K I                     */
 /*  Zakład Systematyki i Geografii Roślin Uniwersytetu Warszawskiego  */
 /*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego         */
-/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk               */
-/*        MAIL: borkowsk@iss.uw.edu.pl                                */
+/*        WWW:  http://iss.uw.edu.pl/wojciech-borkowski/              */
+/*        MAIL:  wborkowski@uw.edu.pl                                 */
 /*                               (Don't change or remove this note)   */
 /* ****************************************************************** */

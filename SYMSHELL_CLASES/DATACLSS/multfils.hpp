@@ -1,7 +1,7 @@
 /// @file
 /// @brief __The base type for filters containing subsources__ /<br>
 ///         _Podstawowa klasa dla filtrów zawierających pod-źródła_
-/// @date 2026-05-18 (modified)
+/// @date 2026-05-19 (modified)
 //==============================================================================
 //
 #ifndef SYMSHELL2_MULTI_FILTER_SOUR_HPP_INCLUDED_
@@ -234,8 +234,8 @@ typedef multi_filter_source_base<data_source_base> generic_multi_filter_source_b
 /*            W O J C I E C H   B O R K O W S K I                     */
 /*  Zakład Systematyki i Geografii Roslin Uniwersytetu Warszawskiego  */
 /*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego         */
-/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk               */
-/*        MAIL: borkowsk@iss.uw.edu.pl                                */
+/*        WWW:  http://iss.uw.edu.pl/wojciech-borkowski/              */
+/*        MAIL:  wborkowski@uw.edu.pl                                 */
 /*                               (Don't change or remove this note)   */
 /* ****************************************************************** */
 #endif

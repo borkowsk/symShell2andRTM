@@ -1,7 +1,7 @@
 /// @file
 /// @brief __INTERFACES of the most basic data source types__ /<br>
 ///         _INTERFACE-y najbardziej podstawowych klas źródeł danych._
-/// @date 2026-05-18 (modified)
+/// @date 2026-05-19 (modified)
 // *********************************************************************************************************************
 //
 #ifndef SYMSHELL2_DATA_SOURCES_HPP_INCLUDED_
@@ -590,8 +590,8 @@ double template_filter_source_base<SOURCE_TYPE>::get(iterator_h &I)
 /*            W O J C I E C H   B O R K O W S K I                     */
 /*  Zakład Systematyki i Geografii Roslin Uniwersytetu Warszawskiego  */
 /*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego         */
-/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk               */
-/*        MAIL: borkowsk@iss.uw.edu.pl                                */
+/*        WWW:  http://iss.uw.edu.pl/wojciech-borkowski/              */
+/*        MAIL:  wborkowski@uw.edu.pl                                 */
 /*                               (Don't change or remove this note)   */
 /* ****************************************************************** */
 #endif //SYMSHELL2_DATA_SOURCES_HPP_INCLUDED_

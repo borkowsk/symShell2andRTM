@@ -1,7 +1,7 @@
 /// @file
 /// @brief __The type that queues values from a scalar source.__ /<br>
 ///         _Klasa kolejkująca wartości ze źródła skalarnego._
-/// @date 2026-05-18 (modified)
+/// @date 2026-05-19 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_FIFO_SOUR_HPP_INCLUDED_
@@ -343,8 +343,8 @@ const char *fifo_source<T>::name()
 /*            W O J C I E C H   B O R K O W S K I                     */
 /*  Zakład Systematyki i Geografii Roslin Uniwersytetu Warszawskiego  */
 /*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego         */
-/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk               */
-/*        MAIL: borkowsk@iss.uw.edu.pl                                */
+/*        WWW:  http://iss.uw.edu.pl/wojciech-borkowski/              */
+/*        MAIL:  wborkowski@uw.edu.pl                                 */
 /*                               (Don't change or remove this note)   */
 /* ****************************************************************** */
 #endif //SYMSHELL2_FIFO_SOUR_HPP_INCLUDED_

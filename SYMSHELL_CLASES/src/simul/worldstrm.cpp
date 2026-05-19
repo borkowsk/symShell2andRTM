@@ -1,7 +1,7 @@
 /// @file
 /// @brief **Implementation of the world type -- output operator <<  ** /<br>
 ///         _Implementacja operatora << dla klasy świata._
-/// @date 2026-05-18 (modified)
+/// @date 2026-05-19 (modified)
 ///       -------- ----------------------------------------------
 /// @details
 ///     Its is rather simply implementation. You can replace it if you need.
@@ -29,8 +29,8 @@ namespace sym2 { namespace shell {
 /*            W O J C I E C H   B O R K O W S K I                     */
 /*  Zakład Systematyki i Geografii Roślin Uniwersytetu Warszawskiego  */
 /*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego         */
-/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk               */
-/*        MAIL: borkowsk@iss.uw.edu.pl                                */
+/*        WWW:  http://iss.uw.edu.pl/wojciech-borkowski/              */
+/*        MAIL:  wborkowski@uw.edu.pl                                 */
 /*                               (Don't change or remove this note)   */
 /* ****************************************************************** */
 

@@ -1,7 +1,7 @@
 /// @file
 /// @brief **CLASSES DEFINING VARIOUS TYPES OF CHARTS** /<br>
 ///         _KLASY DEFINIUJĄCE RÓŻNORODNE TYPY WYKRESÓW._
-/// @date 2026-05-18 (modified)
+/// @date 2026-05-19 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_GRAPHS_HPP_INCLUDED_
@@ -1157,8 +1157,8 @@ class scatter3D_graph:public graph//Punkty w trzech wymiarach (dowolne X,Y,Z)
 /*            W O J C I E C H   B O R K O W S K I                     */
 /*  Zakład Systematyki i Geografii Roślin Uniwersytetu Warszawskiego  */
 /*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego         */
-/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk               */
-/*        MAIL: borkowsk@iss.uw.edu.pl                                */
+/*        WWW:  http://iss.uw.edu.pl/wojciech-borkowski/              */
+/*        MAIL:  wborkowski@uw.edu.pl                                 */
 /*                               (Don't change or remove this note)   */
 /* ****************************************************************** */
 #endif

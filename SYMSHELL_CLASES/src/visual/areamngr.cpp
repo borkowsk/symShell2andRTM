@@ -1,7 +1,7 @@
 /// @file
 /// @brief **Implementation of the base area manager** /<br>
 ///         _Implementacja bazowego zarządcy obszarów._
-/// @date 2026-05-18 (modified)
+/// @date 2026-05-19 (modified)
 //---------------------------------------------------------------------------
 //  Wersja z kosmetyką XI 2012
 //======================================================================================================================
@@ -622,8 +622,8 @@ int    area_manager::on_change(const gps_area& ar)
 /*            W O J C I E C H   B O R K O W S K I                     */
 /*  Zakład Systematyki i Geografii Roślin Uniwersytetu Warszawskiego  */
 /*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego         */
-/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk               */
-/*        MAIL: borkowsk@iss.uw.edu.pl                                */
+/*        WWW:  http://iss.uw.edu.pl/wojciech-borkowski/              */
+/*        MAIL:  wborkowski@uw.edu.pl                                 */
 /*                               (Don't change or remove this note)   */
 /* ****************************************************************** */
 

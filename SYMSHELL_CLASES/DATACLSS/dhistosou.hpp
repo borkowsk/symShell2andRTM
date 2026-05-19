@@ -1,7 +1,7 @@
 /// @file
 /// @brief __Filter counting the number of categories in discrete data serie and derived statistics.__ /<br>
 ///         _Filtr liczący liczebność dyskretnych klas serii i pochodne statystyki._
-/// @date 2026-05-18 (modified)
+/// @date 2026-05-19 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_DISCR_HISTOGRAM_SOUR_HPP_INCLUDED_
@@ -349,8 +349,8 @@ int discrete_histogram_source<DATA_SOURCE>::_calculate()
 /*            W O J C I E C H   B O R K O W S K I                     */
 /*  Zakład Systematyki i Geografii Roslin Uniwersytetu Warszawskiego  */
 /*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego         */
-/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk               */
-/*        MAIL: borkowsk@iss.uw.edu.pl                                */
+/*        WWW:  http://iss.uw.edu.pl/wojciech-borkowski/              */
+/*        MAIL:  wborkowski@uw.edu.pl                                 */
 /*                               (Don't change or remove this note)   */
 /* ****************************************************************** */
 #endif
