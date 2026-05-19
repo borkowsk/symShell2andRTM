@@ -29,10 +29,16 @@ int lifeworld::implement_input(istream& i)
     return 0;
 }
 
-//==============================================
-// Example for SYMSHELL CLASSES library.
-/// @author Wojciech Borkowski, iss.uw.edu.pl
-// https://github.com/borkowsk/symShell2andRTM
-/// @copyright 2000 - 2026
-//==============================================
+/* ****************************************************************** */
+/*        SYMSHELL2 EXAMPLE  version 2006/2022/2026                   */
+/* ****************************************************************** */
+/*           THIS CODE IS DESIGNED & COPYRIGHT BY:                    */
+/*            W O J C I E C H   B O R K O W S K I                     */
+/*  Zakład Systematyki i Geografii Roślin Uniwersytetu Warszawskiego  */
+/*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego         */
+/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk               */
+/*        MAIL: borkowsk@iss.uw.edu.pl                                */
+/*                               (Don't change or remove this note)   */
+/* ****************************************************************** */
+
 

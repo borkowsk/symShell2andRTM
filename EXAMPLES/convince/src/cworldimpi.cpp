@@ -29,7 +29,7 @@ int aWorld::implement_input(istream& i)
 }
 
 /* ****************************************************************** */
-/*         SYMSHELL2 EXAMPLES version 2006/2022/2026                  */
+/*        SYMSHELL2 EXAMPLE  version 2006/2022/2026                   */
 /* ****************************************************************** */
 /*           THIS CODE IS DESIGNED & COPYRIGHT BY:                    */
 /*            W O J C I E C H   B O R K O W S K I                     */
@@ -39,6 +39,8 @@ int aWorld::implement_input(istream& i)
 /*        MAIL: borkowsk@iss.uw.edu.pl                                */
 /*                               (Don't change or remove this note)   */
 /* ****************************************************************** */
+
+
 
 
 

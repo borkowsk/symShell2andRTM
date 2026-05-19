@@ -433,14 +433,16 @@ ERROR://... tu akcja na niepogodę
 ; //error_message(...)
 }
 
-/********************************************************************/
-/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
-/*            W O J C I E C H   B O R K O W S K I                   */
-/*                                                                  */
-/*      Instytut Studiów Społecznych Uniwersytetu Warszawskiego     */
-/*                                                                  */
-/*        WWW:  http://www.iss.uw.edu.pl/~borkowsk                  */
-/*        MAIL: borkowsk@samba.iss.uw.edu.pl                        */
-/*                                                                  */
-/*                               (Don't change or remove this note) */
-/********************************************************************/
+/* ****************************************************************** */
+/*        SYMSHELL2 EXAMPLE  version 2006/2022/2026                   */
+/* ****************************************************************** */
+/*           THIS CODE IS DESIGNED & COPYRIGHT BY:                    */
+/*            W O J C I E C H   B O R K O W S K I                     */
+/*  Zakład Systematyki i Geografii Roślin Uniwersytetu Warszawskiego  */
+/*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego         */
+/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk               */
+/*        MAIL: borkowsk@iss.uw.edu.pl                                */
+/*                               (Don't change or remove this note)   */
+/* ****************************************************************** */
+
+

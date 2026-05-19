@@ -1,12 +1,8 @@
 /// @file
 /// @EN{  }
-/// @PL{  }
+/// @PL{ Przykładowy program SYMSHELL-z z klasami. }
 /// @date 2026-05-19 (modified)
 /// =========================================================
-///
-/// @brief Przykładowy program SYMSHELL-z z klasami.
-/// @date 2026-05-19 (modified)
-///       ------------------------------------------
 /// @details
 ///     Demonstracja stosowania obiektowego pietra SYMSHELL-a
 ///     Tworzy kilka przykładowych seri danych i umieszcza je w zarządcy danych.
@@ -270,13 +266,15 @@ int main(int argc,const char* argv[])
 
 #pragma clang diagnostic pop
 
-/* ***************************************************************** */
-/*            THIS CODE IS DESIGNED & COPYRIGHT BY:                  */
-/*            W O J C I E C H   B O R K O W S K I                    */
-/* Zakład Systematyki i Geografii Roślin Uniwersytetu Warszawskiego  */
-/*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego        */
-/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk              */
-/*        MAIL: borkowsk@iss.uw.edu.pl                               */
-/*                               (Don't change or remove this note)  */
-/* ***************************************************************** */
+/* ****************************************************************** */
+/*        SYMSHELL2 EXAMPLE  version 2006/2022/2026                   */
+/* ****************************************************************** */
+/*           THIS CODE IS DESIGNED & COPYRIGHT BY:                    */
+/*            W O J C I E C H   B O R K O W S K I                     */
+/*  Zakład Systematyki i Geografii Roślin Uniwersytetu Warszawskiego  */
+/*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego         */
+/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk               */
+/*        MAIL: borkowsk@iss.uw.edu.pl                                */
+/*                               (Don't change or remove this note)   */
+/* ****************************************************************** */
 

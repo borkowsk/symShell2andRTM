@@ -1,27 +1,14 @@
 /// @file
-/// @EN{  }
-/// @PL{  }
+/// @brief
+///  @EN{  }
+///  @PL{ SYMULACJA KONFLIKTÓW BOCA 2005 (plik główny) }
 /// @date 2026-05-19 (modified)
-/// =========================================================
-///
-/// @file
-/// @brief SYMULACJA KONFLIKTÓW BOCA 2005 (plik główny)
+///       =========================================================
+/// @details UZUPEŁNIONY 10-11.2005, 9-2010, 02-2014, 04-2026
+
 //-=====================================================================================================================
-/// @date 2026-05-19 (last update)
-/// @details
-/// UZUPEŁNIONY 10-11.2005, 9-2010, 02-2014, 04-2026
-/// ## HISTORIA
-/// * 1.1 Dodano obsługę wczytywania sieci z pliku
-/// * 1.2 Dodano obsługę parametrów wywołania
-///       i symetryczne traktowanie połączeń wczytanych z pliku
-/// * 1.21 Poprawiono obsługę parametrów — błąd dla stringów
-///       Dodano parametry kontroli wydruku oraz Min-Max dla skali stanów
-/// * 1.22 "Updajt" do poprawionej wersji bibliotek SYMSHELL i WBRTM.
-/// * 1.23 Ponowny "updejt" do stanu bibliotek na 2026.04
-///
 //#include "platform.hpp" //????
 
-//#define POLISH_VERSION
 #include "optParam.hpp"
 #include "wb_ptr.hpp"
 #include "wb_rand.hpp"
@@ -31,6 +18,7 @@
 #include "statsour.hpp"
 #include "fifosour.hpp"
 #include "sourmngr.hpp"
+
 //#include "gadgets.hpp"
 #include "graphs.hpp"
 #include "areamngr.hpp"
@@ -42,8 +30,18 @@
 
 using namespace sym2;
 
+/// ## HISTORIA
+/// * 1.1 Dodano obsługę wczytywania sieci z pliku
+/// * 1.2 Dodano obsługę parametrów wywołania
+///       i symetryczne traktowanie połączeń wczytanych z pliku
+/// * 1.21 Poprawiono obsługę parametrów — błąd dla stringów
+///       Dodano parametry kontroli wydruku oraz Min-Max dla skali stanów
+/// * 1.22 "Updajt" do poprawionej wersji bibliotek SYMSHELL i WBRTM.
+/// * 1.23 Ponowny "updejt" do stanu bibliotek na 2026.04
 const char* SIMULATION_NAME= "CONFLICTS 1.22b BOCA/WARSZAWA: " __DATE__;
 const char* SCREEN_DUMP_NAME="CONFLICTS_v1.22_";
+
+//#define POLISH_VERSION
 unsigned    lang_selector=1;
 
 const char* LogName="conf.log";  //Nazwa tego logu
@@ -1197,15 +1195,15 @@ return 0;
 //Gdzieś tu albo troche dalej destruktory...
 }
 
-/* ******************************************************************/
-/*              SYMSHELL2 EXAMPLE  version 2026                     */
-/* ******************************************************************/
-/*            THIS CODE IS DESIGNED & COPYRIGHT BY:                 */
-/*            W O J C I E C H   B O R K O W S K I                   */
-/*    Instytut Studiów Społecznych Uniwersytetu Warszawskiego       */
-/*    WWW: https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI  */
-/*    GITHUB: https://github.com/borkowsk                           */
-/*                                                                  */
-/*                               (Don't change or remove this note) */
-/* ******************************************************************/
+/* ****************************************************************** */
+/*        SYMSHELL2 EXAMPLE  version 2006/2022/2026                   */
+/* ****************************************************************** */
+/*           THIS CODE IS DESIGNED & COPYRIGHT BY:                    */
+/*            W O J C I E C H   B O R K O W S K I                     */
+/*  Zakład Systematyki i Geografii Roślin Uniwersytetu Warszawskiego  */
+/*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego         */
+/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk               */
+/*        MAIL: borkowsk@iss.uw.edu.pl                                */
+/*                               (Don't change or remove this note)   */
+/* ****************************************************************** */
 #pragma clang diagnostic pop
