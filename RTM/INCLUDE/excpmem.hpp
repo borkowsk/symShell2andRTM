@@ -1,8 +1,8 @@
 /**
 * \file
 * \brief
-*        @PL{  }
-*        @EN{ Generic "out of memory" & "invalid pointer" exception. }
+*        @PL{ Ogólne wyjątki „brak pamięci” i „nieprawidłowy wskaźnik”. }
+*        @EN{ Generic "out of memory" & "invalid pointer" exceptions. }
 * @date 2026-05-19 (last modification)
 *       ==============================================================
 * \details
@@ -51,7 +51,7 @@ void PrintTo(std::ostream&) const;
 ///@}
 
 /* ******************************************************************/
-/*                WBRTM  version 2022 for GuestXR                   */
+/*                      WBRTM  version 2026                         */
 /* ******************************************************************/
 /*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
 /*            W O J C I E C H   B O R K O W S K I                   */

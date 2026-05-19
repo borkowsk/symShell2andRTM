@@ -1,7 +1,7 @@
 /**
 * \file
 * \brief
-*      @EN{  }
+*      @EN{ CLASS FOR OPERATING ON TABLES from TAB-DELIMITED files. }
 *      @PL{ KLASA DO OPEROWANIU NA TABLICACH z plików TAB-DELIMITED. }
 * @date 2026-05-19 (last modification)
 *        -------------------------------------------------------------
@@ -142,7 +142,7 @@ namespace wbrtm {
 } //namespace wbrtm
 
 /* ******************************************************************/
-/*                WBRTM  version 2022 for GuestXR                   */
+/*                      WBRTM  version 2026                         */
 /* ******************************************************************/
 /*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
 /*            W O J C I E C H   B O R K O W S K I                   */

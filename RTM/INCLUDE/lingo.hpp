@@ -1,7 +1,7 @@
 /// @file
 /// @brief
 ///        @PL{ Selektor języka komunikatów ekranowych. }
-///        @EN{  }
+///        @EN{ On-screen language message selector. }
 /// @date 2026-05-19 (modified)
 ///       ===============================================
 /// @details Poprawiony z bardzo starej wersji.

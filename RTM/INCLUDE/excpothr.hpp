@@ -1,8 +1,8 @@
 /**
 * \file
 * \brief
-*        @PL{  }
-*        @EN{  Generic "invalid index" exception. }
+*        @PL{ Ogólny wyjątek „nieprawidłowy indeks”. }
+*        @EN{ Generic "invalid index" exception. }
 * @date 2026-05-19 (last modification)
 *       ===========================================
 * \details
@@ -41,7 +41,7 @@ void PrintTo(std::ostream&) const;
 ///@}
 
 /* ******************************************************************/
-/*                WBRTM  version 2022 for GuestXR                   */
+/*                      WBRTM  version 2026                         */
 /* ******************************************************************/
 /*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
 /*            W O J C I E C H   B O R K O W S K I                   */

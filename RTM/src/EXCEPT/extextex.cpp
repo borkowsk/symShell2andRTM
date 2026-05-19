@@ -7,7 +7,7 @@ namespace wbrtm { //WOJCIECH BORKOWSKI RUN TIME LIBRARY
 } //namespace
 
 /* *******************************************************************/
-/*                    WBRTM  version 2006/2020                       */
+/*                      WBRTM  version 2026                         */
 /* *******************************************************************/
 /*            THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
 /*             W O J C I E C H   B O R K O W S K I                   */

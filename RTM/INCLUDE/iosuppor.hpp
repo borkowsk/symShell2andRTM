@@ -1,7 +1,7 @@
 /// @file
 /// @brief
-///        @PL{ Zapisywanie na strumień tekstowy obiektów heterogenicznych. }
-///        @EN{  }
+///        @PL{ Zapisywanie/odczytywanie na strumień tekstowy obiektów heterogenicznych. }
+///        @EN{ Saving/reading heterogeneous objects to a text stream. }
 /// @date 2026-05-19 (modified)
 #ifndef __IOSUPPORT_HPP__
 #define __IOSUPPORT_HPP__
@@ -326,7 +326,7 @@ return i;
 } //namespace
 
 /* ******************************************************************/
-/*                WBRTM  version 2022 for GuestXR                   */
+/*                      WBRTM  version 2026                         */
 /* ******************************************************************/
 /*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
 /*            W O J C I E C H   B O R K O W S K I                   */

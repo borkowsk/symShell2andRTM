@@ -1,8 +1,8 @@
 /**
 * @file
 * \brief
-*       @PL{  }
-*       @EN{ How do I convert T to a string that says what T is? }
+*       @PL{ Jak przekonwertować dowolny typ na ciąg znaków informujący, czym jest ten typ? }
+*       @EN{ How do I convert any type to a string that says what this type is? }
 * @date 2026-05-19 (last modification)
 *          -----------------------------------------------------
 *
@@ -80,7 +80,7 @@ ENABLE_TYPENAME(long) 	      ///< \brief `TypeName` specialization for type 'lon
 ///@}
 
 /* ******************************************************************/
-/*                WBRTM  version 2022 for GuestXR                   */
+/*                      WBRTM  version 2026                         */
 /* ******************************************************************/
 /*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
 /*            W O J C I E C H   B O R K O W S K I                   */

@@ -1,6 +1,6 @@
 /** @file
 *  \brief
-*        @PL{  }
+*        @PL{ Klasa bazowa dla dynamicznych tablic o zmiennym rozmiarze. }
 *        @EN{ Base class for dynamic resizable arrays. }
 *  @date 2026-05-19 (last modification)
 *  \details Obsolete and not improved part of the wb_rtm library.
@@ -204,7 +204,7 @@ inline wb_pchar array_base<T>::ChangeSeparator(const char* Sep)
 } //namespace
 
 /* ******************************************************************/
-/*                WBRTM  version 2022 for GuestXR                   */
+/*                      WBRTM  version 2026                         */
 /* ******************************************************************/
 /*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
 /*            W O J C I E C H   B O R K O W S K I                   */

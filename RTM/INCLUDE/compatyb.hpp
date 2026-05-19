@@ -1,7 +1,7 @@
 /**  \file
  *   @brief
- *   @PL{ Plik definiujący funkcje eat_blanks i eat_chars, w sposób zależny od platform kompilacji }
- *   @EN{  }
+ *   @PL{ Definicje funkcji ‘eat_blanks’ i ‘eat_chars’, w sposób zależny od platform kompilacji. }
+ *   @EN{  Definitions of the 'eat_blanks' and 'eat_chars' functions, depending on the build platforms. }
 * @date 2026-05-19 (last modification)
 *       ********************************************************************************************
 *  @note Cała biblioteka WB_RTM to jest nieco odremontowane muzeum kodu z wieku XX.!!!
@@ -161,7 +161,7 @@ namespace wbrtm {
 #endif /* end of other compilers part */
 
 /* ******************************************************************/
-/*                WBRTM  version 2022 for GuestXR                   */
+/*                      WBRTM  version 2026                         */
 /* ******************************************************************/
 /*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
 /*            W O J C I E C H   B O R K O W S K I                   */

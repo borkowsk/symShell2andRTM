@@ -1,7 +1,7 @@
 /// @file
 /// @brief
-///        @PL{  }
-///        @EN{ Funkcje pomocnicze dla wejścia/wyjścia kodowanych lancuchow. }
+///        @PL{ Auxiliary functions for input/output of coded strings. }
+///        @EN{ Funkcje pomocnicze dla wejścia/wyjścia kodowanych łańcuchów. }
 /// @date 2026-05-19 (modified)
 ///       ====================================================================
 ///
@@ -36,7 +36,7 @@ int		WriteEnclosedString(ostream& file,const char* str,const vobject& user,char 
 } //namespace
 
 /* ******************************************************************/
-/*                WBRTM  version 2022 for GuestXR                   */
+/*                      WBRTM  version 2026                         */
 /* ******************************************************************/
 /*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
 /*            W O J C I E C H   B O R K O W S K I                   */

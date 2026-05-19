@@ -1,7 +1,7 @@
 /// @file
 /// @brief
-///        @PL{  }
-///        @EN{ Base class for all class with virtual members.  }
+///        @PL{ Klasa bazowa dla wszystkich typów z metodami wirtualnymi. }
+///        @EN{ Base class for all types with virtual members.  }
 /// @date 2026-05-19 (modified)
 ///       =======================================================
 /// @details
@@ -224,7 +224,7 @@ istream& operator >> (istream& i,vobject& vo); // stream input function
 } //namespace
 
 /* ******************************************************************/
-/*                WBRTM  version 2022 for GuestXR                   */
+/*                      WBRTM  version 2026                         */
 /* ******************************************************************/
 /*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
 /*            W O J C I E C H   B O R K O W S K I                   */

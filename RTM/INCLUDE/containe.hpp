@@ -1,7 +1,7 @@
 /// @file
 /// @brief
-///        @PL{ Klasy definiujące interface do wszelkiego rodzaju kontenerów zawierających obiekty typu T }
-///        @EN{  }
+///        @PL{ Klasy definiujące interface do wszelkiego rodzaju szablonowych kontenerów zawierających obiekty dowolnego typu. }
+///        @EN{ Types defining the interface to all kinds of template containers containing objects of any type. }
 /// @date 2026-05-19 (modified)
 ///       =================================================================================================
 /// @note Cała biblioteka WB_RTM to jest nieco odremontowane muzeum kodu z wieku XX.!!!
@@ -93,7 +93,7 @@ virtual V& operator () (K)=0; // the most smart indexing. Building(?) item if po
 } //namespace
 
 /********************************************************************/
-/*			          WBRTM  version 2006                           */
+/*		      WBRTM  version 2006                           */
 /********************************************************************/
 /*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
 /*            W O J C I E C H   B O R K O W S K I                   */

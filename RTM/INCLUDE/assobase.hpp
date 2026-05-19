@@ -1,6 +1,6 @@
 /** @file
 *  \brief
-*          @PL{  }
+*          @PL{ Typ bazowy do tworzenia tablic asocjacyjnych. }
 *          @EN{ Base type for creating associative arrays. }
 *  @date 2026-05-19 (last modification)
 *        ====================================================
@@ -182,7 +182,7 @@ IO_PUBLIC_DECLARE
 } //namespace
 
 /* ******************************************************************/
-/*                WBRTM  version 2022 for GuestXR                   */
+/*                      WBRTM  version 2026                         */
 /* ******************************************************************/
 /*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
 /*            W O J C I E C H   B O R K O W S K I                   */

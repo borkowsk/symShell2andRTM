@@ -47,7 +47,7 @@ _io_fail_raiser    IO_fail_raiser;
 } //namespace
 
 /* *******************************************************************/
-/*                     WBRTM  version 2006                           */
+/*                      WBRTM  version 2026                          */
 /* *******************************************************************/
 /*            THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
 /*             W O J C I E C H   B O R K O W S K I                   */

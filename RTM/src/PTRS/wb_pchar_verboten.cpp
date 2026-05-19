@@ -14,7 +14,7 @@ const char* WB_PCHAR_VERBOTEN_CHARS=" \t\n\r\'\"\0\01\02\03\04\05\06\07\010"; //
 
 }  //namespace wbrtm
 /* *******************************************************************/
-/*	       WBRTM  version 2006 - renovated in 2022                   */
+/*                      WBRTM  version 2026                          */
 /* *******************************************************************/
 /*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                  */
 /*            W O J C I E C H   B O R K O W S K I                    */

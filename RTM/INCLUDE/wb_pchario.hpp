@@ -1,7 +1,7 @@
 /** \file
  *  \brief
- *       @PL{  }
- *       @EN{ Templates for input and output of wbrtm::wb_pchar objects }
+ *       @PL{ Szablony wejścia i wyjścia obiektów `wbrtm::wb_pchar`. }
+ *       @EN{ Templates for input and output of `wbrtm::wb_pchar` objects. }
  *  @date 2026-05-19 (last modification)
  *         ---------------------------------------------------------
  *  \author Wojciech Borkowski @ Institut for Social Studies, University of Warsaw
@@ -128,7 +128,7 @@ return 0;
 } //namespace
 
 /* ******************************************************************/
-/*                WBRTM  version 2022 for GuestXR                   */
+/*                      WBRTM  version 2026                         */
 /* ******************************************************************/
 /*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
 /*            W O J C I E C H   B O R K O W S K I                   */

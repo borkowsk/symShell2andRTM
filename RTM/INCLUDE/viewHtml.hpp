@@ -1,7 +1,7 @@
 /// @file
 /// @brief
-///        @PL{ Wyświetlanie pliku HTML poprzez system shell. }
-///        @EN{  }
+///        @PL{ Wyświetlanie pliku HTML lub innego obsługiwanego przez przez system. }
+///        @EN{ Displaying an HTML or other file supported by the system. }
 /// @date 2026-05-19 (modified)
 ///       ====================================================
 /// @note Cała biblioteka WB_RTM to jest nieco odremontowane muzeum kodu z wieku XX, ale ten pomysł wciąż działa :-)

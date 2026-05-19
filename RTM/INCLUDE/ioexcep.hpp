@@ -1,7 +1,7 @@
 /**
 * \file
 * \brief
-*       @PL{  }
+*       @PL{ Ogólny wyjątek „wejścia/wyjścia”. }
 *       @EN{ Generic "input/output" exception. }
 * @date 2026-05-19 (last modification)
 *       ----------------------------------------
@@ -76,7 +76,7 @@ public:
 ///@}
 
 /* ******************************************************************/
-/*                WBRTM  version 2022 for GuestXR                   */
+/*                      WBRTM  version 2026                         */
 /* ******************************************************************/
 /*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
 /*            W O J C I E C H   B O R K O W S K I                   */

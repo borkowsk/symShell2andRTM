@@ -1,6 +1,6 @@
 /// @file
 /// @brief Implementacja wejścia wyjścia dla `char*`
-/// @date 2026-05-18 (modified)
+/// @date 2026-05-19 (modified)
 //-----------------------------------------------------------------------------
 #include <cassert>
 #include <ctype.h>
@@ -242,7 +242,7 @@ return NULL; // Może coś być już wczytane
 } //namespace
 
 /* *******************************************************************/
-/*                    WBRTM  version 2006-2022                       */
+/*                      WBRTM  version 2026                          */
 /* *******************************************************************/
 /*            THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
 /*             W O J C I E C H   B O R K O W S K I                   */

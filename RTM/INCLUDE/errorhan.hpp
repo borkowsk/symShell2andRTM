@@ -1,7 +1,7 @@
 /** \file
  *  \brief
- *        @PL{  }
- *        @EN{ C++ EXCEPTIONS AND ERROR SUPPORT }
+ *        @PL{ PODSTAWOWE WYJĄTKI I OBSŁUGA BŁĘDÓW. }
+ *        @EN{ BASIC EXCEPTIONS AND ERROR SUPPORT. }
  *  @date 2026-05-19 (last modification)
  *        =======================================
  *  @note Cała biblioteka WB_RTM to jest nieco odremontowane muzeum kodu z wieku XX.!!!
@@ -48,7 +48,7 @@ typedef error_handling err_handl;
 } //namespace
 ///@}
 /* ******************************************************************/
-/*                WBRTM  version 2022 for GuestXR                   */
+/*                      WBRTM  version 2026                         */
 /* ******************************************************************/
 /*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
 /*            W O J C I E C H   B O R K O W S K I                   */

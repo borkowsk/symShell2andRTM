@@ -4,7 +4,7 @@ wbrtm::RandSTDC	    TheRandSTDC;
 
 
 /* *******************************************************************/
-/*			 WBRTM  version 2006 - renovation 2022                   */
+/*                      WBRTM  version 2026                          */
 /* *******************************************************************/
 /*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                  */
 /*            W O J C I E C H   B O R K O W S K I                    */

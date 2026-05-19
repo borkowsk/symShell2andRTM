@@ -1,7 +1,7 @@
 /**
 * \file
 * \brief
-*        @PL{  }
+*        @PL{ Typ bazowy dla wyjątków i proste, uniwersalne klasy wyjątków. }
 *        @EN{ Base exception class, and derived simple multipurpose exception classes. }
 * @date 2026-05-19 (last modification)
 *       ================================================================================
@@ -203,7 +203,7 @@ virtual void PrintTo(std::ostream&) const;
 ///@}
 
 /* ******************************************************************/
-/*                WBRTM  version 2022 for GuestXR                   */
+/*                      WBRTM  version 2026                         */
 /* ******************************************************************/
 /*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
 /*            W O J C I E C H   B O R K O W S K I                   */

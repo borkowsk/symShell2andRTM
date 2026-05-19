@@ -39,7 +39,7 @@ int ViewHtml(const char* URL)
 
 #endif
 /* *******************************************************************/
-/*                  WBRTM  version 2022-10-27                        */
+/*                      WBRTM  version 2026                          */
 /* *******************************************************************/
 /*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                  */
 /*            W O J C I E C H   B O R K O W S K I                    */

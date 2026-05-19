@@ -1,6 +1,6 @@
 /// @brief
-///        @PL{  }
-///        @EN{ Global operator new for forcing constructor calling }
+///        @PL{ Operator globalny „new” do wymuszania wywoływania konstruktora. }
+///        @EN{ Global operator new for forcing constructor calling. }
 /// @date 2026-05-19 (modified)
 ///       ===========================================================
 #ifndef _VOIDNEW_HPP_
@@ -26,7 +26,7 @@ inline void operator delete(void *pMem,void* p)//Placement delete
 //} //namespace
 
 /* ******************************************************************/
-/*                WBRTM  version 2022 for GuestXR                   */
+/*                      WBRTM  version 2026                         */
 /* ******************************************************************/
 /*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
 /*            W O J C I E C H   B O R K O W S K I                   */

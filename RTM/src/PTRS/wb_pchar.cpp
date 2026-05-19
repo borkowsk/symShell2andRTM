@@ -150,7 +150,7 @@ bool replace(wb_pchar& bufor,const char* forrep,const char* whatins,bool fullwor
 
 } //namespace wbrtm
 /* *******************************************************************/
-/*	       WBRTM  version 2006 - renovated in 2022                   */
+/*                      WBRTM  version 2026                          */
 /* *******************************************************************/
 /*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                  */
 /*            W O J C I E C H   B O R K O W S K I                    */

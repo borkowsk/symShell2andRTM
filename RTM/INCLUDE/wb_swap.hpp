@@ -1,7 +1,7 @@
 /** @file
  * @brief
  *       @PL{ Szablon zamiany dwóch wartości tego samego typu niezależnie od typu. }
- *       @EN{  }
+ *       @EN{ A template for swapping two values ​​of the same type regardless of type. }
  * @date 2026-05-19 (last modification)
  *       ======================================================================
  * Created by borkowsk on 06.01.26.

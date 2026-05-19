@@ -1,7 +1,7 @@
 /// \file
 /// \brief
 ///        @PL{ Klasa stopera liczącego czas CPU. }
-///        @EN{  }
+///        @EN{ A stopwatch class that counts CPU time. }
 /// @date 2026-05-19 (last modification)
 ///     ------------------------------------
 ///
@@ -102,7 +102,7 @@ friend
 typedef wb_cpu_clock cticker; ///< ready to use timer starting before main()
 
 /* ******************************************************************/
-/*                WBRTM  version 2022 for GuestXR                   */
+/*                      WBRTM  version 2026                         */
 /* ******************************************************************/
 /*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
 /*            W O J C I E C H   B O R K O W S K I                   */

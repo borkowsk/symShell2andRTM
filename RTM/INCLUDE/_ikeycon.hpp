@@ -1,6 +1,6 @@
 /// @file
 /// @brief
-///        @PL{ ... }
+///        @PL{ Prywatny typ podstawowy dla rodziny tablic. }
 ///        @EN{ Private base type for an arrays family. }
 /// @date 2026-05-19 (modified)
 // ********************************************************************************************************************

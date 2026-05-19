@@ -1,7 +1,7 @@
 /** \file
 *	\brief
-*       @PL{  }
-*       @EN{ CLONING SUPPORT FOR ANY C++ OBJECTS }
+*       @PL{ OBSŁUGA KLONOWANIA DLA DOWOLNYCH OBIEKTÓW C++. }
+*       @EN{ CLONING SUPPORT FOR ANY C++ OBJECTS. }
 *   @date 2026-05-19 (last modification)
 *          --------------------------------------
 *
@@ -99,7 +99,7 @@ public:
 } //namespace
 
 /* ******************************************************************/
-/*                WBRTM  version 2022 for GuestXR                   */
+/*                      WBRTM  version 2026                         */
 /* ******************************************************************/
 /*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
 /*            W O J C I E C H   B O R K O W S K I                   */

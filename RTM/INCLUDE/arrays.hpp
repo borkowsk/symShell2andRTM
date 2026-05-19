@@ -1,7 +1,7 @@
 /** @file
 *  \brief
-*        @PL{  }
-*        @EN{ Dynamic arrays — some kind resizable }
+*        @PL{ Tablice dynamiczne — niektóre rodzaje z możliwością zmiany rozmiaru. }
+*        @EN{ Dynamic arrays — some kinds resizable. }
 *  @date 2026-05-19 (last modification)
 *        ===========================================
 *  \details Obsolete and not improved part of the wb_rtm library.
@@ -133,7 +133,7 @@ public:
 } //namespace
 
 /* ******************************************************************/
-/*                WBRTM  version 2022 for GuestXR                   */
+/*                      WBRTM  version 2026                         */
 /* ******************************************************************/
 /*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
 /*            W O J C I E C H   B O R K O W S K I                   */

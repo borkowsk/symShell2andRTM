@@ -1,7 +1,7 @@
 /** \file
  *  \brief
- *            @PL{  }
- *            @EN{ Type for bounded values and dedicated exception. }
+ *            @PL{ Typ zmiennoprzecinkowy okrojony do zakresu i dedykowany wyjątek. }
+ *            @EN{ Ranged floating point type and dedicated exception.. }
  *  @date 2026-05-19 (last modification)
  *  \author borkowsk
  *  @note Cała biblioteka WB_RTM to jest nieco odremontowane muzeum kodu z wieku XX.!!!
@@ -74,7 +74,7 @@ public:
 } //namespace wbrtm
 
 /* ******************************************************************/
-/*                WBRTM  version 2023 for GuestXR                   */
+/*                      WBRTM  version 2026                         */
 /* ******************************************************************/
 /*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
 /*            W O J C I E C H   B O R K O W S K I                   */

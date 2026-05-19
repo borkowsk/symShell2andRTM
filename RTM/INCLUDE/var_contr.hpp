@@ -1,7 +1,7 @@
 /// @file
 /// @brief
 ///        @PL{ Szablon klasy pozwalającej na zmianę wartości zmiennej w taki sposób, że po wyjściu z bloku przywracana jest wartość pierwotna. }
-///        @EN{  }
+///        @EN{ A template that allows you to change the value of a variable in such a way that the original value is restored after exiting the block. }
 /// @date 2026-05-19 (modified)
 ///       =====================
 /// @note Cała biblioteka WB_RTM to jest nieco odremontowane muzeum kodu z wieku XX.!!!
@@ -42,7 +42,7 @@ public:
 //typedef przechwytywacz przechwytywacz_t;     //I tak też się nie kompiluje
 
 /* ******************************************************************/
-/*                WBRTM  version 2022 for GuestXR                   */
+/*                      WBRTM  version 2026                         */
 /* ******************************************************************/
 /*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
 /*            W O J C I E C H   B O R K O W S K I                   */

@@ -1,7 +1,7 @@
 /// \file wb_ptr.hpp
 /// \brief
 ///        @PL{ Proste szablony inteligentnych wskaźników oraz tablic dynamicznych. }
-///        @EN{  }
+///        @EN{ Simple templates for smart indicators and dynamic arrays. }
 /// @date 2026-05-19 (last modification)
 ///        ===================================================================
 ///
@@ -884,7 +884,7 @@ extern int WB_error_enter_before_clean; ///< Sterowanie reakcją na kończące b
 ///@}
 
 /* ******************************************************************/
-/*              WBRTM  version 2022 for GuestXR                     */
+/*                      WBRTM  version 2026                         */
 /* ******************************************************************/
 /*            THIS CODE IS DESIGNED & COPYRIGHT BY:                 */
 /*            W O J C I E C H   B O R K O W S K I                   */

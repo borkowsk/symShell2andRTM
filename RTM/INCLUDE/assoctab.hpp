@@ -1,6 +1,6 @@
 /** @file
 *  \brief
-*            @PL{  }
+*            @PL{ Najprostsze tablice asocjacyjne. }
 *            @EN{ The simplest associative arrays. }
 *  @date 2026-05-19 (last modification)
 *        ===========================================
@@ -435,7 +435,7 @@ DEFINE_VIRTUAL_NECESSARY_FOR_TEMPLATE( <class K _COMA_ class V> , assoc_table_of
 } //namespace
 
 /* ******************************************************************/
-/*                WBRTM  version 2022 for GuestXR                   */
+/*                      WBRTM  version 2026                         */
 /* ******************************************************************/
 /*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
 /*            W O J C I E C H   B O R K O W S K I                   */

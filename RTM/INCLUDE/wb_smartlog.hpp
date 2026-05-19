@@ -1,7 +1,7 @@
 /** \file
  *  \brief
  *       @PL{ Zaawansowane logowanie aplikacji, wraz ze stosem (opcjonalnie). }
- *       @EN{  }
+ *       @EN{ Advanced application logging, including stack (optional). }
  *  @date 2026-05-19 (last modification)
  *        ----------------------------------------------------------------------
  *  \author Wojciech Borkowski @ Institut for Social Studies, University of Warsaw
@@ -181,7 +181,7 @@ extern  wbrtm::wb_smartlog TheApplicationLog; //Domyślny log aplikacji, domyśl
 #endif
 
 /* ******************************************************************/
-/*                WBRTM  version 2022 for GuestXR                   */
+/*                      WBRTM  version 2026                         */
 /* ******************************************************************/
 /*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
 /*            W O J C I E C H   B O R K O W S K I                   */
