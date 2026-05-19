@@ -280,7 +280,7 @@ DECLARE_AS_HETEROGENIC_ROOT( _KLASASZ_ )
 
 
 //Definicje  I/O dla inteligentnych wskaznikow
-////////////////////////////////////////////////
+//====================================================
 
 #ifndef WB_PTRIO_DEFINED  //Jak już wcześniej zdefiniowane to nie używamy tych
 template<class T>

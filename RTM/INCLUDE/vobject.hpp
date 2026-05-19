@@ -48,7 +48,7 @@ virtual ~IO_type_info_base(){}; ///< Skoro jest wirtualny interfejs to i musi by
 
 public:
 // Wymuszony interface
-//*///////////////////////
+//==========================
 virtual const char* Name() const=0 ;  ///< Nazwa klasy - jakaś! Format nie jest zdefiniowany
 virtual size_t		SizeOf() const=0; ///< Wirtualnie dostępny rozmiar obiektu
 virtual vobject*	Create() const=0; ///< Tworzy obiekt tego typu na bazie domyślnego konstruktora
