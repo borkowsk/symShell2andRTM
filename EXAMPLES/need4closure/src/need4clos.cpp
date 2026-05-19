@@ -1,10 +1,12 @@
 /// @file
-/// @brief ... (old example for SymShell implementing the Kruglanski's like model)
-//===========================================================================
-/// @date 2026-05-18 (modified)
-///
-// Symulacja Need for closure wg teorii Arie Kruglanskiego
-// Uzyskana z przerobienia programu ATTITUDE-s
+/// @brief
+///     @EN{ Old example for SymShell implementing the Kruglanski's like model }
+///     @PL{  }
+/// @date 2026-05-19 (modified)
+///       ===========================================================================
+/// @details
+///  Symulacja Need for closure wg teorii Arie Kruglanskiego
+///  Uzyskana z przerobienia programu ATTITUDE-s.
 //====================================================================================
 const char* WINDOW_HEADER="NEED FOR CLOSURE version 0.22a";
 const char* SIMULATION_NAME="need4clos_v0.22a";

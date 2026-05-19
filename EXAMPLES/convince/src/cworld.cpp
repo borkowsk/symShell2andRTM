@@ -1,6 +1,10 @@
 /// @file
-/// @brief Implementation of the world of the convinced (D. Stauffer idea).
-/// @date 2026-05-18 (modified)
+/// @brief
+/// @EN{ Implementation of the world of the convinced (D. Stauffer idea). }
+/// @PL{  }
+/// @date 2026-05-19 (modified)
+///       =================================================================
+/// @details ...
 //======================================================================================================================
 
 #include <cstring>

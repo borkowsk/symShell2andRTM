@@ -1,8 +1,12 @@
 /// @file
-/// @brief DECLARATION OF THE AGENT FOR "need 4 closure" SIMULATION (old example for SymShell implementing a Kruglanski's like model)
-// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @date 2026-05-16 (modified)
-//
+/// @brief
+/// @EN{ DECLARATION OF THE AGENT FOR "need 4 closure" SIMULATION. }
+/// @PL{  }
+/// @date 2026-05-19 (modified)
+/// =========================================================
+/// @details(old example for SymShell implementing a Kruglanski's like model)
+// =====================================================================================================================
+
 #pragma once
 #include "layer.hpp"
 #include "krand.h"

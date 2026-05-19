@@ -1,7 +1,10 @@
 /// @file
-/// IMPLEMENTATION OF   W O R L D   FOR "Conways Life" SIMULATION.
-/// @date 2026-05-18 (modified)
-//===============================================================
+///  @EN{ IMPLEMENTATION OF 'lifeworld' FOR "Conways Life" SIMULATION. }
+///  @PL{  }
+/// @date 2026-05-19 (modified)
+/// ====================================================================
+/// @details ...
+//======================================================================================================================
 
 //#include <limits.h>
 //#include <assert.h>

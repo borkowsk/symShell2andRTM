@@ -1,11 +1,11 @@
 /// @file
-/// @brief ... (old example for SymShell implementing the Kruglanski's like model)
-//===========================================================================
-/// @date 2026-05-18 (modified)
-// implementation of the kworld class.
-//	Virtual output methods 
-//----------------------------------------------
-// Its is rather simply implementation. You can replace it if you need.
+/// @brief
+///     @EN{ Implementation of the 'kworld' class. Virtual output methods. }
+///     @PL{  }
+/// @date 2026-05-19 (modified)
+///       ===========================================================================
+/// @details
+/// Its is rather simply implementation. You can replace it if you need.
 //=====================================================================
 #include "kworld.h"
 

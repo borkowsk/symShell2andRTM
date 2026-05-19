@@ -1,9 +1,11 @@
 /// @file
-/// @brief WHICH RANDOM NUMBER GENERATOR IS USED IN THIS SIMULATION?
-//---------------------------------------------------------------------
+///  @EN{ WHICH RANDOM NUMBER GENERATOR IS USED IN THE SIMULATION? }
+///  @PL{  }
+/// @date 2026-05-19 (modified)
+/// ================================================================
+/// @details
 /// Its is rather simply implementation. You can replace it if you need.
-// /////////////////////////////////////////////////////////////////////
-/// @date 2026-03-27 (modified)
+//======================================================================================================================
 
 #define USES_RANDG
 #include "random.h"

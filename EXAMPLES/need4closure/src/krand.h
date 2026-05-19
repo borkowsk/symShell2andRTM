@@ -1,8 +1,12 @@
 /// @file
-/// @brief WHICH RANDOM NUMBER GENERATOR USE THIS SIMULATION (old example for SymShell implementing Kruglanski like model)
-// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @date 2026-04-02 (modified)
-///
+/// @brief
+///  @EN{ WHICH RANDOM NUMBER GENERATOR IS USED IN THE SIMULATION? }
+///  @PL{  }
+/// @date 2026-05-19 (modified)
+///       ===================================================
+/// @details (old example for SymShell implementing Kruglanski like model)
+// =====================================================================================================================
+
 #ifndef K_RAND_HPP_INCLUDED_
 #define K_RAND_HPP_INCLUDED_
 

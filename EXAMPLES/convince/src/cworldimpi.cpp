@@ -1,7 +1,9 @@
 /// @file
-/// @brief Virtual Input method implementation of the aWorld class.
-/// @date 2026-05-17 (modified)
-///       ------------------------------------------------------------
+/// @brief
+///  @EN{ Virtual Input method implementation of the 'aWorld' type. }
+///  @PL{  }
+/// @date 2026-05-19 (modified)
+///       ===========================================================
 /// @details
 ///     Its is rather simply implementation. You can replace it if you need.
 //======================================================================================================================
@@ -27,7 +29,7 @@ int aWorld::implement_input(istream& i)
 }
 
 /* ****************************************************************** */
-/*               SYMSHELL2  version 2006/2022/2026                    */
+/*         SYMSHELL2 EXAMPLES version 2006/2022/2026                  */
 /* ****************************************************************** */
 /*           THIS CODE IS DESIGNED & COPYRIGHT BY:                    */
 /*            W O J C I E C H   B O R K O W S K I                     */

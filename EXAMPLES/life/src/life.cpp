@@ -1,7 +1,10 @@
 /// @file
-/// Wariacje na temat life Conway-a — program główny.
-//===================================================
-/// @date 2026-05-18 (modified)
+/// @EN{  }
+/// @PL{ Wariacje na temat life Conway-a — program główny. }
+/// @date 2026-05-19 (modified)
+///       =========================================================
+/// @details ....
+//======================================================================================================================
 
 const char* WINDOW_HEADER="RAND-LIFE version 1.01d (by Wojciech Borkowski)";
 const char* SIMULATION_NAME="randlife_v1.01d";

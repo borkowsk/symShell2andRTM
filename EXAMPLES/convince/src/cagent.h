@@ -1,8 +1,12 @@
 /// @file
-/// @brief DECLARATION OF A G E N T FOR this SIMULATION.
-/// @date 2026-05-16 (modified)
-// /////////////////////////////////////////////////////////////////////
-//
+/// @brief
+///  @EN{ DECLARATION OF 'anAgent' FOR this SIMULATION. }
+///  @PL{  }
+/// @date 2026-05-19 (modified)
+///       =========================================================
+/// @details ...
+//======================================================================================================================
+
 #include "layer.hpp"
 
 class anAgent:public sym2::agent_base

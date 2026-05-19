@@ -1,3 +1,9 @@
+/// @file
+/// @EN{  }
+/// @PL{  }
+/// @date 2026-05-19 (modified)
+/// =========================================================
+///
 #include <math.h> //coś jest potrzebne
 
 #include <cstdio>

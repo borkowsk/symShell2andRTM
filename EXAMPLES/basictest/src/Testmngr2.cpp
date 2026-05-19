@@ -1,6 +1,11 @@
 /// @file
+/// @EN{  }
+/// @PL{  }
+/// @date 2026-05-19 (modified)
+/// =========================================================
+///
 /// @brief Przykładowy program SYMSHELL-z z klasami.
-/// @date 2026-05-18 (modified)
+/// @date 2026-05-19 (modified)
 ///       ------------------------------------------
 /// @details
 ///     Demonstracja stosowania obiektowego pietra SYMSHELL-a

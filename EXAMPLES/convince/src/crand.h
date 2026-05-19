@@ -1,7 +1,11 @@
 /// @file
-///	DEFINES, WHICH RANDOM NUMBER GENERATOR IS USED IN THIS SIMULATION.
-// /////////////////////////////////////////////////////////////////////
-/// @date 2026-04-07 (modified)
+/// @brief
+///  @EN{ DEFINES, WHICH RANDOM NUMBER GENERATOR IS USED IN THIS SIMULATION. }
+///  @PL{  }
+/// @date 2026-05-19 (modified)
+///       =========================================================
+/// @details ...
+//======================================================================================================================
 
 #define USES_RANDG
 #include "random.h"

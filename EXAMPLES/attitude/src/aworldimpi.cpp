@@ -1,7 +1,13 @@
+/// @file
+/// @EN{  }
+/// @PL{  }
+/// @date 2026-05-19 (modified)
+/// =========================================================
+///
 // Virtual Input methods  implementation of the aworld class.
 // Its is rather simply implementation. You can replace it if you need.
 //=====================================================================
-// @date 2026-05-18 (modification)
+// @date 2026-05-19 (modification)
 
 #include "aworld.h"
 

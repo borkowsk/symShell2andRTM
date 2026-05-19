@@ -1,7 +1,11 @@
 /// @file
-/// DECLARATION OF W O R L D FOR "convince" SIMULATION.
-/// @date 2026-05-16 (modified)
-// ////////////////////////////////////////////////////////////////////
+/// @brief
+///  @EN{ DECLARATION OF 'aWorld' FOR "convince" SIMULATION. }
+///  @PL{  }
+/// @date 2026-05-19 (modified)
+///       =========================================================
+/// @details ...
+//======================================================================================================================
 
 #include <climits>
 #include "world.hpp"

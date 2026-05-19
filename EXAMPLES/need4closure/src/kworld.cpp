@@ -1,7 +1,12 @@
 /// @file
-/// @brief IMPLEMENTATION OF THE "KWORLD" (old example for SymShell implementing Kruglansky like model)
-//======================================================================================================
-/// @date 2026-05-18 (modified)
+/// @brief
+///  @EN{ IMPLEMENTATION OF THE "KWORLD".  }
+///  @PL{  }
+/// @date 2026-05-19 (modified)
+/// =========================================================
+/// @details
+///  (old example for SymShell implementing Kruglansky like model)
+//======================================================================================================================
 
 #include <cstring>
 #include <cmath>

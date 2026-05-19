@@ -1,6 +1,12 @@
+/// @file
+/// @EN{  }
+/// @PL{  }
+/// @date 2026-05-19 (modified)
+/// =========================================================
+///
 // DECLARATION OF   , A G E N T   FOR "attitudes" SIMULATION.
 // /////////////////////////////////////////////////////////
-// @date 2026-05-16 (modification)
+// @date 2026-05-19 (modification)
 #include "layer.hpp"
 
 class aagent:public sym2::agent_base

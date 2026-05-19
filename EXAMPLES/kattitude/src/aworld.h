@@ -1,7 +1,11 @@
 /// @file
-/// @brief DECLARATION OF THE WORLD FOR "attitudeS" SIMULATION (kattitude old example for SymShell)
-/// @date 2026-05-16 (modified)
-// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// @brief
+///  @EN{ DECLARATION OF THE 'aworld' FOR "attitudeS" SIMULATION. }
+///  @PL{  }
+/// @date 2026-05-19 (modified)
+///       =========================================================
+/// @details (attitudeS old example for SymShell)
+// =====================================================================================================================
 
 //#include <limits.h> //SHRT_MAX
 #pragma once
@@ -10,7 +14,7 @@
 #include "layer.hpp"
 #include "aagent.h" //Definicja agenta
 
-/// Cały świat symulacji `kattitude`.
+/// Cały świat symulacji `attitudeS`.
 class aworld:public sym2::world
 //--------------------------------------------------
 {
@@ -114,13 +118,15 @@ int		implement_output(ostream& o) const override;		//!< Serializacja. @returns 1
 int		implement_input(istream& i) override;				//!< Deserializacja. @returns 1, jeśli sukces!
 };
 
+/* ****************************************************************** */
+/*         SYMSHELL2 EXAMPLES version 2006/2022/2026                  */
+/* ****************************************************************** */
+/*           THIS CODE IS DESIGNED & COPYRIGHT BY:                    */
+/*            W O J C I E C H   B O R K O W S K I                     */
+/*  Zakład Systematyki i Geografii Roślin Uniwersytetu Warszawskiego  */
+/*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego         */
+/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk               */
+/*        MAIL: borkowsk@iss.uw.edu.pl                                */
+/*                               (Don't change or remove this note)   */
+/* ****************************************************************** */
 
-/* **************************************************************** */
-/*           THIS CODE IS DESIGNED & COPYRIGHT BY:                  */
-/*            W O J C I E C H   B O R K O W S K I                   */
-/* Zakład Systematyki i Geografii Roślin Uniwersytetu Warszawskiego */
-/*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego       */
-/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk             */
-/*        MAIL: borkowsk@iss.uw.edu.pl                              */
-/*                               (Don't change or remove this note) */
-/* **************************************************************** */

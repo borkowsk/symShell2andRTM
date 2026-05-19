@@ -1,7 +1,11 @@
 /// @file
-/// @brief DECLARATION OF THE WORLD FOR "need 4 closure" SIMULATION (old example for SymShell implementing Kruglanskis like model)
-// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @date 2026-05-16 (modified)
+/// @brief
+///     @EN{ DECLARATION OF THE WORLD FOR "need 4 closure" SIMULATION. }
+///     @PL{  }
+/// @date 2026-05-19 (modified)
+/// ====================================================================================================================
+/// @details
+/// (old example for SymShell implementing Kruglanskis like model)
 //
 #pragma once
 #include <climits> //SHRT_MAX

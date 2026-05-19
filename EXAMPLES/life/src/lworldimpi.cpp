@@ -1,10 +1,12 @@
 /// @file
-/// @brief Implementation of the lifeworld class - virtual Input method
-/// @date 2026-05-17 (modified)
-//---------------------------------------------------------------------
-// Its is rather simply implementation. You can replace it if you need.
+/// @brief
+///     @EN{ Implementation of the lifeworld class - virtual input method. }
+///     @PL{  }
+/// @date 2026-05-19 (modified)
+/// =========================================================
+/// @details
+/// Its is rather simply implementation. You can replace it if you need.
 //======================================================================
-
 
 #include "lworld.h"
 

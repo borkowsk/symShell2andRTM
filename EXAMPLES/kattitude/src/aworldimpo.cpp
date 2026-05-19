@@ -1,10 +1,13 @@
 /// @file
-/// @brief Virtual output method implementation of the aworld class. (kattitude old example for SymShell)
-//=====================================================================================================================
-/// @date 2026-05-18 (modified)
-/// @details
+/// @brief
+///  @EN{ Virtual output method implementation of the aworld class. }
+///  @PL{  }
+/// @date 2026-05-19 (modified)
+///       ============================================================
+/// @details (kattitude old example for SymShell)
 ///     Its is rather simply implementation. You can replace it if you need.
-//=====================================================================================================================
+//======================================================================================================================
+
 #include "aworld.h"
 
 int aworld::implement_output(ostream& o) const
@@ -24,15 +27,18 @@ int aworld::implement_output(ostream& o) const
     return 1;
 }
 
-/* **************************************************************** */
-/*           THIS CODE IS DESIGNED & COPYRIGHT BY:                  */
-/*            W O J C I E C H   B O R K O W S K I                   */
-/* Zakład Systematyki i Geografii Roślin Uniwersytetu Warszawskiego */
-/*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego       */
-/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk             */
-/*        MAIL: borkowsk@iss.uw.edu.pl                              */
-/*                               (Don't change or remove this note) */
-/* **************************************************************** */
+/* ****************************************************************** */
+/*         SYMSHELL2 EXAMPLES version 2006/2022/2026                  */
+/* ****************************************************************** */
+/*           THIS CODE IS DESIGNED & COPYRIGHT BY:                    */
+/*            W O J C I E C H   B O R K O W S K I                     */
+/*  Zakład Systematyki i Geografii Roślin Uniwersytetu Warszawskiego  */
+/*  & Instytut Studiów Społecznych Uniwersytetu Warszawskiego         */
+/*        WWW:  http://moderato.iss.uw.edu.pl/~borkowsk               */
+/*        MAIL: borkowsk@iss.uw.edu.pl                                */
+/*                               (Don't change or remove this note)   */
+/* ****************************************************************** */
+
 
 
 

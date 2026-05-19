@@ -1,21 +1,22 @@
 /// @file
-/// @brief Symulacja zmiany poglądów - attitudes (kattitude old example for SymShell)
-//===================================================================================
-/// @date 2026-05-18 (modified)
-/// @details
+/// @brief
+///  @EN{  }
+///  @PL{ Symulacja zmiany poglądów - attitudes. }
+/// @date 2026-05-19 (modified)
+///       =========================================================
+/// @details (kattitude old example for SymShell)
 ///     Uzyskana niegdyś przez uproszczenie programu LANGUAGES.
 ///     Uzupełniona o wagi opinii innych, jako fragmentaryczna implementacja teorii Arie Kruglanskiego.
 ///     Dodano także inicjowanie z niekompletnym wypełnieniem przestrzeni symulacji
 ///     oraz różnych procentów jednej z klas (minority vs. majority).
-//======================================================================================================
+//======================================================================================================================
+
 /// Historia:
 /// =========
 /// * v 0.6 - dodanie losowania nieproporcjonalnego, znaczne zmiany w statystykach, zmiany z bazowej bibliotece
 /// * v 0.61 - użycie innego histogramu
-
-const char* WINDOW_HEADER="ATTITUDES K version 0.71c";
 const char* SIMULATION_NAME="attitudes_k_v0.71c";
-
+const char* WINDOW_HEADER="ATTITUDES K version 0.71c";
 
 #include <cstdlib>
 #include <iostream>

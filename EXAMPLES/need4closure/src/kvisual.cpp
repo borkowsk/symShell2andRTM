@@ -1,7 +1,11 @@
 /// @file
-/// @brief ... (old example for SymShell implementing a Kruglanskis like model)
-//===========================================================================
+/// @brief
+///  @EN{ Visualisation of KWORLD (old example for SymShell implementing a Kruglanskis like model). }
+///  @PL{  }
 /// @date 2026-05-19 (modified)
+/// =================================================================================================
+/// @details ...
+//======================================================================================================================
 
 #include <cstring>
 #include <cmath>

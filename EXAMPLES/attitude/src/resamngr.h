@@ -1,3 +1,8 @@
+/// @file
+/// @EN{  }
+/// @PL{  }
+/// @date 2026-05-19 (modified)
+/// =========================================================
 //{{NO_DEPENDENCIES}}
 // Microsoft Developer Studio generated include file.
 // Used by amenager.rc

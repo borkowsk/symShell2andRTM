@@ -1,7 +1,11 @@
 /// @file
-/// Values for communication with the simulation menu.
-// /////////////////////////////////////////////////////////////////////
-/// @date 2026-04-07 (modified)
+/// @brief
+///  @EN{ Values for communication with the simulation menu. }
+///  @PL{  }
+/// @date 2026-05-19 (modified)
+///       =========================================================\
+/// @details ...
+//======================================================================================================================
 
 //{{NO_DEPENDENCIES}}
 // Microsoft Developer Studio generated include file.

@@ -1,7 +1,13 @@
+/// @file
+/// @EN{  }
+/// @PL{  }
+/// @date 2026-05-19 (modified)
+/// =========================================================
+///
 // Dosyć prosta symulacja zmiany poglądów — attitude wg. modelu A. Nowak-a.
 // Uzyskana przez uproszczenie programu LANGUAGES
 //=========================================================================
-// @date 2026-05-17 (modification)
+// @date 2026-05-19 (modification)
 const char* WINDOW_HEADER="ATTITUDES version 1.01c";
 const char* SIMULATION_NAME="attitudes_v1.01c";
 // * 15.02.2006 - 1.01: Zrekompilowane z nową wersją biblioteki lufcików.

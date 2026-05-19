@@ -1,9 +1,12 @@
 /// @file
-/// Implementation of the lifeworld class. Virtual output method.
-//---------------------------------------------------------------
+/// @brief
+///     @EN{ Implementation of the lifeworld class. Virtual output method. }
+///     @PL{  }
+/// @date 2026-05-19 (modified)
+/// =========================================================
+/// @details
 /// Its is rather simply implementation. You can replace it if you need.
 //======================================================================
-/// @date 2026-05-17 (modified)
 
 #include "lworld.h"
 

@@ -1,11 +1,15 @@
 /// @file
-/// A fairly simple simulation of a change of opinion implementing Professor D. Stauffer's model.
-/// (Obtained by simplifying the LANGUAGES program)
-//============================================================================================
-/// @date 2026-05-17 (modified)
+/// @brief
+///  @EN{ A fairly simple simulation of a change of opinion implementing Professor D. Stauffer's model. }
+///  @PL{  }
+/// @date 2026-05-19 (modified)
+///       =========================================================
+/// @details
+///       (Obtained by simplifying the LANGUAGES program)
+//======================================================================================================================
 
-const char* WINDOW_HEADER="CONVINCE ver. 0.01c";
 const char* SIMULATION_NAME="convinces_v0.01";
+const char* WINDOW_HEADER="CONVINCE ver. 0.01c";
 
 #include <cstdlib>
 #include <iostream>
