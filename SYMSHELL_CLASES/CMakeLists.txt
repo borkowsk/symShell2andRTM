@@ -1,7 +1,7 @@
 # CMAKE configuration for SYMSHELL CLASSES library wbsyshclss
 ##################################################################################
 # @author Wojciech Borkowski
-# @date 2026-05-02 (last update)
+# @date 2026-05-19 (last update)
 ######################################################
 
 cmake_minimum_required(VERSION 3.20)
@@ -9,6 +9,9 @@ cmake_minimum_required(VERSION 3.20)
 project(symshellclasses)
 
 set(CMAKE_CXX_STANDARD 11) # See: https://matgomes.com/setting-cpp-standard-cmake/
+set(CMAKE_CXX_STANDARD_REQUIRED On)
+set(CMAKE_CXX_EXTENSIONS Off)
+
 set( WBRTMINC      "../RTM/INCLUDE" )
 set( SYMSHELLLIGHT "../SYMSHELL" )
 
@@ -28,6 +31,7 @@ ENDIF()
 include_directories( "SIMULCLSS/" "DATACLSS/" "VISUALCLSS/" "${WBRTMINC}/" "${SYMSHELLLIGHT}/INCL/")
 
 add_library( wbsyshclss STATIC
+        #src/*.cpp
         "./src/data/datalog.cpp"
         "./src/data/sourmngr.cpp"
         "./src/data/sourbase.cpp"
@@ -53,6 +57,46 @@ add_library( wbsyshclss STATIC
         "../third_party/GD2/ext/gdbmpread.cpp"
         "../third_party/GD2/ext/gdpcxread.cpp"
         "../third_party/GD2/gd.c"
+        #DATACLSS/
+        "DATACLSS/arrasour.hpp"
+        "DATACLSS/bifiltso.hpp"
+        "DATACLSS/coincsou.hpp"
+        "DATACLSS/costatso.hpp"
+        "DATACLSS/dhistosou.hpp"
+        "DATACLSS/fifosour.hpp"
+        "DATACLSS/funcsour.hpp"
+        "DATACLSS/histosou.hpp"
+        "DATACLSS/mattsour.hpp"
+        "DATACLSS/scalsour.hpp"
+        "DATACLSS/sourbase.hpp"
+        "DATACLSS/spatcors.hpp"
+        "DATACLSS/titleuti.hpp"
+        "DATACLSS/bifilter.hpp"
+        "DATACLSS/clstsour.hpp"
+        "DATACLSS/corrsour.hpp"
+        "DATACLSS/datasour.hpp"
+        "DATACLSS/fhistosou.hpp"
+        "DATACLSS/filtsour.hpp"
+        "DATACLSS/history"
+        "DATACLSS/logfile.hpp"
+        "DATACLSS/multfils.hpp"
+        "DATACLSS/simpsour.hpp"
+        "DATACLSS/sourmngr.hpp"
+        "DATACLSS/statsour.hpp"
+        #SIMULCLSS/
+        "SIMULCLSS/geombase.hpp"
+        "SIMULCLSS/layer.hpp"
+        "SIMULCLSS/linegeom.hpp"
+        "SIMULCLSS/rectgeom.hpp"
+        "SIMULCLSS/world.hpp"
+        #VISUALCLSS/
+        "VISUALCLSS/amngrcmd.h"
+        "VISUALCLSS/areamngr.hpp"
+        "VISUALCLSS/drawable.hpp"
+        "VISUALCLSS/gadgets.hpp"
+        "VISUALCLSS/graphs.hpp"
+        "VISUALCLSS/mainmngr.hpp"
+        "VISUALCLSS/textarea.hpp"
         #	"./src/visual/__history/_fastcarp.c--"
     )
 
