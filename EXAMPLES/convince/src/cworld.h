@@ -1,8 +1,8 @@
 /// @file
 /// @brief
-///  @EN{ DECLARATION OF 'aWorld' FOR "convince" SIMULATION. }
+///  @EN{ DECLARATION OF 'convWorld' FOR "convince" SIMULATION. }
 ///  @PL{  }
-/// @date 2026-05-20 (modified)
+/// @date 2026-05-21 (modified)
 ///       =========================================================
 /// @details ...
 //======================================================================================================================
@@ -16,8 +16,10 @@ using namespace sym2::data;
 using namespace sym2::shell;
 using namespace sym2::visual;
 
-/// //The Whole World of Simulations.
-class aWorld:public world
+/// @brief
+///     @EN{ The Whole World of "Convince" Simulations. }
+///     @PL{ Cały świat symulacji "Convince". }
+class convWorld: public sym2::shell::world
 //--------------------------------------------------
 {
     // Single-value parameters:
@@ -26,25 +28,25 @@ class aWorld:public world
     size_t				MyWidth;	//!< Circumference of a torus
 
     wb_pchar			MappName;	//!< initialization bitmap file name (powers)
-    wb_pchar			MaplName;	//!< initialization bitmap file name (attitudes)
+    wb_pchar			MapLName;	//!< initialization bitmap file name (attitudes)
     wb_pchar			MaskName;	//!< initialization bitmap file name (mask of habitable areas)
 
     // Simulation layers (only one this time):
     // ///////////////////////////////////////
 
-    rectangle_layer_of_ptr_to_agents<anAgent>	Agenci;	//!< The agent layer. It is a torus.
+    rectangle_layer_of_ptr_to_agents<convAgent>	Agenci;	//!< The agent layer. It is a torus.
 
     // Main data series - it's more convenient to have pointers than to search from `Sources` by name:
     // ///////////////////////////////////////////////////////////////////////////////////////////////
 
-    sym2::data::ptr_to_struct_matrix_source<anAgent,short>		*Firsts;	//!< '=Agenci.make_source("First mem",&anAgent::First);'
-    sym2::data::ptr_to_struct_matrix_source<anAgent,short>		*Seconds;	//!< '=Agenci.make_source("Second mem",&anAgent::Second);'
-    sym2::data::ptr_to_struct_matrix_source<anAgent,short>		*Powers;	//!< '=Agenci.make_source("Power",&anAgent::Power);'
+    sym2::data::ptr_to_struct_matrix_source<convAgent,short>		*Firsts;	//!< '=Agenci.make_source("First mem",&convAgent::First);'
+    sym2::data::ptr_to_struct_matrix_source<convAgent,short>		*Seconds;	//!< '=Agenci.make_source("Second mem",&convAgent::Second);'
+    sym2::data::ptr_to_struct_matrix_source<convAgent,short>		*Powers;	//!< '=Agenci.make_source("Power",&convAgent::Power);'
 
 public:
     // CONSTRUCTION AND DESTRUCTION:
     // /////////////////////////////
-    explicit aWorld(
+    explicit convWorld(
             unsigned		iWidth,			//!< Width of the torus of the agent matrix.
             double	 iToBeNewProb=0.1,		//!< Likelihood of a loner spontaneously changing his views on a new type of entertainment.
             double	 iReverseProb=0.9,		//!< Probability of reversal of views to 0 (means no idea for entertainment again).
@@ -57,7 +59,7 @@ public:
             short	 iMin_strength=100		//!< Minimum agent strength.
             );
 
-    ~aWorld() override {}
+    ~convWorld() override {}
 
 protected:
     // TYPICAL ACTIONS:

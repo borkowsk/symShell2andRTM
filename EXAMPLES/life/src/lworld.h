@@ -1,8 +1,8 @@
 /// @file
 /// @brief
-///  @EN{ DECLARATION OF 'lifeworld' FOR "Conways Life" SIMULATION. }
+///  @EN{ DECLARATION OF 'life_world' FOR "Conways Life" SIMULATION. }
 ///  @PL{  }
-/// @date 2026-05-20 (modified)
+/// @date 2026-05-21 (modified)
 ///       =========================================================
 /// @details ...
 // =====================================================================================================================
@@ -17,8 +17,9 @@ using namespace sym2::shell;
 using namespace sym2::visual;
 
 
-/// Cały świat symulacji Life.
-class lifeworld:public world
+/// @PL{ Cały świat symulacji "Life". }
+/// @EN{ Whole simulation world for "Life". }
+class life_world: public sym2::shell::world
 //--------------------------------------------------
 {
     // Parametry jednowartościowe:
@@ -32,27 +33,27 @@ class lifeworld:public world
 
     double				Noise;		//!< Szum informacyjny
     bool				Synchronic; //!< Synchroniczna zmiana "poglądów"
-    wb_pchar			MaplName;	//!< Nazwa pliku inicjującej bitmapy/grafiki
+    wb_pchar			MapLName;	//!< Nazwa pliku inicjującej bitmapy/grafiki
 
 
     // Warstwy symulacji (są torusami):
     // ////////////////////////////////
 
     //rectangle_unilayer<unsigned char> zdatność; //!< Warstwa definiująca zdatność do zasiedlenia
-    rectangle_layer_of_agents<lifeagent> Agenci;  //!< Właściwa warstwa agentów zasiedlających
+    rectangle_layer_of_agents<life_agent> Agenci;  //!< Właściwa warstwa agentów zasiedlających
 
     // Główne serie — wygodniej miec wskaźniki niż odszukiwać z Sources po nazwach:
     // //////////////////////////////////////////////////////////////////////////////
 
-    sym2::data::struct_matrix_source<lifeagent,short>		*Firsts; //=Agenci.make_source("First mem",&lifeagent::First);
-    sym2::data::struct_matrix_source<lifeagent,short>		*Seconds; //=Agenci.make_source("Second mem",&lifeagent::Second);
+    sym2::data::struct_matrix_source<life_agent,short>		*Firsts; //=Agenci.make_source("First mem",&life_agent::First);
+    sym2::data::struct_matrix_source<life_agent,short>		*Seconds; //=Agenci.make_source("Second mem",&life_agent::Second);
 
 
-    int CheckChange(const geometry_base* MyGeom, size_t index, lifeagent& CenterAgent);
+    int CheckChange(const geometry_base* MyGeom, size_t index, life_agent& CenterAgent);
 
     public:
     //KONSTRUKCJA DESTRUKCJA
-    lifeworld(
+    life_world(
           size_t Width,	//Szerokość torusa / macierzy agentów
           char* log_name,	//Nazwa pliku do zapisywania historii
           char* mapl_name,	//Nazwa (bit)mapy inicjującej "składowe"
@@ -64,12 +65,12 @@ class lifeworld:public world
           double spontanic=0	//Prawdopodobieństwo spontanicznej zmiany "stanu"
           );
 
-    ~lifeworld() override= default;
+    ~life_world() override= default;
 
     protected:
     //GŁÓWNE AKCJE
     void	initialize_layers() override;     //!< Stan startowy symulacji.
-    void	after_read_from_image() override; //!< Actions after read state from a file. Aktualizacja pol static `lifeagent`-a!!!
+    void	after_read_from_image() override; //!< Actions after read state from a file. Aktualizacja pol static `life_agent`-a!!!
     void	simulate_one_step() override;     //!< Właściwa implementacja kroku symulacji.
 
     //Współpraca z menagerem wyświetlania:

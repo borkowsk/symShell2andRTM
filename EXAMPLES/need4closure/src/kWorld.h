@@ -1,8 +1,8 @@
 /// @file
 /// @brief
 ///     @EN{ DECLARATION OF THE WORLD FOR "need 4 closure" SIMULATION. }
-///     @PL{  }
-/// @date 2026-05-20 (modified)
+///     @PL{ DEKLARACJA ŚWIATA DLA SYMULACJI „need 4 closure”. }
+/// @date 2026-05-21 (modified)
 /// ====================================================================================================================
 /// @details
 /// (old example for SymShell implementing Kruglanskis like model)
@@ -11,10 +11,12 @@
 #include <climits> //SHRT_MAX
 #include "world.hpp"
 #include "layer.hpp"
-#include "kagent.h" //Definicja agenta
+#include "kAgent.h" //Definicja agenta
 
-/// Cały świat symulacji "need for closure".
-class kworld:public sym2::shell::world
+/// @brief
+///     @PL{ Cały świat symulacji "need for closure". }
+///     @EN{ A whole world of "need for closure" simulations. }
+class kWorld: public sym2::shell::world
 //--------------------------------------------------
 {
     // Single-value model parameters:
@@ -22,9 +24,9 @@ class kworld:public sym2::shell::world
 
     size_t			MyWidth;		///< Obwód torusa.
     short			MaxSila;		///< Maksymalna siła agenta.
-    short			Treshold;		///< Próg siły powyżej którego nie ma zmian.
+    short			Treshold;		///< Próg siły, powyżej którego nie ma zmian.
     short			IleSasiad;		///< 8 == Gęstość sąsiedztwa.
-    //short			OdlSasiad;		///< Rozmiar sasiedztwa.
+    //short			OdlSasiad;		///< Rozmiar sąsiedztwa.
     double			WeightOfSelf;	///< Z jaka waga brac siebie pod uwage (0..1).
     double			NeedForClosure;	///< Znaczenie może byc różne, zależnie od implementacji.
     double			Noise;			///< Szum informacyjny.
@@ -39,20 +41,20 @@ class kworld:public sym2::shell::world
 // /////////////////////////////
 
     //rectangle_unilayer<unsigned char> zdatnosc; //Warstwa definiująca zdatność do zasiedlenia
-    sym2::shell::rectangle_layer_of_ptr_to_agents<kagent> Agenci;		///< Właściwa warstwa agentów zasiedlających.
+    sym2::shell::rectangle_layer_of_ptr_to_agents<kAgent> Agenci;		///< Właściwa warstwa agentów zasiedlających.
 
 // Main data series. It's convenient to have pointers rather than searching for them in Sources by name:
 // /////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    sym2::data::ptr_to_struct_matrix_source<kagent,short>		*Firsts;	///< =Agenci.make_source("First mem",&kagent::First);
-    sym2::data::ptr_to_struct_matrix_source<kagent,short>		*Seconds;	///< =Agenci.make_source("Second mem",&kagent::Second);
+    sym2::data::ptr_to_struct_matrix_source<kAgent,short>		*Firsts;	///< =Agenci.make_source("First mem",&kAgent::First);
+    sym2::data::ptr_to_struct_matrix_source<kAgent,short>		*Seconds;	///< =Agenci.make_source("Second mem",&kAgent::Second);
 
-    sym2::data::ptr_to_struct_matrix_source<kagent,short>		*Powers;	///< =Agenci.make_source("Power",&kagent::Power);
-    sym2::data::ptr_to_struct_matrix_source<kagent,unsigned>    *ForLeft;	///< =Agenci.make_source("Power",&kagent::ForLeft);
-    sym2::data::ptr_to_struct_matrix_source<kagent,unsigned>    *ForRight;	///< =Agenci.make_source("Power",&kagent::ForRight);
+    sym2::data::ptr_to_struct_matrix_source<kAgent,short>		*Powers;	///< =Agenci.make_source("Power",&kAgent::Power);
+    sym2::data::ptr_to_struct_matrix_source<kAgent,unsigned>    *ForLeft;	///< =Agenci.make_source("Power",&kAgent::ForLeft);
+    sym2::data::ptr_to_struct_matrix_source<kAgent,unsigned>    *ForRight;	///< =Agenci.make_source("Power",&kAgent::ForRight);
 
-//ptr_to_struct_matrix_source<kagent,short>		*Pressure;	///<  =Agenci.make_source("Pressure",&kagent::Press);
-//method_by_ptr_matrix_source<kagent,long>		*Classify;	///< =Agenci.make_source("Classification",&kagent::classif);
+//ptr_to_struct_matrix_source<kAgent,short>		*Pressure;	///<  =Agenci.make_source("Pressure",&kAgent::Press);
+//method_by_ptr_matrix_source<kAgent,long>		*Classify;	///< =Agenci.make_source("Classification",&kAgent::classif);
 
     sym2::data::scalar_source<double>*       ptrStres;	///< Do przekazywania aktualnie najważniejszych danych na okno statusu.
     sym2::data::scalar_source<double>*       ptrClsSize;
@@ -69,16 +71,16 @@ double MaxPressure; 	///< Do zapamiętania teoretycznie największej wartości "
 // /////////////////////////////////////////////
 
 /// Zmiana stanów.
-int CheckChange(const sym2::shell::rectangle_geometry* MyGeom, size_t index, kagent& CenterAgent);
+int CheckChange(const sym2::shell::rectangle_geometry* MyGeom, size_t index, kAgent& CenterAgent);
 
 /// Ewentualna migracja.
-int DoMigration(const  sym2::shell::rectangle_geometry* MyGeom, size_t index, kagent& CenterAgent);
+int DoMigration(const  sym2::shell::rectangle_geometry* MyGeom, size_t index, kAgent& CenterAgent);
 
 public:
 // CONSTRUCTION AND DESTRUCTION:
 // /////////////////////////////
 
-kworld(size_t Width,		///< Szerokość torusa macierzy agentów.
+kWorld(size_t Width,		///< Szerokość torusa macierzy agentów.
       char* log_name,		///< Nazwa pliku do zapisywania historii.
       char* mapl_name,		///< Nazwa (bit)mapy inicjującej "składowe".
       char* mapp_name,		///< Nazwa (bit)mapy inicjującej "siły".
@@ -91,16 +93,16 @@ kworld(size_t Width,		///< Szerokość torusa macierzy agentów.
       double need_for_something,	///< Z jaka wagą brać innych.
       bool	synchronicly,
 
-      short treshold,
-      double spontanic,
-      
-      double fill,
-      double migrprob,
-      double majority,
-      double minority
+       short treshold,
+       double spontanic,
+
+       double fill,
+       double migrprob,
+       double majority,
+       double minority
       );
 
-~kworld() override = default;
+~kWorld() override = default;
 
 protected:
 
@@ -108,7 +110,7 @@ protected:
 // ///////////////////////////////////
 
 void	initialize_layers() override;	///< Stan startowy symulacji.
-void	after_read_from_image() override;	///< Actions after read state from file. TAKŻE aktualizacja pól static kagent'a!!!
+void	after_read_from_image() override;	///< Actions after read state from file. TAKŻE aktualizacja pól static kAgent'a!!!
 void	simulate_one_step() override;	///< Właściwa implementacja kroku symulacji.
 
 // Collaboration with the area manager:

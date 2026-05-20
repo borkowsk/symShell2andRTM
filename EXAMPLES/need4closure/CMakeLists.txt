@@ -1,7 +1,7 @@
 # CMAKE configuration for NEED4CLOS simulation project
 ######################################################################
 # @author	: Wojciech Borkowski
-# @date 2026-05-11 (last update)
+# @date 2026-05-21 (last update)
 #
 
 cmake_minimum_required(VERSION 3.20)
@@ -52,7 +52,7 @@ ELSE ()
 ENDIF()
 
 add_executable( need4clos
-                src/kagent.h  src/kvisual.cpp  src/kworld.h        src/kworldimpo.cpp
+        src/kAgent.h src/kvisual.cpp src/kWorld.h src/kworldimpo.cpp
                 src/krand.h   src/kworld.cpp   src/kworldimpi.cpp  src/need4clos.cpp
                 # $WINDOWS_ONLY_SRC
                 # $X_ONLY_SRC

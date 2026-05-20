@@ -2,7 +2,7 @@
 /// @brief
 ///  @EN{ IMPLEMENTATION OF 'aworld' AND 'aagent' FOR "attitudes" SIMULATION. }
 ///  @PL{ IMPLEMENTACJA "świata" ('aworld') I "agenta" ('aagent') DLA SYMULACJI postaw ("attitudes"). }
-/// @date 2026-05-20 (modified)
+/// @date 2026-05-21 (modified)
 ///       =========================================================
 /// @details
 /// @PL{ DOXYGENIZACJA WYŁĄCZNIE PO POLSKU. }
@@ -37,7 +37,7 @@ extern const char* SIMULATION_NAME;
 // Konstrukcja agentów:
 //=====================
 
-aagent::aagent(const aagent& ini)
+attitude_agent::attitude_agent(const attitude_agent& ini)
     {
         if(&ini!=NULL) //TODO: to już nieeleganckie.
         {
@@ -49,7 +49,7 @@ aagent::aagent(const aagent& ini)
             _clean();
     }
 
-aagent::aagent()
+attitude_agent::attitude_agent()
     {
         _clean();
         First=RANDOM(n_of_cate);
@@ -60,18 +60,18 @@ aagent::aagent()
 // Statyczne pola aAgent-ów dla inicjalizacji:
 //============================================
 
-short	aagent::str_grow=1;  //Maksymalny skok siły
-short	aagent::max_str=256; //Maksymalna siła agenta
-short	aagent::n_of_cate=256; //Liczba kategorii w mapach
-short	aagent::cate_shift=0; //Przesuniecie dla wczytywania gifa
-double	aagent::mutation_prob=0; //Prawd. spontanicznej zmiany poglądów (0..1)
+short	attitude_agent::str_grow=1;  //Maksymalny skok siły
+short	attitude_agent::max_str=256; //Maksymalna siła agenta
+short	attitude_agent::n_of_cate=256; //Liczba kategorii w mapach
+short	attitude_agent::cate_shift=0; //Przesuniecie dla wczytywania gifa
+double	attitude_agent::mutation_prob=0; //Prawd. spontanicznej zmiany poglądów (0..1)
 
 // KONSTRUKCJA	ŚWIATA:
 //=====================
 
 extern unsigned InternalLogLen;
 
-aworld::aworld(size_t Width,		//Szerokość torusa macierzy agentów
+attitude_world::attitude_world(size_t Width,		//Szerokość torusa macierzy agentów
                char* log_name,	//Nazwa pliku do zapisywania historii
                char* map_l_name,	//Nazwa (bit-) mapy inicjującej "składowe"
                char* mapp_name,	//Nazwa (bit-) mapy inicjującej "siły"
@@ -83,9 +83,9 @@ aworld::aworld(size_t Width,		//Szerokość torusa macierzy agentów
                short	n_of_neigh, //8 == Gęstość sąsiedztwa
                short need_use_self, //Czy ma używać siebie
                bool	sync_update,
-               short walk_str,
-               short str_threshold,
-               double spon_prob
+                               short walk_str,
+                               short str_threshold,
+                               double spon_prob
              )
     : world(log_name,50),
       MapLName(clone_str(map_l_name)), //Nazwa (bit-) mapy 1. inicjującej agentów
@@ -108,10 +108,10 @@ aworld::aworld(size_t Width,		//Szerokość torusa macierzy agentów
       Seconds(NULL),
       Powers(NULL)
     { // Niewiele można zrobić, bo nie można tu jeszcze polegać na wirtualnych metodach klasy świata.
-        aagent::str_grow=walk_str;
+        attitude_agent::str_grow=walk_str;
         //set_simulation_name("attitudes_v02");
         world::set_simulation_name(SIMULATION_NAME);
-        aagent::mutation_prob=spon_prob;
+        attitude_agent::mutation_prob=spon_prob;
         if(NofNeigh == -1)
             TakeAll=1;
     }
@@ -119,20 +119,20 @@ aworld::aworld(size_t Width,		//Szerokość torusa macierzy agentów
 // Generuje podstawowe źródła dla wbudowanego manager-a danych lub innego:
 //========================================================================
 
-void aworld::make_basic_sources()
+void attitude_world::make_basic_sources()
 {
     sources_manager& WhatSourMen=this->Sources;
     world::make_basic_sources(); //Odziedziczone
 
     //Główne serie danych:
-    Firsts=Agents.make_source("Attitude", &aagent::First);
+    Firsts=Agents.make_source("Attitude", &attitude_agent::First);
     if(Firsts)
         Firsts->set_min_max(0, NofCategories - 1);
-    Seconds=Agents.make_source("Prev. attitude", &aagent::Second);
+    Seconds=Agents.make_source("Prev. attitude", &attitude_agent::Second);
     if(Seconds)
         Seconds->set_min_max(0, NofCategories - 1);
 
-    Powers=Agents.make_source("Power", &aagent::Power);
+    Powers=Agents.make_source("Power", &attitude_agent::Power);
 
     //Umieszczenie głównych serii w zarządcy serii:
     WhatSourMen.insert(Firsts);
@@ -144,7 +144,7 @@ void aworld::make_basic_sources()
 // Współpraca z zarządcą wyświetlania, a także logiem:
 //====================================================
 
-void aworld::make_default_visualisation()
+void attitude_world::make_default_visualisation()
 //Rejestruje pochodne serie, tworzy domyślne "lufciki" i wkłada w "Manager"
 {
     area_manager_base& Manager=this->MyAreaManager();
@@ -392,25 +392,25 @@ void aworld::make_default_visualisation()
 // AKCJE SYMULACYJNE:
 //===================
 
-void aworld::after_read_from_image()
+void attitude_world::after_read_from_image()
 //actions after read state from file. Aktualizacja pól `static aAgent`-a!!!
 {
-    aagent::max_str=MaxSila; //Maksymalna siła agenta
-    aagent::n_of_cate=NofCategories; //Liczba kategorii w mapach
+    attitude_agent::max_str=MaxSila; //Maksymalna siła agenta
+    attitude_agent::n_of_cate=NofCategories; //Liczba kategorii w mapach
 
     switch(NofCategories)
     {
-    case   2:aagent::cate_shift=7;break;
-    case   4:aagent::cate_shift=6;break;
-    case   8:aagent::cate_shift=5;break;
-    case  16:aagent::cate_shift=4;break;
-    case  32:aagent::cate_shift=3;break;
-    case  64:aagent::cate_shift=2;break;
-    case 128:aagent::cate_shift=1;break;
-    case 256:aagent::cate_shift=0;break;
+    case   2:attitude_agent::cate_shift=7;break;
+    case   4:attitude_agent::cate_shift=6;break;
+    case   8:attitude_agent::cate_shift=5;break;
+    case  16:attitude_agent::cate_shift=4;break;
+    case  32:attitude_agent::cate_shift=3;break;
+    case  64:attitude_agent::cate_shift=2;break;
+    case 128:attitude_agent::cate_shift=1;break;
+    case 256:attitude_agent::cate_shift=0;break;
     default:
-        aagent::n_of_cate= NofCategories=256;
-        aagent::cate_shift=0;
+        attitude_agent::n_of_cate= NofCategories=256;
+            attitude_agent::cate_shift=0;
         cerr<<"Invalid number of class (not power of 2 less than 256). Using default.\n";
         Log.GetStream()<<"Invalid number of class (not power of 2). Using default.\n";
         break;
@@ -418,29 +418,29 @@ void aworld::after_read_from_image()
 }
 
 // stan startowy symulacji
-void aworld::initialize_layers()
+void attitude_world::initialize_layers()
 //-------------------------------------
 {
     static int first=1; //TYMCZASOWE WYŁĄCZENIE NADMIARU WYDRUKÓW!!!
     if(first)
         Log.GetStream()<<"attitude SIMULATION:";
 
-    aagent::max_str=MaxSila; //Maksymalna siła agenta
-    aagent::n_of_cate=NofCategories; //Liczba kategorii w mapach
+    attitude_agent::max_str=MaxSila; //Maksymalna siła agenta
+    attitude_agent::n_of_cate=NofCategories; //Liczba kategorii w mapach
 
     switch(NofCategories)
     {
-    case   2:aagent::cate_shift=7;break;
-    case   4:aagent::cate_shift=6;break;
-    case   8:aagent::cate_shift=5;break;
-    case  16:aagent::cate_shift=4;break;
-    case  32:aagent::cate_shift=3;break;
-    case  64:aagent::cate_shift=2;break;
-    case 128:aagent::cate_shift=1;break;
-    case 256:aagent::cate_shift=0;break;
+    case   2:attitude_agent::cate_shift=7;break;
+    case   4:attitude_agent::cate_shift=6;break;
+    case   8:attitude_agent::cate_shift=5;break;
+    case  16:attitude_agent::cate_shift=4;break;
+    case  32:attitude_agent::cate_shift=3;break;
+    case  64:attitude_agent::cate_shift=2;break;
+    case 128:attitude_agent::cate_shift=1;break;
+    case 256:attitude_agent::cate_shift=0;break;
     default:
-        aagent::n_of_cate= NofCategories=256;
-        aagent::cate_shift=0;
+        attitude_agent::n_of_cate= NofCategories=256;
+            attitude_agent::cate_shift=0;
         cerr<<"Invalid number of class (not power of 2 less than 256). Using default.\n";
         Log.GetStream()<<"Invalid number of class (not power of 2). Using default.\n";
         break;
@@ -458,22 +458,22 @@ void aworld::initialize_layers()
 
     //			USTALANIE STANÓW AGENTÓW:
     // Wczytuje, używając konstruktora lub klonowania, gdy go niema, więc inicjuje resztę pól.
-    int from1= Agents.init_from_bitmap(MappName.get_ptr_val(),&aagent::assignPow);
-    int from2= Agents.init_from_bitmap(MapLName.get_ptr_val(), &aagent::assign123);
+    int from1= Agents.init_from_bitmap(MappName.get_ptr_val(),&attitude_agent::assignPow);
+    int from2= Agents.init_from_bitmap(MapLName.get_ptr_val(), &attitude_agent::assign123);
 
     //Gdy nie zainicjowane, to prowizoryczna inicjacja przez konstruktory lub klonowanie
     if(from1!=1 && from2!=1)
         Agents.reallocate_all();
 
     //Zabija agenta, gdy w masce jest czarny kolor
-    if(Agents.init_from_bitmap(MaskName.get_ptr_val(), &aagent::killBlack) == 1 )
+    if(Agents.init_from_bitmap(MaskName.get_ptr_val(), &attitude_agent::killBlack) == 1 )
         Agents.deallocate_not_OK();
 
     first=0; //Koniec pierwszego wywołania. Potem wydruki już nie są potrzebne.
 }
 
 //Pojedynczy krok symulacji
-void aworld::simulate_one_step()
+void attitude_world::simulate_one_step()
 //---------------------------------------
 {
     const geometry_base* MyGeom=Agents.get_geometry();
@@ -489,7 +489,7 @@ void aworld::simulate_one_step()
 
             assert(index!=any_layer_base::FULL);				//tutaj nie powinno się zdarzyć
 
-            aagent& CenterAgent=*(Agents.get_ptr(index).get_ptr_val()); // Uzyskujemy referencje do agenta omijając asercje na NULL
+            attitude_agent& CenterAgent=*(Agents.get_ptr(index).get_ptr_val()); // Uzyskujemy referencje do agenta omijając asercje na NULL
 
             if(Agents.is_empty(CenterAgent))	// Sprawdzamy, czy nie jest to pusta komórka (NULL)
                 continue;						// bo wtedy robić dalej byłoby bez sensu.
@@ -509,7 +509,7 @@ void aworld::simulate_one_step()
 
             assert(index!=any_layer_base::FULL);				//tutaj nie powinno się zdarzyć
 
-            aagent& CenterAgent=*(Agents.get_ptr(index).get_ptr_val()); // Uzyskujemy referencje do agenta omijając asercje na NULL
+            attitude_agent& CenterAgent=*(Agents.get_ptr(index).get_ptr_val()); // Uzyskujemy referencje do agenta omijając asercje na NULL
 
             if(Agents.is_empty(CenterAgent))	// Sprawdzamy, czy nie jest to pusta komórka (NULL)
                 continue;
@@ -532,7 +532,7 @@ void aworld::simulate_one_step()
 
             assert(index!=any_layer_base::FULL);				//tutaj nie powinno się zdarzyć
 
-            aagent& CenterAgent=*(Agents.get_ptr(index).get_ptr_val()); // Uzyskujemy referencje do agenta omijając asercje na NULL
+            attitude_agent& CenterAgent=*(Agents.get_ptr(index).get_ptr_val()); // Uzyskujemy referencje do agenta omijając asercje na NULL
             if(Agents.is_empty(CenterAgent))	// Sprawdzamy, czy nie jest to pusta komórka (NULL)
                 continue;						// bo wtedy robić dalej byłoby bez sensu.
 
@@ -552,14 +552,14 @@ void aworld::simulate_one_step()
 
 
 
-int aworld::CheckChange(const geometry_base* MyGeom,
-                        size_t index,
-                        aagent& CenterAgent
+int attitude_world::CheckChange(const geometry_base* MyGeom,
+                                size_t index,
+                                attitude_agent& CenterAgent
                         ) //KOD NA SZUKANIE ZMIAN
 { 
     int testowanie=0;
 
-    if(DRAND()<=aagent::mutation_prob) ///< Rzadka, spontaniczna zmiana poglądu.
+    if(DRAND() <= attitude_agent::mutation_prob) ///< Rzadka, spontaniczna zmiana poglądu.
     {
         int attitude=RANDOM(NofCategories);                           assert(0 <= attitude && attitude < NofCategories);
         CenterAgent.Second=attitude;			///< Zmieniamy w agencie centralnym.
@@ -593,7 +593,7 @@ int aworld::CheckChange(const geometry_base* MyGeom,
         if(index2==any_layer_base::FULL || index2==index)	//Gdy poza obszarem symulacji lub w
             continue;				//centrum obszaru to dalej jest bez sensu.
 
-        aagent& PeryAgent=*(Agents.get_ptr(index2).get_ptr_val()); //Uzyskujemy referencje do sąsiada omijając asercje na NULL
+        attitude_agent& PeryAgent=*(Agents.get_ptr(index2).get_ptr_val()); //Uzyskujemy referencje do sąsiada omijając asercje na NULL
         if(Agents.is_empty(PeryAgent))		// Sprawdzamy, czy nie jest to pusta komórka (NULL)
             continue;						// bo wtedy robić dalej byłoby bez sensu.
 

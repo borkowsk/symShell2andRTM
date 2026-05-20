@@ -2,7 +2,7 @@
 /// @brief
 ///  @EN{ Visualisation of KWORLD (old example for SymShell implementing a Kruglanskis like model). }
 ///  @PL{  }
-/// @date 2026-05-20 (modified)
+/// @date 2026-05-21 (modified)
 /// =================================================================================================
 /// @details ...
 //======================================================================================================================
@@ -11,7 +11,7 @@
 #include <cmath>
 
 #include "krand.h"
-#include "kworld.h"
+#include "kWorld.h"
 #include "dhistosou.hpp" //Nowsza wersja — poprawiona
 #include "clstsour.hpp"  //Jest też statsour
 #include "spatcors.hpp"
@@ -36,25 +36,25 @@ extern unsigned spatial_correlation_mode;
 
 // Generuje podstawowe źródła dla wbudowanego zarządcy danych lub innego
 //===========================================================================
-void kworld::make_basic_sources()
+void kWorld::make_basic_sources()
 {
     sources_manager& WhatSourMen=this->Sources;
     world::make_basic_sources(); //Odziedziczone
     
     //Główne serie
-    Firsts=Agenci.make_source("Attitude",&kagent::First);	
+    Firsts=Agenci.make_source("Attitude",&kAgent::First);
     if(Firsts)
         Firsts->set_min_max(-1, 1);
-    Seconds=Agenci.make_source("Prev. attitude",&kagent::Second);
+    Seconds=Agenci.make_source("Prev. attitude",&kAgent::Second);
     if(Seconds)
         Seconds->set_min_max(-1, 1);
     
-    ForLeft=Agenci.make_source("For left",&kagent::ForLeft);
-    ForRight=Agenci.make_source("For right",&kagent::ForRight);
-    Powers=Agenci.make_source("Power",&kagent::Power);
+    ForLeft=Agenci.make_source("For left",&kAgent::ForLeft);
+    ForRight=Agenci.make_source("For right",&kAgent::ForRight);
+    Powers=Agenci.make_source("Power",&kAgent::Power);
     
     /*
-    Pressure=Agenci.make_source("Pressure",&kagent::Press);
+    Pressure=Agenci.make_source("Pressure",&kAgent::Press);
     MaxPressure=long(MaxSila)*WeightOfSelf;
     MaxPressure+=long(MaxSila)*NeedForClosure * (IleSasiad>0 ? IleSasiad : sqr(OdlSasiad*2+1)-1   ); //Prymitywna implementacja
     Pressure->set_missing(-1);
@@ -70,7 +70,7 @@ void kworld::make_basic_sources()
     CountCh=ptrLastChanged->get_missing();
     CountMig=ptrLastMigration->get_missing();
     
-    //Classif=Agenci.make_source("Classification",&kagent::classif); //Z PIERWOWZORU "LANGUAGES"
+    //Classif=Agenci.make_source("Classification",&kAgent::classif); //Z PIERWOWZORU "LANGUAGES"
     //if(classif)
     //	classif->set_min_max(0,IleKate*IleKate*IleKate-1); //Max class ==IleKate^3 bo trzy niezależne płaszczyzny
     
@@ -91,7 +91,7 @@ void kworld::make_basic_sources()
 // Współpraca z managerem wyświetlania, a także logiem
 //------------------------------------------------------------------
 // Wypisywanie/dopisywanie na konsole statusu
-void    kworld::actualize_out_area()
+void    kWorld::actualize_out_area()
 {
     world::actualize_out_area();
     //ptrStres; ptrClsSize; - Do przekazywania aktualnie najważniejszych danych na okno statusu
@@ -107,7 +107,7 @@ void    kworld::actualize_out_area()
 }
 
 
-void kworld::make_default_visualisation()
+void kWorld::make_default_visualisation()
 //Rejestruje pochodne serie, tworzy domyślne "lufciki" i wkłada w "Manager"
 {
     area_manager_base& Menager=this->MyAreaManager();

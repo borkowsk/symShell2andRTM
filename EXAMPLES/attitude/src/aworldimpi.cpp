@@ -2,7 +2,7 @@
 /// @brief
 ///  @EN{ Virtual Input method implementation of the aworld class. }
 ///  @PL{ Implementacja metody wirtualnego wejścia klasy świata. }
-/// @date 2026-05-20 (modified)
+/// @date 2026-05-21 (modified)
 /// =========================================================
 /// @details
 ///     Its is rather simply implementation. You can replace it if you need.
@@ -18,7 +18,7 @@ using namespace sym2::data;
 using namespace sym2::shell;
 using namespace sym2::visual;
 
-int aworld::implement_input(istream& i)
+int attitude_world::implement_input(istream& i)
 {
     int ret=world::implement_input(i);
     if(ret!=1) return ret;

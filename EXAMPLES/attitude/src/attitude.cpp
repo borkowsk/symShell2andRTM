@@ -2,7 +2,7 @@
 /// @brief
 ///  @EN{ A fairly simple simulation of attitude change — "attitude" according to A. Nowak's model. THE MAIN FILE. }
 ///  @PL{ Dosyć prosta symulacja zmiany postaw — "attitude" wg. modelu A. Nowak-a. PLIK GŁÓWNY. }
-/// @date 2026-05-20 (modified)
+/// @date 2026-05-21 (modified)
 ///       ======================================================================================================
 /// @details Uzyskana przez uproszczenie wczesnej wersji programu LANGUAGES
 /// @PL{ DOXYGENIZACJA WYŁĄCZNIE PO POLSKU. }
@@ -378,21 +378,21 @@ int main(const int argc,const char* argv[])
         }
 
     //INICJALIZACJA SYMULACJI
-    aworld& theWorld=*new aworld(WorldWidth,
-                                 LogName,
-                                 MapLName,
-                                 MapPName,
-                                 MaskName,
+    attitude_world& theWorld=*new attitude_world(WorldWidth,
+                                                 LogName,
+                                                 MapLName,
+                                                 MapPName,
+                                                 MaskName,
                                  NoisePercent / 100.0, //Szum od 0-1
                                  MaximalStrength, //Żeby była w przedziale
                                  NumberOfAttitudes,
-                                 NeighborhoodR,
-                                 NeighborhoodD,
-                                 SelfTaking,
-                                 SimulationMode == 0, //Synchroniczna czy nie
+                                                 NeighborhoodR,
+                                                 NeighborhoodD,
+                                                 SelfTaking,
+                                                 SimulationMode == 0, //Synchroniczna czy nie
                                  GrowingStrength,
-                                 MaximalStrength * ThresholdPercent / 100.0,
-                                 MutationProb
+                                                 MaximalStrength * ThresholdPercent / 100.0,
+                                                 MutationProb
                                );
 
     if(&theWorld == NULL)

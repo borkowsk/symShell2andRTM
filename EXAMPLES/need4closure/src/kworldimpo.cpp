@@ -2,14 +2,14 @@
 /// @brief
 ///     @EN{ Implementation of the 'kworld' class. Virtual output methods. }
 ///     @PL{  }
-/// @date 2026-05-19 (modified)
+/// @date 2026-05-21 (modified)
 ///       ===========================================================================
 /// @details
 /// Its is rather simply implementation. You can replace it if you need.
 //=====================================================================
-#include "kworld.h"
+#include "kWorld.h"
 
-int kworld::implement_output(ostream& o) const
+int kWorld::implement_output(ostream& o) const
 {
     int ret=world::implement_output(o);
     if(ret!=1) return ret;

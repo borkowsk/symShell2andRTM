@@ -1,8 +1,8 @@
 /// @file
 /// @brief
-///  @EN{ Virtual Input method implementation of the 'aWorld' type. }
+///  @EN{ Virtual Input method implementation of the 'convWorld' type. }
 ///  @PL{  }
-/// @date 2026-05-20 (modified)
+/// @date 2026-05-21 (modified)
 ///       ===========================================================
 /// @details
 ///     Its is rather simply implementation. You can replace it if you need.
@@ -14,14 +14,14 @@ using namespace sym2::data;
 using namespace sym2::shell;
 using namespace sym2::visual;
 
-int aWorld::implement_input(istream& i)
+int convWorld::implement_input(istream& i)
 {
     int ret=world::implement_input(i);
     if(ret!=1) return ret;
     i>>MyWidth;
-    i>>anAgent::MaxStrength;
-    i>>anAgent::MinStrength;
-    i>>anAgent::NumOfCate;
+    i >> convAgent::MaxStrength;
+    i >> convAgent::MinStrength;
+    i >> convAgent::NumOfCate;
 
     rectangle_geometry* Geom=(rectangle_geometry*)Agenci.get_geometry();
                                                                                                      assert(Geom!=NULL);

@@ -1,8 +1,8 @@
 /// @file
 /// @brief
-///     @EN{ Implementation of the lifeworld class - virtual input method. }
+///     @EN{ Implementation of the life_world class - virtual input method. }
 ///     @PL{  }
-/// @date 2026-05-20 (modified)
+/// @date 2026-05-21 (modified)
 /// =========================================================
 /// @details
 /// Its is rather simply implementation. You can replace it if you need.
@@ -14,7 +14,7 @@ using namespace sym2::data;
 using namespace sym2::shell;
 using namespace sym2::visual;
 
-int lifeworld::implement_input(istream& i)
+int life_world::implement_input(istream& i)
 {
     int ret=world::implement_input(i);
     if(ret!=1) return ret;

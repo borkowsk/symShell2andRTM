@@ -2,7 +2,7 @@
 /// @brief
 ///  @EN{ DECLARATION OF A TYPE 'aagent' FOR "attitudes" SIMULATION. }
 ///  @PL{ DEKLARACJA TYPU 'aagent' DO SYMULACJI postaw. }
-/// @date 2026-05-20 (modified)
+/// @date 2026-05-21 (modified)
 ///       ============================================================
 /// @PL{ BARDZO OSZCZĘDNIE SKOMENTOWANE.} @EN{ VERY SPARINGLY COMMENTED.}
 /// @PL{ DOXYGENIZACJA WYŁĄCZNIE PO POLSKU. }
@@ -15,10 +15,11 @@ using namespace sym2::data;
 using namespace sym2::shell;
 using namespace sym2::visual;
 
-/// @brief @PL{ Agent symulacji "attitudes". } @EN{ "Attitudes" simulation agent. }
-class aagent:public agent_base
+/// @brief @PL{ Agent symulacji "attitudes". }
+///        @EN{ "Attitudes" simulation agent. }
+class attitude_agent: public sym2::shell::agent_base
 {
-    friend class aworld; ///< Przyjacielska deklaracja klasy świata. Na razie tak — żeby uprościć dostęp do składowych.
+    friend class attitude_world; ///< Przyjacielska deklaracja klasy świata. Na razie tak — żeby uprościć dostęp do składowych.
 
     /// @name STATYCZNE SKŁADOWE - PARAMETRY INICJOWANIA AGENTÓW.
     /// @{
@@ -55,25 +56,25 @@ public:
 
     void make_older() ///< Starzenie się agenta. Sila jako wiek. Nigdy nie przekracza siły maksymalnej.
     {
-        if(aagent::str_grow)
+        if(attitude_agent::str_grow)
         {
-            Power+=aagent::str_grow;
-            Power%=aagent::max_str; //Nigdy nie przekracza siły maksymalnej
+            Power+=attitude_agent::str_grow;
+            Power%=attitude_agent::max_str; //Nigdy nie przekracza siły maksymalnej
         }
     }
 
     /// Konstruktor 1.
-    aagent(const aagent& ini);	//Konkretna implementacja w aworld!
+    attitude_agent(const attitude_agent& ini);	//Konkretna implementacja w aworld!
 
     /// Konstruktor 2.
-    aagent();					//Konkretna implementacja w aworld!
+    attitude_agent();					//Konkretna implementacja w aworld!
 
     /// Wymagane klonowanie.
-    aagent* clone() const
-    { return new aagent(*this);}
+    attitude_agent* clone() const
+    { return new attitude_agent(*this);}
 
     /// Destruktor najpierw czyści agenta, a potem dopiero wykonuje właściwą destrukcję.
-    ~aagent() override
+    ~attitude_agent() override
     {_clean();}
 
     void clean() override
@@ -107,7 +108,7 @@ public:
     }
 
     friend
-    ostream& operator << (ostream& o,const aagent& a)
+    ostream& operator << (ostream& o,const attitude_agent& a)
     {
         o<<'{';
         o<<' '<<a.Power<<' '<<a.First<<' '<<a.Second<<' ';
@@ -116,7 +117,7 @@ public:
     }
 
     friend
-    istream& operator >> (istream& i,aagent& a)
+    istream& operator >> (istream& i, attitude_agent& a)
     {
         char pom;
         i>>pom;		//ignoruje {

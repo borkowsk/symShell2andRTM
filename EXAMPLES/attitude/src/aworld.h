@@ -1,8 +1,8 @@
 /// @file
 /// @brief
-///  @EN{ DECLARATION OF THE "W O R L D" ('aworld') FOR "attitudes" SIMULATION. }
+///  @EN{ DECLARATION OF THE "W O R L D" ('aworld') FOR "attitude" SIMULATION. }
 ///  @PL{ DEKLARACJA "ŚWIATA" ('aworld') NA RZECZ SYMULACJI POSTAW "attitude". }
-/// @date 2026-05-20 (modified)
+/// @date 2026-05-21 (modified)
 /// =========================================================
 /// @PL{ DOXYGENIZACJA WYŁĄCZNIE PO POLSKU. }
 /// @EN{ DOXYGENIZATION IN POLISH ONLY. }
@@ -17,9 +17,10 @@ using namespace sym2::data;
 using namespace sym2::shell;
 using namespace sym2::visual;
 
-/// @brief @PL{ Cały świat symulacji "attitudes".} @EN{ A whole world of "attitudes" simulations. }
-class aworld:public world
-//-----------------------
+/// @brief @PL{ Cały świat symulacji "attitudes".}
+///        @EN{ A whole world of "attitudes" simulations. }
+class attitude_world: public sym2::shell::world
+//---------------------------------------------
 {
     // Parametry modelu:
     // /////////////////
@@ -38,30 +39,30 @@ class aworld:public world
     wb_pchar			MaskName;	///< Nazwa pliku inicjującej bitmapy.
 
     /// @brief Warstwa symulacji, czyli warstwa agentów zasiedlających (torus).
-    rectangle_layer_of_ptr_to_agents<aagent>    Agents;
+    rectangle_layer_of_ptr_to_agents<attitude_agent>    Agents;
 
     /// @name Główne serie — wygodniej mieć wskaźniki niż odszukiwać z Sources po nazwach.
     // ///////////////////////////////////////////////////////////////////////////////////
     /// @{
-    sym2::data::ptr_to_struct_matrix_source<aagent,short>		*Firsts; //=Agents.make_source("First mem",&aagent::First);
-    sym2::data::ptr_to_struct_matrix_source<aagent,short>		*Seconds; //=Agents.make_source("Second mem",&aagent::Second);
-    sym2::data::ptr_to_struct_matrix_source<aagent,short>		*Powers; //=Agents.make_source("Power",&aagent::Power);
+    sym2::data::ptr_to_struct_matrix_source<attitude_agent,short>		*Firsts; //=Agents.make_source("First mem",&aagent::First);
+    sym2::data::ptr_to_struct_matrix_source<attitude_agent,short>		*Seconds; //=Agents.make_source("Second mem",&aagent::Second);
+    sym2::data::ptr_to_struct_matrix_source<attitude_agent,short>		*Powers; //=Agents.make_source("Power",&aagent::Power);
     /// @}
 
-    int CheckChange(const geometry_base* MyGeom, size_t index, aagent& CenterAgent);
+    int CheckChange(const geometry_base* MyGeom, size_t index, attitude_agent& CenterAgent);
 
 public:
     // KONSTRUKCJA DESTRUKCJA:
     // ///////////////////////
 
     /// Konstruktor.
-    aworld( size_t	Width,				///< Szerokość torusa macierzy agentów.
+    attitude_world(size_t	Width,				///< Szerokość torusa macierzy agentów.
             char*	log_name,			///< Nazwa pliku do zapisywania historii.
             char*	map_l_name,			///< Nazwa (bit-) mapy inicjującej "składowe".
             char*	mapp_name,			///< Nazwa (bit-) mapy inicjującej "sily".
             char*	live_mask,			///< Czarne w tej mapie są kasowane.
             double	noise_p=0,
-            short	max_str=255,		///< Maksymalna siła agenta.
+                   short	max_str=255,		///< Maksymalna siła agenta.
             short	n_of_cate=256,		///< Liczba kategorii w mapach.
             short	neigh_radius=1,		///< Rozmiar sąsiedztwa.
             short	n_of_neigh=8,		///< 8 == Gęstość sąsiedztwa — jeśli -1, to wszystko po kolei.
@@ -73,7 +74,7 @@ public:
           );
 
     /// Destruktor.
-    ~aworld() override = default;
+    ~attitude_world() override = default;
 
 protected:
     // AKCJE:

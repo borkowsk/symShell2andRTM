@@ -1,8 +1,8 @@
 /// @file
 /// @brief
-///     @EN{ Implementation of the lifeworld class. Virtual output method. }
+///     @EN{ Implementation of the life_world class. Virtual output method. }
 ///     @PL{  }
-/// @date 2026-05-19 (modified)
+/// @date 2026-05-21 (modified)
 /// =========================================================
 /// @details
 /// Its is rather simply implementation. You can replace it if you need.
@@ -10,7 +10,7 @@
 
 #include "lworld.h"
 
-int lifeworld::implement_output(ostream& o) const
+int life_world::implement_output(ostream& o) const
 {
     int ret=world::implement_output(o);
     if(ret!=1) return ret;

@@ -1,8 +1,8 @@
 /// @file
 /// @brief
-///  @EN{ DECLARATION OF 'anAgent' FOR this SIMULATION. }
+///  @EN{ DECLARATION OF 'convAgent' FOR this SIMULATION. }
 ///  @PL{  }
-/// @date 2026-05-20 (modified)
+/// @date 2026-05-21 (modified)
 ///       =========================================================
 /// @details ...
 //======================================================================================================================
@@ -13,9 +13,12 @@ using namespace sym2::data;
 using namespace sym2::shell;
 using namespace sym2::visual;
 
-class anAgent:public agent_base
+/// @brief
+///     @PL{ Agent symulacji "Convince". }
+///     @EN{ Simulation agent for "Convince". }
+class convAgent: public sym2::shell::agent_base
 {
-    friend class aWorld;	//!< To simplify access to the agent's components from the universe side.
+    friend class convWorld;	//!< To simplify access to the agent's components from the universe side.
 
     // STATIC COMPONENTS - MAINLY AGENT INITIALISATION PARAMETERS:
     // ///////////////////////////////////////////////////////////
@@ -48,21 +51,21 @@ class anAgent:public agent_base
     // WHAT MUST be defined for each agent type:
     // /////////////////////////////////////////
 public:
-    int	IsOK() const 		//!< Integrity test.
+    int	IsOK() const 					//!< Integrity test.
     {
         return First!=-1 && Second!=-1 && Power!=-1;
     }
 
-    anAgent(const anAgent& ini);	//!< Copy constructor. Concrete implementation for by the world class!
-    anAgent();						//!< Default constructor.Concrete implementation for by the world class!
+    convAgent(const convAgent& ini);	///< Copy constructor. Concrete implementation for by the world class!
+    convAgent();						///< Default constructor.Concrete implementation for by the world class!
 
-    anAgent*	clone() const		//!< Creating a dynamic copy on the heap.
-    { return new anAgent(*this);}
+    convAgent*	clone() const			///< Creating a dynamic copy on the heap.
+    { return new convAgent(*this);}
 
-    ~anAgent() override				//!< Virtual destructor.
+    ~convAgent() override				///< Virtual destructor.
     {_clean();}
 
-    void	clean() override		//!< Virtual cleaning of agent attributes.
+    void	clean() override			///< Virtual cleaning of agent attributes.
     {_clean();}
 
     void	assign123(unsigned char Red,unsigned char Green,unsigned char Blue)	//!< Determines beliefs based on a bitmap pixel.
@@ -88,7 +91,7 @@ public:
     }
 
     friend
-    ostream&	operator << (ostream& o,const anAgent& a)	//!< Serialization.
+    ostream&	operator << (ostream& o,const convAgent& a)	//!< Serialization.
     {
         o<<'{';
         o<<' '<<a.Power<<' '<<a.First<<' '<<a.Second<<' ';
@@ -97,7 +100,7 @@ public:
     }
 
     friend
-    istream&	operator >> (istream& i,anAgent& a)		//!< Deserialization.
+    istream&	operator >> (istream& i, convAgent& a)		//!< Deserialization.
     {
         char pom;
         i>>pom;		//ignoring `{`

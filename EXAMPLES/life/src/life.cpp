@@ -2,7 +2,7 @@
 /// @brief
 ///  @EN{ Variations on Conway's Life - Main Program. }
 ///  @PL{ Wariacje na temat life Conway-a — program główny. }
-/// @date 2026-05-20 (modified)
+/// @date 2026-05-21 (modified)
 ///       =========================================================
 /// @details ....
 //======================================================================================================================
@@ -304,7 +304,7 @@ int main(const int argc,const char* argv[])
         }
 
     //INICJALIZACJA SYMULACJI
-    lifeworld& theWorld=*new lifeworld(
+    life_world& theWorld=*new life_world(
             iWidth,
             LogName,
             MapLName,

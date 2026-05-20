@@ -2,7 +2,7 @@
 /// @brief
 ///  @EN{ IMPLEMENTATION OF THE "KWORLD".  }
 ///  @PL{  }
-/// @date 2026-05-20 (modified)
+/// @date 2026-05-21 (modified)
 /// =========================================================
 /// @details
 ///  (old example for SymShell implementing Kruglansky like model)
@@ -11,7 +11,7 @@
 #include <cstring>
 #include <cmath>
 #include "krand.h"
-#include "kworld.h"
+#include "kWorld.h"
 #include "wb_ptrio.h"
 
 using namespace sym2;
@@ -20,14 +20,14 @@ using namespace sym2::data;
 extern const int RAMKA=4;
 extern const char* SIMULATION_NAME;
 
-// Statyczne pola `kagent`-ów:
+// Statyczne pola `kAgent`-ów:
 //===============================================================
 
-short	kagent::Max_power=256;		///< Maksymalna siła agenta.
-int     kagent::Threshold=256;		///< Granica domknięcia poglądu.
-double  kagent::Majority=0.10;		///< Początkowa liczba czarnych, czyli lewych.
-double  kagent::Minority=0.05;		///< Początkowa liczba białych, czyli prawych.
-double	kagent::NoiseLevel=0;		///< Prawd. spontanicznej zmiany.
+short	kAgent::Max_power=256;		///< Maksymalna siła agenta.
+int     kAgent::Threshold=256;		///< Granica domknięcia poglądu.
+double  kAgent::Majority=0.10;		///< Początkowa liczba czarnych, czyli lewych.
+double  kAgent::Minority=0.05;		///< Początkowa liczba białych, czyli prawych.
+double	kAgent::NoiseLevel=0;		///< Prawd. spontanicznej zmiany.
 
 // IMPLEMENTACJA KONSTRUKCJI ŚWIATA:
 //==================================
@@ -35,7 +35,7 @@ double	kagent::NoiseLevel=0;		///< Prawd. spontanicznej zmiany.
 extern unsigned internal_log;
 extern unsigned spatial_correlation_mode;
 
-kworld::kworld(size_t Width,		// Określa ile kolumn torusa macierzy agentów.
+kWorld::kWorld(size_t Width,		// Określa ile kolumn torusa macierzy agentów.
                char* log_name,		// Nazwa pliku do zapisywania historii.
                char* mapl_name,		// Nazwa pliku mapy inicjującej "składowe".
                char* mapp_name,		// Nazwa pliku mapy inicjującej "siły".
@@ -47,10 +47,10 @@ kworld::kworld(size_t Width,		// Określa ile kolumn torusa macierzy agentów.
                double how_use_self,		// Z jaka waga ma brać siebie.
                double need_for_closure,	// Główny parametr modelu. Domyślnie 1.
                bool	synchronicly,
-               
+
                short treshold,
                double spontanic,
-               
+
                double fill,
                double migrprob,
                double majority,
@@ -86,28 +86,28 @@ ptrLastMigration(nullptr),
 CountCh(0),
 CountMig(0)
 {// Nie można tu jeszcze polegać na wirtualnych metodach tej klasy!!!
-    kagent::Majority=majority;
-    kagent::Minority=minority;
+    kAgent::Majority=majority;
+    kAgent::Minority=minority;
     world::set_simulation_name(SIMULATION_NAME);
-    kagent::Max_power=MaxSila; //Maksymalna siła agenta
-    kagent::NoiseLevel=spontanic;
+    kAgent::Max_power=MaxSila; //Maksymalna siła agenta
+    kAgent::NoiseLevel=spontanic;
 }
 
 
 // AKCJE SYMULACYJNE:
 //===================
 
-void kworld::after_read_from_image()
-//Actions after read state from file. Aktualizacja pol static kagent-a!!!
+void kWorld::after_read_from_image()
+//Actions after read state from file. Aktualizacja pol static kAgent-a!!!
 {   
     //...
 }
 
 // stan startowy symulacji
-void kworld::initialize_layers()
+void kWorld::initialize_layers()
 //-------------------------------------
 {
-    kagent::Max_power=MaxSila; //Maksymalna siła agenta
+    kAgent::Max_power=MaxSila; //Maksymalna siła agenta
     
     static int first=1; //EWENTUALNE WYŁĄCZENIE WYDRUKÓW GDY SYMULACJA
     
@@ -126,16 +126,16 @@ void kworld::initialize_layers()
     
     //			USTALANIE STANÓW AGENTÓW 
     //Wczytuje, używając konstruktora lub klonowania, gdy niema, więc inicjuje resztę pól.
-    int from1= Agenci.init_from_bitmap(MappName.get_ptr_val(),&kagent::assignPow);
-    int from2= Agenci.init_from_bitmap(MaplName.get_ptr_val(),&kagent::assign_curr);
-    //   int from3= Agenci.init_from_bitmap(MapLName.get_ptr_val(),kagent::assign_prev);
+    int from1= Agenci.init_from_bitmap(MappName.get_ptr_val(),&kAgent::assignPow);
+    int from2= Agenci.init_from_bitmap(MaplName.get_ptr_val(),&kAgent::assign_curr);
+    //   int from3= Agenci.init_from_bitmap(MapLName.get_ptr_val(),kAgent::assign_prev);
     
     //Gdy niezainicjowane z pliku to prowizoryczna inicjacja przez konstruktory lub klonowanie
     if(from1!=1 && from2!=1)
         Agenci.reallocate_all();
     
     //Zabija agenta, gdy w masce jest czarny kolor
-    if(Agenci.init_from_bitmap(MaskName.get_ptr_val(),&kagent::killBlack)==1 )
+    if(Agenci.init_from_bitmap(MaskName.get_ptr_val(),&kAgent::killBlack) == 1 )
         Agenci.deallocate_not_OK();
     
     if(Fill<1) //Dealokacja nadmiarów
@@ -148,7 +148,7 @@ void kworld::initialize_layers()
 }
 
 //Pojedynczy krok symulacji
-void kworld::simulate_one_step()
+void kWorld::simulate_one_step()
 //---------------------------------------
 {   
     CountCh=CountMig=0; //Zerowanie liczników dynamizmu
@@ -164,7 +164,7 @@ void kworld::simulate_one_step()
             
             assert(index!=MyGeom->FULL);				//... tutaj nie powinno się zdarzyć.
             
-            kagent& CenterAgent=*(Agenci.get_ptr(index).get_ptr_val()); // Uzyskujemy referencje do agenta omijając asercje na nullptr
+            kAgent& CenterAgent=*(Agenci.get_ptr(index).get_ptr_val()); // Uzyskujemy referencje do agenta omijając asercje na nullptr
             
             if(Agenci.is_empty(CenterAgent))	// Sprawdzamy, czy nie jest to pusta komórka (nullptr)
                 continue;						// bo wtedy robić dalej byłoby bez sensu.
@@ -186,7 +186,7 @@ void kworld::simulate_one_step()
             
             assert(index!=MyGeom->FULL);				//... tutaj nie powinno się zdarzyć.
             
-            kagent& CenterAgent=*(Agenci.get_ptr(index).get_ptr_val()); // Uzyskujemy referencje do agenta omijając asercje na nullptr
+            kAgent& CenterAgent=*(Agenci.get_ptr(index).get_ptr_val()); // Uzyskujemy referencje do agenta omijając asercje na nullptr
             
             if(Agenci.is_empty(CenterAgent))	// Sprawdzamy, czy nie jest to pusta komórka (nullptr)
                 continue;
@@ -204,7 +204,7 @@ void kworld::simulate_one_step()
             
             assert(index!=MyGeom->FULL);				//... tutaj nie powinno się zdarzyć
             
-            kagent& CenterAgent=*(Agenci.get_ptr(index).get_ptr_val()); // Uzyskujemy referencje do agenta omijając asercje na nullptr
+            kAgent& CenterAgent=*(Agenci.get_ptr(index).get_ptr_val()); // Uzyskujemy referencje do agenta omijając asercje na nullptr
             if(Agenci.is_empty(CenterAgent))	// Sprawdzamy, czy nie jest to pusta komórka (nullptr)
                 continue;						// bo wtedy robić dalej byłoby bez sensu.
             
@@ -220,9 +220,9 @@ void kworld::simulate_one_step()
     ptrLastMigration->change_ptr(&CountMig); //Alternatywna metoda dla oznaczenia braku policzonych danych
 }
 
-int kworld::DoMigration(const rectangle_geometry* MyGeom, //Ta procedura jest napisana nie-ogólnie, tj. w uzależnieniu od prostokątnego typu geometrii
+int kWorld::DoMigration(const rectangle_geometry* MyGeom, //Ta procedura jest napisana nie-ogólnie, tj. w uzależnieniu od prostokątnego typu geometrii
                         size_t index,
-                        kagent& CenterAgent
+                        kAgent& CenterAgent
                         )
 {
     size_t SouX,SouY,TarX,TarY;
@@ -237,9 +237,9 @@ int kworld::DoMigration(const rectangle_geometry* MyGeom, //Ta procedura jest na
     return MyGeom->get(TarX,TarY); //Nowa pozycja w postaci liniowej 
 }
 
-int kworld::CheckChange(const rectangle_geometry* MyGeom,
+int kWorld::CheckChange(const rectangle_geometry* MyGeom,
                         size_t index,
-                        kagent& CenterAgent
+                        kAgent& CenterAgent
                         ) //KOD NA SZUKANIE ZMIAN
 { 
     int testowanie=0;
@@ -252,7 +252,7 @@ int kworld::CheckChange(const rectangle_geometry* MyGeom,
          if(index2==MyGeom->FULL || index2==index)	//Gdy poza obszarem symulacji lub w
                   continue;				//centrum obszaru to dalej byłoby bez sensu.
          
-         kagent& SecAgent=*(Agenci.get_ptr(index2).get_ptr_val()); //Uzyskujemy referencje do sąsiada omijając asercje na nullptr
+         kAgent& SecAgent=*(Agenci.get_ptr(index2).get_ptr_val()); //Uzyskujemy referencje do sąsiada omijając asercje na nullptr
          if(Agenci.is_empty(SecAgent))		//Sprawdzamy, czy nie jest to pusta komórka (nullptr)
                     continue;					   // bo wtedy robić dalej byłoby bez sensu.
 

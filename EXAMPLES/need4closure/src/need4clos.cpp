@@ -2,7 +2,7 @@
 /// @brief
 ///     @EN{ Old example for SymShell implementing the Kruglanski's like model }
 ///     @PL{  }
-/// @date 2026-05-20 (modified)
+/// @date 2026-05-21 (modified)
 ///       ===========================================================================
 /// @details
 ///  Symulacja Need for closure wg teorii Arie Kruglanskiego
@@ -26,7 +26,7 @@ const char* SIMULATION_NAME="need4clos_v0.22a";
 //#include "wbminmax.hpp"
 #include "compatyb.h"
 #include "krand.h"
-#include "kworld.h"
+#include "kWorld.h"
 
 using namespace sym2;
 using namespace sym2::data;
@@ -438,25 +438,25 @@ Lufciki.set_dump_name(buf.get());
 
 
 //INICJALIZACJA SYMULACJI
-kworld& tenSwiat=*new kworld(iWidth,
-                           LogName,
-                           MapLName,
-                           MapPName,
-                           MaskName,
+kWorld& tenSwiat=*new kWorld(iWidth,
+                             LogName,
+                             MapLName,
+                             MapPName,
+                             MaskName,
                            ProcentSzumu/100.0, //Szum od 0-1
                            MaksymalnaSila, //Żeby była w przedziale
 
                            IleSasiadow,
-                           WagaSiebie,
-                           NeedForClousure,
-                           (TypSymulacji==0?true:false), //Synchroniczna czy nie
+                             WagaSiebie,
+                             NeedForClousure,
+                             (TypSymulacji==0?true:false), //Synchroniczna czy nie
 
                            Treshold,
-                           MutacjeSpon,
-                           Fill,
-                           ProbMig,
-                           Majority,
-                           Minority
+                             MutacjeSpon,
+                             Fill,
+                             ProbMig,
+                             Majority,
+                             Minority
                            );
 /// Od C++11 new nie powinno zwrócić "nullptr" tylko wylecieć z exception!
 // if(&tenSwiat==nullptr)

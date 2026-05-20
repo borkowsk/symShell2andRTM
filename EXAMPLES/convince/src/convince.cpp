@@ -2,7 +2,7 @@
 /// @brief
 ///  @EN{ A fairly simple simulation of a change of opinion implementing Professor D. Stauffer's model. }
 ///  @PL{  }
-/// @date 2026-05-19 (modified)
+/// @date 2026-05-21 (modified)
 ///       =========================================================
 /// @details
 ///       (Obtained by simplifying the LANGUAGES program)
@@ -262,16 +262,16 @@ int main(const int argc,const char* argv[])
         }
 
     //INITIALIZATION OF THE SIMULATION WORLD:
-    aWorld& theWorld=*new aWorld(WorldWidth,
-                                 NewProbability,
-                                 InfectionProb,
-                                 SupportLev,
-                                 LogName,
-                                 MapLName,
-                                 MapPName,
-                                 MaskName,
-                                 MaximumStrength,
-                                 MinimalStrength
+    convWorld& theWorld=*new convWorld(WorldWidth,
+                                       NewProbability,
+                                       InfectionProb,
+                                       SupportLev,
+                                       LogName,
+                                       MapLName,
+                                       MapPName,
+                                       MaskName,
+                                       MaximumStrength,
+                                       MinimalStrength
                                );
 
     if(&theWorld == NULL)

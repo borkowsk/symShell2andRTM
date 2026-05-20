@@ -1,8 +1,8 @@
 /// @file
 /// @brief
-///  @EN{ Virtual output methods implementation of the 'aWorld' class. }
+///  @EN{ Virtual output methods implementation of the 'convWorld' class. }
 ///  @PL{  }
-/// @date 2026-05-19 (modified)
+/// @date 2026-05-21 (modified)
 ///       =========================================================
 /// @details
 /// Its is rather simply implementation. You can replace it if you need.
@@ -10,15 +10,15 @@
 
 #include "cworld.h"
 
-int aWorld::implement_output(ostream& o) const
+int convWorld::implement_output(ostream& o) const
 {
     int ret=world::implement_output(o);
     if(ret!=1) return ret;
     o<<separator;
     o<<MyWidth<<separator;
-    o << anAgent::MaxStrength << separator;
-    o << anAgent::MinStrength << separator;
-    o << anAgent::NumOfCate << separator;
+    o << convAgent::MaxStrength << separator;
+    o << convAgent::MinStrength << separator;
+    o << convAgent::NumOfCate << separator;
 
     o<<Agenci<<endl;
     return 1;

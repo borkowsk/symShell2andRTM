@@ -2,7 +2,7 @@
 /// @brief
 /// @EN{ Implementation of the world of the convinced (D. Stauffer idea). }
 /// @PL{  }
-/// @date 2026-05-19 (modified)
+/// @date 2026-05-21 (modified)
 ///       =================================================================
 /// @details ...
 //======================================================================================================================
@@ -26,7 +26,7 @@ extern const char* SIMULATION_NAME;
 // Construction of agents:
 //========================
 
-anAgent::anAgent(const anAgent& ini)
+convAgent::convAgent(const convAgent& ini)
 {
     if(&ini!=NULL)
     {
@@ -41,7 +41,7 @@ anAgent::anAgent(const anAgent& ini)
         _clean();
 }
 
-anAgent::anAgent()
+convAgent::convAgent()
 {
     _clean();
 
@@ -60,22 +60,22 @@ anAgent::anAgent()
 // Static Agent Fields for Initialization:
 //========================================
 
-short   anAgent::MinStrength=10;
-short	anAgent::MaxStrength=100;	//Maximum agent power/force.
-short	anAgent::NumOfCate=2;	//Number of categories in maps.
-short	anAgent::CateShift=0;	//Offset for loading states from a GIF file.
+short   convAgent::MinStrength=10;
+short	convAgent::MaxStrength=100;	//Maximum agent power/force.
+short	convAgent::NumOfCate=2;	//Number of categories in maps.
+short	convAgent::CateShift=0;	//Offset for loading states from a GIF file.
 
-double	anAgent::ToBeNewProb=0;	//The probability of a loner spontaneously changing his views on a new type of entertainment/sport.
-double  anAgent::NewInfectProb=0.01;	//Probability of "infection" from a pair of "infected" individuals.
-double  anAgent::ReverseProb=1;	//Probability of reversal of views to 0 - no idea for entertainment.
-double  anAgent::SupportLevel=0.5;	//The power of support when you have some companions.
+double	convAgent::ToBeNewProb=0;	//The probability of a loner spontaneously changing his views on a new type of entertainment/sport.
+double  convAgent::NewInfectProb=0.01;	//Probability of "infection" from a pair of "infected" individuals.
+double  convAgent::ReverseProb=1;	//Probability of reversal of views to 0 - no idea for entertainment.
+double  convAgent::SupportLevel=0.5;	//The power of support when you have some companions.
 
 // CONSTRUCTION OF THE WORLD:
 //===========================
 
 extern unsigned InternalLogLen;
 
-aWorld::aWorld(	
+convWorld::convWorld(
         unsigned iWidth,		//Width of the torus of the agent matrix.
         double iToBeNewProb,	//=0.1, //Likelihood of spontaneous change of opinion.
         double iInfectProb,		//=0.9, //Probability of reversal of views on 0.
@@ -88,7 +88,7 @@ aWorld::aWorld(
         short iMin_strength			//,=10	//Minimum agent strength.
                ):
         world(iLog_name, 50),
-        MaplName(clone_str(iMapL_name)),
+        MapLName(clone_str(iMapL_name)),
         MappName(clone_str(iMapP_name)),
         MaskName(clone_str(iLive_mask)),
         //Sub-objects specific to this simulation:
@@ -99,36 +99,36 @@ aWorld::aWorld(
         Seconds(NULL),
         Powers(NULL)
 {// There is not too much that can be done because we cannot rely on virtual methods of the world class yet.
-    anAgent::MinStrength=iMin_strength;
-    anAgent::MaxStrength=iMax_strength;
-    anAgent::NumOfCate=2;
-    anAgent::CateShift=0;
+    convAgent::MinStrength=iMin_strength;
+    convAgent::MaxStrength=iMax_strength;
+    convAgent::NumOfCate=2;
+    convAgent::CateShift=0;
 
-    anAgent::ToBeNewProb=iToBeNewProb;
-    anAgent::NewInfectProb=iInfectProb;
-    anAgent::ReverseProb=1-iToBeNewProb;
-    anAgent::SupportLevel=iSupportLevel;
+    convAgent::ToBeNewProb=iToBeNewProb;
+    convAgent::NewInfectProb=iInfectProb;
+    convAgent::ReverseProb= 1 - iToBeNewProb;
+    convAgent::SupportLevel=iSupportLevel;
 
     world::set_simulation_name(SIMULATION_NAME);
 }
 
 
-void aWorld::make_basic_sources()
+void convWorld::make_basic_sources()
 // Generates basic sources for the built-in data manager:
 {
     sources_manager& WhatSourMen=this->Sources;
     world::make_basic_sources(); //Odziedziczone
 
     //Creation of the main data series:
-    Firsts=Agenci.make_source("Attitude",&anAgent::First);
+    Firsts=Agenci.make_source("Attitude",&convAgent::First);
     if(Firsts)
-        Firsts->set_min_max(0, anAgent::NumOfCate - 1);
+        Firsts->set_min_max(0, convAgent::NumOfCate - 1);
 
-    Seconds=Agenci.make_source("Prev. attitude",&anAgent::Second);
+    Seconds=Agenci.make_source("Prev. attitude",&convAgent::Second);
     if(Seconds)
-        Seconds->set_min_max(0, anAgent::NumOfCate - 1);
+        Seconds->set_min_max(0, convAgent::NumOfCate - 1);
 
-    Powers=Agenci.make_source("Power",&anAgent::Power);
+    Powers=Agenci.make_source("Power",&convAgent::Power);
 
     //Placing the main series in the series manager:
     WhatSourMen.insert(Firsts);
@@ -137,7 +137,7 @@ void aWorld::make_basic_sources()
 }
 
 
-void aWorld::make_default_visualisation()
+void convWorld::make_default_visualisation()
 // Works with the display manager and the log.
 // Registers derived series, creates default "windows" and places them in the "Manager".
 {
@@ -390,22 +390,22 @@ void aWorld::make_default_visualisation()
 // SIMULATION ACTIONS:
 //=====================
 
-void aWorld::after_read_from_image()
+void convWorld::after_read_from_image()
 //Action after loading the initialization file. NOTE! Also updating the agent class's static fields!!!
 {
-    switch(anAgent::NumOfCate)
+    switch(convAgent::NumOfCate)
     {
-    case   2:anAgent::CateShift=7;break;
-    case   4:anAgent::CateShift=6;break;
-    case   8:anAgent::CateShift=5;break;
-    case  16:anAgent::CateShift=4;break;
-    case  32:anAgent::CateShift=3;break;
-    case  64:anAgent::CateShift=2;break;
-    case 128:anAgent::CateShift=1;break;
-    case 256:anAgent::CateShift=0;break;
+    case   2:convAgent::CateShift=7;break;
+    case   4:convAgent::CateShift=6;break;
+    case   8:convAgent::CateShift=5;break;
+    case  16:convAgent::CateShift=4;break;
+    case  32:convAgent::CateShift=3;break;
+    case  64:convAgent::CateShift=2;break;
+    case 128:convAgent::CateShift=1;break;
+    case 256:convAgent::CateShift=0;break;
     default:
-        anAgent::NumOfCate=256;
-        anAgent::CateShift=0;
+        convAgent::NumOfCate=256;
+            convAgent::CateShift=0;
         cerr<<"Invalid number of class (not power of 2 less than 256). Using default.\n";
         Log.GetStream()<<"Invalid number of class (not power of 2). Using default.\n";
         break;
@@ -413,26 +413,26 @@ void aWorld::after_read_from_image()
 }
 
 
-void aWorld::initialize_layers()
+void convWorld::initialize_layers()
 // Prepares the starting state of the simulation
 {
     static int first=1; // TEMPORARY PRINTING DISABLEMENT!!!
     if(first)
         Log.GetStream()<<"convince SIMULATION:";
 
-    switch(anAgent::NumOfCate)
+    switch(convAgent::NumOfCate)
     {
-    case   2:anAgent::CateShift=7;break;
-    case   4:anAgent::CateShift=6;break;
-    case   8:anAgent::CateShift=5;break;
-    case  16:anAgent::CateShift=4;break;
-    case  32:anAgent::CateShift=3;break;
-    case  64:anAgent::CateShift=2;break;
-    case 128:anAgent::CateShift=1;break;
-    case 256:anAgent::CateShift=0;break;
+    case   2:convAgent::CateShift=7;break;
+    case   4:convAgent::CateShift=6;break;
+    case   8:convAgent::CateShift=5;break;
+    case  16:convAgent::CateShift=4;break;
+    case  32:convAgent::CateShift=3;break;
+    case  64:convAgent::CateShift=2;break;
+    case 128:convAgent::CateShift=1;break;
+    case 256:convAgent::CateShift=0;break;
     default:
-        anAgent::NumOfCate=256;
-        anAgent::CateShift=0;
+        convAgent::NumOfCate=256;
+            convAgent::CateShift=0;
         cerr<<"Invalid number of class (not power of 2 less than 256). Using default.\n";
         Log.GetStream()<<"Invalid number of class (not power of 2). Using default.\n";
         break;
@@ -441,36 +441,36 @@ void aWorld::initialize_layers()
     // Printout of simulation parameter values:
     if(first)
       Log.GetStream()
-        <<"\n Change to new Pn="<<Log.separator()<<anAgent::ToBeNewProb
-        <<"\n Reverse Pr="<<Log.separator()<<anAgent::ReverseProb
-        <<"\n Infection Pr="<<Log.separator()<<anAgent::NewInfectProb
-        <<"\n Nei. Support S="<<Log.separator()<<anAgent::SupportLevel
+              << "\n Change to new Pn=" << Log.separator() << convAgent::ToBeNewProb
+              << "\n Reverse Pr=" << Log.separator() << convAgent::ReverseProb
+              << "\n Infection Pr=" << Log.separator() << convAgent::NewInfectProb
+              << "\n Nei. Support S=" << Log.separator() << convAgent::SupportLevel
 
-        <<"\nMin Power="<<Log.separator()<<anAgent::MinStrength
-        <<"\nMax Power="<<Log.separator()<<anAgent::MaxStrength
-        <<"\nNum of Kl="<<Log.separator()<<anAgent::NumOfCate;
+              << "\nMin Power=" << Log.separator() << convAgent::MinStrength
+              << "\nMax Power=" << Log.separator() << convAgent::MaxStrength
+              << "\nNum of Kl=" << Log.separator() << convAgent::NumOfCate;
 
     //	ACTUAL AGENT STATES DETERMINATION:
     //====================================
 
     //It loads using the constructor, so it initializes the rest of the fields as well:
-    int from1= Agenci.init_from_bitmap(MappName.get_ptr_val(),&anAgent::assignPow);
+    int from1= Agenci.init_from_bitmap(MappName.get_ptr_val(),&convAgent::assignPow);
     //And here it changes some fields:
-    int from2= Agenci.init_from_bitmap(MaplName.get_ptr_val(),&anAgent::assign123);
+    int from2= Agenci.init_from_bitmap(MapLName.get_ptr_val(), &convAgent::assign123);
 
     //However, if not initialized, then temporary initialization via constructors or cloning:
     if(from1!=1 && from2!=1)
         Agenci.reallocate_all();
 
     // Removes the agent if the mask contains black color.
-    if(Agenci.init_from_bitmap(MaskName.get_ptr_val(),&anAgent::killBlack)==1 )
+    if(Agenci.init_from_bitmap(MaskName.get_ptr_val(),&convAgent::killBlack) == 1 )
         Agenci.deallocate_not_OK();
 
     first=0; //End of first run of initialization. There will be prints in the next runs.
 }
 
 
-void aWorld::simulate_one_step()
+void convWorld::simulate_one_step()
 // Single simulation step:
 {
     const rectangle_geometry* MyGeom=dynamic_cast<const rectangle_geometry*>(Agenci.get_geometry());	assert(MyGeom!=NULL);
@@ -479,12 +479,12 @@ void aWorld::simulate_one_step()
     {
         long x=RANDOM(MyWidth);																assert(x<MyWidth);
         long y=RANDOM(MyWidth);																assert(y<MyWidth);
-        anAgent& CenterAgent=Agenci(x,y);
+        convAgent& CenterAgent=Agenci(x, y);
 
         if(CenterAgent.First==0) //no view on sports/entertainment
         {
-            if(DRAND()<anAgent::ToBeNewProb)
-                CenterAgent.First=1+RANDOM(anAgent::NumOfCate - 1);
+            if(DRAND() < convAgent::ToBeNewProb)
+                CenterAgent.First=1+RANDOM(convAgent::NumOfCate - 1);
             continue;
         }
         else
@@ -533,7 +533,7 @@ void aWorld::simulate_one_step()
                 }
 
                 //Random loss of interest despite support.
-                if(DRAND()<anAgent::ReverseProb-anAgent::SupportLevel)
+                if(DRAND() < convAgent::ReverseProb - convAgent::SupportLevel)
                 {
                     CenterAgent.First=0;
                     continue;
@@ -554,8 +554,8 @@ void aWorld::simulate_one_step()
                         {
                             size_t ConvertedIndex=MyGeom->get(i,j);    assert(ConvertedIndex!=geometry_base::FULL);
                                                                                  assert(ConvertedIndex<MyWidth*MyWidth);
-                            anAgent& ForModify=Agenci.get(ConvertedIndex);
-                            if(ForModify.First==0 && DRAND()<anAgent::NewInfectProb)
+                            convAgent& ForModify=Agenci.get(ConvertedIndex);
+                            if(ForModify.First==0 && DRAND() < convAgent::NewInfectProb)
                                 ForModify.First=CenterAgent.First; //TMP
                         }
                     }
@@ -565,7 +565,7 @@ void aWorld::simulate_one_step()
             else
             {
                 //When there is no neighbor with your view, there is a quick random loss of view.
-                if(DRAND()<anAgent::ReverseProb)
+                if(DRAND() < convAgent::ReverseProb)
                     CenterAgent.First=0;
                 continue;
             }

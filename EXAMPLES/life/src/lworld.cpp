@@ -1,8 +1,8 @@
 /// @file
 /// @brief
-///  @EN{ IMPLEMENTATION OF 'lifeworld' FOR "Conways Life" SIMULATION. }
-///  @PL{ IMPLEMENTACJA 'lifeworld' DLA SYMULACJI 'Conways Life'. }
-/// @date 2026-05-20 (modified)
+///  @EN{ IMPLEMENTATION OF 'life_world' FOR "Conways Life" SIMULATION. }
+///  @PL{ IMPLEMENTACJA 'life_world' DLA SYMULACJI 'Conways Life'. }
+/// @date 2026-05-21 (modified)
 /// ====================================================================
 /// @details ...
 //======================================================================================================================
@@ -41,7 +41,7 @@ inline void wb_swap(T& a,T& b)
 // Konstrukcja agentów:
 //=====================
 
-lifeagent::lifeagent(const lifeagent& ini)
+life_agent::life_agent(const life_agent& ini)
     {
         if(&ini!=nullptr)
         {
@@ -52,7 +52,7 @@ lifeagent::lifeagent(const lifeagent& ini)
             _clean();
     }
 
-lifeagent::lifeagent()
+life_agent::life_agent()
     {
         _clean();
         if(DRAND()<=InitProp)
@@ -63,37 +63,36 @@ lifeagent::lifeagent()
         Second=0;
     }
 
-// Statyczne pola `lifeagent`-ów dla inicjalizacji:
+// Statyczne pola `life_agent`-ów dla inicjalizacji:
 //=================================================
 
-short	lifeagent::ile_kate=2;      //!< Liczba kategorii w mapach
-short	lifeagent::kate_shift=7;
+short	life_agent::ile_kate=2;      //!< Liczba kategorii w mapach
+short	life_agent::kate_shift=7;
 
-double	lifeagent::MutationLevel=0; //!< Prawd. spontanicznej zmiany poglądów (0..1)
-double  lifeagent::InitProp=0.5;    //!< Proporcje inicjowania losowego
+double	life_agent::MutationLevel=0; //!< Prawd. spontanicznej zmiany poglądów (0..1)
+double  life_agent::InitProp=0.5;    //!< Proporcje inicjowania losowego
 
 // KONSTRUKCJA	ŚWIATA:
 //=====================
 extern unsigned internal_log;
 
-lifeworld::lifeworld(
-       size_t Width,	//Szerokość torusa macierzy agentów
-      char* log_name,	//Nazwa pliku do zapisywania historii
-      char* mapl_name,	//Nazwa pliku mapy inicjującej "składowe"
-      double noise,		//= 0,
-      short	ile_kate,	//= 2,		//Liczba kategorii w mapach
-      short	odl_sasiad,	//= 1,	//Rozmiar sąsiedztwa
-      short	ile_sasiad,	//= 8,	//8 == gęstość sąsiedztwa — jeśli -1 to wszystko po kolei
-      bool	synchronicly,	//=true,
-      double spontanic	//= 0	//Prawdopodobieństwo spontanicznej zmiany poglądu
-        ):
-        world(log_name,50),
-        MaplName(clone_str(mapl_name)), //Nazwa mapy 1. inicjującej agentów
-    //Sub-obiekty właściwe dla tej symulacji:
-
+life_world::life_world(
+                  size_t Width,	//Szerokość torusa macierzy agentów
+                  char* log_name,	//Nazwa pliku do zapisywania historii
+                  char* mapl_name,	//Nazwa pliku mapy inicjującej "składowe"
+                  double noise,		//= 0,
+                  short	ile_kate,	//= 2,		//Liczba kategorii w mapach
+                  short	odl_sasiad,	//= 1,	//Rozmiar sąsiedztwa
+                  short	ile_sasiad,	//= 8,	//8 == gęstość sąsiedztwa — jeśli -1 to wszystko po kolei
+                  bool	synchronicly,	//=true,
+                  double spontanic	//= 0	//Prawdopodobieństwo spontanicznej zmiany poglądu
+        )
+    :   world(log_name,50),
+        MapLName(clone_str(mapl_name)), //Nazwa mapy 1. inicjującej agentów
+        //Sub-obiekty właściwe dla tej symulacji:
         MyWidth(Width),
         //Agenci(Width,Width,false,nullptr), //Initer == nullptr więc tworzony przez konstruktor, a nie klonowanie
-        Agenci(Width,Width),       //Zakładamy, że wystarcza to, co robi bezparametrowy konstruktor agenta
+        Agenci(Width,Width),              //Zakładamy, że wystarcza to, co robi bezparametrowy konstruktor agenta
         IleKate(ile_kate),                //Liczba kategorii w mapach
         IleSasiad(ile_sasiad),            //8 == gęstość sąsiedztwa
         OdlSasiad(odl_sasiad),            //Rozmiar sąsiedztwa
@@ -103,35 +102,35 @@ lifeworld::lifeworld(
         //Wskaźniki do podstawowych seri danych
         Firsts(nullptr),
         Seconds(nullptr)
-        {// Niewiele można zrobić, bo nie można tu jeszcze polegać na wirtualnych metodach klasy świat !!!
-            assert(ile_kate==2); //Na razie nie może być nic innego
-            lifeworld::set_simulation_name(SIMULATION_NAME);
+    {// Niewiele można zrobić, bo nie można tu jeszcze polegać na wirtualnych metodach klasy świat !!!
+        assert(ile_kate==2); //Na razie nie może być nic innego
+        life_world::set_simulation_name(SIMULATION_NAME);
 
-            if(lifeagent::InitProp!=Noise)
-            {
-                lifeagent::InitProp=Noise; //Inne proporcje inicjowania losowego
-                Agenci.Reinitialise(); //Niestety powtórna robota
-            }
-
-            lifeagent::MutationLevel=spontanic;
-            if(IleSasiad==-1)
-                BierzWszystko=1;
-
+        if(life_agent::InitProp != Noise)
+        {
+            life_agent::InitProp=Noise; //Inne proporcje inicjowania losowego
+            Agenci.Reinitialise(); //Niestety powtórna robota
         }
+
+        life_agent::MutationLevel=spontanic;
+        if(IleSasiad==-1)
+            BierzWszystko=1;
+
+    }
 
 // Generujemy podstawowe źródła dla wbudowanego manager-a danych:
 //===============================================================
-void lifeworld::make_basic_sources()
+void life_world::make_basic_sources()
 {
     world::make_basic_sources(); //TWORZY SERIĘ "STEP"
     sources_manager& WhatSourMen=this->Sources;
 
     //Główne serie
-    Firsts=Agenci.make_source("State",&lifeagent::First);
+    Firsts=Agenci.make_source("State",&life_agent::First);
     if(Firsts)
         Firsts->set_min_max(0, IleKate - 1);
 
-    Seconds=Agenci.make_source("Prev. state",&lifeagent::Second);
+    Seconds=Agenci.make_source("Prev. state",&life_agent::Second);
     if(Seconds)
         Seconds->set_min_max(0, IleKate - 1);
 
@@ -144,7 +143,7 @@ void lifeworld::make_basic_sources()
 // Współpraca z managerem wyświetlania, a także logiem:
 //=====================================================
 
-void lifeworld::make_default_visualisation()
+void life_world::make_default_visualisation()
 //Współpraca z zarządcą wyświetlania.
 //Rejestruje pochodne serie, tworzy domyślne "lufciki" i wkłada w "Manager"
 {
@@ -364,25 +363,25 @@ void lifeworld::make_default_visualisation()
 // AKCJE SYMULACYJNE:
 //===================
 
-void lifeworld::after_read_from_image()
-//Actions after read state from a file. Aktualizacja pól statycznych `lifeagent`-a!!!
+void life_world::after_read_from_image()
+//Actions after read state from a file. Aktualizacja pól statycznych `life_agent`-a!!!
 {                   assert(IleKate==2); //Dla life tylko dwie możliwe kategorie.
-    lifeagent::ile_kate=IleKate; //Liczba kategorii w mapach
-    lifeagent::kate_shift=7;
+    life_agent::ile_kate=IleKate; //Liczba kategorii w mapach
+    life_agent::kate_shift=7;
     /*
     switch(IleKate)
     {
-    case   2:lifeagent::kate_shift=7;break;
-    case   4:lifeagent::kate_shift=6;break;
-    case   8:lifeagent::kate_shift=5;break;
-    case  16:lifeagent::kate_shift=4;break;
-    case  32:lifeagent::kate_shift=3;break;
-    case  64:lifeagent::kate_shift=2;break;
-    case 128:lifeagent::kate_shift=1;break;
-    case 256:lifeagent::kate_shift=0;break;
+    case   2:life_agent::kate_shift=7;break;
+    case   4:life_agent::kate_shift=6;break;
+    case   8:life_agent::kate_shift=5;break;
+    case  16:life_agent::kate_shift=4;break;
+    case  32:life_agent::kate_shift=3;break;
+    case  64:life_agent::kate_shift=2;break;
+    case 128:life_agent::kate_shift=1;break;
+    case 256:life_agent::kate_shift=0;break;
     default:
-        lifeagent::ile_kate=IleKate=256;
-        lifeagent::kate_shift=0;
+        life_agent::ile_kate=IleKate=256;
+        life_agent::kate_shift=0;
         cerr<<"Invalid number of class (not power of 2 less than 256). Using default.\n";
         Log.GetStream()<<"Invalid number of class (not power of 2). Using default.\n";
         break;
@@ -391,7 +390,7 @@ void lifeworld::after_read_from_image()
 }
 
 // stan startowy symulacji
-void lifeworld::initialize_layers()
+void life_world::initialize_layers()
 //-------------------------------------
 {
     static int first=1; //TYMCZASOWE WYŁĄCZENIE NADMIARU WYDRUKÓW!!!
@@ -400,21 +399,21 @@ void lifeworld::initialize_layers()
     //odl_sasiad = 1, //Rozmiar sąsiedztwa
     //ile_sasiad = 8 //8 == gęstość sąsiedztwa
 
-    lifeagent::ile_kate=IleKate; //Liczba kategorii w mapach
+    life_agent::ile_kate=IleKate; //Liczba kategorii w mapach
 
     switch(IleKate)
     {
-    case   2:lifeagent::kate_shift=7;break;
-    case   4:lifeagent::kate_shift=6;break;
-    case   8:lifeagent::kate_shift=5;break;
-    case  16:lifeagent::kate_shift=4;break;
-    case  32:lifeagent::kate_shift=3;break;
-    case  64:lifeagent::kate_shift=2;break;
-    case 128:lifeagent::kate_shift=1;break;
-    case 256:lifeagent::kate_shift=0;break;
+    case   2:life_agent::kate_shift=7;break;
+    case   4:life_agent::kate_shift=6;break;
+    case   8:life_agent::kate_shift=5;break;
+    case  16:life_agent::kate_shift=4;break;
+    case  32:life_agent::kate_shift=3;break;
+    case  64:life_agent::kate_shift=2;break;
+    case 128:life_agent::kate_shift=1;break;
+    case 256:life_agent::kate_shift=0;break;
     default:
-        lifeagent::ile_kate=IleKate=256;
-        lifeagent::kate_shift=0;
+        life_agent::ile_kate= IleKate=256;
+            life_agent::kate_shift=0;
         cerr<<"Invalid number of class (not power of 2 less than 256). Using default.\n";
         Log.GetStream()<<"Invalid number of class (not power of 2). Using default.\n";
         break;
@@ -429,15 +428,15 @@ void lifeworld::initialize_layers()
 
     //			USTALANIE STANÓW AGENTÓW
     //Wczytuje, używając konstruktora lub klonowania, gdy nie ma, więc inicjuje resztę pól.
-    rectangle_layer_of_agents<lifeagent>::assign_rgb_fun tmp=&lifeagent::assign123;
-    char* fname=MaplName.get_ptr_val();
+    rectangle_layer_of_agents<life_agent>::assign_rgb_fun tmp=&life_agent::assign123;
+    char* fname=MapLName.get_ptr_val();
     //Jeśli nie zainicjowane z bitmapy to zostaje to z konstruktorów!
     if( fname != nullptr && strlen(fname)>0 )
     {
-        int from = Agenci.init_from_bitmap(MaplName.get_ptr_val(), tmp);
+        int from = Agenci.init_from_bitmap(MapLName.get_ptr_val(), tmp);
 
         if (from != 1) {
-            cerr << "Agents initialization from the bitmap " << MaplName << " failed!" <<endl;
+            cerr << "Agents initialization from the bitmap " << MapLName << " failed!" << endl;
             //Agenci.clean(); // reallocate_all();
             exit(-10);
         }
@@ -451,7 +450,7 @@ void lifeworld::initialize_layers()
 }
 
 //Pojedynczy krok symulacji
-void lifeworld::simulate_one_step()
+void life_world::simulate_one_step()
 //---------------------------------------
 {
     const geometry_base* MyGeom=Agenci.get_geometry();
@@ -465,7 +464,7 @@ void lifeworld::simulate_one_step()
         {   //Uzyskujemy index  agenta
             size_t index=MyGeom->get_next(IGlob);    assert(index!=MyGeom->FULL); //Tutaj nie powinno się zdarzyć
 
-            lifeagent& CenterAgent=Agenci.get(index); // Uzyskujemy referencje do agenta
+            life_agent& CenterAgent=Agenci.get(index); // Uzyskujemy referencje do agenta
 
             CheckChange(MyGeom,index,CenterAgent); //Sprawdzamy zmianę stanu
         }
@@ -480,7 +479,7 @@ void lifeworld::simulate_one_step()
 
             assert(index!=MyGeom->FULL);				//... tutaj nie powinno się zdarzyć
 
-            lifeagent& CenterAgent=Agenci.get(index); // Uzyskujemy referencje do agenta
+            life_agent& CenterAgent=Agenci.get(index); // Uzyskujemy referencje do agenta
 
             wb_swap(CenterAgent.First,CenterAgent.Second);  //Ma nowy stan
         }
@@ -498,7 +497,7 @@ void lifeworld::simulate_one_step()
             //Uzyskujemy index losowo wybranego agenta
             size_t index=MyGeom->get_next(Monte);    assert(index!=MyGeom->FULL); //... tutaj nie powinno się zdarzyć
 
-            lifeagent& CenterAgent=Agenci.get(index); // Uzyskujemy referencje do agenta
+            life_agent& CenterAgent=Agenci.get(index); // Uzyskujemy referencje do agenta
 
             if(CheckChange(MyGeom,index,CenterAgent)==1) //Czy zaszła zmiana stanu
                 {
@@ -513,14 +512,14 @@ void lifeworld::simulate_one_step()
 }
 
 
-int lifeworld::CheckChange(const geometry_base* MyGeom,
-                        size_t index,
-                        lifeagent& CenterAgent
+int life_world::CheckChange(const geometry_base* MyGeom,
+                            size_t index,
+                            life_agent& CenterAgent
                         ) //KOD NA SZUKANIE ZMIAN
 { 
     int testowanie=0;
 
-    if(DRAND()<=lifeagent::MutationLevel) //Rzadka, spontaniczna zmiana stanu
+    if(DRAND() <= life_agent::MutationLevel) //Rzadka, spontaniczna zmiana stanu
     {
         int atti=RANDOM(IleKate);
         assert(0<=atti && atti<IleKate);
@@ -550,10 +549,10 @@ int lifeworld::CheckChange(const geometry_base* MyGeom,
         if(index2==MyGeom->FULL || index2==index) //Jeśli poza obszarem symulacji lub w
             continue; //centrum obszaru to dalej byłoby bez sensu.
 
-        lifeagent& PeryfAgent=Agenci.get(index2); //Uzyskujemy referencje do sąsiada
+        life_agent& PeryfAgent=Agenci.get(index2); //Uzyskujemy referencje do sąsiada
 
         zliczanie++;
-        alive+=PeryfAgent.First; // `double(lifeagent::ile_kate);`
+        alive+=PeryfAgent.First; // `double(life_agent::ile_kate);`
     }
 
     MyGeom->destroy_iterator(Neigh); // upewniamy się, że iterator zostanie usunięty

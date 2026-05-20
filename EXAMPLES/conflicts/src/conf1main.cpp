@@ -2,7 +2,7 @@
 /// @brief
 ///  @EN{ NETWORKED CONFLICT SIMULATION, BOCA 2005 (main file). }
 ///  @PL{ SIECIOWA SYMULACJA KONFLIKTÓW, BOCA 2005 (plik główny). }
-/// @date 2026-05-20 (modified)
+/// @date 2026-05-21 (modified)
 ///       =========================================================
 /// @details UZUPEŁNIONY 10-11.2005, 9-2010, 02-2014, 04-2026
 
@@ -154,51 +154,65 @@ double niby_gauss_max(double mean,double max,unsigned steps=6)	//12
     return ret;
 }
 
-// Świat - GŁÓWNA KLASA SYMULACYJNA i JEJ PODJEDNOSTKI Agent & Connection.
-//==========================================================================
-class LocalWorld: public world
-//============================
+/// @PL{ Klasa świata dla sieciowej symulacji konfliktu grupowego. }
+/// @EN{ World class for network group conflict simulation. }
+/// GŁÓWNA KLASA SYMULACYJNA i JEJ PODJEDNOSTKI Agent & Connection.
+class NetworkWorld: public sym2::shell::world
+//=========================================
 {
 public:
+    /// @PL{ Wewnętrzna klasa agenta dla konfliktu sieciowego. }
+    /// @EN{ Internal agent class for network conflict. }
     class Agent
     {
-        double x,y,r;   //Współrzędne wizualizacyjne agenta
-        double state;   //Stan agenta -1..1 (?)
-        double p_state; //Poprzedni stan agenta
-        double delta;   //Ostatni wpływ od innych
-        wb_pchar Name;  //Nazwa agenta — dla sieci wczytywanych
+        double x,y,r;   ///< Współrzędne wizualizacyjne agenta.
+        double state;   ///< Stan agenta -1..1 (?).
+        double p_state; ///< Poprzedni stan agenta.
+        double delta;   ///< Ostatni wpływ od innych.
+        wb_pchar Name;  ///< Nazwa agenta — dla sieci wczytywanych.
+
     public:
-        Agent(): x(0), y(0), r(1), state(0), p_state(0)
-            {}
-        void _setstate(double i_state);        //Bezpośrednie nadawanie stanu — bez funkcji mapujących
-        void setpos(double x,double y,double r=-1);	//Ustawianie pozycji i promienia. r = -1 —> pozostawia stary promień
+        Agent()
+        : x(0), y(0), r(1), state(0), p_state(0), delta(0)
+        {}
+
+        void _setstate(double i_state);             ///< Bezpośrednie nadawanie stanu — bez funkcji mapujących.
+        void setpos(double x,double y,double r=-1);	///< Ustawianie pozycji i promienia. r = -1 —> pozostawia stary promień.
         void prepare_to_step();
         void add_to_delta(double input);
         void add_the_delta();
         void add_directly(double noise);
-    friend class LocalWorld; //Musi mieć bezpośredni dostęp do pól, żeby przypiąć źródła danych
+
+        friend class NetworkWorld; ///< Świat musi mieć bezpośredni dostęp do pól agenta, żeby przypiąć źródła danych.
     };
 
+    /// @PL{ Wewnętrzna klasa reprezentująca powiązanie. }
+    /// @EN{ Inner class representing the agents association. }
     class Connection
     {
-        size_t start_node;   //Indeks węzła startowego
-        size_t end_node;     //Indeks węzła końcowego
-        double weight;       //Waga połączenia
-        double last_act;      //Ostatnio rejestrowana aktywność połączenia
+        size_t start_node;   ///< Indeks węzła startowego.
+        size_t end_node;     ///< Indeks węzła końcowego.
+        double weight;       ///< Waga połączenia.
+        double last_act;     ///< Ostatnio rejestrowana aktywność połączenia.
+
     public:
-        Connection(): start_node(-1), end_node(0), weight(0), last_act(0)
-            {}
+        Connection()
+        : start_node(-1), end_node(0), weight(0), last_act(0)
+        {}
+
         void set(size_t s,size_t e,double w=0);   
         void clean_act(){ last_act=0;}
-    friend class LocalWorld; //Musi miec dostęp do pól, żeby przypisać źródła danych
+
+        friend class NetworkWorld; //Musi miec dostęp do pól, żeby przypisać źródła danych
     };
 
 private:
-    wb_dynarray<Agent> agents;  //Lista agentów
-    wb_dynarray<Connection> connections; //Lista połączeń
-    unsigned mode;	//0 - bez połączeń, 1 - symetrycznie 2-niesymetryczne połączenia
-    unsigned logs_length; //długość buforów na statystyki symulacji
-    unsigned how_many_agents;	//Zadana liczba agentów
+    wb_dynarray<Agent>           agents;  ///< Lista agentów
+    wb_dynarray<Connection> connections;  ///< Lista połączeń
+
+    unsigned            mode;	///< 0 - bez połączeń, 1 - symetrycznie 2-niesymetryczne połączenia.
+    unsigned     logs_length;	///< Długość buforów na statystyki symulacji.
+    unsigned how_many_agents;	///< Zadana liczba agentów.
 
     double m_init_st;   //Średni stan początkowy
     double r_init_st;   //Odchylenie od średniego stanu początkowego
@@ -235,16 +249,17 @@ private:
     void _MakeStates(double mean,double max,unsigned start=0,unsigned end=-1); //Ustala agentom stany z rozkładu
     void _AddNoise(); //Dodaje "sobie" szum
 
-    //Pomocnicze do statystyk itp
-    void AllocSources(); //Tworzy źródła danych
+    /// Tworzy źródła danych. Pomocnicze do statystyk itp.
+    void AllocSources();
+
 public:
     virtual 
-        ~LocalWorld() {}
+        ~NetworkWorld() {}
     
-    LocalWorld(unsigned  WhatMode,
-               unsigned HowManyAgents,
+    NetworkWorld(unsigned  WhatMode,
+                 unsigned HowManyAgents,
 
-               double im_init_st,  //Średni stan początkowy
+                 double im_init_st,  //Średni stan początkowy
         double ir_init_st,   //Odchylenie od średniego stanu początkowego
         double im_of_noise,  //Średni poziom szumu/sygnału dodawanego do węzłów
         double ir_of_noise,  //Odchylenie od śred. szumu/sygnału dodawanego do węzłów
@@ -321,28 +336,28 @@ public:
     virtual int  implement_input(istream& i)  { cerr<<__PRETTY_FUNCTION__<<"Unexpected usage of deserialization!"<<endl; return 0; }
 };
 
-inline void LocalWorld::Agent::prepare_to_step()
+inline void NetworkWorld::Agent::prepare_to_step()
 {
     this->p_state=this->state;
     this->delta=0;
 }
 
-inline void LocalWorld::Agent::add_to_delta(double input)
+inline void NetworkWorld::Agent::add_to_delta(double input)
 {
     delta+=input;
 }
 
-inline void LocalWorld::Agent::add_the_delta()
+inline void NetworkWorld::Agent::add_the_delta()
 {   
     state=tanh(state+delta);	//???
 }
 
-inline void LocalWorld::Agent::add_directly(double noise)
+inline void NetworkWorld::Agent::add_directly(double noise)
 {
     state=tanh(state+noise);
 }
 
-void LocalWorld::simulate_one_step()
+void NetworkWorld::simulate_one_step()
 {
     for(unsigned i=0;i<agents.get_size();i++)
         agents[i].prepare_to_step();
@@ -384,7 +399,7 @@ void LocalWorld::simulate_one_step()
     _AddNoise();
 }
 
-void LocalWorld::_AddNoise()
+void NetworkWorld::_AddNoise()
 {
     for(unsigned i=0;i<agents.get_size();i++)
     {
@@ -393,7 +408,7 @@ void LocalWorld::_AddNoise()
     }
 }
 
-void LocalWorld::_MakeStates(double mean, double max, unsigned start, unsigned end/*=-1*/) //Ustala agentom stany z rozkładu
+void NetworkWorld::_MakeStates(double mean, double max, unsigned start, unsigned end/*=-1*/) //Ustala agentom stany z rozkładu
 {
     if(end==unsigned(-1) )	//SPECJALNE ZNACZENIE -1 "nie znam rozmiaru, weź i sprawdź"
         end=agents.get_size();
@@ -405,7 +420,7 @@ void LocalWorld::_MakeStates(double mean, double max, unsigned start, unsigned e
     }
 }
 
-void LocalWorld::_MakeCircle(double cx, double cy, double r, unsigned start, unsigned end/*=-1*/)
+void NetworkWorld::_MakeCircle(double cx, double cy, double r, unsigned start, unsigned end/*=-1*/)
 {
     if(end==unsigned(-1)) //SPECJALNE ZNACZENIE -1 "nie znam rozmiaru, weź i sprawdź"
         end=agents.get_size();
@@ -424,7 +439,7 @@ void LocalWorld::_MakeCircle(double cx, double cy, double r, unsigned start, uns
     assert(start<=end);
 }
 
-void LocalWorld::InitialiseNotConnected(unsigned HowManyAgents)
+void NetworkWorld::InitialiseNotConnected(unsigned HowManyAgents)
 {
     if(agents.get_size()!=HowManyAgents)	//Jednakże, jak nie równe i reinicjalizacja to kicha!!!
         agents.alloc(HowManyAgents);
@@ -434,7 +449,7 @@ void LocalWorld::InitialiseNotConnected(unsigned HowManyAgents)
     _MakeStates(m_init_st,r_init_st); //Ustala agentom stany z rozkładu
 }
 
-void LocalWorld::InitialiseFullyConnected(unsigned HowManyAgents)
+void NetworkWorld::InitialiseFullyConnected(unsigned HowManyAgents)
 {
     if(agents.get_size()!=HowManyAgents)	//Wszakże jak nie równe i reinicjalizacja to kicha!!!
         agents.alloc(HowManyAgents);    
@@ -457,7 +472,7 @@ void LocalWorld::InitialiseFullyConnected(unsigned HowManyAgents)
     }                                                  assert(count_conn == how_many_con);
 }
 
-void LocalWorld::InitialiseRandomConnected(unsigned HowManyAgents)
+void NetworkWorld::InitialiseRandomConnected(unsigned HowManyAgents)
 {
     if(agents.get_size()!=HowManyAgents)	//Wszakże jak nie równe i reinicjalizacja to kicha!!!
         agents.alloc(HowManyAgents);    
@@ -483,7 +498,7 @@ void LocalWorld::InitialiseRandomConnected(unsigned HowManyAgents)
 }
 
 
-void LocalWorld::InitialiseFromWiesiekFile(const char* FileName)
+void NetworkWorld::InitialiseFromWiesiekFile(const char* FileName)
 {
     ifstream Input(FileName/*,ios::in | ios::nocreate*/); //W przypadku ifstream flaga nocreate jest... zbędna.
     // Domyślne zachowanie ifstream (strumienia wejściowego) jest dokładnie takie, jakiego oczekujesz od nocreate:
@@ -551,7 +566,7 @@ void LocalWorld::InitialiseFromWiesiekFile(const char* FileName)
         }
 }
 
-void LocalWorld::initialize_layers()
+void NetworkWorld::initialize_layers()
 {  
    static int first=1;	//TYMCZASOWE WYŁĄCZENIE NADMIARU WYDRUKÓW!!!
    if(first)
@@ -594,7 +609,7 @@ void LocalWorld::initialize_layers()
    first=0;	//Koniec pierwszego wywołania //TYMCZASOWO!!!
 }
 
-void LocalWorld::actualize_out_area()
+void NetworkWorld::actualize_out_area()
 {
     world::actualize_out_area();
     wb_pchar bufor(4000);
@@ -604,12 +619,12 @@ void LocalWorld::actualize_out_area()
 
 
 // user defined actions after read simulation state from a file
-void LocalWorld::after_read_from_image()
+void NetworkWorld::after_read_from_image()
 {
     //...???
 }
 
-void LocalWorld::AllocSources() //Tworzy źródła danych
+void NetworkWorld::AllocSources() //Tworzy źródła danych
 {
     pNodeX=new struct_array_source<Agent,double>(agents.get_size(),agents.get_ptr_val(),&Agent::x,"X" );      //Współrzędne węzłów w aranżacji
     pNodeY=new struct_array_source<Agent,double>(agents.get_size(),agents.get_ptr_val(),&Agent::y,"Y");      //------------//----------------
@@ -641,7 +656,7 @@ void LocalWorld::AllocSources() //Tworzy źródła danych
     MaxAcctLog=new fifo_source<double>(AcctStat->Max(), logs_length);assert(MaxAcctLog != NULL);	//Fifo z maximum
 }
 
-void LocalWorld::make_basic_sources()
+void NetworkWorld::make_basic_sources()
 {
     world::make_basic_sources();
 
@@ -681,7 +696,7 @@ void LocalWorld::make_basic_sources()
     Log.insert(AcctStat->SD());
 }
 
-void LocalWorld::make_default_visualisation() // area_manager_base& Lufciki     ?
+void NetworkWorld::make_default_visualisation() // area_manager_base& Lufciki     ?
 {
                                             assert(this->HasAreaMenager());
     world::make_default_visualisation(); //Tworzy np. OutArea
@@ -770,17 +785,17 @@ void LocalWorld::make_default_visualisation() // area_manager_base& Lufciki     
     Sources.new_data_version(1,1);	//Oznajmia seriom, że dane się uaktualniły	(po inicjacji)
 }
 
-inline void LocalWorld::Agent::_setstate(double i_state)
+inline void NetworkWorld::Agent::_setstate(double i_state)
 //Bezpośrednie nadawanie stanu — bez funkcji mapujących
 {
     state=i_state;
 }
-inline void LocalWorld::Agent::setpos(double ix, double iy, double ir/*=-1*/)
+inline void NetworkWorld::Agent::setpos(double ix, double iy, double ir/*=-1*/)
 {
     x=ix;y=iy;
     if(ir>=0) r=ir;
 }
-inline void LocalWorld::Connection::set(size_t s, size_t e, double w)
+inline void NetworkWorld::Connection::set(size_t s, size_t e, double w)
 {
     start_node=s;end_node=e;weight=w;
 }
@@ -1054,7 +1069,7 @@ cout << SIMULATION_NAME << endl;
 cout<<"Use '-help' for graphics setup information,\nor 'HELP' for information about available parameters."<<endl;
 if(OptionalParameterBase::parse_options(argc,argv,Parameters,sizeof(Parameters)/sizeof(Parameters[0])))
     return 1;
-LocalWorld MyNetworkWorld( //Model symulacyjny z różnymi parametrami
+NetworkWorld MyNetworkWorld( //Model symulacyjny z różnymi parametrami
                def_mode,	//= 2; //0-bez połączeń, 1-symetryczne połączenia 2-asymetryczne połączenia
                def_num_of_nodes,	//= 50; //Ile jest węzłów
 

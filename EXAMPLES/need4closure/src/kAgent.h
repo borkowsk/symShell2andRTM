@@ -1,8 +1,8 @@
 /// @file
 /// @brief
 /// @EN{ DECLARATION OF THE AGENT FOR "need 4 closure" SIMULATION. }
-/// @PL{  }
-/// @date 2026-05-20 (modified)
+/// @PL{ DEKLARACJA AGENTA W SYMULACJI „potrzeba zamknięcia”. }
+/// @date 2026-05-21 (modified)
 /// =========================================================
 /// @details(old example for SymShell implementing a Kruglanski's like model)
 // =====================================================================================================================
@@ -18,7 +18,10 @@ inline void wb_swap(short& a,short& b)
     b=c;
 }
 
-class kagent:public sym2::shell::agent_base
+/// @brief
+///     @EN{ THE AGENT FOR "need 4 closure" SIMULATION. }
+///     @PL{ AGENT DO SYMULACJI „potrzeba zamknięcia”. }
+class kAgent: public sym2::shell::agent_base
 {
     friend class kWorld;		///< To simplify access to the components of the world class.
 
@@ -64,16 +67,16 @@ public:
         return Power!=-1;
     }
 
-    kagent(const kagent& ini);			///< Konstruktor typowy.
+    kAgent(const kAgent& ini);			///< Konstruktor typowy.
 
-    explicit kagent(const kagent* ini);	///< Konstruktor nietypowy.
+    explicit kAgent(const kAgent* ini);	///< Konstruktor nietypowy.
 
-    kagent();							///< Konstruktor bezparametrowy.
+    kAgent();							///< Konstruktor bezparametrowy.
 
-    kagent* clone() const				///< Dynamiczna kopia agenta.
-    { return new kagent(*this);}
+    kAgent* clone() const				///< Dynamiczna kopia agenta.
+    { return new kAgent(*this);}
 
-    ~kagent() override					///< Wirtualny destruktor.
+    ~kAgent() override					///< Wirtualny destruktor.
     {_clean();}
 
     void clean() override				///< Wirtualne czyszczenia stanu agenta.
@@ -126,7 +129,7 @@ public:
     }
 
     friend /// Zapisywanie. Serializacja.
-    ostream& operator << (ostream& o,const kagent& a)
+    ostream& operator << (ostream& o,const kAgent& a)
     {
         o<<'{';
         o<<' '<<a.Power<<' '
@@ -141,7 +144,7 @@ public:
     }
 
     friend /// Wczytywanie. Deserializacja.
-    istream& operator >> (istream& i,kagent& a)
+    istream& operator >> (istream& i, kAgent& a)
     {
         char pom;
         i>>pom;		//ignoruje {
@@ -161,7 +164,7 @@ public:
 // Implementation of agent construction:
 // /////////////////////////////////////
 
-inline kagent::kagent(const kagent& ini)
+inline kAgent::kAgent(const kAgent& ini)
     {
         DurCh= false;
         First=ini.First;
@@ -171,7 +174,7 @@ inline kagent::kagent(const kagent& ini)
         ForRight=RANDOM(Threshold); //StepCounter przekonań za "Prawymi"
     }
 
-inline kagent::kagent(const kagent *ini)
+inline kAgent::kAgent(const kAgent *ini)
 {
     if(ini!=nullptr)
     {
@@ -186,7 +189,7 @@ inline kagent::kagent(const kagent *ini)
         _clean();
 }
 
-inline kagent::kagent()
+inline kAgent::kAgent()
     {
         _clean();
         Power=1+RANDOM(Max_power);
@@ -197,7 +200,7 @@ inline kagent::kagent()
         DurCh= false;
     }
 
-inline short kagent::DrawAttitude()
+inline short kAgent::DrawAttitude()
     {
         assert(Majority+Minority<=1);
 

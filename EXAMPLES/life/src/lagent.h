@@ -1,8 +1,8 @@
 /// @file
 /// @brief
-///  @EN{ DECLARATION OF 'lifeagent' FOR "life" SIMULATION. }
+///  @EN{ DECLARATION OF 'life_agent' FOR "life" SIMULATION. }
 ///  @PL{  }
-/// @date 2026-05-20 (modified)
+/// @date 2026-05-21 (modified)
 ///       =========================================================
 /// @details ...
 //======================================================================================================================
@@ -13,10 +13,11 @@ using namespace sym2::data;
 using namespace sym2::shell;
 using namespace sym2::visual;
 
-/// Klasa agenta do implementacji Life.
-class lifeagent:public agent_base
+/// @PL{ Klasa agenta do implementacji "Life". }
+/// @EN{ Agent class for implementing "Life". }
+class life_agent: public sym2::shell::agent_base
 {
-    friend class lifeworld; //!< Na razie tak, żeby uprościć dostęp do składowych.
+    friend class life_world; //!< Na razie tak, żeby uprościć dostęp do składowych.
 
     // STATYCZNE SKŁADOWE - PARAMETRY INICJOWANIA AGENTÓW:
     static short  ile_kate;   //!< Liczba kategorii. Dla Life zawsze 2!!! WIĘC TO POLE NIEUŻYWANE — TYLKO DLA INFORMACJI.
@@ -39,27 +40,27 @@ class lifeagent:public agent_base
     // ////////////////////////////
     public:
     /// Określenie, czy stan poprawny formalnie.
-    int IsOK()
+    bool IsOK() override
     {
-        return 1;
+        return true;
     }
 
     /// Określenie, czy agent jest żywy, tj. bierze udział w symulacji.
     int is_alive()
     {
-        return 1; //Chyba tak...
+        return 1; //Chyba zawsze tak...
     }
 
-    lifeagent(const lifeagent& ini); //!< Konkretna implementacja tego konstruktora w "lworld.cpp".
+    life_agent(const life_agent& ini); //!< Konkretna implementacja tego konstruktora w "lworld.cpp".
 
-    lifeagent(); //!< Konkretna implementacja tego konstruktora w "lworld.cpp".
+    life_agent(); //!< Konkretna implementacja tego konstruktora w "lworld.cpp".
 
     /// Tworzenie klonu agenta na stercie.
-    lifeagent* clone() const
-    { return new lifeagent(*this);}
+    life_agent* clone() const
+    { return new life_agent(*this);}
 
     /// Destruktor wirtualny.
-    ~lifeagent() override
+    ~life_agent() override
     {_clean();}
 
     /// Wirtualne czyszczenie.
@@ -81,7 +82,7 @@ class lifeagent:public agent_base
 
     ///Zapis na strumień.
     friend
-    ostream& operator << (ostream& o,const lifeagent& a)
+    ostream& operator << (ostream& o,const life_agent& a)
     {
         o<<'{';
         o<<' '<<a.First<<' ';
@@ -91,7 +92,7 @@ class lifeagent:public agent_base
 
     ///Odczyt ze strumienia.
     friend
-    istream& operator >> (istream& i,lifeagent& a)
+    istream& operator >> (istream& i, life_agent& a)
     {
         char pom;
         i>>pom;		//ignoruje {
