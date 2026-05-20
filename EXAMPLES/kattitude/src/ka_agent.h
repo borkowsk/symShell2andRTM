@@ -1,8 +1,8 @@
 /// @file
 /// @brief
 ///  @EN{ IMPLEMENTATION OF AGENT FOR "attitudeS" SIMULATION. }
-///  @PL{  }
-/// @date 2026-05-20 (modified)
+///  @PL{ WDROŻENIE AGENTA DO SYMULACJI POSTAW "attitudeS". }
+/// @date 2026-05-21 (modified)
 /// =========================================================
 /// @details (attitudeS old example for SymShell)
 // =====================================================================================================================
@@ -20,9 +20,12 @@ static inline void wb_swap(short& a,short& b)
     b=c;
 }
 
-class aagent:public agent_base
+/// @brief
+///     @EN{ AGENT FOR "attitudeS" SIMULATION. }
+///     @PL{ AGENT DO SYMULACJI POSTAW "attitudeS". }
+class ka_agent: public sym2::shell::agent_base
 {
-    friend class aworld; //Na razie tak. Żeby uprościć dostęp do składowych klasy zaprzyjaźnionej.
+    friend class ka_world; ///< Na razie tak. Żeby uprościć dostęp do składowych klasy zaprzyjaźnionej.
 
     // STATYCZNE SKŁADOWE - PARAMETRY INICJOWANIA AGENTÓW:
     static short  Power_change;			//!< Określa, czy sila się zmienia (rośnie) z wiekiem.
@@ -50,39 +53,39 @@ class aagent:public agent_base
         DurCh=false;
     }
 
-    // TO CO MUSI byc zdefiniowane:
+    // TO CO MUSI być zdefiniowane:
     // ////////////////////////////
 public:
-    int IsOK() const
+    bool IsOK() override
     {
         return First!=-1 && Second!=-1 && Power!=-1;
     }
 
     void MakeOlder()				//!< Siła jako wiek.
     {
-        if(aagent::Power_change)
+        if(ka_agent::Power_change)
         {
-            Power+=aagent::Power_change;
-            Power%=aagent::Max_power; //Nigdy nie przekracza siły maksymalnej
+            Power+=ka_agent::Power_change;
+            Power%=ka_agent::Max_power; //Nigdy nie przekracza siły maksymalnej
         }
     }
 
-    aagent();								//!< Konstruktor kopiujący.
-    aagent(const aagent& ini);				//!< Konstruktor kopiujący.
-    explicit aagent(const aagent *ini);		//!< Konstruktor ze wskaźnika.
+    ka_agent();									//!< Konstruktor kopiujący.
+    ka_agent(const ka_agent& ini);				//!< Konstruktor kopiujący.
+    explicit ka_agent(const ka_agent *ini);		//!< Konstruktor ze wskaźnika.
 
-    aagent* clone() const					//!< Dynamiczna kopia na stercie.
-    { return new aagent(*this);}
+    ka_agent* clone() const						//!< Dynamiczna kopia na stercie.
+    { return new ka_agent(*this);}
 
-    ~aagent() override						//!< Wirtualny destruktor. Wywołuje `_clean`.
+    ~ka_agent() override						//!< Wirtualny destruktor. Wywołuje `_clean`.
     {_clean();}
 
-    void clean() override					//!< Wirtualne czyszczenie. Wywołuje `_clean`.
+    void clean() override						//!< Wirtualne czyszczenie. Wywołuje `_clean`.
     {_clean();}
 
     void new_attitude(short a)
     {
-        Second=a; //Takie ma być nowe przekonanie
+        Second=a;   //Takie ma być nowe przekonanie
         DurCh=true; //Sygnał, że już jest "w trakcie" zmiany. Np. żeby zapobiec powtórce
     }
 
@@ -99,7 +102,6 @@ public:
         Second=Blue >> Kate_shift;
     }
 
-    [[maybe_unused]]
     void assign_prev(unsigned char Red,unsigned char /*Green*/,unsigned char Blue)
     {
         First=Red >> Kate_shift;
@@ -129,7 +131,7 @@ public:
     }
 
     friend
-    ostream& operator << (ostream& o,const aagent& a)
+    ostream& operator << (ostream& o,const ka_agent& a)
     {
         o<<'{';
         o<<' '<<a.Power<<' '<<a.First<<' '<<a.Second<<' '<<a.Press<<' ';
@@ -138,7 +140,7 @@ public:
     }
 
     friend
-    istream& operator >> (istream& i,aagent& a)
+    istream& operator >> (istream& i, ka_agent& a)
     {
         char pom;
         i>>pom;		//ignoruje {

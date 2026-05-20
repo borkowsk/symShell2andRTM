@@ -2,7 +2,7 @@
 /// @brief
 ///  @EN{ Attitude change simulation - "k-attitudes". Main file. }
 ///  @PL{ Symulacja zmiany poglądów - "k-attitudes". Plik główny. }
-/// @date 2026-05-20 (modified)
+/// @date 2026-05-21 (modified)
 ///       =========================================================
 /// @details (kattitude old example for SymShell)
 ///     Uzyskana niegdyś przez uproszczenie programu LANGUAGES.
@@ -22,9 +22,8 @@ const char* WINDOW_HEADER="ATTITUDES K version 0.71c";
 #include <iostream>
 
 #include "compatyb.h"
-//#include "wbminmax.hpp"
-#include "arand.h"
-#include "aworld.h"
+#include "ka_rand.h"
+#include "ka_world.h"
 
 using namespace sym2;
 
@@ -414,8 +413,8 @@ ERROR:
         cout<<"\tMASK=mask.gif	(or BMP)- mask file for alive (not black) agents (ALL ALIVE)\n";
 
         cout<<"\tSYNC=Y/N - synchronic (Y) or Monte-Carlo simulation mode ("<<(TypSymulacji==0?"Yes":"No")<<")\n";
-        cout << "\tNFOC=0..inf - need for closure  [meaning depend on a model](" << NeedForClosure << ")\n";
-        cout<<"\tSELF=0..1 - use self for calculations ("<<(WagaSiebie)<<")\n";
+        cout << "\tNFOC=0...inf - need for closure [meaning depend on a model](" << NeedForClosure << ")\n";
+        cout<<"\tSELF=0...1 - use self for calculations ("<<(WagaSiebie)<<")\n";
 
         cout<<"\tWIDTH=NN - matrix size ("<<iWidth<<")\n";
         cout << "\tCLSS=NN - number of class. Must be power of 2. (" << LiczbaKlas << ")\n";
@@ -425,14 +424,14 @@ ERROR:
         cout<<"\tMPOW=NN - max strength for initialization ("<<MaksymalnaSila<<")\n"	;
         cout<<"\tWPOW=N	- walking step of strength	("<<RuchomaSila<<")\n";
         cout<<"\tTRSP=N - % of threshold of strength ("<<TresProcent<<")\n";
-        cout << "\tPRTR=2..WIDTH^2-1 - number of interaction partners (-1 = all in a neighborhood) (" << NumberOfNeighbors << ")\n";
-        cout << "\tINDI=1..WIDTH/2-1 - interaction distance (" << NeighborhoodRadius << ")\n";
+        cout << "\tPRTR=2...WIDTH^2-1 - number of interaction partners (-1 = all in a neighborhood) (" << NumberOfNeighbors << ")\n";
+        cout << "\tINDI=1...WIDTH/2-1 - interaction distance (" << NeighborhoodRadius << ")\n";
 
         cout<<"\tNOIP=NN - percent of noise ("<<ProcentSzumu<<")\n";
         cout<<"\tSPCH=NN - percent of spontaneity change of attitudes ("<<MutacjeSpon*100<<")\n";
         cout<<"\tMAX=NNNN - max simulation step ("<<iMaxIterations<<")\n";
 
-        cout<<"\tRSPC=N/Y or 1..WIDTH - Random calculation of spatial correlation ("<<(spatial_correlation_mode?"N":"Y")<<")\n";
+        cout<<"\tRSPC=N/Y or 1...WIDTH - Random calculation of spatial correlation ("<<(spatial_correlation_mode?"N":"Y")<<")\n";
         cout<<"\tILOG=NNNN - length of internal statistic logs ("<<internal_log<<")\n";
         cout<<"\tSTOP=N/Y - exit after MAX steps ("<<(iWychodzenie?"Yes":"No")<<")\n";
         cout<<"\tVIEV=N - visualisation frequency ("<<iViewRatio<<")\n";
@@ -478,25 +477,25 @@ Lufciki.set_dump_name(buf.get());
 
 
 //INICJALIZACJA SYMULACJI
-aworld& theWorld=*new aworld(iWidth,
-                             LogName,
-                             MapLName,
-                             MapPName,
-                             MaskName,
+ka_world& theWorld=*new ka_world(iWidth,
+                                 LogName,
+                                 MapLName,
+                                 MapPName,
+                                 MaskName,
                            ProcentSzumu/100.0, //Szum od 0-1
                            MaksymalnaSila, //Żeby była w przedziale
                            LiczbaKlas,
-                             NeighborhoodRadius,
-                             NumberOfNeighbors,
-                             WagaSiebie,
-                             NeedForClosure,
-                             (TypSymulacji==0?true:false), //Synchroniczna czy nie
+                                 NeighborhoodRadius,
+                                 NumberOfNeighbors,
+                                 WagaSiebie,
+                                 NeedForClosure,
+                                 (TypSymulacji==0?true:false), //Synchroniczna czy nie
                            RuchomaSila,
-                             MaksymalnaSila*TresProcent/100.0,
-                             MutacjeSpon,
-                             Fill,
-                             ProbMig,
-                             MajorMinor
+                                 MaksymalnaSila*TresProcent/100.0,
+                                 MutacjeSpon,
+                                 Fill,
+                                 ProbMig,
+                                 MajorMinor
                            );
 
 //if(&theWorld == nullptr) //To się już nie może zdarzyć od C++11

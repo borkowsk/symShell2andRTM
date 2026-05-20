@@ -1,8 +1,8 @@
 /// @file
 /// @brief
-///  @EN{  IMPLEMENTATION OF THE WORLD FOR "attitudeS" SIMULATION. }
-///  @PL{  }
-/// @date 2026-05-20 (modified)
+///  @EN{ IMPLEMENTATION OF THE WORLD FOR "KattitudeS" SIMULATION. }
+///  @PL{ IMPLEMENTACJA ŚWIATA DO SYMULACJI "Kattitudes". }
+/// @date 2026-05-21 (modified)
 ///       ==========================================================
 /// @details (attitudeS old example for SymShell)
 //======================================================================================================================
@@ -13,8 +13,8 @@
 //#include <math.h>
 #include <cstring>
 
-#include "arand.h"
-#include "aworld.h"
+#include "ka_rand.h"
+#include "ka_world.h"
 #include "histosou.hpp" //Histogram w starej wersji
 #include "dhistosou.hpp"//I w nowszej
 #include "clstsour.hpp" //Jest też `statsour` (?)
@@ -32,7 +32,7 @@ extern const char* SIMULATION_NAME;
 
 // Konstrukcja agentów:
 //=====================
-short aagent::DrawAttitude()
+short ka_agent::DrawAttitude()
     {
         if(0<Majority && Majority<1) //Uwaga! Może być faktycznie w mniejszości!!!
         {
@@ -45,7 +45,7 @@ short aagent::DrawAttitude()
             return RANDOM(Kate_num);
     }
 
-aagent::aagent(const aagent& ini)
+ka_agent::ka_agent(const ka_agent& ini)
     {
         First=ini.First;
         Second=ini.Second;
@@ -54,7 +54,7 @@ aagent::aagent(const aagent& ini)
         DurCh=false;
     }
 
-aagent::aagent(const aagent* ini)
+ka_agent::ka_agent(const ka_agent* ini)
     {
         if(ini!=nullptr)
         {
@@ -68,7 +68,7 @@ aagent::aagent(const aagent* ini)
             _clean();
     }
 
-aagent::aagent()
+ka_agent::ka_agent()
     {
         _clean();
         First=DrawAttitude();
@@ -81,21 +81,21 @@ aagent::aagent()
 // Statyczne pola aagent-ów dla inicjalizacji:
 //============================================
 
-short	aagent::Power_change=1;	//Maksymalny skok siły
-short	aagent::Max_power=256;	//Maksymalna siła agenta
-short	aagent::Kate_num=256;	//Liczba kategorii w mapach
-short	aagent::Kate_shift=0;	//Przesuniecie dla wczytywania gifa
-double  aagent::Majority=-1;	//Domyślnie nie ma znaczącej większości!!!
-double	aagent::MutationLevel=0;	//Prawd. spontanicznej zmiany poglądów (0..1)
+short	ka_agent::Power_change=1;	//Maksymalny skok siły
+short	ka_agent::Max_power=256;	//Maksymalna siła agenta
+short	ka_agent::Kate_num=256;	//Liczba kategorii w mapach
+short	ka_agent::Kate_shift=0;	//Przesuniecie dla wczytywania gifa
+double  ka_agent::Majority=-1;	//Domyślnie nie ma znaczącej większości!!!
+double	ka_agent::MutationLevel=0;	//Prawd. spontanicznej zmiany poglądów (0..1)
 
 // KONSTRUKCJA	ŚWIATA:
 //=====================
 extern unsigned internal_log;
 extern unsigned spatial_correlation_mode;
 
-aworld::aworld(size_t Width,	//Szerokość torusa macierzy agentów
+ka_world::ka_world(size_t Width,	//Szerokość torusa macierzy agentów
       char* log_name,			//Nazwa pliku do zapisywania historii
-      char* mapl_name,			//Nazwa pliku mapy inicjującej "składowe"
+      char* map_l_name,			//Nazwa pliku mapy inicjującej "składowe"
       char* mapp_name,			//Nazwa pliku mapy inicjującej "siły"
       char* live_mask,			//Czarne w tej mapie są kasowane
       double noise,				//Szum informacyjny
@@ -106,15 +106,15 @@ aworld::aworld(size_t Width,	//Szerokość torusa macierzy agentów
       double need_use_self,		//Z jaką waga ma brać siebie
       double need_for_closure,	//Z jaką waga brać innych
       bool	synchronously,
-      short walk_power,
-      short thr_power,
-      double spontaneously,
-      double fill,
-      double migration_prob,
-      double majority
+                   short walk_power,
+                   short thr_power,
+                   double spontaneously,
+                   double fill,
+                   double migration_prob,
+                   double majority
         ):
         world(log_name,50),
-        MapLName(clone_str(mapl_name)),
+        MapLName(clone_str(map_l_name)),
         MappName(clone_str(mapp_name)),
         MaskName(clone_str(live_mask)),
     //Sub-obiekty właściwe dla tej symulacji
@@ -143,30 +143,30 @@ aworld::aworld(size_t Width,	//Szerokość torusa macierzy agentów
         CountCh(0),
         CountMig(0)
         {   // Niewiele można zrobić, gdy nie można tu jeszcze polegać na wirtualnych metodach klasy świat.
-            aagent::Power_change=walk_power;
-            aagent::Majority=majority;
+            ka_agent::Power_change=walk_power;
+            ka_agent::Majority=majority;
             //set_simulation_name("attitudes_v02");
             world::set_simulation_name(SIMULATION_NAME);
-            aagent::MutationLevel=spontaneously;
+            ka_agent::MutationLevel=spontaneously;
             if(NeiDens == -1)
                 TakeAll=1;
         }
 
 // Generuje podstawowe źródła dla wbudowanego zarządcy danych:
-void aworld::make_basic_sources()
+void ka_world::make_basic_sources()
 {
     world::make_basic_sources(); //Odziedziczone
     sources_manager& WhatSourMen=this->Sources;
 //Główne serie:
-Firsts=Agenci.make_source("Attitude",&aagent::First);	
+Firsts=Agenci.make_source("Attitude",&ka_agent::First);
 if(Firsts)
     Firsts->set_min_max(0, IleKate - 1);
-Seconds=Agenci.make_source("Prev. attitude",&aagent::Second);
+Seconds=Agenci.make_source("Prev. attitude",&ka_agent::Second);
 if(Seconds)
     Seconds->set_min_max(0, IleKate - 1);
 
-Powers=Agenci.make_source("Power",&aagent::Power);
-Pressure=Agenci.make_source("Pressure",&aagent::Press);
+Powers=Agenci.make_source("Power",&ka_agent::Power);
+Pressure=Agenci.make_source("Pressure",&ka_agent::Press);
 
 MaxPressure= long(MaxPower) * WeightOfSelf;
 MaxPressure+= long(MaxPower) * NeedForClosure * (NeiDens > 0 ? NeiDens : sqr(NeiSize * 2 + 1) - 1   );
@@ -199,7 +199,7 @@ WhatSourMen.insert(ptrLastMigration);
 
 
 //Wypisywanie/dopisywanie na konsole statusu.
-void    aworld::actualize_out_area()
+void    ka_world::actualize_out_area()
 {
     world::actualize_out_area();
 
@@ -217,7 +217,7 @@ void    aworld::actualize_out_area()
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "modernize-use-auto"
 //Rejestruje pochodne serie, tworzy domyślne "lufciki" i wkłada w zarządcę obszarów.
-void aworld::make_default_visualisation()
+void ka_world::make_default_visualisation()
 {
     area_manager_base& manager=this->MyAreaManager();
     int iFirst=0,iSecond=0,iPower=0,iPressure=0,iChangeCnt,iMigrationCnt;
@@ -536,24 +536,24 @@ void aworld::make_default_visualisation()
 //=====================
 
 //Actions after read state from a file. Aktualizacja pól static aagent-a!!!
-void aworld::after_read_from_image()
+void ka_world::after_read_from_image()
 {
-    aagent::Max_power=MaxPower; //Maksymalna siła agenta
-    aagent::Kate_num=IleKate; //Liczba kategorii w mapach
+    ka_agent::Max_power=MaxPower; //Maksymalna siła agenta
+    ka_agent::Kate_num=IleKate; //Liczba kategorii w mapach
 
     switch(IleKate)
     {
-    case   2:aagent::Kate_shift=7;break;
-    case   4:aagent::Kate_shift=6;break;
-    case   8:aagent::Kate_shift=5;break;
-    case  16:aagent::Kate_shift=4;break;
-    case  32:aagent::Kate_shift=3;break;
-    case  64:aagent::Kate_shift=2;break;
-    case 128:aagent::Kate_shift=1;break;
-    case 256:aagent::Kate_shift=0;break;
+    case   2:ka_agent::Kate_shift=7;break;
+    case   4:ka_agent::Kate_shift=6;break;
+    case   8:ka_agent::Kate_shift=5;break;
+    case  16:ka_agent::Kate_shift=4;break;
+    case  32:ka_agent::Kate_shift=3;break;
+    case  64:ka_agent::Kate_shift=2;break;
+    case 128:ka_agent::Kate_shift=1;break;
+    case 256:ka_agent::Kate_shift=0;break;
     default:
-        aagent::Kate_num= IleKate=256;
-        aagent::Kate_shift=0;
+        ka_agent::Kate_num= IleKate=256;
+            ka_agent::Kate_shift=0;
         cerr<<"Invalid number of class (not power of 2 less than 256). Using default.\n";
         Log.GetStream()<<"Invalid number of class (not power of 2). Using default.\n";
         break;
@@ -561,7 +561,7 @@ void aworld::after_read_from_image()
 }
 
 // stan startowy symulacji
-void aworld::initialize_layers()
+void ka_world::initialize_layers()
 //-------------------------------------
 {
     static int first_call=1; //TYMCZASOWE WYŁĄCZENIE NADMIARU WYDRUKÓW!!!???
@@ -569,22 +569,22 @@ void aworld::initialize_layers()
     if(first_call)
         Log.GetStream()<<"attitude SIMULATION:";
 
-    aagent::Max_power=MaxPower; //Maksymalna siła agenta
-    aagent::Kate_num=IleKate; //Liczba kategorii w mapach
+    ka_agent::Max_power=MaxPower; //Maksymalna siła agenta
+    ka_agent::Kate_num=IleKate; //Liczba kategorii w mapach
 
     switch(IleKate)
     {
-    case   2:aagent::Kate_shift=7;break;
-    case   4:aagent::Kate_shift=6;break;
-    case   8:aagent::Kate_shift=5;break;
-    case  16:aagent::Kate_shift=4;break;
-    case  32:aagent::Kate_shift=3;break;
-    case  64:aagent::Kate_shift=2;break;
-    case 128:aagent::Kate_shift=1;break;
-    case 256:aagent::Kate_shift=0;break;
+    case   2:ka_agent::Kate_shift=7;break;
+    case   4:ka_agent::Kate_shift=6;break;
+    case   8:ka_agent::Kate_shift=5;break;
+    case  16:ka_agent::Kate_shift=4;break;
+    case  32:ka_agent::Kate_shift=3;break;
+    case  64:ka_agent::Kate_shift=2;break;
+    case 128:ka_agent::Kate_shift=1;break;
+    case 256:ka_agent::Kate_shift=0;break;
     default:
-        aagent::Kate_num= IleKate=256;
-        aagent::Kate_shift=0;
+        ka_agent::Kate_num= IleKate=256;
+            ka_agent::Kate_shift=0;
         cerr<<"Invalid number of class (not power of 2 less than 256). Using default.\n";
         Log.GetStream()<<"Invalid number of class (not power of 2). Using default.\n";
         break;
@@ -606,8 +606,8 @@ void aworld::initialize_layers()
     //-------------------------
 
     //Wczytuje, używając konstruktora lub klonowania, gdy nie ma. Inicjuje resztę pól.
-    int from1= Agenci.init_from_bitmap(MappName.get_ptr_val(),&aagent::assignPow);
-    int from2= Agenci.init_from_bitmap(MapLName.get_ptr_val(), &aagent::assign_curr);
+    int from1= Agenci.init_from_bitmap(MappName.get_ptr_val(),&ka_agent::assignPow);
+    int from2= Agenci.init_from_bitmap(MapLName.get_ptr_val(), &ka_agent::assign_curr);
  //   int from3= Agenci.init_from_bitmap(MapLName.get_ptr_val(),aagent::assign_prev);
 
     //Gdy nie zainicjowane, to prowizoryczna inicjacja przez konstruktory lub klonowanie
@@ -615,7 +615,7 @@ void aworld::initialize_layers()
         Agenci.reallocate_all();
 
     //Zabija, gdy w masce jest czarny kolor
-    if(Agenci.init_from_bitmap(MaskName.get_ptr_val(),&aagent::killBlack)==1 )
+    if(Agenci.init_from_bitmap(MaskName.get_ptr_val(),&ka_agent::killBlack) == 1 )
         Agenci.deallocate_not_OK();
 
     if(LifeFill < 1) //Dealokacja nadmiarów
@@ -628,7 +628,7 @@ void aworld::initialize_layers()
 }
 
 //Pojedynczy krok symulacji
-void aworld::simulate_one_step()
+void ka_world::simulate_one_step()
 //---------------------------------------
 {   
     CountCh=CountMig=0; //Zerowanie liczników dynamizmu
@@ -645,7 +645,7 @@ void aworld::simulate_one_step()
 
             assert(index!=MyGeom->FULL);				//... tutaj nie powinno się zdarzyć
 
-            aagent& CenterAgent=*(Agenci.get_ptr(index).get_ptr_val()); // Uzyskujemy referencje do agenta omijając asercje na nullptr (?)
+            ka_agent& CenterAgent=*(Agenci.get_ptr(index).get_ptr_val()); // Uzyskujemy referencje do agenta omijając asercje na nullptr (?)
 
             if(Agenci.is_empty(CenterAgent))	// Sprawdzamy, czy nie jest to pusta komórka (nullptr)
                 continue;						// bo wtedy robić dalej byłoby bez sensu.
@@ -667,7 +667,7 @@ void aworld::simulate_one_step()
 
             assert(index!=MyGeom->FULL);				//... tutaj nie powinno się zdarzyć
 
-            aagent& CenterAgent=*(Agenci.get_ptr(index).get_ptr_val()); // Uzyskujemy referencje do agenta omijając asercje na nullptr (?)
+            ka_agent& CenterAgent=*(Agenci.get_ptr(index).get_ptr_val()); // Uzyskujemy referencje do agenta omijając asercje na nullptr (?)
 
             if(Agenci.is_empty(CenterAgent))	// Sprawdzamy, czy nie jest to pusta komórka (nullptr)
                 continue;
@@ -692,7 +692,7 @@ void aworld::simulate_one_step()
 
             assert(index!=MyGeom->FULL);				//... tutaj nie powinno się zdarzyć
 
-            aagent& CenterAgent=*(Agenci.get_ptr(index).get_ptr_val()); // Uzyskujemy referencje do agenta omijając asercje na nullptr (?)
+            ka_agent& CenterAgent=*(Agenci.get_ptr(index).get_ptr_val()); // Uzyskujemy referencje do agenta omijając asercje na nullptr (?)
 
             if(Agenci.is_empty(CenterAgent))	// Sprawdzamy, czy nie jest to pusta komórka (nullptr)
                 continue;						// bo wtedy robić dalej byłoby bez sensu.
@@ -716,9 +716,9 @@ void aworld::simulate_one_step()
 }
 
 
-int aworld::DoMigration(const rectangle_geometry* MyGeom, //Ta procedura jest napisana nie-ogólnie, tj. w uzależnieniu od prostokątnego typu geometrii
+int ka_world::DoMigration(const rectangle_geometry* MyGeom, //Ta procedura jest napisana nie-ogólnie, tj. w uzależnieniu od prostokątnego typu geometrii
                         size_t index,
-                        aagent& CenterAgent
+                          ka_agent& CenterAgent
                         )
 {
     size_t SouX,SouY,TarX,TarY;
@@ -733,14 +733,14 @@ int aworld::DoMigration(const rectangle_geometry* MyGeom, //Ta procedura jest na
     return MyGeom->get(TarX,TarY); //Nowa pozycja w postaci liniowej
 }
 
-int aworld::CheckChange(const rectangle_geometry* MyGeom,
-                        size_t index,
-                        aagent& CenterAgent
+int ka_world::CheckChange(const rectangle_geometry* MyGeom,
+                          size_t index,
+                          ka_agent& CenterAgent
                         ) //KOD NA SZUKANIE ZMIAN
 { 
     int testowanie=0;
 
-    if(DRAND()<=aagent::MutationLevel) //Rzadka, spontaniczna zmiana poglądu
+    if(DRAND() <= ka_agent::MutationLevel) //Rzadka, spontaniczna zmiana poglądu
     {
         int attitude=RANDOM(IleKate);
         assert(0 <= attitude && attitude < IleKate);
@@ -777,7 +777,7 @@ int aworld::CheckChange(const rectangle_geometry* MyGeom,
         if(index2==MyGeom->FULL || index2==index)	//Gdy poza obszarem symulacji lub w
             continue;				//centrum obszaru to dalej byłoby bez sensu.
 
-        aagent& NeighAgent=*(Agenci.get_ptr(index2).get_ptr_val()); //Uzyskujemy referencje do sąsiada omijając asercje na nullptr (???)
+        ka_agent& NeighAgent=*(Agenci.get_ptr(index2).get_ptr_val()); //Uzyskujemy referencje do sąsiada omijając asercje na nullptr (???)
         if(Agenci.is_empty(NeighAgent))		//Sprawdzamy, czy nie jest to pusta komórka (nullptr)
             continue;								// bo wtedy robić dalej byłoby bez sensu.
 

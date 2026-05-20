@@ -2,15 +2,15 @@
 /// @brief
 ///  @EN{ Virtual output method implementation of the aworld class. }
 ///  @PL{  }
-/// @date 2026-05-19 (modified)
+/// @date 2026-05-21 (modified)
 ///       ============================================================
 /// @details (kattitude old example for SymShell)
 ///     Its is rather simply implementation. You can replace it if you need.
 //======================================================================================================================
 
-#include "aworld.h"
+#include "ka_world.h"
 
-int aworld::implement_output(ostream& o) const
+int ka_world::implement_output(ostream& o) const
 {
     int ret=world::implement_output(o);
     if(ret!=1) return ret;

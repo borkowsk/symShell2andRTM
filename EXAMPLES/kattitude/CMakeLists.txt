@@ -1,7 +1,7 @@
 # CMAKE configuration for KATTITUDE simulation project
 ######################################################################
 # @author	: Wojciech Borkowski
-# @date 2026-05-11 (last update)
+# @date 2026-05-21 (last update)
 #
 
 cmake_minimum_required(VERSION 3.20)
@@ -52,12 +52,12 @@ ELSE ()
 ENDIF()
 
 add_executable( kattitude
-                src/aagent.h
-                src/arand.h
-                src/aworld.cpp
-                src/aworld.h
-                src/aworldimpi.cpp
-                src/aworldimpo.cpp
+        src/ka_agent.h
+        src/ka_rand.h
+        src/ka_world.cpp
+        src/ka_world.h
+        src/ka_worldimpi.cpp
+        src/ka_worldimpo.cpp
                 src/kattitude.cpp
                 # $WINDOWS_ONLY_SRC
                 # $X_ONLY_SRC
