@@ -1,7 +1,7 @@
 /// @file
 /// @brief __Classes of functional sources and their parameters__ /<br>
 ///         _Klasy źródeł funkcyjnych i ich parametrów._
-/// @date 2026-05-19 (modified)
+/// @date 2026-05-20 (modified)
 // ********************************************************************************************************************
 //                       Zmodyfikowana znacząco 05.04.2008
 //
@@ -94,12 +94,12 @@ public:
 /// @}
 
 #ifdef USE_ENGLISH_IF_POSSIBLE
-/// A function source template parameterized by a function type.
+/// @brief A function source template parameterized by a function type.
 /// @tparam F must be a type with a parameterless constructor and a main method defined as `double operator () (double)`.
 template<class F>
 class function_source : public function_source_base
 #else
-/// Szablon źródła funkcyjnego sparametryzowany typem funkcyjnym.
+/// @brief Szablon źródła funkcyjnego sparametryzowany typem funkcyjnym.
 /// @tparam F musi być klasą z bezparametrowym konstruktorem i główną metodą o definicji `double operator () (double)`.
 template<class F>
 class function_source : public function_source_base

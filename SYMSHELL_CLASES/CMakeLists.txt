@@ -1,7 +1,7 @@
 # CMAKE configuration for SYMSHELL CLASSES library wbsyshclss
 ##################################################################################
 # @author Wojciech Borkowski
-# @date 2026-05-19 (last update)
+# @date 2026-05-20 (last update)
 ######################################################
 
 cmake_minimum_required(VERSION 3.20)
@@ -27,6 +27,19 @@ ELSE()	     # set stuff for other systems
   #set( X_ONLY_SRC  "" )
   #add_compile_options( -Wall )
 ENDIF()
+
+# Pobieramy wartość zmiennej środowiskowej LANG. Uwaga! Windows nie zawsze ustawia zmienną $LANG w środowisku.
+#set(SYS_LANG $ENV{LANG})
+set(SYS_LANG en_EN.UTF-8) #EN enforcement
+#set(SYS_LANG pl_PL.UTF-8) #wymuszenie PL
+
+# Sprawdzamy, czy zawiera frazę "pl" lub "PL"
+if(SYS_LANG MATCHES "pl" OR SYS_LANG MATCHES "PL")
+    set(RESOURCE_LANG "PL")
+else()
+    set(RESOURCE_LANG "EN")
+    add_definitions( -DUSE_ENGLISH_IF_POSSIBLE )
+endif()
 
 include_directories( "SIMULCLSS/" "DATACLSS/" "VISUALCLSS/" "${WBRTMINC}/" "${SYMSHELLLIGHT}/INCL/")
 

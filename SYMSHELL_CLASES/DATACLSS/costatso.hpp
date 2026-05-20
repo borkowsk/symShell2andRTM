@@ -1,7 +1,7 @@
 /// @file
 /// @brief __Base type for statistical co-filters - two-series statistics.__ /<br>
 ///         _Podstawowa klasa dla ko-filtrów statystycznych — statystyk z dwu serii.
-/// @date 2026-05-19 (modified)
+/// @date 2026-05-20 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_CO_STAT_SOUR_HPP_INCLUDED_
@@ -22,12 +22,11 @@
 
 namespace sym2 { namespace data {
 
-/// @brief @EN{ . }
-///        @PL{ . }
-/// @details ...
-/// Klasa licząca podstawowe parametry statystyczne dla dwu źródeł — np. korelacje.
-/// Wyniki są poprzez jednowartościowe źródła pośrednie.
-/// `template<class DATA_SOURCE1,class DATA_SOURCE2>` //NA RAZIE NIE JEST SZABLONEM.
+/// @brief @EN{ A class that calculates basic statistical parameters for two sources—e.g., correlations. }
+///        @PL{ Klasa licząca podstawowe parametry statystyczne dla dwu źródeł — np. korelacje. }
+/// @details
+///     Wyniki są dostępne poprzez jednowartościowe źródła pośrednie.
+///     `template<class DATA_SOURCE1,class DATA_SOURCE2>` //NA RAZIE NIE JEST SZABLONEM.
 class co_statistics_source : public bi_filter_source_base //public template_bi_filter<DATA_SOURCE1,DATA_SOURCE2>
 //--------------------------------------------------------
 {

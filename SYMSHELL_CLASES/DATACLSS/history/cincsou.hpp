@@ -1,7 +1,7 @@
 /// @file
 /// @brief STARY WADLIWY (już niekompatybilny) filtr liczący koincydencje klas dwu serii i pochodne statystyki (Hi^2 itp.).
 ///        <br> __OBSOLETE__
-/// @date 2026-05-19 (modified)
+/// @date 2026-05-20 (modified)
 // ********************************************************************************************************************
 //  Coś dziwnego Tidy robi z tym plikiem. Nie jest w stanie znaleźć systemowych nagłówków.
 #ifndef SYMSHELL2_COINCIDENCE_SOUR_HPP_INCLUDED_
@@ -12,8 +12,8 @@
 
 namespace sym2 { namespace data {
 
-/// @brief @EN{ . }
-///        @PL{ Filtr liczący koincydencje klas dwu serii i pochodne statystyki (Hi^2 itp.). }
+/// @brief @EN{ Filter counting the class coincidences of two series and derived statistics (Hi^2 etc.). OBSOLETE }
+///        @PL{ Filtr liczący koincydencje klas dwu serii i pochodne statystyki (Hi^2 itp.). NIE DZIAŁA }
 /// @details ...
 template<class DATA_SOURCE>
 class coincidention_source : public co_statistics_source//<DATA_SOURCE>

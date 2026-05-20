@@ -1,7 +1,7 @@
 /// @file
 /// @brief __The base type of the interface for writing data from single-value sources to a file and its simplest implementation.__ /<br>
 /// _Klasa bazowa interface-u zapisywania do pliku danych ze źródeł jednowartościowych oraz jego najprostsza implementacja._
-/// @date 2026-05-19 (modified)
+/// @date 2026-05-20 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_LOG_FILE_HPP_INCLUDED_
@@ -21,10 +21,9 @@ using namespace std;
 
 namespace sym2 { namespace data {
 
-/// @brief @EN{ . }
-///        @PL{ . }
+/// @brief @EN{ Basic interface for writing data from single-value sources to a file. }
+///        @PL{ Podstawowy INTERFACE zapisywania do pliku danych ze źródeł jednowartościowych. }
 /// @details ...
-/// INTERFACE bazowy zapisywania do pliku danych ze źródeł jednowartościowych.
 class data_logfile_base
 //---------------------
 {
@@ -53,8 +52,8 @@ public:
     { return separator_char; }
 };
 
-/// @brief @EN{ . }
-///        @PL{ NAJPROSTSZA IMPLEMENTACJA ZAPISYWANIA ŹRÓDEŁ SKALARNYCH DO PLIKÓW `log`.. }
+/// @brief @EN{ THE SIMPLEST IMPLEMENTATION OF SAVING SCALAR SOURCES TO `log` FILES. }
+///        @PL{ NAJPROSTSZA IMPLEMENTACJA ZAPISYWANIA ŹRÓDEŁ SKALARNYCH DO PLIKÓW `log`. }
 /// @details ...
 class logfile : public data_logfile_base
 //-----------------------------------------------------

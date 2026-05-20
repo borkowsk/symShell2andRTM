@@ -18,11 +18,10 @@
 /// Zmodernizowane klasy do symulacji w C++
 namespace sym2 { namespace visual
 {
-    /// @brief @EN{ . }
+    /// @brief @EN{ INTERFACE TO ANY AREA MANAGER. }
     ///        @PL{ INTERFACE DO DOWOLNEGO ZARZĄDCY OBSZARU. }
-    /// @details ...
-    /// ....
-    /// Dobrze, żeby można było zestawiać zarządców w hierarchie.
+    /// @details
+    ///     Dobrze, żeby można było zestawiać zarządców w hierarchie.
     class area_manager_base : public drawable_base
     //------------------------------------------
     {
@@ -207,17 +206,17 @@ namespace sym2 { namespace visual
         /// @}
     };
 
-    /// @brief @EN{ . }
+    /// @brief @EN{ The class of the simplest, non-aggressive, area manager. }
     ///        @PL{ Klasa najprostszego, nieagresywnego, zarządcy obszarów. }
-    /// @details ...
-    /// Implementuje, co się uda bez wiedzy o niskopoziomowej podstawie soft-hard.
-    /// Zakłada pełna władze nad obszarami, a w szczególności nad ich pamięcią.
-    /// Zdarzenia zewnętrzne trzeba przekazać "explicite" -
-    ///  - taki zarządca nie zawłaszcza ich samodzielnie, a tym bardziej nie zabiera wątku sterowania.
+    /// @details
+    ///     Implementuje, co się uda bez wiedzy o niskopoziomowej podstawie soft-hard.
+    ///     Zakłada pełna władze nad obszarami, a w szczególności nad ich pamięcią.
+    ///     Zdarzenia zewnętrzne trzeba przekazać "explicite" -
+    ///     - taki zarządca nie zawłaszcza ich samodzielnie, a tym bardziej nie zabiera wątku sterowania.
     class area_manager : public area_manager_base
     {
     protected:
-        /// @brief @EN{ . }
+        /// @brief @EN{ Internal structure for storing information about areas. }
         ///        @PL{ Wewnętrzna struktura przechowywania informacji o obszarach. }
         struct internal
         {

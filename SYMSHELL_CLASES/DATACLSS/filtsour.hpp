@@ -1,7 +1,7 @@
 /// @file
 /// @brief __Different types of single-source data filters.__ /<br>
 ///         _Różne klasy jednoźródłowych filtrów danych._
-/// @date 2026-05-19 (modified)
+/// @date 2026-05-20 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_FILTERS_SOUR_HPP_INCLUDED_
@@ -19,10 +19,9 @@
 
 namespace sym2 { namespace data {
 
-/// @brief @EN{ . }
-///        @PL{ . }
+/// @brief @EN{ Log 10 filter template. }
+///        @PL{ Szablon filtru "log 10". }
 /// @details ...
-/// Szablon filtru "log 10".
 template<class SOURCE_TYPE>
 class log_F_filter : public template_filter_source_base<SOURCE_TYPE>
 //-----------------------------------------------------------------------

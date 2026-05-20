@@ -1,7 +1,7 @@
 /** @file
  * @brief **DOXYGEN GROUP DEFINITIONS FOR "DATACLSS"** /<br>
  *         _DEFINICJE GRUP DOXYGENA DLA "DATACLSS"_
- * @date 2026-05-16 (modified)
+ * @date 2026-05-20 (modified)
  ** \if POLSKI
  * @defgroup	GRUPA_WZORCOWA Tytuł dla grupy wzorcowej
  * @brief	Przykład jak definiować grupę
@@ -45,13 +45,13 @@
  *
  * ---------------------------------------------------------------------------------------------------------------
  */
- /// Symshell2 library.
+ /// @EN{ Symshell2 library. } @PL{ Biblioteka SymShell2. }
 namespace sym2{
-    /// Data sources hierarchy.
+    /// @EN{ Data sources hierarchy. } @PL{ Hierarchia źródeł danych. }
     namespace data {}
-    /// Graphic areas hierarchy.
+    /// @EN{ Graphic areas hierarchy for visualization. } @PL{ Hierarchia wizualizacji — lufcików graficznych. }
     namespace visual {}
-    /// World, layers and agents.
+    /// @EN{ World, layers and agents. } @PL{ Świat, warstwy świata i agenci. }
     namespace shell{}
 }
  /**

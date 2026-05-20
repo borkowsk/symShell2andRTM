@@ -22,11 +22,11 @@
 namespace sym2 { namespace visual
 {
 
-/// @brief @EN{ . }
-///        @PL{ Klasa głównego zarządcy obszarów aplikacji jednookiennych oparta na przenośnym interfejsie _SymShellLight. }
+/// @brief @EN{ A class for the main manager of single-window application areas based on the portable _SymShellLight_ interface. }
+///        @PL{ Klasa głównego zarządcy obszarów aplikacji jednookiennych oparta na przenośnym interfejsie _SymShellLight_. }
 /// @details ...
-/// J e d n o w c i e l e n i o w a  czyli w danej aplikacji SymShell-a może być tylko jedna instancja tej klasy.
-/// Zajmuje się inicjalizacja grafiki i obsługa zdarzeń w dwu trybach:
+///		J e d n o w c i e l e n i o w a,  czyli w danej aplikacji SymShell-a może być tylko jedna instancja tej klasy.
+///		Zajmuje się inicjalizacja grafiki i obsługa zdarzeń w dwu trybach:
 ///		- wywołania w reakcji na zdarzenie.
 ///		- w zamkniętej pętli wywołującej wirtualną metodę `on_idle`, gdy brak zdarzeń i jest ustawiona flaga pracy w tle.
 class main_area_manager: public area_manager
@@ -121,7 +121,6 @@ public:
     int    original(size_t  index) override ; ///< @param index pojedynczego obszaru.
     int    original(const wb_dynarray<int>& lst_index) override ; ///< @param lst to lista indeksów obszarów.
     /// @}
-
 
     /// @name Przywracanie widoczności.
     /// @details Używają poprzedniego położenia i rozmiarów uprzednio ukrytego (minimize) obszaru.

@@ -1,7 +1,7 @@
 /// @file
 /// @brief **Specific source types — access to data in linear arrays** /<br>
 ///         _Konkretne klasy źródeł — dostęp do danych w tablicach liniowych._
-/// @date 2026-05-19 (modified)
+/// @date 2026-05-20 (modified)
 // ********************************************************************************************************************
 // PL: W tym pliku użyto warunkowej kompilacji do selekcji języka dokumentacji.
 // NIESTETY rozbija to podpowiedzi (tooltips) nawet w CLion.
@@ -20,7 +20,7 @@
 
 namespace sym2 { namespace data {
 
-#if USE_ENGLISH_IF_POSSIBLE
+#ifdef USE_ENGLISH_IF_POSSIBLE
 /// @brief Data source type passing subsequent values from a linear array.
 /// @details Data in the array can change, but probably not during iteration ;)
 template<class T>
@@ -164,7 +164,7 @@ public:
 
 };
 
-#if USE_ENGLISH_IF_POSSIBLE
+#ifdef USE_ENGLISH_IF_POSSIBLE
 /// @brief A type that passes subsequent data from a linear array of pointers to structures
 /// , using a pointer to the member. MAY BE POORLY TESTED.
 template<class STRUCT_T, class FIELD_T>
@@ -182,7 +182,7 @@ class ptr_to_struct_array_source : public linear_source_base
     TYP_POLA member_ptr; //!< @in{ Wskaźnik do składowej struktury.| A pointer to a structure member. }
 
 public:
-#if USE_ENGLISH_IF_POSSIBLE
+#ifdef USE_ENGLISH_IF_POSSIBLE
     /// Constructor.
     /// \param i_N is the size of the provided array of structures.
     /// \param i_array is a pointer to an array of structure pointers.

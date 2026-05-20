@@ -16,9 +16,11 @@
 namespace sym2 { namespace visual
 {
 
-/// @brief @EN{ . }
-///        @PL{ KLASA OBSZARU "TELETYPE". }
-/// @details Obsługuje tylko tekst. Mogą być w nim znaki \n oraz %@R^L^C zaraz po nich.
+/// @brief @EN{ TEXT AREA CLASS A LA "TELETYPE". }
+///        @PL{ KLASA OBSZARU TEKSTOWEGO A LA "TELETYPE". }
+/// @details
+///     @PL{ Obsługuje tylko tekst. Mogą być w nim znaki \n oraz %@R^L^C zaraz po nich. }
+///     @EN{ Supports only text. It can contain inside the characters \n and %@R^L^C immediately after them.
 class text_area:public drawable_base
 //----------------------------------
 {

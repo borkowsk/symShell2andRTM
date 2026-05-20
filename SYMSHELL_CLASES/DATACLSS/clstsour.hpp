@@ -17,7 +17,7 @@
 namespace sym2 { namespace data {
 
 /// @brief @PL{ Filtr liczący różne rodzaje klasteringu dla serii z   g e o m e t r i ą!!! }
-///        @EN{...}
+///        @EN{ Filter counting different types of clustering for series with geometry!!! }
 template<class DATA_SOURCE>
 class clustering_source : public basic_statistics_source<DATA_SOURCE>
 //------------------------------------------------------------------------------

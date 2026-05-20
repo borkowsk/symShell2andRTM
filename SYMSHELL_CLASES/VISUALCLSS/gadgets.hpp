@@ -22,12 +22,11 @@
 // --checks=-google-default-arguments.
 #pragma ide diagnostic ignored "google-default-arguments"
 
-/// Zmodernizowane klasy do symulacji w C++
 namespace sym2 { namespace visual
 {
     using namespace sym2::data;
 
-/// @brief @EN{ . }
+/// @brief @EN{ The base class of all screen gadgets. }
 ///        @PL{ Klasa bazowa wszystkich gadżetów ekranowych. }
 /// @details ...
 class gadget:public drawable_base
@@ -63,8 +62,8 @@ public:
 
 };
 
-/// @brief @EN{ . }
-///        @PL{  Klasa bazowa dla gadżetów reagujących na zdarzenia użytkownika. }
+/// @brief @EN{ Base class for gadgets that respond to user events. }
+///        @PL{ Klasa bazowa dla gadżetów reagujących na zdarzenia użytkownika. }
 /// @details ...
 class sensitive_area:public gadget
 //--------------------------------------------
@@ -87,12 +86,12 @@ public:
 
 typedef sensitive_area empty_area;
 
-/// @brief @EN{ . }
+/// @brief @EN{ A gadget class that implements a button. }
 ///        @PL{ Klasa gadżetu implementująca przycisk. }
 /// @details ...
-/// Dwa możliwe tryby wyświetlania:
-/// 0 -> vertical print mode
-/// 1 -> horizontal print mode
+///     Dwa możliwe tryby wyświetlania:
+///     *   0 -> vertical print mode
+///     *   1 -> horizontal print mode
 class button:public sensitive_area
 //---------------------------------------------
 {
@@ -122,15 +121,15 @@ public:
     //			{return 2;}							  //i zwracać 2, jeśli "obsłużono".
 };
 
-/// @brief @EN{ . }
+/// @brief @EN{ A gadget class that implements an arrow in one of the four directions or a shield (as a 3rd dimension or something). }
 ///        @PL{ Klasa gadżetu implementująca strzałkę w jednym z czterech kierunków lub tarcze (jako 3 wymiar albo coś). }
 /// @details ...
-/// Znaczenie `mode` lub parametru `imode` konstruktora:
-/// 0 — print target (-(+)-)
-/// 1 — print up arrow
-/// 2 — print left arrow
-/// 3 — print down arrow
-/// 4 — print right arrow
+///     Znaczenie `mode` lub parametru `imode` konstruktora:
+///     *   0 — print target (-(+)-)
+///     *   1 — print up arrow
+///     *   2 — print left arrow
+///     *   3 — print down arrow
+///     *   4 — print right arrow
 class arrow_button:public sensitive_area
 //---------------------------------------------
 {
@@ -138,6 +137,7 @@ protected:
     int mode; //!< Tryb wyświetlania, czyli kierunek strzałki albo tarcza.
 
 public:
+    /// Constructor.
     arrow_button(int ix1,int iy1,int ix2,int iy2,	//!< Położenie gadżetu.
             int i_mode=0,							//!< Inicjalizacja trybu wyświetlania (patrz na opis klasy).
             unsigned i_color=default_black,			//!< Kolor znaczących elementów.
@@ -148,20 +148,23 @@ public:
         mode(i_mode)
         {}
 
+    /// @EN{ Drawing — reimplementation of the required virtual function. }
+    /// @PL{ Rysowanie — reimplementacja wymaganej funkcji wirtualnej. }
     void _replot() override; // Odrysowuje składowe.
 
 };
 
-/// @brief @EN{ . }
+/// @brief @EN{ A gadget class that combines the left arrow and right arrow. }
 ///        @PL{ Klasa gadżetu łącząca strzałkę w lewo i strzałkę w prawo. }
 /// @details ...
-/// @note To jest klasa bazowa dla klas reimplementujących `_user_action`.
+///     To jest klasa bazowa dla klas reimplementujących `_user_action`!
 class left_right_button: public sensitive_area
 //==============================================
 {
 protected:
     wb_ptr<drawable_base> left;  //!< Podobiekt (strzałka) ruchu w lewo.
     wb_ptr<drawable_base> right; //!< Podobiekt (strzałka) ruchu w prawo.
+
 public:
     /// Konstruktor umieszczający gadżet w konkretnym miejscu.
     left_right_button(int ix1, int iy1, int ix2, int iy2);
@@ -184,11 +187,11 @@ public:
 
 };
 
-/// @brief @EN{ . }
+/// @brief @EN{ A gadget class to change the field of view to a rectangular data series. }
 ///        @PL{ Klasa gadżetu do zmiany pola widzenia na prostokątną serię danych. }
-/// @details ...
-/// Pozwala zmieniać wielkość okna i przesuwać to okno w czterech kierunkach.
-/// Tło gadżetu domyślnie jest takie, jakie dla całego okna!
+/// @details
+///     Pozwala zmieniać wielkość okna i przesuwać to okno w czterech kierunkach.
+///     Tło gadżetu domyślnie jest takie, jakie dla całego okna!
 class steering_wheel:public sensitive_area
 //----------------------------------------
 {
@@ -248,10 +251,10 @@ public:
 
 };
 
-/// @brief @EN{ . }
+/// @brief @EN{ A gadget class template for changing the value of a numeric variable of any type. }
 ///        @PL{ Szablon klasy gadżetu do zmiany wartości zmiennej liczbowej dowolnego typu. }
-/// @details ...
-/// ...
+/// @details
+///     ...
 template<class NUMBER>
 class knob_for_value:public left_right_button
 // ----------------------------------------

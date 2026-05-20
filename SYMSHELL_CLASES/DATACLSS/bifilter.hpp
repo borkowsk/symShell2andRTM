@@ -1,7 +1,7 @@
 /// @file
 /// @brief **The base type of two-source dependent filters** /<br>
 ///         _Klasa bazowa filtrów zależnych od dwu źródeł._
-/// @date 2026-05-19 (modified)
+/// @date 2026-05-20 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_bi_filter_hpp_INCLUDED_
@@ -15,10 +15,9 @@
 
 namespace sym2 { namespace data {
 
-/// @brief @EN{ . }
-///        @PL{ . }
+/// @brief @PL{ Baza źródeł danych filtrujących dane łączone z dwóch innych źródeł. }
+///        @EN{ A database of data sources that filter data combined from two other sources. }
 /// @details ...
-/// Baza źródła danych filtrującego dane łączone z dwóch innych źródeł.
 class bi_filter_source_base : public filter_source_base
 //-----------------------------------------------------
 {
@@ -28,7 +27,8 @@ protected:
 
     int check_version_() override;
 
-    /// Wewnętrzna struktura dla indeksowania.
+    /// @brief @PL{ Wewnętrzna struktura dla indeksowania. }
+    ///        @EN{ Internal structure for indexing. }
     struct indexes
     {
         iterator_h first;
@@ -39,9 +39,9 @@ protected:
         {}
     };
 
-    /// Constructor.
-    /// \param ini1 - wskaźnik do pierwszego źródła danych.
-    /// \param ini2 - wskaźnik do drugiego źródła danych.
+    /// \brief @IN{Konstruktor|Constructor}.
+    /// \param ini1 - @IN{ "wskaźnik do pierwszego źródła danych" | "pointer to the first data source" }
+    /// \param ini2 - @PL{ wskaźnik do drugiego źródła danych.} @EN{ pointer to the second data source. }
     /// \param format - sposób utworzenia nazwy filtra z nazw źródeł.
     explicit bi_filter_source_base(data_source_base *ini1 = NULL,
                                    data_source_base *ini2 = NULL,

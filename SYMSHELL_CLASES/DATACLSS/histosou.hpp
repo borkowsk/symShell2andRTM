@@ -1,7 +1,7 @@
 /// @file
 /// @brief __Legacy filter for counting series categories and derived statistics.__ /<br>
 ///         _Starszy filtr liczący liczebności kategorii w serii i pochodne statystyki._
-/// @date 2026-05-19 (modified)
+/// @date 2026-05-20 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_HISTOGRAM_SOUR_HPP_INCLUDED_
@@ -18,11 +18,11 @@
 
 namespace sym2 { namespace data {
 
-/// @brief @EN{ . }
-///        @PL{ Starszy filtr liczący liczebności klas serii i pochodne statystyki.. }
+/// @brief @EN{ Legacy filter for counting series classes and derived statistics. }
+///        @PL{ Starszy filtr liczący liczebności klas serii i pochodne statystyki. }
 /// @details ...
 /// @PL{ WERSJA PIERWOTNA — LICZY TYLKO HISTOGRAMY CAŁKOWITOLICZBOWE Z RUCHOMĄ LICZBĄ KLAS. }
-/// @EN{  }
+/// @EN{ ORIGINAL VERSION - COUNTS ONLY INTEGER HISTOGRAMS WITH A MOVING NUMBER OF CLASSES. }
 template<class DATA_SOURCE>
 class histogram_source : public basic_statistics_source<DATA_SOURCE>
 //------------------------------------------------------------------------------

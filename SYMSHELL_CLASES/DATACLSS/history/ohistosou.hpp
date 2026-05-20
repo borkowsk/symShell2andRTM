@@ -1,7 +1,7 @@
 /// @file
 /// @brief Stary filtr liczący liczebność klas serii i pochodne statystyki. NIE DA SIĘ OBECNIE SKOMPILOWAĆ.
 ///        <br> __OBSOLETE and INVALID__
-/// @date 2026-05-19 (modified)
+/// @date 2026-05-20 (modified)
 // ********************************************************************************************************************
 // Coś dziwnego Tidy robi z tym plikiem. Nie jest w stanie znaleźć systemowych nagłówków.
 #ifndef __OLD_HISTOGRAM_SOUR_HPP__
@@ -14,8 +14,8 @@
 
 namespace sym2 { namespace data {
 
-/// @brief @EN{ . }
-///        @PL{ Filtr liczący liczebność klas serii i pochodne statystyki. }
+/// @brief @EN{ Filter for counting series classes and derived statistics. OBSOLETE! }
+///        @PL{ Filtr liczący liczebność klas serii i pochodne statystyki. STARY! }
 /// @details ...
 ///     WERSJA PIERWOTNA — LICZY TYLKO HISTOGRAMY CAŁKOWITOLICZBOWE
 ///     Z RUCHOMĄ LICZBĄ KLAS, więc nie jest przystosowana do współpracy z plikiem logu symulacji.

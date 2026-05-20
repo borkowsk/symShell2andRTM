@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 ## @file 
 ## @brief  Problem polega na wymianie wielu linii w wielu plikach tekstowych. 
-## @date 2026-05-18 (modified)
+## @date 2026-05-20 (modified)
 # ==============================================================================
 #
 # Instrukcja ma formę pliku tekstowego UTF-8 w formacie linii:
@@ -37,6 +37,7 @@
 #
 import sys
 import collections
+import re
 
 # Sprawdzenie, czy użytkownik podał plik jako argument
 if len(sys.argv) < 2:
@@ -49,18 +50,31 @@ nazwa_instrukcji = sys.argv[1]
 # Słownik przechowujący zadania: { ścieżka_do_pliku: [(nr_linii, "nowa treść"), ...] }
 zadania = collections.defaultdict(list)
 
+licznik_lini=0 
+
 # 1. Wczytanie instrukcji
 with open(nazwa_instrukcji, 'r', encoding='utf-8') as f:
     for linia in f:
+        licznik_lini+=1
         if not linia.strip():
             continue
+        
+        # Pomijamy linie dodatkowe wstawione przez grep markowane przez -N- (np. plik-123-tekst)
+        # Wzorzec szuka: dowolny tekst, potem myślnik, potem minimum jedna cyfra (\d+), potem kolejny myślnik
+        if re.search(r'- \d+ -', linia) or re.match(r'^[^:-]+-\d+-', linia):
+            continue
+            
         # Dzielimy tylko na 3 części: plik, linia, treść (żeby nie popsuć treści zawierającej dwukropki)
         czesci = linia.split(':', 2)
         if len(czesci) < 3:
             continue
             
         sciezka, nr_str, tresc = czesci
-        nr_linii = int(nr_str)-1
+        try:
+                nr_linii = int(nr_str)-1
+        except Exception as e:
+           print(f"Błąd {e} podczas przetwarzania linii:",licznik_lini) 
+           sys.exit()       
         # Usuwamy znak nowej linii z końca wpisu, ale zachowujemy spacje na początku treśći
         tresc = tresc.rstrip('\r\n') 
         #print( sciezka, nr_linii, tresc )
@@ -97,9 +111,9 @@ for sciezka, modyfikacje in zadania.items():
                 linie_pliku.append(nowa_tresc + '\n')
                 
         # Zapisujemy zmodyfikowany plik
-        with open(sciezka, 'w', encoding='utf-8') as f:
-            f.writelines(linie_pliku)
-        print(f"Zaktualizowano: {sciezka}")
+        #with open(sciezka, 'w', encoding='utf-8') as f:
+        #    f.writelines(linie_pliku)
+        #print(f"Zaktualizowano: {sciezka}")
         
     except Exception as e:
         print(f"Błąd podczas przetwarzania {sciezka}: {e}")

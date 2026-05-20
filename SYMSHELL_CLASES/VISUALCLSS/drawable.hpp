@@ -31,16 +31,16 @@ class gps_area
 //------------------------------------------------------
 {
 public:
-    /// @brief A type that stores the required coordinate of the area/
-    ///        Typ przechowujący wymagane współrzędne obszaru.
+    /// @brief @EN{ A type that stores the required coordinate of the area. }
+    ///        @PL{ Typ przechowujący wymagane współrzędne obszaru. }
     /// @detail
     ///      The fractional part has room for invisible details, so you can scale the areas in a wide range of sizes.<br>
     ///      W części ułamkowej jest zapas na niewidoczne szczegóły.
     ///      Dzięki temu można wykonywać skalowanie obszarów w szerokim zakresie rozmiarów.
     typedef double xy_info;
 
-    /// @EN{ Access to private attributes of the child type. }
-    /// @PL{ Dostęp do atrybutów prywatnych klasy potomnej. }
+    /// @brief @EN{ Access to private attributes of the child type. }
+    ///        @PL{ Dostęp do atrybutów prywatnych klasy potomnej. }
     friend class drawable_base;
 
 private:
@@ -118,7 +118,7 @@ public:
     int  is_overlapped(const gps_area& t) const;
 };
 
-/// @brief @EN{ Base type for screen areas such as graphs . }
+/// @brief @EN{ Base type for screen areas such as graphs. }
 ///        @PL{ Klasa bazowa dla obszarów ekranu, takich jak wykresy(graphs). }
 /// @details ...
 class drawable_base:public gps_area,public sym2::title_util

@@ -188,7 +188,7 @@ public:
     /// @param ret_after ???.
     void		simulation_loop(int ret_after);
 
-    /// @brief @PL{ Pętla wczytywania symulacji z pliku.
+    /// @brief @PL{ Pętla wczytywania symulacji z pliku. }
     /// @param ret_after ???.
     void		read_loop(int ret_after);
 

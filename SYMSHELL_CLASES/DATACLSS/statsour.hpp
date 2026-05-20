@@ -1,7 +1,7 @@
 /// @file
 /// @brief __Base type for ALL statistical filters.__ /<br>
 ///         _Podstawowa klasa dla filtrów statystycznych._
-/// @date 2026-05-19 (modified)
+/// @date 2026-05-20 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_STAT_SOUR_HPP_INCLUDED_
@@ -20,11 +20,10 @@
 
 namespace sym2 { namespace data {
 
-/// @brief @EN{ . }
-///        @PL{ . }
-/// @details ...
-/// Bazowy szablon klasy liczącej podstawowe parametry statystyczne innego źródła.
-/// Parametry są podawane w arbitralnej kolejności lub poprzez jednowartościowe źródła pośrednie.
+/// @brief @EN{ Basic interface for writing data from single-value sources to a file. }
+///        @PL{ Bazowy szablon klasy liczącej podstawowe parametry statystyczne innego źródła. }
+/// @details
+///     Parametry są podawane w arbitralnej kolejności lub poprzez jednowartościowe źródła pośrednie.
 template<class DATA_SOURCE>
 class basic_statistics_source : public multi_filter_source_base<DATA_SOURCE>
 //------------------------------------------------------------------------------

@@ -1,7 +1,7 @@
 /// @file
 /// @brief **Different types of dual-source data filters** /<br>
 ///         _Różne klasy dwuźródłowych filtrów danych._
-/// @date 2026-05-19 (modified)
+/// @date 2026-05-20 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_BI_FILTER_SOUR_HPP_INCLUDED_
@@ -18,10 +18,9 @@
 
 namespace sym2 { namespace data {
 
-/// @brief @EN{ . }
-///        @PL{ . }
+/// @brief @EN{ A simple class that SUMs two sources without using a cache. }
+///        @PL{ Prosta klasa SUMUJĄCA dwa źródła bez użycia cache'a. }
 /// @details ...
-/// Prosta klasa SUMUJĄCA dwa źródła bez użycia cache'a.
 class summ_source : public bi_filter_source_base
 //----------------------------------------------------
 {
@@ -71,10 +70,9 @@ public:
 
 };
 
-/// @brief @EN{ . }
-///        @PL{ . }
+/// @brief @EN{ A simple class that SUMs two sources without using a cache. }
+///        @PL{ Klasa zwracająca wartości z drugiego źródła, jeśli pierwsze, traktowane jako warunek zwraca wartość "nie-missing". }
 /// @details ...
-/// Klasa zwracająca wartości z drugiego źródła, jeśli pierwsze, traktowane jako warunek zwraca wartość "nie-missing".
 class if_then_source : public bi_filter_source_base
 //---------------------------------------------------
 {

@@ -184,13 +184,15 @@ public:
 #ifdef USE_ENGLISH_IF_POSSIBLE
 /// @brief Rectangular layer template for any scalar (non-pointer!) type.
 /// @details Interface taken from `layer<>` and implementation from `rectangle_layer`.
+template<class SCALAR>
+class rectangle_unilayer:public layer<SCALAR>,public rectangle_layer
 #else
 /// @brief Szablon warstwy prostokątnej dla dowolnego typu skalarnego (nie-wskaźnikowego!).
 /// @details Interface bierze z `layer<>` a implementację z `rectangle_layer`.
-#endif
 template<class SCALAR>
 class rectangle_unilayer:public layer<SCALAR>,public rectangle_layer
-//----------------------------------------------
+#endif
+//------------------------------------------------------------------
 {
     wb_dynarray<SCALAR> table; //!< Do przechowywania elementów.
     SCALAR            cleaner; //!< "Obiekt" do zamazywania elementów.
@@ -322,12 +324,14 @@ public:
 
 #ifdef USE_ENGLISH_IF_POSSIBLE
 /// @brief Rectangular layer template for any structure type.
-#else
-/// @brief Szablon warstwy prostokątnej dla dowolnego typu strukturalnego.
-#endif
 template<class STRUCT_T>
 class rectangle_layer_of_struct:public layer<STRUCT_T>,public rectangle_layer
-//----------------------------------------------
+#else
+/// @brief Szablon warstwy prostokątnej dla dowolnego typu strukturalnego.
+template<class STRUCT_T>
+class rectangle_layer_of_struct:public layer<STRUCT_T>,public rectangle_layer
+#endif
+//----------------------------------------------------------------------------
 {
     wb_dynarray<STRUCT_T> table; //!< Prosty kontener na dane.
 
@@ -622,12 +626,13 @@ public:
 };
 
 #ifdef USE_ENGLISH_IF_POSSIBLE
-/// Definition of the agent interface that must be met for the layers to be able to support.
-#else
-/// Definicja interfejsu agenta, który musi być spełniony, żeby warstwy mogły obsługiwać.
-#endif
+/// @brief Definition of the agent interface that must be met for the layers to be able to support.
 class agent_base
-//--------------------------------------------------
+#else
+/// @brief Definicja interfejsu agenta, który musi być spełniony, żeby warstwy mogły obsługiwać.
+class agent_base
+#endif
+//--------------------------------------------------------------------------------------------------
 {
 public:
     agent_base()= default;
@@ -646,11 +651,13 @@ public:
 
 #ifdef USE_ENGLISH_IF_POSSIBLE
 /// A layer template of a structured type compatible with the `agent_base` type.
-#else
-/// Szablon warstwy typu strukturalnego zgodnego z typem `agent_base`.
-#endif
 template<class AGENT>
 class rectangle_layer_of_agents:public layer<AGENT>,public rectangle_layer
+#else
+/// Szablon warstwy typu strukturalnego zgodnego z typem `agent_base`.
+template<class AGENT>
+class rectangle_layer_of_agents:public layer<AGENT>,public rectangle_layer
+#endif
 //------------------------------------------------------------------------
 {
     wb_dynarray<AGENT>		  table; //!< Prosty kontener na dane.
@@ -1020,12 +1027,14 @@ public:
 };
 
 #ifdef USE_ENGLISH_IF_POSSIBLE
-/// A template layer of pointers to a structured type compatible with `agent_base`.
-#else
-/// Szablon warstwy wskaźników do typu strukturalnego zgodnego z `agent_base`.
-#endif
+/// @brief A template layer of pointers to a structured type compatible with `agent_base`.
 template<class AGENT>
 class rectangle_layer_of_ptr_to_agents:public layer<AGENT>,public rectangle_layer
+#else
+/// @brief Szablon warstwy wskaźników do typu strukturalnego zgodnego z `agent_base`.
+template<class AGENT>
+class rectangle_layer_of_ptr_to_agents:public layer<AGENT>,public rectangle_layer
+#endif
 //--------------------------------------------------------------
 {
     wb_dynarray<wb_ptr<AGENT> >			table; //!< Kontener na dane.

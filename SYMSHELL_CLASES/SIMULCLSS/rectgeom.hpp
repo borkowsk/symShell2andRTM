@@ -1,6 +1,6 @@
 /// @file
 /// @brief **RECTANGULAR GEOMETRY** /<br> _GEOMETRIA PROSTOKĄTNA._
-/// @date 2026-05-19 (modified)
+/// @date 2026-05-20 (modified)
 ///      Pierwsza i główna specjalizacja. Heksagonalnej i sieciowej nigdy nie napisałem, choć były w planie.
 // ********************************************************************************************************************
 //
@@ -44,7 +44,7 @@ protected:
 public:
     RandomGenerator& 	get_rnd() { return RndSel; }	//!< Dostęp do odpowiedniego generatora liczb pseudolosowych.
 
-    /// Struktura do globalnej iteracji po tablicy.
+    /// @brief @PL{ Struktura do globalnej iteracji po tablicy. } @EN{ A structure for global array iteration. }.
     struct iterator:public geometry_base::iterator_base
     {
         size_t i,j;	//!< Iteracja po wierszach i kolumnach
@@ -80,7 +80,7 @@ public:
 
     }; //koniec definicji iterator-a globalnego
 
-    /// Struktura do losowej iteracji po tablicy.
+    /// @brief @PL{ Struktura do losowej iteracji po tablicy. } @EN{ A structure for random iteration over an array. }
     struct monte_carlo_iterator:public geometry_base::iterator_base
     {
         size_t			how_many;	//!< Do zliczania w dół
@@ -337,8 +337,11 @@ public:
 
     //  KONSTRUKTORY/DESTRUKTORY
     //=============================
+
+    /// Destructor pro forma.
     ~rectangle_geometry() override = default;
 
+    /// Constructor.
     rectangle_geometry(	size_t iA,				//!< Szerokość pełnego obszaru.
                         size_t iB,				//!< Wysokość pełnego obszaru.
                         int  iTorus=1,			//!< Ustala, czy włączyć geometrie torusa.
@@ -373,6 +376,7 @@ public:
         }
     }
 
+    /// Ustawianie.
     void  set(	size_t		iA,				//!< Szerokość pełnego obszaru.
                 size_t		iB,				//!< Wysokość pełnego obszaru.
                 int		iTorus=1,			//!< Określa, czy włączyć geometrie torusa.

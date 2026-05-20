@@ -271,10 +271,10 @@ TAB_SIZE               = 4
 # a double escape (\\{ and \\})
 
 ALIASES                = PL{1}= \
-                         EN{1}=\1 \
+                         EN{1}=<b>\1</b> \
                          I3{3|}=\3 \
                          i3{3|}=\3 \
-                         in{2|}=\2
+                         IN{2|}=\2
 
 # Set the OPTIMIZE_OUTPUT_FOR_C tag to YES if your project consists of C sources
 # only. Doxygen will then generate output that is more tailored for C. For
@@ -2272,7 +2272,8 @@ INCLUDE_FILE_PATTERNS  =
 # recursively expanded use the := operator instead of the = operator.
 # This tag requires that the tag ENABLE_PREPROCESSING is set to YES.
 
-PREDEFINED             = __cplusplus
+PREDEFINED             = __cplusplus \
+                         USE_ENGLISH_IF_POSSIBLE
 
 # If the MACRO_EXPANSION and EXPAND_ONLY_PREDEF tags are set to YES then this
 # tag can be used to specify a list of macro names that should be expanded. The

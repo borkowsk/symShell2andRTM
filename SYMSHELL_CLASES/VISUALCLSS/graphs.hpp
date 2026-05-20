@@ -23,7 +23,6 @@
 // --checks=-google-default-arguments.
 #pragma ide diagnostic ignored "google-default-arguments"
 
-/// Zmodernizowane klasy do symulacji w C++.
 namespace sym2 { namespace visual
 {
     using namespace sym2::data;
@@ -31,7 +30,7 @@ namespace sym2 { namespace visual
 //INTERFACE DO GRAFU — KLASY WYPROWADZONE POWINNY TYLKO IMPLEMENTOWAĆ:
 //--------------------------------------------------------------------
 
-/// @brief @EN{ Base type for data point display configuratio. }
+/// @brief @EN{ Base type for data point display configuration. }
 ///        @PL{ Klasa bazowa dla konfiguracji wyświetlania punktów danych. }
 /// @details ...
 class config_point
@@ -51,6 +50,9 @@ public:
     config_point(float base,float max)
     :base_fract(base),max_fract(max), base_len(1000)
     {}
+
+    /// Destructor pro forma.
+    ~config_point()=default;
 
     /// Wyliczenie faktycznego rozmiaru bazowego w pikselach.
     unsigned base_size() const { return unsigned(double(base_len) * base_fract); }
@@ -122,7 +124,7 @@ class graph:public drawable_base
 //------------------------------
 {
 public:
-    /// @brief @EN{ . }
+    /// @brief @EN{ Series information class for charts with an undefined number of series. }
     ///        @PL{ Klasa informacji o serii dla wykresów o nieustalonej liczbie serii. }
     /// @details ...
     class series_info
@@ -221,7 +223,8 @@ public:
     unsigned vis_leg4:1;  //!< Flaga wizualizacji legendy dla rozmiarów.
     /// @}
 
-    /// Struktura informacji o skalowaniu serii danych.
+    /// @brief @EN{ Data Series Scaling Information Structure. }
+    ///        @PL{ Struktura informacji o skalowaniu serii danych. }
     struct scaling_info
     {
         double min,max,scale; ///< Wartości potrzebne do przeliczenia
@@ -276,7 +279,8 @@ public:
         void OY_axis(int x1, int y1, int x2, int y2, wb_color col, wb_color bcg) const;
     };
 
-    /// Struktura informacji o kolorze serii.
+    /// @brief @PL{ Struktura informacji o kolorze serii. }
+    ///        @EN{ Structure of series color information. }
     struct color_info
     {
         wb_color start; ///< To musi być zawsze.
@@ -297,8 +301,8 @@ protected:
 //=======================================
 //---------------------------------------
 
-/// @brief A rectangle made of multi-colored squares/<br>
-///        Prostokąt z różnokolorowych kwadracików.
+/// @brief @EN{ A rectangle made of multi-colored squares. }
+///        @PL{ Prostokąt z różnokolorowych kwadracików. }
 class carpet_graph:public graph
 //------------------------------------------------------------------------
 {
@@ -360,6 +364,7 @@ public:
 
 protected:
     // ONLY FOR DEVELOPERS OF THIS TYPE:
+
     /// Czyta wymiary z geometrii lub z ustawionego AA i BB.
     const geometry_base* read_dim(size_t& aa,size_t& bb);
 
@@ -371,8 +376,8 @@ protected:
     wb_ptr<geometry_base>	deputy; ///< Geometria używana, gdy podano AA i BB w konstruktorze.
 };
 
-/// @brief  A rectangle made of squares with colors composed of three data series/<br>
-///         Prostokąt z kwadracików o kolorach składanych z trzech serii danych.
+/// @brief @EN{ A rectangle made of squares with colors composed of three data series. }
+///        @PL{ Prostokąt z kwadracików o kolorach składanych z trzech serii danych. }
 class true_color_carpet_graph:public graph
 //----------------------------------------
 {
@@ -434,8 +439,8 @@ protected:
     wb_ptr<geometry_base>	deputy; ///< Geometria używana, gdy podano AA i BB w konstruktorze.
 };
 
-/// @brief Accelerated carpet, made entirely of pixels\<br>
-///        Dywan przyspieszony, z samych pikseli.
+/// @brief @EN{ Accelerated carpet, made entirely of pixels. }
+///        @PL{ Dywan przyspieszony, z samych pikseli. }
 template<class DATA_SOURCE,int DIRECT_COLOR=false>
 class fast_carpet_graph:public carpet_graph
 //-----------------------------------------
@@ -466,8 +471,8 @@ public:
 
 };
 
-/// @brief  Usually 2D-bars of different sizes and possibly colors/<br>
-///         Zwykle słupki 2D różnej wielkości i ewentualnie koloru.
+/// @brief @EN{ Usual 2D-bars of different sizes and possibly colors. }
+///        @PL{ Zwykle słupki 2D różnej wielkości i ewentualnie koloru. }
 class bars_graph:public graph
 //---------------------------
 {
@@ -523,8 +528,8 @@ private:
     scaling_info		s_colo;
 };
 
-/// @brief A column or row of numbers, each on a different color background!/<br>
-///        Kolumna lub wiersz liczb, każda na innym tle kolorystycznym!
+/// @brief @EN{ A column or row of numbers, each on a different color background. }
+///        @PL{ Kolumna lub wiersz liczb, każda na innym tle kolorystycznym. }
 class rainbow_graph:public graph
 //------------------------------
 {
@@ -573,8 +578,8 @@ private:    // ONLY FOR DEVELOPERS OF THIS TYPE
     char*					format;
 };
 
-/// @brief 3D Pillar/Bar Carpet/<br>
-///        Dywanik słupków 3D
+/// @brief @EN{ 3D Pillar/Bar Carpet. }
+///        @PL{ Dywanik słupków 3D. }
 class manhattan_graph:public graph
 //-------------------------------------------------------------------------
 {
@@ -661,8 +666,8 @@ private:
     wb_ptr<geometry_base> deputy; ///< Zastępcza geometria, gdy w konstruktorze podano A i B.
 };
 
-/// @brief RGB 3D Pillar/Bar Carpet/<br>
-///        Dywanik słupków 3D w kolorach RGB.
+/// @brief @EN{ RGB 3D Pillar/Bar Carpet. }
+///        @PL{ Dywanik słupków 3D w kolorach RGB. }
 class true_color_manhattan_graph:public graph
 //-------------------------------------------------------------------------
 {
@@ -757,8 +762,8 @@ private:
     wb_ptr<geometry_base>		deputy;
 };
 
-/// @brief A typical line graph. Consecutive points optionally connected by lines. Any number of series./<br>
-///        Typowy wykres liniowy.  Kolejne punkty ewentualnie połączone liniami. Dowolna liczba seri.
+/// @brief @EN{ A typical line graph. Consecutive points optionally connected by lines. Any number of series. }
+///        @PL{ Typowy wykres liniowy.  Kolejne punkty ewentualnie połączone liniami. Dowolna liczba seri. }
 class sequence_graph:public graph
 //-----------------------------------------------------------------------------------------------------
 {
@@ -839,7 +844,8 @@ private:
     scaling_info  scale_y;	///< Skalowanie dla  osi Y w trybie 1 i 2.
 };
 
-//Punkty w dwu wymiarach (dowolne X i Y)
+/// @brief @EN{ Points in two dimensions (any X and Y). }
+///        @PL{ Punkty w dwu wymiarach (dowolne X i Y). }
 class scatter_graph:public graph
 //------------------------------------------------------------------------
 {
@@ -923,9 +929,10 @@ protected:
     scaling_info		scale_s; ///< Skalowanie dla rozmiarów.
 };
 
-//Punkty w dwu wymiarach (dowolne X i Y)
+/// @brief @EN{ Connected network in two dimensions (any X and Y). }
+///        @PL{ Połączone węzły sieci w dwu wymiarach (dowolne X i Y). }
 class net_graph:public scatter_graph
-//------------------------------------------------------------------------
+//----------------------------------------------------------------------
 {
 public:
     //HELP:

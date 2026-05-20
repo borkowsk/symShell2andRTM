@@ -100,7 +100,7 @@ public:
         /// @}
     };
 
-    /// Ograniczenia wartości współrzędnych.
+    /// @brief @PL{ Ograniczenia wartości współrzędnych. } @EN{ Coordinate value constraints. }
     struct MD_info
     //-------------
     {
@@ -108,7 +108,7 @@ public:
         coord max;	//!< Największe wartości dla każdej współrzędnej.
     };
 
-    /// Informacja o ustawieniach "kamery".
+    /// @brief @PL{ Informacja o ustawieniach "kamery". } @EN{ Information about "camera" settings. }
     struct view_info
     //---------------
     {
@@ -118,8 +118,8 @@ public:
     };
 
     /// @brief
-    /// @PL{ Klasa bazowa dla wszystkich iteratorów geometrii. }
-    /// @EN{ Base type for all geometry iterators. }
+    ///     @PL{ Klasa bazowa dla wszystkich iteratorów geometrii. }
+    ///     @EN{ Base type for all geometry iterators. }
     class iterator_base
     //------------------
     {
@@ -246,8 +246,9 @@ public:
 
 };
 
-/// @PL{ Rezerwacja nazwy "geometry". }
-/// @EN{ Reservation of the name "geometry". }
+/// @brief
+///     @PL{ Rezerwacja nazwy "geometry". }
+///     @EN{ Reservation of the name "geometry". }
 typedef geometry_base geometry;
 
 

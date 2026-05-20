@@ -1,7 +1,7 @@
 /// @file
 /// @brief __Specific source types - access to data in two-dimensional arrays.__ /<br>
 ///         _Konkretne klasy źródeł — dostęp do danych w tablicach dwuwymiarowych._
-/// @date 2026-05-19 (modified)
+/// @date 2026-05-20 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_MATRIX_SOUR_HPP_INCLUDED_
@@ -19,7 +19,7 @@
 namespace sym2 { namespace data {
     using namespace sym2::shell;
 
-/// @brief @EN{ . }
+/// @brief @EN{ A class that provides access to any rectangular array and its slices (or not?). }
 ///        @PL{ Klasa udostępniająca dowolną tablicę prostokątną oraz jej wycinki (albo i nie?). }
 /// @details ...
 ///     Jeśli zdefiniowany wycinek wykracza poza tablicę źródłową, to funkcja `get` zwraca wartość "miss" podawana w konstruktorze.
@@ -120,7 +120,7 @@ public:
 
 };
 
-/// @brief @EN{ . }
+/// @brief @EN{ A class that reads from any rectangular array of structures using pointers to members. }
 ///        @PL{ Klasa czytająca z dowolnej prostokątnej tablicy struktur za pomocą wskaźników do składowych. }
 /// @details ...
 ///          ...
@@ -224,11 +224,11 @@ public:
 
 };
 
-/// @brief @EN{ . }
+/// @brief @EN{ A class that reads from any rectangular array of pointers to structures using member pointers. }
 ///        @PL{ Klasa czytająca z dowolnej prostokątnej tablicy wskaźników do struktur za pomocą wskaźników do składowych. }
-/// @details ...
-/// Czyli dostęp `wskaźnik tablicy->wskaźnik struktury->wskaźnik` komponentu.
-/// ...
+/// @details
+///     Czyli dostęp `wskaźnik tablicy->wskaźnik struktury->wskaźnik` komponentu.
+///     ...
 template<class STRUCT_T, class FIELD_T>
 class ptr_to_struct_matrix_source : public rectangle_source_base
 //------------------------------------------------
@@ -313,8 +313,8 @@ public:
 
 };
 
-/// @brief @EN{ . }
-///        @PL{ Klasa czytająca z dowolnej prostokątnej tablicy struktur za pomocą wskaźnika do metody.. }
+/// @brief @EN{ A class that reads from any rectangular array of structures using a pointer to a method. }
+///        @PL{ Klasa czytająca z dowolnej prostokątnej tablicy struktur za pomocą wskaźnika do metody. }
 /// @details ...
 template<class STRUCT_T, class METHOD_T>
 class method_matrix_source : public rectangle_source_base
@@ -423,7 +423,7 @@ public:
 
 };
 
-/// @brief @EN{ . }
+/// @brief @EN{ A class that reads from any rectangular array of pointers to structures via a method pointer. }
 ///        @PL{ Klasa czytająca z dowolnej prostokątnej tablicy wskaźników do struktur za pomocą wskaźnika do metody. }
 /// @details ...
 template<class STRUCT_T, class METHOD_T>

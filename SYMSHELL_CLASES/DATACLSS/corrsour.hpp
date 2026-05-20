@@ -1,7 +1,7 @@
 /// @file
 /// @brief __UNUSED correlation filter type - a two-source, single-value data filter__ /<br>
 ///         _NIEUŻYWANA klasa  filtru korelacji — dwuźródłowego, jednowartościowego filtru danych._
-/// @date 2026-05-19 (modified)
+/// @date 2026-05-20 (modified)
 // ********************************************************************************************************************
 //
 //#error SKOMPLIKOWANE W IMPLEMENTACJI, ALE MOŻNA BY KIEDYŚ SPRÓBOWAĆ.
@@ -13,11 +13,10 @@
 
 namespace sym2 { namespace data {
 
-/// @brief @EN{ . }
-///        @PL{ . }
+/// @brief @EN{ Correlation Filter Class - Two-Source, Single-Value Data Filter. }
+///        @PL{ Klasa filtru korelacji — dwuźródłowego, jednowartościowego filtru danych. }
 /// @details ...
-/// Klasa filtru korelacji — dwuźródłowego, jednowartościowego filtru danych.
-/// Nie wygląda na używaną.
+///     Nie wygląda na aktualnie używaną.
 class correlation_source : public template_scalar_source_base<double>,
                            public bi_filter_source_base
 //---------------------------------------------------------------------
