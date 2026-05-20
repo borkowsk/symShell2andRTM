@@ -1,7 +1,7 @@
 /// @file
 /// @brief **A screen or window area manager, implemented directly based on SYMSHELL functions.** /<br>
 ///         _Zarządca obszarów ekranu lub okna, zaimplementowany bezpośrednio na bazie funkcji SYMSHELL-a._
-/// @date 2026-05-19 (last modification)
+/// @date 2026-05-20 (last modification)
 //======================================================================================================================
 //  Do obsługi całego ekranu/okna SYMSHELL-a.
 
@@ -19,6 +19,9 @@
 #include "amngrcmd.h"
 #include "viewHtml.hpp"
 #include "toitoutoll.hpp"
+
+namespace sym2{ namespace visual
+{
 
 using namespace std;
 using namespace sym2;
@@ -587,6 +590,8 @@ main_area_manager::~main_area_manager()
 }
 
 #pragma clang diagnostic pop
+}} // end-of-namespace sym2::visual
+
 /* ****************************************************************** */
 /*               SYMSHELL2  version 2006/2022/2026                    */
 /* ****************************************************************** */

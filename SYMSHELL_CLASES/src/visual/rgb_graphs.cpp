@@ -1,7 +1,7 @@
 /// @file
 /// @brief **Implementation of graphs which use RGB coloring** /<br>
 ///         _IMPLEMENTACJA KLAS GRAFÓW UŻYWAJĄCYCH KOLOROWANIA RGB._
-/// @date 2026-05-19 (modification)
+/// @date 2026-05-20 (modification)
 //======================================================================================================================
 
 #include <cstdio> //sprintf!!!
@@ -11,6 +11,9 @@
 #include "graphs.hpp"
 #include "wb_ptr.hpp"
 #include "toitoutoll.hpp"
+
+namespace sym2{ namespace visual
+{
 
 using namespace sym2;
 
@@ -967,6 +970,8 @@ int true_color_manhattan_graph::_rescale_data_point(const double reals[],long in
 }
 
 #pragma clang diagnostic pop
+}} // end-of-namespace sym2::visual
+
 /* ****************************************************************** */
 /*               SYMSHELL2  version 2006/2022/2026                    */
 /* ****************************************************************** */

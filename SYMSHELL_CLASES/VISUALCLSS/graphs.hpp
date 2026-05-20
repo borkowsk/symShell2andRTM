@@ -1,7 +1,7 @@
 /// @file
 /// @brief **CLASSES DEFINING VARIOUS TYPES OF CHARTS** /<br>
 ///         _KLASY DEFINIUJĄCE RÓŻNORODNE TYPY WYKRESÓW._
-/// @date 2026-05-19 (modified)
+/// @date 2026-05-20 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_GRAPHS_HPP_INCLUDED_
@@ -24,7 +24,7 @@
 #pragma ide diagnostic ignored "google-default-arguments"
 
 /// Zmodernizowane klasy do symulacji w C++.
-namespace sym2
+namespace sym2 { namespace visual
 {
     using namespace sym2::data;
 
@@ -1147,7 +1147,7 @@ void fast_carpet_graph<DATA_SOURCE, DIRECT_COLOR>::_replot()
 class scatter3D_graph:public graph//Punkty w trzech wymiarach (dowolne X,Y,Z)
 */
 
-} // namespace sym2
+}} // namespace sym2
 
 #pragma clang diagnostic pop
 /* ****************************************************************** */

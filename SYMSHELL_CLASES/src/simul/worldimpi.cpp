@@ -1,6 +1,6 @@
 /// @file
 /// @brief **Implementation of the world type -- Virtual input methods and operator >>  **
-/// @date 2026-05-19 (modified)
+/// @date 2026-05-20 (modified)
 //===----------------------------------------------------------------------------
 /// @details
 ///     Its is rather simply implementation. You can replace it if you need.
@@ -13,8 +13,9 @@
 
 using namespace std;
 using namespace sym2;
+using namespace sym2::shell;
 
-int sym2::shell::world::implement_input(istream& i)
+int world::implement_input(istream& i)
 {
     i >> StepCounter;
     i>>TimeStamp;
@@ -30,9 +31,9 @@ int sym2::shell::world::implement_input(istream& i)
     return 1;
 }
 
-// wczytanie pojedynczego obrazu symulacji dla inicjalizacji
+// Wczytanie pojedynczego obrazu symulacji dla inicjalizacji.
 // Jeśli nie ma nazwy to z nazwy `OutName`.
-void sym2::shell::world::initialize_from_image(const char* FileName)
+void world::initialize_from_image(const char* FileName)
 {
 
     if(!FileName && !int(OutName))

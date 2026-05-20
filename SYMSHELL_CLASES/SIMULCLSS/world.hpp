@@ -1,6 +1,6 @@
 /// @file
 /// @brief **Interface for the whole world** /<br> _Interfejs dla klasy reprezentującej cały świat._
-/// @date 2026-05-19 (modified)
+/// @date 2026-05-20 (modified)
 // ********************************************************************************************************************
 //
 #if !defined(WORLD_HPP_INCLUDED_)
@@ -29,10 +29,10 @@ class world
 {
     /// @brief NA RAZIE NIE WOLNO ZROBIĆ TAKIEJ FUNKCJI! CHOĆ MUSI BYĆ ZADEKLAROWANA.
     /// Pomysł zewnętrznego manager-a danych okazał się niesprawdzony.
-    virtual void   make_basic_sources(sources_manager& WhatSourMen);
+    virtual void   make_basic_sources(data::sources_manager& WhatSourMen);
 
     /// Uchwyt do aktualnego manager danych.
-    sym2::main_area_manager*		  AreaManager;
+    sym2::visual::main_area_manager*		AreaManager;
 
     /// Data/Czas aktualnego kroku w wersji tekstowej.
     wb_pchar								TimeStamp;
@@ -40,21 +40,21 @@ class world
 protected:
     /// Obszar bezpośredniego wyświetlania do wypisywania statusu.
     /// Jest zarządzany przez zarządcę obszarów i może być NULL!!!
-    sym2::text_area*				OutArea;
+    sym2::visual::text_area*				OutArea;
 
     /// Zarządzanie źródłami danych. Czyli WBUDOWANY zarządca serii danych.
-    sources_manager			Sources;
+    data::sources_manager					Sources;
 
     /// Obiekt rządzący zapisem historii.
-    logfile					Log;
+    data::logfile							Log;
 
     /// Strumień do dokładnego zapisu przebiegu symulacji pozwalającego na odtwarzanie.
     /// Jeśli wskaźnik nie jest pusty, to zrzuca całość symulacji na ten strumień.
     /// Otwiera strumień, jeśli jest podana nazwa, ale nie ma strumienia.
-    wb_ptr<fstream>			Out;
+    wb_ptr<fstream>							Out;
 
     /// Separator do strumienia logowania `Out`.
-    static char				separator;
+    static char								separator;
 
 public:
     /// Średni czas pojedynczego kroku i czas ostatniego.
@@ -151,7 +151,7 @@ public:
     void			set_input_ratio(unsigned ratio){InputRatio=ratio;}
 
     /// @brief @PL{ Aktualny zarządca ekranu podłączony do tego świata. }
-    sym2::area_manager&	MyAreaManager();
+    sym2::visual::area_manager&	MyAreaManager();
 
     /// @brief @PL{ Sprawdzenie, czy ma już podłączonego zarządcę okien. }
     int 			HasAreaMenager() { return AreaManager!=nullptr; }
@@ -169,7 +169,7 @@ public:
     ///     - i opcjonalnie podstawowe grafy
     /// , jeśli z `Replay != 0` to inicjalizuje warstwy z zerowego kroku
     /// pliku historii za pomocą funkcji "initialize_from_image".
-    void		initialize(sym2::main_area_manager* mainAreaManager=nullptr, int Replay=0);
+    void		initialize(sym2::visual::main_area_manager* mainAreaManager=nullptr, int Replay=0);
 
     /// @brief @PL{ Powtórzenie inicjalizacji dla powtórnego przebiegu symulacji. }
     /// Nie odtwarza strony wizualizacyjnej.
@@ -220,7 +220,7 @@ ostream& world::MyLogStream()
 }
 
 inline
-sym2::area_manager&		world::MyAreaManager()
+sym2::visual::area_manager&		world::MyAreaManager()
 //Aktualny zarządca ekranu podłączony do świata
 {
                                                 assert(AreaManager!=nullptr);

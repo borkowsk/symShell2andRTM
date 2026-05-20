@@ -2,7 +2,7 @@
 /// @brief
 ///     @EN{ Implementation of the 'kworld' class.	Virtual Input methods  }
 ///     @PL{  }
-/// @date 2026-05-19 (modified)
+/// @date 2026-05-20 (modified)
 /// =========================================================
 /// @details
 /// Old example for SymShell implementing a Kruglanski's like model)
@@ -10,6 +10,10 @@
 //========================================================================
 
 #include "kworld.h"
+
+using namespace sym2::data;
+using namespace sym2::shell;
+using namespace sym2::visual;
 
 int kworld::implement_input(istream& i)
 {
@@ -21,7 +25,7 @@ int kworld::implement_input(istream& i)
     i>>WeightOfSelf; //Jak ma brać siebie pod uwagę
     i>>NeedForClosure; //Jak ma brać innych (waga)
     i>>Noise;		//Szum informacyjny
-    sym2::rectangle_geometry* Geom=( sym2::rectangle_geometry*)Agenci.get_geometry();
+    rectangle_geometry* Geom=( rectangle_geometry*)Agenci.get_geometry();
     assert(Geom!=nullptr);
     if(Geom->get_width()!=MyWidth||
        Geom->get_height()!=MyWidth )

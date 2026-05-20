@@ -1,19 +1,23 @@
 /// @file
 /// @EN{  }
 /// @PL{  }
-/// @date 2026-05-19 (modified)
+/// @date 2026-05-20 (modified)
 /// =========================================================
 ///
 // Virtual Input methods  implementation of the aworld class.
 // Its is rather simply implementation. You can replace it if you need.
 //=====================================================================
-// @date 2026-05-19 (modification)
+// @date 2026-05-20 (modification)
 
 #include "aworld.h"
 
+using namespace sym2::data;
+using namespace sym2::shell;
+using namespace sym2::visual;
+
 int aworld::implement_input(istream& i)
 {
-    int ret=sym2::world::implement_input(i);
+    int ret=world::implement_input(i);
     if(ret!=1) return ret;
     i >> MyWidth;		//Obwód torusa
     i >> MaxSila;		//Maksymalna siła agenta
@@ -22,7 +26,7 @@ int aworld::implement_input(istream& i)
     i >> NeighRadius;	//Rozmiar sąsiedztwa
     i >> UseSelf;		//Czy ma brać siębie pod uwagę
     i >> Noise;		//Szum informacyjny
-    sym2::rectangle_geometry* Geom=(sym2::rectangle_geometry*)Agents.get_geometry();
+    rectangle_geometry* Geom=(rectangle_geometry*)Agents.get_geometry();
     assert(Geom!=NULL);
     if(Geom->get_width()!=MyWidth||
        Geom->get_height()!=MyWidth )

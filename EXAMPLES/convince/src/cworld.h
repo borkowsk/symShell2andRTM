@@ -2,7 +2,7 @@
 /// @brief
 ///  @EN{ DECLARATION OF 'aWorld' FOR "convince" SIMULATION. }
 ///  @PL{  }
-/// @date 2026-05-19 (modified)
+/// @date 2026-05-20 (modified)
 ///       =========================================================
 /// @details ...
 //======================================================================================================================
@@ -12,8 +12,12 @@
 #include "layer.hpp"
 #include "cagent.h" //A definition of an agent is here.
 
+using namespace sym2::data;
+using namespace sym2::shell;
+using namespace sym2::visual;
+
 /// //The Whole World of Simulations.
-class aWorld:public sym2::world
+class aWorld:public world
 //--------------------------------------------------
 {
     // Single-value parameters:
@@ -28,7 +32,7 @@ class aWorld:public sym2::world
     // Simulation layers (only one this time):
     // ///////////////////////////////////////
 
-    sym2::rectangle_layer_of_ptr_to_agents<anAgent>	Agenci;	//!< The agent layer. It is a torus.
+    rectangle_layer_of_ptr_to_agents<anAgent>	Agenci;	//!< The agent layer. It is a torus.
 
     // Main data series - it's more convenient to have pointers than to search from `Sources` by name:
     // ///////////////////////////////////////////////////////////////////////////////////////////////

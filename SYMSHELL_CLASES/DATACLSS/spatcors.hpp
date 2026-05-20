@@ -1,7 +1,7 @@
 /// @file
 /// @brief __A filter that calculates the number of series categories and derived spatial statistics, including spatial correlations.__ /<br>
 ///         _Filtr liczący liczebność klas serii i pochodne statystyki przestrzenne, w tym korelacje przestrzenne._
-/// @date 2026-05-19 (modified)
+/// @date 2026-05-20 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_SPATIAL_CORRELATION_SOUR_HPP_INCLUDED_
@@ -160,7 +160,7 @@ int spatial_correlation_source<DATA_SOURCE>::_calculate()
     assert(N == -1);  //Tylko tryb "integer-owy" - tyle klas ile liczb całkowitych
 
     // Ustalenie, czy mieści się w maksymalnej odległości:
-    sym2::geometry *MyGeom = this->Source->get_geometry(); ///< Wskaźnik do geometrii
+    geometry *MyGeom = this->Source->get_geometry(); ///< Wskaźnik do geometrii
 
     //Musi być dostępna realna i co najmniej jednowymiarowa geometria symulacji, inaczej dupa blada.
     if(MyGeom != NULL && MyGeom->get_dimension() > 0)

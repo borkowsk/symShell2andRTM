@@ -2,7 +2,7 @@
 /// @brief
 /// @EN{ DECLARATION OF THE AGENT FOR "need 4 closure" SIMULATION. }
 /// @PL{  }
-/// @date 2026-05-19 (modified)
+/// @date 2026-05-20 (modified)
 /// =========================================================
 /// @details(old example for SymShell implementing a Kruglanski's like model)
 // =====================================================================================================================
@@ -18,7 +18,7 @@ inline void wb_swap(short& a,short& b)
     b=c;
 }
 
-class kagent:public sym2::agent_base
+class kagent:public sym2::shell::agent_base
 {
     friend class kworld;		///< To simplify access to the components of the world class.
 

@@ -1,7 +1,7 @@
 /// @file
 /// @brief **IMPLEMENTATION OF DIFFERENT TYPES OF NON-GRAPH AREAS** /<br>
 ///         _IMPLEMENTACJA ROŻNYCH TYPóW OBSZARóW NIE BĘDĄCYCH GRAFAMI._
-/// @date 2026-05-19 (last modification)
+/// @date 2026-05-20 (last modification)
 //======================================================================================================================
 // Wersja z kosmetyką XI 2012 i późniejszymi zmianami.
 
@@ -11,6 +11,9 @@
 #include "gadgets.hpp"
 #include "textarea.hpp"
 #include "toitoutoll.hpp"
+
+namespace sym2{ namespace visual
+{
 
 using namespace sym2;
 
@@ -657,6 +660,8 @@ int text_area::add_text(const char* ini)
 }
 
 #pragma clang diagnostic pop
+}} // end-of-namespace sym2::visual
+
 /* ****************************************************************** */
 /*               SYMSHELL2  version 2006/2022/2026                    */
 /* ****************************************************************** */

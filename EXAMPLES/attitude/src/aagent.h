@@ -1,15 +1,17 @@
 /// @file
-/// @EN{  }
+/// @EN{ DECLARATION OF   , A G E N T   FOR "attitudes" SIMULATION. }
 /// @PL{  }
-/// @date 2026-05-19 (modified)
+/// @date 2026-05-20 (modified)
 /// =========================================================
-///
-// DECLARATION OF   , A G E N T   FOR "attitudes" SIMULATION.
-// /////////////////////////////////////////////////////////
-// @date 2026-05-19 (modification)
+//
+
 #include "layer.hpp"
 
-class aagent:public sym2::agent_base
+using namespace sym2::data;
+using namespace sym2::shell;
+using namespace sym2::visual;
+
+class aagent:public agent_base
 {
     friend class aworld; //Na razie tak — żeby uprościć dostęp do składowych.
 

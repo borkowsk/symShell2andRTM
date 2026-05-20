@@ -1,7 +1,7 @@
 /// @file
 /// @brief **Definition of the base type and templates specialization of simulation layers ** /<br>
 ///         _Definicja bazy i szablonów warstw symulacji._
-/// @date 2026-05-19 (modified)
+/// @date 2026-05-20 (modified)
 // ********************************************************************************************************************
 #ifndef SYMSHELL2_LAYER_HPP_INCLUDED_
 #define SYMSHELL2_LAYER_HPP_INCLUDED_
@@ -23,7 +23,9 @@
 // --checks=-google-default-arguments.
 #pragma ide diagnostic ignored "google-default-arguments"
 
-namespace sym2 { namespace shell {
+namespace sym2 { namespace shell
+{
+    using namespace sym2::data;
 
 #ifdef USE_ENGLISH_IF_POSSIBLE
 /// @brief Base types for all derived types of simulation layers.
@@ -55,7 +57,7 @@ public:
     /// Rejestracja źródła/źródeł w zarządcy danych.
     /// W klasach specjalizowanych można zdefiniować automatyczna rejestracje.
     /// @return 0 oznacza brak automatycznej rejestracji. Inne oznaczają sukces.
-    virtual int registry_sources(sources_manager_base&		Sources)
+    virtual int registry_sources(visual::sources_manager_base&		Sources)
     {return 0;}
 
     /// Zwraca wskaźnik do geometrii. Nie wolno go z-delete-ować.

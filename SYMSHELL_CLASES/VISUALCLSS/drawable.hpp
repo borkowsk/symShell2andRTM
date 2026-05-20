@@ -1,7 +1,7 @@
 /// @file
 /// @brief **BASIC INTERFACE DECLARATIONS FOR SCREEN AREAS** /<br>
 ///         _DEKLARACJE PODSTAWOWEGO "SPRZĘGU" DLA OBSZARÓW EKRANU._
-/// @date 2026-05-19 (modified)
+/// @date 2026-05-20 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_DRAWABLE_HPP_INCLUDED_
@@ -22,7 +22,7 @@ using namespace wbrtm;
 // --checks=-google-default-arguments.
 #pragma ide diagnostic ignored "google-default-arguments"
 
-namespace sym2
+namespace sym2 { namespace visual
 {
 
 /// @brief @EN{ Parameters of a designated area on the screen or in a window. }
@@ -273,7 +273,7 @@ inline void     drawable_base::set_title_colors(wb_color color, wb_color back)
     tit_bck=back;
 }
 
-} // namespace sym2
+}} // namespace sym2
 
 #pragma clang diagnostic pop
 /* ****************************************************************** */

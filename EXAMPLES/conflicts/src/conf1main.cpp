@@ -2,7 +2,7 @@
 /// @brief
 ///  @EN{  }
 ///  @PL{ SYMULACJA KONFLIKTÓW BOCA 2005 (plik główny) }
-/// @date 2026-05-19 (modified)
+/// @date 2026-05-20 (modified)
 ///       =========================================================
 /// @details UZUPEŁNIONY 10-11.2005, 9-2010, 02-2014, 04-2026
 
@@ -29,6 +29,9 @@
 #pragma ide diagnostic ignored "modernize-use-nullptr"
 
 using namespace sym2;
+using namespace sym2::data;
+using namespace sym2::shell;
+using namespace sym2::visual;
 
 /// ## HISTORIA
 /// * 1.1 Dodano obsługę wczytywania sieci z pliku

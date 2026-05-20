@@ -1,7 +1,7 @@
 /// @file
 /// @brief **Implementation of the world type** /<br>
 ///        _Implementacja rozwiązań klasy reprezentującej świat._
-/// @date 2026-05-19 (modified)
+/// @date 2026-05-20 (modified)
 //======================================================================================================================
 
 #include "world.hpp"
@@ -40,7 +40,7 @@ void sym2::shell::world::make_default_visualisation()
     }
 
     //UTWORZENIE OBOWIĄZKOWEGO LUFCIKA NA INFORMACJE TEKSTOWE.
-    OutArea=new sym2::text_area(0, 0, 8 * 80, 25 * 16,
+    OutArea=new visual::text_area(0, 0, 8 * 80, 25 * 16,
                                 "Initializing in progress...",
                                 default_white, default_black, 128, 40);
 
@@ -55,7 +55,7 @@ ERROR://...akcja na niepogodę
 }
 
 
-void sym2::shell::world::initialize(sym2::main_area_manager* mainAreaManager, int Replay)
+void sym2::shell::world::initialize(sym2::visual::main_area_manager* mainAreaManager, int Replay)
 // Ustawia stan startowy symulacji.
 {
     wb_cpu_clock timer;
@@ -338,12 +338,12 @@ void sym2::shell::world::make_basic_sources()
     //Zerowa seria w zarządcy danych powinna być pusta, gdyż służy
     //do kontroli wersji danych.
     //Zarządca może tworzyć ją sam, ale zawsze można potem podmienić.
-    ptr_to_scalar_source<unsigned long>* sca=new ptr_to_scalar_source<unsigned long>(&StepCounter, "Step:");
+    sym2::data::ptr_to_scalar_source<unsigned long>* sca=new sym2::data::ptr_to_scalar_source<unsigned long>(&StepCounter, "Step:");
     // if(!sca) goto ERROR; //Od roku 2011 to już niemożliwe.
     Sources.replace(size_t(0),sca);
 }
 
-void   sym2::shell::world::make_basic_sources(sources_manager& WhatSourMen)
+void   sym2::shell::world::make_basic_sources(sym2::data::sources_manager& WhatSourMen)
 //NA RAZIE NIE WOLNO TAKIEJ FUNKCJI! Pomysł zewnętrznego manager-a danych okazał się nieudany.
 {
     assert("Never use: world::make_basic_sources(sources_manager& WhatSourMen) !"==nullptr);

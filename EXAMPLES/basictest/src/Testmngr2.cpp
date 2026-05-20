@@ -1,7 +1,7 @@
 /// @file
 /// @EN{  }
 /// @PL{ Przykładowy program SYMSHELL-z z klasami. }
-/// @date 2026-05-19 (modified)
+/// @date 2026-05-20 (modified)
 /// =========================================================
 /// @details
 ///     Demonstracja stosowania obiektowego pietra SYMSHELL-a
@@ -27,8 +27,12 @@
 
 //#include "areamngr.hpp"
 #include "mainmngr.hpp"
+
 using namespace sym2;
 using namespace sym2::data;
+using namespace sym2::shell;
+using namespace sym2::visual;
+
 
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "modernize-use-nullptr"

@@ -1,7 +1,7 @@
 /// @file
 /// @brief **WINDOW AREA ("LUFCIK") IMITATING A TERMINAL**/<br>
 ///         _OBSZAR OKNA ("LUFCIK") NAŚLADUJĄCY TERMINAL._
-/// @date 2026-05-19 (modified)
+/// @date 2026-05-20 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_TEXT_AREA_HPP_INCLUDED_
@@ -13,7 +13,7 @@
 #include "drawable.hpp"
 
 /// Zmodernizowane klasy do symulacji w C++.
-namespace sym2
+namespace sym2 { namespace visual
 {
 
 /// @brief @EN{ . }
@@ -71,7 +71,7 @@ public:
     void		_replot() override;
 };
 
-} // namespace sym2
+}} // namespace sym2
 
 /* ****************************************************************** */
 /*               SYMSHELL2  version 2006/2022/2026                    */

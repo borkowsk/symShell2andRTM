@@ -1,13 +1,16 @@
 /// @file
 /// @brief **Implementation of the base area manager** /<br>
 ///         _Implementacja bazowego zarządcy obszarów._
-/// @date 2026-05-19 (modified)
+/// @date 2026-05-20 (modified)
 //---------------------------------------------------------------------------
 //  Wersja z kosmetyką XI 2012
 //======================================================================================================================
 
 #include "areamngr.hpp"
 #include "toitoutoll.hpp"
+
+namespace sym2{ namespace visual
+{
 
 using namespace sym2;
 
@@ -615,6 +618,8 @@ int    area_manager::on_change(const gps_area& ar)
  }
 
 #pragma clang diagnostic pop
+}} // end-of-namespace sym2::visual
+
 /* ****************************************************************** */
 /*               SYMSHELL2  version 2006/2022/2026                    */
 /* ****************************************************************** */

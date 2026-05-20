@@ -2,15 +2,19 @@
 /// @brief
 ///  @EN{ DECLARATION OF 'lifeagent' FOR "life" SIMULATION. }
 ///  @PL{  }
-/// @date 2026-05-19 (modified)
+/// @date 2026-05-20 (modified)
 ///       =========================================================
 /// @details ...
 //======================================================================================================================
 
 #include "layer.hpp"
 
+using namespace sym2::data;
+using namespace sym2::shell;
+using namespace sym2::visual;
+
 /// Klasa agenta do implementacji Life.
-class lifeagent:public sym2::agent_base
+class lifeagent:public agent_base
 {
     friend class lifeworld; //!< Na razie tak, żeby uprościć dostęp do składowych.
 

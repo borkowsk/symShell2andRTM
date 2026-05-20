@@ -1,7 +1,7 @@
 /// @file
 /// @brief **THE TYPE OF MAIN "SCREEN" AREA MANAGER** /<br>
 ///         _KLASA GŁÓWNEGO ZARZĄDCY OBSZARÓW "EKRANU"._
-/// @date 2026-05-19 (modified)
+/// @date 2026-05-20 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_MAIN_MNGR_HPP_INCLUDED_
@@ -19,7 +19,7 @@
 #pragma ide diagnostic ignored "google-default-arguments"
 
 /// Zmodernizowane klasy do symulacji w C++.
-namespace sym2
+namespace sym2 { namespace visual
 {
 
 /// @brief @EN{ . }
@@ -200,7 +200,7 @@ protected:
     /// @}
 };
 
-} // namespace sym2
+}} // namespace sym2
 
 #pragma clang diagnostic pop
 /* ****************************************************************** */

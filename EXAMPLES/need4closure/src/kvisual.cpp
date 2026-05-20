@@ -2,7 +2,7 @@
 /// @brief
 ///  @EN{ Visualisation of KWORLD (old example for SymShell implementing a Kruglanskis like model). }
 ///  @PL{  }
-/// @date 2026-05-19 (modified)
+/// @date 2026-05-20 (modified)
 /// =================================================================================================
 /// @details ...
 //======================================================================================================================
@@ -22,6 +22,8 @@
 
 using namespace sym2;
 using namespace sym2::data;
+using namespace sym2::shell;
+using namespace sym2::visual;
 
 const int RAMKA=4;
 extern const char* SIMULATION_NAME;

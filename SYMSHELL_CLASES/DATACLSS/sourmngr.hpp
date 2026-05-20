@@ -1,6 +1,6 @@
 /// @file
 /// @brief __DATA SERIES MANAGER CLASS__ /<br> _KLASA ZARZĄDCY SERI DANYCH._
-/// @date 2026-05-19 (modified)
+/// @date 2026-05-20 (modified)
 //======================================================================================================================
 //
 #ifndef SYMSHELL2_SOURCES_MNGR_HPP_INCLUDED_
@@ -48,7 +48,7 @@ public:
     /// Zapamiętuje informacje o wizualizacji serii.
     virtual int set_info(size_t index, //!< Pozycja na liście.
                          wb_color ico = default_color, //!< Kolor ustalony lub domyślny.
-                         sym2::config_point *fig = NULL //!< Obiekt rysujący punkty serii.
+                         visual::config_point *fig = NULL //!< Obiekt rysujący punkty serii.
     ) = 0;
 
     /// Udostępnianie samych seri. Bez możliwości modyfikacji i zwolnienia.
@@ -57,8 +57,8 @@ public:
 
     /// @name Metody, które tworzą dynamicznie tablice serii — potrzebne dla złożonych wykresów.
     /// @{
-    virtual wb_dynarray<sym2::graph::series_info> make_series_info(int start, .../* ostatnia -1*/) = 0; //Z listy parametrów
-    virtual wb_dynarray<sym2::graph::series_info>
+    virtual wb_dynarray<visual::graph::series_info> make_series_info(int start, .../* ostatnia -1*/) = 0; //Z listy parametrów
+    virtual wb_dynarray<visual::graph::series_info>
     make_series_info(wb_dynarray<int>) = 0;                //Z tablicy dynamicznej
     //wb_dynarray<graph::series_info> make_series_info(const int* first/*ostatnia -1*/); //Z tablicy typu C zakończonej -1
     /// @}
@@ -98,7 +98,7 @@ private:
 
     public:
         wb_color col;   //!< Ewentualny kolor ustalony.
-        wb_ptr<sym2::config_point> fig;   //!< Obiekt wizualizujący punkty danych.
+        wb_ptr<visual::config_point> fig;   //!< Obiekt wizualizujący punkty danych.
 
         /// @name MANIPULATORY
         /// @{
@@ -174,7 +174,7 @@ public:
     /// Zapamiętuje informacje o wizualizacji serii. @return -1, gdy jakiś błąd.
     int set_info(size_t index,
                  wb_color ico = default_color, //!< Określa, czy kolor jest ustalony, czy domyślny.
-                 sym2::config_point *fig = NULL      //!< Obiekt rysujący punkty.
+                 visual::config_point *fig = NULL      //!< Obiekt rysujący punkty.
     ) override;
 
     /// Udostępnianie samych seri. Nie wolno zwalniać !!!
@@ -184,9 +184,9 @@ public:
     /// @name Funkcje tworzące dynamicznie tablice serii — potrzebne dla wykresów.
     /// @details Nie jest jasne, dlaczego są wirtualne, gdy pewnie mogłyby być `static`!
     /// @{
-    wb_dynarray<sym2::graph::series_info>
+    wb_dynarray<visual::graph::series_info>
     make_series_info(int start, .../* ostatnia -1*/) override;    ///< Z listy parametrów.
-    wb_dynarray<sym2::graph::series_info>
+    wb_dynarray<visual::graph::series_info>
     make_series_info(wb_dynarray<int>) override;                ///< Z tablicy dynamicznej.
     //wb_dynarray<graph::series_info> make_series_info(const int* first/*ostatnia -1*/); ///< Z tablicy typu C zakończonej -1.
     /// @}

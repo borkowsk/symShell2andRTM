@@ -1,7 +1,7 @@
 /// @file
 /// @brief **A filter that counts the coincidences of categories in two series and derived statistics (Hi^2 etc.).** /<br>
 ///         _Filtr liczący koincydencje klas dwu serii i pochodne statystyki (Hi^2 itp.)._
-/// @date 2026-05-19 (modified)
+/// @date 2026-05-20 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_COINCIDENCE_SOUR_HPP_INCLUDED_
@@ -30,7 +30,7 @@ class coincidence_source : public co_statistics_source
 //------------------------------------------------------------------------------
 {
 public:
-    typedef sym2::rectangle_geometry my_geometry_t;
+    typedef rectangle_geometry my_geometry_t;
 
 protected:
     size_t N; ///< Required number of categories of `First`-s

@@ -2,13 +2,17 @@
 /// @brief
 ///  @EN{ Virtual Input method implementation of the 'aWorld' type. }
 ///  @PL{  }
-/// @date 2026-05-19 (modified)
+/// @date 2026-05-20 (modified)
 ///       ===========================================================
 /// @details
 ///     Its is rather simply implementation. You can replace it if you need.
 //======================================================================================================================
 
 #include "cworld.h"
+
+using namespace sym2::data;
+using namespace sym2::shell;
+using namespace sym2::visual;
 
 int aWorld::implement_input(istream& i)
 {
@@ -19,7 +23,7 @@ int aWorld::implement_input(istream& i)
     i>>anAgent::MinStrength;
     i>>anAgent::NumOfCate;
 
-    sym2::rectangle_geometry* Geom=(sym2::rectangle_geometry*)Agenci.get_geometry();
+    rectangle_geometry* Geom=(rectangle_geometry*)Agenci.get_geometry();
                                                                                                      assert(Geom!=NULL);
     if(Geom->get_width()!=MyWidth||
        Geom->get_height()!=MyWidth )

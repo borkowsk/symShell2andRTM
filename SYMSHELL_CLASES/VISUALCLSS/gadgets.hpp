@@ -1,7 +1,7 @@
 /// @file
 /// @brief **GADGETS, I.E. AUXILIARY TYPES OF WINDOW AREAS** /<br>
 ///         _GADŻETY CZYLI POMOCNICZE TYPY OBSZARÓW OKNA._
-/// @date 2026-05-19 (modified)
+/// @date 2026-05-20 (modified)
 ///     Służą głównie jako typy bazowe dla klas specjalizowanych, wykonujących
 ///     jakieś akcje w metodzie `_on_click` i ewentualnie podobnych.
 // ********************************************************************************************************************
@@ -23,7 +23,7 @@
 #pragma ide diagnostic ignored "google-default-arguments"
 
 /// Zmodernizowane klasy do symulacji w C++
-namespace sym2
+namespace sym2 { namespace visual
 {
     using namespace sym2::data;
 
@@ -337,7 +337,7 @@ public:
     }
 };
 
-} // namespace sym2
+}} // namespace sym2
 
 #pragma clang diagnostic pop
 /* ****************************************************************** */

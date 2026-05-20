@@ -2,14 +2,18 @@
 /// @brief
 ///  @EN{ DECLARATION OF 'anAgent' FOR this SIMULATION. }
 ///  @PL{  }
-/// @date 2026-05-19 (modified)
+/// @date 2026-05-20 (modified)
 ///       =========================================================
 /// @details ...
 //======================================================================================================================
 
 #include "layer.hpp"
 
-class anAgent:public sym2::agent_base
+using namespace sym2::data;
+using namespace sym2::shell;
+using namespace sym2::visual;
+
+class anAgent:public agent_base
 {
     friend class aWorld;	//!< To simplify access to the agent's components from the universe side.
 

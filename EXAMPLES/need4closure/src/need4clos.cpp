@@ -2,7 +2,7 @@
 /// @brief
 ///     @EN{ Old example for SymShell implementing the Kruglanski's like model }
 ///     @PL{  }
-/// @date 2026-05-19 (modified)
+/// @date 2026-05-20 (modified)
 ///       ===========================================================================
 /// @details
 ///  Symulacja Need for closure wg teorii Arie Kruglanskiego
@@ -30,6 +30,8 @@ const char* SIMULATION_NAME="need4clos_v0.22a";
 
 using namespace sym2;
 using namespace sym2::data;
+using namespace sym2::shell;
+using namespace sym2::visual;
 
 unsigned SCR_WIDTH=750;
 unsigned SCR_HEIGHT=550;

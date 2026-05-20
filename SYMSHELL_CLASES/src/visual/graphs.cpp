@@ -1,7 +1,7 @@
 /// @file
 /// @brief **IMPLEMENTATION OF BASIC GRAPH CLASSES** /<br>
 ///         _IMPLEMENTACJA PODSTAWOWYCH KLAS GRAFÓW._
-/// @date 2026-05-19 (modified)
+/// @date 2026-05-20 (modified)
 //==========================================================================================
 
 //#include <cstdarg>
@@ -19,6 +19,9 @@
 #include "sshutils.hpp"
 #include "graphs.hpp"
 #include "toitoutoll.hpp"
+
+namespace sym2{ namespace visual
+{
 
 using namespace sym2;
 
@@ -2731,6 +2734,8 @@ void scatter_graph::fix_X_minmax(double min, double max)
 }
 
 #pragma clang diagnostic pop
+}} // end-of-namespace sym2::visual
+
 /* ****************************************************************** */
 /*               SYMSHELL2  version 2006/2022/2026                    */
 /* ****************************************************************** */

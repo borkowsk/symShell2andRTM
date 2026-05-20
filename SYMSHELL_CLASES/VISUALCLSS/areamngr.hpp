@@ -1,6 +1,6 @@
 /// @file
 /// @brief **SCREEN AREA MANAGERS CLASSES** /<br> _KLASY ZARZĄDCÓW OBSZARÓW EKRANU._
-/// @date 2026-05-19 (modified)
+/// @date 2026-05-20 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_AREA_MNGR_HPP_INCLUDED_
@@ -16,7 +16,7 @@
 #pragma ide diagnostic ignored "google-default-arguments"
 
 /// Zmodernizowane klasy do symulacji w C++
-namespace sym2
+namespace sym2 { namespace visual
 {
     /// @brief @EN{ . }
     ///        @PL{ INTERFACE DO DOWOLNEGO ZARZĄDCY OBSZARU. }
@@ -329,7 +329,7 @@ namespace sym2
         int arrange(const wb_dynarray<int> &lst) override; //Inteligentnie rearanżuje.
     };
 
-} // namespace sym2
+}} // namespace sym2
 
 #pragma clang diagnostic pop
 /* ****************************************************************** */

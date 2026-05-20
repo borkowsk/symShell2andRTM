@@ -2,21 +2,25 @@
 /// @brief
 ///  @EN{ IMPLEMENTATION OF AGENT FOR "attitudeS" SIMULATION. }
 ///  @PL{  }
-/// @date 2026-05-19 (modified)
+/// @date 2026-05-20 (modified)
 /// =========================================================
 /// @details (attitudeS old example for SymShell)
 // =====================================================================================================================
 
 #include "layer.hpp"
 
-inline void wb_swap(short& a,short& b)
+using namespace sym2::data;
+using namespace sym2::shell;
+using namespace sym2::visual;
+
+static inline void wb_swap(short& a,short& b)
 {
     short c=a;
     a=b;
     b=c;
 }
 
-class aagent:public sym2::agent_base
+class aagent:public agent_base
 {
     friend class aworld; //Na razie tak. Żeby uprościć dostęp do składowych klasy zaprzyjaźnionej.
 

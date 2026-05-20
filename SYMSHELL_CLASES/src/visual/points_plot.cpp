@@ -1,11 +1,14 @@
 /// @file
 /// @brief **Implementation of basic primitive types** /<br>
 ///         _Implementacja podstawowych klas prymitywów graficznych._
-/// @date 2026-05-19 (modification)
+/// @date 2026-05-20 (modification)
 //======================================================================================================================
 
 #include "symshell.h"
 #include "graphs.hpp"
+
+namespace sym2{ namespace visual
+{
 
 using namespace sym2;
 
@@ -54,6 +57,7 @@ void rhomb_point::plot(int x,int y,unsigned short s,wb_color c)
     }
 }
 
+}} // end-of-namespace sym2::visual
 
 /* ****************************************************************** */
 /*               SYMSHELL2  version 2006/2022/2026                    */

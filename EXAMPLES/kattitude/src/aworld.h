@@ -2,7 +2,7 @@
 /// @brief
 ///  @EN{ DECLARATION OF THE 'aworld' FOR "attitudeS" SIMULATION. }
 ///  @PL{  }
-/// @date 2026-05-19 (modified)
+/// @date 2026-05-20 (modified)
 ///       =========================================================
 /// @details (attitudeS old example for SymShell)
 // =====================================================================================================================
@@ -14,8 +14,13 @@
 #include "layer.hpp"
 #include "aagent.h" //Definicja agenta
 
+using namespace sym2::data;
+using namespace sym2::shell;
+using namespace sym2::visual;
+
+
 /// Cały świat symulacji `attitudeS`.
-class aworld:public sym2::world
+class aworld:public world
 //--------------------------------------------------
 {
 // Parametry jednowartościowe
@@ -41,7 +46,7 @@ wb_pchar			MaskName;			//!< Nazwa pliku bitmapy inicjującej maskę obszarów zd
 // ////////////////////////////////
 
 //rectangle_unilayer<unsigned char> suitability;		//!< Warstwa definiująca zdatność do zasiedlenia (suitability or usefulness)
-sym2::rectangle_layer_of_ptr_to_agents<aagent> Agenci;		//!< Właściwa warstwa agentów zasiedlających.
+rectangle_layer_of_ptr_to_agents<aagent> Agenci;		//!< Właściwa warstwa agentów zasiedlających.
 
 // Główne serie danych. Wygodniej i efektywniej mieć wskaźniki niż odszukiwać z Sources po nazwach:
 // ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -65,8 +70,8 @@ double MaxPressure; //Do zapamiętania teoretycznie największej wartości "pres
 
 // Właściwa implementacja symulacji:
 // /////////////////////////////////
-int CheckChange(const sym2::rectangle_geometry* MyGeom, size_t index, aagent& CenterAgent);		//!< Sprawdzenie zmiany stanów.
-int DoMigration(const sym2::rectangle_geometry* MyGeom, size_t index, aagent& CenterAgent);		//!< Sprawdzenie możliwości migracji.
+int CheckChange(const rectangle_geometry* MyGeom, size_t index, aagent& CenterAgent);		//!< Sprawdzenie zmiany stanów.
+int DoMigration(const rectangle_geometry* MyGeom, size_t index, aagent& CenterAgent);		//!< Sprawdzenie możliwości migracji.
 
 public:
 //KONSTRUKCJA DESTRUKCJA

@@ -2,7 +2,7 @@
 /// @brief
 ///     @EN{ DECLARATION OF THE WORLD FOR "need 4 closure" SIMULATION. }
 ///     @PL{  }
-/// @date 2026-05-19 (modified)
+/// @date 2026-05-20 (modified)
 /// ====================================================================================================================
 /// @details
 /// (old example for SymShell implementing Kruglanskis like model)
@@ -14,7 +14,7 @@
 #include "kagent.h" //Definicja agenta
 
 /// Cały świat symulacji "need for closure".
-class kworld:public sym2::world
+class kworld:public sym2::shell::world
 //--------------------------------------------------
 {
     // Single-value model parameters:
@@ -39,7 +39,7 @@ class kworld:public sym2::world
 // /////////////////////////////
 
     //rectangle_unilayer<unsigned char> zdatnosc; //Warstwa definiująca zdatność do zasiedlenia
-    sym2::rectangle_layer_of_ptr_to_agents<kagent> Agenci;		///< Właściwa warstwa agentów zasiedlających.
+    sym2::shell::rectangle_layer_of_ptr_to_agents<kagent> Agenci;		///< Właściwa warstwa agentów zasiedlających.
 
 // Main data series. It's convenient to have pointers rather than searching for them in Sources by name:
 // /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -69,10 +69,10 @@ double MaxPressure; 	///< Do zapamiętania teoretycznie największej wartości "
 // /////////////////////////////////////////////
 
 /// Zmiana stanów.
-int CheckChange(const sym2::rectangle_geometry* MyGeom, size_t index, kagent& CenterAgent);
+int CheckChange(const sym2::shell::rectangle_geometry* MyGeom, size_t index, kagent& CenterAgent);
 
 /// Ewentualna migracja.
-int DoMigration(const  sym2::rectangle_geometry* MyGeom, size_t index, kagent& CenterAgent);
+int DoMigration(const  sym2::shell::rectangle_geometry* MyGeom, size_t index, kagent& CenterAgent);
 
 public:
 // CONSTRUCTION AND DESTRUCTION:

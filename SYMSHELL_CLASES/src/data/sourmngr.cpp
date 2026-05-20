@@ -1,7 +1,7 @@
 /// @file
 /// @brief  **DATA SOURCE MANAGER IMPLEMENTATION** /<br>
 ///          _IMPLEMENTACJA ZARZĄDCY ŹRÓDEŁ DANYCH._
-/// @date 2026-05-19 (modified)
+/// @date 2026-05-20 (modified)
 //*********************************************************************************************************************
 
 #include <stdarg.h>
@@ -9,6 +9,7 @@
 #include "sourmngr.hpp"
 
 using namespace sym2::data;
+using namespace sym2::visual;
 
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "modernize-use-auto"
@@ -135,7 +136,7 @@ return pos;
 
 int    sources_manager::set_info(size_t index,
                                  wb_color	  ico,	//Czy kolor ustalony
-            sym2::config_point* fig) //Obiekt rysujący punkty
+                                 visual::config_point* fig) //Obiekt rysujący punkty
 // Zapamiętuje informacje o wizualizacji serii.
 {
 if(index<tab.get_size())
@@ -147,16 +148,16 @@ if(index<tab.get_size())
 return -1;
 }
 
-wb_dynarray<sym2::graph::series_info> sources_manager::make_series_info(wb_dynarray<int> indexes)
+wb_dynarray<sym2::visual::graph::series_info> sources_manager::make_series_info(wb_dynarray<int> indexes)
 {
     size_t i,siz=indexes.get_size();
-    wb_dynarray<sym2::graph::series_info> todo(siz + 1); //Musi być jedna pusta na końcu
+    wb_dynarray<graph::series_info> todo(siz + 1); //Musi być jedna pusta na końcu
     for(i=0;i<siz;i++)
         {
         size_t index=indexes[i];
         data_source_base* gcc_pom=tab[index].get();
-        sym2::config_point* gcc_pom2= tab[index].fig?tab[index].fig.get_ptr_val():NULL;
-        sym2::graph::series_info pom(//nie ma zarządzać!
+        config_point* gcc_pom2= tab[index].fig?tab[index].fig.get_ptr_val():NULL;
+        graph::series_info pom(//nie ma zarządzać!
                 gcc_pom,							//Wskaźnik do źródła danych
                 0,									//Nie zarządzaj!
                 tab[index].col,						//Jeśli nie default_color, ustala kolor
@@ -167,7 +168,7 @@ wb_dynarray<sym2::graph::series_info> sources_manager::make_series_info(wb_dynar
     return todo;
 }
 
-wb_dynarray<sym2::graph::series_info> sources_manager::make_series_info(int start, .../* ostatnia -1*/)
+wb_dynarray<graph::series_info> sources_manager::make_series_info(int start, .../* ostatnia -1*/)
 // Tworzenie dynamicznie tablice serii
 {
     va_list list;
@@ -179,7 +180,7 @@ wb_dynarray<sym2::graph::series_info> sources_manager::make_series_info(int star
     while(va_arg(list,int)!=-1) siz++;
     va_end(list);
 
-    wb_dynarray<sym2::graph::series_info> todo(siz + 1); //Musi być jedna pusta na końcu.
+    wb_dynarray<graph::series_info> todo(siz + 1); //Musi być jedna pusta na końcu.
 
     //Wypełnianie tablicy seri.
     va_start(list,start);
@@ -187,9 +188,9 @@ wb_dynarray<sym2::graph::series_info> sources_manager::make_series_info(int star
     for(index=start,i=0;i<siz;index=va_arg(list,int),i++)
         {
             data_source_base* gcc_pom=tab[index].get();
-            sym2::config_point* gcc_pom2= tab[index].fig?tab[index].fig.get_ptr_val():NULL;
+            config_point* gcc_pom2= tab[index].fig?tab[index].fig.get_ptr_val():NULL;
 
-            sym2::graph::series_info pom(
+            graph::series_info pom(
                     gcc_pom,		//Wskaźnik do źródła danych
                     0,				//Nie zarządzaj!
                     tab[index].col,	//Jeśli !=-1, ustala kolor
