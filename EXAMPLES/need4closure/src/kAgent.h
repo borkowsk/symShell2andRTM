@@ -20,7 +20,7 @@ inline void wb_swap(short& a,short& b)
 
 class kagent:public sym2::shell::agent_base
 {
-    friend class kworld;		///< To simplify access to the components of the world class.
+    friend class kWorld;		///< To simplify access to the components of the world class.
 
     // STATIC CLASS MEMBERS - INITIALIZATION AND AGENT CHANGE PARAMETERS:
     // //////////////////////////////////////////////////////////////////
