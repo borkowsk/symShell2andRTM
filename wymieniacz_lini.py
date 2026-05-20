@@ -32,6 +32,7 @@
 # SYMSHELL_CLASES/src/simul/world.cpp:11277:        //==========================
 # ```
 ## @note Numeracja linii zaczyna się od `1`! 
+##       POMIJANE SĄ linie dodatkowe wstawione przez grep markowane przez -N- (np. plik-123-tekst)
 #
 # @authors GEMINI & borkowsk
 #
@@ -111,9 +112,9 @@ for sciezka, modyfikacje in zadania.items():
                 linie_pliku.append(nowa_tresc + '\n')
                 
         # Zapisujemy zmodyfikowany plik
-        #with open(sciezka, 'w', encoding='utf-8') as f:
-        #    f.writelines(linie_pliku)
-        #print(f"Zaktualizowano: {sciezka}")
+        with open(sciezka, 'w', encoding='utf-8') as f:
+            f.writelines(linie_pliku)
+        print(f"Zaktualizowano: {sciezka}")
         
     except Exception as e:
         print(f"Błąd podczas przetwarzania {sciezka}: {e}")

@@ -32,7 +32,7 @@ class co_statistics_source : public bi_filter_source_base //public template_bi_f
 {
 protected:
     /// @brief @PL{ Pod-źródło statystyczne prezentujące wynik jako pojedynczy skalar. }
-    ///        @EN{ . }
+    ///        @EN{ A statistical sub-source that presents the result as a single scalar. }
     /// @details
     /// Nieco sztuczna klasa źródła jednoelementowego z powiadamianiem właściwej klasy "filtra podstawowych statystyk".
     /// Powiadamia, że będą potrzebne aktualne dane.

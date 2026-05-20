@@ -18,7 +18,7 @@
 #pragma ide diagnostic ignored "google-default-arguments"
 
 namespace sym2 { namespace data {
-/// @brief @EN{ . }
+/// @brief @EN{ A filter that calculates derived spatial statistics, including spatial correlations, but also the number of series classes(?). }
 ///        @PL{ Filtr liczący  pochodne statystyki przestrzenne, w tym korelacje przestrzenne, ale też liczebność klas serii(?). }
 /// @details ...
 /// ...

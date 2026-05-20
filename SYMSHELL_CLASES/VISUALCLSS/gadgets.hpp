@@ -121,7 +121,7 @@ public:
     //			{return 2;}							  //i zwracać 2, jeśli "obsłużono".
 };
 
-/// @brief @EN{ A gadget class that implements an arrow in one of the four directions or a shield (as a 3rd dimension or something). }
+/// @brief @EN{ A gadget class that implements an arrow in one of the four directions or a shield (as a third dimension or something). }
 ///        @PL{ Klasa gadżetu implementująca strzałkę w jednym z czterech kierunków lub tarcze (jako 3 wymiar albo coś). }
 /// @details ...
 ///     Znaczenie `mode` lub parametru `imode` konstruktora:

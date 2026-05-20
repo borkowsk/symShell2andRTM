@@ -98,71 +98,71 @@ public:
     // Wymagane albo zachęcające do implementacji specyficznych akcji:
     //================================================================
 
-    /// @brief @L2{WYMAGANA|REQUIRED}: @PL{ Właściwa implementacja jednego kroku symulacji — do zaimplementowania. }
+    /// @brief @IN{WYMAGANA|REQUIRED}: @PL{ Właściwa implementacja jednego kroku symulacji — do zaimplementowania. } @EN{ Real implementation of one simulation step - to be implemented. }
     virtual void		simulate_one_step()=0;
 
-    /// @brief  @L2{WYMAGANA|REQUIRED}: @EN{ Derived types action for world initialization. }
+    /// @brief  @IN{WYMAGANA|REQUIRED}: @EN{ Derived types action for world initialization. } @PL{ Akcja inicjalizacji świata - do zaimplementowania dla typów pochodnych. }
     virtual void		initialize_layers()=0;
 
-    /// @brief  @L2{WYMAGANA|REQUIRED}: @EN{ Derived types action after read simulation state from an image file. }
+    /// @brief  @IN{WYMAGANA|REQUIRED}: @EN{ Derived types action after reading simulation state from an image file. } @PL{ Akcja typów pochodnych po odczytaniu stanu symulacji z pliku graficznego. }
     virtual void		after_read_from_image()=0;
 
-    /// @brief  @L2{WYMAGANA|REQUIRED}: @PL{ Generuje podstawowe źródła dla wbudowanego zarządcy danych. }
+    /// @brief  @IN{WYMAGANA|REQUIRED}: @PL{ Generuje podstawowe źródła dla wbudowanego zarządcy danych. } @EN{ Makes the primary source for general data management. }
     virtual void		make_basic_sources()=0;
 
-    /// @brief  @L2{WYMAGANA|REQUIRED}: @PL{ Współpraca z zarządcą wyświetlania. Tworzy domyślne "lufciki" i umieszcza w nim. }
+    /// @brief  @IN{WYMAGANA|REQUIRED}: @PL{ Współpraca z zarządcą wyświetlania. Tworzy domyślne "lufciki" i umieszcza w nim. } @EN{ Collaborates with the display manager. Creates default "lufties" and places them there. }
     virtual void		make_default_visualisation()=0;
 
-    /// @brief @PL{ Aktualizacja zawartości okna statusu po jednym lub wielu krokach symulacji. }
-    /// @details @PL{ Domyślnie wyświetla numer kroku lub informacje o trybie interaktywnym. }
+    /// @brief @PL{ Aktualizacja zawartości okna statusu po jednym lub wielu krokach symulacji. } @EN{ Updating the contents of the status window after one or more simulation steps. }
+    /// @details @PL{ Domyślnie wyświetla numer kroku lub informacje o trybie interaktywnym. } @EN{ By default, displays the step number or interactive mode information. }
     // Wbrew pozorom jest zdefiniowane, choć "CLint" się gubi...
     virtual void		actualize_out_area();
 
-    /// @L2{WYMAGANA|REQUIRED}: @PL{ Implementacja strumieniowego wyjścia. @returns 1,  jeśli sukces! }
+    /// @L2{WYMAGANA|REQUIRED}: @PL{ Implementacja strumieniowego wyjścia. @returns 1, jeśli sukces! } @EN{ Streaming output implementation. @returns 1 if successful! }
     virtual int		implement_output(ostream& o) const=0;
 
-    /// @L2{WYMAGANA|REQUIRED}: @PL{ Implementacja strumieniowego wejścia. @returns 1,  jeśli sukces! }
+    /// @L2{WYMAGANA|REQUIRED}: @PL{ Implementacja strumieniowego wejścia. @returns 1, jeśli sukces! } @EN{ Streaming input implementation. @returns 1 if successful! }
     virtual int		implement_input(istream& i)=0;
 
     //Akcesory:
     //=========
 
-    /// @brief @PL{ Ustawianie nazwy symulacji.  @returns 1 jak się udało, ale może być niedozwolone.
+    /// @brief @PL{ Ustawianie nazwy symulacji. @returns 1 jak się udało, ale może być niedozwolone. } @EN{ Setting the simulation name. @returns 1 if successful, but may be illegal. }
     virtual //TODO Dlaczego wirtualne?
     int				set_simulation_name(const char* name);
 
-    /// @brief @PL{ Odczytywanie nazwy symulacji. }
+    /// @brief @PL{ Odczytywanie nazwy symulacji. } @EN{ Reading the simulation name. }
     const char*		get_simulation_name() const	{ return SimulName.get(); }
 
-    /// @brief @PL{ Ustawianie strumienia do zapisu historii. }
+    /// @brief @PL{ Ustawianie strumienia do zapisu historii. } @EN{ Setting a stream to record history. }
     int				set_history_stream(const char* name);
 
-    /// @brief @PL{ Ustawianie maksymalnej wartości licznika kroków symulacji.
+    /// @brief @PL{ Ustawianie maksymalnej wartości licznika kroków symulacji. } @EN{ Set the maximum value of the simulation step counter. }
     /// Po osiągnięciu tej wartości symulacja zostaje zatrzymana.
     void			set_max_iteration(unsigned long iMaxIter){MaxIterations=iMaxIter;}
 
-    /// @brief @PL{ Czyta licznik kroków symulacji. }
+    /// @brief @PL{ Czyta licznik kroków symulacji. } @EN{ Reads the simulation step counter. }
     unsigned long	get_current_step() const { return StepCounter; }
 
-    /// @brief @PL{ Co ile kroków symulacji zapisuje na wyjście. }
+    /// @brief @PL{ Co ile kroków symulacji zapisuje na wyjście. } @EN{ After how many simulation steps it writes to the output. }
     void			set_log_ratio(unsigned ratio){LogRatio=ratio;}
 
-    /// @brief @PL{ Ustawia `InputRatio`, czyli co ile kroków symulacji sprawdzać wejście. }
+    /// @brief @PL{ Ustawia `InputRatio`, czyli co ile kroków symulacji sprawdzać wejście. } @EN{ Sets the `InputRatio`, i.e. after how many simulation steps to check the input. }
     void			set_input_ratio(unsigned ratio){InputRatio=ratio;}
 
-    /// @brief @PL{ Aktualny zarządca ekranu podłączony do tego świata. }
+    /// @brief @PL{ Aktualny zarządca ekranu podłączony do tego świata. } @EN{ Current screen manager connected to this world. }
     sym2::visual::area_manager&	MyAreaManager();
 
-    /// @brief @PL{ Sprawdzenie, czy ma już podłączonego zarządcę okien. }
+    /// @brief @PL{ Sprawdzenie, czy ma już podłączonego zarządcę okien. } @EN{ Checking if it already has a window manager connected. }
     int 			HasAreaMenager() { return AreaManager!=nullptr; }
 
-    /// @brief @PL{ Jak trzeba KONIECZNIE coś dopisać do logu. }
+    /// @brief @PL{ Jak trzeba KONIECZNIE coś dopisać do logu. } @EN{ If necessary, MUST add something to the log. }
     ostream&		MyLogStream();
 
     // Główne akcje świata:
     //=====================
 
-    /// @brief @PL{ Przygotowuje stan startowy symulacji. }
+    /// @brief @PL{ Przygotowuje stan startowy symulacji. } @EN{ Prepares the starting state of the simulation. }
     /// Jeśli pierwszy raz to
     ///     - wywołuje `initialise_layers()`
     ///     - tworzy bazowe źródła
@@ -171,24 +171,24 @@ public:
     /// pliku historii za pomocą funkcji "initialize_from_image".
     void		initialize(sym2::visual::main_area_manager* mainAreaManager=nullptr, int Replay=0);
 
-    /// @brief @PL{ Powtórzenie inicjalizacji dla powtórnego przebiegu symulacji. }
+    /// @brief @PL{ Powtórzenie inicjalizacji dla powtórnego przebiegu symulacji. } @EN{ Repeat initialization for a second simulation run. }
     /// Nie odtwarza strony wizualizacyjnej.
     void		restart();
 
-    /// @brief @PL{ Wczytanie pojedynczego obrazu symulacji np. dla inicjalizacji. }
+    /// @brief @PL{ Wczytanie pojedynczego obrazu symulacji np. dla inicjalizacji. } @EN{ Loading a single simulation image, e.g. for initialization. }
     /// TODO CHECK... Jeśli nie ma nazwy to z nazwy `OutName`
     void		initialize_from_image(const char* FileName=nullptr);
 
-    /// @brief @PL{ Wykonuje kolejny(e) krok(i) symulacji. }
+    /// @brief @PL{ Wykonuje kolejny(e) krok(i) symulacji. } @EN{ Performs the next simulation step(s). }
     /// Opakowuje "inteligentnie" `simulate_one_step`.
     /// @param Steps określa ile prostych kroków należy wykonać.
     void		simulate(unsigned Steps=1);
 
-    /// @brief @PL{ Prosta pętla symulacyjna sprzężona z wizualizacją. }
+    /// @brief @PL{ Prosta pętla symulacyjna sprzężona z wizualizacją. } @EN{ A simple simulation loop coupled with visualization. }
     /// @param ret_after ???.
     void		simulation_loop(int ret_after);
 
-    /// @brief @PL{ Pętla wczytywania symulacji z pliku. }
+    /// @brief @PL{ Pętla wczytywania symulacji z pliku. } @EN{ Loop for loading simulation from a file. }
     /// @param ret_after ???.
     void		read_loop(int ret_after);
 

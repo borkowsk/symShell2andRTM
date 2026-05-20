@@ -16,8 +16,8 @@
 namespace sym2 { namespace visual
 {
 
-/// @brief @EN{ TEXT AREA CLASS A LA "TELETYPE". }
-///        @PL{ KLASA OBSZARU TEKSTOWEGO A LA "TELETYPE". }
+/// @brief @EN{ TEXT AREA CLASS <i>A LA</i> "TELETYPE". }
+///        @PL{ KLASA OBSZARU TEKSTOWEGO <i>A LA</i> THE TELETYPE. }
 /// @details
 ///     @PL{ Obsługuje tylko tekst. Mogą być w nim znaki \n oraz %@R^L^C zaraz po nich. }
 ///     @EN{ Supports only text. It can contain inside the characters \n and %@R^L^C immediately after them.

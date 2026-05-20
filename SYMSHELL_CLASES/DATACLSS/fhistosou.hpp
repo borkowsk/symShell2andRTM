@@ -1,7 +1,7 @@
 /// @file
 /// @brief __A filter that counts the number of categories and derived statistics.__ /<br>
 ///         _Filtr liczący liczebność określonej liczby klas serii i pochodne statystyki._
-/// @date 2026-05-19 (modified)
+/// @date 2026-05-20 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_FIXED_CLAS_HISTOGRAM_SOUR_HPP_INCLUDED_
@@ -17,7 +17,7 @@
 
 namespace sym2 { namespace data {
 
-/// @brief @EN{ . }
+/// @brief @EN{ A filter that counts the number of series classes and derived statistics. }
 ///        @PL{ Filtr liczący liczebność określonej liczby klas serii i pochodne statystyki. }
 /// @details ...
 /// @note UWAGA NA DZIEDZICZENIE! N jest zmienne więc liczba serii pochodnych też.

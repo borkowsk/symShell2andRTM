@@ -19,8 +19,8 @@ namespace sym2 { namespace data {
 //+using namespace sym2;
 //using ssh2 = sym2; //C++17
 
-/// @brief @EN{ . }
-///        @PL{ Interface zarządcy danych. }
+/// @brief @EN{ Data sources manager interface. }
+///        @PL{ Interface zarządcy źródeł danych. }
 /// @details ...
 class sources_manager_base
 //------------------------
@@ -69,8 +69,8 @@ public:
     //int	save(ostream& script); //Zapisuje się w formacie skryptu łączenia danych.
 };
 
-/// @brief @EN{ . }
-///        @PL{ NAJPROSTSZY ZARZĄDCA DANYCH.. }
+/// @brief @EN{ THE SIMPLEST DATA MANAGER. }
+///        @PL{ NAJPROSTSZY ZARZĄDCA DANYCH. }
 /// @details ...
 ///     Zakłada pełne panowanie nad "włożonymi" do niego seriami, które muszą być utworzone w pamięci dynamicznej.
 ///     Chyba że w metodach `insert` lub `replace` podano inaczej, tzn. `not_menage == 1` (czyli że obiekt statyczny).
@@ -85,7 +85,7 @@ class sources_manager : public sources_manager_base
 //-----------------------------------------------
 {
 private:
-    /// @brief @EN{ . }
+    /// @brief @EN{ An internal class representing a data source. }
     ///        @PL{ Wewnętrzna klasa reprezentująca źródło danych. }
     /// @details ...
     /// ...

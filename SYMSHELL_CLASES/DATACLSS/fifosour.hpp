@@ -1,7 +1,7 @@
 /// @file
 /// @brief __The type that queues values from a scalar source.__ /<br>
 ///         _Klasa kolejkująca wartości ze źródła skalarnego._
-/// @date 2026-05-19 (modified)
+/// @date 2026-05-20 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_FIFO_SOUR_HPP_INCLUDED_
@@ -18,7 +18,7 @@
 
 namespace sym2 { namespace data {
 
-/// @brief @EN{ . }
+/// @brief @EN{ A class that queues values from a scalar source. }
 ///        @PL{ Klasa kolejkująca wartości ze źródła skalarnego. }
 /// @details ...
 /// @tparam T — typ wartości w buforze. Nie koniecznie `double` !!!

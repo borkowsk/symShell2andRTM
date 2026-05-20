@@ -20,7 +20,7 @@ namespace sym2 { namespace data {
     using namespace sym2::shell;
 
 /// @brief @EN{ A class that provides access to any rectangular array and its slices (or not?). }
-///        @PL{ Klasa udostępniająca dowolną tablicę prostokątną oraz jej wycinki (albo i nie?). }
+///        @PL{ Klasa udostępniająca dowolną tablicę prostokątną oraz jej wycinki (lub nie?). }
 /// @details ...
 ///     Jeśli zdefiniowany wycinek wykracza poza tablicę źródłową, to funkcja `get` zwraca wartość "miss" podawana w konstruktorze.
 ///     Alternatywnie wycinek może realizować geometrie torusa i wtedy `miss` nie jest potrzebne.

@@ -152,8 +152,8 @@ public:
     }
 
     /// @brief
-    /// @PL{ Przetwarza index liniowy na wartość z serii. O ile jest możliwe czytanie w losowej kolejności. Tu jest możliwe. }
-    /// @EN{ Converts a linear index to a series value. If possible, read in random order. This is possible here. }
+    ///  @PL{ Przetwarza index liniowy na wartość z serii. O ile jest możliwe czytanie w losowej kolejności. Tu jest możliwe. }
+    ///  @EN{ Converts a linear index to a series value. If possible, read in random order. This is possible here. }
     double get(size_t index) override
     { //assert(index<get_size());
         if(index < get_size())
@@ -236,8 +236,8 @@ public:
     }
 
     /// @brief
-    /// @PL{ Przetwarza index liniowy na wartość z serii. O ile jest możliwe czytanie w losowej kolejności. Tu jest możliwe. }
-    /// @EN{ Converts a linear index to a series value. If reading in random order is possible. This is possible here. }
+    ///  @PL{ Przetwarza index liniowy na wartość z serii. O ile jest możliwe czytanie w losowej kolejności. Tu jest możliwe. }
+    ///  @EN{ Converts a linear index to a series value. If reading in random order is possible. This is possible here. }
     double get(size_t index) override
     {
         assert(index < get_size());

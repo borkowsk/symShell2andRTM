@@ -27,13 +27,13 @@
 namespace sym2 { namespace shell {
 
 /// @brief
-/// @PL{ Typ uchwytowy do iteratorów geometrii. Idea trochę stara, ale wciąż lata... }
-/// @EN{ A handle type for geometry iterators. A bit old, but still flying... }
+///  @PL{ Typ uchwytowy do iteratorów geometrii. Idea trochę stara, ale wciąż lata... }
+///  @EN{ A handle type for geometry iterators. A bit old, but still flying... }
 typedef void* iterator_h;
 
 /// @brief
-/// @PL{ Typ uchwytowy do iteratorów geometrii. Jeszcze starsza wersja dla kompatybilności. }
-/// @EN{ A handle type for geometry iterators. Even older version for backward compatibility. }
+///  @PL{ Typ uchwytowy do iteratorów geometrii. Jeszcze starsza wersja dla kompatybilności. }
+///  @EN{ A handle type for geometry iterators. Even older version for backward compatibility. }
 typedef iterator_h iteratorh;
 
 /*

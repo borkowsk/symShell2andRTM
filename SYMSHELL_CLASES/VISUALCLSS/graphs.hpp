@@ -301,7 +301,7 @@ protected:
 //=======================================
 //---------------------------------------
 
-/// @brief @EN{ A rectangle made of multi-colored squares. }
+/// @brief @EN{ A rectangle made of multicolored squares. }
 ///        @PL{ Prostokąt z różnokolorowych kwadracików. }
 class carpet_graph:public graph
 //------------------------------------------------------------------------

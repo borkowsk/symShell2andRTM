@@ -1,7 +1,7 @@
 /// @file
 /// @brief  __Specific source types - access to data in variables__ /<br>
 ///          _Konkretne klasy źródeł — dostęp do danych w zmiennych._
-/// @date 2026-05-19 (modified)
+/// @date 2026-05-20 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_SCALAR_SOUR_HPP_INCLUDED_
@@ -19,8 +19,8 @@
 
 namespace sym2 { namespace data {
 
-/// @brief @EN{ . }
-///        @PL{ Klasa źródła przechowującego i dającego pojedyncza wartość.. }
+/// @brief @EN{ A class of source that stores and outputs a single value. }
+///        @PL{ Klasa źródła przechowującego i dającego pojedyncza wartość. }
 /// @details ...
 template<class SCALAR_TYPE>
 class scalar_source:public  template_scalar_source_base<SCALAR_TYPE>
@@ -64,7 +64,7 @@ public:
 
 };
 
-/// @brief @EN{ . }
+/// @brief @EN{ A class of source that provides a single value read by a pointer. }
 ///        @PL{ Klasa źródła dającego pojedyncza wartość, czytaną przez wskaźnik. }
 /// @details ...
 template<class SCALAR_T>
@@ -119,8 +119,8 @@ public:
 
 };
 
-/// @brief @EN{ . }
-///        @PL{ Klasa źródła dającego pojedynczą wartość uzyskiwaną przez wywołanie bezparametrowej funkcji lub statycznej metody.. }
+/// @brief @EN{ A class of source that provides a single value obtained by calling a parameterless function or static method. }
+///        @PL{ Klasa źródła dającego pojedynczą wartość uzyskiwaną przez wywołanie bezparametrowej funkcji lub statycznej metody. }
 /// @details ...
 template<class RET_SCALAR>
 class ptr_to_function_source: public  template_scalar_source_base<RET_SCALAR>

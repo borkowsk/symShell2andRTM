@@ -19,7 +19,7 @@
 
 namespace sym2 { namespace data {
 
-/// @brief @EN{ Log 10 filter template. }
+/// @brief @EN{ "Log 10" filter template. }
 ///        @PL{ Szablon filtru "log 10". }
 /// @details ...
 template<class SOURCE_TYPE>
@@ -93,7 +93,7 @@ public:
 typedef log_F_filter<data_source_base> generic_log_F_filter;
 //--------------------------------------------------------------------------
 
-/// @brief @EN{ . }
+/// @brief @EN{ Filter template "1+log10". }
 ///        @PL{ Szablon filtru "1+log10". }
 /// @details ...
 /// Przydatne w wizualizacji. Dodanie jedynki gwarantuje, że wartość logarytmu nigdy nie będzie ujemna.
@@ -177,7 +177,7 @@ public:
 typedef log_1_plus_F_filter<data_source_base> generic_log_1_plus_F_filter;
 //--------------------------------------------------------------------------
 
-/// @brief @EN{ . }
+/// @brief @EN{ Base filter template comparing values from a source to a scalar. }
 ///        @PL{ Bazowy szablon filtru porównującego wartości ze źródła ze skalarem. }
 /// @details ...
 template<class SOURCE_TYPE>
@@ -224,8 +224,8 @@ public:
     }
 };
 
-/// @brief @EN{ . }
-///        @PL{ Szablon filtru porównującego typu "Equal". }
+/// @brief @EN{ "Equal" comparison filter template. }
+///        @PL{ Szablon filtru porównującego typu "Equal" ("RÓWNY"). }
 /// @details ...
 template<class SOURCE_TYPE>
 class EQ_filter : public threshold_filter_base<SOURCE_TYPE>
@@ -260,8 +260,8 @@ public:
 typedef EQ_filter<data_source_base> generic_EQ_filter;
 //--------------------------------------------------------------------------
 
-/// @brief @EN{ . }
-///        @PL{ Szablon filtru - LessThan. }
+/// @brief @EN{ "LessThan" Filter Template. }
+///        @PL{ Szablon filtru "LessThan" ("mniejszy niż"). }
 /// @details ...
 template<class SOURCE_TYPE>
 class LT_filter : public threshold_filter_base<SOURCE_TYPE>
@@ -296,8 +296,8 @@ public:
 typedef LT_filter<data_source_base> generic_LT_filter;
 //--------------------------------------------------------------------------
 
-/// @brief @EN{ . }
-///        @PL{ Szablon filtru - LessEqual. }
+/// @brief @EN{ "LessEqual" Filter Template. }
+///        @PL{ Szablon filtru "LessEqual" ("mniejszy lub równy"). }
 /// @details ...
 template<class SOURCE_TYPE>
 class LE_filter : public threshold_filter_base<SOURCE_TYPE>
@@ -332,8 +332,8 @@ public:
 typedef LE_filter<data_source_base> generic_LE_filter;
 //--------------------------------------------------------------------------
 
-/// @brief @EN{ . }
-///        @PL{ Szablon filtru - MoreThan. }
+/// @brief @EN{ MoreThan Filter Template. }
+///        @PL{ Szablon filtru "MoreThan" ("większy lub równy"). }
 /// @details ...
 template<class SOURCE_TYPE>
 class GT_filter : public threshold_filter_base<SOURCE_TYPE>
