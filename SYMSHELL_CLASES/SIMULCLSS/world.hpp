@@ -1,10 +1,10 @@
 /// @file
 /// @brief **Interface for the whole world** /<br> _Interfejs dla klasy reprezentującej cały świat._
-/// @date 2026-05-20 (modified)
+/// @date 2026-05-21 (modified)
 // ********************************************************************************************************************
 //
-#if !defined(WORLD_HPP_INCLUDED_)
-#define WORLD_HPP_INCLUDED_
+#ifndef  SYMSHELL2_WORLD_HPP_INCLUDED_
+#define SYMSHELL2_WORLD_HPP_INCLUDED_
 
 #if _MSC_VER >= 1000
 #pragma once
@@ -23,13 +23,13 @@
 namespace sym2 { namespace shell {
 
 /// @brief @PL{ Podstawy użytkowe dla całego świata symulacji. }
-///        @EN{ Usage foundations for the entire world of simulation. }
+///        @EN{ Usage foundations for the entire world of any simulation. }
 class world
 //---------
 {
     /// @brief @PL{ Pomysł zewnętrznego manager-a danych okazał się nieużyteczny. }
     ///        @EN{ The idea of an external data manager turned out to be useless. }
-    /// @PL{ NA RAZIE NIE WOLNO ZROBIĆ TAKIEJ FUNKCJI! CHOĆ MUSI BYĆ ZADEKLAROWANA.
+    /// @PL{ NA RAZIE NIE WOLNO ZROBIĆ TAKIEJ FUNKCJI! CHOĆ MUSI BYĆ ZADEKLAROWANA. }
     /// @EN{ FOR THE TIME BEING, SUCH A FUNCTION IS NOT ALLOWED! ALTHOUGH IT MUST BE DECLARED. }
     virtual void   make_basic_sources(data::sources_manager& WhatSourMen);
 
@@ -61,25 +61,33 @@ protected:
 public:
     /// Średni czas pojedynczego kroku i czas ostatniego.
     wb_pchar				ClockTime;
+
     /// Data i czas rozpoczęcia symulacji.
     wb_pchar				StartTime; //Nie zapisywana! (?)
+
     /// Licznik kroków symulacji.
     /// Jest resetowany przez "initialize" i zwiększany przez "simulate"
     unsigned long			StepCounter;
+
     /// Ogranicznik kroków symulacji.
     unsigned long			MaxIterations;
+
     /// Co ile kroków symulacji sprawdzać pisanie do logu.
     unsigned				LogRatio;
+
     /// Co ile kroków symulacji sprawdzać wejście.
     unsigned				InputRatio;
+
     /// STEROWANIE ZAPISEM EKRANÓW.
     static 	  bool 			continuous_dump; //=false;
+
     /// @name STERUJĄCE NAZWY PLIKÓW
     /// @{
     wb_pchar				SimulName;		//!< Główna nazwa symulacji.
     wb_pchar				OutName;		//!< Nazwa pliku historii. Zamyka jak niezgodność nazw.
     wb_pchar 				DumpNetName;	//!< Nazwa pliku sieci do zrzutu razem z danymi.
     /// @}
+
 public:
     //Konstrukcja i destrukcja:
     //=========================
@@ -100,29 +108,38 @@ public:
     // Wymagane albo zachęcające do implementacji specyficznych akcji:
     //================================================================
 
-    /// @brief @IN{WYMAGANA|REQUIRED}: @PL{ Właściwa implementacja jednego kroku symulacji — do zaimplementowania. } @EN{ Real implementation of one simulation step - to be implemented. }
+    /// @brief @IN{WYMAGANA|REQUIRED}: @PL{ Właściwa implementacja jednego kroku symulacji — do zaimplementowania. }
+    ///     @EN{ Real implementation of one simulation step - to be implemented. }
     virtual void		simulate_one_step()=0;
 
-    /// @brief  @IN{WYMAGANA|REQUIRED}: @EN{ Derived types action for world initialization. } @PL{ Akcja inicjalizacji świata - do zaimplementowania dla typów pochodnych. }
+    /// @brief  @IN{WYMAGANA|REQUIRED}: @EN{ Derived types action for world initialization. }
+    ///     @PL{ Akcja inicjalizacji świata - do zaimplementowania dla typów pochodnych. }
     virtual void		initialize_layers()=0;
 
-    /// @brief  @IN{WYMAGANA|REQUIRED}: @EN{ Derived types action after reading simulation state from an image file. } @PL{ Akcja typów pochodnych po odczytaniu stanu symulacji z pliku graficznego. }
+    /// @brief  @IN{WYMAGANA|REQUIRED}: @EN{ Derived types action after reading simulation state from an image file. }
+    ///     @PL{ Akcja typów pochodnych po odczytaniu stanu symulacji z pliku graficznego. }
     virtual void		after_read_from_image()=0;
 
-    /// @brief  @IN{WYMAGANA|REQUIRED}: @PL{ Generuje podstawowe źródła dla wbudowanego zarządcy danych. } @EN{ Makes the primary source for general data management. }
+    /// @brief  @IN{WYMAGANA|REQUIRED}: @PL{ Generuje podstawowe źródła dla wbudowanego zarządcy danych. }
+    ///     @EN{ Makes the primary source for general data management. }
     virtual void		make_basic_sources()=0;
 
-    /// @brief  @IN{WYMAGANA|REQUIRED}: @PL{ Współpraca z zarządcą wyświetlania. Tworzy domyślne "lufciki" i umieszcza w nim. } @EN{ Collaborates with the display manager. Creates default "lufties" and places them there. }
+    /// @brief  @IN{WYMAGANA|REQUIRED}: @PL{ Współpraca z zarządcą wyświetlania. Tworzy domyślne "lufciki" i umieszcza w nim. }
+    ///     @EN{ Collaborates with the display manager. Creates default "lufties" and places them there. }
     virtual void		make_default_visualisation()=0;
 
-    /// @brief @PL{ Aktualizacja zawartości okna statusu po jednym lub wielu krokach symulacji. } @EN{ Updating the contents of the status window after one or more simulation steps. }
-    /// @details @PL{ Domyślnie wyświetla numer kroku lub informacje o trybie interaktywnym. } @EN{ By default, displays the step number or interactive mode information. }
+    /// @brief @PL{ Aktualizacja zawartości okna statusu po jednym lub wielu krokach symulacji. }
+    ///     @EN{ Updating the contents of the status window after one or more simulation steps. }
+    /// @details @PL{ Domyślnie wyświetla numer kroku lub informacje o trybie interaktywnym. }
+    ///     @EN{ By default, displays the step number or interactive mode information. }
     virtual void		actualize_out_area();
 
-    /// @L2{WYMAGANA|REQUIRED}: @PL{ Implementacja strumieniowego wyjścia. @returns 1, jeśli sukces! } @EN{ Streaming output implementation. @returns 1 if successful! }
+    /// @L2{WYMAGANA|REQUIRED}: @PL{ Implementacja strumieniowego wyjścia. @returns 1, jeśli sukces! }
+    ///     @EN{ Streaming output implementation. @returns 1 if successful! }
     virtual int		implement_output(ostream& o) const=0;
 
-    /// @L2{WYMAGANA|REQUIRED}: @PL{ Implementacja strumieniowego wejścia. @returns 1, jeśli sukces! } @EN{ Streaming input implementation. @returns 1 if successful! }
+    /// @L2{WYMAGANA|REQUIRED}: @PL{ Implementacja strumieniowego wejścia. @returns 1, jeśli sukces! }
+    ///     @EN{ Streaming input implementation. @returns 1 if successful! }
     virtual int		implement_input(istream& i)=0;
 
     //Akcesory:
@@ -199,6 +216,7 @@ public:
 
     /// @name Operatory i/o chcą mieć dostęp do wirtualnej implementacji i separatora.
     /// @{
+
     ///Zapis na strumień. Opakowuje `implement_output`, żeby zapisać zawartość.
     friend ostream& operator << (ostream& o,const world& w);
 
@@ -248,7 +266,7 @@ sym2::visual::area_manager&		world::MyAreaManager()
 /*        MAIL:  wborkowski@uw.edu.pl                                 */
 /*                               (Don't change or remove this note)   */
 /* ****************************************************************** */
-#endif // !defined(WORLD_HPP_INCLUDED_)
+#endif // SYMSHELL2_WORLD_HPP_INCLUDED_
 
 
 
