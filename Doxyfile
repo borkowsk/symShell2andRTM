@@ -270,11 +270,8 @@ TAB_SIZE               = 4
 # commands \{ and \} for these it is advised to use the version @{ and @} or use
 # a double escape (\\{ and \\})
 
-ALIASES                = PL{1}=\1 \
-                         EN{1}= \
-                         I3{3|}=\1 \
-                         i3{3|}=\1 \
-                         in{2|}=\1
+ALIASES                = PL{1}=<b>\1</b> \
+                         EN{1}=
 
 # Set the OPTIMIZE_OUTPUT_FOR_C tag to YES if your project consists of C sources
 # only. Doxygen will then generate output that is more tailored for C. For
@@ -870,7 +867,8 @@ WARN_LOGFILE           =
 # Note: If this tag is empty the current directory is searched.
 
 INPUT                  = SYMSHELL_CLASES \
-                         docs/links
+                         docs/links \
+                         EXAMPLES
 
 # This tag can be used to specify the character encoding of the source files
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding. Doxygen uses
@@ -965,8 +963,30 @@ EXCLUDE                = ./CMakeFiles \
                          ./cmake-build-release \
                          ./cmake-build-relwithdebinfo \
                          ./doxDocs \
-                         ./INCL_EN \
-                         ./linux_menu_tests
+                         EXAMPLES/cmake-build-debug \
+                         EXAMPLES/cmake-build-relwithdebinfo \
+                         EXAMPLES/cmake-build-release \
+                         EXAMPLES/need4closure/cmake-build-debug \
+                         EXAMPLES/need4closure/cmake-build-relwithdebinfo \
+                         EXAMPLES/need4closure/cmake-build-release \
+                         EXAMPLES/kattitude/cmake-build-debug \
+                         EXAMPLES/kattitude/cmake-build-relwithdebinfo \
+                         EXAMPLES/kattitude/cmake-build-release \
+                         EXAMPLES/life/cmake-build-debug \
+                         EXAMPLES/life/cmake-build-relwithdebinfo \
+                         EXAMPLES/life/cmake-build-release \
+                         EXAMPLES/attitude/cmake-build-debug \
+                         EXAMPLES/attitude/cmake-build-relwithdebinfo \
+                         EXAMPLES/attitude/cmake-build-release \
+                         EXAMPLES/basictest/cmake-build-debug \
+                         EXAMPLES/basictest/cmake-build-relwithdebinfo \
+                         EXAMPLES/basictest/cmake-build-release \
+                         EXAMPLES/convince/cmake-build-debug \
+                         EXAMPLES/convince/cmake-build-relwithdebinfo \
+                         EXAMPLES/convince/cmake-build-release \
+                         EXAMPLES/conflicts/cmake-build-debug \
+                         EXAMPLES/conflicts/cmake-build-relwithdebinfo \
+                         EXAMPLES/conflicts/cmake-build-release
 
 # The EXCLUDE_SYMLINKS tag can be used to select whether or not files or
 # directories that are symbolic links (a Unix file system feature) are excluded
@@ -999,7 +1019,7 @@ EXCLUDE_SYMBOLS        =
 # that contain example code fragments that are included (see the \include
 # command).
 
-EXAMPLE_PATH           = ./EXAMPLES/
+EXAMPLE_PATH           =
 
 # If the value of the EXAMPLE_PATH tag contains directories, you can use the
 # EXAMPLE_PATTERNS tag to specify one or more wildcard pattern (like *.cpp and
