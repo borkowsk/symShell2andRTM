@@ -1,8 +1,8 @@
 /// @file
 /// @brief
-///  @EN{  }
-///  @PL{ Symulacja zmiany poglądów - attitudes. }
-/// @date 2026-05-19 (modified)
+///  @EN{ Attitude change simulation - "k-attitudes". Main file. }
+///  @PL{ Symulacja zmiany poglądów - "k-attitudes". Plik główny. }
+/// @date 2026-05-20 (modified)
 ///       =========================================================
 /// @details (kattitude old example for SymShell)
 ///     Uzyskana niegdyś przez uproszczenie programu LANGUAGES.

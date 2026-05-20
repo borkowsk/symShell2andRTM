@@ -1,23 +1,27 @@
 /// @file
-/// @EN{  }
-/// @PL{ Przykładowy program SYMSHELL-z z klasami. }
+/// @brief
+///  @EN{ BASIC sample SYMSHELL program with classes. }
+///  @PL{ Bardzo przykładowy program SYMSHELL-a z klasami. }
 /// @date 2026-05-20 (modified)
 /// =========================================================
 /// @details
+/// @if POLISH
 ///     Demonstracja stosowania obiektowego pietra SYMSHELL-a
-///     Tworzy kilka przykładowych seri danych i umieszcza je w zarządcy danych.
-///     Tworzy kilka obszarów i umieszcza je pod zarządem managera obszarów.
-///     Ostatecznie oddaje sterowanie zarządcy obszarów opartemu na SYMSHELL-u.
+///     - Tworzy kilka przykładowych seri danych i umieszcza je w zarządcy danych.
+///     - Tworzy kilka obszarów i umieszcza je pod zarządem managera obszarów.
+///     - Ostatecznie oddaje sterowanie zarządcy obszarów opartemu na SYMSHELL-u.
+/// @elseif ENGLISH
+///     Demonstrating the use of the SYMSHELL objects.
+///     - Creates several sample data series and places them in the data manager.
+///     - Creates several areas and places them under the management of the area manager.
+///     - Finally, transfers control to the SYMSHELLLIGHT-based area manager.
+/// @endif
 //======================================================================================================================
 
-
-#include <cmath> //coś tam jest potrzebne
-
+#include <cmath> //tan-gens
 #include <cstdio>
 #include <cstdlib>
-//#include <iostream>
 
-//#include "simpsour.hpp"
 #include "arrasour.hpp"
 #include "funcsour.hpp"
 #include "mattsour.hpp"
@@ -25,7 +29,6 @@
 #include "gadgets.hpp"
 #include "graphs.hpp"
 
-//#include "areamngr.hpp"
 #include "mainmngr.hpp"
 
 using namespace sym2;
@@ -33,19 +36,18 @@ using namespace sym2::data;
 using namespace sym2::shell;
 using namespace sym2::visual;
 
-
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "modernize-use-nullptr"
 //#include "symshell.h" - niepotrzebne — już opakowane obiektami
 //int x,y,vx,vy;
 
-/// @name INICJALNE ROZMIARY OKNA.
+/// @name @PL{ INICJALNE ROZMIARY OKNA. } @EN{ INITIAL WINDOW SIZES. }
 /// @{
 const int SCR_WIDTH=390;
 const int SCR_HEIGHT=280;
 /// @}
 
-/// Klasa funkcyjna opakowująca tangens.
+/// @brief @PL{ Klasa funkcyjna opakowująca tangens. } @EN{ A functional class wrapping the tangent. }
 class tangens
 {
 public:
@@ -54,37 +56,48 @@ public:
 };
 
 
-/// @name Tablice przykładowych danych.
+/// @name @PL{ Tablice przykładowych danych. } @EN{ Tables of sample data. }
 /// @{
-int dane1[25]={1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,25,26};
-double dane2[25]={-2.1,-1.8,-1.2,-0.96,-0.45,
-                 -0.1, 0.1,0.48, 0.88, 1.33,
-                  1.8, 2.3, 3.1,  4.5,  6.6,
-                  7.8, 6.7, 3.6,  2.3,  1.9,
-                  1.1, 0.5,-0.1, -0.9,-1.99};
-int dane3[25]={	0,1,0,1,0,
-                1,0,1,0,1,
-                0,1,0,1,0,
-                1,0,1,0,1,
-                0,1,0,1,0};
-float dane4[25]={15.7f,13.8f,33.33f,18.1f,18.8f,
-                  1.1f,0.88f,0.11f,0.11f,0.87f,
-                  0.99f,17.0f,19.0f,22.0f,11.4f,
-                  14.5f,0.86f,0.14f,0.15f,0.89f,
-                  15.33f,11.1f,32.13f,15.78f,19.9f,};
-int dane5[]={64,49,36,25,16,9,4,1,0};
+int    dane1[25] = { 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,25,26};
+double dane2[25] = {-2.1,-1.8,-1.2,-0.96,-0.45,
+                    -0.1, 0.1,0.48, 0.88, 1.33,
+                     1.8, 2.3, 3.1,  4.5,  6.6,
+                     7.8, 6.7, 3.6,  2.3,  1.9,
+                     1.1, 0.5,-0.1, -0.9,-1.99};
+int    dane3[25] = { 0,1,0,1,0,
+                     1,0,1,0,1,
+                     0,1,0,1,0,
+                     1,0,1,0,1,
+                     0,1,0,1,0};
+float  dane4[25] = {15.7f,13.8f,33.33f,18.1f,18.8f,
+                    1.1f,0.88f,0.11f,0.11f,0.87f,
+                    0.99f,17.0f,19.0f,22.0f,11.4f,
+                    14.5f,0.86f,0.14f,0.15f,0.89f,
+                    15.33f,11.1f,32.13f,15.78f,19.9f,};
+int      dane5[] = {64,49,36,25,16,9,4,1,0};
 
-int connections_s[]=      {1,1,2,2,2,3,4,5,5,5,7, 8, 8, 8,9,10,11,20};
-const size_t conlen=sizeof(connections_s)/sizeof(*connections_s);
-int connections_t[conlen]={2,3,3,4,5,6,6,7,8,9,6,10,11,13,4,3,5,21};
-float arrows[conlen]=       {0,1,0,1,0,1,1,1,1,1,1, 1, 1, 1,1,1,1,0.5};
-float aweights[conlen]=     {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18};
+int        connections_s[] = {1,1,2,2,2,3,4,5,5,5,7, 8, 8, 8,9,10,11,20};
+const       size_t con_len = sizeof(connections_s) / sizeof(*connections_s);
+int connections_t[con_len] = {2, 3, 3, 4, 5, 6, 6, 7, 8, 9, 6, 10, 11, 13, 4, 3, 5, 21};
+float      arrows[con_len] = {0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.5};
+float arr_weights[con_len] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18};
 /// @}
 
-/// Obiekt zarządcy danych. Inicjowany ad hoc tworzonymi seriami czerpiącymi z tablic przykładowych.
+/// @if POLISH
+/// @brief Obiekt zarządcy danych.
+/// @details
+/// Inicjowany ad hoc tworzonymi seriami czerpiącymi z tablic przykładowych.
 /// Zarządca danych nie sortuje serii i trzyma je w takiej kolejności
-/// , jak programista je wkładał w konstruktorze i później...
+/// w jakiej programista je wkładał w konstruktorze i później...
 /// Powyższa właściwość powinna być zachowana w klasach potomnych!
+/// @elseif ENGLISH
+/// @brief Data manager object.
+/// @details
+/// Initialized ad hoc with series created from sample arrays.
+/// The data manager does not sort the series and keeps them in the order
+/// the programmer inserted them in the constructor and later...
+/// This property should be preserved in descendant classes!
+/// @endif
 sources_manager Series
             (16,
             new matrix_source<int>("A-matrix",5,5,dane1),
@@ -95,39 +108,42 @@ sources_manager Series
             new function_source<sinus>(25,0,2*3.141595,"Sin(x)"),
             new function_source<cosinus>(25,0,2*3.141595,"Cos(x) ",-1,1), //Podane dokładne min i max.
             //new array_source<int>(sizeof(dane5)/sizeof(*dane5),dane5,"Parabola ");
-            new array_source<int>(conlen,connections_s,"Sources"),
-            new array_source<int>(conlen,connections_t,"Targets"),
-            new array_source<float>(conlen,arrows,"Directed"),
-            new array_source<float>(conlen,aweights,"Weights"),
+            new array_source<int>(con_len, connections_s, "Sources"),
+            new array_source<int>(con_len, connections_t, "Targets"),
+            new array_source<float>(con_len, arrows, "Directed"),
+            new array_source<float>(con_len, arr_weights, "Weights"),
             NULL);
 
 
-/// Obiekt zarządcy obszarów okna ("lufcików").
+/// @brief @PL{ Obiekt zarządcy obszarów okna ("lufcików"). } @EN{ Window area manager object ("window panes"). }
+/// @details @EN{ In Polish, "lufciki" are small sections or panels of a larger window.
+///               They are usually used for ventilation, and the name comes from the German "luft," meaning "air." }
+///          @PL{ Tytułowe "lufciki" to małe fragmenty czy też panele większego okna. Zwykle służą do wietrzenia,
+///               a nazwa wzięta jest od niemieckiego "luft" czyli "powietrze". }
 main_area_manager Lufciki(100, SCR_WIDTH, SCR_HEIGHT);
 
-/// Funkcja generowania lufcików demonstracyjnych.
+/// @brief @PL{ Funkcja generowania lufcików demonstracyjnych. } @EN{ Demonstration areas/panels generation function. }
 void make_test_areas()
 {
     graph* pom;
     int ret=0;
 
-    //Przyklejenie do niektórych seri nie-domyślnych atrybutów.
-    ret=Series.set_info(Series.search("A-data"),default_color,new hash_point);		assert(ret!=-1);
-    ret=Series.set_info(Series.search("C-data"),default_color,new circle_point);		assert(ret!=-1);
+    /// @internal @PL{ Przyklejenie do niektórych seri nie-domyślnych atrybutów. }
+    ret=Series.set_info(Series.search("A-data"),default_color,new hash_point);						assert(ret!=-1);
+    ret=Series.set_info(Series.search("C-data"),default_color,new circle_point);					assert(ret!=-1);
 
-    //Tworzenie obszarów z wykresami
-    pom=new carpet_graph(1,1,89,89,5,5,Series.get(1));				assert(pom!=NULL);
+    /// @internal @PL{ Tworzenie obszarów z wykresami. }
+    pom=new carpet_graph(1,1,89,89,5,5,Series.get(1));
     pom->set_title("CARPET GRAPH");
-    //pom->set_data_colors(16,255); //Jeśli zoom jest bez torusa, to rezerwuje czarny na miss-value {????????}
     Lufciki.insert(pom);
 
-    pom=new carpet_graph(90,1,179,89,Series.get(0));						assert(pom!=NULL);
+    pom=new carpet_graph(90,1,179,89,Series.get(0));
     pom->set_title("ZOOM-TORUS");
     pom->set_background(default_half_gray);
     Lufciki.insert(pom);
 
     /*
-    pom=new carpet_graph(90,1,179,89,5,5,Series.get(2));     assert(pom!=NULL);
+    pom=new carpet_graph(90,1,179,89,5,5,Series.get(2));
     pom->set_data_colors(32,132);
     pom->set_frame(150);
     pom->settitle("FIXED SIZE CARPET GRAPH");
@@ -154,7 +170,7 @@ void make_test_areas()
                                    0,0,
                                    Series.get(9),0, //Arrows heads
                                    Series.get(10),0 //Arrows weights
-                                   );																assert(pom!=NULL);
+                                   );
     pom->set_title("NETWORK GRAPH");
     pom->set_frame(200);
     pom->set_data_colors(0, 255);
@@ -162,19 +178,19 @@ void make_test_areas()
 
 
     pom=new bars_graph(1,90,89,179,Series.get(4),0,
-                       Series.get(1),0,0);							assert(pom!=NULL);
+                       Series.get(1),0,0);
     pom->set_title("2D BARS GRAPH");
     pom->set_frame(200);
     pom->set_data_colors(0, 255);
     Lufciki.insert(pom);
 
-    pom=new bars_graph(90,90,179,179,Series.get(2));						assert(pom!=NULL);
+    pom=new bars_graph(90,90,179,179,Series.get(2));
     pom->set_title("BLUE 2D BARS");
     Lufciki.insert(pom);
     pom->set_title("");
 
     pom=new rainbow_graph(300/*270*/,180,359,269,Series.get(4),0,
-                          Series.get(1),0,"%@C%8.2f %%");				assert(pom!=NULL);
+                          Series.get(1),0,"%@C%8.2f %%");
     pom->set_title("RAINBOW GRAPH");
     pom->set_frame(88);
     Lufciki.insert(pom);
@@ -182,7 +198,7 @@ void make_test_areas()
     pom=new scatter_graph(180,90,269,179,Series.get(4),0,
                                          Series.get(2),
                                          0,0,0,0,0,
-                                         new circle_point,1);							assert(pom!=NULL);
+                                         new circle_point,1);
     pom->set_title("SCATTER PLOT");
     pom->set_frame(180);
     pom->set_background(default_light_gray);
@@ -198,20 +214,20 @@ void make_test_areas()
     pom=new scatter_graph(270,90,359,179,          Series.get(4),0,
                                                    Series.get(2),0,
                                                    Series.get(1),0,
-                                                   Series.get(3),0);			assert(pom!=NULL);
+                                                   Series.get(3),0);
     pom->set_data_colors(1, 254);
     pom->set_title("CROSS POINT SCATTER PLOT");
     Lufciki.insert(pom);
     pom->set_title("");
 
     pom=new sequence_graph(1,180,89,269,4,
-                           Series.make_series_info(3,4,5,6,-1).get_ptr_val());			assert(pom!=NULL);
+                           Series.make_series_info(3,4,5,6,-1).get_ptr_val());
     pom->set_title("TIME SERIES");
     Lufciki.insert(pom);
 
     pom=new sequence_graph(90,180,179,269,4,
                            Series.make_series_info(0,2,3,4,-1).get_ptr_val(),
-                           1,-5/*Wspólne min/max*/);										assert(pom!=NULL);
+                           1,-5/*Wspólne min/max*/);
                                                                 //2,-10,40/*Fixed min/max*/
                                                                 //2,-0.0001,18/*Za mały zakres min/max */    assert(pom!=NULL);
     pom->set_title("OTHER TIME SERIES");
@@ -221,31 +237,31 @@ void make_test_areas()
 
     pom=new manhattan_graph(180,180,299,269,
                             Series.get(2),0,
-                            Series.get(0),0);									assert(pom!=NULL);
+                            Series.get(0),0);
     pom->set_title("MANHATTAN PLOT");
     Lufciki.insert(pom);
 
-    //Tworzenie obszaru sterującego — na raty dla debugging-u
-    auto* ser1=Series.get(0);                                                   assert(ser1->valid_memory());
-    auto* ser2=Series.get(2);                                                   assert(ser2->valid_memory());
-    auto* rer1=(rectangle_source_base*)ser1;                                    assert(rer1->valid_memory());
-    auto* rer2=(rectangle_source_base*)ser2;                                    assert(rer2->valid_memory());
+    /// @internal @PL{ Tworzenie obszaru sterującego. "Na raty" dla debugging-u. }
+    ///           @EN{ Creating a control area. "Step by step" for debugging. }
+    auto* ser1=Series.get(0);												assert(ser1->valid_memory());
+    auto* ser2=Series.get(2);												assert(ser2->valid_memory());
+    auto* rer1=(rectangle_source_base*)ser1;												assert(rer1->valid_memory());
+    auto* rer2=(rectangle_source_base*)ser2;												assert(rer2->valid_memory());
     wb_dynarray<rectangle_source_base*> tmp_lst(2,rer1,rer2);
 
-    drawable_base* pom2=new steering_wheel(270,1,360,89,tmp_lst);				assert(pom2!=NULL);
-
+    drawable_base* pom2=new steering_wheel(270,1,360,89,tmp_lst);
     pom2->set_background(10);
     Lufciki.insert(pom2);
     pom2->set_title("");
 }
 
 
-/**  OGÓLNA FUNKCJA MAIN.  */
-/* *********************** */
+/** @brief @PL{  OGÓLNA FUNKCJA MAIN. } @EN{  GENERAL MAIN FUNCTION. }  */
+/* ******************************************************************** */
 
 int main(int argc,const char* argv[])
 {
-    //test_series(); //Sprawdzanie poprawności seri
+    /*test_series();*/ /// @internal @PL{ Sprawdzanie poprawności seri. } @EN{ Series validation. }
 
     printf("SYMSHELL's AREA MANAGER TEST\n");
     printf("Use -help for graphic setup information.\n");
@@ -253,19 +269,22 @@ int main(int argc,const char* argv[])
     /*
     RANDOMIZE();
     */
+
+    /// @internal @PL{ Inicjalizacja połączenia z systemem graficznym. } @EN{ Initializing connection to the graphics system. }
     if(!Lufciki.start("SYMSHELL's AREA MANAGER TEST",argc,argv))
     {
         printf("%s\n","Can't initialize graphics");
         exit(1);
     }
 
-    make_test_areas();
+    make_test_areas(); ///< @internal @PL{ PRZYGOTOWANIE WIZUALIZACJI. } @EN{ PREPARATION OF VISUALIZATION OBJECTS. }
 
-    Lufciki.run_input_loop(); //ODDAJE STEROWANIE JAK W Qt! NIE MOŻNA W TEN SPOSÓB ROBIĆ SYMULACJI!
+    Lufciki.run_input_loop(); ///< @internal @PL{ ODDAJE STEROWANIE JAK W Qt! NIE MOŻNA W TEN SPOSÓB ROBIĆ SYMULACJI! }
+                              ///< @EN{ TRANSFERS CONTROL AS IN Qt! SIMULATION CANNOT BE DONE THIS WAY! }
 
     printf("Bye,bye!!!\n");
     return 0;
-    //Gdzieś tu albo trochę dalej destruktory...
+    /// @internal @PL{ Gdzieś tu albo trochę dalej destruktory... } @EN{ Somewhere here or a little further away there are destructors... }
 }
 
 #pragma clang diagnostic pop

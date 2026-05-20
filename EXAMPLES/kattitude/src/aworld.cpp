@@ -2,7 +2,7 @@
 /// @brief
 ///  @EN{  IMPLEMENTATION OF THE WORLD FOR "attitudeS" SIMULATION. }
 ///  @PL{  }
-/// @date 2026-05-19 (modified)
+/// @date 2026-05-20 (modified)
 ///       ==========================================================
 /// @details (attitudeS old example for SymShell)
 //======================================================================================================================
@@ -114,7 +114,7 @@ aworld::aworld(size_t Width,	//Szerokość torusa macierzy agentów
       double majority
         ):
         world(log_name,50),
-        MaplName(clone_str(mapl_name)),
+        MapLName(clone_str(mapl_name)),
         MappName(clone_str(mapp_name)),
         MaskName(clone_str(live_mask)),
     //Sub-obiekty właściwe dla tej symulacji
@@ -607,8 +607,8 @@ void aworld::initialize_layers()
 
     //Wczytuje, używając konstruktora lub klonowania, gdy nie ma. Inicjuje resztę pól.
     int from1= Agenci.init_from_bitmap(MappName.get_ptr_val(),&aagent::assignPow);
-    int from2= Agenci.init_from_bitmap(MaplName.get_ptr_val(),&aagent::assign_curr);
- //   int from3= Agenci.init_from_bitmap(MaplName.get_ptr_val(),aagent::assign_prev);
+    int from2= Agenci.init_from_bitmap(MapLName.get_ptr_val(), &aagent::assign_curr);
+ //   int from3= Agenci.init_from_bitmap(MapLName.get_ptr_val(),aagent::assign_prev);
 
     //Gdy nie zainicjowane, to prowizoryczna inicjacja przez konstruktory lub klonowanie
     if(from1!=1 && from2!=1)

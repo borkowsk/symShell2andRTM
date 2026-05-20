@@ -1,7 +1,8 @@
 /// @file
-/// @EN{  }
-/// @PL{  }
-/// @date 2026-05-19 (modified)
+/// @brief
+///  @EN{ OLD EXAMPLE OF USING Symshell CLASSES. }
+///  @PL{ STARY PRZYKŁAD UŻYCIA KLAS Symshell-a. }
+/// @date 2026-05-20 (modified)
 /// =========================================================
 ///
 #include <math.h> //coś jest potrzebne
@@ -17,8 +18,13 @@
 #include "graphs.hpp"
 #include "areamngr.hpp"     
 #include "mainmngr.hpp"
-#include "INCLUDE/wb_ptr.hpp"
-#include "INCLUDE/wb_rand.hpp"
+#include "wb_ptr.hpp"
+#include "wb_rand.hpp"
+
+using namespace sym2;
+using namespace sym2::data;
+using namespace sym2::shell;
+using namespace sym2::visual;
 
 //int x,y,vx,vy;
 const unsigned SWIDTH=360;

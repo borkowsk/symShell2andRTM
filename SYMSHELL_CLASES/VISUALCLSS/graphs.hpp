@@ -867,12 +867,12 @@ public:
 
     /// @name CONSTRUCTOR(S) and DESTRUCTOR
     /// @{
-    scatter_graph(int x1,int y1,int x2,int y2,						///< Położenie obszaru
-                 data_source_base* Xdata,int menage_x  ,			///< Dane o X-ach
-                 data_source_base* Ydata,int menage_y=0,			///< Dane o Y-ach
-                 data_source_base* colors=NULL,int menage_c=0,		///< Dane o kolorach
-                 data_source_base* sizes=NULL,int menage_s=0,		///< Dane o rozmiarach
-                 config_point*  fig=new hash_point,int f_menage=1	///< Obiekt rysujący punkty, z domyślną wartością "hash".
+    scatter_graph(int x1, int y1, int x2, int y2,						///< Położenie obszaru
+                 data_source_base* i_X_data, int i_menage_x  ,			///< Dane o X-ach
+                 data_source_base* i_Y_data, int i_menage_y=0,			///< Dane o Y-ach
+                 data_source_base* i_colors=NULL, int i_menage_c=0,		///< Dane o kolorach
+                 data_source_base* i_sizes=NULL, int i_menage_s=0,		///< Dane o rozmiarach
+                 config_point*  i_fig=new hash_point, int f_menage=1	///< Obiekt rysujący punkty, z domyślną wartością "hash".
                  );
 
     /// Destructor.

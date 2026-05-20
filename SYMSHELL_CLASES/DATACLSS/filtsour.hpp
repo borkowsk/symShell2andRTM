@@ -368,8 +368,8 @@ public:
 typedef GT_filter<data_source_base> generic_GT_filter;
 //--------------------------------------------------------------------------
 
-/// @brief @EN{ . }
-///        @PL{ Szablon filtru "Equal or more". }
+/// @brief @EN{ GreaterEqual Filter Template.. }
+///        @PL{ Szablon filtru "Equal or more" ("Większy lub równy"). }
 /// @details ...
 template<class SOURCE_TYPE>
 class GE_filter : public threshold_filter_base<SOURCE_TYPE>

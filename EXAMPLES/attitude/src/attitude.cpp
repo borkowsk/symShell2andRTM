@@ -1,17 +1,22 @@
 /// @file
-/// @EN{  }
-/// @PL{  }
-/// @date 2026-05-19 (modified)
-/// =========================================================
-///
-// Dosyć prosta symulacja zmiany poglądów — attitude wg. modelu A. Nowak-a.
-// Uzyskana przez uproszczenie programu LANGUAGES
-//=========================================================================
-// @date 2026-05-19 (modification)
-const char* WINDOW_HEADER="ATTITUDES version 1.01c";
+/// @brief
+///  @EN{ A fairly simple simulation of attitude change — "attitude" according to A. Nowak's model. THE MAIN FILE. }
+///  @PL{ Dosyć prosta symulacja zmiany postaw — "attitude" wg. modelu A. Nowak-a. PLIK GŁÓWNY. }
+/// @date 2026-05-20 (modified)
+///       ======================================================================================================
+/// @details Uzyskana przez uproszczenie wczesnej wersji programu LANGUAGES
+/// @PL{ DOXYGENIZACJA WYŁĄCZNIE PO POLSKU. }
+/// @EN{ DOXYGENIZATION IN POLISH ONLY. }
+//======================================================================================================================
+
+/// <br> History:
+/// * 15.02.2006 - 1.01: Zrekompilowane z nową wersją biblioteki lufcików.
+/// * 07.04.2026 - 1.01: Zrekompilowane z nową wersją biblioteki lufcików po 20 latach!
+/// * 01.05.2026 - 1.01: Zintegrowane z biblioteką jako jeden z przykładów.
+/// * 20.05.2026 - 1.01: Początek tłumaczenia komentarzy.
 const char* SIMULATION_NAME="attitudes_v1.01c";
-// * 15.02.2006 - 1.01: Zrekompilowane z nową wersją biblioteki lufcików.
-// * 07.04.2026 - 1.01: Zrekompilowane z nową wersją biblioteki lufcików po 20 latach!
+const char* WINDOW_HEADER="ATTITUDES version 1.01c";
+
 
 #include <cstdlib>
 
@@ -46,14 +51,14 @@ int	ThresholdPercent=100;		//Powyżej jakiej siły zmiany "poglądu" są już ni
 int	NumberOfAttitudes=2;
 int	NoisePercent=0;
 double	MutationProb=0;
-int	NeighborhoodR=1;	//Promień sąsiedztwa. Jeśli 1 to sąsiedztwo 3 × 3 - 1.
-int	NeighborhoodD=-1;	//Wszyscy sąsiedzi — nielosowo. 8 - losowo!!!
-int	SelfTaking=1;		//8+1... Branie siębie do zliczania presji.
+int	NeighborhoodR=1;			//Promień sąsiedztwa. Jeśli 1 to sąsiedztwo 3 × 3 - 1.
+int	NeighborhoodD=-1;			//Wszyscy sąsiedzi — nielosowo. 8 - losowo!!!
+int	SelfTaking=1;				//8+1... Branie siębie do zliczania presji.
 bool	SimulationMode=false;	//Tryb symulacji. 0 == synchroniczna.
 
-int	AutoExit=0;			//Automatyczne wychodzenie z programu po końcu symulacji.
-int	Replay=0;			//Odtwarzanie z zapisu.
-int	AUTOSTART=0;
+int	AutoExit=0;					//Automatyczne wychodzenie z programu po końcu symulacji.
+int	Replay=0;					//Odtwarzanie z zapisu.
+int	AUTOSTART=0;				//Określa, czy startuje symulacje natychmiast po uruchomieniu aplikacji.
 
 
 int parse_options(const int argc,const char* argv[])
@@ -167,11 +172,11 @@ int parse_options(const int argc,const char* argv[])
         if((pom=strstr(rob,"HEIGHTWIN="))!=NULL) //Nie NULL, czyli jest
         {
             SCR_HEIGHT=atol(pom + 10);
-        if(SCR_HEIGHT < 50)
-            {
-            cerr << "Bad HEIGHTWIN = " << SCR_HEIGHT << " (must be >50)" << endl;
-            return 0;
-            }
+            if(SCR_HEIGHT < 50)
+                {
+                cerr << "Bad HEIGHTWIN = " << SCR_HEIGHT << " (must be >50)" << endl;
+                return 0;
+                }
         }
         else
         if((pom=strstr(rob,"MAX="))!=NULL) //Nie NULL, czyli jest
@@ -221,7 +226,7 @@ int parse_options(const int argc,const char* argv[])
             {
             cerr << "INDI=" << NeighborhoodR << endl;
             }
-            else
+        else
             {
             cerr << "Bad INDI=" << NeighborhoodR << " Must from 1 to " << WorldWidth / 2 - 1 << endl;
             return 0;
@@ -255,7 +260,7 @@ int parse_options(const int argc,const char* argv[])
         if(AUTOSTART)
             {
                 AutoExit=1;
-            cerr << "STOP=" << (AutoExit ? "Yes" : "No") << endl;
+                cerr << "STOP=Yes"<<endl; // << (AutoExit ? "Yes" : "No") << endl;
             }
         }
         else
@@ -331,8 +336,8 @@ int parse_options(const int argc,const char* argv[])
             cerr << "\tWPOW=N	- walking step of strength	(" << GrowingStrength << ")\n";
             cerr << "\tTRSP=N - % of threshold of strength (" << ThresholdPercent << ")\n";
             cerr << "\tSYNC=Y/N - synchronic (Y) or Monte-Carlo simulation mode (" << (SimulationMode == 0 ? "Yes" : "No") << ")\n";
-            cerr << "\tPRTR=2..WIDTH^2-1 - number of interaction partners (-1 = all neighbourhood) (" << NeighborhoodD << ")\n";
-            cerr << "\tINDI=1..WIDTH/2-1 - interaction distance (" << NeighborhoodR << ")\n";
+            cerr << "\tPRTR=2...WIDTH^2-1 - number of interaction partners (-1 = all neighbourhood) (" << NeighborhoodD << ")\n";
+            cerr << "\tINDI=1...WIDTH/2-1 - interaction distance (" << NeighborhoodR << ")\n";
             cerr << "\tSELF=N/Y - use self for calculations (" << (SelfTaking ? "Yes" : "No") << ")\n";
             cerr << "\tNOIP=NN - percent of noise (" << NoisePercent << ")\n";
             cerr << "\tSPCH=NN - percent of spontaneity change of attitudes (" << MutationProb * 100 << ")\n";
@@ -352,8 +357,8 @@ int parse_options(const int argc,const char* argv[])
 }
 
 
-/*  OGÓLNA FUNKCJA MAIN  */
-/* ********************* */
+/**  @brief OGÓLNA FUNKCJA MAIN  */
+/* ***************************** */
 
 int main(const int argc,const char* argv[])
 {
@@ -379,13 +384,13 @@ int main(const int argc,const char* argv[])
                                  MapPName,
                                  MaskName,
                                  NoisePercent / 100.0, //Szum od 0-1
-                               MaximalStrength, //Żeby była w przedziale
-                               NumberOfAttitudes,
+                                 MaximalStrength, //Żeby była w przedziale
+                                 NumberOfAttitudes,
                                  NeighborhoodR,
                                  NeighborhoodD,
                                  SelfTaking,
                                  SimulationMode == 0, //Synchroniczna czy nie
-                               GrowingStrength,
+                                 GrowingStrength,
                                  MaximalStrength * ThresholdPercent / 100.0,
                                  MutationProb
                                );

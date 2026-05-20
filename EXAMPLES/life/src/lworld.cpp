@@ -1,7 +1,8 @@
 /// @file
+/// @brief
 ///  @EN{ IMPLEMENTATION OF 'lifeworld' FOR "Conways Life" SIMULATION. }
-///  @PL{  }
-/// @date 2026-05-19 (modified)
+///  @PL{ IMPLEMENTACJA 'lifeworld' DLA SYMULACJI 'Conways Life'. }
+/// @date 2026-05-20 (modified)
 /// ====================================================================
 /// @details ...
 //======================================================================================================================

@@ -1,15 +1,18 @@
 /// @file
-/// @EN{  }
-/// @PL{  }
+/// @brief
+///  @EN{ Virtual Input method implementation of the aworld class. }
+///  @PL{ Implementacja metody wirtualnego wejścia klasy świata. }
 /// @date 2026-05-20 (modified)
 /// =========================================================
-///
-// Virtual Input methods  implementation of the aworld class.
-// Its is rather simply implementation. You can replace it if you need.
-//=====================================================================
-// @date 2026-05-20 (modification)
+/// @details
+///     Its is rather simply implementation. You can replace it if you need.
+//======================================================================================================================
 
 #include "aworld.h"
+
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "modernize-use-auto"
+#pragma ide diagnostic ignored "modernize-use-nullptr"
 
 using namespace sym2::data;
 using namespace sym2::shell;
@@ -21,7 +24,7 @@ int aworld::implement_input(istream& i)
     if(ret!=1) return ret;
     i >> MyWidth;		//Obwód torusa
     i >> MaxSila;		//Maksymalna siła agenta
-    i >> NofCateg;		//Liczba kategorii w mapach
+    i >> NofCategories;		//Liczba kategorii w mapach
     i >> NofNeigh;	//8 == Gęstość sąsiedztwa
     i >> NeighRadius;	//Rozmiar sąsiedztwa
     i >> UseSelf;		//Czy ma brać siębie pod uwagę
@@ -35,6 +38,7 @@ int aworld::implement_input(istream& i)
     return 0;
 }
 
+#pragma clang diagnostic pop
 /* ****************************************************************** */
 /*        SYMSHELL2 EXAMPLE  version 2006/2022/2026                   */
 /* ****************************************************************** */

@@ -138,52 +138,52 @@ public:
     {}
 
     /// Destructor. Need to free up title memory.
-    virtual  ~drawable_base(){ set_title(NULL);}
+    ~drawable_base() override{ set_title(NULL);}
 
 // ACCESSORS:
 //===========
-    wb_color set_background(wb_color color);	///< `{wb_color old=background;background=color;return old;}`
-    wb_color get_background() const;			///< `{return background; }`... Może być inny niż globalny!
+    wb_color set_background(wb_color color);	///< Accessor: `{wb_color old=background;background=color;return old;}`
+    wb_color get_background() const;			///< Accessor: `{return background; }`... Może być inny niż globalny!
 
-    wb_color set_frame(wb_color color);			///< `{wb_color old=frame_col;frame_col=color;return old;}`
-    wb_color get_frame() const;					///< `{return frame_col;}`
-    int      get_frame_with() const;			///< `{return frame_width;}`
+    wb_color set_frame(wb_color color);			///< Accessor: `{wb_color old=frame_col;frame_col=color;return old;}`
+    wb_color get_frame() const;					///< Accessor: `{return frame_col;}`
+    int      get_frame_with() const;			///< Accessor: `{return frame_width;}`
 
-    wb_color set_title_color(wb_color color);	///< `{wb_color old=tit_bck;tit_bck=color;return old;}`
-    wb_color set_title_back(wb_color color);	///< `{wb_color old=tit_col;tit_col=color;return old;}`
-    void     set_title_colors(wb_color color, wb_color back); ///< `{tit_col=color;tit_bck=back;}`
+    wb_color set_title_color(wb_color color);	///< Accessor: `{wb_color old=tit_bck;tit_bck=color;return old;}`
+    wb_color set_title_back(wb_color color);	///< Accessor: `{wb_color old=tit_col;tit_col=color;return old;}`
+    void     set_title_colors(wb_color color, wb_color back); ///< Accessor: `{tit_col=color;tit_bck=back;}`
 
-    int get_start_x();	///< Początek, `x` obszaru użytkowego.
-    int get_start_y();	///< Początek, `y` obszaru użytkowego.
-    int get_width ();	///< Szerokość obszaru użytkowego.
-    int get_height();	///< Wysokość obszaru użytkowego.
+    int get_start_x();	///< @brief @PL{ Początkowe `x` obszaru użytkowego. } @EN{ Beginning `x` of usable area. }
+    int get_start_y();	///< @brief @PL{ Początkowe `y` obszaru użytkowego. } @EN{ Initial `y` of the usable area. }
+    int get_width ();	///< @brief @PL{ Szerokość obszaru użytkowego. } @EN{ Width of usable area. }
+    int get_height();	///< @brief @PL{ Wysokość obszaru użytkowego. } @EN{ Height of usable area. }
 
 //		ACTIONS:
 // -------------
 
-    /// @name Main drawing methods/<br>Główne metody związane z rysowaniem.
+    /// @name  @EN{ Main drawing methods.} @PL{ Główne metody związane z rysowaniem.}
     /// @details The first three do nothing if the area dimensions are 0x0. They conditionally flush.
     ///          They are also declared as virtual, but you should be very careful about overriding them!
     ///          Trzy pierwsze nie robią nic, jeśli rozmiary obszaru wynoszą `0 × 0`. Warunkowo robią flush.
     ///          Zostały też zadeklarowane jako wirtualne, ale należy bardzo uważać z ich przesłanianiem!
     /// @{
 
-    /// @brief Draws a frame, maybe a title and virtual content by calling `_replot()`./<br>
-    ///        Rysuje ramkę, może tytuł i wirtualnie zawartość wołając `_replot`.
+    /// @brief @EN{ Draws a frame, maybe a title and virtual content by calling `_replot()`. }
+    ///        @PL{ Rysuje ramkę, może tytuł i wirtualnie zawartość wołając `_replot`. }
     virtual void replot(int flush=1);
 
-    /// @brief Clears the area with the background color set for the platform (e.g., SYMSHELL)./<br>
-    ///        Czyści obszar kolorem background, ustalonym dla platformy (SYMSHELL-a np.).
+    /// @brief @EN{ Clears the area with the background color set for the platform (e.g., SYMSHELL). }
+    ///        @PL{ Czyści obszar kolorem background, ustalonym dla platformy (SYMSHELL-a np.). }
     virtual void clear(int flush=1);
 
-    /// @brief Guarantees content transfer to screen/window/vector file (etc.)./<br>
-    ///        Gwarantuje przesłanie zawartości na ekran/okno/plik wektorowy (etc.).
+    /// @brief @EN{ Guarantees content transfer to a screen/window/vector file (etc.). }
+    ///        @PL{ Gwarantuje przesłanie zawartości na ekran/okno/plik wektorowy (etc.). }
     virtual void flush();
 
     // METODA KONIECZNA W KLASACH POTOMNYCH:
     //======================================
 
-    /// @brief Implementation of area redrawing/<br>Implementacja odrysowywania obszaru.
+    /// @brief  @EN{ Implementation of area redrawing } @PL{ Implementacja odrysowywania obszaru. }
     /// @detail Implements content drawing for area. For area `0 × 0`, it is not called at all!!!<br>
     ///         Implementuje rysowanie zawartości. Dla obszaru `0 × 0` w ogóle nie jest wywoływana!!!
     virtual void _replot()=0;
@@ -191,7 +191,7 @@ public:
 // METHODS OF RESPONDING TO EVENTS/METODY REAKCJI NA ZDARZENIA.
 //------------------------------------------------------------
 
-    /// Mouse click response.
+    /// @brief @EN{ Mouse click response. } @PL{ Obsługa kliku myszką. }
     /// @returns
     ///     * 2 if area got a position message for embedded action.
     ///     * 1 if point is inside area, but is not embedded action.

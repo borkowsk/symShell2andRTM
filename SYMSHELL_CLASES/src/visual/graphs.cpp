@@ -2030,7 +2030,8 @@ int rainbow_graph::_rescale_data_point(const double reals[], long in_area[])
 //DESTRUCTOR
 scatter_graph::~scatter_graph()
 {
-    assert(!(CurrConfig == nullptr));
+    if(CurrConfig == nullptr)
+        fprintf(stderr,"Warning: Visualisation config of `%s` is NULL!\n",this->name());
     if(menage_p)
         delete CurrConfig;
     if(Xdata != nullptr && menage_x)
@@ -2056,24 +2057,24 @@ net_graph::~net_graph()
 }
 
 //CONSTRUCTOR(S)
-scatter_graph::scatter_graph(int ix1, int iy1, int ix2, int iy2, //Położenie obszaru
-                             data_source_base *iXdata, int imenage_x, //dane o X-ach
-                             data_source_base *iYdata, int imenage_y, //dane o Y-ach
-                             data_source_base *icolors, int imenage_c, //dane o kolorach
-                             data_source_base *isizes, int imenage_s, //dane o rozmiarach
-                             config_point *ifig, int f_menage//figura domyślna
+scatter_graph::scatter_graph(int ix1,  int iy1, int ix2, int iy2, //Położenie obszaru
+                             data_source_base *i_X_data, int i_menage_x, //dane o X-ach
+                             data_source_base *i_Y_data, int i_menage_y, //dane o Y-ach
+                             data_source_base *i_colors, int i_menage_c, //dane o kolorach
+                             data_source_base  *i_sizes, int i_menage_s, //dane o rozmiarach
+                             config_point        *i_fig, int f_menage    //figura domyślna
 ) :
         graph(ix1, iy1, ix2, iy2),
         CurrConfig(nullptr), menage_p(false),
-        Xdata(iXdata), menage_x(imenage_x),
-        Ydata(iYdata), menage_y(imenage_y),
-        colors(icolors), menage_c(imenage_c),
-        sizes(isizes), menage_s(imenage_s)
+        Xdata(i_X_data), menage_x(i_menage_x),
+        Ydata(i_Y_data), menage_y(i_menage_y),
+        colors(i_colors), menage_c(i_menage_c),
+        sizes(i_sizes), menage_s(i_menage_s)
 {
     assert(Xdata != nullptr);
     assert(Ydata != nullptr);
-    config_scat pom(ifig, f_menage);
-    if(ifig != nullptr)
+    config_scat pom(i_fig, f_menage);
+    if(i_fig != nullptr)
         scatter_graph::configure(&pom);
     else
         scatter_graph::configure(nullptr);

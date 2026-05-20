@@ -1,8 +1,10 @@
 /// @file
-/// @EN{  }
-/// @PL{  }
-/// @date 2026-05-19 (modified)
+/// @brief
+///  @EN{ MENU MESSAGES FOR THE 'attitude' APPLICATION. }
+///  @PL{ KOMUNIKATY MENU DLA APLIKACJI 'attitude' ("postawy"). }
+/// @date 2026-05-20 (modified)
 /// =========================================================
+
 //{{NO_DEPENDENCIES}}
 // Microsoft Developer Studio generated include file.
 // Used by amenager.rc

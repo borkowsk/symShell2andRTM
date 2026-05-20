@@ -1,9 +1,13 @@
 /// @file
-/// @EN{ DECLARATION OF   , A G E N T   FOR "attitudes" SIMULATION. }
-/// @PL{  }
+/// @brief
+///  @EN{ DECLARATION OF A TYPE 'aagent' FOR "attitudes" SIMULATION. }
+///  @PL{ DEKLARACJA TYPU 'aagent' DO SYMULACJI postaw. }
 /// @date 2026-05-20 (modified)
-/// =========================================================
-//
+///       ============================================================
+/// @PL{ BARDZO OSZCZĘDNIE SKOMENTOWANE.} @EN{ VERY SPARINGLY COMMENTED.}
+/// @PL{ DOXYGENIZACJA WYŁĄCZNIE PO POLSKU. }
+/// @EN{ DOXYGENIZATION IN POLISH ONLY. }
+//======================================================================================================================
 
 #include "layer.hpp"
 
@@ -11,22 +15,26 @@ using namespace sym2::data;
 using namespace sym2::shell;
 using namespace sym2::visual;
 
+/// @brief @PL{ Agent symulacji "attitudes". } @EN{ "Attitudes" simulation agent. }
 class aagent:public agent_base
 {
-    friend class aworld; //Na razie tak — żeby uprościć dostęp do składowych.
+    friend class aworld; ///< Przyjacielska deklaracja klasy świata. Na razie tak — żeby uprościć dostęp do składowych.
 
-    // STATYCZNE SKŁADOWE - PARAMETRY INICJOWANIA AGENTÓW
-    static short str_grow; //Czy siła się zmienia (rośnie) z wiekiem
-    static short max_str; //Maksymalna siła agenta
-    static short n_of_cate; //Liczba kategorii w mapach
-    static short cate_shift; //Przesuniecie dla wczytywania gifa
-    static double mutation_prob; //Prawd. spontanicznej zmiany poglądów (0..1)
+    /// @name STATYCZNE SKŁADOWE - PARAMETRY INICJOWANIA AGENTÓW.
+    /// @{
+    static short	str_grow;		///< Określa, czy siła się zmienia (rośnie) z wiekiem.
+    static short	max_str;		///< Maksymalna siła agenta.
+    static short	n_of_cate;		///< Liczba kategorii w mapach.
+    static short	cate_shift;		///< Przesuniecie dla wczytywania gifa.
+    static double	mutation_prob;	///< Prawd. spontanicznej zmiany poglądów (0..1).
+    /// @}
 
-    // SKŁADOWE DLA SYMULACJI
-    short Power;	//Sila agenta
-    short First;	//Pierwsze przekonanie
-    short Second;	//Nowe przekonanie
-
+    /// @name SKŁADOWE AGENTA DEFINIUJĄCE JEGO STAN W TRAKCIE SYMULACJI
+    /// @{
+    short	Power;	///< Siła agenta.
+    short	First;	///< Pierwsze przekonanie.
+    short	Second;	///< Nowe przekonanie.
+    /// @}
 
     void _clean()
     {
@@ -35,15 +43,17 @@ class aagent:public agent_base
         Power=-1;
     }
 
+
+public:
     // TO CO MUSI byc zdefiniowane:
     // ////////////////////////////
-public:
-    int IsOK()
+
+    bool IsOK() override ///< Jest "wporzo" gdy ma stan zdefiniowany.
     {
         return First!=-1 && Second!=-1 && Power!=-1;
     }
 
-    void make_older() //Sila jako wiek
+    void make_older() ///< Starzenie się agenta. Sila jako wiek. Nigdy nie przekracza siły maksymalnej.
     {
         if(aagent::str_grow)
         {
@@ -52,23 +62,27 @@ public:
         }
     }
 
+    /// Konstruktor 1.
     aagent(const aagent& ini);	//Konkretna implementacja w aworld!
 
+    /// Konstruktor 2.
     aagent();					//Konkretna implementacja w aworld!
 
+    /// Wymagane klonowanie.
     aagent* clone() const
     { return new aagent(*this);}
 
-    ~aagent()
+    /// Destruktor najpierw czyści agenta, a potem dopiero wykonuje właściwą destrukcję.
+    ~aagent() override
     {_clean();}
 
-    void clean()
+    void clean() override
     {_clean();}
 
-    void assign123(unsigned char Red,unsigned char Green,unsigned char Blue)
+    void assign123(unsigned char Red,unsigned char /*Green*/,unsigned char Blue)
     {
-        First=Red >> cate_shift;
-        Second=Blue >> cate_shift;
+        First  = Red >> cate_shift;
+        Second = Blue >> cate_shift;
     }
 
     void assignPow(unsigned char Red,unsigned char Green,unsigned char Blue)
@@ -82,14 +96,14 @@ public:
             _clean();
     }
 
-    long classif()
+    long classif() const
     {
         return First;
     }
 
-    long RGB()
+    long RGB() const
     {
-        return (unsigned long) ( (unsigned char) (First) );
+        return ( (unsigned char) (First) );
     }
 
     friend

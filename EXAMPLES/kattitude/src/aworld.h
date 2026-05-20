@@ -39,7 +39,7 @@ double				LifeFill;			//!< Udział żywych na początku.
 double				MigrProb;			//!< Prawdopodobieństwo migracji.
 bool				Synchronic;			//!< Synchroniczna zmiana poglądów.
 wb_pchar			MappName;			//!< Nazwa pliku bitmapy inicjującej siły.
-wb_pchar			MaplName;			//!< Nazwa pliku bitmapy inicjującej stany.
+wb_pchar			MapLName;			//!< Nazwa pliku bitmapy inicjującej stany.
 wb_pchar			MaskName;			//!< Nazwa pliku bitmapy inicjującej maskę obszarów zdatnych.
 
 // Warstwy symulacji (są torusami):

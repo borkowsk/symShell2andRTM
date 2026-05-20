@@ -1,8 +1,12 @@
 /// @file
-/// @EN{ WHICH RANDOM NUMBER GENERATOR IS USED IN THE SIMULATION. }
-/// @PL{  }
-/// @date 2026-05-19 (modified)
+/// @brief
+///  @EN{ WHICH RANDOM NUMBER GENERATOR IS USED IN THE SIMULATION? }
+///  @PL{ JAKI GENERATOR LICZB LOSOWYCH ZOSTAŁ UŻYTY W SYMULACJI? }
+/// @date 2026-05-20 (modified)
 ///       =========================================================
+/// @PL{ DOXYGENIZACJA WYŁĄCZNIE PO POLSKU. }
+/// @EN{ DOXYGENIZATION IN POLISH ONLY. }
+//======================================================================================================================
 
 #define USES_RANDG
 #include "random.h"

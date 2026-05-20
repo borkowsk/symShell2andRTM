@@ -1,7 +1,7 @@
 /// @file
 /// @brief
-///  @EN{  }
-///  @PL{ SYMULACJA KONFLIKTÓW BOCA 2005 (plik główny) }
+///  @EN{ NETWORKED CONFLICT SIMULATION, BOCA 2005 (main file). }
+///  @PL{ SIECIOWA SYMULACJA KONFLIKTÓW, BOCA 2005 (plik główny). }
 /// @date 2026-05-20 (modified)
 ///       =========================================================
 /// @details UZUPEŁNIONY 10-11.2005, 9-2010, 02-2014, 04-2026

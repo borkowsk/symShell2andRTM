@@ -34,7 +34,7 @@ class any_layer_base
 /// @brief Klasa bazowa dla wszystkich pochodnych typów warstw symulacji.
 class any_layer_base
 #endif
-//---------------------------
+//------------------
 {
 public:
     /// @if POLISH
@@ -48,25 +48,32 @@ public:
     /// @endif
     typedef geometry_base::index_t lin_index_t;
 
-    /// Największa wartość dowolnego indeksu — marker nieznalezienia itp. Kiedyś było `static const unsigned long FULL`.
-    enum my_full:lin_index_t { FULL=limit<lin_index_t>::Max() }; //Zamiast #define FULL albo const full
+    /// @brief @PL{ Największa wartość dowolnego indeksu — marker nieznalezienia itp. }
+    ///        @EN{ The largest value of any index, means "not found" marker, etc. }
+    /// Zamiast `#define FULL` albo `const full`. Kiedyś też było `static const unsigned long FULL`.
+    enum my_full:lin_index_t { FULL=limit<lin_index_t>::Max() }; //
 
-    /// Wirtualny destruktor.
+    /// @PL{ Wirtualny destruktor. } @EN{ Virtual destructor. }
     virtual	~any_layer_base()= default;
 
-    /// Rejestracja źródła/źródeł w zarządcy danych.
-    /// W klasach specjalizowanych można zdefiniować automatyczna rejestracje.
-    /// @return 0 oznacza brak automatycznej rejestracji. Inne oznaczają sukces.
+    /// @brief @PL{ Rejestracja źródła/źródeł w zarządcy danych. }
+    ///        @EN{ Registering the source(s) in the data manager. }
+    /// @details
+    ///     W klasach specjalizowanych można zdefiniować automatyczna rejestracje.
+    /// @return
+    ///     0 oznacza brak automatycznej rejestracji. Inne oznaczają sukces.
     virtual int registry_sources(visual::sources_manager_base&		Sources)
     {return 0;}
 
-    /// Zwraca wskaźnik do geometrii. Nie wolno go z-delete-ować.
+    /// @brief @PL{ Podaje wskaźnik do swojej geometrii. } @EN{ Provides a pointer to own geometry. }
+    /// @note Nie wolno go z-delete-ować!
     virtual const geometry_base* get_geometry()=0;
 
+    //PRZESTARZAŁE/OBSOLETE:
     //virtual void swap(size_t index1,size_t index2)=0; //Zamienia ze soba dwa elementy
     //virtual void clean(size_t index)=0; //Czyści obiekt sposobem zdefiniowanym dla konkretnego typu warstwy
 
-    /// @name Implementacja wejścia/wyjścia.
+    /// @name @PL{ Implementacja wirtualnego wejścia/wyjścia. } @EN{ Virtual I/O implementation. }
     /// @details Metody wirtualne zwracają 1, jeśli mają sukces.
     /// @{
     virtual
@@ -74,8 +81,11 @@ public:
 
     virtual
     int		implement_input(istream& i)=0;
+    /// @}
 
-    //i samych operatorów strumieniowych
+    /// @name @PL{ Deklaracja samych operatorów strumieniowych, używających w środku odpowiedników wirtualnych. }
+    ///       @EN{ Declaration of stream operators themselves, using virtual counterparts inside. }
+    /// @{
     friend
     ostream& operator << (ostream& o,const any_layer_base& w);
 
@@ -95,16 +105,17 @@ class layer:public any_layer_base
 #endif
 {
 public:
-    /// Akcesor dający dostęp do elementu o indeksie obliczonym przez geometrie.
+    /// @brief @PL{ Akcesor dający dostęp do elementu o indeksie obliczonym przez geometrie. }
+    ///        @EN{ An accessor that gives access to an element with an index calculated by the geometry. }
     virtual TYPE& get(lin_index_t index)=0;
 };
 
 #ifdef USE_ENGLISH_IF_POSSIBLE
-/// @brief A type implementing the properties typical of a rectangular layer.
+/// @brief A base type implementing the properties typical of a rectangular layer.
 /// @details Designed for multiple inheritance, so it does not inherit from `layer`.
 class rectangle_layer
 #else
-/// @brief Klasa implementująca własności typowe dla warstwy prostokątnej.
+/// @brief Klasa bazowa implementująca własności typowe dla warstwy prostokątnej.
 /// @details Przeznaczona do wielodziedziczenia, dlatego nie dziedziczy po `layer`.
 /// TODO powinna się może inaczej nazywać? Np. ze słowem "implementation"?
 class rectangle_layer
@@ -112,11 +123,11 @@ class rectangle_layer
 //---------------------
 {
 protected:
-    rectangle_geometry		MainGeometry; ///< Geometria dla operacji na tej warstwie.
+    rectangle_geometry		MainGeometry; ///< @PL{ Geometria obiektów tej warstwy. } @EN{ The geometry of the objects in this layer }
     //rectangle_geometry	VisoGeometry; ///< Geometria dla serii danych - w celu ich wizualizacji. TODO POMYSŁ PORZUCONY?
 
 public:
-    /// @name AKCESORY ZALEŻNE OD WŁASNOŚCI PROSTOKĄTA
+    /// @name @PL{ AKCESORY ZALEŻNE OD WŁASNOŚCI PROSTOKĄTA. } @EN{ ACCESSORIES DEPENDING ON THE PROPERTIES OF THE RECTANGLE. }
     /// @{
 
     /// Wczytanie pliku GIF, BMP lub XBM na warstwę. Plik musi mieć rozmiar zgodny z rozmiarem warstwy.
@@ -150,20 +161,20 @@ public:
     /// Czyszczenie losowo wybranych elementów.
     void clean_randomly(int how_many);
 
-    /// Sprawdzenie, czy jest "aktywny" element w tym miejscu.
+    /// WYMAGANE: Sprawdzenie, czy jest "aktywny" element w tym miejscu.
     /// @note PURE VIRTUAL NEED TO BE IMPLEMENTED!
     virtual bool filled(int X,int Y)=0;
     /// @}
 
-// Akcesory i metody ogólne
-//================================
+// Akcesory i metody ogólne:
+//==========================
 
     const rectangle_geometry* get_rect_geometry()
     { return &MainGeometry; }
 
     //virtual rectangle_source_base* make_source(const char* name)=0; //Tworzy zawsze/wielokrotnie taka sama, ale nie ta sama warstwę.
 
-    /// @name KONSTRUKTOR i DESTRUKTOR.
+    /// @name KONSTRUKCJA i DESTRUKCJA.
     /// @{
 
     /// Konstruktor przede wszystkim ustawia geometrię warstwy.
@@ -173,10 +184,12 @@ public:
                     //VisoGeometry(Width,Height)
     {}
 
-    virtual ~rectangle_layer()= default;
+    /// Virtual destructor.
+    virtual ~rectangle_layer() = default;
 
-    /// Przywrócenie do nowości. Nie nazwałem `reset` bo to by mogło być niebezpieczne.
-    /// @return `false`, jeśli nie ma takiej możliwości lub coś nie wyszło.
+    /// @brief @PL{ Przywrócenie do nowości. Nie nazwałem `reset` bo to by mogło być mylące. }
+    ///        @EN{ Restore to "like-new" condition. I didn't call it `reset` because that could be misleading. }
+    /// @return `false`, @PL{ jeśli nie ma takiej możliwości lub coś nie wyszło. } @EN{ if this is not possible or something went wrong. }
     virtual	bool Reinitialise()=0;
     /// @}
 };
@@ -214,6 +227,8 @@ public:
                 table[i]=cleaner; //Każdy zostanie zainicjalizowany "na pusto".
         }
 
+     /// @PL{ Destruktor wirtualny. } @EN{ Virtual destructor. }
+     /// @details @PL{ Wbrew pozorom robi sporo, ale w ukryciu. } @EN{ Contrary to appearances, he does a lot, but in secret. }
     ~rectangle_unilayer() override= default;
 
     /// Zmiana cleaner-a.
@@ -349,7 +364,8 @@ public:
     //Empty constructor for reading?
     //rectangle_layer_of_struct(){}
 
-    /// Destructor.
+    /// @PL{ Destruktor wirtualny. } @EN{ Virtual destructor. }
+    /// @details @PL{ Wbrew pozorom robi sporo, ale w ukryciu. } @EN{ Contrary to appearances, he does a lot, but in secret. }
     ~rectangle_layer_of_struct() override= default;
 
     /// Przywrócenie do nowości. Nie nazwałem `reset` bo to by mogło być niebezpieczne.
@@ -634,27 +650,35 @@ class agent_base
 #endif
 //--------------------------------------------------------------------------------------------------
 {
-public:
-    agent_base()= default;
-    agent_base(const agent_base& ini)= default;
+protected:
+    /// @brief @PL{ Konstruktor 1: Domyślny. } @EN{ Constructor 1: Default. }
+    agent_base() = default;
 
-    /// Destruktor musi być wirtualny.
+    ///  @brief @PL{ Konstruktor 2: kopiujący. } @EN{ Constructor 2: Copying. }
+    agent_base(const agent_base& ini )= default;
+
+    /// @brief @PL{ Destruktor MUSI być wirtualny. } @EN{ The destructor MUST be virtual. }
+    /// @details @PL{ Wbrew pozorom robi sporo, ale w ukryciu. } @EN{ Contrary to appearances, he does a lot, but in secret. }
     virtual ~agent_base()= default;
 
-    /// Funkcja czyszczenia musi być dostarczona.
+public:
+    ///  @brief @PL{ Funkcja czyszczenia MUSI być dostarczona. } @EN{ A cleaning function MUST be provided. }
     virtual void clean()=0;
+
+    ///  @brief @PL{ Sprawdzenie, czy z agentem wszystko "wporzo". } @EN{ Checking if the agent is doing good. }
+    virtual bool IsOK() { return true; }
 
     //agent_base* clone() const { return new agent(*this);}
     //friend ostream& operator << (ostream& o, agent a)
     //friend istream& operator >> (ostream& i, agent a)
-}; //!< Prosty kontener na dane.
+};
 
 #ifdef USE_ENGLISH_IF_POSSIBLE
-/// A layer template of a structured type compatible with the `agent_base` type.
+/// @brief A layer template of a structured type compatible with the `agent_base` type.
 template<class AGENT>
 class rectangle_layer_of_agents:public layer<AGENT>,public rectangle_layer
 #else
-/// Szablon warstwy typu strukturalnego zgodnego z typem `agent_base`.
+/// @brief Szablon warstwy typu strukturalnego zgodnego z typem `agent_base`.
 template<class AGENT>
 class rectangle_layer_of_agents:public layer<AGENT>,public rectangle_layer
 #endif
@@ -701,6 +725,10 @@ public:
 
     //Empty constructor ???
     //rectangle_layer_of_agents(){}
+
+    /// @brief @PL{ Destruktor MUSI być wirtualny. } @EN{ The destructor MUST be virtual. }
+    /// @details @PL{ Wbrew pozorom robi sporo, ale w ukryciu. } @EN{ Contrary to appearances, he does a lot, but in secret. }
+    ~rectangle_layer_of_agents() override = default;
 
     bool Reinitialise() override
     {
@@ -1064,6 +1092,10 @@ public:
         else
             deallocate_all(); //Wpisuje wszędzie NULL dla pewności
     }
+
+    /// @brief @PL{ Destruktor MUSI być wirtualny. } @EN{ The destructor MUST be virtual. }
+    /// @details @PL{ Wbrew pozorom robi sporo, ale w ukryciu. } @EN{ Contrary to appearances, he does a lot, but in secret. }
+    ~rectangle_layer_of_ptr_to_agents() override = default;
 
     void reallocate_all()
     {

@@ -1,7 +1,8 @@
 /// @file
-/// @EN{  }
-/// @PL{ Wariacje na temat life Conway-a — program główny. }
-/// @date 2026-05-19 (modified)
+/// @brief
+///  @EN{ Variations on Conway's Life - Main Program. }
+///  @PL{ Wariacje na temat life Conway-a — program główny. }
+/// @date 2026-05-20 (modified)
 ///       =========================================================
 /// @details ....
 //======================================================================================================================

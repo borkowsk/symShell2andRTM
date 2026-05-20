@@ -2,7 +2,7 @@
 /// @brief
 ///  @EN{ IMPLEMENTATION OF THE "KWORLD".  }
 ///  @PL{  }
-/// @date 2026-05-19 (modified)
+/// @date 2026-05-20 (modified)
 /// =========================================================
 /// @details
 ///  (old example for SymShell implementing Kruglansky like model)
@@ -128,7 +128,7 @@ void kworld::initialize_layers()
     //Wczytuje, używając konstruktora lub klonowania, gdy niema, więc inicjuje resztę pól.
     int from1= Agenci.init_from_bitmap(MappName.get_ptr_val(),&kagent::assignPow);
     int from2= Agenci.init_from_bitmap(MaplName.get_ptr_val(),&kagent::assign_curr);
-    //   int from3= Agenci.init_from_bitmap(MaplName.get_ptr_val(),kagent::assign_prev);
+    //   int from3= Agenci.init_from_bitmap(MapLName.get_ptr_val(),kagent::assign_prev);
     
     //Gdy niezainicjowane z pliku to prowizoryczna inicjacja przez konstruktory lub klonowanie
     if(from1!=1 && from2!=1)

@@ -1,7 +1,8 @@
 /// @file
+/// @brief
 ///  @EN{ WHICH RANDOM NUMBER GENERATOR IS USED IN THE SIMULATION? }
-///  @PL{  }
-/// @date 2026-05-19 (modified)
+///  @PL{ JAKI GENERATOR LICZB LOSOWYCH ZOSTAŁ UŻYTY W SYMULACJI? }
+/// @date 2026-05-20 (modified)
 /// ================================================================
 /// @details
 /// Its is rather simply implementation. You can replace it if you need.

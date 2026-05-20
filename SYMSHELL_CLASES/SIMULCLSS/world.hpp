@@ -23,18 +23,20 @@
 namespace sym2 { namespace shell {
 
 /// @brief @PL{ Podstawy użytkowe dla całego świata symulacji. }
-///        @En{ Usage foundations for the entire world of simulation. }
+///        @EN{ Usage foundations for the entire world of simulation. }
 class world
 //---------
 {
-    /// @brief NA RAZIE NIE WOLNO ZROBIĆ TAKIEJ FUNKCJI! CHOĆ MUSI BYĆ ZADEKLAROWANA.
-    /// Pomysł zewnętrznego manager-a danych okazał się niesprawdzony.
+    /// @brief @PL{ Pomysł zewnętrznego manager-a danych okazał się nieużyteczny. }
+    ///        @EN{ The idea of an external data manager turned out to be useless. }
+    /// @PL{ NA RAZIE NIE WOLNO ZROBIĆ TAKIEJ FUNKCJI! CHOĆ MUSI BYĆ ZADEKLAROWANA.
+    /// @EN{ FOR THE TIME BEING, SUCH A FUNCTION IS NOT ALLOWED! ALTHOUGH IT MUST BE DECLARED. }
     virtual void   make_basic_sources(data::sources_manager& WhatSourMen);
 
-    /// Uchwyt do aktualnego manager danych.
+    /// @PL{ "Uchwyt" do aktualnego manager danych. } @EN{ "Handle" to the current data manager. }
     sym2::visual::main_area_manager*		AreaManager;
 
-    /// Data/Czas aktualnego kroku w wersji tekstowej.
+    /// @PL{ Data/Czas aktualnego kroku w wersji tekstowej. } @EN{ Date/Time of the current step in text version. }
     wb_pchar								TimeStamp;
 
 protected:
@@ -82,7 +84,7 @@ public:
     //Konstrukcja i destrukcja:
     //=========================
 
-    /// Główny konstruktor.
+    /// @brief @PL{ Główny konstruktor świata. } @EN{ "The chief constructor of the world". }
     explicit world(const char* log_name,
                    size_t max_sources=50)
     : MaxIterations(0xffffffff), StepCounter(0),
@@ -92,7 +94,7 @@ public:
       Out(nullptr)
     { SimulName="TheBasicSimulationWorld"; }
 
-    /// Wirtualny destruktor.
+    /// @brief @PL{ Wirtualny destruktor. Sporo robi w ukryciu. } @EN{ Virtual destructor, which does a lot of hidden jobs. }
     virtual  ~world();
 
     // Wymagane albo zachęcające do implementacji specyficznych akcji:
@@ -115,7 +117,6 @@ public:
 
     /// @brief @PL{ Aktualizacja zawartości okna statusu po jednym lub wielu krokach symulacji. } @EN{ Updating the contents of the status window after one or more simulation steps. }
     /// @details @PL{ Domyślnie wyświetla numer kroku lub informacje o trybie interaktywnym. } @EN{ By default, displays the step number or interactive mode information. }
-    // Wbrew pozorom jest zdefiniowane, choć "CLint" się gubi...
     virtual void		actualize_out_area();
 
     /// @L2{WYMAGANA|REQUIRED}: @PL{ Implementacja strumieniowego wyjścia. @returns 1, jeśli sukces! } @EN{ Streaming output implementation. @returns 1 if successful! }
@@ -127,7 +128,8 @@ public:
     //Akcesory:
     //=========
 
-    /// @brief @PL{ Ustawianie nazwy symulacji. @returns 1 jak się udało, ale może być niedozwolone. } @EN{ Setting the simulation name. @returns 1 if successful, but may be illegal. }
+    /// @brief @PL{ Ustawianie nazwy symulacji. @returns 1 jak się udało, ale może być niedozwolone. }
+    ///        @EN{ Setting the simulation name. @returns 1 if successful, but may be illegal. }
     virtual //TODO Dlaczego wirtualne?
     int				set_simulation_name(const char* name);
 
@@ -147,7 +149,8 @@ public:
     /// @brief @PL{ Co ile kroków symulacji zapisuje na wyjście. } @EN{ After how many simulation steps it writes to the output. }
     void			set_log_ratio(unsigned ratio){LogRatio=ratio;}
 
-    /// @brief @PL{ Ustawia `InputRatio`, czyli co ile kroków symulacji sprawdzać wejście. } @EN{ Sets the `InputRatio`, i.e. after how many simulation steps to check the input. }
+    /// @brief @PL{ Ustawia `InputRatio`, czyli co ile kroków symulacji sprawdzać wejście. }
+    ///        @EN{ Sets the `InputRatio`, i.e. after how many simulation steps to check the input. }
     void			set_input_ratio(unsigned ratio){InputRatio=ratio;}
 
     /// @brief @PL{ Aktualny zarządca ekranu podłączony do tego świata. } @EN{ Current screen manager connected to this world. }
@@ -163,6 +166,7 @@ public:
     //=====================
 
     /// @brief @PL{ Przygotowuje stan startowy symulacji. } @EN{ Prepares the starting state of the simulation. }
+    /// @details
     /// Jeśli pierwszy raz to
     ///     - wywołuje `initialise_layers()`
     ///     - tworzy bazowe źródła
@@ -171,8 +175,9 @@ public:
     /// pliku historii za pomocą funkcji "initialize_from_image".
     void		initialize(sym2::visual::main_area_manager* mainAreaManager=nullptr, int Replay=0);
 
-    /// @brief @PL{ Powtórzenie inicjalizacji dla powtórnego przebiegu symulacji. } @EN{ Repeat initialization for a second simulation run. }
-    /// Nie odtwarza strony wizualizacyjnej.
+    /// @brief @PL{ Powtórzenie inicjalizacji dla powtórnego przebiegu symulacji. }
+    ///        @EN{ Repeat initialization for a second simulation run. }
+    /// @details Nie odtwarza strony wizualizacyjnej.
     void		restart();
 
     /// @brief @PL{ Wczytanie pojedynczego obrazu symulacji np. dla inicjalizacji. } @EN{ Loading a single simulation image, e.g. for initialization. }
@@ -201,11 +206,13 @@ public:
     friend istream& operator >> (istream& i,world& w);
     /// @}
 
-    /// Odczyt domyślnego separatora.
+    /// @PL{ Odczyt domyślnego separatora. } @EN{ Reading the default separator. }
     char sepa() const { return separator; }
 
-    ///Implementacja zapisu stanu symulacji w formacie NET lub NET2 (z atrybutami).
-    virtual //Domyślnie puste, nie wiem, czy kiedykolwiek używane.
+    /// @PL{ Implementacja zapisu stanu symulacji w formacie NET lub NET2 (z atrybutami). }
+    /// @EN{ Implementation of saving the simulation state in NET or NET2 format (with attributes). }
+    /// @details Domyślnie puste, nie wiem, czy kiedykolwiek używane.
+    virtual
     void dump_net_file(const char* core_name,unsigned long Step){}
 };
 
