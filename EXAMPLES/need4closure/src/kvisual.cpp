@@ -1,24 +1,26 @@
 /// @file
 /// @brief
-///  @EN{ Visualisation of KWORLD (old example for SymShell implementing a Kruglanskis like model). }
-///  @PL{  }
+///  @EN{ Visualisation of "kWorld" (old example for SymShell implementing a Kruglanski's like model). }
+///  @PL{ Wizualizacja "kWorld" (starego przykładu dla SymShell-a implementujący model podobny do modelu Kruglańskiego). }
 /// @date 2026-05-21 (modified)
 /// =================================================================================================
 /// @details ...
 //======================================================================================================================
 
-#include <cstring>
-#include <cmath>
-
 #include "krand.h"
 #include "kWorld.h"
 #include "dhistosou.hpp" //Nowsza wersja — poprawiona
-#include "clstsour.hpp"  //Jest też statsour
+#include "clstsour.hpp"  //Jest też alternatywne statsour
 #include "spatcors.hpp"
 #include "coincsou.hpp"
 #include "funcsour.hpp"
 #include "gadgets.hpp" 
 #include "wb_ptrio.h"
+#include "toitoutoll.hpp"
+
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "modernize-use-auto"
+#pragma ide diagnostic ignored "modernize-use-nullptr"
 
 using namespace sym2;
 using namespace sym2::data;
@@ -54,9 +56,9 @@ void kWorld::make_basic_sources()
     Powers=Agenci.make_source("Power",&kAgent::Power);
     
     /*
-    Pressure=Agenci.make_source("Pressure",&kAgent::Press);
+    Pressure=Agents.make_source("Pressure",&kAgent::Press);
     MaxPressure=long(MaxSila)*WeightOfSelf;
-    MaxPressure+=long(MaxSila)*NeedForClosure * (IleSasiad>0 ? IleSasiad : sqr(OdlSasiad*2+1)-1   ); //Prymitywna implementacja
+    MaxPressure+=long(MaxSila)*NeedForClosure * (NeighDens>0 ? NeighDens : sqr(NeighRadius*2+1)-1   ); //Prymitywna implementacja
     Pressure->set_missing(-1);
     Pressure->set_min_max(0, MaxPressure  );
     */
@@ -64,15 +66,15 @@ void kWorld::make_basic_sources()
     ptrLastChanged=new ptr_to_scalar_source<int>(nullptr,"Change cnt.");
     ptrLastMigration=new ptr_to_scalar_source<int>(nullptr,"Migration cnt.");
     
-    //NIE DZIAŁA PRAWIDŁOWO (?)
-    ptrLastChanged->set_missing(-1);
-    ptrLastMigration->set_missing(-1);
-    CountCh=ptrLastChanged->get_missing();
-    CountMig=ptrLastMigration->get_missing();
+    //DZIAŁA PRAWIDŁOWO. Na `CountCh` i `CountMig` pojawia się '-1'.
+    ptrLastChanged->set_missing(-1.);
+    ptrLastMigration->set_missing(-1.);
+    CountCh=toi(ptrLastChanged->get_missing());
+    CountMig=toi(ptrLastMigration->get_missing());
     
-    //Classif=Agenci.make_source("Classification",&kAgent::classif); //Z PIERWOWZORU "LANGUAGES"
+    //Classif=Agents.make_source("Classification",&kAgent::classif); //Z PIERWOWZORU "LANGUAGES". ZBĘDNE.
     //if(classif)
-    //	classif->set_min_max(0,IleKate*IleKate*IleKate-1); //Max class ==IleKate^3 bo trzy niezależne płaszczyzny
+    //	classif->set_min_max(0,NofCat*NofCat*NofCat-1); //Max class ==NofCat^3 bo trzy niezależne płaszczyzny
     
     //Umieszczenie głównych serii w managerze serii
     WhatSourMen.insert(Firsts);
@@ -101,7 +103,7 @@ void    kWorld::actualize_out_area()
         //assert(ptrStres->);
         double Stres=ptrStres->get();      //Zakładamy, że to źródła jednowartościowe
         double ClsSiz=ptrClsSize->get();
-        bufor.prn("Stress: %g \nAproximated cluster size: %g",Stres,ClsSiz);
+        bufor.prn("Stress: %g \nApproximated cluster size: %g",Stres,ClsSiz);
         OutArea->add_text(bufor.get_ptr_val());
     }
 }
@@ -110,8 +112,9 @@ void    kWorld::actualize_out_area()
 void kWorld::make_default_visualisation()
 //Rejestruje pochodne serie, tworzy domyślne "lufciki" i wkłada w "Manager"
 {
-    area_manager_base& Menager=this->MyAreaManager();
-    int iFirst=0,iSecond=0,iPower=0,iPressure=0,iChangeCnt,iMigratCnt;
+    area_manager_base& Manager=this->MyAreaManager();
+    int iFirst=0,iSecond=0,iPower=0,iPressure=0,iChangeCnt,iMigrationCnt;
+
     //Uzyskanie indeksów podstawowych serii z managera
     {
         if(Firsts) iFirst=Sources.search(Firsts->name());
@@ -128,48 +131,50 @@ void kWorld::make_default_visualisation()
         
         //Oraz utworzenie pochodnych serii statystycznych
         fifo_source<int>* LastChangedLog=new fifo_source<int>(ptrLastChanged,internal_log);
-        if(!LastChangedLog) goto ERROR;
+        //if(!LastChangedLog) goto ERROR;
         iChangeCnt=Sources.insert(LastChangedLog);
         
         fifo_source<int>* LastMigrationLog=new fifo_source<int>(ptrLastMigration,internal_log);
-        if(!LastMigrationLog) goto ERROR;
-        iMigratCnt=Sources.insert(LastMigrationLog);
+        //if(!LastMigrationLog) goto ERROR;
+        iMigrationCnt=Sources.insert(LastMigrationLog);
         
         generic_clustering_source*	FirstStat=new generic_clustering_source(Firsts);
-        if(!FirstStat) goto ERROR;
-        else	Sources.insert(FirstStat);
+        //if(!FirstStat) goto ERROR;
+        Sources.insert(FirstStat);
         
         generic_clustering_source*	SecondStat=new generic_clustering_source(Seconds);
-        if(!SecondStat) goto ERROR;
-        else	Sources.insert(SecondStat);
+        //if(!SecondStat) goto ERROR;
+        Sources.insert(SecondStat);
         
         //generic_basic_statistics_source* PressureStat=new generic_basic_statistics_source(Pressure);
         //if(!PressureStat) goto ERROR;
-        //	else	Sources.insert(PressureStat);
+        //Sources.insert(PressureStat);
         
         
         //Źródło liczące statystykę i histogram z klasyfikacji
-        //=new  generic_histogram_source(Firsts);   
+        //= new  generic_histogram_source(Firsts);
         generic_discrete_histogram_source*  ClassStat=new generic_discrete_histogram_source(-1,3,Firsts);
-        if(!ClassStat) goto ERROR;
-        else	Sources.insert(ClassStat);  //cerr<<ClassStat->name();
+        //if(!ClassStat) goto ERROR;
+        Sources.insert(ClassStat);  //cerr<<ClassStat->name();
         
-        generic_spatial_correlation_source* SpatialCorr=new generic_spatial_correlation_source(Firsts,-1,spatial_correlation_mode);
-        if(!SpatialCorr) goto ERROR;
-        int iSpatialCorr=Sources.insert(SpatialCorr);
+        generic_spatial_correlation_source* SpatialCorr=new generic_spatial_correlation_source(Firsts,-1,toi(spatial_correlation_mode));
+        //if(!SpatialCorr) goto ERROR;
+        //int iSpatialCorr=
+                Sources.insert(SpatialCorr);
         
         //A także utworzenie seri liczących ich wzajemne ko-statystyki
         coincidence_source* CorrFS=new coincidence_source(Firsts, Seconds);
-        if(!CorrFS) goto ERROR;
+        //if(!CorrFS) goto ERROR;
         Sources.insert(CorrFS); //Żeby została kiedyś zwolniona, a poza tym może ktoś kiedyś...
         
         fifo_source<double>* EntropyFSLog=new fifo_source<double>(CorrFS->Entropy(),internal_log);
-        if(!EntropyFSLog) goto ERROR;
+        //if(!EntropyFSLog) goto ERROR;
         int iEntropyFS=Sources.insert(EntropyFSLog);
         
         fifo_source<double>* CorrFSLogR=new fifo_source<double>(CorrFS->Tau_a_Goodman_Kruskal(),internal_log); //FIFO z korelacji pierwszych z drugimi
-        if(!CorrFSLogR) goto ERROR;
-        int iCorrFSR=Sources.insert(CorrFSLogR);
+        //if(!CorrFSLogR) goto ERROR;
+        //int iCorrFSR=
+                Sources.insert(CorrFSLogR);
         
         
         //I utworzenie seri liczących ich statystyki
@@ -188,24 +193,24 @@ void kWorld::make_default_visualisation()
         */
         
         fifo_source<double>* ClusterSizeLog=new fifo_source<double>(SpatialCorr->ApproximatedClusterSize(),internal_log); //FIFO z rozmiaru klastra
-        if(!ClusterSizeLog) goto ERROR;
+        //if(!ClusterSizeLog) goto ERROR;
         int iClusterSize=Sources.insert(ClusterSizeLog);
         
         //iMainClassF,iWhichMainF,iNumClassF,			
         fifo_source<double>* NumClassLog=new fifo_source<double>(ClassStat->NumOfClass(),internal_log);
-        if(!NumClassLog) goto ERROR;
+        //if(!NumClassLog) goto ERROR;
         int iNumClassF=Sources.insert(NumClassLog);
         
         fifo_source<double>* ClassEntropyLog=new fifo_source<double>(ClassStat->Entropy(),internal_log);
-        if(!ClassEntropyLog) goto ERROR;
+        //if(!ClassEntropyLog) goto ERROR;
         int iClassEntropy=Sources.insert(ClassEntropyLog);
         
         fifo_source<double>* MainClassLog=new fifo_source<double>(ClassStat->MainClass(),internal_log);
-        if(!MainClassLog) goto ERROR;
+        //if(!MainClassLog) goto ERROR;
         int iMainClassF=Sources.insert(MainClassLog);
         
         fifo_source<double>* WhichMainLog=new fifo_source<double>(ClassStat->WhichMain(),internal_log);
-        if(!WhichMainLog) goto ERROR;
+        //if(!WhichMainLog) goto ERROR;
         int iWhichMainF=Sources.insert(WhichMainLog);
         
         ptrStres=FirstStat->Stress();
@@ -237,162 +242,162 @@ void kWorld::make_default_visualisation()
         
         //PODSTAWOWA WIZUALIZACJA SERII DANYCH
         //WYMIARY DOMYŚLNEGO OKNA
-        unsigned szer= Menager.get_width();
-        unsigned wyso= Menager.get_height();
-        assert(szer>50 && wyso>40); //Najmniejsze sensowne okno
-        
-        //Obszary domyślne — np. obszar STATUSU
+        int lW= Manager.get_width();
+        int lH= Manager.get_height();                     assert(lW > 50 && lH > 40); //Najmniejsze sensowne okno
+        int chHX= toi(char_height('X'));
+
+        //Obszary domyślne z klasy bazowej — np. obszar STATUSU
         world::make_default_visualisation();
         if(OutArea) 
         {
-            OutArea->set(1,1,szer/2-1,wyso/2-1);
-            Menager.as_original(Menager.search(OutArea->name()));
+            OutArea->set(1, 1, lW / 2. - 1, lH / 2. - 1);
+            Manager.as_original(Manager.search(OutArea->name()));
         }
         
         //WŁAŚCIWE LUFCIKI
-        graph* pom1=new sequence_graph(szer/2-1,wyso/4,szer-50,wyso/2-1,
-            3,Sources.make_series_info(
-            iNumClassF,iMainClassF,iWhichMainF,									
-            -1
-            ).get_ptr_val(),
-            0//* Z reskalowaniem 
-            );
-        if(!pom1) goto ERROR;
+        graph* pom1=new sequence_graph(lW / 2 - 1, lH / 4, lW - 50, lH / 2 - 1,
+                                       3, Sources.make_series_info(
+                                                                    iNumClassF,iMainClassF,iWhichMainF,
+                                                                    -1
+                                                                    ).get_ptr_val(),
+                                       0//* Z reskalowaniem
+                                        );
+        //if(!pom1) goto ERROR;
         pom1->set_frame(128);
         pom1->set_title("HISTORY OF CLASSIFICATION");
-        Menager.insert(pom1);
+        Manager.insert(pom1);
         
         //inne mniej potrzebne
-        graph* pom=new sequence_graph(szer/2-1,1,szer-50,wyso/4-1,	//domyślne współrzędne
-            3,Sources.make_series_info(
-            //iSSecond,
-            iClusterSize,
-            iChangeCnt,
-            iMigratCnt,
-            //		iMeanPress,                                        
-            -1
-            ).get_ptr_val(),
-            0// Z reskalowaniem 
-            //1//Wspólne minimum/maximum
-            );
-        if(!pom) goto ERROR;
-        pom->set_frame(128);
-        pom->set_title("HISTORY OF CLUSTERISATION");
-        Menager.insert(pom);
-        
-        pom=new carpet_graph(1,wyso/2,szer/3,wyso-1, //domyślne współrzędne
+        graph* pom2=new sequence_graph(lW / 2 - 1, 1, lW - 50, lH / 4 - 1,	//domyślne współrzędne
+                                        3, Sources.make_series_info(
+                                                                        //iSSecond,
+                                                                        iClusterSize,
+                                                                        iChangeCnt,
+                                                                        iMigrationCnt,
+                                                                        //		iMeanPress,
+                                                                        -1
+                                                                        ).get_ptr_val(),
+                                       0// Z reskalowaniem
+                                        //1//Wspólne minimum/maximum
+                                        );
+        //if(!pom2) goto ERROR;
+        pom2->set_frame(128);
+        pom2->set_title("HISTORY OF CLUSTERIZATION");
+        Manager.insert(pom2);
+
+        pom2=new carpet_graph(1, lH / 2, lW / 3, lH - 1, //domyślne współrzędne
             Firsts); //I źródło danych
-        pom->set_data_colors(0, 255);
-        pom->set_title("Map of current attitude");
-        Menager.insert(pom);
-        
-        
-        pom=new carpet_graph(szer/3+1,wyso/2,szer/3*2,wyso-1, //domyślne współrzędne
-            ForLeft);
-        pom->set_data_colors(0, 255);
-        pom->set_title("Map of left counters");
-        Menager.insert(pom);
-        
-        pom=new carpet_graph(szer/3*2+1,wyso/2,szer,wyso-1, //domyślne współrzędne
-            ForRight);
-        pom->set_data_colors(0, 255);
-        pom->set_title("Map of right counters");
-        Menager.insert(pom);
+        pom2->set_data_colors(0, 255);
+        pom2->set_title("Map of current attitude");
+        Manager.insert(pom2);
+
+
+        pom2=new carpet_graph(lW / 3 + 1, lH / 2, lW / 3 * 2, lH - 1, //domyślne współrzędne
+                                ForLeft);
+        pom2->set_data_colors(0, 255);
+        pom2->set_title("Map of left counters");
+        Manager.insert(pom2);
+
+        pom2=new carpet_graph(lW / 3 * 2 + 1, lH / 2, lW, lH - 1, //domyślne współrzędne
+                                 ForRight);
+        pom2->set_data_colors(0, 255);
+        pom2->set_title("Map of right counters");
+        Manager.insert(pom2);
         
         /*
-        pom=new carpet_graph(szer/3*2+1,wyso/2,szer,wyso-1, //domyślne współrzędne, //domyślne współrzędne  szer-49,7*char_height('X')+7,szer,8*char_height('X')+9
+        pom2 = new carpet_graph(lW/3*2+1,lH/2,lW,lH-1, //domyślne współrzędne, //domyślne współrzędne  lW-49,7*char_height('X')+7,lW,8*char_height('X')+9
         Pressure);
-        pom->set_data_colors(0,255);
-        pom->set_title("Map of instantaneous social pressure");
-        Menager.insert(pom);
+        pom2->set_data_colors(0,255);
+        pom2->set_title("Map of instantaneous social pressure");
+        Manager.insert(pom2);
         */
         
         //PRZYCISKI
-        pom=new carpet_graph(szer-49,5*(char_height('X')+RAMKA),szer,6*(char_height('X')+RAMKA), //domyślne współrzędne
-            Seconds); //I źródło danych
-        pom->set_data_colors(0, 255);
-        pom->set_frame(32);
-        pom->set_title("Map of previous attitude");
-        Menager.insert(pom);
+        pom2=new carpet_graph(lW - 49, 5 * (chHX + RAMKA), lW, 6 * (chHX + RAMKA), //domyślne współrzędne
+                                Seconds); //I źródło danych
+        pom2->set_data_colors(0, 255);
+        pom2->set_frame(32);
+        pom2->set_title("Map of previous attitude");
+        Manager.insert(pom2);
+
+
+        pom2=new carpet_graph(lW - 49, 6 * (chHX + RAMKA), lW, 7 * (chHX + RAMKA), //domyślne współrzędne
+                                Powers); //I źródło danych
+        pom2->set_data_colors(0, 255);
+        pom2->set_frame(32);
+        pom2->set_title("Map of power");
+        Manager.insert(pom2);
+
+        pom2=new manhattan_graph(lW - 49, 7 * (chHX + RAMKA), lW, 8 * (chHX + RAMKA), //domyślne współrzędne
+                                    Powers, 0, //I źródło danych o wysokościach, niezarządzane
+                                    Firsts, 0, //Źródło danych o kolorach — niezarządzane
+                                    1,		//Słupki zaczynają się co najmniej od 0!
+                                    //Jeśli 0 to zaczynają się od min>0
+                                    0.22,		//Ułamek szerokości przeznaczony na perspektywę
+                                    0.77		//Ułamek wysokości  przeznaczony na perspektywę
+                                    ); //I źródło danych
+        pom2->set_data_colors(0, 255);
+        pom2->set_frame(32);
+        pom2->set_title("Composed map of strength and attitude of agents");
+        Manager.insert(pom2);
+
+        pom2=new bars_graph(lW - 49, 8 * (chHX + RAMKA), lW, 9 * (chHX + RAMKA),
+                            ClassStat);
+        pom2->set_data_colors(0, 255);
+        pom2->set_frame(128 + 64);
+        pom2->set_title("Histogram of attitude");
+        Manager.insert(pom2);
+
+        pom2=new manhattan_graph(lW - 49, 9 * (chHX + RAMKA), lW, 10 * (chHX + RAMKA), //domyślne współrzędne //
+                                    CorrFS, 0,	//I źródło danych
+                                    CorrFS, 0,
+                                 1,
+                                 0.22,		//Ułamek szerokości przeznaczony na perspektywę
+                                    0.77);		//Ułamek wysokości  przeznaczony na perspektywę
+        pom2->set_data_colors(0, 255);
+        pom2->set_text_colors(0);
+        pom2->set_frame(128 + 64);
+        pom2->set_title("Dynamism: curr. attitude vers. prev. attitude");
+        Manager.insert(pom2);
         
         
-        pom=new carpet_graph(szer-49,6*(char_height('X')+RAMKA),szer,7*(char_height('X')+RAMKA), //domyślne współrzędne
-            Powers); //I źródło danych
-        pom->set_data_colors(0, 255);
-        pom->set_frame(32);
-        pom->set_title("Map of power");
-        Menager.insert(pom);
-        
-        pom=new manhattan_graph(szer-49, 7*(char_height('X')+RAMKA),szer,8*(char_height('X')+RAMKA), //domyślne współrzędne
-            Powers,0, //I źródło danych o wysokościach, niezarządzane
-            Firsts,0, //Źródło danych o kolorach — niezarządzane
-            1,		//Słupki zaczynają się co najmniej od 0!
-            //Jeśli 0 to zaczynają się od min>0
-            0.22,		//Ułamek szerokości przeznaczony na perspektywę
-            0.77		//Ułamek wysokości  przeznaczony na perspektywę
-            ); //I źródło danych
-        pom->set_data_colors(0, 255);
-        pom->set_frame(32);
-        pom->set_title("Composed map of strength & attitude of agents");
-        Menager.insert(pom);
-        
-        pom=new bars_graph(szer-49, 8*(char_height('X')+RAMKA),szer,9*(char_height('X')+RAMKA),
-            ClassStat);
-        pom->set_data_colors(0, 255);
-        pom->set_frame(128 + 64);
-        pom->set_title("Histogram of attitude");
-        Menager.insert(pom);
-        
-        pom=new manhattan_graph(szer-49, 9*(char_height('X')+RAMKA),szer,10*(char_height('X')+RAMKA), //domyślne współrzędne //
-            CorrFS,0,	//I źródło danych
-            CorrFS,0,
-            1,
-            0.22,		//Ułamek szerokości przeznaczony na perspektywę
-            0.77);		//Ułamek wysokości  przeznaczony na perspektywę
-        pom->set_data_colors(0, 255);
-        pom->set_text_colors(0);
-        pom->set_frame(128 + 64);
-        pom->set_title("Dynamism: curr. attit. vers. prev. attitude");
-        Menager.insert(pom);
-        
-        
-        pom1=new sequence_graph(szer-49, 10*(char_height('X')+RAMKA),szer,11*(char_height('X')+RAMKA),						
-            1,Sources.make_series_info(
-            iClassEntropy,
-            -1
-            ).get_ptr_val(),
-            1/*Wspolne minimum/maximum*/);
-        if(!pom1) goto ERROR;
+        pom1=new sequence_graph(lW - 49, 10 * (chHX + RAMKA), lW, 11 * (chHX + RAMKA),
+                                1, Sources.make_series_info(
+                                                            iClassEntropy,
+                                                            -1
+                                                            ).get_ptr_val(),
+                                1/*Wspólne minimum/maximum*/);
+        //if(!pom1) goto ERROR;
         pom1->set_frame(128);
-        pom1->set_title("HISTORY OF ENTROPY OF CLASIFICATION");
-        Menager.insert(pom1);
+        pom1->set_title("HISTORY OF ENTROPY OF CLASSIFICATION");
+        Manager.insert(pom1);
         
-        pom1=new sequence_graph(szer-49,11*(char_height('X')+RAMKA),szer,12*(char_height('X')+RAMKA),  						
-            1,Sources.make_series_info(
-            iEntropyFS,
-            -1
-            ).get_ptr_val(),
-            1/*Wspolne minimum/maximum*/);
-        if(!pom1) goto ERROR;
+        pom1=new sequence_graph(lW - 49, 11 * (chHX + RAMKA), lW, 12 * (chHX + RAMKA),
+                                1, Sources.make_series_info(
+                                                            iEntropyFS,
+                                                            -1
+                                                            ).get_ptr_val(),
+                                1/*Wspólne minimum/maximum*/);
+        //if(!pom1) goto ERROR;
         pom1->set_frame(128);
         pom1->set_title("HISTORY OF ENTROPY OF CHANGE");
-        Menager.insert(pom1);
+        Manager.insert(pom1);
         
         /*
-        pom=new sequence_graph(szer-49, 11*(char_height('X')+RAMKA),szer,12*(char_height('X')+RAMKA),
+        pom2=new sequence_graph(lW-49, 11*(char_height('X')+RAMKA),lW,12*(char_height('X')+RAMKA),
         1,Sources.make_series_info(
         iCorrFSR, //iCorrFS,
         -1
         ).get_ptr_val(),
                                 1//Wspólne minimum/maximum
                                 );
-                                if(!pom) goto ERROR;
-                                pom->set_frame(128);
-                                pom->set_title("HISTORY OF Prev.TO Curr. CORRELATION");
-                                Menager.insert(pom);
+                                if(!pom2) goto ERROR;
+                                pom2->set_frame(128);
+                                pom2->set_title("HISTORY OF Prev.TO Curr. CORRELATION");
+                                Manager.insert(pom2);
         */
         /*
-        pom1=new sequence_graph(szer-49, 12*(char_height('X')+RAMKA),szer,13*(char_height('X')+RAMKA),						
+        pom1=new sequence_graph(lW-49, 12*(char_height('X')+RAMKA),lW,13*(char_height('X')+RAMKA),
         1,Sources.make_series_info(
         iSpatialCorr,
         -1
@@ -401,40 +406,42 @@ void kWorld::make_default_visualisation()
         
         */ 
         
-        function_source_base* Linear=new function_source<y_eq_x>(SpatialCorr->get_size(), 0, SpatialCorr->get_size(), "lenght");
+        function_source_base* Linear=new function_source<y_eq_x>(SpatialCorr->get_size(), 0., double(SpatialCorr->get_size()), "length");
         Sources.insert(Linear);
-        pom1=new scatter_graph(szer-49, 12*(char_height('X')+RAMKA),szer,13*(char_height('X')+RAMKA),
-            Linear,0,
-            SpatialCorr,0);	
+        pom1=new scatter_graph(lW - 49, 12 * (chHX + RAMKA), lW, 13 * (chHX + RAMKA),
+                               Linear, 0,
+                               SpatialCorr, 0);
         
-        if(!pom1) goto ERROR;
+        //if(!pom1) goto ERROR;
         pom1->set_frame(128);
         pom1->set_title("SPATIAL CORRELATION");
-        Menager.insert(pom1);
+        Manager.insert(pom1);
         
         //Tworzenie obszaru sterującego
         {
-            wb_dynarray<rectangle_source_base*> tmp(4,(rectangle_source_base*)Sources.get(iFirst),
-                (rectangle_source_base*)Sources.get(iSecond),
-                //(rectangle_source_base*)Sources.get(iThird),
-                (rectangle_source_base*)Sources.get(iPower),
-                (rectangle_source_base*)Sources.get(iPressure),
-                -1
-                );
-            drawable_base* pom=new steering_wheel(szer-49,0,szer,5*(char_height('X')+RAMKA),tmp);			
+            wb_dynarray<rectangle_source_base*> tmp(4,  (rectangle_source_base*)Sources.get(iFirst),
+                                                        (rectangle_source_base*)Sources.get(iSecond),
+                                                        //(rectangle_source_base*)Sources.get(iThird),
+                                                        (rectangle_source_base*)Sources.get(iPower),
+                                                        (rectangle_source_base*)Sources.get(iPressure),
+                                                        -1
+                                                        );
+            drawable_base* pom=new steering_wheel(lW - 49, 0, lW, 5 * (chHX + RAMKA), tmp);
             assert(pom!=nullptr);
             pom->set_background(10);
-            Menager.insert(pom);
+            Manager.insert(pom);
             pom->set_title(" ");
         }
-        
-}
-Sources.new_data_version(1,1); //Oznajmia seriom, że dane się uaktualniły	(po inicjacji)
+    } // Koniec klamry umożliwiającej "goto"
 
-ERROR://... tu akcja na niepogodę
-; //error_message(...)
+    Sources.new_data_version(1,1); //Oznajmia seriom, że dane się uaktualniły	(po inicjacji)
+    return; //Normalne wyjście.
+ERROR: //Tu "akcja na niepogodę"
+    // error_message(...)
+    ; exit(-111);
 }
 
+#pragma clang diagnostic pop
 /* ****************************************************************** */
 /*        SYMSHELL2 EXAMPLE  version 2006/2022/2026                   */
 /* ****************************************************************** */

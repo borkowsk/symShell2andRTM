@@ -1,7 +1,7 @@
 /// @file
 /// @brief
-///  @EN{ IMPLEMENTATION OF AGENT FOR "attitudeS" SIMULATION. }
-///  @PL{ WDROŻENIE AGENTA DO SYMULACJI POSTAW "attitudeS". }
+///  @EN{ IMPLEMENTATION OF AGENT FOR "KattitudeS" SIMULATION. }
+///  @PL{ IMPLEMENTACJA AGENTA DO SYMULACJI POSTAW "KattitudeS". }
 /// @date 2026-05-21 (modified)
 /// =========================================================
 /// @details (attitudeS old example for SymShell)
@@ -21,30 +21,37 @@ static inline void wb_swap(short& a,short& b)
 }
 
 /// @brief
-///     @EN{ AGENT FOR "attitudeS" SIMULATION. }
-///     @PL{ AGENT DO SYMULACJI POSTAW "attitudeS". }
+///     @EN{ AGENT FOR "KattitudeS" SIMULATION. }
+///     @PL{ AGENT DO SYMULACJI POSTAW "KattitudeS". }
 class ka_agent: public sym2::shell::agent_base
 {
     friend class ka_world; ///< Na razie tak. Żeby uprościć dostęp do składowych klasy zaprzyjaźnionej.
 
-    // STATYCZNE SKŁADOWE - PARAMETRY INICJOWANIA AGENTÓW:
+    /// @name STATYCZNE SKŁADOWE - PARAMETRY INICJOWANIA AGENTÓW:
+    //===========================================================
+    /// @{
     static short  Power_change;			//!< Określa, czy sila się zmienia (rośnie) z wiekiem.
     static short  Max_power;			//!< Maksymalna siła agenta.
     static short  Kate_num;				//!< Liczba kategorii w mapach.
     static short  Kate_shift;			//!< Przesuniecie dla wczytywania gifa.
     static double Majority;				//!< Udział największej klasy w całości.
     static double MutationLevel;		//!< Prawd. spontanicznej zmiany poglądów (0..1).
+    /// @}
 
-    static short DrawAttitude();		//!< Funkcja do losowania poglądu (???).
 
-    // SKŁADOWE DLA SYMULACJI:
+    /// @name SKŁADOWE KAŻDEGO AGENTA, ISTOTNE DLA MODELU LUB TECHNICZNE:
+    //===================================================================
+    /// @{
     short Power;				//!< Siła agenta.
     short First;				//!< Aktualne przekonanie.
     short Second;				//!< Nowe przekonanie lub poprzednie.
     short Press;				//!< Nacisk społeczny — sumaryczna siła za zwyciężającym poglądem, o ile agent go nie wyznaje, albo 0.
     bool  DurCh:1;				//!< Czy jest w trakcie zmieniania (do zarządzania zmianami stanów).
-    
-    void _clean()				//!< Implementacja czyszczenia.
+    /// @}
+
+    static short DrawAttitude();				//!< Funkcja do losowania poglądu (???).
+
+    void _clean()								//!< Implementacja czyszczenia.
     {
         First=-1;
         Second=-1;
@@ -53,21 +60,36 @@ class ka_agent: public sym2::shell::agent_base
         DurCh=false;
     }
 
-    // TO CO MUSI być zdefiniowane:
-    // ////////////////////////////
-public:
-    bool IsOK() override
-    {
-        return First!=-1 && Second!=-1 && Power!=-1;
-    }
-
-    void MakeOlder()				//!< Siła jako wiek.
+    void MakeOlder()							//!< Siła jako wiek.
     {
         if(ka_agent::Power_change)
         {
             Power+=ka_agent::Power_change;
             Power%=ka_agent::Max_power; //Nigdy nie przekracza siły maksymalnej
         }
+    }
+
+    void new_attitude(short a)					//!< Śledzona zmiana poglądu.
+    {
+        Second=a;   //Takie ma być nowe przekonanie
+        DurCh=true; //Sygnał, że już jest "w trakcie" zmiany. Np. żeby zapobiec powtórce
+    }
+
+    void update()								//!< Kontrola ostatecznej zmiany stanu.
+    {
+        assert(DurCh);  //Powinien być w trakcie zmiany
+        wb_swap(First,Second);
+        DurCh=false;    //Teraz jest już zmieniony
+    }
+
+public:
+    /// @name TO CO MUSI być zdefiniowane:
+    //====================================
+    /// @{
+
+    bool IsOK() override						//!< Czy z agentem wszystko OK?
+    {
+        return First!=-1 && Second!=-1 && Power!=-1;
     }
 
     ka_agent();									//!< Konstruktor kopiujący.
@@ -82,19 +104,6 @@ public:
 
     void clean() override						//!< Wirtualne czyszczenie. Wywołuje `_clean`.
     {_clean();}
-
-    void new_attitude(short a)
-    {
-        Second=a;   //Takie ma być nowe przekonanie
-        DurCh=true; //Sygnał, że już jest "w trakcie" zmiany. Np. żeby zapobiec powtórce
-    }
-
-    void update()				//!< Kontrola zmiany stanu.
-    {
-        assert(DurCh);  //Powinien być w trakcie zmiany
-        wb_swap(First,Second);
-        DurCh=false;    //Teraz jest już zmieniony
-    }
 
     void assign_curr(unsigned char Red,unsigned char /*Green*/,unsigned char Blue)
     {
@@ -127,28 +136,19 @@ public:
 
     long RGB() const
     {
-        return (unsigned long) ( (unsigned char) (First) );
+        return ( (unsigned char) (First) );
     }
+    /// @}
+
+    /// @name I/O operator(y/s):
+    //--------------------------
+    /// @{
+    friend
+    ostream& operator << (ostream& o,const ka_agent& a);
 
     friend
-    ostream& operator << (ostream& o,const ka_agent& a)
-    {
-        o<<'{';
-        o<<' '<<a.Power<<' '<<a.First<<' '<<a.Second<<' '<<a.Press<<' ';
-        o<<'}';
-        return o;
-    }
-
-    friend
-    istream& operator >> (istream& i, ka_agent& a)
-    {
-        char pom;
-        i>>pom;		//ignoruje {
-        i>>a.Power>>a.First>>a.Second>>a.Press;
-        i>>pom;		//ignoruje }
-        return i;
-    }
-
+    istream& operator >> (istream& i, ka_agent& a);
+    /// @}
 };
 
 /* ****************************************************************** */

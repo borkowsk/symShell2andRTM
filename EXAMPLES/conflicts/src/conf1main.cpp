@@ -1115,7 +1115,6 @@ void MetaExperiment::fill_rands()
 /**  @brief GŁÓWNE OBIEKTY I OGÓLNA FUNKCJA MAIN.   */
 /* ************************************************ */
 
-
 int main(int argc,const char* argv[])
 {
     //int i=0;

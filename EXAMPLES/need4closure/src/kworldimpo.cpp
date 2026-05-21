@@ -1,12 +1,14 @@
 /// @file
 /// @brief
-///     @EN{ Implementation of the 'kworld' class. Virtual output methods. }
-///     @PL{  }
+///     @EN{ Implementation of the type 'kWorld'. Virtual output method. }
+///     @PL{ Implementacja typu 'kWorld'. Metoda wirtualnego wyjścia. }
 /// @date 2026-05-21 (modified)
 ///       ===========================================================================
 /// @details
-/// Its is rather simply implementation. You can replace it if you need.
-//=====================================================================
+///     @EN{ Old example for SymShell implementing a Kruglanski's like model. } @PL{ .... }
+///     @EN{ Its is rather simply implementation. You can replace it if you need. } @PL{ .... }
+//======================================================================================================================
+
 #include "kWorld.h"
 
 int kWorld::implement_output(ostream& o) const
@@ -15,8 +17,8 @@ int kWorld::implement_output(ostream& o) const
     if(ret!=1) return ret;
     o<<separator;
     o<<MyWidth<<separator;	//Obwód (?) torusa
-    o<<MaxSila<<separator;	//Maksymalna siła agenta
-    o<<IleSasiad<<separator;	//8 == Gęstość sąsiedztwa
+    o << MaxStrength << separator;	//Maksymalna siła agenta
+    o << NeighDens << separator;	//8 == Gęstość sąsiedztwa
     o<<WeightOfSelf<<separator; //Jak ma brać siebie pod uwagę
     o<<NeedForClosure<<separator; //Jak ma brać innych (waga)
     o<<Noise<<separator<<endl;		//Szum informacyjny

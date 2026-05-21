@@ -1,7 +1,7 @@
 /// @file
 /// @brief
-/// @EN{ Implementation of the world of the convinced (D. Stauffer idea). }
-/// @PL{  }
+/// @EN{ Implementation of "the world of the convinced" (D. Stauffer idea). }
+/// @PL{ Implementacja "świata przekonanych" (idea D. Stauffera). }
 /// @date 2026-05-21 (modified)
 ///       =================================================================
 /// @details ...
@@ -17,11 +17,16 @@
 #include "coincsou.hpp"
 #include "gadgets.hpp" 
 #include "wb_ptrio.h"
+#include "toitoutoll.hpp"
+
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "modernize-use-auto"
+#pragma ide diagnostic ignored "modernize-use-nullptr"
 
 using namespace sym2;
 
-const int RAMKA=4;
 extern const char* SIMULATION_NAME;
+const int RAMKA=4; ///< @brief @PL{ GRUBOŚĆ RAMKI. } @EN{  }
 
 // Construction of agents:
 //========================
@@ -33,7 +38,7 @@ convAgent::convAgent(const convAgent& ini)
         First=ini.First;
         Second=ini.Second;
         if(MinStrength < MaxStrength)
-            Power= MinStrength + RANDOM(MaxStrength - MinStrength + 1);
+            Power= tos( MinStrength + RANDOM(MaxStrength - MinStrength + 1) );
         else
             Power=ini.Power;
     }
@@ -46,13 +51,13 @@ convAgent::convAgent()
     _clean();
 
     if(DRAND()<ToBeNewProb)
-        First=1+RANDOM(NumOfCate - 1);
+        First=tos( 1+RANDOM(NumOfCate - 1) );
     else
         First=0;
 
     Second=0;
     if(MinStrength < MaxStrength)
-        Power= MinStrength + RANDOM(MaxStrength - MinStrength + 1);
+        Power= tos( MinStrength + RANDOM(MaxStrength - MinStrength + 1) );
     else
         Power=MaxStrength;
 }
@@ -62,13 +67,32 @@ convAgent::convAgent()
 
 short   convAgent::MinStrength=10;
 short	convAgent::MaxStrength=100;	//Maximum agent power/force.
-short	convAgent::NumOfCate=2;	//Number of categories in maps.
-short	convAgent::CateShift=0;	//Offset for loading states from a GIF file.
+short	convAgent::NumOfCate=2;	    //Number of categories in maps.
+short	convAgent::CateShift=0;	    //Offset for loading states from a GIF file.
 
-double	convAgent::ToBeNewProb=0;	//The probability of a loner spontaneously changing his views on a new type of entertainment/sport.
+double	convAgent::ToBeNewProb=0;	    //The probability of a loner spontaneously changing his views on a new type of entertainment/sport.
 double  convAgent::NewInfectProb=0.01;	//Probability of "infection" from a pair of "infected" individuals.
-double  convAgent::ReverseProb=1;	//Probability of reversal of views to 0 - no idea for entertainment.
-double  convAgent::SupportLevel=0.5;	//The power of support when you have some companions.
+double  convAgent::ReverseProb=1;	    //Probability of reversal of views to 0 - no idea for entertainment.
+double  convAgent::SupportLevel=0.5;    //The power of support when you have some companions.
+
+istream &operator>>(istream &i, convAgent &a)        //!< @brief @EN{ Deserialization. }
+{
+    char pom;
+    i>>pom;		//ignoring `{`
+    i>>a.Power>>a.First>>a.Second;
+    i>>pom;		//ignoring `}`
+    return i;
+}
+
+ostream &operator<<(ostream &o, const convAgent &a)    //!< @brief @EN{ Serialization. }
+{
+    o<<'{';
+    o<<' '<<a.Power<<' '<<a.First<<' '<<a.Second<<' ';
+    o<<'}';
+    return o;
+}
+
+
 
 // CONSTRUCTION OF THE WORLD:
 //===========================
@@ -76,14 +100,14 @@ double  convAgent::SupportLevel=0.5;	//The power of support when you have some c
 extern unsigned InternalLogLen;
 
 convWorld::convWorld(
-        unsigned iWidth,		//Width of the torus of the agent matrix.
-        double iToBeNewProb,	//=0.1, //Likelihood of spontaneous change of opinion.
-        double iInfectProb,		//=0.9, //Probability of reversal of views on 0.
-        double iSupportLevel,	//=0.5, //The power of support when he has some friends.
-        const char* iLog_name,	//="convince.log", //File name for saving history.
-        const char* iMapL_name,	//=NULL,	//The name of the bitmap initializing the "components".
-        const char* iMapP_name,	//=NULL,	//The name of the agent force initialization bitmap.
-        const char* iLive_mask,	//=NULL,	//The name of the bitmap defining uninhabited areas.
+        unsigned iWidth,			//Width of the torus of the agent matrix.
+        double iToBeNewProb,		//=0.1, //Likelihood of spontaneous change of opinion.
+        double iInfectProb,			//=0.9, //Probability of reversal of views on 0.
+        double iSupportLevel,		//=0.5, //The power of support when he has some friends.
+        const char* iLog_name,		//="convince.log", //File name for saving history.
+        const char* iMapL_name,		//=NULL,	//The name of the bitmap initializing the "components".
+        const char* iMapP_name,		//=NULL,	//The name of the agent force initialization bitmap.
+        const char* iLive_mask,		//=NULL,	//The name of the bitmap defining uninhabited areas.
         short iMax_strength,		//=100,	//Maximum agent power/strength.
         short iMin_strength			//,=10	//Minimum agent strength.
                ):
@@ -147,71 +171,71 @@ void convWorld::make_default_visualisation()
     // Getting the indexes of basic series from the manager:
     {
     if(Firsts) iFirst=Sources.search(Firsts->name());
-        else  goto ERROR;
+    else  goto ERROR;
 
     if(Seconds) iSecond=Sources.search(Seconds->name());
-        else  goto ERROR;
+    else  goto ERROR;
 
     if(Powers)   iPower=Sources.search(Powers->name());
-        else  goto ERROR;
+    else  goto ERROR;
 
     if(Firsts)  iClassif=Sources.search(Firsts->name());
-        else  goto ERROR;
+    else  goto ERROR;
 
 
     // Creation of derived statistical series:
     generic_clustering_source*	FirstStat=new generic_clustering_source(Firsts);
-    if(!FirstStat) goto ERROR;
-        else	Sources.insert(FirstStat);
+    //if(!FirstStat) goto ERROR;
+    Sources.insert(FirstStat);
 
     generic_clustering_source*	SecondStat=new generic_clustering_source(Seconds);
-    if(!SecondStat) goto ERROR;
-        else	Sources.insert(SecondStat);
+    //if(!SecondStat) goto ERROR;
+    Sources.insert(SecondStat);
 
     // Source for calculating statistics and histogram from classification:
     generic_histogram_source*  ClassStat=new generic_histogram_source(Firsts);
-    if(!ClassStat) goto ERROR;
-        else	Sources.insert(ClassStat);
+    //if(!ClassStat) goto ERROR;
+    Sources.insert(ClassStat);
 
     // And also creating a series counting their mutual co-statistics:
     coincidence_source* CorrFS=new coincidence_source(Firsts, Seconds);
-    if(!CorrFS) goto ERROR;
+    //if(!CorrFS) goto ERROR;
     Sources.insert(CorrFS); // Registered to be released at the end
 
     fifo_source<double>* EntropyFSLog=new fifo_source<double>(CorrFS->Entropy(), InternalLogLen);
-    if(!EntropyFSLog) goto ERROR;
+    //if(!EntropyFSLog) goto ERROR;
     int iEntropyFS=Sources.insert(EntropyFSLog);
 
     fifo_source<double>* CorrFSLogR=new fifo_source<double>(CorrFS->Tau_a_Goodman_Kruskal(), InternalLogLen);
-    if(!CorrFSLogR) goto ERROR;
+    //if(!CorrFSLogR) goto ERROR;
     int iCorrFSR=Sources.insert(CorrFSLogR);
-
 
     // Creating series counting statistics from basic series:
     fifo_source<double>* StressFirstLog=new fifo_source<double>(FirstStat->Stress(), InternalLogLen);
-    if(!StressFirstLog) goto ERROR;
+    //if(!StressFirstLog) goto ERROR;
     int iSFirst=Sources.insert(StressFirstLog);
 
     fifo_source<double>* StressSecondLog=new fifo_source<double>(SecondStat->Stress(), InternalLogLen);
-    if(!StressSecondLog) goto ERROR;
-    int iSSecond=Sources.insert(StressSecondLog);
+    //if(!StressSecondLog) goto ERROR;
+    //int iSSecond=
+            Sources.insert(StressSecondLog);
 
     //iMainClassF,iWhichMainF,iNumClassF,
     fifo_source<double>* NumClassLog=new fifo_source<double>(ClassStat->NumOfClass(), InternalLogLen);
-    if(!NumClassLog) goto ERROR;
+    //if(!NumClassLog) goto ERROR;
     int iNumClassF=Sources.insert(NumClassLog);
 
     fifo_source<double>* ClassEntropyLog=new fifo_source<double>(ClassStat->Entropy(), InternalLogLen);
-    if(!ClassEntropyLog) goto ERROR;
+    //if(!ClassEntropyLog) goto ERROR;
     int iClassEntropy=Sources.insert(ClassEntropyLog);
 
     fifo_source<double>* MainClassLog=new fifo_source<double>(ClassStat->MainClass(), InternalLogLen);
-    if(!MainClassLog) goto ERROR;
+    //if(!MainClassLog) goto ERROR;
     int iMainClassF=Sources.insert(MainClassLog);
 
 
     fifo_source<double>* WhichMainLog=new fifo_source<double>(ClassStat->WhichMain(), InternalLogLen);
-    if(!WhichMainLog) goto ERROR;
+    //if(!WhichMainLog) goto ERROR;
     int iWhichMainF=Sources.insert(WhichMainLog);
 
 
@@ -236,131 +260,129 @@ void convWorld::make_default_visualisation()
     //==============================================
 
     // WE GET THE DEFAULT WINDOW DIMENSIONS:
-    unsigned szer= Manager.get_width();
-    unsigned wyso= Manager.get_height();
-    assert(szer>50 && wyso>40); //The smallest possible window
+    unsigned lW= Manager.get_width();
+    unsigned lH= Manager.get_height();                        assert(lW > 50 && lH > 40); //The smallest possible window
 
     // Creating default areas, such as the STATUS area:
     world::make_default_visualisation();
     if(OutArea)
     {
-        OutArea->set(1,1,szer/2-1,wyso/2-1);
+        OutArea->set(1, 1, lW / 2. - 1, lH / 2. - 1);
         Manager.as_original(Manager.search(OutArea->name()));
     }
 
     // RIGHT "LUFTIES" FOR THIS SIMULATION:
     // (LUFTIES are small windows built into a large window.)
-    graph* pom1=new sequence_graph(szer/2-1,wyso/4,szer-50,wyso/2-1,
-                                    3,Sources.make_series_info(
+    graph* pom1=new sequence_graph( toi(lW / 2. - 1),toi(lH / 4.),toi(lW - 50),toi(lH / 2. - 1),
+                                    3, Sources.make_series_info(
                                             iNumClassF,iMainClassF,iWhichMainF,
                                                 -1
                                             ).get_ptr_val(),
                                     0 // This 0 means that with rescaling
                                    );
-    if(!pom1) goto ERROR;
-        pom1->set_frame(128);
-        pom1->set_title("HISTORY OF CLASSIFICATION");
+    //if(!pom1) goto ERROR;
+    pom1->set_frame(128);
+    pom1->set_title("HISTORY OF CLASSIFICATION");
     Manager.insert(pom1);
 
     //inne mniej potrzebne
-    graph* pom=new sequence_graph(szer/2-1,1,szer-50,wyso/4-1,	//default area coordinates
-                                    1,Sources.make_series_info(
+    graph* pom=new sequence_graph( toi(lW / 2 - 1), 1,toi(lW - 50),toi(lH / 4 - 1),	//default area coordinates
+                                    1, Sources.make_series_info(
                                             iSFirst,	// Pointer to data source.
                                                 -1
                                             ).get_ptr_val(),
-                                   1); // This 1 means that the minimum and maximum are common.
-    if(!pom) goto ERROR;
-        pom->set_frame(128);
-        pom->set_title("HISTORY OF STRESS");
+                                  1); // This 1 means that the minimum and maximum are common.
+    //if(!pom) goto ERROR;
+    pom->set_frame(128);
+    pom->set_title("HISTORY OF STRESS");
     Manager.insert(pom);
 
-    pom=new carpet_graph(1,wyso/2,szer/3,wyso-1,	//default area coordinates
+    pom=new carpet_graph(1,toi(lH / 2),toi(lW / 3),toi(lH - 1),	//default area coordinates
                             Firsts);	// Pointer to data source.
-        pom->set_data_colors(0, 255);
-        pom->set_title("Map of current attitude");
+    pom->set_data_colors(0, 255);
+    pom->set_title("Map of current attitude");
     Manager.insert(pom);
 
-    pom=new bars_graph(szer/3+1,wyso/2,szer/3*2,wyso-1,	//default area coordinates
+    pom=new bars_graph(toi(lW / 3 + 1),toi(lH / 2),toi(lW / 3 * 2),toi(lH - 1),	//default area coordinates
                             ClassStat);	// Pointer to data source.
-        pom->set_data_colors(0, 255);
-        pom->set_title("Histogram of attitude");
+    pom->set_data_colors(0, 255);
+    pom->set_title("Histogram of attitude");
     Manager.insert(pom);
 
-    pom=new manhattan_graph(szer/3*2+1,wyso/2,szer,wyso-1,	//default area coordinates
-                                CorrFS,0,	// Pointer to data source.
-                                CorrFS,0,	// Pointer to data source.
+    pom=new manhattan_graph(toi(lW / 3 * 2 + 1),toi(lH / 2),toi(lW),toi(lH - 1),	//default area coordinates
+                                CorrFS, 0,	// Pointer to data source.
+                                CorrFS, 0,	// Pointer to data source.
                                 1,
                                 0.22,		//A fraction of the width is allocated to perspective
-                                0.77);	//A fraction of the height is dedicated to perspective
-        pom->set_data_colors(0, 255);
-        pom->set_text_colors(0);
-        pom->set_title("Dynamism: curr. attit. vers. prev. attitude");
+                                0.77);		//A fraction of the height is dedicated to perspective
+    pom->set_data_colors(0, 255);
+    pom->set_text_colors(0);
+    pom->set_title("Dynamism: curr. attitude vers. prev. attitude");
     Manager.insert(pom);
 
     //PRZYCISKI
-    pom=new carpet_graph(szer-49,5*(char_height('X')+RAMKA),szer,6*(char_height('X')+RAMKA),	//default area coordinates
+    pom=new carpet_graph(toi(lW - 49),toi(5 * (char_height('X') + RAMKA)),toi(lW),toi(6 * (char_height('X') + RAMKA)),	//default area coordinates
                             Seconds);	// Pointer to data source.
-        pom->set_data_colors(0, 255);
-        pom->set_frame(0);
-        pom->set_title("Map of previous attitude");
+    pom->set_data_colors(0, 255);
+    pom->set_frame(0);
+    pom->set_title("Map of previous attitude");
     Manager.insert(pom);
 
 
-    pom=new carpet_graph(szer-49,6*(char_height('X')+RAMKA),szer,7*(char_height('X')+RAMKA),	//default area coordinates
+    pom=new carpet_graph(toi(lW - 49),toi(6 * (char_height('X') + RAMKA)), toi(lW),toi(7 * (char_height('X') + RAMKA)),	//default area coordinates
                             Powers);	// Pointer to data source.
-        pom->set_data_colors(0, 255);
-        pom->set_frame(0);
-        pom->set_title("Map of power");
+    pom->set_data_colors(0, 255);
+    pom->set_frame(0);
+    pom->set_title("Map of power");
     Manager.insert(pom);
 
-    pom=new manhattan_graph(szer-49, 7*(char_height('X')+RAMKA),szer,8*(char_height('X')+RAMKA),	//default area coordinates
-                            Powers,0,	// Pointer to a data source (but unmanaged because someone else releases them)
-                            Firsts,0,	// Pointer to a data source (but unmanaged because someone else releases them)
+    pom=new manhattan_graph(toi(lW - 49),toi(7 * (char_height('X') + RAMKA)), toi(lW),toi(8 * (char_height('X') + RAMKA)),	//default area coordinates
+                            Powers, 0,	// Pointer to a data source (but unmanaged because someone else releases them)
+                            Firsts, 0,	// Pointer to a data source (but unmanaged because someone else releases them)
                             1,		//Bars start at least from 0!
                                             //If it was 0, then they start from min>0
                             0.22,		//A fraction of the width is allocated to perspective
                             0.77		//A fraction of the height is dedicated to perspective
                             );	// Pointer to data source.
-        pom->set_data_colors(0, 255);
-        pom->set_frame(0);
-        pom->set_title("The composed map of strength & attitude of agents");
+    pom->set_data_colors(0, 255);
+    pom->set_frame(0);
+    pom->set_title("The composed map of strength and attitude of agents");
     Manager.insert(pom);
 
-    pom1=new sequence_graph(szer-49, 9*(char_height('X')+RAMKA),szer,10*(char_height('X')+RAMKA),
-
-                                    1,Sources.make_series_info(
+    pom1=new sequence_graph(toi(lW - 49),toi(9 * (char_height('X') + RAMKA)), toi(lW),toi(10 * (char_height('X') + RAMKA)),
+                            1, Sources.make_series_info(
                                             iClassEntropy,
                                                 -1
                                             ).get_ptr_val(),
-                                   1 /*Common minimum and maximum*/);
-    if(!pom1) goto ERROR;
-        pom1->set_frame(128);
-        pom1->set_title("HISTORY OF ENTROPY OF CLASSIFICATION");
+                            1 /*Common minimum and maximum*/);
+    //if(!pom1) goto ERROR;
+    pom1->set_frame(128);
+    pom1->set_title("HISTORY OF ENTROPY OF CLASSIFICATION");
     Manager.insert(pom1);
 
 
-    pom1=new sequence_graph(szer-49, 10*(char_height('X')+RAMKA),szer,11*(char_height('X')+RAMKA),
-                                    1,Sources.make_series_info(
+    pom1=new sequence_graph(toi(lW - 49),toi(10 * (char_height('X') + RAMKA)), toi(lW),toi(11 * (char_height('X') + RAMKA)),
+                            1, Sources.make_series_info(
                                             iEntropyFS,
                                                 -1
                                             ).get_ptr_val(),
-                                   1 /*Common minimum and maximum*/);
-    if(!pom1) goto ERROR;
-        pom1->set_frame(128);
-        pom1->set_title("HISTORY OF ENTROPY OF CHANGE");
+                            1 /*Common minimum and maximum*/);
+    //if(!pom1) goto ERROR;
+    pom1->set_frame(128);
+    pom1->set_title("HISTORY OF ENTROPY OF CHANGE");
     Manager.insert(pom1);
 
 
-    pom=new sequence_graph(szer-49, 11*(char_height('X')+RAMKA),szer,12*(char_height('X')+RAMKA),
-                                    1,Sources.make_series_info(
+    pom=new sequence_graph(toi(lW - 49),toi(11 * (char_height('X') + RAMKA)), toi(lW),toi(12 * (char_height('X') + RAMKA)),
+                           1, Sources.make_series_info(
                                             iCorrFSR, //iCorrFS,
                                                 -1
                                             ).get_ptr_val(),
-                                    1
+                           1
                                    );
-    if(!pom) goto ERROR;
-        pom->set_frame(128);
-        pom->set_title("HISTORY OF Prev.TO Curr. CORRELATION");
+    //if(!pom) goto ERROR;
+    pom->set_frame(128);
+    pom->set_title("HISTORY OF Prev.TO Curr. CORRELATION");
     Manager.insert(pom);
 
     // Creating a control area:
@@ -372,10 +394,9 @@ void convWorld::make_default_visualisation()
                                               (rectangle_source_base*)Sources.get(iClassif),
                                               -1
                                               );
-    drawable_base* pom=new steering_wheel(szer-49,0,szer,5*(char_height('X')+RAMKA),tmp);
-    assert(pom!=NULL);
-        pom->set_background(10);
-    Manager.insert(pom);
+    drawable_base* l_pom=new steering_wheel(toi(lW - 49), 0, toi(lW),toi(5 * (char_height('X') + RAMKA)), tmp); //assert(l_pom!=NULL);
+    l_pom->set_background(10);
+    Manager.insert(l_pom);
     }
 
     }
@@ -450,8 +471,8 @@ void convWorld::initialize_layers()
               << "\nMax Power=" << Log.separator() << convAgent::MaxStrength
               << "\nNum of Kl=" << Log.separator() << convAgent::NumOfCate;
 
-    //	ACTUAL AGENT STATES DETERMINATION:
-    //====================================
+    // AGENT STATES DETERMINATION:
+    //============================
 
     //It loads using the constructor, so it initializes the rest of the fields as well:
     int from1= Agenci.init_from_bitmap(MappName.get_ptr_val(),&convAgent::assignPow);
@@ -484,7 +505,7 @@ void convWorld::simulate_one_step()
         if(CenterAgent.First==0) //no view on sports/entertainment
         {
             if(DRAND() < convAgent::ToBeNewProb)
-                CenterAgent.First=1+RANDOM(convAgent::NumOfCate - 1);
+                CenterAgent.First=tos(1+RANDOM(convAgent::NumOfCate - 1));
             continue;
         }
         else
@@ -493,7 +514,8 @@ void convWorld::simulate_one_step()
             unsigned index=MyGeom->get(x,y);
 
             //We check what our neighbors are like:
-            int koledzy[8][2],ilu=0;
+            int koledzy[8][2];
+            unsigned ilu=0;
             iterator_h Neigh=MyGeom->make_neighbour_iterator(index, 1);
             while(Neigh)
             {
@@ -540,10 +562,12 @@ void convWorld::simulate_one_step()
                 }
 
                 //And now the hardest part, convincing unconvinced neighbors:
-                int Inni[20][2],innych=0;
-                for(int i=min(x,nx);i<=max(x,nx);i++)
+                //int Inni[20][2];
+                //int innych=0;
+
+                for(int i=toi(min(x,nx));i<=max(x,nx);i++)
                 {
-                    for(int j=min(y,ny);j<=max(y,ny);j++)
+                    for(int j=toi(min(y,ny));j<=max(y,ny);j++)
                     {
                         if(i==x && j==y)
                             continue; //The first of the pair of contagious
@@ -552,7 +576,7 @@ void convWorld::simulate_one_step()
                         if(abs(i-x)<2 && abs(i-nx)<2 &&
                            abs(j-y)<2 && abs(j-ny)<2)
                         {
-                            size_t ConvertedIndex=MyGeom->get(i,j);    assert(ConvertedIndex!=geometry_base::FULL);
+                            size_t ConvertedIndex=MyGeom->get(i,j);              assert(ConvertedIndex!=geometry::FULL);
                                                                                  assert(ConvertedIndex<MyWidth*MyWidth);
                             convAgent& ForModify=Agenci.get(ConvertedIndex);
                             if(ForModify.First==0 && DRAND() < convAgent::NewInfectProb)
@@ -573,6 +597,7 @@ void convWorld::simulate_one_step()
     }
 }
 
+#pragma clang diagnostic pop
 /* ****************************************************************** */
 /*        SYMSHELL2 EXAMPLE  version 2006/2022/2026                   */
 /* ****************************************************************** */
@@ -584,7 +609,3 @@ void convWorld::simulate_one_step()
 /*        MAIL:  wborkowski@uw.edu.pl                                 */
 /*                               (Don't change or remove this note)   */
 /* ****************************************************************** */
-
-
-
-

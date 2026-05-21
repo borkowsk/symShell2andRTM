@@ -1,14 +1,18 @@
 /// @file
 /// @brief
 ///  @EN{ Virtual Input method implementation of the 'convWorld' type. }
-///  @PL{  }
+///  @PL{ Implementacja metody wirtualnego wejścia typu 'convWorld'. }
 /// @date 2026-05-21 (modified)
-///       ===========================================================
+///       ==============================================================
 /// @details
 ///     Its is rather simply implementation. You can replace it if you need.
 //======================================================================================================================
 
 #include "cworld.h"
+
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "modernize-use-auto"
+#pragma ide diagnostic ignored "modernize-use-nullptr"
 
 using namespace sym2::data;
 using namespace sym2::shell;
@@ -32,6 +36,7 @@ int convWorld::implement_input(istream& i)
     return 0;
 }
 
+#pragma clang diagnostic pop
 /* ****************************************************************** */
 /*        SYMSHELL2 EXAMPLE  version 2006/2022/2026                   */
 /* ****************************************************************** */

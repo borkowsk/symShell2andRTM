@@ -10,23 +10,28 @@
 
 #include "ka_world.h"
 
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "modernize-use-auto"
+#pragma ide diagnostic ignored "modernize-use-nullptr"
+
 int ka_world::implement_output(ostream& o) const
 {
     int ret=world::implement_output(o);
     if(ret!=1) return ret;
-    o<<separator;
-    o<<MyWidth<<separator;		//Obwód (?) torusa
-    o << MaxPower << separator;	//Maksymalna siła agenta
-    o<<IleKate<<separator;		//Liczba kategorii w mapach
-    o << NeiDens << separator;	//Gęstość sąsiedztwa
-    o << NeiSize << separator;	//Rozmiar sąsiedztwa
-    o<<WeightOfSelf<<separator;	//Jak ma brać siebie pod uwagę?
-    o<<NeedForClosure<<separator;	//Jak ma brać innych (waga)?
-    o<<Noise<<separator<<endl;		//Szum informacyjny
-    o<<Agenci<<endl;
+    o <<separator;
+    o <<MyWidth  << separator;		//Obwód (?) torusa
+    o <<MaxPower << separator;		//Maksymalna siła agenta
+    o <<IleKate  << separator;		//Liczba kategorii w mapach
+    o <<NeiDens  << separator;		//Gęstość sąsiedztwa
+    o <<NeiSize  << separator;		//Rozmiar sąsiedztwa
+    o <<WeightOfSelf  << separator;	//Jak ma brać siebie pod uwagę?
+    o <<NeedForClosure<< separator;	//Jak ma brać innych (waga)?
+    o <<Noise  << separator<<endl;	//Szum informacyjny
+    o <<Agenci <<endl;
     return 1;
 }
 
+#pragma clang diagnostic pop
 /* ****************************************************************** */
 /*         SYMSHELL2 EXAMPLES version 2006/2022/2026                  */
 /* ****************************************************************** */
@@ -38,7 +43,3 @@ int ka_world::implement_output(ostream& o) const
 /*        MAIL:  wborkowski@uw.edu.pl                                 */
 /*                               (Don't change or remove this note)   */
 /* ****************************************************************** */
-
-
-
-

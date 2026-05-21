@@ -3,7 +3,7 @@
 ///  @EN{ DECLARATION OF THE 'ka_world' FOR "KattitudeS" SIMULATION. }
 ///  @PL{ DEKLARACJA 'ka_world' DLA SYMULACJI 'POSTAW'. }
 /// @date 2026-05-21 (modified)
-///       =========================================================
+///       ============================================================
 /// @details (attitudeS old example for SymShell)
 // =====================================================================================================================
 
@@ -24,8 +24,9 @@ using namespace sym2::visual;
 class ka_world: public sym2::shell::world
 //---------------------------------------
 {
-    // Parametry jednowartościowe
-    // ///////////////////////////////
+    /// @name Parametry jednowartościowe:
+    // //////////////////////////////////
+    /// @{
     size_t				MyWidth;			//!< Obwód torusa.
     short				MaxPower;			//!< Maksymalna sila agenta.
     short				ThrPower;			//!< Threshold sily powyżej, którego nie ma zmian.
@@ -37,11 +38,12 @@ class ka_world: public sym2::shell::world
     double				NeedForClosure;		//!< Znaczenie może być różne, zależnie od implementacji.
     double				Noise;				//!< Szum informacyjny.
     double				LifeFill;			//!< Udział żywych na początku.
-    double				MigrProb;			//!< Prawdopodobieństwo migracji.
+    double				MigrationProb;		//!< Prawdopodobieństwo migracji.
     bool				Synchronic;			//!< Synchroniczna zmiana poglądów.
     wb_pchar			MappName;			//!< Nazwa pliku bitmapy inicjującej siły.
     wb_pchar			MapLName;			//!< Nazwa pliku bitmapy inicjującej stany.
     wb_pchar			MaskName;			//!< Nazwa pliku bitmapy inicjującej maskę obszarów zdatnych.
+    /// @}
 
     // Warstwy symulacji (są torusami):
     // ////////////////////////////////
@@ -49,19 +51,23 @@ class ka_world: public sym2::shell::world
     //rectangle_unilayer<unsigned char> suitability;		//!< Warstwa definiująca zdatność do zasiedlenia (suitability or usefulness)
     rectangle_layer_of_ptr_to_agents<ka_agent> Agenci;		//!< Właściwa warstwa agentów zasiedlających.
 
-    // Główne serie danych. Wygodniej i efektywniej mieć wskaźniki niż odszukiwać z Sources po nazwach:
-    // ////////////////////////////////////////////////////////////////////////////////////////////////
-    sym2::data::ptr_to_struct_matrix_source<ka_agent,short>		*Firsts;		//!< =Agenci.make_source("First mem",&aagent::First);
-    sym2::data::ptr_to_struct_matrix_source<ka_agent,short>		*Seconds;		//!< =Agenci.make_source("Second mem",&aagent::Second);
+    /// @name Główne serie danych.
+    /// @details Wygodniej i efektywniej mieć wskaźniki niż odszukiwać z Sources po nazwach:
+    //======================================================================================
+    /// @{
+    sym2::data::ptr_to_struct_matrix_source<ka_agent,short>		*Firsts;		//!< =Agents.make_source("First mem",&aagent::First);
+    sym2::data::ptr_to_struct_matrix_source<ka_agent,short>		*Seconds;		//!< =Agents.make_source("Second mem",&aagent::Second);
 
-    sym2::data::ptr_to_struct_matrix_source<ka_agent,short>		*Powers;		//!< =Agenci.make_source("Power",&aagent::Power);
-    sym2::data::ptr_to_struct_matrix_source<ka_agent,short>		*Pressure;		//!< =Agenci.make_source("Pressure",&aagent::Press);
-   //sym2::data::method_by_ptr_matrix_source<aagent,long>				*Classif;		//!< =Agenci.make_source("Classification",&aagent::classif);
+    sym2::data::ptr_to_struct_matrix_source<ka_agent,short>		*Powers;		//!< =Agents.make_source("Power",&aagent::Power);
+    sym2::data::ptr_to_struct_matrix_source<ka_agent,short>		*Pressure;		//!< =Agents.make_source("Pressure",&aagent::Press);
+    //sym2::data::method_by_ptr_matrix_source<aagent,long>				*Classif;		//!< =Agents.make_source("Classification",&aagent::classif);
+    /// @}
 
-    /// @name Do przekazywania aktualnie najważniejszych danych na okno statusu
+    /// @name Do przekazywania aktualnie najważniejszych danych na okno statusu:
+    //--------------------------------------------------------------------------
     /// @{
     sym2::data::scalar_source<double>*       ptrStres;			//!< Średni stress.
-    sym2::data::scalar_source<double>*       ptrClsSize;		//!< ...
+    sym2::data::scalar_source<double>*       ptrClsSize;		//!< Rozmiar klastra (średni czy maksymalny?)
     /// @}
 
     int  CountCh;			//!< Ilu ostatnio zmieniło pogląd (do celów statystycznych).
@@ -70,15 +76,19 @@ class ka_world: public sym2::shell::world
     sym2::data::ptr_to_scalar_source<int>*       ptrLastChanged;			//!< Do przekazywania liczników zmian.
     sym2::data::ptr_to_scalar_source<int>*       ptrLastMigration;			//!< Do przekazywania liczników zmian.
 
-    double MaxPressure; //Do zapamiętania teoretycznie największej wartości "presji".
+    double MaxPressure; ///< Do zapamiętania teoretycznie największej wartości "presji".
 
-    // Właściwa implementacja symulacji:
-    // /////////////////////////////////
-    int CheckChange(const rectangle_geometry* MyGeom, size_t index, ka_agent& CenterAgent);		//!< Sprawdzenie zmiany stanów.
-    int DoMigration(const rectangle_geometry* MyGeom, size_t index, ka_agent& CenterAgent);		//!< Sprawdzenie możliwości migracji.
-
+    /// @name Właściwa implementacja symulacji:
+    //=========================================
+    /// @{
+    int  CheckChange(const rectangle_geometry* MyGeom, size_t index, ka_agent& CenterAgent);		//!< Sprawdzenie zmiany stanów.
+    long DoMigration(const rectangle_geometry* MyGeom, size_t index, ka_agent& CenterAgent);		//!< Sprawdzenie możliwości migracji.
+    /// @}
 public:
-    //KONSTRUKCJA DESTRUKCJA
+    //KONSTRUKCJA DESTRUKCJA:
+    // //////////////////////
+
+    /// Konstruktor.
     ka_world(
             size_t	Width,				//!< Szerokość torusa macierzy agentów.
             char*	log_name,			//!< Nazwa pliku do zapisywania historii.
@@ -101,18 +111,21 @@ public:
             double	majority			//!< ...
           );
 
+    /// Destruktor.
     ~ka_world() override = default;
 
 protected:
-    // KONIECZNE AKCJE:
-    // ////////////////
+    /// @name WYMAGANE DUŻE AKCJE:
+    //============================
+    /// @{
     void	initialize_layers() override;		//!< Stan startowy symulacji
     void	after_read_from_image() override;	//!< Actions after read state from a file. Aktualizacja pól statycznych aagent-a!!!
     void	simulate_one_step() override;		//!< Właściwa implementacja kroku symulacji
+    /// @}
 
-    // Współpraca z zarządcą wyświetlania i zarządcą danych:
-    //------------------------------------------------------
-
+    /// @name Współpraca z zarządcą wyświetlania i zarządcą danych:
+    //-------------------------------------------------------------
+    /// @{
     /// Tworzenie domyślnych "lufcików" i umieszczanie ich na liście zarządcy.
     void	make_default_visualisation() override;
 
@@ -121,11 +134,14 @@ protected:
 
     /// Generuje podstawowe źródła dla wbudowanego zarządcy danych.
     void	make_basic_sources() override;
+    /// @}
 
-    // Implementacja wejścia/wyjścia:
-    //-------------------------------
+    /// @name Implementacja wejścia/wyjścia:
+    //--------------------------------------
+    /// @{
     int		implement_output(ostream& o) const override;		//!< Serializacja. @returns 1, jeśli sukces!
     int		implement_input(istream& i) override;				//!< Deserializacja. @returns 1, jeśli sukces!
+    /// @}
 };
 
 /* ****************************************************************** */

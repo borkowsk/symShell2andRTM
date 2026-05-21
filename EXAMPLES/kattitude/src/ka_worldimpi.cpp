@@ -10,6 +10,10 @@
 
 #include "ka_world.h"
 
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "modernize-use-auto"
+#pragma ide diagnostic ignored "modernize-use-nullptr"
+
 using namespace sym2::data;
 using namespace sym2::shell;
 using namespace sym2::visual;
@@ -19,14 +23,14 @@ int ka_world::implement_input(istream& i)
     int ret=world::implement_input(i);
     if(ret!=1) return ret;
     i>>MyWidth;			//Obwód torusa
-    i >> MaxPower;		//Maksymalna siła agenta
+    i>>MaxPower;		//Maksymalna siła agenta
     i>>IleKate;			//Liczba kategorii w mapach
-    i >> NeiDens;		//Gęstość sąsiedztwa
-    i >> NeiSize;		//Rozmiar sąsiedztwa
+    i>>NeiDens;			//Gęstość sąsiedztwa
+    i>>NeiSize;			//Rozmiar sąsiedztwa
     i>>WeightOfSelf;	//Jak ma brać siebie pod uwagę
     i>>NeedForClosure;	//Jak ma brać innych (waga)
     i>>Noise;			//Szum informacyjny
-    rectangle_geometry* Geom=(rectangle_geometry*)Agenci.get_geometry();                          assert(Geom != nullptr);
+    rectangle_geometry* Geom=(rectangle_geometry*)Agenci.get_geometry();                          assert(Geom != NULL);
     if(Geom->get_width()!=MyWidth||
        Geom->get_height()!=MyWidth )
             Geom->set(MyWidth,MyWidth,1);
@@ -35,6 +39,7 @@ int ka_world::implement_input(istream& i)
     return 0;
 }
 
+#pragma clang diagnostic pop
 /* ****************************************************************** */
 /*         SYMSHELL2 EXAMPLES version 2006/2022/2026                  */
 /* ****************************************************************** */
@@ -46,5 +51,3 @@ int ka_world::implement_input(istream& i)
 /*        MAIL:  wborkowski@uw.edu.pl                                 */
 /*                               (Don't change or remove this note)   */
 /* ****************************************************************** */
-
-

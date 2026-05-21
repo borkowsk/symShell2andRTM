@@ -17,12 +17,12 @@ int life_world::implement_output(ostream& o) const
     o<<separator;
     o<<MyWidth<<separator;	    //Obwód (?) torusa
 
-    o<<IleKate<<separator;	    //Liczba kategorii w mapach
-    o<<IleSasiad<<separator;	//8 == gęstość sąsiedztwa
-    o<<OdlSasiad<<separator;	//Rozmiar sąsiedztwa
+    o << NofCat << separator;	    //Liczba kategorii w mapach
+    o << NeighDens << separator;	//8 == gęstość sąsiedztwa
+    o << NeighRadius << separator;	//Rozmiar sąsiedztwa
 
     o<<Noise<<separator<<endl;	//Szum informacyjny
-    o<<Agenci<<endl;
+    o << Agents << endl;
     return 1;
 }
 

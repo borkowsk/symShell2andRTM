@@ -1,15 +1,19 @@
 /// @file
 /// @brief
-///     @EN{ Implementation of the 'kworld' class.	Virtual Input methods  }
-///     @PL{  }
+///     @EN{ Implementation of the type 'kWorld'.	Virtual Input method. }
+///     @PL{ Implementacja typu „kWorld”. Metoda wirtualnego wejścia. }
 /// @date 2026-05-21 (modified)
-/// =========================================================
+///       =========================================================
 /// @details
-/// Old example for SymShell implementing a Kruglanski's like model)
-/// Its is rather simply implementation. You can replace it if you need.
-//========================================================================
+///     @EN{ Old example for SymShell implementing a Kruglanski's like model. } @PL{ .... }
+///     @EN{ Its is rather simply implementation. You can replace it if you need. } @PL{ .... }
+//======================================================================================================================
 
 #include "kWorld.h"
+
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "modernize-use-auto"
+#pragma ide diagnostic ignored "modernize-use-nullptr"
 
 using namespace sym2::data;
 using namespace sym2::shell;
@@ -20,8 +24,8 @@ int kWorld::implement_input(istream& i)
     int ret=world::implement_input(i);
     if(ret!=1) return ret;
     i>>MyWidth;		//Obwód torusa
-    i>>MaxSila;		//Maksymalna siła agenta
-    i>>IleSasiad;	//8 == Gęstość sąsiedztwa
+    i >> MaxStrength;		//Maksymalna siła agenta
+    i >> NeighDens;	//8 == Gęstość sąsiedztwa
     i>>WeightOfSelf; //Jak ma brać siebie pod uwagę
     i>>NeedForClosure; //Jak ma brać innych (waga)
     i>>Noise;		//Szum informacyjny
@@ -34,6 +38,7 @@ int kWorld::implement_input(istream& i)
     return 0;
 }
 
+#pragma clang diagnostic pop
 /* ****************************************************************** */
 /*        SYMSHELL2 EXAMPLE  version 2006/2022/2026                   */
 /* ****************************************************************** */

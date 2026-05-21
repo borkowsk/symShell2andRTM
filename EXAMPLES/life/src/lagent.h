@@ -13,32 +13,41 @@ using namespace sym2::data;
 using namespace sym2::shell;
 using namespace sym2::visual;
 
-/// @PL{ Klasa agenta do implementacji "Life". }
-/// @EN{ Agent class for implementing "Life". }
+/// @brief
+///     @PL{ Klasa agenta do implementacji "Life". }
+///     @EN{ Agent class for implementing "Life". }
 class life_agent: public sym2::shell::agent_base
 {
     friend class life_world; //!< Na razie tak, żeby uprościć dostęp do składowych.
 
-    // STATYCZNE SKŁADOWE - PARAMETRY INICJOWANIA AGENTÓW:
+    /// @name STATYCZNE SKŁADOWE - PARAMETRY INICJOWANIA AGENTÓW:
+    //===========================================================
+    /// @{
     static short  ile_kate;   //!< Liczba kategorii. Dla Life zawsze 2!!! WIĘC TO POLE NIEUŻYWANE — TYLKO DLA INFORMACJI.
     static short  kate_shift; //!< Przesunięcie do wczytywania (z grafik?).
     static double MutationLevel; //!< Prawd. spontanicznej zmiany stanu (0..1) - chyba tu nieużywane.
     static double InitProp;  //!< Proporcje inicjowania losowego.
+    /// @}
 
-    // SKŁADOWE DLA SYMULACJI:
+    /// @name SKŁADOWE AGENTA DLA SYMULACJI:
+    //======================================
+    /// @{
     short First;		//!< Pierwszy, czyli aktualny stan.
     short Second;		//!< Nowy albo stary stan (zależnie od modelu).
+    /// @}
 
-    /// Statyczne czyszczenie stanu.
+    /// Czyszczenie stanu. Klasyczna inline-owana metoda prywatna używana w wirtualnej.
     void _clean()
     {
         First=0;
         Second=0;
     }
 
-    // TO CO MUSI byc zdefiniowane:
-    // ////////////////////////////
-    public:
+public:
+    /// @name TO CO MUSI byc zdefiniowane:
+    //====================================
+    /// @{
+
     /// Określenie, czy stan poprawny formalnie.
     bool IsOK() override
     {
@@ -51,8 +60,10 @@ class life_agent: public sym2::shell::agent_base
         return 1; //Chyba zawsze tak...
     }
 
+    /// Konstruktor kopiujący.
     life_agent(const life_agent& ini); //!< Konkretna implementacja tego konstruktora w "lworld.cpp".
 
+    /// Konstruktor domyślny.
     life_agent(); //!< Konkretna implementacja tego konstruktora w "lworld.cpp".
 
     /// Tworzenie klonu agenta na stercie.
@@ -67,18 +78,23 @@ class life_agent: public sym2::shell::agent_base
     void clean() override
     {_clean();}
 
-    ///Do przypisywania stanu z obrazków (RGB)
+    /// Do przypisywania stanu z obrazków (RGB).
     void assign123(unsigned char Red,unsigned char Green,unsigned char Blue)
     {
         First=unsigned( (long(Red)+long(Green)+Blue)/3 ) >> kate_shift;
         Second=0;
     }
 
-    ///Do odczytywania stanu na obrazek.
+    /// Do odczytywania stanu na obrazek.
     long RGB()
     {
-        return (unsigned long) ( (unsigned char) (First) );
+        return ( (unsigned char) (First) );
     }
+    /// @}
+
+    /// @name i/o operator(y/s)
+    //=========================
+    /// @{
 
     ///Zapis na strumień.
     friend
@@ -90,7 +106,7 @@ class life_agent: public sym2::shell::agent_base
         return o;
     }
 
-    ///Odczyt ze strumienia.
+    /// Odczyt ze strumienia.
     friend
     istream& operator >> (istream& i, life_agent& a)
     {
@@ -100,7 +116,7 @@ class life_agent: public sym2::shell::agent_base
         i>>pom;		//ignoruje }
         return i;
     }
-
+    /// @}
 };
 
 /* ****************************************************************** */

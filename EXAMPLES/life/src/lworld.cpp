@@ -7,10 +7,6 @@
 /// @details ...
 //======================================================================================================================
 
-//#include <limits.h>
-//#include <assert.h>
-//#include <string.h>
-//#include <math.h>
 #include <cstring>
 #include <cmath>
 
@@ -22,6 +18,11 @@
 #include "gadgets.hpp" 
 #include "wb_ptrio.h"
 #include "wb_swap.hpp"
+#include "toitoutoll.hpp"
+
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "modernize-use-auto"
+#pragma ide diagnostic ignored "modernize-use-nullptr"
 
 using namespace sym2;
 
@@ -66,7 +67,7 @@ life_agent::life_agent()
 // Statyczne pola `life_agent`-ów dla inicjalizacji:
 //=================================================
 
-short	life_agent::ile_kate=2;      //!< Liczba kategorii w mapach
+short	life_agent::ile_kate=2;      //!< Liczba kategorii w mapach. W tym modelu bezużyteczne na razie.
 short	life_agent::kate_shift=7;
 
 double	life_agent::MutationLevel=0; //!< Prawd. spontanicznej zmiany poglądów (0..1)
@@ -77,45 +78,44 @@ double  life_agent::InitProp=0.5;    //!< Proporcje inicjowania losowego
 extern unsigned internal_log;
 
 life_world::life_world(
-                  size_t Width,	//Szerokość torusa macierzy agentów
-                  char* log_name,	//Nazwa pliku do zapisywania historii
-                  char* mapl_name,	//Nazwa pliku mapy inicjującej "składowe"
-                  double noise,		//= 0,
-                  short	ile_kate,	//= 2,		//Liczba kategorii w mapach
-                  short	odl_sasiad,	//= 1,	//Rozmiar sąsiedztwa
-                  short	ile_sasiad,	//= 8,	//8 == gęstość sąsiedztwa — jeśli -1 to wszystko po kolei
-                  bool	synchronicly,	//=true,
-                  double spontanic	//= 0	//Prawdopodobieństwo spontanicznej zmiany poglądu
+                  size_t	Width,			//Szerokość torusa macierzy agentów
+                  char*		log_name,		//Nazwa pliku do zapisywania historii
+                  char*		map_l_name,		//Nazwa pliku mapy inicjującej "składowe"
+                  double	noise,			//= 0,
+                  short		n_of_cat,		//= 2,		//Liczba kategorii w mapach
+                  short		neigh_radius,	//= 1,	//Rozmiar sąsiedztwa
+                  short		neigh_dens,		//= 8,	//8 == gęstość sąsiedztwa — jeśli -1 to wszystko po kolei
+                  bool		synchronously,	//=true,
+                  double	spontaneously	//= 0	//Prawdopodobieństwo spontanicznej zmiany poglądu
         )
-    :   world(log_name,50),
-        MapLName(clone_str(mapl_name)), //Nazwa mapy 1. inicjującej agentów
-        //Sub-obiekty właściwe dla tej symulacji:
-        MyWidth(Width),
-        //Agenci(Width,Width,false,nullptr), //Initer == nullptr więc tworzony przez konstruktor, a nie klonowanie
-        Agenci(Width,Width),              //Zakładamy, że wystarcza to, co robi bezparametrowy konstruktor agenta
-        IleKate(ile_kate),                //Liczba kategorii w mapach
-        IleSasiad(ile_sasiad),            //8 == gęstość sąsiedztwa
-        OdlSasiad(odl_sasiad),            //Rozmiar sąsiedztwa
-        Noise(noise),
-        Synchronic(synchronicly),
-        BierzWszystko(0),                 //Sąsiedztwo bez losowania
-        //Wskaźniki do podstawowych seri danych
-        Firsts(nullptr),
-        Seconds(nullptr)
+    : world(log_name,50),
+      MapLName(clone_str(map_l_name)), //Nazwa mapy 1. inicjującej agentów
+      //Sub-obiekty właściwe dla tej symulacji:
+      MyWidth(Width),
+      //Agents(Width,Width,false,nullptr), //Initer == nullptr więc tworzony przez konstruktor, a nie klonowanie
+      Agents(Width, Width),                //Zakładamy, że wystarcza to, co robi bezparametrowy konstruktor agenta
+      NofCat(n_of_cat),                    //Liczba kategorii w mapach
+      NeighDens(neigh_dens),               //8 == gęstość sąsiedztwa
+      NeighRadius(neigh_radius),           //Rozmiar sąsiedztwa
+      Noise(noise),
+      Synchronic(synchronously),
+      ConsiderAll(0),                      //Sąsiedztwo bez losowania
+      //Wskaźniki do podstawowych seri danych
+      Firsts(nullptr),
+      Seconds(nullptr)
     {// Niewiele można zrobić, bo nie można tu jeszcze polegać na wirtualnych metodach klasy świat !!!
-        assert(ile_kate==2); //Na razie nie może być nic innego
+        assert(n_of_cat == 2); //Na razie nie może być nic innego
         life_world::set_simulation_name(SIMULATION_NAME);
 
         if(life_agent::InitProp != Noise)
         {
             life_agent::InitProp=Noise; //Inne proporcje inicjowania losowego
-            Agenci.Reinitialise(); //Niestety powtórna robota
+            Agents.Reinitialise(); //Niestety powtórna robota
         }
 
-        life_agent::MutationLevel=spontanic;
-        if(IleSasiad==-1)
-            BierzWszystko=1;
-
+        life_agent::MutationLevel=spontaneously;
+        if(NeighDens == -1)
+            ConsiderAll=1;
     }
 
 // Generujemy podstawowe źródła dla wbudowanego manager-a danych:
@@ -126,13 +126,13 @@ void life_world::make_basic_sources()
     sources_manager& WhatSourMen=this->Sources;
 
     //Główne serie
-    Firsts=Agenci.make_source("State",&life_agent::First);
+    Firsts=Agents.make_source("State", &life_agent::First);
     if(Firsts)
-        Firsts->set_min_max(0, IleKate - 1);
+        Firsts->set_min_max(0, NofCat - 1);
 
-    Seconds=Agenci.make_source("Prev. state",&life_agent::Second);
+    Seconds=Agents.make_source("Prev. state", &life_agent::Second);
     if(Seconds)
-        Seconds->set_min_max(0, IleKate - 1);
+        Seconds->set_min_max(0, NofCat - 1);
 
     //Umieszczenie głównych serii w managerze serii
     WhatSourMen.insert(Firsts);
@@ -170,30 +170,30 @@ void life_world::make_default_visualisation()
         generic_clustering_source *FirstStat = new generic_clustering_source(Firsts);
         // TODO Współczesny C++ (od standardu C++11 wzwyż) ma w tej kwestii bardzo jasne zasady.
         //      Krótka odpowiedź brzmi: standardowy operator new nie zwraca `nullptr`!!!
-        if (!FirstStat) goto ERROR; //TODO!!!
-        else Sources.insert(FirstStat);
+        //if (!FirstStat) goto ERROR; //TODO!!!
+        Sources.insert(FirstStat);
 
         generic_clustering_source *SecondStat = new generic_clustering_source(Seconds);
-        if (!SecondStat) goto ERROR; //TODO!!!
-        else Sources.insert(SecondStat);
+        //if (!SecondStat) goto ERROR; //TODO!!!
+        Sources.insert(SecondStat);
 
         //Źródło liczące statystykę i histogram z klasyfikacji
         generic_histogram_source *ClassStat = new generic_histogram_source(Firsts);
-        if (!ClassStat) goto ERROR; //TODO itd...
-        else Sources.insert(ClassStat);
+        //if (!ClassStat) goto ERROR; //TODO itd...
+        Sources.insert(ClassStat);
 
         //A także utworzenie seri liczących ich wzajemne ko-statystyki
         coincidence_source *CorrFS = new coincidence_source(Firsts, Seconds);
-        if (!CorrFS) goto ERROR;
+        //if (!CorrFS) goto ERROR;
         Sources.insert(CorrFS); //Żeby została kiedyś zwolniona, a poza tym może ktoś kiedyś...
 
         fifo_source<double> *EntropyFSLog = new fifo_source<double>(CorrFS->Entropy(), internal_log);
-        if (!EntropyFSLog) goto ERROR;
+        //if (!EntropyFSLog) goto ERROR;
         int iEntropyFS = Sources.insert(EntropyFSLog);
 
         fifo_source<double> *CorrFSLogR = new fifo_source<double>(CorrFS->Tau_a_Goodman_Kruskal(),
                                                                   internal_log); //Kolejka dla korelacji pierwszych z drugimi
-        if (!CorrFSLogR) goto ERROR;
+        //if (! Corr FS Log R) goto ERROR;
         int iCorrFSR = Sources.insert(CorrFSLogR);
 
 
@@ -201,25 +201,26 @@ void life_world::make_default_visualisation()
 
         fifo_source<double> *StressFirstLog = new fifo_source<double>(FirstStat->Stress(),
                                                                       internal_log); //Fifo ze stresu
-        if (!StressFirstLog) goto ERROR;
+        //if (!StressFirstLog) goto ERROR;
         int iSFirst = Sources.insert(StressFirstLog);
 
         fifo_source<double> *StressSecondLog = new fifo_source<double>(SecondStat->Stress(),
                                                                        internal_log); //Fifo ze stresu
-        if (!StressSecondLog) goto ERROR;
-        int iSSecond = Sources.insert(StressSecondLog);
+        //if (!StressSecondLog) goto ERROR;
+        //int iSSecond =
+                Sources.insert(StressSecondLog);
 
         //iMainClassF,iWhichMainF,iNumClassF,
         fifo_source<double> *NumClassLog = new fifo_source<double>(ClassStat->NumOfClass(), internal_log);
-        if (!NumClassLog) goto ERROR;
+        //if (!NumClassLog) goto ERROR;
         int iNumClassF = Sources.insert(NumClassLog);
 
         fifo_source<double> *ClassEntropyLog = new fifo_source<double>(ClassStat->Entropy(), internal_log);
-        if (!ClassEntropyLog) goto ERROR;
+        //if (!ClassEntropyLog) goto ERROR;
         int iClassEntropy = Sources.insert(ClassEntropyLog);
 
         fifo_source<double> *MainClassLog = new fifo_source<double>(ClassStat->MainClass(), internal_log);
-        if (!MainClassLog) goto ERROR;
+        //if (!MainClassLog) goto ERROR;
         int iMainClassF = Sources.insert(MainClassLog);
 
         //I umieszczanie w logu tego co trzeba
@@ -240,60 +241,61 @@ void life_world::make_default_visualisation()
         Log.insert(CorrFS->Tau_a_Goodman_Kruskal());
 
         //PODSTAWOWA WIZUALIZACJA SERII DANYCH
-        //WYMIARY DOMYŚLNEGO OKNA
-        unsigned szer = Manager.get_width();
-        unsigned wyso = Manager.get_height();
-        assert(szer > 50 && wyso > 40); //Najmniejsze sensowne okno
+        //====================================
+
+        //LOKALNE SKRÓTY DO PARAMETRÓW DOMYŚLNEGO OKNA:
+        int lW = Manager.get_width();
+        int lH = Manager.get_height();                          assert(lW > 50 && lH > 40); //Najmniejsze sensowne okno
+        int chH = toi(char_height('X'));
 
         //Obszary domyślne — np. obszar STATUSU
         world::make_default_visualisation(); // this->initialize(Manager);
         if (OutArea) {
-            OutArea->set(1, 1, szer / 2 - 1, wyso / 2 - 1);
+            OutArea->set(1, 1, lW / 2. - 1, lH / 2. - 1);
             Manager.as_original(Manager.search(OutArea->name()));
         }
 
         // WŁAŚCIWE LUFCIKI:
-        graph *pom1 = new sequence_graph(szer / 2 - 1, wyso / 4, szer - 50, wyso / 2 - 1,
+        graph *pom1 = new sequence_graph(lW / 2 - 1, lH / 4, lW - 50, lH / 2 - 1,
                                          3, Sources.make_series_info(
-                        iClassEntropy, iNumClassF, iMainClassF,
-                        -1
-                ).get_ptr_val(),
+                                                                    iClassEntropy, iNumClassF, iMainClassF,
+                                                                    -1
+                                                            ).get_ptr_val(),
                                          0 // Z reskalowaniem
         );
-        if (!pom1)
-            goto ERROR;
+        //if (!pom1) goto ERROR;
 
         pom1->set_frame(128);
         pom1->set_title("HISTORY OF CLASSIFICATION");
         Manager.insert(pom1);
 
         //inne mniej potrzebne
-        graph *pom = new sequence_graph(szer / 2 - 1, 1, szer - 50, wyso / 4 - 1,  //domyślne współrzędne
+        graph *pom = new sequence_graph(lW / 2 - 1, 1, lW - 50, lH / 4 - 1,  //domyślne współrzędne
                                         1, Sources.make_series_info(
-                        iSFirst,
-                        -1
-                ).get_ptr_val(),
-                //0// Z reskalowaniem
+                                                                    iSFirst,
+                                                                    -1
+                                                            ).get_ptr_val(),
+                                                            //0// Z reskalowaniem
                                         1); //Wspólne minimum/maximum
-        if (!pom) goto ERROR;
+        //if (!pom) goto ERROR;
         pom->set_frame(128);
         pom->set_title("HISTORY OF STRESS");
         Manager.insert(pom);
 
-        pom = new carpet_graph(1, wyso / 2, szer / 3, wyso - 1, //domyślne współrzędne
+        pom = new carpet_graph(1, lH / 2, lW / 3, lH - 1, //domyślne współrzędne
                                Firsts); //I  //TODO!!! danych
         pom->set_data_colors(0, 255);
         pom->set_title("Map of current state");
         Manager.insert(pom);
 
-        pom = new bars_graph(szer / 3 + 1, wyso / 2, szer / 3 * 2,
-                             wyso - 1, //domyślne współrzędne  szer-49,7*char_height('X')+7,szer,8*char_height('X')+9
+        pom = new bars_graph(lW / 3 + 1, lH / 2, lW / 3 * 2,
+                             lH - 1, //domyślne współrzędne  lW-49,7*char_height('X')+7,lW,8*char_height('X')+9
                              ClassStat);
         pom->set_data_colors(0, 255);
         pom->set_title("Histogram of state");
         Manager.insert(pom);
 
-        pom = new manhattan_graph(szer / 3 * 2 + 1, wyso / 2, szer, wyso - 1, //domyślne współrzędne
+        pom = new manhattan_graph(lW / 3 * 2 + 1, lH / 2, lW, lH - 1, //domyślne współrzędne
                                   CorrFS, 0,    //I źródło danych
                                   CorrFS, 0,
                                   1,
@@ -305,8 +307,8 @@ void life_world::make_default_visualisation()
         Manager.insert(pom);
 
         //PRZYCISKI
-        pom = new carpet_graph(szer - 49, 5 * (char_height('X') + RAMKA), szer,
-                               6 * (char_height('X') + RAMKA), //domyślne współrzędne
+        pom = new carpet_graph(lW - 49, 5 * (chH + RAMKA), lW,
+                               6 * (chH + RAMKA), //domyślne współrzędne
                                Seconds); //I źródło danych
         pom->set_data_colors(0, 255);
         pom->set_frame(0);
@@ -314,27 +316,26 @@ void life_world::make_default_visualisation()
         Manager.insert(pom);
 
 
-        pom1 = new sequence_graph(szer - 49, 9 * (char_height('X') + RAMKA), szer, 10 * (char_height('X') + RAMKA),
-
+        pom1 = new sequence_graph(lW - 49, 9 * (chH + RAMKA), lW, 10 * (chH + RAMKA),
                                   1, Sources.make_series_info(
-                        iEntropyFS,
-                        -1
-                ).get_ptr_val(),
+                                                                iEntropyFS,
+                                                                -1
+                                                        ).get_ptr_val(),
                                   1 /*Wspólne minimum/maximum*/);
-        if (!pom1) goto ERROR;
+        //if (!pom1) goto ERROR;
         pom1->set_frame(128);
         pom1->set_title("HISTORY OF ENTROPY OF DETERMINATION");
         Manager.insert(pom1);
 
 
-        pom = new sequence_graph(szer - 49, 11 * (char_height('X') + RAMKA), szer, 12 * (char_height('X') + RAMKA),
+        pom = new sequence_graph(lW - 49, 11 * (chH + RAMKA), lW, 12 * (chH + RAMKA),
                                  1, Sources.make_series_info(
-                        iCorrFSR, //iCorrFS,
-                        -1
-                ).get_ptr_val(),
+                                                                iCorrFSR, //iCorrFS,
+                                                                -1
+                                                        ).get_ptr_val(),
                                  1
-        );
-        if (!pom) goto ERROR;
+                                );
+        //if (!pom) goto ERROR;
         pom->set_frame(128);
         pom->set_title("HISTORY OF Prev. TO Curr. CORRELATION");
         Manager.insert(pom);
@@ -344,11 +345,11 @@ void life_world::make_default_visualisation()
             wb_dynarray < rectangle_source_base * > tmp(2, (rectangle_source_base *) Sources.get(iFirst),
                                                         (rectangle_source_base *) Sources.get(iSecond),
                                                         -1
-            );
-            drawable_base *pom = new steering_wheel(szer - 49, 0, szer, 5 * (char_height('X') + RAMKA), tmp);
-            assert(pom != nullptr);
-            pom->set_background(10);
-            Manager.insert(pom);
+                                                        );
+            drawable_base *pom2 = new steering_wheel(lW - 49, 0, lW, 5 * (chH + RAMKA), tmp);
+                                                                                              //assert(pom2 != nullptr);
+            pom2->set_background(10);
+            Manager.insert(pom2);
         }
 
         Sources.new_data_version(1, 1); //Oznajmia seriom, że dane się uaktualniły	(po inicjacji)
@@ -365,11 +366,11 @@ void life_world::make_default_visualisation()
 
 void life_world::after_read_from_image()
 //Actions after read state from a file. Aktualizacja pól statycznych `life_agent`-a!!!
-{                   assert(IleKate==2); //Dla life tylko dwie możliwe kategorie.
-    life_agent::ile_kate=IleKate; //Liczba kategorii w mapach
+{                   assert(NofCat == 2); //Dla life tylko dwie możliwe kategorie.
+    life_agent::ile_kate=NofCat; //Liczba kategorii w mapach
     life_agent::kate_shift=7;
     /*
-    switch(IleKate)
+    switch(NofCat)
     {
     case   2:life_agent::kate_shift=7;break;
     case   4:life_agent::kate_shift=6;break;
@@ -380,7 +381,7 @@ void life_world::after_read_from_image()
     case 128:life_agent::kate_shift=1;break;
     case 256:life_agent::kate_shift=0;break;
     default:
-        life_agent::ile_kate=IleKate=256;
+        life_agent::ile_kate=NofCat=256;
         life_agent::kate_shift=0;
         cerr<<"Invalid number of class (not power of 2 less than 256). Using default.\n";
         Log.GetStream()<<"Invalid number of class (not power of 2). Using default.\n";
@@ -396,12 +397,10 @@ void life_world::initialize_layers()
     static int first=1; //TYMCZASOWE WYŁĄCZENIE NADMIARU WYDRUKÓW!!!
     if(first)
         Log.GetStream()<<"attitude SIMULATION:";
-    //odl_sasiad = 1, //Rozmiar sąsiedztwa
-    //ile_sasiad = 8 //8 == gęstość sąsiedztwa
 
-    life_agent::ile_kate=IleKate; //Liczba kategorii w mapach
+    life_agent::ile_kate=NofCat; //Liczba kategorii w mapach
 
-    switch(IleKate)
+    switch(NofCat)
     {
     case   2:life_agent::kate_shift=7;break;
     case   4:life_agent::kate_shift=6;break;
@@ -412,38 +411,39 @@ void life_world::initialize_layers()
     case 128:life_agent::kate_shift=1;break;
     case 256:life_agent::kate_shift=0;break;
     default:
-        life_agent::ile_kate= IleKate=256;
+        life_agent::ile_kate= NofCat=256;
             life_agent::kate_shift=0;
-        cerr<<"Invalid number of class (not power of 2 less than 256). Using default.\n";
-        Log.GetStream()<<"Invalid number of class (not power of 2). Using default.\n";
+        cerr<<"Invalid number of class (not power of 2 less than 256). exiting...\n";
+        Log.GetStream()<<"Invalid number of class (not power of 2). EXITED.\n";
+        exit(-1);
         break;
     }
 
-    //...wydruk wartości parametrów symulacji
+    //Wydruk wartości parametrów symulacji
     if(first)
       Log.GetStream()
-        <<"\nNum of Kl="<<Log.separator()<<IleKate
-        <<"\nNoise %="<<Log.separator()<<Noise*100
-        <<"\nNeighborhood="<<Log.separator()<<IleSasiad<<"/("<<(1+2*OdlSasiad)<<"*"<<(1+2*OdlSasiad)<<")\n";
+              << "\nNum of Kl=" << Log.separator() << NofCat
+              << "\nNoise %=" << Log.separator() <<Noise*100
+              << "\nNeighborhood=" << Log.separator() << NeighDens << "/(" << (1 + 2 * NeighRadius) << "*" << (1 + 2 * NeighRadius) << ")\n";
 
     //			USTALANIE STANÓW AGENTÓW
     //Wczytuje, używając konstruktora lub klonowania, gdy nie ma, więc inicjuje resztę pól.
     rectangle_layer_of_agents<life_agent>::assign_rgb_fun tmp=&life_agent::assign123;
-    char* fname=MapLName.get_ptr_val();
+    char* file_name=MapLName.get_ptr_val();
     //Jeśli nie zainicjowane z bitmapy to zostaje to z konstruktorów!
-    if( fname != nullptr && strlen(fname)>0 )
+    if(file_name != nullptr && strlen(file_name) > 0 )
     {
-        int from = Agenci.init_from_bitmap(MapLName.get_ptr_val(), tmp);
+        int from = Agents.init_from_bitmap(MapLName.get_ptr_val(), tmp);
 
         if (from != 1) {
-            cerr << "Agents initialization from the bitmap " << MapLName << " failed!" << endl;
-            //Agenci.clean(); // reallocate_all();
+            cerr << "Agents' initialization from the bitmap " << MapLName << " failed!" << endl;
+            //Agents.clean(); // reallocate_all();
             exit(-10);
         }
     }
     else
     {
-        cerr << "Agents default initialization because of empty bitmap filename." <<endl;
+        cerr << "Agents' default initialization because of empty bitmap filename." <<endl;
     }
 
     first=0; //Koniec pierwszego wywołania //TYMCZASOWO!!! Ha Ha !!!
@@ -453,7 +453,7 @@ void life_world::initialize_layers()
 void life_world::simulate_one_step()
 //---------------------------------------
 {
-    const geometry_base* MyGeom=Agenci.get_geometry();
+    const geometry_base* MyGeom=Agents.get_geometry();
     assert(MyGeom);
 
     if(Synchronic)
@@ -464,7 +464,7 @@ void life_world::simulate_one_step()
         {   //Uzyskujemy index  agenta
             size_t index=MyGeom->get_next(IGlob);    assert(index!=MyGeom->FULL); //Tutaj nie powinno się zdarzyć
 
-            life_agent& CenterAgent=Agenci.get(index); // Uzyskujemy referencje do agenta
+            life_agent& CenterAgent=Agents.get(index); // Uzyskujemy referencje do agenta
 
             CheckChange(MyGeom,index,CenterAgent); //Sprawdzamy zmianę stanu
         }
@@ -477,9 +477,9 @@ void life_world::simulate_one_step()
         {
             size_t index=MyGeom->get_next(IGlob); //Uzyskujemy index  agenta
 
-            assert(index!=MyGeom->FULL);				//... tutaj nie powinno się zdarzyć
+            assert(index!=MyGeom->FULL);				//Tutaj nie powinno się zdarzyć
 
-            life_agent& CenterAgent=Agenci.get(index); // Uzyskujemy referencje do agenta
+            life_agent& CenterAgent=Agents.get(index); // Uzyskujemy referencje do agenta
 
             wb_swap(CenterAgent.First,CenterAgent.Second);  //Ma nowy stan
         }
@@ -495,9 +495,9 @@ void life_world::simulate_one_step()
         while(Monte) //Idziemy po agentach iteratorem Monte-Carlo. Niektórzy mogą się powtórzyć
         {
             //Uzyskujemy index losowo wybranego agenta
-            size_t index=MyGeom->get_next(Monte);    assert(index!=MyGeom->FULL); //... tutaj nie powinno się zdarzyć
+            size_t index=MyGeom->get_next(Monte);           assert(index!=MyGeom->FULL); //Tutaj nie powinno się zdarzyć
 
-            life_agent& CenterAgent=Agenci.get(index); // Uzyskujemy referencje do agenta
+            life_agent& CenterAgent=Agents.get(index); // Uzyskujemy referencje do agenta
 
             if(CheckChange(MyGeom,index,CenterAgent)==1) //Czy zaszła zmiana stanu
                 {
@@ -517,27 +517,25 @@ int life_world::CheckChange(const geometry_base* MyGeom,
                             life_agent& CenterAgent
                         ) //KOD NA SZUKANIE ZMIAN
 { 
-    int testowanie=0;
+    //int testowanie=0;
 
     if(DRAND() <= life_agent::MutationLevel) //Rzadka, spontaniczna zmiana stanu
     {
-        int atti=RANDOM(IleKate);
-        assert(0<=atti && atti<IleKate);
-
-        CenterAgent.Second=atti; //zmieniamy w agencie centralnym
+        short state=RANDOM(NofCat);                                                  assert(0 <= state && state < NofCat);
+        CenterAgent.Second=state; //zmieniamy w agencie centralnym
         return 1;
     }
 
     // Alokujemy iterator sąsiedztwa
     ::iterator_h Neigh=nullptr;
 
-    if(BierzWszystko)
+    if(ConsiderAll)
     {
-        Neigh=MyGeom->make_neighbour_iterator(index,OdlSasiad);
+        Neigh=MyGeom->make_neighbour_iterator(index, NeighRadius);
     }
     else
     {
-        Neigh=MyGeom->make_random_neighbour_iterator(index,OdlSasiad,IleSasiad);
+        Neigh=MyGeom->make_random_neighbour_iterator(index, NeighRadius, NeighDens);
     }
 
     int zliczanie=0; //Zliczanie sąsiadów
@@ -546,13 +544,13 @@ int life_world::CheckChange(const geometry_base* MyGeom,
     while(Neigh)
     {
         size_t index2=MyGeom->get_next(Neigh); //Uzyskujemy index sąsiada
-        if(index2==MyGeom->FULL || index2==index) //Jeśli poza obszarem symulacji lub w
+        if(index2==geometry::FULL || index2==index) //Jeśli poza obszarem symulacji lub w
             continue; //centrum obszaru to dalej byłoby bez sensu.
 
-        life_agent& PeryfAgent=Agenci.get(index2); //Uzyskujemy referencje do sąsiada
+        life_agent& PeryAgent=Agents.get(index2); //Uzyskujemy referencje do sąsiada
 
         zliczanie++;
-        alive+=PeryfAgent.First; // `double(life_agent::ile_kate);`
+        alive+=PeryAgent.First; // `double(life_agent::ile_kate);`
     }
 
     MyGeom->destroy_iterator(Neigh); // upewniamy się, że iterator zostanie usunięty
@@ -575,6 +573,7 @@ int life_world::CheckChange(const geometry_base* MyGeom,
     }
 }
 
+#pragma clang diagnostic pop
 /* ****************************************************************** */
 /*        SYMSHELL2 EXAMPLE  version 2006/2022/2026                   */
 /* ****************************************************************** */
