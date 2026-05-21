@@ -137,9 +137,9 @@ namespace sym2
         constexpr double high = UINT_MAX; //static_cast<double>(std::numeric_limits<unsigned int>::max());
 
         // Nasycenie:
-        // 1. Jeśli p < 0, zwróci 0
-        // 2. Jeśli p > 4294967295, zwróci 4294967295long long val = v;
-        // 3. W przeciwnym razie zwróci obcięte p
+        // 1. Jeśli `p < 0`, zwróci 0
+        // 2. Jeśli `p > 4294967295`, zwróci `4294967295long long val` = v;
+        // 3. W przeciwnym razie zwróci obcięte `p`.
         return static_cast<unsigned int>(max(low, min(p, high)));
     }
 
