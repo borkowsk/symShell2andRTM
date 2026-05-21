@@ -1,7 +1,7 @@
 /// @file
 /// @brief __Specific source types - access to data in two-dimensional arrays.__ /<br>
 ///         _Konkretne klasy źródeł — dostęp do danych w tablicach dwuwymiarowych._
-/// @date 2026-05-20 (modified)
+/// @date 2026-05-21 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_MATRIX_SOUR_HPP_INCLUDED_
@@ -21,11 +21,11 @@ namespace sym2 { namespace data {
 
 /// @brief @EN{ A class that provides access to any rectangular array and its slices (or not?). }
 ///        @PL{ Klasa udostępniająca dowolną tablicę prostokątną oraz jej wycinki (lub nie?). }
-/// @details ...
+/// @details @if POLISH
 ///     Jeśli zdefiniowany wycinek wykracza poza tablicę źródłową, to funkcja `get` zwraca wartość "miss" podawana w konstruktorze.
-///     Alternatywnie wycinek może realizować geometrie torusa i wtedy `miss` nie jest potrzebne.
-///     ...
-///     ...
+///     Alternatywnie wycinek może realizować geometrie torusa i wtedy `miss` nie jest potrzebne. @elseif ENGLISH
+///     If the defined slice extends beyond the source array, the `get` function returns the "miss" value specified in the constructor.
+///     Alternatively, the slice can implement torus geometry, in which case `miss` is not needed. @endif
 template<class T>
 class matrix_source : public rectangle_source_base
 {
@@ -86,7 +86,7 @@ public:
     ~matrix_source() override
     {
 #ifndef NDEBUG
-        cerr << "~matrix_source():" << name() << '\n'; //                ???
+        cerr << "~matrix_source():" << matrix_source::name() << '\n'; //                ???
 #endif
     }
     /// @}
@@ -94,8 +94,10 @@ public:
 // REIMPLEMENTACJE:
 //=================
 
-    /// Na podstawie wewnętrznej geometrii wylicza liczbę wartości, a potem określa minimum i maksimum.
-    /// Żeby uniknąć obliczania można wymusić minimum i maksimum metodą `set_min_max`.
+    /// @brief @PL{ Na podstawie wewnętrznej geometrii wylicza liczbę wartości, a potem określa minimum i maksimum. }
+    /// @EN{ Based on the internal geometry, it calculates the number of values and then determines the minimum and maximum. }
+    /// @note @PL{ Żeby uniknąć obliczania można wymusić minimum i maksimum metodą `set_min_max`. }
+    ///       @EN{ To avoid calculation, you can force the minimum and maximum using the `set_min_max` method. }
     void bounds(size_t &num, double &min, double &max) override;
 
     /// Daje następną z la*lb liczb, odczytaną z tablicy.
@@ -364,7 +366,7 @@ public:
     ~method_matrix_source() override // NOLINT(modernize-use-equals-default)
     {
 #ifndef NDEBUG
-        cerr << "~method_matrix_source(): " << name() << '\n';
+        cerr << "~method_matrix_source(): " << method_matrix_source::name() << '\n';
 #endif
     }
     /// @}

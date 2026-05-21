@@ -1,7 +1,7 @@
 /// @file
 /// @brief **Implementations for the simulation layer base type** /<br>
 ///         _Implementacje dla klasy bazowej warstwy symulacji._
-/// @date 2026-05-19 (modified)
+/// @date 2026-05-21 (modified)
 //=====================================================================
 // Klasy czysto wirtualnej, ale implementacje funkcji muszą (powinny być).
 //
@@ -11,7 +11,7 @@
 #include "random.h"
 
 #include "layer.hpp"
-#include "../visual/toitoutoll.hpp"
+#include "toitoutoll.hpp"
 
 namespace sym2 { namespace shell {
 

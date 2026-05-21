@@ -1,7 +1,7 @@
 /// @file
 /// @brief **A screen or window area manager, implemented directly based on SYMSHELL functions.** /<br>
 ///         _Zarządca obszarów ekranu lub okna, zaimplementowany bezpośrednio na bazie funkcji SYMSHELL-a._
-/// @date 2026-05-20 (last modification)
+/// @date 2026-05-21 (last modification)
 //======================================================================================================================
 //  Do obsługi całego ekranu/okna SYMSHELL-a.
 
@@ -551,8 +551,8 @@ void main_area_manager::run_input_loop()
 {
     need_break_action(0); //Planuje jeszcze "pokontynuować".
     do{
-    process_input();
-    _on_idle();
+        process_input();
+        _on_idle();
     }while(should_continue());
 }
 

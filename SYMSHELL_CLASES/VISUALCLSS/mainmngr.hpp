@@ -1,7 +1,7 @@
 /// @file
 /// @brief **THE TYPE OF MAIN "SCREEN" AREA MANAGER** /<br>
 ///         _KLASA GŁÓWNEGO ZARZĄDCY OBSZARÓW "EKRANU"._
-/// @date 2026-05-20 (modified)
+/// @date 2026-05-21 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_MAIN_MNGR_HPP_INCLUDED_
@@ -183,7 +183,7 @@ public:
     void break_input_loop();			///< Przerywa przechwycenie sterowania.
     void enable_background();			///< Odblokowuje pracę w tle, czyli wywoływanie "on_idle".
     static void disable_background()	///< Blokuje pracę w tle, czyli wywoływanie "on_idle".
-    { idle_must_work=0;}
+    { idle_must_work=0;}                ///< Jest `static` żeby można było wywołać bez dostępu do manager-a.
     static int  background_enabled()	///< Informuje, czy praca w tle się odbywa.
     { return idle_must_work!=0;}
     /// @}
