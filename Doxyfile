@@ -44,7 +44,7 @@ PROJECT_NUMBER         = 2026.05
 # for a project that appears at the top of each page and should give viewer a
 # quick idea about the purpose of the project. Keep the description short.
 
-PROJECT_BRIEF          = "Bardzo stara, ale wciąż użyteczna biblioteka do symulacji komórkowych i agentowych 2D"
+PROJECT_BRIEF          = "Bardzo stara, ale wciąż użyteczna biblioteka do symulacji komórkowych i agentowych 2D w C++"
 
 # With the PROJECT_LOGO tag one can specify a logo or an icon that is included
 # in the documentation. The maximum height of the logo should not exceed 55
