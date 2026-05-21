@@ -3,12 +3,12 @@
 ///  @EN{ DECLARATION OF THE "W O R L D" ('aworld') FOR "attitude" SIMULATION. }
 ///  @PL{ DEKLARACJA "ŚWIATA" ('aworld') NA RZECZ SYMULACJI POSTAW "attitude". }
 /// @date 2026-05-21 (modified)
-/// =========================================================
+///       ======================================================================
 /// @PL{ DOXYGENIZACJA WYŁĄCZNIE PO POLSKU. }
 /// @EN{ DOXYGENIZATION IN POLISH ONLY. }
 //======================================================================================================================
 
-#include <climits> //SHRT_MAX
+#include <climits>  //SHRT_MAX
 #include "world.hpp"
 #include "layer.hpp"
 #include "aagent.h" //Definicja agenta
@@ -17,8 +17,8 @@ using namespace sym2::data;
 using namespace sym2::shell;
 using namespace sym2::visual;
 
-/// @brief @PL{ Cały świat symulacji "attitudes".}
-///        @EN{ A whole world of "attitudes" simulations. }
+/// @brief @PL{ Cały świat symulacji "attitude".}
+///        @EN{ A whole world of "attitude" simulation. }
 class attitude_world: public sym2::shell::world
 //---------------------------------------------
 {
@@ -31,7 +31,7 @@ class attitude_world: public sym2::shell::world
     short				NofNeigh;	///< 8 == Gęstość sąsiedztwa (ilu sąsiadów losujemy albo bierzemy wszystkich gdy -1).
     short			 NeighRadius;	///< Rozmiar sąsiedztwa.
     short				 TakeAll;	///< Określa, czy ma brać wszystko z sąsiedztwa.
-    short				 UseSelf;	///< Określa, czy ma brać siębie pod uwagę.
+    bool				 UseSelf;	///< Określa, czy ma brać siębie pod uwagę.
     double				   Noise;	///< Szum informacyjny.
     bool			  SyncChange;	///< Synchroniczna (lub nie) zmiana poglądów.
     wb_pchar			MappName;	///< Nazwa pliku inicjującej bitmapy.
@@ -49,6 +49,7 @@ class attitude_world: public sym2::shell::world
     sym2::data::ptr_to_struct_matrix_source<attitude_agent,short>		*Powers; //=Agents.make_source("Power",&aagent::Power);
     /// @}
 
+    /// Zmiana stanu pojedynczego agenta.
     int CheckChange(const geometry_base* MyGeom, size_t index, attitude_agent& CenterAgent);
 
 public:
@@ -56,22 +57,22 @@ public:
     // ///////////////////////
 
     /// Konstruktor.
-    attitude_world(size_t	Width,				///< Szerokość torusa macierzy agentów.
-            char*	log_name,			///< Nazwa pliku do zapisywania historii.
-            char*	map_l_name,			///< Nazwa (bit-) mapy inicjującej "składowe".
-            char*	mapp_name,			///< Nazwa (bit-) mapy inicjującej "sily".
-            char*	live_mask,			///< Czarne w tej mapie są kasowane.
-            double	noise_p=0,
-                   short	max_str=255,		///< Maksymalna siła agenta.
-            short	n_of_cate=256,		///< Liczba kategorii w mapach.
-            short	neigh_radius=1,		///< Rozmiar sąsiedztwa.
-            short	n_of_neigh=8,		///< 8 == Gęstość sąsiedztwa — jeśli -1, to wszystko po kolei.
-            short	need_use_self=0,	///< Określa, czy własny stary pogląd jest brany pod uwagę przy wyborze.
-            bool	sync_update=true,	///< Określa, czy update agentów jest syn chroniczny, czy Monte Carlo.
-            short	walk_str=0,			///< Określa, czy siła rośnie z wiekiem agenta.
-            short	str_threshold=SHRT_MAX,	///< Sila, powyżej której agent jest odporny na wpływ.
-            double	spon_prob=0			///< Prawdopodobieństwo spontanicznej zmiany poglądu.
-          );
+    attitude_world( size_t	Width,					///< Szerokość torusa macierzy agentów.
+                    char*	log_name,				///< Nazwa pliku do zapisywania historii.
+                    char*	map_l_name,				///< Nazwa (bit-) mapy inicjującej "składowe".
+                    char*	mapp_name,				///< Nazwa (bit-) mapy inicjującej "sily".
+                    char*	live_mask,				///< Czarne w tej mapie są kasowane.
+                    double	noise_p=0,
+                    short	max_str=255,			///< Maksymalna siła agenta.
+                    short	n_of_cate=256,			///< Liczba kategorii w mapach.
+                    short	neigh_radius=1,			///< Rozmiar sąsiedztwa.
+                    short	n_of_neigh=8,			///< 8 == Gęstość sąsiedztwa — jeśli -1, to wszystko po kolei.
+                    bool	need_use_self=false,	///< Określa, czy własny stary pogląd jest brany pod uwagę przy wyborze.
+                    bool	sync_update=true,		///< Określa, czy update agentów jest syn chroniczny, czy Monte Carlo.
+                    bool	walk_str=false,			///< Określa, czy siła rośnie z wiekiem agenta.
+                    short	str_threshold=SHRT_MAX,	///< Sila, powyżej której agent jest odporny na wpływ.
+                    double	spon_prob=0				///< Prawdopodobieństwo spontanicznej zmiany poglądu.
+                  );
 
     /// Destruktor.
     ~attitude_world() override = default;

@@ -15,8 +15,8 @@ using namespace sym2::data;
 using namespace sym2::shell;
 using namespace sym2::visual;
 
-/// @brief @PL{ Agent symulacji "attitudes". }
-///        @EN{ "Attitudes" simulation agent. }
+/// @brief @PL{ Agent symulacji "attitude". }
+///        @EN{ "Attitude" simulation agent. }
 class attitude_agent: public sym2::shell::agent_base
 {
     friend class attitude_world; ///< Przyjacielska deklaracja klasy świata. Na razie tak — żeby uprościć dostęp do składowych.
@@ -37,6 +37,7 @@ class attitude_agent: public sym2::shell::agent_base
     short	Second;	///< Nowe przekonanie.
     /// @}
 
+    /// Przywracanie stanu początkowego agenta.
     void _clean()
     {
         First=-1;
@@ -64,10 +65,10 @@ public:
     }
 
     /// Konstruktor 1.
-    attitude_agent(const attitude_agent& ini);	//Konkretna implementacja w aworld!
+    attitude_agent(const attitude_agent& ini);	//Konkretna implementacja w "aworld.cpp"!
 
     /// Konstruktor 2.
-    attitude_agent();					//Konkretna implementacja w aworld!
+    attitude_agent();					//Konkretna implementacja w "aworld.cpp"!
 
     /// Wymagane klonowanie.
     attitude_agent* clone() const

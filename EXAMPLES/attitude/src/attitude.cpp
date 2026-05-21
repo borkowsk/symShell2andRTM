@@ -5,7 +5,7 @@
 /// @date 2026-05-21 (modified)
 ///       ======================================================================================================
 /// @details Uzyskana przez uproszczenie wczesnej wersji programu LANGUAGES
-/// @PL{ DOXYGENIZACJA WYŁĄCZNIE PO POLSKU. }
+/// @PL{ DOXYGENIZACJA NIEMAL WYŁĄCZNIE PO POLSKU. }
 /// @EN{ DOXYGENIZATION IN POLISH ONLY. }
 //======================================================================================================================
 
@@ -13,10 +13,9 @@
 /// * 15.02.2006 - 1.01: Zrekompilowane z nową wersją biblioteki lufcików.
 /// * 07.04.2026 - 1.01: Zrekompilowane z nową wersją biblioteki lufcików po 20 latach!
 /// * 01.05.2026 - 1.01: Zintegrowane z biblioteką jako jeden z przykładów.
-/// * 20.05.2026 - 1.01: Początek tłumaczenia komentarzy.
+/// * 20.05.2026 - 1.01: Początek tłumaczenia komentarzy. Na razie poniechane.
 const char* SIMULATION_NAME="attitudes_v1.01c";
 const char* WINDOW_HEADER="ATTITUDES version 1.01c";
-
 
 #include <cstdlib>
 
@@ -25,48 +24,61 @@ const char* WINDOW_HEADER="ATTITUDES version 1.01c";
 
 #include "arand.h"
 #include "aworld.h"
+#include "toitoutoll.hpp"
+
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "modernize-use-auto"
+#pragma ide diagnostic ignored "modernize-use-nullptr"
 
 using namespace sym2;
 
-unsigned	SCR_WIDTH=750;
-unsigned	SCR_HEIGHT=550;
+/// @name ROZMIARY OKNA.
+/// @{
+int		SCR_WIDTH=750;
+int		SCR_HEIGHT=550;
+/// @}
 
+/// @brief Długość historii na wykresach.
 unsigned	InternalLogLen=7000;	//Nieobiektowo przekazywane do metody inicjalizacji źródeł.
 
+/// @name NAZWY PLIKÓW WYJŚCIOWYCH I WEJŚCIOWYCH
+/// @{
 char	LogName[512]="attitude.log\0-------------------+--";
 char	HistName[512]="\0--+---------attitude.otx----------";
 char	MapLName[512]="\0--+---------attitude.gif----------";
 char	MapPName[512]="\0--+---------powers.gif------------";
 char	MaskName[512]="\0--+---------mask.gif--------------";
+/// @}
 
 unsigned	WorldWidth=50;
 unsigned	MaxNumOfIterations=0xffffffff;
 unsigned	LogWriteRatio=1;
 unsigned	ScrViewRatio=1;
 
-int	GrowingStrength=0;			//Czy siła ma się powiększać "z wiekiem"
-int	MaximalStrength=100;		//Jaka największa siła
-int	ThresholdPercent=100;		//Powyżej jakiej siły zmiany "poglądu" są już niemożliwe.
+int	GrowingStrength=0;			///< Określa czy siła ma się powiększać "z wiekiem".
+int	MaximalStrength=100;		///< Jaka największa siła.
+int	ThresholdPercent=100;		///< Powyżej jakiej siły zmiany "poglądu" są już niemożliwe.
 
-int	NumberOfAttitudes=2;
-int	NoisePercent=0;
-double	MutationProb=0;
-int	NeighborhoodR=1;			//Promień sąsiedztwa. Jeśli 1 to sąsiedztwo 3 × 3 - 1.
-int	NeighborhoodD=-1;			//Wszyscy sąsiedzi — nielosowo. 8 - losowo!!!
-int	SelfTaking=1;				//8+1... Branie siębie do zliczania presji.
-bool	SimulationMode=false;	//Tryb symulacji. 0 == synchroniczna.
+int	NumberOfAttitudes=2;		///< Ile możliwych postaw/poglądów. @note MUSI BYĆ POTĘGĄ DWÓJKI!
+int	NoisePercent=0;				///< Poziom szumu w decyzji wpływu.
+double	MutationProb=0;			///< Prawdopodobieństwo spontanicznej zmiany poglądu.
+int	NeighborhoodR=1;			///< Promień sąsiedztwa. Jeśli 1 to sąsiedztwo 3 × 3 - 1.
+int	NeighborhoodD=7;			///< Wszyscy sąsiedzi — nielosowo. 8 - losowo!!!
+bool	SelfTaking=true;		///< 8+1... Branie siębie do zliczania presji.
+bool	AsyncMode=true;			///< Tryb symulacji. `false` == synchroniczna.
 
-int	AutoExit=0;					//Automatyczne wychodzenie z programu po końcu symulacji.
-int	Replay=0;					//Odtwarzanie z zapisu.
-int	AUTOSTART=0;				//Określa, czy startuje symulacje natychmiast po uruchomieniu aplikacji.
+int	AutoExit=0;					///< Automatyczne wychodzenie z programu po końcu symulacji.
+int	Replay=0;					///< Odtwarzanie z zapisu. NIESTOSOWANE OD LAT.
+int	AUTOSTART=0;				///< Określa, czy startuje symulacje natychmiast po uruchomieniu aplikacji.
 
-
+/// @brief Funkcja odczytująca ustawienia z parametrów wywołania programu.
 int parse_options(const int argc,const char* argv[])
 {
     for(int i=1;i<argc;i++)
         {
         if( *argv[i]=='-' ) /* Opcja X11 lub symshell-a */
             continue;
+
         //Uppercasing
         wb_pchar hand( clone_str(argv[i]) );
         char*    rob=hand.get_ptr_val();
@@ -76,102 +88,103 @@ int parse_options(const int argc,const char* argv[])
         *pom='\0';
         strupr(rob);
         *pom='=';
+
         if((pom=strstr(rob,"SPCH="))!=NULL) //Nie NULL, czyli jest
         {
-        MutationProb=atof(pom + 5);
-        if(MutationProb < 0 || MutationProb > 100)
-            {
-            cerr << "Bad SPCH =" << MutationProb << " (must be in <0,100>)" << endl;
-            return 0;
-            }
-        cerr << "SPCH (spn. change percent) = " << MutationProb << endl;
+            MutationProb=atof(pom + 5);
+            if(MutationProb < 0 || MutationProb > 100)
+                {
+                cerr << "Bad SPCH =" << MutationProb << " (must be in <0,100>)" << endl;
+                return 0;
+                }
+            cerr << "SPCH (spn. change percent) = " << MutationProb << endl;
             MutationProb/=100; //Ułamek, a nie procent tak naprawdę
         }
         else
         if((pom=strstr(rob,"NOIP="))!=NULL) //Nie NULL, czyli jest
         {
-        NoisePercent=atoi(pom + 5);
-        if(NoisePercent < 0 || NoisePercent > 100)
-            {
-            cerr << "Bad NOIP =" << NoisePercent << " (must be in <0,100>)" << endl;
-            return 0;
-            }
-        cerr << "NOIP (noise percent) = " << NoisePercent << endl;
+            NoisePercent=atoi(pom + 5);
+            if(NoisePercent < 0 || NoisePercent > 100)
+                {
+                cerr << "Bad NOIP =" << NoisePercent << " (must be in <0,100>)" << endl;
+                return 0;
+                }
+            cerr << "NOIP (noise percent) = " << NoisePercent << endl;
         }
         else
         if((pom=strstr(rob,"CLSS="))!=NULL) //Nie NULL, czyli jest
         {
-        NumberOfAttitudes=atoi(pom + 5);
-        if(NumberOfAttitudes < 2)
-            {
-            cerr << "Bad CLSS =" << NumberOfAttitudes << " (must be >2)" << endl;
-            return 0;
-            }
+            NumberOfAttitudes=atoi(pom + 5);
+            if(NumberOfAttitudes < 2)
+                {
+                cerr << "Bad CLSS =" << NumberOfAttitudes << " (must be >2)" << endl;
+                return 0;
+                }
         }
         else
         if((pom=strstr(rob,"MPOW="))!=NULL) //Nie NULL, czyli jest
         {
-        MaximalStrength=atoi(pom + 5);
-        if(MaximalStrength < 0) //0 czy 1???
-            {
-            cerr << "Bad MPOW =" << MaximalStrength << " (must be >=1 )" << endl;
-            return 0;
-            }
+            MaximalStrength=atoi(pom + 5);
+            if(MaximalStrength < 0) //0 czy 1???
+                {
+                cerr << "Bad MPOW =" << MaximalStrength << " (must be >=1 )" << endl;
+                return 0;
+                }
         }
         else
         if((pom=strstr(rob,"WPOW="))!=NULL) //Nie NULL, czyli jest
         {
-        GrowingStrength=atoi(pom + 5);
-        if(GrowingStrength < 0)
-            {
-            cerr << "Bad WPOW =" << GrowingStrength << " (must be >=0 )" << endl;
-            return 0;
-            }
-        cerr << "WPOW=" << GrowingStrength << endl;
+            GrowingStrength=atoi(pom + 5);
+            if(GrowingStrength < 0)
+                {
+                cerr << "Bad WPOW =" << GrowingStrength << " (must be >=0 )" << endl;
+                return 0;
+                }
+            cerr << "WPOW=" << GrowingStrength << endl;
         }
         else
         if((pom=strstr(rob,"TRSP="))!=NULL) //Nie NULL, czyli jest
         {
             ThresholdPercent=atoi(pom + 5);
-        if(ThresholdPercent < 0 || ThresholdPercent > 100)
-            {
-            cerr << "Bad TRSP = " << int(ThresholdPercent) << "(must be in <0,100>" << endl;
-            return 0;
-            }
-        else
-            {
-            cerr << "Threshold of strength for change parameters = " << int(ThresholdPercent) << "%" << endl;
-            if(GrowingStrength == 0) //Nie ma sensu TRSP, jeśli nie jest ruchoma siła
+            if(ThresholdPercent < 0 || ThresholdPercent > 100)
                 {
-                    GrowingStrength=1;
-                cerr << "Automatically set WPOW to " << GrowingStrength << endl;
+                cerr << "Bad TRSP = " << int(ThresholdPercent) << "(must be in <0,100>" << endl;
+                return 0;
                 }
-            }
+            else
+                {
+                cerr << "Threshold of strength for change parameters = " << int(ThresholdPercent) << "%" << endl;
+                if(GrowingStrength == 0) //Nie ma sensu TRSP, jeśli nie jest ruchoma siła
+                    {
+                        GrowingStrength=1;
+                    cerr << "Automatically set WPOW to " << GrowingStrength << endl;
+                    }
+                }
         }
         else
         if((pom=strstr(rob,"WIDTH="))!=NULL) //Nie NULL, czyli jest
         {
-        WorldWidth=atol(pom + 6);
-        if(WorldWidth < 3 || WorldWidth >= SCR_WIDTH)
-            {
-            cerr << "Bad WIDTH = " << WorldWidth << "(must be in <3," << SCR_WIDTH << ">" << endl;
-            return 0;
-            }
+            WorldWidth=atol(pom + 6);
+            if(WorldWidth < 3 || WorldWidth >= SCR_WIDTH)
+                {
+                cerr << "Bad WIDTH = " << WorldWidth << "(must be in <3," << SCR_WIDTH << ">" << endl;
+                return 0;
+                }
         }
         else
         if((pom=strstr(rob,"WIDTHWIN="))!=NULL) //Nie NULL, czyli jest
         {
-            SCR_WIDTH=atol(pom + 9);
-        if(SCR_WIDTH < 50)
-            {
-            cerr << "Bad WIDTHWIN = " << SCR_WIDTH << " (must be >50)" << endl;
-            return 0;
-            }
+            SCR_WIDTH=atoi(pom + 9);
+            if(SCR_WIDTH < 50)
+                {
+                cerr << "Bad WIDTHWIN = " << SCR_WIDTH << " (must be >50)" << endl;
+                return 0;
+                }
         }
         else
         if((pom=strstr(rob,"HEIGHTWIN="))!=NULL) //Nie NULL, czyli jest
         {
-            SCR_HEIGHT=atol(pom + 10);
+            SCR_HEIGHT=atoi(pom + 10);
             if(SCR_HEIGHT < 50)
                 {
                 cerr << "Bad HEIGHTWIN = " << SCR_HEIGHT << " (must be >50)" << endl;
@@ -182,55 +195,55 @@ int parse_options(const int argc,const char* argv[])
         if((pom=strstr(rob,"MAX="))!=NULL) //Nie NULL, czyli jest
         {
             MaxNumOfIterations=atol(pom + 4);
-        if(MaxNumOfIterations <= 0)
-            {
-            cerr<<"Bad MAX iterations. Must be >0"<<endl;
-            return 0;
-            }
-        else
-            {
-                InternalLogLen= MaxNumOfIterations + 1;
-            }
+            if(MaxNumOfIterations <= 0)
+                {
+                cerr<<"Bad MAX iterations. Must be >0"<<endl;
+                return 0;
+                }
+            else
+                {
+                    InternalLogLen= MaxNumOfIterations + 1;
+                }
         }
         else
         if((pom=strstr(rob,"LOGC="))!=NULL) //Nie NULL, czyli jest
         {
             LogWriteRatio=atol(pom + 5);
-        if(LogWriteRatio <= 0)
-            {
-            cerr<<"Bad LOGC (write to log frequency). Must be >0"<<endl;
-            return 0;
-            }
+            if(LogWriteRatio <= 0)
+                {
+                cerr<<"Bad LOGC (write to log frequency). Must be >0"<<endl;
+                return 0;
+                }
         }
         else
         if((pom=strstr(rob,"VIEW="))!=NULL) //Nie NULL, czyli jest
         {
             ScrViewRatio=atol(pom + 5);
-        if(ScrViewRatio <= 0)
-            {
-            cerr<<"Bad VIEW (visualization frequency). Must be >0"<<endl;
-            return 0;
-            }
+            if(ScrViewRatio <= 0)
+                {
+                cerr<<"Bad VIEW (visualization frequency). Must be >0"<<endl;
+                return 0;
+                }
         }
         else
         if((pom=strstr(rob,"SELF="))!=NULL) //Nie NULL, czyli jest
         {
             SelfTaking=(toupper(pom[5]) == 'Y');
-        cerr << "SELF=" << (SelfTaking ? "Yes" : "No") << endl;
+            cerr << "SELF=" << (SelfTaking ? "Yes" : "No") << endl;
         }
         else
         if((pom=strstr(rob,"INDI="))!=NULL) //Nie NULL, czyli jest
         {
-        NeighborhoodR=atoi(pom + 5);
-        if(NeighborhoodR >= 1 && NeighborhoodR < WorldWidth / 2 - 1)
-            {
-            cerr << "INDI=" << NeighborhoodR << endl;
-            }
-        else
-            {
-            cerr << "Bad INDI=" << NeighborhoodR << " Must from 1 to " << WorldWidth / 2 - 1 << endl;
-            return 0;
-            }
+            NeighborhoodR=atoi(pom + 5);
+            if(NeighborhoodR >= 1 && NeighborhoodR < WorldWidth / 2 - 1)
+                {
+                cerr << "INDI=" << NeighborhoodR << endl;
+                }
+            else
+                {
+                cerr << "Bad INDI=" << NeighborhoodR << " Must from 1 to " << WorldWidth / 2 - 1 << endl;
+                return 0;
+                }
         }
         else
         if((pom=strstr(rob,"PRTR="))!=NULL) //Nie NULL, czyli jest
@@ -255,70 +268,70 @@ int parse_options(const int argc,const char* argv[])
         else
         if((pom=strstr(rob,"AUTO="))!=NULL) //Nie NULL, czyli jest
         {
-        AUTOSTART=atoi(pom+5);
-        cerr<<"AUTO="<<AUTOSTART<<endl;
-        if(AUTOSTART)
-            {
-                AutoExit=1;
-                cerr << "STOP=Yes"<<endl; // << (AutoExit ? "Yes" : "No") << endl;
-            }
+            AUTOSTART=atoi(pom+5);
+            cerr<<"AUTO="<<AUTOSTART<<endl;
+            if(AUTOSTART)
+                {
+                    AutoExit=1;
+                    cerr << "STOP=Yes"<<endl; // << (AutoExit ? "Yes" : "No") << endl;
+                }
         }
         else
         if((pom=strstr(rob,"STOP="))!=NULL) //Nie NULL, czyli jest
         {
-        AutoExit=(toupper(pom[5]) == 'Y');
-        cerr << "STOP=" << (AutoExit ? "Yes" : "No") << endl;
+            AutoExit=(toupper(pom[5]) == 'Y');
+            cerr << "STOP=" << (AutoExit ? "Yes" : "No") << endl;
         }
         else  //SYNC
         if((pom=strstr(rob,"SYNC="))!=NULL) //Nie NULL, czyli jest
         {
-        SimulationMode=!(toupper(pom[5]) == 'Y');
-        cerr << "SYNC=" << (SimulationMode == 0 ? "Yes" : "No") << endl;
+            AsyncMode=!(toupper(pom[5]) == 'Y');
+            cerr << "SYNC=" << (AsyncMode == 0?"Yes":"No") << endl;
         }
         else
         if((pom=strstr(rob,"ILOG="))!=NULL) //Nie NULL, czyli jest
         {
-        InternalLogLen=atoi(pom + 5);
-        if(InternalLogLen < 50)
-                {
-                InternalLogLen=50;
-                cerr << "An internal log to short. Reset to a default minimum =" << InternalLogLen << endl;
-                }
+            InternalLogLen=atoi(pom + 5);
+            if(InternalLogLen < 50)
+                    {
+                    InternalLogLen=50;
+                    cerr << "An internal log to short. Reset to a default minimum =" << InternalLogLen << endl;
+                    }
         }
         else
         if((pom=strstr(rob,"LOGF="))!=NULL) //Nie NULL, czyli jest
         {
-        strcpy(LogName,pom+5);
+            strcpy(LogName,pom+5);
         }else
         if((pom=strstr(rob,"MAPL="))!=NULL) //Nie NULL, czyli jest
         {
-        strcpy(MapLName,pom+5);
-        cerr<<"Map of attitudes from file \""<<MapLName<<"\"\n";
+            strcpy(MapLName,pom+5);
+            cerr<<"Map of attitudes from file \""<<MapLName<<"\"\n";
         }
         else
         if((pom=strstr(rob,"MAPP="))!=NULL) //Nie NULL, czyli jest
         {
-        strcpy(MapPName,pom+5);
-        cerr<<"Map of individual power from file \""<<MapPName<<"\"\n";
+            strcpy(MapPName,pom+5);
+            cerr<<"Map of individual power from file \""<<MapPName<<"\"\n";
         }
         else
         if((pom=strstr(rob,"MASK="))!=NULL) //Nie NULL, czyli jest
         {
-        strcpy(MaskName,pom+5);
-        cerr<<"Mask for live agents from file \""<<MaskName<<"\"\n";
+            strcpy(MaskName,pom+5);
+            cerr<<"Mask for live agents from file \""<<MaskName<<"\"\n";
         }
         else
         if((pom=strstr(rob,"HIST="))!=NULL) //Nie NULL, czyli jest
         {
-        strcpy(HistName,pom+5);
-        cerr<<"The history of the simulation will be saved to \""<<HistName<<"\"\n";
+            strcpy(HistName,pom+5);
+            cerr<<"The history of the simulation will be saved to \""<<HistName<<"\"\n";
         }
         else
         if((pom=strstr(rob,"REPL="))!=NULL) //Nie NULL, czyli jest
         {
-        strcpy(HistName,pom+5);
-        Replay=1;
-        cerr<<"The simulation will be replayed from \""<<HistName<<"\"\n";
+            strcpy(HistName,pom+5);
+            Replay=1;
+            cerr<<"The simulation will be replayed from \""<<HistName<<"\"\n";
         }
         else
         /* Ostatecznie wychodzi, że nie ma takiej opcji */
@@ -335,7 +348,7 @@ int parse_options(const int argc,const char* argv[])
             cerr << "\tMPOW=NN - max strength for initialization (" << MaximalStrength << ")\n"	;
             cerr << "\tWPOW=N	- walking step of strength	(" << GrowingStrength << ")\n";
             cerr << "\tTRSP=N - % of threshold of strength (" << ThresholdPercent << ")\n";
-            cerr << "\tSYNC=Y/N - synchronic (Y) or Monte-Carlo simulation mode (" << (SimulationMode == 0 ? "Yes" : "No") << ")\n";
+            cerr << "\tSYNC=Y/N - synchronic (Y) or Monte-Carlo simulation mode (" << (AsyncMode == 0?"Yes":"No") << ")\n";
             cerr << "\tPRTR=2...WIDTH^2-1 - number of interaction partners (-1 = all neighbourhood) (" << NeighborhoodD << ")\n";
             cerr << "\tINDI=1...WIDTH/2-1 - interaction distance (" << NeighborhoodR << ")\n";
             cerr << "\tSELF=N/Y - use self for calculations (" << (SelfTaking ? "Yes" : "No") << ")\n";
@@ -383,23 +396,23 @@ int main(const int argc,const char* argv[])
                                                  MapLName,
                                                  MapPName,
                                                  MaskName,
-                                 NoisePercent / 100.0, //Szum od 0-1
-                                 MaximalStrength, //Żeby była w przedziale
-                                 NumberOfAttitudes,
-                                                 NeighborhoodR,
-                                                 NeighborhoodD,
+                                                 NoisePercent / 100.0, //Szum od 0-1
+                                                 tos(MaximalStrength),
+                                                 tos(NumberOfAttitudes),
+                                                 tos(NeighborhoodR),
+                                                 tos(NeighborhoodD),
                                                  SelfTaking,
-                                                 SimulationMode == 0, //Synchroniczna czy nie
-                                 GrowingStrength,
-                                                 MaximalStrength * ThresholdPercent / 100.0,
+                                                 AsyncMode, //Synchroniczna czy nie
+                                                 GrowingStrength,
+                                                 tos(MaximalStrength * ThresholdPercent / 100.0),
                                                  MutationProb
                                );
 
-    if(&theWorld == NULL)
-        {
-        cerr<<"Can't allocate a simulation world!\n"<<endl;
-        exit(1);
-        }
+//    if(&theWorld == NULL) //Tak czy inaczej zwracanie NULL przez `new` już się zdarzać nie powinno.
+//        {
+//        cerr<<"Can't allocate a simulation world!\n"<<endl;
+//        exit(1);
+//        }
 
     //INICJALIZACJA
     RANDOMIZE() //Makro inicjalizacja globalnego randomizer-a
@@ -456,6 +469,7 @@ int main(const int argc,const char* argv[])
     return 0;
 }
 
+#pragma clang diagnostic pop
 /* ****************************************************************** */
 /*        SYMSHELL2 EXAMPLE  version 2006/2022/2026                   */
 /* ****************************************************************** */

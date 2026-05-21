@@ -28,6 +28,9 @@
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "modernize-use-auto"
 #pragma ide diagnostic ignored "modernize-use-nullptr"
+// Sprawdzanie "obcinających" konwersji liczbowych wyłączone dla CLion.
+#pragma ide diagnostic ignored "cppcoreguidelines-narrowing-conversions"
+#pragma ide diagnostic ignored "bugprone-narrowing-conversions"
 
 using namespace sym2;
 
@@ -72,18 +75,18 @@ double	attitude_agent::mutation_prob=0; //Prawd. spontanicznej zmiany poglądów
 extern unsigned InternalLogLen;
 
 attitude_world::attitude_world(size_t Width,		//Szerokość torusa macierzy agentów
-               char* log_name,	//Nazwa pliku do zapisywania historii
-               char* map_l_name,	//Nazwa (bit-) mapy inicjującej "składowe"
-               char* mapp_name,	//Nazwa (bit-) mapy inicjującej "siły"
-               char* live_mask,	//Czarne w tej mapie są kasowane
-               double noise_p,	//Szum informacyjny
-               short	max_str,	//Maksymalna siła agenta
-               short	n_of_cate,	//Liczba kategorii w mapach
-               short	neigh_radius,	//Rozmiar sąsiedztwa
-               short	n_of_neigh, //8 == Gęstość sąsiedztwa
-               short need_use_self, //Czy ma używać siebie
-               bool	sync_update,
-                               short walk_str,
+                               char* log_name,	//Nazwa pliku do zapisywania historii
+                               char* map_l_name,	//Nazwa (bit-) mapy inicjującej "składowe"
+                               char* mapp_name,	//Nazwa (bit-) mapy inicjującej "siły"
+                               char* live_mask,	//Czarne w tej mapie są kasowane
+                               double noise_p,	//Szum informacyjny
+                               short	max_str,	//Maksymalna siła agenta
+                               short	n_of_cate,	//Liczba kategorii w mapach
+                               short	neigh_radius,	//Rozmiar sąsiedztwa
+                               short	n_of_neigh, //8 == Gęstość sąsiedztwa
+                               bool need_use_self, //Czy ma używać siebie
+                               bool	sync_update,
+                               bool walk_str,
                                short str_threshold,
                                double spon_prob
              )
@@ -557,7 +560,7 @@ int attitude_world::CheckChange(const geometry_base* MyGeom,
                                 attitude_agent& CenterAgent
                         ) //KOD NA SZUKANIE ZMIAN
 { 
-    int testowanie=0;
+    //int testowanie = 0; //DEBUG
 
     if(DRAND() <= attitude_agent::mutation_prob) ///< Rzadka, spontaniczna zmiana poglądu.
     {
@@ -604,8 +607,8 @@ int attitude_world::CheckChange(const geometry_base* MyGeom,
 
     MyGeom->destroy_iterator(Neigh);	// upewniamy się, że iterator zostanie usunięty
 
-    //Zlicza wylosowanych agentów
-    testowanie++;
+    //Zlicza wylosowanych agentów (DEBUG)
+    //testowanie++;
 
     //Dodawanie własnych sił do liczników w tablicach
     if(UseSelf)
