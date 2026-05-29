@@ -2,7 +2,7 @@
 /// @brief
 ///  @EN{ A fairly simple simulation of attitude change — "attitude" according to A. Nowak's model. THE MAIN FILE. }
 ///  @PL{ Dosyć prosta symulacja zmiany postaw — "attitude" wg. modelu A. Nowak-a. PLIK GŁÓWNY. }
-/// @date 2026-05-21 (modified)
+/// @date 2026-05-29 (modified)
 ///       ======================================================================================================
 /// @details Uzyskana przez uproszczenie wczesnej wersji programu LANGUAGES
 /// @PL{ DOXYGENIZACJA NIEMAL WYŁĄCZNIE PO POLSKU. }
@@ -370,8 +370,8 @@ int parse_options(const int argc,const char* argv[])
 }
 
 
-/**  @brief OGÓLNA FUNKCJA MAIN  */
-/* ***************************** */
+/**  @brief OGÓLNA FUNKCJA MAIN.  */
+/* ****************************** */
 
 int main(const int argc,const char* argv[])
 {
@@ -414,9 +414,9 @@ int main(const int argc,const char* argv[])
 //        exit(1);
 //        }
 
-    //INICJALIZACJA
-    RANDOMIZE() //Makro inicjalizacja globalnego randomizer-a
-    theWorld.set_max_iteration(MaxNumOfIterations); //Ile najwięcej kroków
+    //INICJALIZACJA:
+    RANDOMIZE() //Makro inicjalizacja globalnego randomizer-a.
+    theWorld.set_max_iteration(MaxNumOfIterations); //Ile najwięcej kroków.
     theWorld.set_input_ratio(ScrViewRatio);
     theWorld.set_log_ratio(LogWriteRatio);
     cout<<WINDOW_HEADER<<": LOADED."<<endl;
@@ -424,14 +424,14 @@ int main(const int argc,const char* argv[])
 
     if(Replay)
     {
-        theWorld.initialize(&Lufciki, 1); //inicjalizacja wizualizacji
+        theWorld.initialize(&Lufciki, 1); //inicjalizacja wizualizacji.
         cout<<WINDOW_HEADER<<": PREPARED FOR READING. WAITING!"<<endl;
-        Lufciki.process_input(); //Pierwsze zdarzenia. Kończą się po ctrl-B
+        Lufciki.process_input(); //Pierwsze zdarzenia. Kończą się po ctrl-B.
         theWorld.read_loop(AutoExit);
     }
     else
     {
-        theWorld.initialize(&Lufciki); //inicjalizacja wizualizacji i warstw symulacji
+        theWorld.initialize(&Lufciki); //inicjalizacja wizualizacji i warstw symulacji.
         cout<<WINDOW_HEADER<<": INITIALISED."<<endl;
         if(!AUTOSTART)
         {
@@ -444,9 +444,9 @@ int main(const int argc,const char* argv[])
         {
             int statusWin=Lufciki.search("STATUS");
             Lufciki.maximize(statusWin);
+            //GŁÓWNA PĘTLA SYMULACJI:
             for(int symulacja=0;symulacja<AUTOSTART;symulacja++)
                 {
-                //GŁÓWNA PĘTLA SYMULACJI
                 cout<<WINDOW_HEADER<<": SIMULATION "<<symulacja<<" STARTED."<<endl;
                 theWorld.simulation_loop(1);
                 cout<<WINDOW_HEADER<<": SIMULATION "<<symulacja<<" DONE."<<endl;

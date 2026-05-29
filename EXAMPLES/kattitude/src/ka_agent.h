@@ -46,7 +46,7 @@ class ka_agent: public sym2::shell::agent_base
     short First;				//!< Aktualne przekonanie.
     short Second;				//!< Nowe przekonanie lub poprzednie.
     short Press;				//!< Nacisk społeczny — sumaryczna siła za zwyciężającym poglądem, o ile agent go nie wyznaje, albo 0.
-    bool  DurCh:1;				//!< Czy jest w trakcie zmieniania (do zarządzania zmianami stanów).
+    bool  DurCh:1;				//!< Określa, czy jest w trakcie zmieniania (do zarządzania zmianami stanów).
     /// @}
 
     static short DrawAttitude();				//!< Funkcja do losowania poglądu (???).
@@ -83,7 +83,7 @@ class ka_agent: public sym2::shell::agent_base
     }
 
 public:
-    /// @name TO CO MUSI być zdefiniowane:
+    /// @name TO, CO MUSI być zdefiniowane:
     //====================================
     /// @{
 
@@ -92,12 +92,12 @@ public:
         return First!=-1 && Second!=-1 && Power!=-1;
     }
 
-    ka_agent();									//!< Konstruktor kopiujący.
+    ka_agent();									//!< Konstruktor domyślny.
     ka_agent(const ka_agent& ini);				//!< Konstruktor kopiujący.
     explicit ka_agent(const ka_agent *ini);		//!< Konstruktor ze wskaźnika.
 
     ka_agent* clone() const						//!< Dynamiczna kopia na stercie.
-    { return new ka_agent(*this);}
+    { return new ka_agent(this);}
 
     ~ka_agent() override						//!< Wirtualny destruktor. Wywołuje `_clean`.
     {_clean();}
@@ -107,15 +107,15 @@ public:
 
     void assign_curr(unsigned char Red,unsigned char /*Green*/,unsigned char Blue)
     {
-        First=Red >> Kate_shift;
-        Second=Blue >> Kate_shift;
+        First=short( Red >> Kate_shift );
+        Second=short( Blue >> Kate_shift );
     }
 
-    void assign_prev(unsigned char Red,unsigned char /*Green*/,unsigned char Blue)
-    {
-        First=Red >> Kate_shift;
-        Second=Blue >> Kate_shift;
-    }
+//    void assign_prev(unsigned char Red, unsigned char /*Green*/, unsigned char Blue)
+//    {
+//        First=short ( Red >> Kate_shift);
+//        Second=short ( Blue >> Kate_shift);
+//    }
 
     void assignPow(unsigned char Red,unsigned char Green,unsigned char Blue)
     {

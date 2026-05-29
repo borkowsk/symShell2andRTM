@@ -2,7 +2,7 @@
 /// @brief
 ///  @EN{ IMPLEMENTATION OF 'aworld' AND 'aagent' FOR "attitudes" SIMULATION. }
 ///  @PL{ IMPLEMENTACJA "świata" ('aworld') I "agenta" ('aagent') DLA SYMULACJI postaw ("attitudes"). }
-/// @date 2026-05-21 (modified)
+/// @date 2026-05-29 (modified)
 ///       =========================================================
 /// @details
 /// @PL{ DOXYGENIZACJA WYŁĄCZNIE PO POLSKU. }
@@ -396,7 +396,7 @@ void attitude_world::make_default_visualisation()
 //===================
 
 void attitude_world::after_read_from_image()
-//actions after read state from file. Aktualizacja pól `static aAgent`-a!!!
+// Aktualizacja pól `static aAgent`-a.
 {
     attitude_agent::max_str=MaxSila; //Maksymalna siła agenta
     attitude_agent::n_of_cate=NofCategories; //Liczba kategorii w mapach
@@ -420,9 +420,9 @@ void attitude_world::after_read_from_image()
     }
 }
 
-// stan startowy symulacji
+
 void attitude_world::initialize_layers()
-//-------------------------------------
+// stan startowy symulacji z pliku.
 {
     static int first=1; //TYMCZASOWE WYŁĄCZENIE NADMIARU WYDRUKÓW!!!
     if(first)
@@ -475,9 +475,9 @@ void attitude_world::initialize_layers()
     first=0; //Koniec pierwszego wywołania. Potem wydruki już nie są potrzebne.
 }
 
-//Pojedynczy krok symulacji
+
 void attitude_world::simulate_one_step()
-//---------------------------------------
+//Pojedynczy krok symulacji
 {
     const geometry_base* MyGeom=Agents.get_geometry();
     assert(MyGeom);
@@ -558,7 +558,8 @@ void attitude_world::simulate_one_step()
 int attitude_world::CheckChange(const geometry_base* MyGeom,
                                 size_t index,
                                 attitude_agent& CenterAgent
-                        ) //KOD NA SZUKANIE ZMIAN
+                        )
+//KOD NA SZUKANIE ZMIAN
 { 
     //int testowanie = 0; //DEBUG
 

@@ -2,7 +2,7 @@
 /// @brief
 ///     @EN{ Implementation of the life_world class - virtual input method. }
 ///     @PL{  }
-/// @date 2026-05-21 (modified)
+/// @date 2026-05-29 (modified)
 /// =========================================================
 /// @details
 /// Its is rather simply implementation. You can replace it if you need.
@@ -18,13 +18,11 @@ int life_world::implement_input(istream& i)
 {
     int ret=world::implement_input(i);
     if(ret!=1) return ret;
-    i>>MyWidth;		//Obwód torusa
-
-    i >> NofCat;		//Liczba kategorii w mapach
+    i >> MyWidth;		//Obwód torusa
     i >> NeighDens;	//8 == Gęstość sąsiedztwa
     i >> NeighRadius;	//Rozmiar sąsiedztwa
+    i >> Noise;		//Szum informacyjny, czyli tu akurat SPONTANICZNE MUTACJE!
 
-    i>>Noise;		//Szum informacyjny
     rectangle_geometry* Geom=(rectangle_geometry*)Agents.get_geometry();    assert(Geom != nullptr);
     if(Geom->get_width()!=MyWidth||
        Geom->get_height()!=MyWidth )

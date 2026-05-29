@@ -1,8 +1,8 @@
 /// @file
 /// @brief
 ///  @EN{ WHICH RANDOM NUMBER GENERATOR IS USED IN THE SIMULATION? }
-///  @PL{  }
-/// @date 2026-05-19 (modified)
+///  @PL{ JAKI GENERATOR LICZB LOSOWYCH JEST UŻYTY W SYMULACJI? }
+/// @date 2026-05-29 (modified)
 ///       ===================================================
 /// @details (old example for SymShell implementing Kruglanski like model)
 // =====================================================================================================================

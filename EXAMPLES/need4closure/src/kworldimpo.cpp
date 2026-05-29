@@ -2,7 +2,7 @@
 /// @brief
 ///     @EN{ Implementation of the type 'kWorld'. Virtual output method. }
 ///     @PL{ Implementacja typu 'kWorld'. Metoda wirtualnego wyjścia. }
-/// @date 2026-05-21 (modified)
+/// @date 2026-05-29 (modified)
 ///       ===========================================================================
 /// @details
 ///     @EN{ Old example for SymShell implementing a Kruglanski's like model. } @PL{ .... }
@@ -22,7 +22,7 @@ int kWorld::implement_output(ostream& o) const
     o<<WeightOfSelf<<separator; //Jak ma brać siebie pod uwagę
     o<<NeedForClosure<<separator; //Jak ma brać innych (waga)
     o<<Noise<<separator<<endl;		//Szum informacyjny
-    o<<Agenci<<endl;
+    o << Agents << endl;
     return 1;
 }
 

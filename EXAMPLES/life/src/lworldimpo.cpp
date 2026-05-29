@@ -2,7 +2,7 @@
 /// @brief
 ///     @EN{ Implementation of the life_world class. Virtual output method. }
 ///     @PL{  }
-/// @date 2026-05-21 (modified)
+/// @date 2026-05-29 (modified)
 /// =========================================================
 /// @details
 /// Its is rather simply implementation. You can replace it if you need.
@@ -14,14 +14,11 @@ int life_world::implement_output(ostream& o) const
 {
     int ret=world::implement_output(o);
     if(ret!=1) return ret;
-    o<<separator;
-    o<<MyWidth<<separator;	    //Obwód (?) torusa
-
-    o << NofCat << separator;	    //Liczba kategorii w mapach
+    o << separator;
+    o << MyWidth<<separator;	    //Obwód (?) torusa
     o << NeighDens << separator;	//8 == gęstość sąsiedztwa
     o << NeighRadius << separator;	//Rozmiar sąsiedztwa
-
-    o<<Noise<<separator<<endl;	//Szum informacyjny
+    o << Noise<<separator<<endl;	//Szum informacyjny
     o << Agents << endl;
     return 1;
 }

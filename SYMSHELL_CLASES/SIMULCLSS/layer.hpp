@@ -12,7 +12,6 @@
 #include "filtsour.hpp"
 #include "statsour.hpp"
 #include "fifosour.hpp"
-//#include "sourmngr.hpp" any_layer_base::const unsigned long FULL=UINT_MAX;
 
 #include "wb_limits.hpp"
 
@@ -70,8 +69,8 @@ public:
     virtual const geometry_base* get_geometry()=0;
 
     //PRZESTARZAŁE/OBSOLETE:
-    //virtual void swap(size_t index1,size_t index2)=0; //Zamienia ze soba dwa elementy
-    //virtual void clean(size_t index)=0; //Czyści obiekt sposobem zdefiniowanym dla konkretnego typu warstwy
+    //virtual void swap(size_t index1,size_t index2) = 0; //Zamienia ze soba dwa elementy
+    //virtual void clean(size_t index) = 0; //Czyści obiekt sposobem zdefiniowanym dla konkretnego typu warstwy
 
     /// @name @PL{ Implementacja wirtualnego wejścia/wyjścia. } @EN{ Virtual I/O implementation. }
     /// @details Metody wirtualne zwracają 1, jeśli mają sukces.
@@ -224,7 +223,7 @@ public:
         {
             size_t N=table.get_size();
             for(size_t i=0;i<N;i++)
-                table[i]=cleaner; //Każdy zostanie zainicjalizowany "na pusto".
+                table[i]=cleaner; //Każdy zostanie zainicjalizowany jako "pusty".
         }
 
      /// @PL{ Destruktor wirtualny. } @EN{ Virtual destructor. }
@@ -665,8 +664,12 @@ public:
     ///  @brief @PL{ Funkcja czyszczenia MUSI być dostarczona. } @EN{ A cleaning function MUST be provided. }
     virtual void clean()=0;
 
-    ///  @brief @PL{ Sprawdzenie, czy z agentem wszystko "wporzo". } @EN{ Checking if the agent is doing good. }
+    ///  @brief @PL{ Sprawdzenie, czy z agentem wszystko formalnie "wporzo". } @EN{ Checking whether everything is formally "okay" with the agent. }
     virtual bool IsOK() { return true; }
+
+    ///  @brief @PL{ Określenie, czy agent jest żywy, tj. bierze udział w symulacji. }
+    ///         @EN{ Determining whether an agent is alive, i.e., participating in the simulation. }
+    virtual bool is_alive() { return true; }
 
     //agent_base* clone() const { return new agent(*this);}
     //friend ostream& operator << (ostream& o, agent a)
@@ -1068,7 +1071,7 @@ class rectangle_layer_of_ptr_to_agents:public layer<AGENT>,public rectangle_laye
 #endif
 //--------------------------------------------------------------
 {
-    wb_dynarray<wb_ptr<AGENT> >			table; //!< Kontener na dane.
+    wb_dynarray<wb_ptr<AGENT> >			table; //!< Kontener na dane — macierz dynamiczna.
     wb_ptr<AGENT>				 model_object; //!< Obiekt do zamazywania.
     wb_ptr<AGENT>				  empty_guard; //!< Zwracany jako reprezentant pustych pól.
     int						  full_allocation; //!< Wszystkie wskaźniki mają być pełne.
@@ -1084,7 +1087,7 @@ public:
         int    allocate_all=0
         )
     : rectangle_layer(Width,Height),
-      table(Width*Height),		//odpowiednia ilość pól
+      table(Width*Height),		//odpowiednia liczba komórek tablicy.
       model_object((initializer?initializer->clone():NULL)),
       empty_guard((initializer?initializer->clone():NULL)),
       full_allocation(allocate_all)
@@ -1393,9 +1396,9 @@ public:
     }
 
 //    virtual
-//    method_by_ptr_matrix_source<AGENT,unsigned long int>* make_source(const char* name,unsigned long int (AGENT::* method_ptr)() const)
+//    method_by_ptr_matrix_source<AGENT, unsigned long int>* make_source(const char* name,unsigned long int (AGENT::* method_ptr)() const)
 //    {
-//        return new method_by_ptr_matrix_source<AGENT,unsigned long>(name,
+//        return new method_by_ptr_matrix_source<AGENT, unsigned long> (name,
 //                                                                    MainGeometry,
 //                                                                    (AGENT**)table.get_ptr_val(),
 //                                                                    method_ptr

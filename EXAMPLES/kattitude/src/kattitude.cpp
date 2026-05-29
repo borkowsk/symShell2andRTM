@@ -2,7 +2,7 @@
 /// @brief
 ///  @EN{ Attitude change simulation - "k-attitudes". Main file. }
 ///  @PL{ Symulacja zmiany poglądów - "k-attitudes". Plik główny. }
-/// @date 2026-05-21 (modified)
+/// @date 2026-05-29 (modified)
 ///       =========================================================
 /// @details ("kattitudes" old example for SymShell)
 /// @if POLISH
@@ -33,6 +33,11 @@ const char* WINDOW_HEADER="ATTITUDES K version 0.71c";
 #include "ka_world.h"
 #include "toitoutoll.hpp"
 
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "modernize-use-auto"
+#pragma ide diagnostic ignored "modernize-use-nullptr"
+#pragma ide diagnostic ignored "cert-err34-c"
+
 using namespace sym2;
 
 /// @name Rozmiar okna i świata
@@ -55,7 +60,7 @@ double ProbMig=0.1;				///< @brief Prawdopodobieństwo migracji, gdy presja otoc
 int    NoisePercent=0;			///< @brief Szum przy zbieraniu informacji o większości.
 double SponChangeProb=0.01;		///< @brief Spontaniczna zmiana poglądu.
 int    NeighborhoodRadius=1;	///< @brief 3x3-1
-int    NumberOfNeighbors=-1;	///< @brief Gdy -1 to wszyscy sąsiedzi nielosowo, a gdy 8 to losowo!!!
+int    NumberOfNeighbors=-1;	///< @brief Gdy -1 to wszyscy sąsiedzi nielosowo, a gdy 8 to niby wszyscy, ale losowo!!!
 
 double SelfWeight=1;			///< @brief 8+1
 double NeedForClosure=1;		///< @brief Waga opinii innych.
@@ -82,7 +87,7 @@ int  Replay=0;
 int	 AUTO_START=0;
 /// @}
 
-/// @brief @EN{ .... } @PL{ .... }
+/// @brief @EN{ Reading program settings from call parameters. } @PL{ Odczytywanie ustawień programu z parametrów wywołania. }
 int parse_options(const int argc, const char *argv[])
 {
     for(int i = 1; i < argc; i++)
@@ -322,7 +327,7 @@ int parse_options(const int argc, const char *argv[])
         else  //SYNC
         if((pom = strstr(rob, "SYNC=")) != nullptr) //Nie nullptr, czyli jest
         {
-            SyncUpdate = !(toupper(pom[5]) == 'Y');
+            SyncUpdate = (toupper(pom[5]) != 'Y');
             cerr << "SYNC = " << (SyncUpdate == 0?"Yes":"No") << endl;
         }
         else if((pom = strstr(rob, "ILOG=")) != nullptr) //Nie nullptr, czyli jest
@@ -429,7 +434,7 @@ int parse_options(const int argc, const char *argv[])
 }
 
 
-/*@ @brief @PL{ OGÓLNA FUNKCJA MAIN. } @EN{ ... }  */
+/** @brief @PL{ OGÓLNA FUNKCJA MAIN. } @EN{ GENERAL MAIN FUNCTION. }  */
 /* *********************************************************************************************** */
 
 int main(const int argc,const char* argv[])
@@ -545,6 +550,7 @@ int main(const int argc,const char* argv[])
 /* STATIC ALLOCATION */
 //unsigned agent::max=0; //jaki jest największy taxon
 
+#pragma clang diagnostic pop
 /* ****************************************************************** */
 /*        SYMSHELL2 EXAMPLE  version 2006/2022/2026                   */
 /* ****************************************************************** */
@@ -556,6 +562,3 @@ int main(const int argc,const char* argv[])
 /*        MAIL:  wborkowski@uw.edu.pl                                 */
 /*                               (Don't change or remove this note)   */
 /* ****************************************************************** */
-
-
-

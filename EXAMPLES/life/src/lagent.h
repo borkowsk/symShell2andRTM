@@ -20,17 +20,17 @@ class life_agent: public sym2::shell::agent_base
 {
     friend class life_world; //!< Na razie tak, żeby uprościć dostęp do składowych.
 
-    /// @name STATYCZNE SKŁADOWE - PARAMETRY INICJOWANIA AGENTÓW:
-    //===========================================================
+    /// @name @PL{ STATYCZNE SKŁADOWE - PARAMETRY INICJOWANIA AGENTÓW: }
+    ///       @EN{ STATIC COMPONENTS - AGENT INITIATION PARAMETERS: }
+    //==================================================================
     /// @{
-    static short  ile_kate;   //!< Liczba kategorii. Dla Life zawsze 2!!! WIĘC TO POLE NIEUŻYWANE — TYLKO DLA INFORMACJI.
-    static short  kate_shift; //!< Przesunięcie do wczytywania (z grafik?).
-    static double MutationLevel; //!< Prawd. spontanicznej zmiany stanu (0..1) - chyba tu nieużywane.
-    static double InitProp;  //!< Proporcje inicjowania losowego.
+    static short     kate_shift; //!< Przesunięcie do wczytywania (z grafik).
+    static double mutation_prob; //!< Prawd. spontanicznej zmiany stanu (0..1) - chyba tu nieużywane.
+    static double  initial_prop; //!< Proporcje inicjowania losowego.
     /// @}
 
-    /// @name SKŁADOWE AGENTA DLA SYMULACJI:
-    //======================================
+    /// @name @PL{ SKŁADOWE AGENTA DLA SYMULACJI: } @EN{  }
+    //=====================================================================================================
     /// @{
     short First;		//!< Pierwszy, czyli aktualny stan.
     short Second;		//!< Nowy albo stary stan (zależnie od modelu).
@@ -44,21 +44,12 @@ class life_agent: public sym2::shell::agent_base
     }
 
 public:
-    /// @name TO CO MUSI byc zdefiniowane:
-    //====================================
+    /// @name @PL{ TO, CO MUSI być zdefiniowane: } @EN{  }
+    //===================================================================================================
     /// @{
 
-    /// Określenie, czy stan poprawny formalnie.
-    bool IsOK() override
-    {
-        return true;
-    }
-
-    /// Określenie, czy agent jest żywy, tj. bierze udział w symulacji.
-    int is_alive()
-    {
-        return 1; //Chyba zawsze tak...
-    }
+    /// Konstruktor klonujący.
+    explicit life_agent(const life_agent* ini); //!< Konkretna implementacja tego konstruktora w "lworld.cpp".
 
     /// Konstruktor kopiujący.
     life_agent(const life_agent& ini); //!< Konkretna implementacja tego konstruktora w "lworld.cpp".
@@ -68,7 +59,7 @@ public:
 
     /// Tworzenie klonu agenta na stercie.
     life_agent* clone() const
-    { return new life_agent(*this);}
+    { return new life_agent(this); }
 
     /// Destruktor wirtualny.
     ~life_agent() override
@@ -84,7 +75,7 @@ public:
     /// Do przypisywania stanu z obrazków (RGB).
     void assign123(unsigned char Red,unsigned char Green,unsigned char Blue)
     {
-        First=unsigned( (long(Red)+long(Green)+Blue)/3 ) >> kate_shift;
+        First=short( ((long(Red)+long(Green)+Blue)/3 ) >> kate_shift );
         Second=0;
     }
 

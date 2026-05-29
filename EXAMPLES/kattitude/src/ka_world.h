@@ -60,7 +60,7 @@ class ka_world: public sym2::shell::world
 
     sym2::data::ptr_to_struct_matrix_source<ka_agent,short>		*Powers;		//!< =Agents.make_source("Power",&aagent::Power);
     sym2::data::ptr_to_struct_matrix_source<ka_agent,short>		*Pressure;		//!< =Agents.make_source("Pressure",&aagent::Press);
-    //sym2::data::method_by_ptr_matrix_source<aagent,long>				*Classif;		//!< =Agents.make_source("Classification",&aagent::classify);
+    //sym2::data::method_by_ptr_matrix_source<aagent,long>		*Classify;		//!< =Agents.make_source("Classification",&aagent::classify);
     /// @}
 
     /// @name Do przekazywania aktualnie najważniejszych danych na okno statusu:

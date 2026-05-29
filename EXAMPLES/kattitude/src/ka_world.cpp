@@ -2,7 +2,7 @@
 /// @brief
 ///  @EN{ IMPLEMENTATION OF THE WORLD FOR "KattitudeS" SIMULATION. }
 ///  @PL{ IMPLEMENTACJA ŚWIATA DO SYMULACJI "Kattitudes". }
-/// @date 2026-05-21 (modified)
+/// @date 2026-05-29 (modified)
 ///       ==========================================================
 /// @details (attitudeS old example for SymShell)
 //======================================================================================================================
@@ -13,7 +13,7 @@
 #include "ka_world.h"
 #include "histosou.hpp" //Histogram w starej wersji
 #include "dhistosou.hpp"//I w nowszej
-#include "clstsour.hpp" //Jest też `statsour` (?)
+#include "clstsour.hpp"
 #include "spatcors.hpp"
 #include "coincsou.hpp"
 #include "funcsour.hpp" 
@@ -137,7 +137,7 @@ ka_world::ka_world(
     MapLName(clone_str(map_l_name)),MappName(clone_str(mapp_name)),MaskName(clone_str(live_mask)),
   //Sub-obiekty właściwe dla tej symulacji
     MyWidth(Width),
-    Agenci(Width,Width,NULL), //Initer == nullptr, więc tworzeni przez konstruktory, a nie klonowanie
+    Agenci(Width,Width,NULL), //Initializer == nullptr, więc tworzeni przez konstruktory, a nie klonowanie
     MaxPower(max_sila),
     ThrPower(thr_power), //Siła dająca odporność na zmiany
     IleKate(ile_kate),
@@ -152,7 +152,7 @@ ka_world::ka_world(
     TakeAll(0), //Sąsiedztwo bez losowania
     //Wskaźniki do podstawowych seri danych
     Firsts(NULL),Seconds(NULL),
-    Powers(NULL), //,Classif(NULL)
+    Powers(NULL), //,Classify(NULL)
     ptrStres(NULL),ptrClsSize(NULL),
     ptrLastChanged(NULL),ptrLastMigration(NULL),
     CountCh(0),CountMig(0),
@@ -199,9 +199,9 @@ void ka_world::make_basic_sources()
     CountMig=default_missing< decltype(CountMig) >();
     ptrLastMigration->set_missing(CountMig);
 
-    //Classif=Agents.make_source("Classification",&aagent::Classif); //Z PIERWOWZORU "LANGUAGES"
-    //if(Classif)
-    //	Classif->set_min_max(0,NofCat*NofCat*NofCat-1); //Max class ==NofCat^3 bo trzy niezależne płaszczyzny
+    //Classify=Agents.make_source("Classification",&aagent::Classify); //Z PIERWOWZORU "LANGUAGES"
+    //if(Classify)
+    //	Classify->set_min_max(0,NofCat*NofCat*NofCat-1); //Max class ==NofCat^3 bo trzy niezależne płaszczyzny
 
     //Umieszczenie głównych serii w zarządcy serii.
     WhatSourMen.insert(Firsts);
@@ -211,7 +211,7 @@ void ka_world::make_basic_sources()
     WhatSourMen.insert(ptrLastChanged);
     WhatSourMen.insert(ptrLastMigration);
 
-//WhatSourMen.insert(Classif);
+//WhatSourMen.insert(Classify);
 }
 
 
@@ -610,12 +610,12 @@ void ka_world::initialize_layers()
     //Wydruk wartości parametrów symulacji
     if(first_call)
       Log.GetStream()
-              << "\nMax Power=" << Log.separator() << MaxPower
-              << "\nThresh of Power=" << Log.separator() << ThrPower
-              << "\nNum of Kl=" << Log.separator() << IleKate
+              << "\nMax. Power=" << Log.separator() << MaxPower
+              << "\nThresh. of Power=" << Log.separator() << ThrPower
+              << "\nNumber of Cat.=" << Log.separator() << IleKate
               << "\nNoise %=" << Log.separator() <<Noise*100
               << "\nSelf=" << Log.separator() << WeightOfSelf
-              << "\nNforC=" << Log.separator() << NeedForClosure
+              << "\nNeed for Cl.=" << Log.separator() << NeedForClosure
               << "\nNeighborhood=" << Log.separator() << NeiDens << "/(" << (1 + 2 * NeiSize) << "*" << (1 + 2 * NeiSize) << ")"
         <<"\n";
 

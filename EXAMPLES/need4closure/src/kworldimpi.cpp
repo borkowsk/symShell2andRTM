@@ -2,7 +2,7 @@
 /// @brief
 ///     @EN{ Implementation of the type 'kWorld'.	Virtual Input method. }
 ///     @PL{ Implementacja typu „kWorld”. Metoda wirtualnego wejścia. }
-/// @date 2026-05-21 (modified)
+/// @date 2026-05-29 (modified)
 ///       =========================================================
 /// @details
 ///     @EN{ Old example for SymShell implementing a Kruglanski's like model. } @PL{ .... }
@@ -29,12 +29,12 @@ int kWorld::implement_input(istream& i)
     i>>WeightOfSelf; //Jak ma brać siebie pod uwagę
     i>>NeedForClosure; //Jak ma brać innych (waga)
     i>>Noise;		//Szum informacyjny
-    rectangle_geometry* Geom=( rectangle_geometry*)Agenci.get_geometry();
+    rectangle_geometry* Geom=( rectangle_geometry*)Agents.get_geometry();
     assert(Geom!=nullptr);
     if(Geom->get_width()!=MyWidth||
        Geom->get_height()!=MyWidth )
             Geom->set(MyWidth,MyWidth,1);
-    i>>Agenci;
+    i >> Agents;
     return 0;
 }
 

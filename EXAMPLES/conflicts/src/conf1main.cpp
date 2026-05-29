@@ -2,7 +2,7 @@
 /// @brief
 ///  @EN{ NETWORKED CONFLICT SIMULATION, BOCA 2005 (main file). }
 ///  @PL{ SIECIOWA SYMULACJA KONFLIKTÓW, BOCA 2005 (plik główny). }
-/// @date 2026-05-21 (modified)
+/// @date 2026-05-29 (modified)
 ///       =========================================================
 /// @details UZUPEŁNIONY 10-11.2005, 9-2010, 02-2014, 04-2026
 //-=====================================================================================================================
@@ -36,13 +36,13 @@
 #pragma ide diagnostic ignored "modernize-use-auto"
 
 /// ## HISTORIA
-/// * 1.1 Dodano obsługę wczytywania sieci z pliku
+/// * 1.1 Dodano obsługę wczytywania sieci z pliku.
 /// * 1.2 Dodano obsługę parametrów wywołania i
-///       symetryczne traktowanie połączeń wczytanych z pliku
-/// * 1.21 Poprawiono obsługę parametrów — błąd dla stringów
-///       Dodano parametry kontroli wydruku oraz Min-Max dla skali stanów
+///       symetryczne traktowanie połączeń wczytanych z pliku.
+/// * 1.21 Poprawiono obsługę parametrów — błąd dla stringów.
+///       Dodano parametry kontroli wydruku oraz Min-Max dla skali stanów.
 /// * 1.22 "Update" do poprawionej wersji bibliotek SYMSHELL i WBRTM.
-/// * 1.23 Ponowny "update" do stanu bibliotek na 2026.04
+/// * 1.23 Ponowny "update" do stanu bibliotek na 2026.04.
 /// * 1.23b Porządkowanie i doxygenizacja.
 const char* SIMULATION_NAME= "CONFLICTS 1.22b BOCA/WARSZAWA: " __DATE__;
 const char* SCREEN_DUMP_NAME="CONFLICTS_v1.22_";
@@ -72,7 +72,7 @@ const char* DefaultNetFileName="conflicts1.net"; ///< Nazwa pliku z definicją s
 /// @name PARAMETRY WIZUALIZACYJNE (?)
 /// @{
 float  DIAM_SIZE=0.01f;
-unsigned  ARROWS_DIV=7;	///< Dzielnik skracający strzałki. Jak 0, to mają stała długość.
+unsigned  ARROWS_DIV=7;	///< Dzielnik skracający strzałki. Jak 0, to mają stałą długość.
 /// @}
 
 double FixMinState=0; ///< ???
@@ -80,7 +80,7 @@ double FixMaxState=0; ///< ???
 
 /// @name Ogólne parametry modelowania.
 /// @{
-int MultiExp=1; ///< Ile zrobić powtórzeń?
+int      MultiExp=1;              ///< Ile zrobić powtórzeń? Włącza MULTI-EKSPERYMENT!
 unsigned iMaxIterations=10000;    ///< Ile najwięcej kroków.
 unsigned iMaxIterRep=1000;        ///< ???
 unsigned iViewRatio=1;            ///< Jak często wizualizować.
@@ -237,13 +237,13 @@ private:
     unsigned     logs_length;	///< Długość buforów na statystyki symulacji.
     unsigned how_many_agents;	///< Zadana liczba agentów.
 
-    double m_init_st;   ///< Średni stan początkowy
-    double r_init_st;   ///< Odchylenie od średniego stanu początkowego
-    double m_of_noise;  ///< Średni poziom szumu/sygnału dodawanego do węzłów
-    double r_of_noise;  ///< Odchylenie od śred. szumu/sygnału dodawanego do węzłów
-    double m_of_weight; ///< Średnia waga krawędzi
-    double r_of_weight; ///< Odchylenie od śred. wagi krawędzi
-    double asymmetry;   ///< Asymetria przekazywania komunikatów dodatnich względem ujemnych
+    double         m_init_st;	///< Średni stan początkowy.
+    double         r_init_st;	///< Odchylenie od średniego stanu początkowego.
+    double        m_of_noise;	///< Średni poziom szumu/sygnału dodawanego do węzłów.
+    double        r_of_noise;	///< Odchylenie od śred. szumu/sygnału dodawanego do węzłów.
+    double       m_of_weight;	///< Średnia waga krawędzi.
+    double       r_of_weight;	///< Odchylenie od średniej wagi krawędzi.
+    double         asymmetry;	///< Asymetria przekazywania komunikatów dodatnich względem ujemnych.
 
     /// @name Współrzędne węzłów w aranżacji w postaci źródeł danych.
     /// @{
@@ -253,10 +253,10 @@ private:
 
     /// @name Wszystkie inne źródła danych.
     /// @{
-    struct_array_source<Agent,double>* pNodeR;        ///< Rozmiar węzła w aranżacji.
-    struct_array_source<Agent,double>* pNodeState;    ///< Aktywność węzłów.
-    struct_array_source<Agent,double>* pNodePreState; ///< Poprzednia aktywność węzłów.
-    struct_array_source<Agent,double>* pNodeDelta;    ///< Ostatni wpływ od innych.
+    struct_array_source<Agent,double>* pNodeR;           ///< Rozmiar węzła w aranżacji.
+    struct_array_source<Agent,double>* pNodeState;       ///< Aktywność węzłów.
+    struct_array_source<Agent,double>* pNodePreState;    ///< Poprzednia aktywność węzłów.
+    struct_array_source<Agent,double>* pNodeDelta;       ///< Ostatni wpływ od innych.
 
     struct_array_source<Connection,size_t>* pConnStart;  ///< Indeksy początków linii łączących węzły sieci.
     struct_array_source<Connection,size_t>* pConnEnd;    ///< Indeksy końców linii łączących węzły sieci.
@@ -274,7 +274,7 @@ private:
     fifo_source<double>*    MaxAcctLog;
     /// @}
 
-    /// @name Funkcje pomocnicze do modelu
+    /// @name Funkcje pomocnicze do modelu.
     /// @{
 
     /// Układa agentów w kółko.
@@ -350,7 +350,7 @@ public:
     void InitialiseNotConnected(unsigned HowManyAgents);
     void InitialiseFullyConnected(unsigned HowManyAgents);
     void InitialiseRandomConnected(unsigned HowManyAgents);
-    void InitialiseFromWiesiekFile(const char* FileName);
+    void InitialiseFromWiesiekFile(const char* FileName); ///< @brief Czytanie z pliku z modeli Wieśka.
     /// @}
 
     /// Dodatkowe akcesory do źródeł statystycznych,
@@ -488,9 +488,9 @@ void NetworkWorld::InitialiseNotConnected(unsigned HowManyAgents)
     if(agents.get_size()!=HowManyAgents)	//Jednakże, jak nie równe i reinicjalizacja to kicha!!!
         agents.alloc(HowManyAgents);
     //connections.alloc(1);
-    //connections[0].set(0,0,0);	//Dummy connection
-    MakeCircle_();	//Układa wszystkich w domyślne koło
-    MakeStates_(m_init_st, r_init_st); //Ustala agentom stany z rozkładu
+    //connections[0].set(0,0,0);			//Dummy connection
+    MakeCircle_();							//Układa wszystkich w domyślne koło
+    MakeStates_(m_init_st, r_init_st);		//Ustala agentom stany z rozkładu
 }
 
 void NetworkWorld::InitialiseFullyConnected(unsigned HowManyAgents)
@@ -498,14 +498,14 @@ void NetworkWorld::InitialiseFullyConnected(unsigned HowManyAgents)
     if(agents.get_size()!=HowManyAgents)	//Wszakże jak nie równe i reinicjalizacja to kicha!!!
         agents.alloc(HowManyAgents);
 
-    MakeCircle_();	//Układa wszystkich w domyślne koło
-    MakeStates_(m_init_st, r_init_st); //Ustala agentom stany z rozkładu
+    MakeCircle_();							//Układa wszystkich w domyślne koło
+    MakeStates_(m_init_st, r_init_st);		//Ustala agentom stany z rozkładu
 
     unsigned how_many_con=((HowManyAgents*HowManyAgents)-HowManyAgents)/2; //( n^2-n )/ 2
     if(how_many_con!=connections.get_size()) //Wszakże jak nie równe i reinicjalizacja to kicha!!!
         connections.alloc(how_many_con);
 
-    unsigned count_conn=0; //zliczanie/przesuwanie
+    unsigned count_conn=0;					//zliczanie/przesuwanie
     for(unsigned i=1;i<HowManyAgents;i++)
     {
         for(unsigned j=0;j<i;j++)
@@ -521,8 +521,8 @@ void NetworkWorld::InitialiseRandomConnected(unsigned HowManyAgents)
     if(agents.get_size()!=HowManyAgents)	//Wszakże jak nie równe i reinicjalizacja to kicha!!!
         agents.alloc(HowManyAgents);
 
-    MakeCircle_();	//Układa wszystkich w domyślne koło
-    MakeStates_(m_init_st, r_init_st); //Ustala agentom stany z rozkładu
+    MakeCircle_();							//Układa wszystkich w domyślne koło
+    MakeStates_(m_init_st, r_init_st);		//Ustala agentom stany z rozkładu
     
     unsigned how_many_con=(HowManyAgents*HowManyAgents)-HowManyAgents; //n^2-n
     if(how_many_con!=connections.get_size()) //Wszakże jak nie równe i reinicjalizacja to kicha!!!
@@ -544,7 +544,7 @@ void NetworkWorld::InitialiseRandomConnected(unsigned HowManyAgents)
 
 void NetworkWorld::InitialiseFromWiesiekFile(const char* FileName)
 {
-    ifstream Input(FileName/*,ios::in | ios::nocreate*/); //W przypadku ifstream flaga nocreate jest... zbędna.
+    ifstream Input(FileName/*,ios::in | ios::nocreate*/); //W przypadku `ifstream` flaga nocreate jest... zbędna.
     // Domyślne zachowanie ifstream (strumienia wejściowego) jest dokładnie takie, jakiego oczekujesz od nocreate:
     // jeśli plik nie istnieje, strumień nie utworzy go, lecz ustawi flagę błędu (failbit).
     // A flaga "in" wynika z tego, że to strumień wejściowy 😁
@@ -666,16 +666,17 @@ void NetworkWorld::actualize_out_area()
 }
 
 
-// user defined actions after read simulation state from a file
 void NetworkWorld::after_read_from_image()
+// user defined actions after read simulation state from a file
 {
     // NOTHING TO DO???
 }
 
-void NetworkWorld::AllocSources() //Tworzy źródła danych
+void NetworkWorld::AllocSources()
+//Tworzy źródła danych
 {
-    pNodeX=new struct_array_source<Agent,double>(agents.get_size(),agents.get_ptr_val(),&Agent::x,"X" );      //Współrzędne węzłów w aranżacji
-    pNodeY=new struct_array_source<Agent,double>(agents.get_size(),agents.get_ptr_val(),&Agent::y,"Y");      //------------//----------------
+    pNodeX=new struct_array_source<Agent,double>(agents.get_size(),agents.get_ptr_val(),&Agent::x,"X" );  //Współrzędne węzłów w aranżacji
+    pNodeY=new struct_array_source<Agent,double>(agents.get_size(),agents.get_ptr_val(),&Agent::y,"Y");  //------------//----------------
     pNodeR=new struct_array_source<Agent,double>(agents.get_size(),agents.get_ptr_val(),&Agent::r,"R");	//Rozmiar węzła w aranżacji
     pNodeR->set_min_max(0, 1);	//Dla DEBUG — promień jest stały na razie
 
@@ -744,31 +745,28 @@ void NetworkWorld::make_basic_sources()
     Log.insert(AcctStat->SD());
 }
 
-void NetworkWorld::make_default_visualisation() // area_manager_base& Lufciki     ?
-{
-                                            assert(this->HasAreaMenager());
-    world::make_default_visualisation(); //Tworzy np. OutArea
+void NetworkWorld::make_default_visualisation()
+{                                                                                        assert(this->HasAreaMenager());
+    world::make_default_visualisation();
 
-    this->OutArea->set(0,0,250,250);
+    this->OutArea->set(0,0,250,250); //Pod-obiekt lufcika tekstowego stworzony linię wyżej w `world::make_default_visualisation()`.
 
-    graph* pom=NULL;
-    
+    graph* area=NULL;
     float circle_max_size=float((1.0/double(agents.get_size()))*0.5f*M_PI);	//*1.5*M_PI;	// 2*Pi ??
 
     if(connections.get_size()>0)
     {
         net_graph* png;
-        pom=png=new net_graph(250,0,500,250+3*int(char_height('X')),
-            pNodeX,0,
-            pNodeY,0,
-            pConnStart,0,
-            pConnEnd,0,
-            
-            pNodeState,0,	//KOLORY - STAN
-            pNodeR,0, //Rozmiary — promień
-            NULL,0, //Arrows,1,
-            pConnAcct,0,
-            new circle_point(0.01f,circle_max_size),1
+        area= png=new net_graph(250, 0, 500, 250 + 3 * int(char_height('X')),
+                                pNodeX, 0,
+                                pNodeY, 0,
+                                pConnStart, 0,
+                                pConnEnd, 0,
+                                pNodeState, 0,	//KOLORY - STAN
+                                pNodeR, 0, //Rozmiary — promień
+                                NULL, 0, //Arrows,1,
+                                pConnAcct, 0,
+                                new circle_point(0.01f,circle_max_size), 1
             );
 
         png->set_background(default_dark_gray);
@@ -776,61 +774,60 @@ void NetworkWorld::make_default_visualisation() // area_manager_base& Lufciki   
     }
     else
     {
-        pom=new scatter_graph(250,0,500,toi(250+3*char_height('X')),
-            pNodeX,0,
-            pNodeY,0,
-            pNodeState,0,	//KOLORY - STAN
-            pNodeR,0, //Rozmiary — promień
-            new circle_point(0.01f,circle_max_size),1);
-        pom->set_background(default_dark_gray);
+        area=new scatter_graph( 250, 0, 500, toi(250 + 3 * char_height('X')),
+                                pNodeX, 0,
+                                pNodeY, 0,
+                                pNodeState, 0,	//KOLORY - STAN
+                                pNodeR, 0, //Rozmiary — promień
+                                new circle_point(0.01f,circle_max_size),
+                                1);
+        area->set_background(default_dark_gray);
     }
 
-    pom->set_frame(128);
-    pom->set_title(lang("MAPA SIECI", "NETWORK MAPP"));
-    this->MyAreaManager().insert(pom);
+    area->set_frame(128);
+    area->set_title(lang("MAPA SIECI", "NETWORK MAPP"));
+    this->MyAreaManager().insert(area);
 
-    //Zależności stanów nowych od poprzednich dla każdego węzła
-    pom=new scatter_graph(this->MyAreaManager().get_width() - 249,
-                          toi(this->MyAreaManager().get_height() - 250 - 3 * char_height('X')),
-                          this->MyAreaManager().get_width() - 1,
-                          this->MyAreaManager().get_height() - 1,
-            pNodePreState,0,
-            pNodeState,0,
-            pNodeDelta,0
+    //Zależności stanów nowych od poprzednich dla każdego węzła:
+    area=new scatter_graph(this->MyAreaManager().get_width() - 249,
+                           toi(this->MyAreaManager().get_height() - 250 - 3 * char_height('X')),
+                           this->MyAreaManager().get_width() - 1,
+                           this->MyAreaManager().get_height() - 1,
+                           pNodePreState, 0,
+                           pNodeState, 0,
+                           pNodeDelta, 0
             );
-    pom->set_frame(64);
-    pom->set_background(default_light_gray);
-    pom->set_title("Xn-i vs. Xn");
-    //pom->series_info->setminmx();
-    this->MyAreaManager().insert(pom);
+    area->set_frame(64);
+    area->set_background(default_light_gray);
+    area->set_title("Xn-i vs. Xn");
+    //area->series_info->set_min_max();
+    this->MyAreaManager().insert(area);
 
-    //STATYSTYKA STANÓW 
+    //STATYSTYKA STANÓW:
     {
-    data_source_base* data[4]={MinStateLog,MeanStateLog,MaxStateLog,NULL};
-    pom=new sequence_graph(1,250,250,550,	//domyślne współrzędne
-                                3,data,
+        data_source_base* data[4]={MinStateLog,MeanStateLog,MaxStateLog,NULL};
+        area=new sequence_graph(1, 250, 250, 550,	//domyślne współrzędne
+                                3, data,
                                 //0/* Z reskalowaniem */);
-                                1/*Wspólne minimum/maximum*/);
-    assert(pom);
-        pom->set_frame(128);
-        pom->set_title(lang("HISTORIA STAN�W", HISTofSTATES));
-        this->MyAreaManager().insert(pom);
+                                1/*Wspólne minimum/maximum*/);                                             assert(area);
+        area->set_frame(128);
+        area->set_title(lang("HISTORIA STAN�W", HISTofSTATES));
+        this->MyAreaManager().insert(area);
     }
 
-    //Statystyka aktywności
+    //Statystyka aktywności:
     {
-    data_source_base* data[4]={MinAcctLog,MeanAcctLog,MaxAcctLog,NULL};
-    pom=new sequence_graph(250,toi(250+3*char_height('X')+1),500,550,
-                                3,data,
+        data_source_base* data[4]={MinAcctLog,MeanAcctLog,MaxAcctLog,NULL};
+        area=new sequence_graph(250, toi(250 + 3 * char_height('X') + 1), 500, 550,
+                                3, data,
                                 //0/* Z reskalowaniem */);
-                                1/*Wspólne minimum/maximum*/);
-    assert(pom);
-        pom->set_frame(128);
-        pom->set_title(lang("HISTORIA AKTYWNOŚCI", HISTofACCT));
-        this->MyAreaManager().insert(pom);
+                                1/*Wspólne minimum/maximum*/);                                             assert(area);
+        area->set_frame(128);
+        area->set_title(lang("HISTORIA AKTYWNOŚCI", HISTofACCT));
+        this->MyAreaManager().insert(area);
     }
 
-    Sources.new_data_version(1,1);	//Oznajmia seriom, że dane się uaktualniły	(po inicjacji)
+    Sources.new_data_version(1,1);	//Oznajmia seriom, że dane się uaktualniły	(po inicjacji).
 }
 
 inline void NetworkWorld::Agent::_setstate(double i_state)
@@ -838,19 +835,20 @@ inline void NetworkWorld::Agent::_setstate(double i_state)
 {
     state=i_state;
 }
+
 inline void NetworkWorld::Agent::setpos(double ix, double iy, double ir/*=-1*/)
 {
     x=ix;y=iy;
     if(ir>=0) r=ir;
 }
+
 inline void NetworkWorld::Connection::set(size_t s, size_t e, double w)
 {
     start_node=s;end_node=e;weight=w;
 }
 
-
-/// Klasa do przechowywania i wizualizowania danych spoza świata symulacji i/albo
-/// o poszczególnych światach symulacji (dla różnych parametrów).
+/// @brief Klasa do przechowywania i wizualizowania danych spoza świata symulacji i/albo
+///        o poszczególnych światach symulacji (dla różnych parametrów).
 class MetaExperiment
 //===================
 {
@@ -899,7 +897,7 @@ class MetaExperiment
         double X,Y,Z;
     public:
         Point()
-        :X(-DBL_MAX),Y(-DBL_MAX),Z(-DBL_MAX)	//Muszą być "missing"
+        :X(default_missing<double>()),Y(default_missing<double>()),Z(default_missing<double>())	//Muszą być "missing"
         {}
         
         void Set(double ix,double iy,double iz)
@@ -914,7 +912,7 @@ class MetaExperiment
         double W;
     public:
         Arrow()
-        :S(UINT_MAX),E(UINT_MAX),W(-DBL_MAX)	//Muszą być "missing"
+        :S(UINT_MAX),E(UINT_MAX),W(default_missing<double>())	//Muszą być "missing"
         {}
 
         void Set(unsigned is,unsigned ie,double iw)
@@ -923,18 +921,21 @@ class MetaExperiment
         friend class MetaExperiment;	///< Potrzebne do insertu do Sources.
     };
 
+    /// @name Pomocnicze tablice na dane i struktury
+    /// @{
     wb_dynarray<unsigned int> histogram_rnd;
-    wb_dynarray<unsigned int> histogram_gau;   
+    wb_dynarray<unsigned int> histogram_gau;
     wb_dynarray<Arrow>        arrows;
     wb_dynarray<Point>        points;
+    /// @}
 
     unsigned count_exp;
     unsigned count_points;
 
     /// @name Zarządzanie źródłami danych.
     /// @{
-    sources_manager			Sources;	///< Zarządca seri przekaźnikowych.
-    logfile					Log;		///< Obiekt rządzący zapisem historii do pliku.
+    sources_manager		Sources;	///< Zarządca seri przekaźnikowych.
+    logfile					Log;	///< Obiekt rządzący zapisem historii do pliku.
     /// @}
 
     void fill_rands();
@@ -944,7 +945,7 @@ class MetaExperiment
         MetaExperiment()
         : Sources(20), Log(100, MetaExpFileName),
           histogram_rnd(202), histogram_gau(202),
-          count_exp(0), count_points(0)
+          count_exp{0}, count_points{0}
         { fill_rands();}
 
         /// Destruktor.
@@ -956,14 +957,14 @@ class MetaExperiment
             arrows.alloc(HowManyExperiments);            
         }
 
-        void AddExperiment(double X,                        ///< Tutaj będzie to średni szum.
+        void AddExperiment(double X,						///< Tutaj będzie to średni szum.
                            double Y0,double Y1,double Y2,	///< Początkowy średni stan, środkowy i końcowy.
                            double Z0,double Z1,double Z2,	///< 0,0,1 - strzałki mają puste końce, docelowy jest pełny.
                            double W=1 //Waga strzałki dowolna
                            );      
 
-       void make_areas(area_manager& Lufciki);           ///< Generowanie lufcików demonstracyjnych meta-świata
-       void save_for_spreadsheet(const char* filename);  ///< Zapis danych dla arkusza kalkulacyjnego.
+       void make_areas(area_manager& Lufciki);				///< Generowanie lufcików demonstracyjnych meta-świata
+       void save_for_spreadsheet(const char* filename);		///< Zapis danych dla arkusza kalkulacyjnego.
 };	//end of META-ŚWIAT
 
 // IMPLEMENTACJE:
@@ -1018,7 +1019,8 @@ void MetaExperiment::save_for_spreadsheet(const char* filename)
 void MetaExperiment::make_areas(area_manager& Lufciki) //Generowanie lufcików demonstracyjnych meta-świata
 {
     //int ret=0;
-    const int BUTWIDTH=90;
+    const int BUT_WIDTH=90;
+    int cH=(int)char_height('X');
     
     if(points.get_size()>0)
     {
@@ -1026,13 +1028,13 @@ void MetaExperiment::make_areas(area_manager& Lufciki) //Generowanie lufcików d
         data_source_base* X_s,*Y_s,*Z_s,*S_s,*E_s,*Ayes_,*AC_=NULL;
 
         Sources.insert(X_s=new struct_array_source<Point,double>(points.get_size(), points.get_ptr_val(), &Point::X, "X"));
-        assert(X_s->get_missing() == -DBL_MAX);
+        assert(X_s->get_missing() == default_missing<double>() );
         X_s->set_min_max(-1.2, 1.2);
         Sources.insert(Y_s=new struct_array_source<Point,double>(points.get_size(), points.get_ptr_val(), &Point::Y, "Y"));
-        assert(Y_s->get_missing() == -DBL_MAX);
+        assert(Y_s->get_missing() == default_missing<double>() );
         Y_s->set_min_max(-1.1, 1.1);
         Sources.insert(Z_s=new struct_array_source<Point,double>(points.get_size(), points.get_ptr_val(), &Point::Z, "Z"));
-        assert(Z_s->get_missing() == -DBL_MAX);
+        assert(Z_s->get_missing() == default_missing<double>() );
         
         Sources.insert(S_s=new struct_array_source<Arrow,unsigned int>(arrows.get_size(),
                                                                        arrows.get_ptr_val(),
@@ -1044,8 +1046,8 @@ void MetaExperiment::make_areas(area_manager& Lufciki) //Generowanie lufcików d
         Sources.insert(E_s=new struct_array_source<Arrow,unsigned int>(arrows.get_size(), arrows.get_ptr_val(), &Arrow::E, lang("Końce", "Ends"))); //Indeksy końców linii łączących węzły sieci
         assert(E_s->get_missing() == UINT_MAX);
         Sources.insert(Ayes_=new function_source<constans<10> >(arrows.get_size(), 0, 1000000, "10", 0, 10));
-        
-        net_graph* png=new net_graph(501, 0, Lufciki.get_width() - BUTWIDTH - 1, 250 + 3 * char_height('X'),
+
+        net_graph* png=new net_graph(501, 0, Lufciki.get_width() - BUT_WIDTH - 1, 250 + 3 * cH,
                                      X_s, 0,
                                      Y_s, 0,
                                      S_s, 0,
@@ -1057,8 +1059,8 @@ void MetaExperiment::make_areas(area_manager& Lufciki) //Generowanie lufcików d
                                      //new circle_point(0.00001f,0.01f),1
                                      new rhomb_point(0.00001f,DIAM_SIZE), 1
                                      );
-        //png->set_background(default_light_gray);
         png->set_title(META_GRAPH);
+        //->set_background(default_light_gray);
         Lufciki.insert(png);
     }
     
@@ -1066,8 +1068,8 @@ void MetaExperiment::make_areas(area_manager& Lufciki) //Generowanie lufcików d
     //int _0=Sources.insert(	/*0*/new function_source<tangens>(225,-2*3.141595,2*3.141595,"tan(x)"));
     int _1=Sources.insert(	/*1*/new function_source<hyperbolic_tangent>(225, -2 * 3.141595, 2 * 3.141595, "tanh(x)"));
     int _2=Sources.insert(	/*2*/new function_source<arcus_tangent>(225, -2 * 3.141595, 2 * 3.141595, "atan(x)"));
-    int _3=Sources.insert(	/*3*/new function_source<sinus>(225,-2*3.141595,2*3.141595,"Sin(x)"));
-    int _4=Sources.insert(	/*4*/new function_source<cosinus>(225,-2*3.141595,2*3.141595,"Cos(x) ",-1,1));	//Podane dokładne min i max
+    //int _3=Sources.insert(/*3*/new function_source<sinus>(225,-2*3.141595,2*3.141595,"Sin(x)"));
+    //int _4=Sources.insert(/*4*/new function_source<cosinus>(225,-2*3.141595,2*3.141595,"Cos(x) ",-1,1));
     int _5=Sources.insert(	/*5*/new array_source<unsigned int>(202,histogram_rnd.get_ptr_val(),"rnd(-100,100)"));
     int _6=Sources.insert(	/*6*/new array_source<unsigned int>(202,histogram_gau.get_ptr_val(),"gaus()"));
     int _7=Sources.insert(	/*7*/new function_source<sigmoid>(225, -2 * 3.141595, 2 * 3.141595, "1/(1+exp(-x))"));
@@ -1075,8 +1077,8 @@ void MetaExperiment::make_areas(area_manager& Lufciki) //Generowanie lufcików d
     int _9=Sources.insert(	/*9*/new function_source<pierwiastek_nieparzysty<9> >(225,-2*3.141595,2*3.141595,"pow(x,1/9)"));
     graph* pom;
     
-    int BUT_HEIGHT=int(char_height('X') * 1.2);
-    pom=new sequence_graph(SCR_WIDTH - BUTWIDTH, 0, SCR_WIDTH, BUT_HEIGHT, 6,
+    int BUT_HEIGHT=int(cH * 1.2);
+    pom=new sequence_graph(SCR_WIDTH - BUT_WIDTH, 0, SCR_WIDTH, BUT_HEIGHT, 6,
                            Sources.make_series_info(/*_0,*/_1,_2,_7,_8,_9,-1).get_ptr_val(),
                            2,	//MODE 2 - MIN & MAX PROVIDED
                            -3, 3
@@ -1085,12 +1087,12 @@ void MetaExperiment::make_areas(area_manager& Lufciki) //Generowanie lufcików d
     pom->set_frame(20);
     Lufciki.insert(pom);
     
-    pom=new bars_graph(SCR_WIDTH - BUTWIDTH, BUT_HEIGHT, SCR_WIDTH, 2 * BUT_HEIGHT, Sources.get(_5)); //assert(pom != NULL);
+    pom=new bars_graph(SCR_WIDTH - BUT_WIDTH, BUT_HEIGHT, SCR_WIDTH, 2 * BUT_HEIGHT, Sources.get(_5)); //assert(pom != NULL);
     pom->set_title("TEST RND");
     pom->set_frame(20);
     Lufciki.insert(pom);
     
-    pom=new bars_graph(SCR_WIDTH - BUTWIDTH, 2 * BUT_HEIGHT, SCR_WIDTH, 3 * BUT_HEIGHT, Sources.get(_6)); //assert(pom != NULL);
+    pom=new bars_graph(SCR_WIDTH - BUT_WIDTH, 2 * BUT_HEIGHT, SCR_WIDTH, 3 * BUT_HEIGHT, Sources.get(_6)); //assert(pom != NULL);
     pom->set_title("TEST PSEUDO-GAUSS");
     pom->set_frame(20);
     Lufciki.insert(pom);
@@ -1130,12 +1132,12 @@ int main(int argc,const char* argv[])
                                    def_mode,	//= 2; //0-bez połączeń, 1-symetryczne połączenia 2-asymetryczne połączenia
                                    def_num_of_nodes,	//= 50; //Ile jest węzłów
 
-                                   def_m_init_st,	//= 0,  //Średni stan początkowy
-                                   def_r_init_st,	//= 0.5,   //Odchylenie od średniego stanu początkowego
-                                   def_m_of_noise,	//= 0,  //Średni poziom szumu/sygnału dodawanego do węzłów
-                                   def_r_of_noise,	//= 0.5,  //Odchylenie od śred. szumu/sygnału dodawanego do węzłów
+                                   def_m_init_st,	//= 0,   //Średni stan początkowy
+                                   def_r_init_st,	//= 0.5, //Odchylenie od średniego stanu początkowego
+                                   def_m_of_noise,	//= 0,   //Średni poziom szumu/sygnału dodawanego do węzłów
+                                   def_r_of_noise,	//= 0.5, //Odchylenie od śred. szumu/sygnału dodawanego do węzłów
                                    def_m_of_weight,	//= 0.5, //Średnia waga krawędzi
-                                   def_r_of_weight,	//= 0.1 //Odchylenie od śred. wagi krawędzi
+                                   def_r_of_weight,	//= 0.1  //Odchylenie od śred. wagi krawędzi
                                    def_asymmetry
                                 );
 
@@ -1154,8 +1156,8 @@ int main(int argc,const char* argv[])
         Lufciki.set_dump_name(buf.get());
     }
 
-    // Przygotowanie danych i świata symulacji
-    //==========================================
+    // Przygotowanie danych i świata symulacji:
+    //=========================================
     //inicjalizacja globalnych randomizer-ów (TODO dlaczego obu na raz?).
     TheRandG.Reset();
     TheRandSTDC.Reset();
@@ -1172,9 +1174,9 @@ int main(int argc,const char* argv[])
     if(MultiExp<2)
     {
         MyNetworkWorld.initialize(&Lufciki);
-        MyMetaExp.make_areas(Lufciki);       //Serie i Lufciki testowe spoza właściwej symulacji
+        MyMetaExp.make_areas(Lufciki);		//Serie i Lufciki testowe spoza właściwej symulacji
         Lufciki.replot();
-        Lufciki.process_input();	//Pierwsze zdarzenia, które kończą się po ctrl-B
+        Lufciki.process_input();			//Pierwsze zdarzenia, które kończą się po ctrl-B
         //GŁÓWNA PĘTLA SYMULACJI
         cout << SIMULATION_NAME << ": STARTED." << endl;
         MyNetworkWorld.simulation_loop(0/*wyłączone automatyczne wychodzenie po zakończeniu symulacji*/);
@@ -1203,8 +1205,8 @@ int main(int argc,const char* argv[])
                     def_r_init_st,	//Odchylenie od średniego stanu początkowego
                     NoiseMean,	//Średni poziom szumu/sygnału dodawanego do węzłów
                     def_r_of_noise,	//Odchylenie od śred. szumu/sygnału dodawanego do węzłów
-                    def_m_of_weight,	//=0.5, //Średnia waga krawędzi
-                    def_r_of_weight,	//=0.1 //Odchylenie od śred. wagi krawędzi
+                    def_m_of_weight,	// = 0.5, //Średnia waga krawędzi
+                    def_r_of_weight,	// = 0.1  //Odchylenie od śred. wagi krawędzi
                     def_asymmetry
                     );
 

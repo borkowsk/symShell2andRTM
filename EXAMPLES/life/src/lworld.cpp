@@ -2,7 +2,7 @@
 /// @brief
 ///  @EN{ IMPLEMENTATION OF 'life_world' FOR "Conways Life" SIMULATION. }
 ///  @PL{ IMPLEMENTACJA 'life_world' DLA SYMULACJI 'Conways Life'. }
-/// @date 2026-05-21 (modified)
+/// @date 2026-05-29 (modified)
 /// ====================================================================
 /// @details ...
 //======================================================================================================================
@@ -13,7 +13,7 @@
 #include "lrand.h"
 #include "lworld.h"
 #include "histosou.hpp"
-#include "clstsour.hpp" //Jest też statsour (?)
+#include "clstsour.hpp"
 #include "coincsou.hpp"
 #include "gadgets.hpp" 
 #include "wb_ptrio.h"
@@ -44,19 +44,25 @@ inline void wb_swap(T& a,T& b)
 
 life_agent::life_agent(const life_agent& ini)
     {
-        if(&ini!=nullptr)
-        {
-            First=ini.First;
-            Second=ini.Second;
-        }
-        else
-            _clean();
+        First=ini.First;
+        Second=ini.Second;
     }
+
+life_agent::life_agent(const life_agent* ini)
+{
+    if(ini!=nullptr)
+    {
+        First=ini->First;
+        Second=ini->Second;
+    }
+    else
+        _clean();
+}
 
 life_agent::life_agent()
     {
         _clean();
-        if(DRAND()<=InitProp)
+        if(DRAND() <= initial_prop)
             First=1;
         else
             First=0;
@@ -67,11 +73,9 @@ life_agent::life_agent()
 // Statyczne pola `life_agent`-ów dla inicjalizacji:
 //=================================================
 
-short	life_agent::ile_kate=2;      //!< Liczba kategorii w mapach. W tym modelu bezużyteczne na razie.
 short	life_agent::kate_shift=7;
-
-double	life_agent::MutationLevel=0; //!< Prawd. spontanicznej zmiany poglądów (0..1)
-double  life_agent::InitProp=0.5;    //!< Proporcje inicjowania losowego
+double	life_agent::mutation_prob=0; //!< Prawd. spontanicznej zmiany poglądów (0..1)
+double  life_agent::initial_prop=0.5;    //!< Proporcje inicjowania losowego
 
 // KONSTRUKCJA	ŚWIATA:
 //=====================
@@ -81,42 +85,33 @@ life_world::life_world(
                   size_t	Width,			//Szerokość torusa macierzy agentów
                   char*		log_name,		//Nazwa pliku do zapisywania historii
                   char*		map_l_name,		//Nazwa pliku mapy inicjującej "składowe"
-                  double	noise,			//= 0,
-                  short		n_of_cat,		//= 2,		//Liczba kategorii w mapach
                   short		neigh_radius,	//= 1,	//Rozmiar sąsiedztwa
                   short		neigh_dens,		//= 8,	//8 == gęstość sąsiedztwa — jeśli -1 to wszystko po kolei
                   bool		synchronously,	//=true,
                   double	spontaneously	//= 0	//Prawdopodobieństwo spontanicznej zmiany poglądu
         )
     : world(log_name,50),
-      MapLName(clone_str(map_l_name)), //Nazwa mapy 1. inicjującej agentów
+      MapLName(clone_str(map_l_name)),     //Nazwa mapy 1. inicjującej agentów.
       //Sub-obiekty właściwe dla tej symulacji:
       MyWidth(Width),
-      //Agents(Width,Width,false,nullptr), //Initer == nullptr więc tworzony przez konstruktor, a nie klonowanie
       Agents(Width, Width),                //Zakładamy, że wystarcza to, co robi bezparametrowy konstruktor agenta
-      NofCat(n_of_cat),                    //Liczba kategorii w mapach
       NeighDens(neigh_dens),               //8 == gęstość sąsiedztwa
       NeighRadius(neigh_radius),           //Rozmiar sąsiedztwa
-      Noise(noise),
       Synchronic(synchronously),
       ConsiderAll(0),                      //Sąsiedztwo bez losowania
+      Noise(spontaneously),
       //Wskaźniki do podstawowych seri danych
-      Firsts(nullptr),
-      Seconds(nullptr)
-    {// Niewiele można zrobić, bo nie można tu jeszcze polegać na wirtualnych metodach klasy świat !!!
-        assert(n_of_cat == 2); //Na razie nie może być nic innego
-        life_world::set_simulation_name(SIMULATION_NAME);
+      Firsts(nullptr),Seconds(nullptr)
+{// Niewiele można zrobić, bo nie można tu jeszcze polegać na wirtualnych metodach klasy świat !!!
+    life_world::set_simulation_name(SIMULATION_NAME);
 
-        if(life_agent::InitProp != Noise)
-        {
-            life_agent::InitProp=Noise; //Inne proporcje inicjowania losowego
-            Agents.Reinitialise(); //Niestety powtórna robota
-        }
+    life_agent::initial_prop=0.33; //Inne proporcje inicjowania losowego?
+    Agents.Reinitialise(); //Niestety powtórna robota... :-(
 
-        life_agent::MutationLevel=spontaneously;
-        if(NeighDens == -1)
-            ConsiderAll=1;
-    }
+    life_agent::mutation_prob=spontaneously;
+    if(NeighDens == -1)
+        ConsiderAll=1;
+}
 
 // Generujemy podstawowe źródła dla wbudowanego manager-a danych:
 //===============================================================
@@ -128,11 +123,11 @@ void life_world::make_basic_sources()
     //Główne serie
     Firsts=Agents.make_source("State", &life_agent::First);
     if(Firsts)
-        Firsts->set_min_max(0, NofCat - 1);
+        Firsts->set_min_max(0, 1);
 
     Seconds=Agents.make_source("Prev. state", &life_agent::Second);
     if(Seconds)
-        Seconds->set_min_max(0, NofCat - 1);
+        Seconds->set_min_max(0, 1);
 
     //Umieszczenie głównych serii w managerze serii
     WhatSourMen.insert(Firsts);
@@ -332,7 +327,7 @@ void life_world::make_default_visualisation()
                                  1, Sources.make_series_info(
                                                                 iCorrFSR, //iCorrFS,
                                                                 -1
-                                                        ).get_ptr_val(),
+                                                            ).get_ptr_val(),
                                  1
                                 );
         //if (!pom) goto ERROR;
@@ -354,9 +349,11 @@ void life_world::make_default_visualisation()
 
         Sources.new_data_version(1, 1); //Oznajmia seriom, że dane się uaktualniły	(po inicjacji)
     }
+
+    return;
     ERROR: //Tu akcja na niepogodę
-    std::cerr<<"Incorrect initialization of the default visualizations!"<<std::endl;
-        ;  //`error_message(...)`???
+        std::cerr<<"Incorrect initialization of the default visualizations!"<<std::endl;
+        //`error_message(...)`???
 }
 
 
@@ -366,8 +363,8 @@ void life_world::make_default_visualisation()
 
 void life_world::after_read_from_image()
 //Actions after read state from a file. Aktualizacja pól statycznych `life_agent`-a!!!
-{                   assert(NofCat == 2); //Dla life tylko dwie możliwe kategorie.
-    life_agent::ile_kate=NofCat; //Liczba kategorii w mapach
+{
+    //Liczba kategorii w mapach zawsze 2.
     life_agent::kate_shift=7;
     /*
     switch(NofCat)
@@ -398,31 +395,13 @@ void life_world::initialize_layers()
     if(first)
         Log.GetStream()<<"attitude SIMULATION:";
 
-    life_agent::ile_kate=NofCat; //Liczba kategorii w mapach
-
-    switch(NofCat)
-    {
-    case   2:life_agent::kate_shift=7;break;
-    case   4:life_agent::kate_shift=6;break;
-    case   8:life_agent::kate_shift=5;break;
-    case  16:life_agent::kate_shift=4;break;
-    case  32:life_agent::kate_shift=3;break;
-    case  64:life_agent::kate_shift=2;break;
-    case 128:life_agent::kate_shift=1;break;
-    case 256:life_agent::kate_shift=0;break;
-    default:
-        life_agent::ile_kate= NofCat=256;
-            life_agent::kate_shift=0;
-        cerr<<"Invalid number of class (not power of 2 less than 256). exiting...\n";
-        Log.GetStream()<<"Invalid number of class (not power of 2). EXITED.\n";
-        exit(-1);
-        break;
-    }
+    //Liczba kategorii w mapach zawsze 2
+    life_agent::kate_shift=7;
 
     //Wydruk wartości parametrów symulacji
     if(first)
       Log.GetStream()
-              << "\nNum of Kl=" << Log.separator() << NofCat
+              << "\nNum of Kl=" << Log.separator() << 2
               << "\nNoise %=" << Log.separator() <<Noise*100
               << "\nNeighborhood=" << Log.separator() << NeighDens << "/(" << (1 + 2 * NeighRadius) << "*" << (1 + 2 * NeighRadius) << ")\n";
 
@@ -519,9 +498,9 @@ int life_world::CheckChange(const geometry_base* MyGeom,
 { 
     //int testowanie=0;
 
-    if(DRAND() <= life_agent::MutationLevel) //Rzadka, spontaniczna zmiana stanu
+    if(life_agent::mutation_prob > 0 && DRAND() <= life_agent::mutation_prob) //Rzadka, spontaniczna zmiana stanu
     {
-        short state=RANDOM(NofCat);                                                  assert(0 <= state && state < NofCat);
+        short state=RANDOM(2);                                                          assert(0 <= state && state < 2);
         CenterAgent.Second=state; //zmieniamy w agencie centralnym
         return 1;
     }

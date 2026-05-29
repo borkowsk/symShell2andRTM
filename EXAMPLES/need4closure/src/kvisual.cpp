@@ -45,16 +45,16 @@ void kWorld::make_basic_sources()
     world::make_basic_sources(); //Odziedziczone
     
     //Główne serie
-    Firsts=Agenci.make_source("Attitude",&kAgent::First);
+    Firsts=Agents.make_source("Attitude", &kAgent::First);
     if(Firsts)
         Firsts->set_min_max(-1, 1);
-    Seconds=Agenci.make_source("Prev. attitude",&kAgent::Second);
+    Seconds=Agents.make_source("Prev. attitude", &kAgent::Second);
     if(Seconds)
         Seconds->set_min_max(-1, 1);
     
-    ForLeft=Agenci.make_source("For left",&kAgent::ForLeft);
-    ForRight=Agenci.make_source("For right",&kAgent::ForRight);
-    Powers=Agenci.make_source("Power",&kAgent::Power);
+    ForLeft=Agents.make_source("For left", &kAgent::ForLeft);
+    ForRight=Agents.make_source("For right", &kAgent::ForRight);
+    Powers=Agents.make_source("Power", &kAgent::Power);
     
     /*
     Pressure=Agents.make_source("Pressure",&kAgent::Press);

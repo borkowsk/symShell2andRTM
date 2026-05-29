@@ -24,36 +24,38 @@ inline void wb_swap(short& a,short& b)
 class kAgent: public sym2::shell::agent_base
 {
     friend class kWorld;		///< @EN{ To simplify access to the components of the world class. }
-                                ///< @PL{   }
+                                ///< @PL{ Aby ułatwić dostęp do komponentów klasy świata.  }
 
     /// @name @EN{ STATIC CLASS MEMBERS - INITIALIZATION AND AGENT CHANGE PARAMETERS: }
-    ///       @PL{ ....  }
-    // ////////////////////////////////////////////////////////////////////////////////
+    ///       @PL{ ATRYBUTY STATYCZNE KLASY – PARAMETRY INICJALIZACJI I ZMIANY AGENTA: }
+    // /////////////////////////////////////////////////////////////////////////////////
     /// @{
-    static short Max_power;		///< Maksymalna siła agenta.
-    static int   Threshold;		///< Granica domknięcia poglądu.
-    //static short ile_kate;		///< Liczba kategorii w mapach.
-    //static short kate_shift;		///< Przesuniecie dla wczytywania gifa.
-    static double Majority;		///< Udział w całości przekonanych do większej klasy.
-    static double Minority;		///< Udział w całości przekonanych do mniejszej klasy.
-    static double NoiseLevel;	///< Prawd. spontanicznej zmiany (niezaimplementowane chyba raczej).
+    static short    MaxPower;		///< @brief @PL{ Maksymalna siła agenta. } @EN{  }
+    static int     Threshold;		///< @brief @PL{ Granica domknięcia poglądu. } @EN{  }
+    //static short    NofCat;		///< @brief @PL{ Liczba kategorii w mapach. } @EN{  }
+    //static short CateShift;		///< @brief @PL{ Przesuniecie dla wczytywania gifa. } @EN{  }
+    static double   Majority;		///< @brief @PL{ Udział w całości przekonanych do większej klasy. } @EN{  }
+    static double   Minority;		///< @brief @PL{ Udział w całości przekonanych do mniejszej klasy. } @EN{  }
+    static double NoiseLevel;		///< @brief @PL{ Prawd. spontanicznej zmiany (nieużywane tu raczej). } @EN{  }
 
-    static short DrawAttitude();	///< Funkcja do losowania przekonania. Używa `Majority` i `Minority`.
+    static short DrawAttitude();	///< @brief @PL{ Funkcja do losowania przekonania. Używa `Majority` i `Minority`. }
+                                    ///<        @EN{  }
     /// @}
 
     /// @name @EN{ AGENT ATTRIBUTES IMPORTANT FOR SIMULATION: }
     //=========================================================
     /// @{
-    short      Power;			///< Siła agenta.
-    short      First;			///< Aktualne przekonanie -1,0,1 (Left,Neutral,Right).
-    short      Second;			///< Nowe przekonanie lub poprzednie.
-    unsigned   ForRight;		///< Informacja "za prawicą".
-    unsigned   ForLeft;			///< Informacja "za lewicą".
+    short      Power;			///< @brief @PL{ Siła agenta. } @EN{  }
+    short      First;			///< @brief @PL{ Aktualne przekonanie -1,0,1 (Left,Neutral,Right). } @EN{  }
+    short      Second;			///< @brief @PL{ Nowe przekonanie lub poprzednie. } @EN{  }
+    unsigned   ForRight;		///< @brief @PL{ Informacja "za prawicą". } @EN{  }
+    unsigned   ForLeft;			///< @brief @PL{ Informacja "za lewicą". } @EN{  }
     //short Pressure;			///< Social pressure. The aggregate force behind a prevailing view, unless the agent holds it, or 0.
-    bool       DurCh:1;			///< Information whether the state is being changed (for managing state changes).
+    bool       DurCh:1;			///< @brief @PL{ Informacja, czy stan jest zmieniany (w celu zarządzania zmianami stanu). }
+                                ///< @EN{ Information whether the state is being changed (for managing state changes). }
     /// @}
 
-    void _clean()				///< Implementacja czyszczenia stanu agenta.
+    void _clean()				///< @brief @PL{ Implementacja czyszczenia stanu agenta. } @EN{  }
     {
         Power=-1;
 
@@ -64,13 +66,13 @@ class kAgent: public sym2::shell::agent_base
         DurCh=false;
     }
 
-    void new_attitude(short a)			///< Propozycja zmiany stanu.
+    void new_attitude(short a)			///< @brief @PL{ Propozycja zmiany stanu. } @EN{  }
     {
         Second=a; //Takie ma być nowe przekonanie
         DurCh=true; //Sygnał, że juź jest "w trakcie" zmiany. Np. żeby zapobiec powtórce.
     }
 
-    void update() 						///< Wprowadzenie zmiany stanu.
+    void update() 						///< @brief @PL{ Wprowadzenie zmiany stanu. } @EN{  }
     {                                                                     assert(DurCh); //Powinien być w trakcie zmiany
         wb_swap(First,Second);
         DurCh=false; //Teraz jest już zmieniony, więc nie jest w trakcie zmiany.
@@ -82,24 +84,24 @@ public:
     // /////////////////////////////////////////////////////////
     /// @{
 
-    int IsOK() const					///< Informuje czy wszystko formalnie OK z agentem.
+    bool IsOK() override 				///< @brief @PL{ Informuje czy wszystko formalnie OK z agentem. } @EN{  }
     {
         return Power!=-1;
     }
 
-    kAgent(const kAgent& ini);			///< Konstruktor typowy.
+    kAgent(const kAgent& ini);			///< @brief @PL{ Konstruktor typowy, kopiujący. } @EN{  }
 
-    explicit kAgent(const kAgent* ini);	///< Konstruktor nietypowy.
+    explicit kAgent(const kAgent* ini);	///< @brief @PL{ Konstruktor nietypowy, klonujący. } @EN{  }
 
-    kAgent();							///< Konstruktor bezparametrowy.
+    kAgent();							///< @brief @PL{ Konstruktor bezparametrowy. } @EN{  }
 
-    kAgent* clone() const				///< Dynamiczna kopia agenta.
-    { return new kAgent(*this);}
+    kAgent* clone() const				///< @brief @PL{ Dynamiczna kopia agenta. } @EN{  }
+    { return new kAgent(*this); }
 
-    ~kAgent() override					///< Wirtualny destruktor.
+    ~kAgent() override					///< @brief @PL{ Wirtualny destruktor. } @EN{  }
     {_clean();}
 
-    void clean() override				///< Wirtualne czyszczenia stanu agenta.
+    void clean() override				///< @brief @PL{ Wirtualne czyszczenia stanu agenta. } @EN{  }
     {_clean();}
 
     void assign_curr(unsigned char Red,unsigned char /*Green*/,unsigned char Blue)
@@ -116,7 +118,7 @@ public:
 
     void assignPow(unsigned char Red,unsigned char Green,unsigned char Blue)
     {
-        Power=short((int(Red)+int(Green)+int(Blue)) / (3.*255) * Max_power);
+        Power=short((int(Red)+int(Green)+int(Blue)) / (3.*255) * MaxPower);
     }
 
     void killBlack(unsigned char Red,unsigned char Green,unsigned char Blue)
@@ -125,8 +127,7 @@ public:
             _clean();
     }
 
-    [[maybe_unused]]
-    long long classify() const
+    unsigned long classify() override
     {
         return First;
     }
@@ -155,7 +156,7 @@ inline kAgent::kAgent(const kAgent& ini)
     DurCh= false;
     First=ini.First;
     Second=ini.Second;
-    Power=short(1+RANDOM(Max_power)); //Siła jest przydzielana z rozkładu
+    Power=short(1+RANDOM(MaxPower)); //Siła jest przydzielana z rozkładu
     ForLeft=RANDOM(Threshold); //Licznik przekonań za "Lewymi"
     ForRight=RANDOM(Threshold); //Licznik przekonań za "Prawymi"
 }
@@ -167,7 +168,7 @@ inline kAgent::kAgent(const kAgent *ini)
         DurCh= false;
         First=ini->First;
         Second=ini->Second;
-        Power=short(1+RANDOM(Max_power)); //Siła jest przydzielana z rozkładu
+        Power=short(1+RANDOM(MaxPower)); //Siła jest przydzielana z rozkładu
         ForLeft=RANDOM(Threshold); //Licznik przekonań za "Lewymi"
         ForRight=RANDOM(Threshold); //Licznik przekonań za "Prawymi"
     }
@@ -178,7 +179,7 @@ inline kAgent::kAgent(const kAgent *ini)
 inline kAgent::kAgent()
 {
     _clean();
-    Power=short(1+RANDOM(Max_power));
+    Power=short(1+RANDOM(MaxPower));
     ForLeft=RANDOM(Threshold); //Licznik przekonań za "Lewymi"
     ForRight=RANDOM(Threshold); //Licznik przekonań za "Prawymi"
     First=DrawAttitude();

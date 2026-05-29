@@ -1,8 +1,8 @@
 /// @file
 /// @brief
-///  @EN{ Virtual Input method implementation of the aworld class. }
-///  @PL{  }
-/// @date 2026-05-21 (modified)
+///  @EN{ Virtual Input method implementation of the ka_world class. }
+///  @PL{ Implementacja metody wirtualnego wejścia klasy ka_world. }
+/// @date 2026-05-29 (modified)
 ///       =========================================================
 /// @details (kattitude old example for SymShell)
 ///     Its is rather simply implementation. You can replace it if you need.

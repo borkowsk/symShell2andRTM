@@ -1,81 +1,98 @@
 /// @file
 /// @brief
-///     @EN{ Old example for SymShell implementing the Kruglanski's like model }
-///     @PL{  }
-/// @date 2026-05-21 (modified)
-///       ===========================================================================
+///     @EN{ Old example for SymShell implementing the Kruglanski's like model. }
+///     @PL{ Stary przykład SymShell-a implementujący model podobnego do modelu Kruglanski-ego. }
+/// @date 2026-05-29 (modified)
+///       =======================================================================================
 /// @details
-///  Symulacja Need for closure wg teorii Arie Kruglanskiego
+///  Symulacja Need for closure wg teorii Arie Kruglanski-ego
 ///  Uzyskana z przerobienia programu ATTITUDE-s.
 //====================================================================================
-const char* WINDOW_HEADER="NEED FOR CLOSURE version 0.22a";
-const char* SIMULATION_NAME="need4clos_v0.22a";
+const char* WINDOW_HEADER="NEED FOR CLOSURE version 0.22b";
+const char* SIMULATION_NAME="need-4-clos_v0.22b";
 
 /// HISTORY:
 /// ---------------- Attitude -v-v-v-v-v-v-v-v- ---------------------------------
-/// v 0.6 - dodanie losowania nieproporcjonalnego, znaczne zmiany w statystykach, zmiany z bazowej bibliotece
-/// v 0.61 - użycie innego histogramu
+/// v. 0.6 - dodanie losowania nieproporcjonalnego, znaczne zmiany w statystykach, zmiany z bazowej bibliotece
+/// v. 0.61 - użycie innego histogramu
 
 /// ---------------- need4clos --v-v-v-v-v-v-v- ---------------------------------
-/// v 0.21 - uzupełnienie o menu i wywoływanie strony autorskiej
-/// v 0.22 - poprawienie kodu ze względu na konsekwencje użycia symbolu FULL typu unsigned long,
-///          rekompilacja z poprawionym symshell-em
+/// v. 0.21 - uzupełnienie o menu i wywoływanie strony autorskiej.
+/// v. 0.22 - poprawienie kodu ze względu na konsekwencje użycia symbolu FULL typu unsigned long.
+///           Rekompilacja z poprawionym symshell-em.
+/// v. 0.22b - "Doxygenizacja" komentarzy.
 
 #include <cstdlib>
 #include <iostream>
-//#include "wbminmax.hpp"
+#include "toitoutoll.hpp"
 #include "compatyb.h"
+
 #include "krand.h"
 #include "kWorld.h"
+
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "cert-err34-c"
 
 using namespace sym2;
 using namespace sym2::data;
 using namespace sym2::shell;
 using namespace sym2::visual;
 
-unsigned SCR_WIDTH=750;
-unsigned SCR_HEIGHT=550;
+/// @name @PL{ Rozmiary użytkowej przestrzeni okna i bok świata. } @EN{  }
+/// @{
+int       SCR_WIDTH=750;
+int      SCR_HEIGHT=550;
+unsigned WorldWidth=100;
+/// @}
 
-unsigned internal_log=7000;		///< Nieobiektowo przekazywane do metody inicjalizacji źródeł
-unsigned spatial_correlation_mode=50;		///< Nieobiektowo przekazywane do metody inicjalizacji źródeł
+/// @name @PL{ Parametry Modelu. } @EN{  }
+/// @{
+double Fill=1;				///< @brief @PL{ 0.001 do 1 - początkowe wypełnienie przestrzeni agentów (wykonywane przez losowe usuwanie!!!). }
+                            ///<        @EN{  }
+double Majority=0.050;		///< @brief @PL{ Jaka część społeczeństwa będzie początkowo wyznawać "czarny" pogląd. } @EN{  }
+double Minority=0.025;		///< @brief @PL{ Jaka część społeczeństwa będzie początkowo wyznawać "biały" pogląd. } @EN{  }
+double SelfWeight=9;		///< @brief @PL{ Poprzednie opinie ważą 9:1. } @EN{  }
+double NeedForClosure=1;	///< @brief @PL{ Intensywność poszukiwań i potęga siły. } @EN{  }
+double MigrationProb=0;		///< @brief @PL{ Prawdopodobieństwo migracji, jeśli presja otoczenia wskazuje na zmianę poglądów. }
+                            ///<        @EN{  }
+short  HowManyToDraw=1;		///< @brief @PL{ Ilu wybierać losowo do rozmowy. } @EN{  }
+short  MaximalPower=100;	///< @brief @PL{ Największa siła. } @EN{  }
+int    NoisePercent=0;		///< @brief @PL{ Szum informacyjny przy zbieraniu danych. } @EN{  }
+short  Threshold=100;		///< @brief @PL{ Jakiego wpływu zmiana "poglądu" się fiksuje. } @EN{  }
+double MutationProb=0;		///< @brief @PL{ Prawdopodobieństwo spontanicznej zmiany. } @EN{  }
+bool   AsyncUpdate=false;	///< @brief @PL{ Jak `false` to synchroniczna? } @EN{ `false` means sync? }
+/// @}
 
-char  LogName[512]="need4clos.log\0-------------------+--";
+/// @name @PL{  } @EN{  }
+/// @details @EN{ Nieobiektowo przekazywane do metody inicjalizacji źródeł. } @PL{  }
+/// @{
+unsigned internal_log=7000;				///< @brief @PL{ Długość wewnętrznych logów statystyk. } @EN{  }
+unsigned spatial_correlation_mode=50;	///<  @brief @PL{ Gęstość próbkowania korelacji przestrzennej. } @EN{  }
+/// @}
+
+/// @name @PL{ Parametry aplikacji. } @EN{  }
+/// @{
+char LogName[512]="need4clos.log\0-------------------+--";
 char HistName[512]="\0--+---------need4clos.otx----------";
 char MapLName[512]="\0--+---------need4clos.gif----------";
 char MapPName[512]="\0--+---------powers.gif------------";
 char MaskName[512]="\0--+---------mask.gif--------------";
 
-unsigned iWidth=50;
 unsigned iMaxIterations=0xffffffff;
 unsigned iLogRatio=1;
 unsigned iViewRatio=1;
 
-int  MaksymalnaSila=100;		///< Nieobiektowo przekazywane do metody inicjalizacji źródeł, jaka największa siła
-double  Treshold=100;			///< Nieobiektowo przekazywane do metody inicjalizacji źródeł powyżej, jakiego wpływu zmiana "poglądu" się fiksuje
-
-double Fill=1;				///< 0.001 do 1 - początkowe wypełnienie przestrzeni agentów (wykonywane przez losowe usuwanie!!!)
-double Majority=0.050;		///< Jaka część społeczeństwa będzie wyznawać "czarny" pogląd
-double Minority=0.025;		///< Jaka część społeczeństwa będzie wyznawać "biały" pogląd
-
-double ProbMig=0;			///< Nieobiektowo przekazywane do metody inicjalizacji źródeł. Prawdopodobieństwo migracji, jeśli presja otoczenia wskazuje na zmianę poglądow.
-int    ProcentSzumu=0;
-double MutacjeSpon=0;
-int    IleSasiadow=1;		///< Wybierani losowo do rozmowy
-
-double WagaSiebie=9;		///< Poprzednie opinie ważą 9:1
-double NeedForClousure=1;	///< Intensywność poszukiwań i potęga siły
-
-bool   TypSymulacji=false;	///< Synchroniczna
-
-int  iWychodzenie=0;
+int  AUTO_END=0;
 int  Replay=0;
-int	 AUTOSTART=0;
+int	 AUTO_START=0;
+/// @}
 
+/// @brief @PL{  } @EN{  }
 int parse_options(const int argc,const char* argv[])
 {
 for(int i=1;i<argc;i++)
     {
-    if( *argv[i]=='-' ) /* Opcja X lub symsella */
+    if( *argv[i]=='-' ) /* Opcja X11 lub symshell-a */
         continue;
     //Uppercasing
     wb_pchar hand(clone_str(argv[i]));
@@ -88,14 +105,14 @@ for(int i=1;i<argc;i++)
     *pom='=';
     if((pom=strstr(rob,"SPCH="))!=nullptr) //Nie nullptr, czyli jest
     {
-    MutacjeSpon=atof(pom+5);
-    if(MutacjeSpon<0 || MutacjeSpon>100)
+        MutationProb=atof(pom + 5);
+    if(MutationProb < 0 || MutationProb > 100)
         {
-        cerr<<"Bad SPCH ="<<MutacjeSpon<<" (must be in <0,100> )"<<endl;
+        cerr << "Bad SPCH =" << MutationProb << " (must be in <0,100>)" << endl;
         return 0;
         }
-    cerr<<"SPCH (spn. change percent) = "<<MutacjeSpon<<endl;
-    MutacjeSpon/=100; //Ułamek, a nie procent tak naprawdę
+    cerr << "SPCH (spn. change percent) = " << MutationProb << endl;
+        MutationProb/=100; //Ułamek, a nie procent tak naprawdę
     }
     else
     if((pom=strstr(rob,"FILL="))!=nullptr) //Nie nullptr, czyli jest
@@ -151,70 +168,70 @@ for(int i=1;i<argc;i++)
     else
     if((pom=strstr(rob,"PMIG="))!=nullptr) //Nie nullptr, czyli jest
     {
-        ProbMig=atof(pom+5);
-        if(ProbMig<0 || ProbMig>100)
+        MigrationProb=atof(pom + 5);
+        if(MigrationProb < 0 || MigrationProb > 100)
         {
             cerr<<"Bad PMIG = "<<Fill<<" (must be in range <0,1> or from 1.x% to 100%)"<<endl;
             return 0;
         }
-        if(ProbMig>1)
+        if(MigrationProb > 1)
         {
-            cerr<<"PMIG (probability of migration) = "<<ProbMig<<'%'<<endl;
-            ProbMig/=100; //Ułamek, a nie procent tak naprawdę
+            cerr << "PMIG (probability of migration) = " << MigrationProb << '%' << endl;
+            MigrationProb/=100; //Ułamek, a nie procent tak naprawdę
         }
         else
-            cerr<<"PMIG (probability of migration) = "<<ProbMig<<endl;
+            cerr << "PMIG (probability of migration) = " << MigrationProb << endl;
     }
     else
     if((pom=strstr(rob,"NOIP="))!=nullptr) //Nie nullptr, czyli jest
     {
-    ProcentSzumu=atol(pom+5);
-    if(ProcentSzumu<0 || ProcentSzumu>100)
+        NoisePercent=toi(atol(pom + 5) );
+    if(NoisePercent < 0 || NoisePercent > 100)
         {
-        cerr<<"Bad NOIP ="<<ProcentSzumu<<" (must be in <0,100> )"<<endl;
+        cerr << "Bad NOIP =" << NoisePercent << " (must be in <0,100>)" << endl;
         return 0;
         }
-    cerr<<"NOIP (noise percent) = "<<ProcentSzumu<<endl;
+    cerr << "NOIP (noise percent) = " << NoisePercent << endl;
     }
     else
     if((pom=strstr(rob,"MPOW="))!=nullptr) //Nie nullptr, czyli jest
     {
-    MaksymalnaSila=atol(pom+5);
-    if(MaksymalnaSila<0) //0 czy 1???
-        {
-        cerr<<"Bad MPOW = "<<MaksymalnaSila<<" (must be >=1 )"<<endl;
-        return 0;
-        }
+        MaximalPower=tos(atoi(pom + 5));
+        if(MaximalPower < 0) //0 czy 1???
+            {
+            cerr << "Bad MPOW = " << MaximalPower << " (must be >=1 )" << endl;
+            return 0;
+            }
     }
     else
     if((pom=strstr(rob,"WIDTH="))!=nullptr) //Nie nullptr, czyli jest
     {
-    iWidth=atol(pom+6);
-    if(iWidth<3 || iWidth >= SCR_WIDTH)
+        WorldWidth=atol(pom + 6);
+    if(WorldWidth < 3 || WorldWidth >= SCR_WIDTH)
         {
-        cerr << "Bad WIDTH = " << iWidth << "(must be in <3," << SCR_WIDTH << ">" << endl;
+        cerr << "Bad WIDTH = " << WorldWidth << "(must be in <3," << SCR_WIDTH << ">" << endl;
         return 0;
         }
     }
     else
     if((pom=strstr(rob,"WIDTHWIN="))!=nullptr) //Nie nullptr, czyli jest
     {
-        SCR_WIDTH=atol(pom + 9);
-    if(SCR_WIDTH < 50)
-        {
-        cerr << "Bad WIDTHWIN = " << SCR_WIDTH << " (must be >50)" << endl;
-        return 0;
-        }
+        SCR_WIDTH=atoi(pom + 9);
+        if(SCR_WIDTH < 50)
+            {
+            cerr << "Bad WIDTHWIN = " << SCR_WIDTH << " (must be >50)" << endl;
+            return 0;
+            }
     }
     else
     if((pom=strstr(rob,"HEIGHTWIN="))!=nullptr) //Nie nullptr, czyli jest
     {
-        SCR_HEIGHT=atol(pom + 10);
-    if(SCR_HEIGHT < 50)
-        {
-        cerr << "Bad HEIGHTWIN = " << SCR_HEIGHT << " (must be >50)" << endl;
-        return 0;
-        }
+        SCR_HEIGHT=atoi(pom + 10);
+        if(SCR_HEIGHT < 50)
+            {
+            cerr << "Bad HEIGHTWIN = " << SCR_HEIGHT << " (must be >50)" << endl;
+            return 0;
+            }
     }
     else
     if((pom=strstr(rob,"MAX="))!=nullptr) //Nie nullptr, czyli jest
@@ -225,7 +242,7 @@ for(int i=1;i<argc;i++)
         cerr<<"Bad MAX iterations. Must be >0"<<endl;
         return 0;
         }    
-        else
+    else
         {
             internal_log=iMaxIterations+1;
         }
@@ -246,63 +263,63 @@ for(int i=1;i<argc;i++)
     iViewRatio=atol(pom+5);
     if(iViewRatio<=0)
         {
-        cerr<<"Bad VIEW (visualisation frequency). Must be >0"<<endl;
+        cerr<<"Bad VIEW (visualization frequency). Must be >0"<<endl;
         return 0;
         }
     }    
     else
     if((pom=strstr(rob,"SELF="))!=nullptr) //Nie nullptr, czyli jest
     {
-    WagaSiebie=atof(pom+5);
-    cerr<<"SELF = "<<WagaSiebie<<endl;
+        SelfWeight=atof(pom + 5);
+    cerr << "SELF = " << SelfWeight << endl;
     }
     else
     if((pom=strstr(rob,"NFOC="))!=nullptr) //Nie nullptr, czyli jest
     {
-    NeedForClousure=atof(pom+5);
-    cerr<<"NFOC = "<<NeedForClousure<<endl;
+        NeedForClosure=atof(pom + 5);
+    cerr << "NFOC = " << NeedForClosure << endl;
     }
     else		
     if((pom=strstr(rob,"PRTR="))!=nullptr) //Nie nullptr, czyli jest
         {
-            IleSasiadow=atol(pom+5);
-            if(IleSasiadow==-1)
+            HowManyToDraw=tos(atoi(pom + 5));
+            if(HowManyToDraw == -1)
             {
                 cerr<<"PRTR = all"<<endl;
             }
             else
-                if(IleSasiadow>1)
+                if(HowManyToDraw > 1)
                 {
-                    cerr<<"PRTR="<<IleSasiadow<<endl;
+                    cerr << "PRTR=" << HowManyToDraw << endl;
                 }
                 else
                 {
-                    cerr<<"Bad PRTR="<<IleSasiadow<<endl;
+                    cerr << "Bad PRTR=" << HowManyToDraw << endl;
                     return 0;
                 }
         }
     else
     if((pom=strstr(rob,"AUTO="))!=nullptr) //Nie nullptr, czyli jest
     {
-    AUTOSTART=atol(pom+5);
-    cerr<<"AUTO="<<AUTOSTART<<endl;
-    if(AUTOSTART)
-        {
-        iWychodzenie=1;
-        cerr<<"STOP = Yes"<<endl;
-        }
+        AUTO_START=atoi(pom + 5);
+        cerr << "AUTO=" << AUTO_START << endl;
+        if(AUTO_START)
+            {
+                AUTO_END=1;
+            cerr<<"STOP = Yes"<<endl;
+            }
     }
     else
     if((pom=strstr(rob,"STOP="))!=nullptr) //Nie nullptr, czyli jest
     {
-    iWychodzenie=(toupper(pom[5])=='Y');
-    cerr<<"STOP = "<<(iWychodzenie?"Yes":"No")<<endl;
+        AUTO_END=(toupper(pom[5]) == 'Y');
+    cerr << "STOP = " << (AUTO_END?"Yes":"No") << endl;
     }
     else  //SYNC
     if((pom=strstr(rob,"SYNC="))!=nullptr) //Nie nullptr, czyli jest
     {
-    TypSymulacji=!(toupper(pom[5])=='Y');
-    cerr<<"SYNC = "<<(TypSymulacji==0?"Yes":"No")<<endl;
+        AsyncUpdate=(toupper(pom[5]) != 'Y' );
+    cerr << "SYNC = " << (AsyncUpdate == 0?"Yes":"No") << endl;
     }
     else
     if((pom=strstr(rob,"ILOG="))!=nullptr) //Nie nullptr, czyli jest
@@ -311,22 +328,23 @@ for(int i=1;i<argc;i++)
     if(internal_log<50)
             {
             internal_log=50;
-            cerr<<"Internal log to short. Reset to default minimum ="<<internal_log<<endl;
+            cerr<<"An internal log to short. Reset to the default minimum ="<<internal_log<<endl;
             }
     }
     else
     //cerr<<"\tRSPC=N/Y or 1..WIDTH - Random calculation of spatial correlation ("<<(spatial_correlation_mode==0?"N":"Y")<<")\n";
     if((pom=strstr(rob,"RSPC="))!=nullptr)
     {
-    const char* lpom=pom+5;
-    if(toupper(*lpom)=='N')
-        spatial_correlation_mode=0;
-    else
-    if(toupper(*lpom)=='Y')
-        spatial_correlation_mode=16;
-    else
-        spatial_correlation_mode=atoi(lpom);
-    cerr<<"Random calculation of spatial correlation is "<<(spatial_correlation_mode==0?"d i s a b l e d":"e n a b l e d")<<". Multiplication="<<spatial_correlation_mode<<"\n";
+        const char* lpom=pom+5;
+        if(toupper(*lpom)=='N')
+            spatial_correlation_mode=0;
+        else if(toupper(*lpom)=='Y')
+            spatial_correlation_mode=16;
+        else
+            spatial_correlation_mode=atoi(lpom);
+
+        cerr<<"Random calculation of spatial correlation is "
+            <<(spatial_correlation_mode==0?"d i s a b l e d":"e n a b l e d")<<". Multiplication="<<spatial_correlation_mode<<"\n";
     }
     else
     if((pom=strstr(rob,"LOGF="))!=nullptr) //Nie nullptr, czyli jest
@@ -337,19 +355,19 @@ for(int i=1;i<argc;i++)
     if((pom=strstr(rob,"MAPL="))!=nullptr) //Nie nullptr, czyli jest
     {
     strcpy(MapLName,pom+5);
-    cerr<<"Map of attitudes from file \""<<MapLName<<"\"\n";
+    cerr<<"Map of attitudes is from file \""<<MapLName<<"\"\n";
     }
     else
     if((pom=strstr(rob,"MAPP="))!=nullptr) //Nie nullptr, czyli jest
     {
     strcpy(MapPName,pom+5);
-    cerr<<"Map of individual power from file \""<<MapPName<<"\"\n";
+    cerr<<"Map of individual power is from file \""<<MapPName<<"\"\n";
     }
     else
     if((pom=strstr(rob,"MASK="))!=nullptr) //Nie nullptr, czyli jest
     {
     strcpy(MaskName,pom+5);
-    cerr<<"Mask for alive agents from file \""<<MaskName<<"\"\n";
+    cerr<<"Mask for live agents is from file \""<<MaskName<<"\"\n";
     }	
     else
     if((pom=strstr(rob,"HIST="))!=nullptr) //Nie nullptr, czyli jest
@@ -365,42 +383,42 @@ for(int i=1;i<argc;i++)
     cerr<<"The simulation will be replayed from \""<<HistName<<"\"\n";
     }
     else
-    /* Ostatecznie wychodzi ze nie ma takiej opcji */
+    /* Ostatecznie wychodzi, że nie ma takiej opcji */
     {
 ERROR:
         cout<<"Unknown parameter \""<<argv[i]<<"\"\n";
         cout<<"YOU CAN USE:\n";
-        cout<<"\tREPL=hist.otx - not symulate but replay symulation history file.\n";
+        cout<<"\tREPL=hist.otx - not simulate, but replay simulation history file.\n";
     //	cout<<"\tMAPL=initL.gif (or BMP)- file with initialization map of attitudes (RANDOM)\n";
-        cout<<"\tMAPP=initP.gif (or BMP)- file with initialization map of powers (RANDOM)\n";
+        cout<<"\tMAPP=initP.gif (or BMP)- file with an initialization map of powers (RANDOM)\n";
         cout<<"\tMASK=mask.gif	(or BMP)- mask file for alive (not black) agents (ALL ALIVE)\n";
 
-    //	cout<<"\tSYNC=Y/N - synchronic (Y) or Monte-Carlo simulation mode ("<<(TypSymulacji==0?"Yes":"No")<<")\n";
-        cout<<"\tNFOC=0..inf - need for closure  [meaning depend on model]("<<NeedForClousure<<")\n";
-        cout<<"\tSELF=0..1 - use self for calculations ("<<(WagaSiebie)<<")\n";
+    //	cout<<"\tSYNC=Y/N - synchronic (Y) or Monte-Carlo simulation mode ("<<(AsyncUpdate==0?"Yes":"No")<<")\n";
+        cout << "\tNFOC=0...inf - need for closure [meaning depend on a model](" << NeedForClosure << ")\n";
+        cout << "\tSELF=0...1 - use self for calculations (" << (SelfWeight) << ")\n";
 
-        cout<<"\tWIDTH=NN - matrix size ("<<iWidth<<")\n";
+        cout << "\tWIDTH=NN - matrix size (" << WorldWidth << ")\n";
         cout<<"\tFILL=0.001..1 - ratio of live agents ("<<Fill<<")\n";	
         cout<<"\tILEF=0.001..0.999 - part of society with \"black\" attitude ("<<Majority<<")\n"; 
         cout<<"\tIRIG=0.001..0.999 - part of society with \"white\" attitude ("<<Minority<<")\n"; 
-//      cout<<"\tPMIG=0.001..1 - probability of migration under pressure ("<<ProbMig<<")\n";	
-        cout<<"\tMPOW=NN - max strength for initilization ("<<MaksymalnaSila<<")\n"	;
-        cout<<"\tTRSP=N - Threshold of strenght ("<<Treshold<<")\n";
+//      c out<<"\tPMIG=0.001..1 - probability of migration under pressure ("<<MigrationProb<<")\n";
+        cout << "\tMPOW=NN - max strength for initialization (" << MaximalPower << ")\n"	;
+        cout << "\tTRSP=N - Threshold of strength (" << Threshold << ")\n";
 
-        cout<<"\tPRTR=1..N - number of interaction partners (-1 = all in neighbourhood) ("<<IleSasiadow<<")\n";
-        cout<<"\tNOIP=NN - percent of noise ("<<ProcentSzumu<<")\n";
-//		cout<<"\tSPCH=NN - percent of spontaneity changes of attitudes ("<<MutacjeSpon*100<<")\n";
+        cout << "\tPRTR=1...N - number of interaction partners (-1 = all in a neighborhood) (" << HowManyToDraw << ")\n";
+        cout << "\tNOIP=NN - percent of noise (" << NoisePercent << ")\n";
+//		c out<<"\tSPCH=NN - percent of spontaneity changes of attitudes ("<<MutationProb*100<<")\n";
 
         cout<<"\tMAX=NNNN - max simulation step ("<<iMaxIterations<<")\n";
-        cout<<"\tRSPC=N/Y or 1..WIDTH - Random calculation of spatial correlation ("<<(spatial_correlation_mode?"N":"Y")<<")\n";
-        cout<<"\tILOG=NNNN - lenght of internal statistic logs ("<<internal_log<<")\n";
-        cout<<"\tSTOP=N/Y - exit after MAX steps ("<<(iWychodzenie?"Yes":"No")<<")\n";
+        cout<<"\tRSPC=N/Y or 1...WIDTH - Random calculation of spatial correlation ("<<(spatial_correlation_mode?"N":"Y")<<")\n";
+        cout<<"\tILOG=NNNN - length of internal statistic logs ("<<internal_log<<")\n";
+        cout << "\tSTOP=N/Y - exit after MAX steps (" << (AUTO_END?"Yes":"No") << ")\n";
         cout<<"\tVIEV=N - visualisation frequency ("<<iViewRatio<<")\n";
         cout<<"\tLOGC=N - log file saving frequency ("<<iLogRatio<<")\n";
         cout<<"\tLOGF=name.log - file for simulation log ("<<LogName<<")\n";
-//		cout<<"\tHIST=hist.otx - file for full history of simulation.\n";
+//		c out<<"\tHIST=hist.otx - file for full history of simulation.\n";
         cout << "\tWIDTHWIN=YYY,HEIGHTWIN=XXX - initial window size.(" << SCR_WIDTH << 'x' << SCR_HEIGHT << "\n";
-        cout<<"\nAUTO=XXX - number of auto-repetition of symulation.("<<AUTOSTART<<")\n";
+        cout << "\nAUTO=XXX - number of auto-repetition of simulation.(" << AUTO_START << ")\n";
         cout<<flush;
     return 0;
     }
@@ -409,14 +427,14 @@ return 1;
 }
 
 
-/*  OGOLNA FUNKCJA MAIN */
-/************************/
+/** @brief @PL{ OGÓLNA FUNKCJA MAIN. } @EN{ GENERAL MAIN FUNCTION. }   */
+/* ************************************************************************ */
 
 int main(const int argc,const char* argv[])
 {
 cout<<endl<<WINDOW_HEADER<<", compilation: "<<__DATE__<<' '<<__TIME__<<endl;
-cout<<"Programmed by W.Borkowski as implementation of A.Kruglanski theory"<<endl;
-cout<<"==================================================================="<<endl;
+cout<<"Programmed by W. Borkowski as implementation of A. Kruglanski theory"<<endl;
+cout<<"======================================================================="<<endl;
 cout.flush();
 
 if(!parse_options(argc,argv))
@@ -437,75 +455,75 @@ Lufciki.set_dump_name(buf.get());
 }
 
 
-//INICJALIZACJA SYMULACJI
-kWorld& tenSwiat=*new kWorld(iWidth,
+/// @internal @PL{ PRZYGOTOWANIE ŚWIATA SYMULACJI } @EN{ PREPARATION OF THE SIMULATION WORLD }
+kWorld& theWorld=*new kWorld(WorldWidth,
                              LogName,
                              MapLName,
                              MapPName,
                              MaskName,
-                           ProcentSzumu/100.0, //Szum od 0-1
-                           MaksymalnaSila, //Żeby była w przedziale
-
-                           IleSasiadow,
-                             WagaSiebie,
-                             NeedForClousure,
-                             (TypSymulacji==0?true:false), //Synchroniczna czy nie
-
-                           Treshold,
-                             MutacjeSpon,
+                             NoisePercent / 100.0, //Szum od 0-1
+                             MaximalPower, //Żeby była w przedziale
+                             HowManyToDraw,
+                             SelfWeight,
+                             NeedForClosure,
+                             AsyncUpdate == 0, //Synchroniczna czy nie?
+                             Threshold,
+                             MutationProb,
                              Fill,
-                             ProbMig,
+                             MigrationProb,
                              Majority,
                              Minority
                            );
+
 /// Od C++11 new nie powinno zwrócić "nullptr" tylko wylecieć z exception!
-// if(&tenSwiat==nullptr)
+// if(&theWorld==nullptr)
 //     {
 //     cerr<<"Can't allocate simulation world!\n"<<endl;
 //     exit(1);
 //     }
 
-
-//INICJALIZACJA
-RANDOMIZE(); //inicjalizacja globalnego randomizer-a
-tenSwiat.set_max_iteration(iMaxIterations); //Ile najwięcej kroków
-tenSwiat.set_input_ratio(iViewRatio);
-tenSwiat.set_log_ratio(iLogRatio);
+//INICJALIZACJA:
+RANDOMIZE() //inicjalizacja globalnego randomizer-a
+theWorld.set_max_iteration(iMaxIterations); //Ile najwięcej kroków
+theWorld.set_input_ratio(iViewRatio);
+theWorld.set_log_ratio(iLogRatio);
 cout<<WINDOW_HEADER<<": LOADED."<<endl;
-tenSwiat.set_history_stream(HistName);
+theWorld.set_history_stream(HistName);
 
 if(Replay)
-{	
-    tenSwiat.initialize(&Lufciki,1); //inicjalizacja wizualizacji
+{
+    theWorld.initialize(&Lufciki, 1); //inicjalizacja wizualizacji
     cout<<WINDOW_HEADER<<": PREPARED FOR READING. WAITING!"<<endl;
     Lufciki.process_input(); //Pierwsze zdarzenia. Kończą się po ctrl-B
-    tenSwiat.read_loop(iWychodzenie);
+    theWorld.read_loop(AUTO_END);
 }
 else
 {
-    tenSwiat.initialize(&Lufciki); //inicjalizacja wizualizacji i warstw symulacji
+    // REAL INITIALIZATION IS HERE!!!
+    theWorld.initialize(&Lufciki); //inicjalizacja wizualizacji i warstw symulacji
     cout<<WINDOW_HEADER<<": INITIALISED."<<endl;
-    if(!AUTOSTART)
+
+    if(!AUTO_START)
     {
         Lufciki.process_input(); //Pierwsze zdarzenia. Kończą się po ctrl-B
         //GŁÓWNA PĘTLA SYMULACJI
         cout<<WINDOW_HEADER<<": STARTED."<<endl;
-        tenSwiat.simulation_loop(iWychodzenie);
+        theWorld.simulation_loop(AUTO_END);
     }
     else
     {
         int statusWin=Lufciki.search("STATUS");
         Lufciki.maximize(statusWin);
-        for(int symulacja=0;symulacja<AUTOSTART;symulacja++)
+        for(int symulacja=0; symulacja < AUTO_START; symulacja++)
             {
             //GŁÓWNA PĘTLA SYMULACJI
-            cout<<WINDOW_HEADER<<": SIMULATION "<<symulacja<<" STARTED ."<<endl;
-            tenSwiat.simulation_loop(1);
-            cout<<WINDOW_HEADER<<": SIMULATION "<<symulacja<<" DONE ."<<endl;
-            if(symulacja<AUTOSTART-1)
+            cout<<WINDOW_HEADER<<": SIMULATION "<<symulacja<<" STARTED."<<endl;
+            theWorld.simulation_loop(1);
+            cout<<WINDOW_HEADER<<": SIMULATION "<<symulacja<<" DONE."<<endl;
+            if(symulacja < AUTO_START - 1)
                 {
-                //Reinicjalizacja
-                tenSwiat.restart();
+                //Reinicjalizacja:
+                theWorld.restart();
                 }
             }
     }
@@ -516,11 +534,12 @@ cout<<WINDOW_HEADER<<": CLOSING."<<endl;
 
 cout.flush();
 
-delete &tenSwiat; //Dealokacja świata wraz ze wszystkimi składowymi
+delete &theWorld; //Dealokacja świata wraz ze wszystkimi składowymi
 cout<<"----------> See you later!!! <--------------\n"<<endl<<flush;
 return 0;
 }
 
+#pragma clang diagnostic pop
 /* ****************************************************************** */
 /*        SYMSHELL2 EXAMPLE  version 2006/2022/2026                   */
 /* ****************************************************************** */
@@ -532,5 +551,6 @@ return 0;
 /*        MAIL:  wborkowski@uw.edu.pl                                 */
 /*                               (Don't change or remove this note)   */
 /* ****************************************************************** */
+
 
 
