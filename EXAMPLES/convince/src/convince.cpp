@@ -1,15 +1,15 @@
 /// @file
 /// @brief
 ///  @EN{ A fairly simple simulation of a change of opinion implementing Professor D. Stauffer's model. }
-///  @PL{ Dość prosta symulacja zmiany opinii wykorzystująca model profesora D. Stauffera. }
-/// @date 2026-05-21 (modified)
+///  @PL{ Dość prosta symulacja zmiany opinii wykorzystująca model profesora D. Stauffer-a. }
+/// @date 2026-05-29 (modified)
 ///       =========================================================
 /// @details
 ///       (Obtained by simplifying the LANGUAGES program)
 //======================================================================================================================
 
 const char* SIMULATION_NAME="convinces_v0.01";
-const char* WINDOW_HEADER="CONVINCE ver. 0.01c";
+const char* WINDOW_HEADER="CONVINCE ver. 0.01d";
 
 #include <cstdlib>
 #include <iostream>
@@ -20,6 +20,7 @@ const char* WINDOW_HEADER="CONVINCE ver. 0.01c";
 
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "modernize-use-nullptr"
+#pragma ide diagnostic ignored "cert-err34-c"
 
 using namespace sym2;
 
@@ -32,16 +33,19 @@ unsigned	ScreenHeight=550;
 unsigned	WorldWidth=50;
 /// @}
 
-/// @name @PL{ Parametry modelu. } @EN{  }
+/// @name @PL{ Parametry modelu. } @EN{ Model parameters. }
+/// @details
+///       @PL{ Poza zakresem siły można zmieniać tylko w kodzie. }
+///       @EN{ Apart from the force range, they can only be changed in code. }
 /// @{
-int	     NoOfClasses=2;
-double	 NewProbability=0.01;
-double	 InfectionProb=0.5;
-double	 SupportLev=0.9;
-int	     MaximumStrength=1;  //!< @brief @EN{ What is the agent's greatest strength? }
+double	 NewProbability=0.01;	//!< @EN{ Likelihood of a loner spontaneously changing his views on a new type of entertainment. } @PL{ ... }
+double	 InfectionProb=0.5;		//!< @EN{ Probability of reversal of views to 0 (???). } @PL{ ... }
+double	 SupportLev=0.9;		//!< @EN{ The power of support when the agent has some company for a given game. } @PL{ ... }
+
+int	     MaximumStrength=1;  //!< @brief @EN{ What is the agent's greatest strength? } @PL{ Jaka jest największa siła agenta? }
                              //!< @EN{ If it's an integer, it's like 1, so there's no randomness. }
                              //!< @EN{ Everyone has the same strength. }
-int      MinimalStrength=1;	 //!< @brief @EN{ The minimum force can't possibly be 0! }
+int      MinimalStrength=1;	 //!< @brief @EN{ The minimum force can't possibly be 0! } @PL{ Minimalna siła nie może wynosić 0. }
 /// @}
 
 /// @name @PL{ Parametry obsługi symulacji. } @EN{  }
@@ -80,16 +84,16 @@ int parse_options(const int argc,const char* argv[])
         strupr(rob);
         *pom='=';
 
-        if((pom=strstr(rob,"CLSS="))!=NULL) //Not NULL, i.e. exists
-        {
-            NoOfClasses=atoi(pom + 5);
-            if(NoOfClasses < 2)
-                {
-                cerr << "Bad CLSS =" << NoOfClasses << " (must be >2)" << endl;
-                return 0;
-                }
-        }
-        else
+//        if((pom=strstr(rob,"CLSS="))!=NULL) //Not NULL, i.e. exists
+//        {
+//            NoOfClasses=atoi(pom + 5);
+//            if(NoOfClasses < 2)
+//                {
+//                cerr << "Bad CLSS =" << NoOfClasses << " (must be >2)" << endl;
+//                return 0;
+//                }
+//        }
+//        else
         if((pom=strstr(rob,"MPOW="))!=NULL) //Not NULL, i.e. exists
         {
             MaximumStrength=atoi(pom + 5);
@@ -238,7 +242,7 @@ int parse_options(const int argc,const char* argv[])
             cerr<<"\tMAPP=initP.gif (or BMP)- file with an initialization map of powers (RANDOM)\n";
             cerr<<"\tMASK=mask.gif	(or BMP)- mask file for alive (not black) agents (ALL ALIVE)\n";
             cerr << "\tWIDTH=NN - matrix size (" << WorldWidth << ")\n";
-            cerr << "\tCLSS=NN - number of class. Must be power of 2. (" << NoOfClasses << ")\n";
+        //    cerr << "\tCLSS=NN - number of class. Must be power of 2. (" << NoOfClasses << ")\n";
             cerr << "\tMPOW=NN - max strength for initialization (" << MaximumStrength << ")\n"	;
             cerr << "\tMAX=NNNN - max simulation step (" << MaxIterations << ")\n";
             cerr << "\tILOG=NNNN - length of internal statistic logs (" << InternalLogLen << ")\n";

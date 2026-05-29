@@ -2,9 +2,11 @@
 /// @brief
 ///  @EN{ DECLARATION OF 'convWorld' FOR "Convince" SIMULATION. }
 ///  @PL{ DEKLARACJA 'convWorld' DLA SYMULACJI "Convince". }
-/// @date 2026-05-21 (modified)
+/// @date 2026-05-29 (modified)
 ///       =========================================================
-/// @details ...
+/// @details
+///  @EN{ A fairly simple simulation of a change of opinion implementing Professor D. Stauffer's model. }
+///  @PL{ Dość prosta symulacja zmiany opinii wykorzystująca model profesora D. Stauffer-a. }
 //======================================================================================================================
 
 #include <climits>

@@ -4,7 +4,9 @@
 ///  @PL{ DEKLARACJA 'convAgent' DLA SYMULACJI "Convince". }
 /// @date 2026-05-29 (modified)
 ///       =========================================================
-/// @details ...
+/// @details
+///  @EN{ A fairly simple simulation of a change of opinion implementing Professor D. Stauffer's model. }
+///  @PL{ Dość prosta symulacja zmiany opinii wykorzystująca model profesora D. Stauffer-a. }
 //======================================================================================================================
 
 #include "layer.hpp"
@@ -19,26 +21,26 @@ using namespace sym2::visual;
 class convAgent: public sym2::shell::agent_base
 {
     friend class convWorld;	//!< @brief @EN{ To simplify access to the agent's components from the universe side. }
-                            //!< @PL{ ... }
+                            //!<        @PL{ Aby uprościć dostęp do komponentów agenta od strony wszechświata. }
 
     /// @name @EN{ STATIC COMPONENTS - MAINLY AGENT INITIALISATION PARAMETERS: }
     ///       @PL{ KOMPONENTY STATYCZNE - GŁÓWNIE PARAMETRY INICJALIZACJI AGENTÓW: }
     // /////////////////////////////////////////////////////////////////////////////
     /// @{
 
-    static short	MinStrength;	//!< @brief @EN{ Minimum agent strength at initialization. } @PL{ ... }
-    static short	MaxStrength;	//!< @brief @EN{ Maximum agent strength at initialization. } @PL{ ... }
-    static short	NumOfCate;		//!< @brief @EN{ Number of categories (states/beliefs?). } @PL{ ... }
-    static short	CateShift;		//!< @brief @EN{ Bit shift when loading category/state from a GIF file. } @PL{ ... }
+    static short	MinStrength;	//!< @brief @EN{ Minimum agent strength after initialization. } @PL{ Minimalna siła agenta po inicjalizacji. }
+    static short	MaxStrength;	//!< @brief @EN{ Maximum agent strength after initialization. } @PL{ Maksymalna siła agenta po inicjalizacji. }
+    static short	NumOfCate;		//!< @brief @EN{ Number of possible categories (states/beliefs?). } @PL{ Liczba możliwych kategorii (stanów/przekonań?). }
+    static short	CateShift;		//!< @brief @EN{ Bit shift when loading category/state from a bitmap file. } @PL{ Przesunięcie bitowe podczas ładowania kategorii/stanu z pliku bitmapowego. }
 
     static double	ToBeNewProb;	//!< @brief @EN{ How often a loner spontaneously changing his views on a new type of entertainment. }
-                                    //!< @PL{ ... }
+                                    //!<        @PL{ ... }
     static double	NewInfectProb;	//!< @brief @EN{ Probability of infection based on a view from a pair of infected individuals. }
                                     //!< @PL{ ... }
     static double	ReverseProb;	//!< @brief @EN{ Probability of reversal of views to 0, i.e., again lack of ideas for entertainment. }
                                     //!< @PL{ ... }
     static double	SupportLevel;	//!< @brief @EN{ The power of support when you have some friends with the same belief. }
-                                    //!< @PL{ ... }
+                                    //!< @PL{ Jaka jest siła wsparcia, gdy masz przyjaciół, którzy podzielają twoje przekonania. }
     /// @}
 
     /// @name @EN{ INDIVIDUAL AGENT ATTRIBUTES: }
@@ -69,44 +71,50 @@ public:
         return First!=-1 && Second!=-1 && Power!=-1;
     }
 
+    explicit convAgent(const convAgent* ini);	///< @brief @EN{ Cloning constructor. Concrete implementation for by the world class! }
+                                                ///<        @PL{ Konstruktor klonujący. Implementacja przy źródłach klasy word. }
     convAgent(const convAgent& ini);	///< @brief @EN{ Copy constructor. Concrete implementation for by the world class! }
-                                        ///< @PL{ ... }
+                                        ///<        @PL{ Konstruktor kopiujący. Implementacja przy źródłach klasy word. }
     convAgent();						///< @brief @EN{ Default constructor.Concrete implementation for by the world class! }
-                                        ///< @PL{ ... }
+                                        ///<        @PL{ Konstruktor domyślny. Implementacja przy źródłach klasy word. }
 
-    convAgent*	clone() const			///< @brief @EN{ Creating a dynamic copy on the heap. } @PL{ ... }
-    { return new convAgent(*this);}
+    convAgent*	clone() const			///< @brief @EN{ Creating a dynamic copy on the heap. } @PL{ Tworzenie dynamicznej kopii na stercie. }
+    { return new convAgent(this);}
 
-    ~convAgent() override				///< @brief @EN{ Virtual destructor. } @PL{ ... }
+    ~convAgent() override				///< @brief @EN{ Virtual destructor. } @PL{ Wirtualny destruktor. }
     {_clean();}
 
-    void	clean() override			///< @brief @EN{ Virtual cleaning of agent attributes. } @PL{ ... }
+    void	clean() override			///< @brief @EN{ Virtual cleaning of agent attributes. } @PL{ Wirtualne czyszczenie atrybutów agenta. }
     {_clean();}
+
+    void save_state() 					///< @brief @EN{ Remembering the First state to Second. For dynamic statistics. } @PL{ Zapamiętanie stanu First na Second. Do statystyk dynamiki. }
+    { Second=First; }
+
 
     /// @brief @PL{Przydział do kategorii.} @EN{Assignment to a category.}
     unsigned long classify() override { return First; }
 
-    /// @brief @EN{ Determines beliefs based on a bitmap pixel. } @PL{ ... }
+    /// @brief @EN{ Determines beliefs based on a bitmap pixel. } @PL{ Określa przekonania na podstawie piksela mapy bitowej. }
     void	assign123(unsigned char Red,unsigned char Green,unsigned char Blue)
     {
         First=short( Red >> CateShift );
         Second=short( Blue >> CateShift );
     }
 
-    /// @brief @EN{ Determines the strength based on a bitmap pixel. } @PL{ ... }
+    /// @brief @EN{ Determines the strength based on a bitmap pixel. } @PL{ Określa siłę na podstawie piksela bitmapowego. }
     void	assignPow(unsigned char Red,unsigned char Green,unsigned char Blue)
     {
         Power=short((int(Red)+int(Green)+int(Blue)) / (3.*255) * MaxStrength);
     }
 
-    /// @brief @EN{ Resets beliefs based on pixel color (when black). } @PL{ ... }
+    /// @brief @EN{ Resets beliefs based on pixel color (when black). } @PL{ Resetuje przekonania na podstawie koloru piksela (gdy jest czarny). }
     void	killBlack(unsigned char Red,unsigned char Green,unsigned char Blue)
     {
         if(Red==0 && Green==0 && Blue==0)
             _clean();
     }
 
-    /// @brief @EN{ Specifies the display color of the agent based on its status. } @PL{ ... }
+    /// @brief @EN{ Specifies the display color of the agent based on its state. } @PL{ Określa kolor wyświetlania agenta na podstawie jego stanu. }
     long	RGB() const
     {
         return ( (unsigned char) (First) );

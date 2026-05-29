@@ -1,8 +1,8 @@
 /// @file
 /// @brief
 /// @EN{ Implementation of "the world of the convinced" (D. Stauffer idea). }
-/// @PL{ Implementacja "świata przekonanych" (idea D. Stauffera). }
-/// @date 2026-05-21 (modified)
+/// @PL{ Implementacja "świata tych przekonanych" (idea D. Stauffer-a). }
+/// @date 2026-05-29 (modified)
 ///       =================================================================
 /// @details ...
 //======================================================================================================================
@@ -26,21 +26,31 @@
 using namespace sym2;
 
 extern const char* SIMULATION_NAME;
-const int RAMKA=4; ///< @brief @PL{ GRUBOŚĆ RAMKI. } @EN{  }
+const int FRAME=4; ///< @brief @PL{ GRUBOŚĆ RAMKI. } @EN{ FRAME THICKNESS. }
 
 // Construction of agents:
 //========================
 
 convAgent::convAgent(const convAgent& ini)
 {
-    if(&ini!=NULL)
+    First=ini.First;
+    Second=ini.Second;
+    if(MinStrength < MaxStrength)
+        Power= tos( MinStrength + RANDOM(MaxStrength - MinStrength + 1) );
+    else
+        Power=ini.Power;
+}
+
+convAgent::convAgent(const convAgent* ini)
+{
+    if(ini!=NULL)
     {
-        First=ini.First;
-        Second=ini.Second;
+        First=ini->First;
+        Second=ini->Second;
         if(MinStrength < MaxStrength)
             Power= tos( MinStrength + RANDOM(MaxStrength - MinStrength + 1) );
         else
-            Power=ini.Power;
+            Power=ini->Power;
     }
     else
         _clean();
@@ -110,18 +120,16 @@ convWorld::convWorld(
         const char* iLive_mask,		//=NULL,	//The name of the bitmap defining uninhabited areas.
         short iMax_strength,		//=100,	//Maximum agent power/strength.
         short iMin_strength			//,=10	//Minimum agent strength.
-               ):
-        world(iLog_name, 50),
-        MapLName(clone_str(iMapL_name)),
-        MappName(clone_str(iMapP_name)),
-        MaskName(clone_str(iLive_mask)),
-        //Sub-objects specific to this simulation:
-        MyWidth(iWidth),
-        Agenci(iWidth,iWidth,NULL),
-        //Pointers to basic data series
-        Firsts(NULL),
-        Seconds(NULL),
-        Powers(NULL)
+               )
+: world(iLog_name, 50),
+  MapLName(clone_str(iMapL_name)),
+  MappName(clone_str(iMapP_name)),
+  MaskName(clone_str(iLive_mask)),
+  //Sub-objects specific to this simulation:
+  MyWidth(iWidth),
+  Agenci(iWidth,iWidth,NULL),
+  //Pointers to basic data series
+  Firsts(NULL),Seconds(NULL),Powers(NULL)
 {// There is not too much that can be done because we cannot rely on virtual methods of the world class yet.
     convAgent::MinStrength=iMin_strength;
     convAgent::MaxStrength=iMax_strength;
@@ -166,7 +174,7 @@ void convWorld::make_default_visualisation()
 // Registers derived series, creates default "windows" and places them in the "Manager".
 {
     area_manager_base& Manager=this->MyAreaManager();
-    int iFirst=0,iSecond=0,iPower=0,iClassif=0;
+    int iFirst=0,iSecond=0,iPower=0,iClassify=0;
 
     // Getting the indexes of basic series from the manager:
     {
@@ -179,7 +187,7 @@ void convWorld::make_default_visualisation()
     if(Powers)   iPower=Sources.search(Powers->name());
     else  goto ERROR;
 
-    if(Firsts)  iClassif=Sources.search(Firsts->name());
+    if(Firsts) iClassify=Sources.search(Firsts->name());
     else  goto ERROR;
 
 
@@ -321,7 +329,7 @@ void convWorld::make_default_visualisation()
     Manager.insert(pom);
 
     //PRZYCISKI
-    pom=new carpet_graph(toi(lW - 49),toi(5 * (char_height('X') + RAMKA)),toi(lW),toi(6 * (char_height('X') + RAMKA)),	//default area coordinates
+    pom=new carpet_graph(toi(lW - 49), toi(5 * (char_height('X') + FRAME)), toi(lW), toi(6 * (char_height('X') + FRAME)),	//default area coordinates
                             Seconds);	// Pointer to data source.
     pom->set_data_colors(0, 255);
     pom->set_frame(0);
@@ -329,14 +337,14 @@ void convWorld::make_default_visualisation()
     Manager.insert(pom);
 
 
-    pom=new carpet_graph(toi(lW - 49),toi(6 * (char_height('X') + RAMKA)), toi(lW),toi(7 * (char_height('X') + RAMKA)),	//default area coordinates
+    pom=new carpet_graph(toi(lW - 49), toi(6 * (char_height('X') + FRAME)), toi(lW), toi(7 * (char_height('X') + FRAME)),	//default area coordinates
                             Powers);	// Pointer to data source.
     pom->set_data_colors(0, 255);
     pom->set_frame(0);
     pom->set_title("Map of power");
     Manager.insert(pom);
 
-    pom=new manhattan_graph(toi(lW - 49),toi(7 * (char_height('X') + RAMKA)), toi(lW),toi(8 * (char_height('X') + RAMKA)),	//default area coordinates
+    pom=new manhattan_graph(toi(lW - 49), toi(7 * (char_height('X') + FRAME)), toi(lW), toi(8 * (char_height('X') + FRAME)),	//default area coordinates
                             Powers, 0,	// Pointer to a data source (but unmanaged because someone else releases them)
                             Firsts, 0,	// Pointer to a data source (but unmanaged because someone else releases them)
                             1,		//Bars start at least from 0!
@@ -349,7 +357,7 @@ void convWorld::make_default_visualisation()
     pom->set_title("The composed map of strength and attitude of agents");
     Manager.insert(pom);
 
-    pom1=new sequence_graph(toi(lW - 49),toi(9 * (char_height('X') + RAMKA)), toi(lW),toi(10 * (char_height('X') + RAMKA)),
+    pom1=new sequence_graph(toi(lW - 49), toi(9 * (char_height('X') + FRAME)), toi(lW), toi(10 * (char_height('X') + FRAME)),
                             1, Sources.make_series_info(
                                             iClassEntropy,
                                                 -1
@@ -361,7 +369,7 @@ void convWorld::make_default_visualisation()
     Manager.insert(pom1);
 
 
-    pom1=new sequence_graph(toi(lW - 49),toi(10 * (char_height('X') + RAMKA)), toi(lW),toi(11 * (char_height('X') + RAMKA)),
+    pom1=new sequence_graph(toi(lW - 49), toi(10 * (char_height('X') + FRAME)), toi(lW), toi(11 * (char_height('X') + FRAME)),
                             1, Sources.make_series_info(
                                             iEntropyFS,
                                                 -1
@@ -373,7 +381,7 @@ void convWorld::make_default_visualisation()
     Manager.insert(pom1);
 
 
-    pom=new sequence_graph(toi(lW - 49),toi(11 * (char_height('X') + RAMKA)), toi(lW),toi(12 * (char_height('X') + RAMKA)),
+    pom=new sequence_graph(toi(lW - 49), toi(11 * (char_height('X') + FRAME)), toi(lW), toi(12 * (char_height('X') + FRAME)),
                            1, Sources.make_series_info(
                                             iCorrFSR, //iCorrFS,
                                                 -1
@@ -391,10 +399,10 @@ void convWorld::make_default_visualisation()
                                               (rectangle_source_base*)Sources.get(iSecond),
                                               //(rectangle_source_base*)Sources.get(iThird),
                                               (rectangle_source_base*)Sources.get(iPower),
-                                              (rectangle_source_base*)Sources.get(iClassif),
+                                              (rectangle_source_base*)Sources.get(iClassify),
                                               -1
                                               );
-    drawable_base* l_pom=new steering_wheel(toi(lW - 49), 0, toi(lW),toi(5 * (char_height('X') + RAMKA)), tmp); //assert(l_pom!=NULL);
+    drawable_base* l_pom=new steering_wheel(toi(lW - 49), 0, toi(lW), toi(5 * (char_height('X') + FRAME)), tmp); //assert(l_pom!=NULL);
     l_pom->set_background(10);
     Manager.insert(l_pom);
     }
@@ -495,7 +503,13 @@ void convWorld::simulate_one_step()
 // Single simulation step:
 {
     const rectangle_geometry* MyGeom=dynamic_cast<const rectangle_geometry*>(Agenci.get_geometry());	assert(MyGeom!=NULL);
-    size_t MonteSteps=MyWidth*MyWidth;
+    for(size_t len=MyGeom->get_size(),i=0;i<len;i++)
+    {
+        convAgent& a = Agenci.get(i);
+        a.save_state();
+    }
+
+    size_t MonteSteps=MyWidth*MyWidth; //Maybe less?
     for(int m=0;m<MonteSteps;m++)
     {
         long x=RANDOM(MyWidth);																assert(x<MyWidth);
@@ -529,8 +543,8 @@ void convWorld::simulate_one_step()
                 MyGeom->WhatCoordinates(index2,nx,ny);
                 if(Agenci(nx,ny).First==Agenci(x,y).First)
                 {
-                    koledzy[ilu][0]=nx;
-                    koledzy[ilu][1]=ny;
+                    koledzy[ilu][0]=toi(nx);
+                    koledzy[ilu][1]=toi(ny);
                     ilu++;
                 }
             }
@@ -561,7 +575,8 @@ void convWorld::simulate_one_step()
                     continue;
                 }
 
-                //And now the hardest part, convincing unconvinced neighbors:
+                // And now the hardest part, convincing unconvinced neighbors:
+                //============================================================
                 //int Inni[20][2];
                 //int innych=0;
 
@@ -580,7 +595,7 @@ void convWorld::simulate_one_step()
                                                                                  assert(ConvertedIndex<MyWidth*MyWidth);
                             convAgent& ForModify=Agenci.get(ConvertedIndex);
                             if(ForModify.First==0 && DRAND() < convAgent::NewInfectProb)
-                                ForModify.First=CenterAgent.First; //TMP
+                                ForModify.First=CenterAgent.First; //TMP?
                         }
                     }
                 }

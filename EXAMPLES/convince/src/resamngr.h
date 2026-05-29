@@ -1,10 +1,12 @@
 /// @file
 /// @brief
 ///  @EN{ Values for communication with the simulation menu. }
-///  @PL{  }
-/// @date 2026-05-19 (modified)
-///       =========================================================\
-/// @details ...
+///  @PL{ Wartości do komunikacji z menu symulacji. }
+/// @date 2026-05-29 (modified)
+///       ====================================================
+/// @details
+///    @PL{ Nie ma tu niczego poza standardem biblioteki. }
+///    @EN{ There is nothing here except the library standard. }
 //======================================================================================================================
 
 //{{NO_DEPENDENCIES}}

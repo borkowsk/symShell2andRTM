@@ -2,10 +2,10 @@
 /// @brief
 ///  @EN{ Virtual output method implementation of the 'convWorld' type. }
 ///  @PL{ Implementacja metody wirtualnego wyjścia klasy 'convWorld'. }
-/// @date 2026-05-21 (modified)
+/// @date 2026-05-29 (modified)
 ///       ============================================================
 /// @details
-/// Its is rather simply implementation. You can replace it if you need.
+///     Its is rather simply implementation. You can replace it if you need.
 //======================================================================================================================
 
 #include "cworld.h"
