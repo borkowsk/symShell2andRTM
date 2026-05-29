@@ -1,7 +1,7 @@
 /// @file
 /// @brief **Definition of the base type and templates specialization of simulation layers ** /<br>
 ///         _Definicja bazy i szablonów warstw symulacji._
-/// @date 2026-05-20 (modified)
+/// @date 2026-05-29 (modified)
 // ********************************************************************************************************************
 #ifndef SYMSHELL2_LAYER_HPP_INCLUDED_
 #define SYMSHELL2_LAYER_HPP_INCLUDED_
@@ -671,6 +671,9 @@ public:
     //agent_base* clone() const { return new agent(*this);}
     //friend ostream& operator << (ostream& o, agent a)
     //friend istream& operator >> (ostream& i, agent a)
+
+    /// @brief @PL{Przydział do kategorii.} @EN{Assignment to a category.}
+    virtual unsigned long classify()=0;
 };
 
 #ifdef USE_ENGLISH_IF_POSSIBLE
@@ -1372,22 +1375,32 @@ public:
     virtual
         method_by_ptr_matrix_source<AGENT,long int>* make_source(const char* name,long int (AGENT::* method_ptr)())
     {
-        return new method_by_ptr_matrix_source<AGENT,long int>(name,
-            MainGeometry,
-            (AGENT**)table.get_ptr_val(),
-            method_ptr
-            );
+        return new method_by_ptr_matrix_source<AGENT,long int>( name,
+                                                                MainGeometry,
+                                                                (AGENT**)table.get_ptr_val(),
+                                                                method_ptr
+                                                                );
     }
 
     virtual
-        method_by_ptr_matrix_source<AGENT,unsigned long>* make_source(const char* name,unsigned long (AGENT::* method_ptr)())
+        method_by_ptr_matrix_source<AGENT,unsigned long int>* make_source(const char* name,unsigned long int (AGENT::* method_ptr)())
     {
-        return new method_by_ptr_matrix_source<AGENT,unsigned long>(name,
-            MainGeometry,
-            (AGENT**)table.get_ptr_val(),
-            method_ptr
-            );
+        return new method_by_ptr_matrix_source<AGENT,unsigned long int>(name,
+                                                                        MainGeometry,
+                                                                        (AGENT**)table.get_ptr_val(),
+                                                                        method_ptr
+                                                                        );
     }
+
+//    virtual
+//    method_by_ptr_matrix_source<AGENT,unsigned long int>* make_source(const char* name,unsigned long int (AGENT::* method_ptr)() const)
+//    {
+//        return new method_by_ptr_matrix_source<AGENT,unsigned long>(name,
+//                                                                    MainGeometry,
+//                                                                    (AGENT**)table.get_ptr_val(),
+//                                                                    method_ptr
+//        );
+//    }
     /// @}
 
     /// @name Implementacja wejścia/wyjścia. Zwracają 1, jeśli sukces!

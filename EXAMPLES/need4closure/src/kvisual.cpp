@@ -2,7 +2,7 @@
 /// @brief
 ///  @EN{ Visualisation of "kWorld" (old example for SymShell implementing a Kruglanski's like model). }
 ///  @PL{ Wizualizacja "kWorld" (starego przykładu dla SymShell-a implementujący model podobny do modelu Kruglańskiego). }
-/// @date 2026-05-21 (modified)
+/// @date 2026-05-29 (modified)
 /// =================================================================================================
 /// @details ...
 //======================================================================================================================
@@ -41,6 +41,7 @@ extern unsigned spatial_correlation_mode;
 void kWorld::make_basic_sources()
 {
     sources_manager& WhatSourMen=this->Sources;
+
     world::make_basic_sources(); //Odziedziczone
     
     //Główne serie
@@ -72,9 +73,9 @@ void kWorld::make_basic_sources()
     CountCh=toi(ptrLastChanged->get_missing());
     CountMig=toi(ptrLastMigration->get_missing());
     
-    //Classif=Agents.make_source("Classification",&kAgent::classif); //Z PIERWOWZORU "LANGUAGES". ZBĘDNE.
-    //if(classif)
-    //	classif->set_min_max(0,NofCat*NofCat*NofCat-1); //Max class ==NofCat^3 bo trzy niezależne płaszczyzny
+    //Classif=Agents.make_source("Classification",&kAgent::classify); //Z PIERWOWZORU "LANGUAGES". ZBĘDNE.
+    //if(classify)
+    //	classify->set_min_max(0,NofCat*NofCat*NofCat-1); //Max class ==NofCat^3 bo trzy niezależne płaszczyzny
     
     //Umieszczenie głównych serii w managerze serii
     WhatSourMen.insert(Firsts);
@@ -86,7 +87,7 @@ void kWorld::make_basic_sources()
     WhatSourMen.insert(ptrLastChanged);
     WhatSourMen.insert(ptrLastMigration);
     
-    //WhatSourMen.insert(classif);
+    //WhatSourMen.insert(classify);
 }
 
 

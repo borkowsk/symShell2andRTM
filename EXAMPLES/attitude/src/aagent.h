@@ -2,7 +2,7 @@
 /// @brief
 ///  @EN{ DECLARATION OF A TYPE 'aagent' FOR "attitudes" SIMULATION. }
 ///  @PL{ DEKLARACJA TYPU 'aagent' DO SYMULACJI postaw. }
-/// @date 2026-05-21 (modified)
+/// @date 2026-05-29 (modified)
 ///       ============================================================
 /// @PL{ BARDZO OSZCZĘDNIE SKOMENTOWANE.} @EN{ VERY SPARINGLY COMMENTED.}
 /// @PL{ DOXYGENIZACJA WYŁĄCZNIE PO POLSKU. }
@@ -98,10 +98,8 @@ public:
             _clean();
     }
 
-    long classif() const
-    {
-        return First;
-    }
+    /// @brief @PL{Przydział do kategorii.} @EN{Assignment to a category.}
+    unsigned long classify() override { return First; }
 
     long RGB() const
     {

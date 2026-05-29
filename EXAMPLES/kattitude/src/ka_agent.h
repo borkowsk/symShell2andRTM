@@ -2,7 +2,7 @@
 /// @brief
 ///  @EN{ IMPLEMENTATION OF AGENT FOR "KattitudeS" SIMULATION. }
 ///  @PL{ IMPLEMENTACJA AGENTA DO SYMULACJI POSTAW "KattitudeS". }
-/// @date 2026-05-21 (modified)
+/// @date 2026-05-29 (modified)
 /// =========================================================
 /// @details (attitudeS old example for SymShell)
 // =====================================================================================================================
@@ -128,11 +128,8 @@ public:
             _clean();
     }
 
-    [[maybe_unused]]
-    long classif() const
-    {
-        return First;
-    }
+    /// @brief @PL{Przydział do kategorii.} @EN{Assignment to a category.}
+    unsigned long classify() override { return First; }
 
     long RGB() const
     {

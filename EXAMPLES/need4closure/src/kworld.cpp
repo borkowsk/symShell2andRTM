@@ -2,7 +2,7 @@
 /// @brief
 ///  @EN{ IMPLEMENTATION OF THE "KWORLD".  }
 ///  @PL{  }
-/// @date 2026-05-21 (modified)
+/// @date 2026-05-29 (modified)
 /// =========================================================
 /// @details
 ///  (old example for SymShell implementing Kruglansky like model)
@@ -77,7 +77,7 @@ kWorld::kWorld(size_t	Width,				// Określa ile kolumn torusa macierzy agentów.
     //Wskaźniki do podstawowych seri danych
     Firsts(nullptr),
     Seconds(nullptr),
-    Powers(nullptr), //,classif(nullptr)
+    Powers(nullptr), //,classify(nullptr)
     ForRight(nullptr),
     ForLeft(nullptr),
     ptrStres(nullptr),

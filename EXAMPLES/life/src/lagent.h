@@ -2,7 +2,7 @@
 /// @brief
 ///  @EN{ DECLARATION OF 'life_agent' FOR "life" SIMULATION. }
 ///  @PL{  }
-/// @date 2026-05-21 (modified)
+/// @date 2026-05-29 (modified)
 ///       =========================================================
 /// @details ...
 //======================================================================================================================
@@ -77,6 +77,9 @@ public:
     /// Wirtualne czyszczenie.
     void clean() override
     {_clean();}
+
+    /// @brief @PL{Przydział do kategorii.} @EN{Assignment to a category.}
+    unsigned long classify() override { return First; }
 
     /// Do przypisywania stanu z obrazków (RGB).
     void assign123(unsigned char Red,unsigned char Green,unsigned char Blue)

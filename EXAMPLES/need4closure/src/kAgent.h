@@ -2,7 +2,7 @@
 /// @brief
 ///  @EN{ DECLARATION OF THE AGENT FOR "need 4 closure" SIMULATION. }
 ///  @PL{ DEKLARACJA AGENTA W SYMULACJI „potrzeba zamknięcia”. }
-/// @date 2026-05-21 (modified)
+/// @date 2026-05-29 (modified)
 /// =========================================================
 /// @details (old example for SymShell implementing a Kruglanski's like model)
 // =====================================================================================================================
@@ -126,7 +126,7 @@ public:
     }
 
     [[maybe_unused]]
-    long classif() const
+    long long classify() const
     {
         return First;
     }

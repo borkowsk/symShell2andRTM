@@ -2,7 +2,7 @@
 /// @brief
 ///     @EN{ DECLARATION OF THE WORLD FOR "need 4 closure" SIMULATION. }
 ///     @PL{ DEKLARACJA ŚWIATA DLA SYMULACJI „need 4 closure”. }
-/// @date 2026-05-21 (modified)
+/// @date 2026-05-29 (modified)
 /// ====================================================================================================================
 /// @details
 ///     (old example for SymShell implementing the Kruglanski's like model)
@@ -58,7 +58,7 @@ class kWorld: public sym2::shell::world
     sym2::data::ptr_to_struct_matrix_source<kAgent,unsigned>    *ForRight;	///< `=Agents.make_source("Power",&kAgent::ForRight);`
 
     //ptr_to_struct_matrix_source<kAgent,short>		*Pressure;	///<  =Agents.make_source("Pressure",&kAgent::Press);
-    //method_by_ptr_matrix_source<kAgent,long>		*Classify;	///< =Agents.make_source("Classification",&kAgent::classif);
+    //method_by_ptr_matrix_source<kAgent,long>		*Classify;	///< =Agents.make_source("Classification",&kAgent::classify);
 
     sym2::data::scalar_source<double>*       ptrStres;	///< Do przekazywania aktualnie najważniejszych danych na okno statusu.
     sym2::data::scalar_source<double>*       ptrClsSize;

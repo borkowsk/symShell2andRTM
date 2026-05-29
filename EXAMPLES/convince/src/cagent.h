@@ -2,7 +2,7 @@
 /// @brief
 ///  @EN{ DECLARATION OF 'convAgent' FOR "Convince" SIMULATION. }
 ///  @PL{ DEKLARACJA 'convAgent' DLA SYMULACJI "Convince". }
-/// @date 2026-05-21 (modified)
+/// @date 2026-05-29 (modified)
 ///       =========================================================
 /// @details ...
 //======================================================================================================================
@@ -82,6 +82,9 @@ public:
 
     void	clean() override			///< @brief @EN{ Virtual cleaning of agent attributes. } @PL{ ... }
     {_clean();}
+
+    /// @brief @PL{Przydział do kategorii.} @EN{Assignment to a category.}
+    unsigned long classify() override { return First; }
 
     /// @brief @EN{ Determines beliefs based on a bitmap pixel. } @PL{ ... }
     void	assign123(unsigned char Red,unsigned char Green,unsigned char Blue)
