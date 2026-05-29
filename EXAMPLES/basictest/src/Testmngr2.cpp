@@ -1,8 +1,8 @@
 /// @file
 /// @brief
-///  @EN{ BASIC sample SYMSHELL program with classes. }
-///  @PL{ Bardzo przykładowy program SYMSHELL-a z klasami. }
-/// @date 2026-05-20 (modified)
+///  @EN{ VERY BASIC sample SYMSHELL program with classes. }
+///  @PL{ BARDZO PROSTY przykładowy program SYMSHELL-a z klasami. }
+/// @date 2026-05-29 (modified)
 /// =========================================================
 /// @details
 /// @if POLISH
@@ -18,7 +18,7 @@
 /// @endif
 //======================================================================================================================
 
-#include <cmath> //tan-gens
+//#include <cmath> //tangent/s
 #include <cstdio>
 #include <cstdlib>
 
@@ -30,6 +30,7 @@
 #include "graphs.hpp"
 
 #include "mainmngr.hpp"
+//#include "symshell.h" - niepotrzebne — już opakowane obiektami/unnecessary - already packed inside classes.
 
 using namespace sym2;
 using namespace sym2::data;
@@ -38,8 +39,7 @@ using namespace sym2::visual;
 
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "modernize-use-nullptr"
-//#include "symshell.h" - niepotrzebne — już opakowane obiektami
-//int x,y,vx,vy;
+
 
 /// @name @PL{ INICJALNE ROZMIARY OKNA. } @EN{ INITIAL WINDOW SIZES. }
 /// @{
@@ -47,13 +47,13 @@ const int SCR_WIDTH=390;
 const int SCR_HEIGHT=280;
 /// @}
 
-/// @brief @PL{ Klasa funkcyjna opakowująca tangens. } @EN{ A functional class wrapping the tangent. }
-class tangens
-{
-public:
-    double operator () (double x)
-        { return tan(x);}
-};
+// /// @brief @PL{ Klasa funkcyjna opakowująca tangens. } @EN{ A functional class wrapping the tangent. }
+//class tangens
+//{
+//public:
+//    double operator () (double x)
+//        { return tan(x);}
+//};
 
 
 /// @name @PL{ Tablice przykładowych danych. } @EN{ Tables of sample data. }
@@ -74,7 +74,7 @@ float  dane4[25] = {15.7f,13.8f,33.33f,18.1f,18.8f,
                     0.99f,17.0f,19.0f,22.0f,11.4f,
                     14.5f,0.86f,0.14f,0.15f,0.89f,
                     15.33f,11.1f,32.13f,15.78f,19.9f,};
-int      dane5[] = {64,49,36,25,16,9,4,1,0};
+//int      dane5[] = {64,49,36,25,16,9,4,1,0};
 
 int        connections_s[] = {1,1,2,2,2,3,4,5,5,5,7, 8, 8, 8,9,10,11,20};
 const       size_t con_len = sizeof(connections_s) / sizeof(*connections_s);
@@ -86,17 +86,17 @@ float arr_weights[con_len] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
 /// @if POLISH
 /// @brief Obiekt zarządcy danych.
 /// @details
-/// Inicjowany ad hoc tworzonymi seriami czerpiącymi z tablic przykładowych.
-/// Zarządca danych nie sortuje serii i trzyma je w takiej kolejności
-/// w jakiej programista je wkładał w konstruktorze i później...
-/// Powyższa właściwość powinna być zachowana w klasach potomnych!
+///     Inicjowany ad hoc tworzonymi seriami czerpiącymi z tablic przykładowych.
+///     Zarządca danych nie sortuje serii i trzyma je w takiej kolejności
+///     w jakiej programista je wkładał w konstruktorze i później...
+///     Powyższa właściwość powinna być zachowana w klasach potomnych!
 /// @elseif ENGLISH
 /// @brief Data manager object.
 /// @details
-/// Initialized ad hoc with series created from sample arrays.
-/// The data manager does not sort the series and keeps them in the order
-/// the programmer inserted them in the constructor and later...
-/// This property should be preserved in descendant classes!
+///     Initialized ad hoc with series created from sample arrays.
+///     The data manager does not sort the series and keeps them in the order
+///     the programmer inserted them in the constructor and later...
+///     This property should be preserved in descendant classes!
 /// @endif
 sources_manager Series
             (16,
@@ -128,11 +128,11 @@ void make_test_areas()
     graph* pom;
     int ret=0;
 
-    /// @internal @PL{ Przyklejenie do niektórych seri nie-domyślnych atrybutów. }
+    // @internal @PL{ Przyklejenie do niektórych seri nie-domyślnych atrybutów. } @EN{ Sticking to some non-default attribute series. }
     ret=Series.set_info(Series.search("A-data"),default_color,new hash_point);						assert(ret!=-1);
     ret=Series.set_info(Series.search("C-data"),default_color,new circle_point);					assert(ret!=-1);
 
-    /// @internal @PL{ Tworzenie obszarów z wykresami. }
+    // @internal @PL{ Tworzenie obszarów z wykresami. } @EN{ Creating chart areas. }
     pom=new carpet_graph(1,1,89,89,5,5,Series.get(1));
     pom->set_title("CARPET GRAPH");
     Lufciki.insert(pom);
@@ -241,8 +241,8 @@ void make_test_areas()
     pom->set_title("MANHATTAN PLOT");
     Lufciki.insert(pom);
 
-    /// @internal @PL{ Tworzenie obszaru sterującego. "Na raty" dla debugging-u. }
-    ///           @EN{ Creating a control area. "Step by step" for debugging. }
+    // @internal @PL{ Tworzenie obszaru sterującego. "Na raty" dla debugging-u. }
+    //           @EN{ Creating a control area. "Step by step" for debugging. }
     auto* ser1=Series.get(0);												assert(ser1->valid_memory());
     auto* ser2=Series.get(2);												assert(ser2->valid_memory());
     auto* rer1=(rectangle_source_base*)ser1;												assert(rer1->valid_memory());
@@ -261,7 +261,7 @@ void make_test_areas()
 
 int main(int argc,const char* argv[])
 {
-    /*test_series();*/ /// @internal @PL{ Sprawdzanie poprawności seri. } @EN{ Series validation. }
+    /*test_series();*/ // @internal @PL{ Sprawdzanie poprawności seri. } @EN{ Series validation. }
 
     printf("SYMSHELL's AREA MANAGER TEST\n");
     printf("Use -help for graphic setup information.\n");
@@ -270,21 +270,21 @@ int main(int argc,const char* argv[])
     RANDOMIZE();
     */
 
-    /// @internal @PL{ Inicjalizacja połączenia z systemem graficznym. } @EN{ Initializing connection to the graphics system. }
+    // @internal @PL{ Inicjalizacja połączenia z systemem graficznym. } @EN{ Initializing connection to the graphics system. }
     if(!Lufciki.start("SYMSHELL's AREA MANAGER TEST",argc,argv))
     {
         printf("%s\n","Can't initialize graphics");
         exit(1);
     }
 
-    make_test_areas(); ///< @internal @PL{ PRZYGOTOWANIE WIZUALIZACJI. } @EN{ PREPARATION OF VISUALIZATION OBJECTS. }
+    make_test_areas(); //< @internal @PL{ PRZYGOTOWANIE WIZUALIZACJI. } @EN{ PREPARATION OF VISUALIZATION OBJECTS. }
 
-    Lufciki.run_input_loop(); ///< @internal @PL{ ODDAJE STEROWANIE JAK W Qt! NIE MOŻNA W TEN SPOSÓB ROBIĆ SYMULACJI! }
-                              ///< @EN{ TRANSFERS CONTROL AS IN Qt! SIMULATION CANNOT BE DONE THIS WAY! }
+    Lufciki.run_input_loop(); //< @internal @PL{ ODDAJE STEROWANIE JAK W Qt! NIE MOŻNA W TEN SPOSÓB ROBIĆ SYMULACJI! }
+                              //<           @EN{ TRANSFERS CONTROL AS IN Qt! SIMULATION CANNOT BE DONE THIS WAY! }
 
     printf("Bye,bye!!!\n");
     return 0;
-    /// @internal @PL{ Gdzieś tu albo trochę dalej destruktory... } @EN{ Somewhere here or a little further away there are destructors... }
+    // @internal @PL{ Gdzieś tu albo trochę dalej destruktory... } @EN{ Somewhere here or a little further away there are destructors... }
 }
 
 #pragma clang diagnostic pop
