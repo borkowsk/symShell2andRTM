@@ -197,12 +197,12 @@ public:
 /// @brief Rectangular layer template for any scalar (non-pointer!) type.
 /// @details Interface taken from `layer<>` and implementation from `rectangle_layer`.
 template<class SCALAR>
-class rectangle_unilayer:public layer<SCALAR>,public rectangle_layer
+class rectangle_layer_of: public layer<SCALAR>, public rectangle_layer
 #else
 /// @brief Szablon warstwy prostokątnej dla dowolnego typu skalarnego (nie-wskaźnikowego!).
 /// @details Interface bierze z `layer<>` a implementację z `rectangle_layer`.
 template<class SCALAR>
-class rectangle_unilayer:public layer<SCALAR>,public rectangle_layer
+class rectangle_layer_of:public layer<SCALAR>,public rectangle_layer
 #endif
 //------------------------------------------------------------------
 {
@@ -214,21 +214,21 @@ public:
     /// @param Width to oczywiście szerokość warstwy, czyli liczba kolumn.
     /// @param Height to oczywiście wysokość warstwy, czyli liczba wierszy.
     /// @param iclean to element wzorcowy dla elementów skasowanych/pustych.
-    rectangle_unilayer(size_t Width, size_t Height,
+    rectangle_layer_of(size_t Width, size_t Height,
                        const SCALAR& iclean
-            ):
-            rectangle_layer(Width,Height),
-            table(Width*Height),		//odpowiednia ilość elementów.
-            cleaner(iclean)
-        {
-            size_t N=table.get_size();
-            for(size_t i=0;i<N;i++)
-                table[i]=cleaner; //Każdy zostanie zainicjalizowany jako "pusty".
-        }
+            )
+    : rectangle_layer(Width,Height),
+      table(Width*Height),		//odpowiednia ilość elementów.
+      cleaner(iclean)
+    {
+        size_t N=table.get_size();
+        for(size_t i=0;i<N;i++)
+            table[i]=cleaner; //Każdy zostanie zainicjalizowany jako "pusty".
+    }
 
      /// @PL{ Destruktor wirtualny. } @EN{ Virtual destructor. }
      /// @details @PL{ Wbrew pozorom robi sporo, ale w ukryciu. } @EN{ Contrary to appearances, he does a lot, but in secret. }
-    ~rectangle_unilayer() override= default;
+    ~rectangle_layer_of() override= default;
 
     /// Zmiana cleaner-a.
     /// @param i_cleaner to nowy "element" do zamazywania.
@@ -251,7 +251,7 @@ public:
 // Metody Pure-virtual, które muszą zostać zdefiniowane dla każdej warstwy
 //==========================================================================
 
-    const geometry_base* get_geometry()
+    const geometry_base* get_geometry() override
     //Wypełnienie obowiązku pure-virtual
     { return &MainGeometry;}
 
@@ -382,7 +382,7 @@ public:
 // Metody Pure-virtual, które muszą zostać zdefiniowane dla każdej warstwy
 //==========================================================================
 
-    const geometry_base* get_geometry()
+    const geometry_base* get_geometry() override
     //Wypełnienie obowiązku pure-virtual
     { return &MainGeometry;}
 
@@ -760,7 +760,7 @@ public:
 //==========================================================================
 
     /// Wskaźnik do obowiązującej geometrii warstwy. Wypełnienie obowiązku pure-virtual
-    const geometry_base* get_geometry()
+    const geometry_base* get_geometry() override
     { return &MainGeometry;}
 
     /// Daje dostęp do elementu o indeksie obliczonym przez geometrie.
@@ -1143,7 +1143,7 @@ public:
     // Metody Pure-virtual, które muszą zostać zdefiniowane dla każdej warstwy
     //==========================================================================
 
-    const geometry_base* get_geometry()
+    const geometry_base* get_geometry() override
     //Wypełnienie obowiązku pure-virtual
     {
         return &MainGeometry;
