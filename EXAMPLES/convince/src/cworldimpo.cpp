@@ -25,7 +25,7 @@ int convWorld::implement_output(ostream& o) const
     o << convAgent::MinStrength << separator;
     o << convAgent::NumOfCate << separator;
 
-    o<<Agenci<<endl;
+    o << Agents << endl;
     return 1;
 }
 

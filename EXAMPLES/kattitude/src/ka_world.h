@@ -48,8 +48,8 @@ class ka_world: public sym2::shell::world
     // Warstwy symulacji (są torusami):
     // ////////////////////////////////
 
-    //rectangle_unilayer<unsigned char> suitability;		//!< Warstwa definiująca zdatność do zasiedlenia (suitability or usefulness)
-    rectangle_layer_of_ptr_to_agents<ka_agent> Agenci;		//!< Właściwa warstwa agentów zasiedlających.
+    //rectangle_layer_of<unsigned char> suitability;		//!< Warstwa definiująca zdatność do zasiedlenia (suitability or usefulness)
+    rectangle_layer_of_ptr_to_agents<ka_agent> Agents;		//!< Właściwa warstwa agentów zasiedlających.
 
     /// @name Główne serie danych.
     /// @details Wygodniej i efektywniej mieć wskaźniki niż odszukiwać z Sources po nazwach:

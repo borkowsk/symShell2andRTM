@@ -2,7 +2,7 @@
 /// @brief
 ///  @EN{ Virtual Input method implementation of the 'convWorld' type. }
 ///  @PL{ Implementacja metody wirtualnego wejścia typu 'convWorld'. }
-/// @date 2026-05-21 (modified)
+/// @date 2026-05-29 (modified)
 ///       ==============================================================
 /// @details
 ///     Its is rather simply implementation. You can replace it if you need.
@@ -27,12 +27,12 @@ int convWorld::implement_input(istream& i)
     i >> convAgent::MinStrength;
     i >> convAgent::NumOfCate;
 
-    rectangle_geometry* Geom=(rectangle_geometry*)Agenci.get_geometry();
+    rectangle_geometry* Geom=(rectangle_geometry*)Agents.get_geometry();
                                                                                                      assert(Geom!=NULL);
     if(Geom->get_width()!=MyWidth||
        Geom->get_height()!=MyWidth )
             Geom->set(MyWidth,MyWidth,1);
-    i>>Agenci;
+    i >> Agents;
     return 0;
 }
 

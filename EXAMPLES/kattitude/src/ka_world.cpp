@@ -133,30 +133,30 @@ ka_world::ka_world(
                     double	migration_prob,
                     double	majority
         )
- :  world(log_name,50),
-    MapLName(clone_str(map_l_name)),MappName(clone_str(mapp_name)),MaskName(clone_str(live_mask)),
+ : world(log_name,50),
+   MapLName(clone_str(map_l_name)), MappName(clone_str(mapp_name)), MaskName(clone_str(live_mask)),
   //Sub-obiekty właściwe dla tej symulacji
     MyWidth(Width),
-    Agenci(Width,Width,NULL), //Initializer == nullptr, więc tworzeni przez konstruktory, a nie klonowanie
+   Agents(Width, Width, NULL), //Initializer == nullptr, więc tworzeni przez konstruktory, a nie klonowanie
     MaxPower(max_sila),
-    ThrPower(thr_power), //Siła dająca odporność na zmiany
+   ThrPower(thr_power), //Siła dająca odporność na zmiany
     IleKate(ile_kate),
-    NeiDens(nei_density),
-    NeiSize(nei_radius),
-    Noise(noise),
-    LifeFill(fill),
-    MigrationProb(migration_prob),
-    WeightOfSelf(need_use_self),     //Z jaką wagą brać siebie pod uwagę (0..1).
+   NeiDens(nei_density),
+   NeiSize(nei_radius),
+   Noise(noise),
+   LifeFill(fill),
+   MigrationProb(migration_prob),
+   WeightOfSelf(need_use_self),     //Z jaką wagą brać siebie pod uwagę (0..1).
     NeedForClosure(need_for_closure), //Z jaką wagą brani są inni. Domyślnie 1.
     Synchronic(synchronously),
-    TakeAll(0), //Sąsiedztwo bez losowania
+   TakeAll(0), //Sąsiedztwo bez losowania
     //Wskaźniki do podstawowych seri danych
-    Firsts(NULL),Seconds(NULL),
-    Powers(NULL), //,Classify(NULL)
-    ptrStres(NULL),ptrClsSize(NULL),
-    ptrLastChanged(NULL),ptrLastMigration(NULL),
-    CountCh(0),CountMig(0),
-    Pressure(NULL),MaxPressure(0)
+    Firsts(NULL), Seconds(NULL),
+   Powers(NULL), //,Classify(NULL)
+    ptrStres(NULL), ptrClsSize(NULL),
+   ptrLastChanged(NULL), ptrLastMigration(NULL),
+   CountCh(0), CountMig(0),
+   Pressure(NULL), MaxPressure(0)
 {// Niewiele można zrobić, gdy nie można tu jeszcze polegać na wirtualnych metodach klasy świat.
     ka_agent::Power_change=walk_power;
     ka_agent::Majority=majority;
@@ -173,15 +173,15 @@ void ka_world::make_basic_sources()
     sources_manager& WhatSourMen=this->Sources;
 
     //Główne serie:
-    Firsts=Agenci.make_source("Attitude",&ka_agent::First);
+    Firsts=Agents.make_source("Attitude", &ka_agent::First);
     if(Firsts)
         Firsts->set_min_max(0, IleKate - 1);
-    Seconds=Agenci.make_source("Prev. attitude",&ka_agent::Second);
+    Seconds=Agents.make_source("Prev. attitude", &ka_agent::Second);
     if(Seconds)
         Seconds->set_min_max(0, IleKate - 1);
 
-    Powers=Agenci.make_source("Power",&ka_agent::Power);
-    Pressure=Agenci.make_source("Pressure",&ka_agent::Press);
+    Powers=Agents.make_source("Power", &ka_agent::Power);
+    Pressure=Agents.make_source("Pressure", &ka_agent::Press);
 
     MaxPressure= (MaxPower) * WeightOfSelf;
     MaxPressure+= (MaxPower) * NeedForClosure * (NeiDens > 0 ? NeiDens : sqr(NeiSize * 2 + 1) - 1   );
@@ -623,22 +623,22 @@ void ka_world::initialize_layers()
     //-------------------------
 
     //Wczytuje, używając konstruktora lub klonowania, gdy nie ma. Inicjuje resztę pól.
-    int from1= Agenci.init_from_bitmap(MappName.get_ptr_val(),&ka_agent::assignPow);
-    int from2= Agenci.init_from_bitmap(MapLName.get_ptr_val(), &ka_agent::assign_curr);
+    int from1= Agents.init_from_bitmap(MappName.get_ptr_val(), &ka_agent::assignPow);
+    int from2= Agents.init_from_bitmap(MapLName.get_ptr_val(), &ka_agent::assign_curr);
  //   int from3= Agents.init_from_bitmap(MapLName.get_ptr_val(),aagent::assign_prev);
 
     //Gdy nie zainicjowane, to prowizoryczna inicjacja przez konstruktory lub klonowanie
     if(from1!=1 && from2!=1)
-        Agenci.reallocate_all();
+        Agents.reallocate_all();
 
     //Zabija, gdy w masce jest czarny kolor
-    if(Agenci.init_from_bitmap(MaskName.get_ptr_val(),&ka_agent::killBlack) == 1 )
-        Agenci.deallocate_not_OK();
+    if(Agents.init_from_bitmap(MaskName.get_ptr_val(), &ka_agent::killBlack) == 1 )
+        Agents.deallocate_not_OK();
 
     if(LifeFill < 1) //Dealokacja nadmiarów
     {
         int how_many= toi( (1 - LifeFill) * (double)sqr(MyWidth) );
-        Agenci.clean_randomly(how_many);
+        Agents.clean_randomly(how_many);
     }
 
     first_call=0; //Koniec pierwszego wywołania //TYMCZASOWO!!!???
@@ -649,7 +649,7 @@ void ka_world::simulate_one_step()
 //---------------------------------------
 {   
     CountCh=CountMig=0; //Zerowanie liczników dynamizmu
-    const rectangle_geometry* MyGeom=dynamic_cast<const rectangle_geometry*>(Agenci.get_geometry());
+    const rectangle_geometry* MyGeom=dynamic_cast<const rectangle_geometry*>(Agents.get_geometry());
                                                                                                    assert(MyGeom!=nullptr);
 
     if(Synchronic)
@@ -662,9 +662,9 @@ void ka_world::simulate_one_step()
 
             assert(index!=MyGeom->FULL);				//Tutaj nie powinno się zdarzyć
 
-            ka_agent& CenterAgent=*(Agenci.get_ptr(index).get_ptr_val()); // Uzyskujemy referencje do agenta omijając asercje na nullptr (?)
+            ka_agent& CenterAgent=*(Agents.get_ptr(index).get_ptr_val()); // Uzyskujemy referencje do agenta omijając asercje na nullptr (?)
 
-            if(Agenci.is_empty(CenterAgent))	// Sprawdzamy, czy nie jest to pusta komórka (nullptr)
+            if(Agents.is_empty(CenterAgent))	// Sprawdzamy, czy nie jest to pusta komórka (nullptr)
                 continue;						// bo wtedy robić dalej byłoby bez sensu.
 
             if(CenterAgent.DurCh)
@@ -684,9 +684,9 @@ void ka_world::simulate_one_step()
 
             assert(index!=MyGeom->FULL);				//Tutaj nie powinno się zdarzyć
 
-            ka_agent& CenterAgent=*(Agenci.get_ptr(index).get_ptr_val()); // Uzyskujemy referencje do agenta omijając asercje na nullptr (?)
+            ka_agent& CenterAgent=*(Agents.get_ptr(index).get_ptr_val()); // Uzyskujemy referencje do agenta omijając asercje na nullptr (?)
 
-            if(Agenci.is_empty(CenterAgent))	// Sprawdzamy, czy nie jest to pusta komórka (nullptr)
+            if(Agents.is_empty(CenterAgent))	// Sprawdzamy, czy nie jest to pusta komórka (nullptr)
                 continue;
 
             CenterAgent.update();  //Ma nowy stan
@@ -708,9 +708,9 @@ void ka_world::simulate_one_step()
             size_t index=MyGeom->get_next(Monte); //Uzyskujemy index losowo wybranego agenta
                                                             assert(index!=MyGeom->FULL); //Tutaj nie powinno się zdarzyć
 
-            ka_agent& CenterAgent=*(Agenci.get_ptr(index).get_ptr_val()); // Uzyskujemy referencje do agenta omijając asercje na nullptr (?)
+            ka_agent& CenterAgent=*(Agents.get_ptr(index).get_ptr_val()); // Uzyskujemy referencje do agenta omijając asercje na nullptr (?)
 
-            if(Agenci.is_empty(CenterAgent))	// Sprawdzamy, czy nie jest to pusta komórka (nullptr)
+            if(Agents.is_empty(CenterAgent))	// Sprawdzamy, czy nie jest to pusta komórka (nullptr)
                 continue;						// bo wtedy robić dalej byłoby bez sensu.
 
             if(CenterAgent.Power <= ThrPower)		// Czy nie ma już immunitetu na zmiany
@@ -745,9 +745,9 @@ long ka_world::DoMigration( const rectangle_geometry* MyGeom, //Ta procedura jes
     do{
     TarX=RANDOM(MyGeom->get_width());
     TarY=RANDOM(MyGeom->get_height());
-    }while(Agenci.filled(TarX,TarY)); //Dopóki nie znajdzie pustego
+    }while(Agents.filled(TarX, TarY)); //Dopóki nie znajdzie pustego
 
-    Agenci.swap(TarX,TarY,SouX,SouY); //Zamienia miejsce
+    Agents.swap(TarX, TarY, SouX, SouY); //Zamienia miejsce
     return MyGeom->get(TarX,TarY);    //Nowa pozycja w postaci liniowej
 }
 
@@ -792,8 +792,8 @@ int ka_world::CheckChange(const rectangle_geometry* MyGeom,
         if(index2==geometry::FULL || index2==index)	//Gdy poza obszarem symulacji lub w
             continue;				//centrum obszaru to dalej byłoby bez sensu.
 
-        ka_agent& NeighAgent=*(Agenci.get_ptr(index2).get_ptr_val()); //Uzyskujemy referencje do sąsiada omijając asercje na nullptr (???)
-        if(Agenci.is_empty(NeighAgent))		//Sprawdzamy, czy nie jest to pusta komórka (nullptr)
+        ka_agent& NeighAgent=*(Agents.get_ptr(index2).get_ptr_val()); //Uzyskujemy referencje do sąsiada omijając asercje na nullptr (???)
+        if(Agents.is_empty(NeighAgent))		//Sprawdzamy, czy nie jest to pusta komórka (nullptr)
             continue;								// bo wtedy robić dalej byłoby bez sensu.
 
         zliczanie++;

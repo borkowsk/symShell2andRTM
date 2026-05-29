@@ -27,7 +27,7 @@ int ka_world::implement_output(ostream& o) const
     o <<WeightOfSelf  << separator;	//Jak ma brać siebie pod uwagę?
     o <<NeedForClosure<< separator;	//Jak ma brać innych (waga)?
     o <<Noise  << separator<<endl;	//Szum informacyjny
-    o <<Agenci <<endl;
+    o << Agents << endl;
     return 1;
 }
 

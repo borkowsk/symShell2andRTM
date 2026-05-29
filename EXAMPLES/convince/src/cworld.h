@@ -39,7 +39,7 @@ class convWorld: public sym2::shell::world
     // Simulation layer(s):
     // ////////////////////
 
-    rectangle_layer_of_ptr_to_agents<convAgent>	Agenci;	//!< @brief @EN{ The agent layer. It is a torus. } @PL{ ... }
+    rectangle_layer_of_ptr_to_agents<convAgent>	Agents;	//!< @brief @EN{ The agent layer. It is a torus. } @PL{ ... }
 
     /// @name @EN{ Main data series - it's more convenient to have pointers than to search from `Sources` by name: }
     ///       @PL{ ... }

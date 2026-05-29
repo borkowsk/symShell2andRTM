@@ -41,7 +41,7 @@ class kWorld: public sym2::shell::world
     /// @name @EN{ Simulation layers (both are tori): } @PL{ Warstwy symulacji (są torusami): }
     // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /// @{
-    //rectangle_unilayer<unsigned char> zdatność; //Warstwa definiująca zdatność do zasiedlenia
+    //rectangle_layer_of<unsigned char> zdatność; //Warstwa definiująca zdatność do zasiedlenia
     sym2::shell::rectangle_layer_of_ptr_to_agents<kAgent> Agents;	///< @brief @PL{ Właściwa warstwa agentów zasiedlających.}
                                                                     ///< @EN{  }
     /// @}

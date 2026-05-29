@@ -30,11 +30,11 @@ int ka_world::implement_input(istream& i)
     i>>WeightOfSelf;	//Jak ma brać siebie pod uwagę
     i>>NeedForClosure;	//Jak ma brać innych (waga)
     i>>Noise;			//Szum informacyjny
-    rectangle_geometry* Geom=(rectangle_geometry*)Agenci.get_geometry();                          assert(Geom != NULL);
+    rectangle_geometry* Geom=(rectangle_geometry*)Agents.get_geometry();                          assert(Geom != NULL);
     if(Geom->get_width()!=MyWidth||
        Geom->get_height()!=MyWidth )
             Geom->set(MyWidth,MyWidth,1);
-    i>>Agenci;
+    i >> Agents;
 
     return 0;
 }

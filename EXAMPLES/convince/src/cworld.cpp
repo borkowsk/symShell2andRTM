@@ -127,9 +127,9 @@ convWorld::convWorld(
   MaskName(clone_str(iLive_mask)),
   //Sub-objects specific to this simulation:
   MyWidth(iWidth),
-  Agenci(iWidth,iWidth,NULL),
+  Agents(iWidth, iWidth, NULL),
   //Pointers to basic data series
-  Firsts(NULL),Seconds(NULL),Powers(NULL)
+  Firsts(NULL), Seconds(NULL), Powers(NULL)
 {// There is not too much that can be done because we cannot rely on virtual methods of the world class yet.
     convAgent::MinStrength=iMin_strength;
     convAgent::MaxStrength=iMax_strength;
@@ -152,15 +152,15 @@ void convWorld::make_basic_sources()
     world::make_basic_sources(); //Odziedziczone
 
     //Creation of the main data series:
-    Firsts=Agenci.make_source("Attitude",&convAgent::First);
+    Firsts=Agents.make_source("Attitude", &convAgent::First);
     if(Firsts)
         Firsts->set_min_max(0, convAgent::NumOfCate - 1);
 
-    Seconds=Agenci.make_source("Prev. attitude",&convAgent::Second);
+    Seconds=Agents.make_source("Prev. attitude", &convAgent::Second);
     if(Seconds)
         Seconds->set_min_max(0, convAgent::NumOfCate - 1);
 
-    Powers=Agenci.make_source("Power",&convAgent::Power);
+    Powers=Agents.make_source("Power", &convAgent::Power);
 
     //Placing the main series in the series manager:
     WhatSourMen.insert(Firsts);
@@ -483,17 +483,17 @@ void convWorld::initialize_layers()
     //============================
 
     //It loads using the constructor, so it initializes the rest of the fields as well:
-    int from1= Agenci.init_from_bitmap(MappName.get_ptr_val(),&convAgent::assignPow);
+    int from1= Agents.init_from_bitmap(MappName.get_ptr_val(), &convAgent::assignPow);
     //And here it changes some fields:
-    int from2= Agenci.init_from_bitmap(MapLName.get_ptr_val(), &convAgent::assign123);
+    int from2= Agents.init_from_bitmap(MapLName.get_ptr_val(), &convAgent::assign123);
 
     //However, if not initialized, then temporary initialization via constructors or cloning:
     if(from1!=1 && from2!=1)
-        Agenci.reallocate_all();
+        Agents.reallocate_all();
 
     // Removes the agent if the mask contains black color.
-    if(Agenci.init_from_bitmap(MaskName.get_ptr_val(),&convAgent::killBlack) == 1 )
-        Agenci.deallocate_not_OK();
+    if(Agents.init_from_bitmap(MaskName.get_ptr_val(), &convAgent::killBlack) == 1 )
+        Agents.deallocate_not_OK();
 
     first=0; //End of first run of initialization. There will be prints in the next runs.
 }
@@ -502,10 +502,10 @@ void convWorld::initialize_layers()
 void convWorld::simulate_one_step()
 // Single simulation step:
 {
-    const rectangle_geometry* MyGeom=dynamic_cast<const rectangle_geometry*>(Agenci.get_geometry());	assert(MyGeom!=NULL);
+    const rectangle_geometry* MyGeom=dynamic_cast<const rectangle_geometry*>(Agents.get_geometry());	assert(MyGeom != NULL);
     for(size_t len=MyGeom->get_size(),i=0;i<len;i++)
     {
-        convAgent& a = Agenci.get(i);
+        convAgent& a = Agents.get(i);
         a.save_state();
     }
 
@@ -514,7 +514,7 @@ void convWorld::simulate_one_step()
     {
         long x=RANDOM(MyWidth);																assert(x<MyWidth);
         long y=RANDOM(MyWidth);																assert(y<MyWidth);
-        convAgent& CenterAgent=Agenci(x, y);
+        convAgent& CenterAgent=Agents(x, y);
 
         if(CenterAgent.First==0) //no view on sports/entertainment
         {
@@ -541,7 +541,7 @@ void convWorld::simulate_one_step()
 
                 size_t nx,ny; //Local variables to retrieve data by reference.
                 MyGeom->WhatCoordinates(index2,nx,ny);
-                if(Agenci(nx,ny).First==Agenci(x,y).First)
+                if(Agents(nx, ny).First == Agents(x, y).First)
                 {
                     koledzy[ilu][0]=toi(nx);
                     koledzy[ilu][1]=toi(ny);
@@ -593,7 +593,7 @@ void convWorld::simulate_one_step()
                         {
                             size_t ConvertedIndex=MyGeom->get(i,j);              assert(ConvertedIndex!=geometry::FULL);
                                                                                  assert(ConvertedIndex<MyWidth*MyWidth);
-                            convAgent& ForModify=Agenci.get(ConvertedIndex);
+                            convAgent& ForModify=Agents.get(ConvertedIndex);
                             if(ForModify.First==0 && DRAND() < convAgent::NewInfectProb)
                                 ForModify.First=CenterAgent.First; //TMP?
                         }
