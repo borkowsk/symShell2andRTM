@@ -1,7 +1,7 @@
 /// @file
 /// @brief __The base type for filters containing subsources__ /<br>
 ///         _Podstawowa klasa dla filtrów zawierających pod-źródła_
-/// @date 2026-05-19 (modified)
+/// @date 2026-05-31 (modified)
 //==============================================================================
 //
 #ifndef SYMSHELL2_MULTI_FILTER_SOUR_HPP_INCLUDED_
@@ -186,14 +186,14 @@ public:
 
     /// Zwraca minimum i maksimum z danych źródłowych, ale N zwraca 0.
     /// Chodzi chyba o to, żeby zablokować czytanie, które dla klasy bazowej jest bez sensu.
-    void bounds(size_t &N, double &min, double &max)
+    void bounds(size_t &N, double &min, double &max) override
     {
         check_version_(); //Tu może być update, bo zakres musi być zawsze aktualny
         template_filter_source_base<DATA_SOURCE>::bounds(N, min, max);
         N = 0; //Nie można sięgać do tych danych bezpośrednio jako do seri.
     }
 
-    data_source_base::iterator_h reset()	//Nie ma możliwości bezpośredniego czytania
+    data_source_base::iterator_h reset()	override //Nie ma możliwości bezpośredniego czytania
     {
         check_version_();
         return NULL;

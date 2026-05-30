@@ -1,7 +1,7 @@
 /// @file
 /// @brief **Definition of the base type and templates specialization of simulation layers ** /<br>
 ///         _Definicja bazy i szablonów warstw symulacji._
-/// @date 2026-05-30 (modified)
+/// @date 2026-05-31 (modified)
 // ********************************************************************************************************************
 #ifndef SYMSHELL2_LAYER_HPP_INCLUDED_
 #define SYMSHELL2_LAYER_HPP_INCLUDED_
@@ -106,7 +106,7 @@ class layer:public any_layer_base
 public:
     /// @brief @PL{ Akcesor dający dostęp do elementu o indeksie obliczonym przez geometrie. }
     ///        @EN{ An accessor that gives access to an element with an index calculated by the geometry. }
-    virtual TYPE& get(lin_index_t index)=0;
+    virtual TYPE& get(any_layer_base::lin_index_t index)=0;
 };
 
 #ifdef USE_ENGLISH_IF_POSSIBLE
@@ -256,7 +256,7 @@ public:
     { return &MainGeometry;}
 
     /// Daje dostęp do elementu o indeksie obliczonym przez geometrie.
-    SCALAR& get(geometry_base::index_t index)
+    SCALAR& get(any_layer_base::lin_index_t index) override
     { return table[index]; }
 
     /// @name Metody specyficzne dla warstw prostokątnych.
@@ -386,7 +386,7 @@ public:
     //Wypełnienie obowiązku pure-virtual
     { return &MainGeometry;}
 
-    STRUCT_T& get(geometry_base::index_t index)
+    STRUCT_T& get(any_layer_base::lin_index_t index) override
     //Daje dostęp do elementu o indeksie obliczonym przez geometrie
     { return table[index]; }
 
@@ -621,7 +621,7 @@ public:
 
     /// @name Implementacja wejścia/wyjścia. Zwracają 1, jeśli sukces!
     /// @{
-    int		implement_input(istream& i)
+    int		implement_input(istream& i) override
     {
         i>>table;
 
@@ -630,7 +630,7 @@ public:
         return 1;
     }
 
-    int		implement_output(ostream& o) const
+    int		implement_output(ostream& o) const override
     {
         o<<table;
         if(o.fail())
@@ -764,7 +764,7 @@ public:
     { return &MainGeometry;}
 
     /// Daje dostęp do elementu o indeksie obliczonym przez geometrie.
-    AGENT& get(size_t index)
+    AGENT& get(any_layer_base::lin_index_t index) override
     { return table[index]; }
 
 // Metody specyficzne dla warstw prostokątnych
@@ -1150,10 +1150,8 @@ public:
     }
 
     /// Daje dostęp do elementu o indeksie obliczonym przez geometrie.
-    AGENT& get(size_t index)
-    {
-        //assert(index<);Sprawdzenie zakresu
-                                            assert(index!=any_layer_base::FULL);
+    AGENT& get(any_layer_base::lin_index_t index) override
+    {                                                                               assert(index!=any_layer_base::FULL);
         if(!table[index]) //wb_ptr ma NULL
             return *empty_guard;
         else
@@ -1286,31 +1284,35 @@ public:
     virtual
         ptr_to_struct_matrix_source<AGENT,unsigned short>* make_source(const char* name,unsigned short AGENT::* field_ptr)
     {
-        return new ptr_to_struct_matrix_source<AGENT,unsigned short>(name,
-            MainGeometry,
-            (AGENT**)table.get_ptr_val(),
-            field_ptr
-            );
+        return new ptr_to_struct_matrix_source<AGENT,unsigned short>(   name,
+                                                                        MainGeometry,
+                                                                        (AGENT**)table.get_ptr_val(),
+                                                                        field_ptr
+                                                                        );
     }
 
-    virtual
+    virtual /// @note "unsigned long" nie mieści się w całości w typie "double", a to może tworzyć problemy,
+            /// choćby z missing values.
         ptr_to_struct_matrix_source<AGENT,unsigned long>* make_source(const char* name,unsigned long AGENT::* field_ptr)
     {
-        return new ptr_to_struct_matrix_source<AGENT,unsigned long>(name,
-            MainGeometry,
-            (AGENT**)table.get_ptr_val(),
-            field_ptr
-            );
+        double missing=default_missing<unsigned long>();
+        return new ptr_to_struct_matrix_source<AGENT,unsigned long>( name,
+                                                                     MainGeometry,
+                                                                     (AGENT**)table.get_ptr_val(),
+                                                                     field_ptr,
+                                                                     NULL,
+                                                                     missing
+                                                                   );
     }
 
     virtual
         ptr_to_struct_matrix_source<AGENT,short>* make_source(const char* name,short AGENT::* field_ptr)
     {
-        return new ptr_to_struct_matrix_source<AGENT,short>(name,
-            MainGeometry,
-            (AGENT**)table.get_ptr_val(),
-            field_ptr
-            );
+        return new ptr_to_struct_matrix_source<AGENT,short>( name,
+                                                             MainGeometry,
+                                                             (AGENT**)table.get_ptr_val(),
+                                                             field_ptr
+                                                           );
     }
 
 
@@ -1385,37 +1387,41 @@ public:
                                                                 );
     }
 
-    virtual
+    virtual /// @note "unsigned long" nie mieści się w całości w typie "double", a to może tworzyć problemy,
+            /// choćby z missing values.
         method_by_ptr_matrix_source<AGENT,unsigned long int>* make_source(const char* name,unsigned long int (AGENT::* method_ptr)())
     {
+        double missing=default_missing<unsigned long int>();
         return new method_by_ptr_matrix_source<AGENT,unsigned long int>(name,
                                                                         MainGeometry,
                                                                         (AGENT**)table.get_ptr_val(),
-                                                                        method_ptr
+                                                                        method_ptr,
+                                                                        NULL,
+                                                                        missing
                                                                         );
     }
 
-//    virtual
+//    virtual //Z funkcjami "const" jest jeszcze większy problem...
 //    method_by_ptr_matrix_source<AGENT, unsigned long int>* make_source(const char* name,unsigned long int (AGENT::* method_ptr)() const)
 //    {
 //        return new method_by_ptr_matrix_source<AGENT, unsigned long> (name,
-//                                                                    MainGeometry,
-//                                                                    (AGENT**)table.get_ptr_val(),
-//                                                                    method_ptr
-//        );
+//                                                                      MainGeometry,
+//                                                                      (AGENT**)table.get_ptr_val(),
+//                                                                      method_ptr
+//                                                                      );
 //    }
     /// @}
 
     /// @name Implementacja wejścia/wyjścia. Zwracają 1, jeśli sukces!
     /// @{
-    int		implement_output(ostream& o) const
+    int		implement_output(ostream& o) const override
     {
         o << table << ' ' << model_object << ' '; //Obiekt do zamazywania
         o<<empty_guard<<' '<<full_allocation<<' '; //Zwracany jako reprezentant pustych pól
         return 1;
     }
 
-    int		implement_input(istream& i)
+    int		implement_input(istream& i) override
     {
         i>>table;
         i >> model_object;

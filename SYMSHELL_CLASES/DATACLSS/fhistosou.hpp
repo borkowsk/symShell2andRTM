@@ -1,7 +1,7 @@
 /// @file
 /// @brief __A filter that counts the number of categories and derived statistics.__ /<br>
 ///         _Filtr liczący liczebność określonej liczby klas serii i pochodne statystyki._
-/// @date 2026-05-20 (modified)
+/// @date 2026-05-31 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_FIXED_CLAS_HISTOGRAM_SOUR_HPP_INCLUDED_
@@ -121,7 +121,7 @@ public:
     }
 
     /// Umieszcza wszystkie skalarne pod-źródła w podanym w konstruktorze zarządcy danych.
-    void all_subseries_required()	//Alokuje i ewentualnie rejestruje w zarządcy wszystkie serie
+    void all_subseries_required()	override //Alokuje i ewentualnie rejestruje w zarządcy wszystkie serie
     {
         basic_statistics_source<DATA_SOURCE>::all_subseries_required();
         MainClass();
@@ -133,7 +133,7 @@ public:
     }
 
     /// Ile koszyków, liczebności w najmniejszym i największym koszyku.
-    void bounds(size_t &num, double &min, double &max)
+    void bounds(size_t &num, double &min, double &max) override
     {
         base_type::check_version_(); //Uaktualnia też wersje pod-źródła, jeśli trzeba
         _calculate(); //Sprawdza, czynie trzeba policzyć i ewentualnie liczy
@@ -142,10 +142,10 @@ public:
         max = base_type::y_max;
     }
 
-    data_source_base::iterator_h reset(); ///< Umożliwia czytanie wartości koszyków iteratorem od początku.
-    void close(data_source_base::iterator_h &p); ///< Usuwa iterator
-    double get(data_source_base::iterator_h &ptr_to_iterator); ///< Daje następną z N wartości koszyków.
-    double get(size_t index); /// Przetwarza index koszyka na jego wartość.
+    data_source_base::iterator_h reset() override; ///< Umożliwia czytanie wartości koszyków iteratorem od początku.
+    void close(data_source_base::iterator_h &p) override; ///< Usuwa iterator
+    double get(data_source_base::iterator_h &ptr_to_iterator) override; ///< Daje następną z N wartości koszyków.
+    double get(size_t index) override; /// Przetwarza index koszyka na jego wartość.
 };
 
 // NAJBARDZIEJ KOSZTOWNE OBLICZENIOWE:

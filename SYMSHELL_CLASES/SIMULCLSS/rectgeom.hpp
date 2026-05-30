@@ -1,6 +1,6 @@
 /// @file
 /// @brief **RECTANGULAR GEOMETRY** /<br> _GEOMETRIA PROSTOKĄTNA._
-/// @date 2026-05-20 (modified)
+/// @date 2026-05-31 (modified)
 ///      Pierwsza i główna specjalizacja. Heksagonalnej i sieciowej nigdy nie napisałem, choć były w planie.
 // ********************************************************************************************************************
 //
@@ -42,14 +42,20 @@ protected:
     RandomGenerator& RndSel;	//!< Maszyna losująca pozycje.
 
 public:
-    RandomGenerator& 	get_rnd() { return RndSel; }	//!< Dostęp do odpowiedniego generatora liczb pseudolosowych.
+    /// @brief @PL{ Dostęp do wybranego generatora liczb pseudolosowych. }
+    ///        @EN{ .... }
+    RandomGenerator& 	get_rnd() { return RndSel; }
 
     /// @brief @PL{ Struktura do globalnej iteracji po tablicy. } @EN{ A structure for global array iteration. }.
     struct iterator:public geometry_base::iterator_base
     {
         size_t i,j;	//!< Iteracja po wierszach i kolumnach
-        size_t sub_width,sub_height;	//!< Parametry zaznaczonego wycinka
+
+        /// @name @PL{ Parametry zaznaczonego wycinka } @EN{ ... }
+        /// @{
+        size_t sub_width,sub_height;	//!< ...
         long horiz_start,vert_start;	//!< ...
+        /// @}
 
         /// Konstruktor inicjujący wycinek danych.
         iterator(long hors,long vers,size_t sub_w,size_t sub_h)
@@ -57,12 +63,14 @@ public:
           horiz_start(hors),sub_width(sub_w),vert_start(vers),sub_height(sub_h)
         {}
 
+        /// Wirtualny destruktor.
         ~iterator() override
         {
             //	cerr<<"rectangle_geometry::~iterator() ";
         }
 
-        /// Implementacja pobrania następnego elementu.
+        ///  @brief @PL{ Implementacja pobrania następnego elementu. }
+        ///         @EN{ .... }
         void _next(const geometry_base& geo,index_t& ret,index_t& end) override
         {
             rectangle_geometry* MyGeo=(rectangle_geometry*)&geo; //Dostęp do pól
@@ -83,12 +91,13 @@ public:
     /// @brief @PL{ Struktura do losowej iteracji po tablicy. } @EN{ A structure for random iteration over an array. }
     struct monte_carlo_iterator:public geometry_base::iterator_base
     {
-        size_t			how_many;	//!< Do zliczania w dół
+        size_t			how_many;	//!< Do zliczania w dół(?)
+
         /// @name Parametry zaznaczonego wycinka
         /// @{
-        size_t		  sub_width;
-        size_t		 sub_height;
-        long		horiz_start;
+        size_t		  sub_width;	//!< ...
+        size_t		 sub_height;	//!< ...
+        long		horiz_start;	//!< ...
         long		 vert_start;	//!< ...
         /// @}
 
@@ -102,12 +111,14 @@ public:
             // cerr<<"monte_carlo_iterator:"<<ile<<"["<<horiz_start<<"+"<<sub_width<<"|"<<vert_start<<"+"<<sub_width<<"]"<<endl;
         }
 
+        /// Wirtualny destruktor.
         ~monte_carlo_iterator() override
         {
             // cerr<<"~monte_carlo_iterator() ";
         }
 
-        /// Implementacja pobrania następnego elementu.
+        /// @brief @PL{ Implementacja pobrania następnego elementu. }
+        ///        @EN{ .... }
         void _next(const geometry_base& geo,index_t& ret,index_t& end) override
         {
             rectangle_geometry* MyGeo=(rectangle_geometry*)&geo;
@@ -133,8 +144,9 @@ public:
     // METODY IMPLEMENTUJĄCE OGÓLNE WŁAŚCIWOŚCI GEOMETRII:
     //====================================================
 
-    /// Porównanie geometrii z założeniem, że ta dryga też jest prostokątna.
-    /// Najpierw jednak używa `geometry_base::_compare_geometry_base`.
+    /// @brief @PL{ Porównanie geometrii z założeniem, że ta druga też jest prostokątna. }
+    ///        @EN{ .... }
+    /// @details Najpierw jednak używa `geometry_base::_compare_geometry_base`.
     int  compare(geometry_base& b_sec) override
     {
         if( _compare_geometry_base(&b_sec)==0 ) //Czy jest tego samego typu i wymiaru
@@ -151,20 +163,23 @@ public:
         return -1;
     }
 
-    /// Informacja o rozmiarze użytecznej przestrzeni.
-    /// @note W wersji bezparametrowej zwraca coś zaalokowanego, co trzeba potem zdealokować!
+    /// @brief @PL{ Informacja o rozmiarze użytecznej przestrzeni. }
+    ///        @EN{ .... }
+    /// @note @PL{ W wersji bezparametrowej zwraca coś zaalokowanego, co trzeba potem zdealokować! }
+    ///       @EN{ .... }
     MD_info* get_info(MD_info* Info/* =nullptr */) const override
     {                                                                                  assert(columns>0);assert(rows>0);
-
         if(Info==nullptr)
             Info=new MD_info; //Teraz już nie może być pusty.
+
         //Set information:
         Info->max.X()= columns - 1;
         Info->max.Y()= rows - 1;
         return Info;
     }
 
-    /// Informacja o maksymalnej możliwej odległości. Potrzebna np. dla "Spatial correlation".
+    /// @brief @PL{ Informacja o maksymalnej możliwej odległości. Potrzebna np. dla "Spatial correlation". }
+    ///        @EN{ .... }
     double      get_max_distance() const override
     {
         double ret=(columns * columns + rows * rows);
@@ -174,7 +189,8 @@ public:
         return ret;
     }
 
-    /// Informacja o położeniu i zasięgu kamery dla `view_iterator`-a.
+    /// @brief @PL{ Informacja o położeniu i zasięgu kamery dla `view_iterator`-a. }
+    ///        @EN{ .... }
     /// @note W wersji bezparametrowej zwraca coś zaalokowanego, co trzeba potem zdealokować!
     view_info* get_view_info(view_info* Info) const override
     {
@@ -190,7 +206,8 @@ public:
         return Info;
     }
 
-    /// Ustawianie położenia i zasięgu kamery dla `view_iterator`.
+    /// @brief @PL{ Ustawianie położenia i zasięgu kamery dla `view_iterator`. }
+    ///        @EN{ .... }
     /// @note sst jest ignorowane (???)
     int set_view_info(const view_info* Info) override
     {
@@ -250,19 +267,24 @@ public:
         return -1;
     }
 
-    /// Tworzy iterator po całości. Umożliwia następnie czytanie od początku całej tablicy lub wycinka.
+    /// @brief
+    /// @PL{ Tworzy iterator po całości. Umożliwia następnie czytanie od początku całej tablicy lub wycinka. }
+    /// @EN{ ... }
     iterator_h make_global_iterator() const override
     {
         return new iterator(0, 0, columns, rows);
     }
 
-    /// Tworzy iterator po obszarze wizualizacji. Umożliwia następnie czytanie wycinka wybranego do wizualizacji.
+    /// @brief
+    /// @PL{ Tworzy iterator po obszarze wizualizacji. Umożliwia następnie czytanie wycinka wybranego do wizualizacji. }
+    /// @En{ ... }
     iterator_h make_view_iterator() const override
     {
         return new iterator(sSZER,sWYS,lSZER,lWYS);
     }
 
-    /// Tworzy globalny iterator monte-carlo.
+    /// @brief
+    /// @PL{ Tworzy globalny iterator monte-carlo. } @EN{ ... }
     iterator_h make_random_global_iterator(size_t how_many/*=-1*/) const override
     {
          if(how_many==size_t(-1))
@@ -270,7 +292,8 @@ public:
          return new monte_carlo_iterator(how_many, 0, 0, columns, rows);
     }
 
-    /// Tworzy iterator po sąsiadach.
+    /// @brief
+    /// @PL{ Tworzy iterator po sąsiadach ("neighbours"). }  @EN{ ... }
     iterator_h make_neighbour_iterator(size_t center, size_t dist/*=1*/)  const override
     {
         long x= center % columns - dist;
@@ -280,7 +303,8 @@ public:
         return new iterator(x, y, lenX, lenY);
     }
 
-    /// Tworzy losowy iterator po sąsiadach.
+    /// @brief
+    /// @PL{ Tworzy losowy iterator po sąsiadach. }  @EN{ ... }
     iterator_h make_random_neighbour_iterator(size_t center, size_t dist/*=1*/, size_t how_many/*=-1*/)  const override
     {
         long x= center % columns - dist;
@@ -295,7 +319,7 @@ public:
     // METODY SPECYFICZNE TYLKO DLA GEOMETRII PROSTOKĄTNEJ:
     //=====================================================
 
-    /// @name bezpośrednie akcesory rozmiarowe
+    /// @name @PL{ bezpośrednie akcesory rozmiarowe } @EN{ ... }
     /// @{
     size_t	get_size() const { return _currSize;}
     size_t	get_height() const { return rows;}
@@ -307,8 +331,9 @@ public:
     bool	is_torus() const { return torus;}
     /// @}
 
-    /// Specyficzna dla tej geometrii transformacja do indeksu liniowego.
-    /// Gwarantuje poprawna prace dla zakresu:
+    /// @brief @PL{ Specyficzna dla tej geometrii transformacja do indeksu liniowego. }
+    ///        @EN{ ... }
+    /// @details @PL{ Gwarantuje poprawna prace dla zakresu: }  @EN{ ... }
     ///```
     ///			x in < -columns, 2*columns
     ///			y in < -rows, 2*rows
@@ -349,12 +374,12 @@ public:
                         RandomGenerator& RndIni	//!< Generator do losowania elementów.
                                         =TheRandG	//!< Domyślnie z całości i sąsiedztwa! RÓWNOMIERNIE!
                         )
-                : geometry_base(2),
-                  columns(iA), rows(iB),
-                  torus(iTorus),
-                  sSZER(0), sWYS(0),
-                  lSZER(iA), lWYS(iB),
-                  RndSel(RndIni)
+    : geometry_base(2),
+      columns(iA), rows(iB),
+      torus(iTorus),
+      sSZER(0), sWYS(0),
+      lSZER(iA), lWYS(iB),
+      RndSel(RndIni)
     {
         assert(columns > 0);
         assert(rows > 0);
@@ -376,7 +401,7 @@ public:
         }
     }
 
-    /// Ustawianie.
+    /// @PL{ Ustawianie. } @EN{ Settings. }
     void  set(	size_t		iA,				//!< Szerokość pełnego obszaru.
                 size_t		iB,				//!< Wysokość pełnego obszaru.
                 int		iTorus=1,			//!< Określa, czy włączyć geometrie torusa.
@@ -396,7 +421,9 @@ public:
     }
 
 
-    /// Informacja o odległości dwóch obiektów o określonych indeksach. Dla "Spatial correlation" i ważenia oddziaływań.
+    /// @brief
+    /// @PL{ Informacja o odległości dwóch obiektów o określonych indeksach. Dla "Spatial correlation" i ważenia oddziaływań. }
+    /// @EN{ ... }
     /// @note Mogłoby mieć "cache-owanie" obliczonych odległości, ale aktualnie wykomentowane.
     double      get_distance(size_t first,size_t second) const override
     {/*
@@ -455,8 +482,10 @@ public:
         }
     }
 
-    /// Przekształca indeks na koordynaty w warstwie.
-    /// @return `true` jak jest to wykonalne, `false` w przeciwnym razie.
+    /// @brief @PL{ Przekształca indeks na koordynaty w warstwie. }
+    ///        @EN{ .... }
+    /// @return @PL{ `true` jak jest to wykonalne, `false` w przeciwnym razie. }
+    ///         @EN{ .... }
     bool WhatCoordinates(const size_t index,size_t& x,size_t& y) const
     {
         if(index< (unsigned long)(columns) * rows)
