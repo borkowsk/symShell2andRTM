@@ -2,7 +2,7 @@
 /// @brief
 ///     @EN{ Old example for SymShell implementing the Kruglanski's like model. }
 ///     @PL{ Stary przykład SymShell-a implementujący model podobnego do modelu Kruglanski-ego. }
-/// @date 2026-05-29 (modified)
+/// @date 2026-05-30 (modified)
 ///       =======================================================================================
 /// @details
 ///  Symulacja Need for closure wg teorii Arie Kruglanski-ego
@@ -38,39 +38,39 @@ using namespace sym2::data;
 using namespace sym2::shell;
 using namespace sym2::visual;
 
-/// @name @PL{ Rozmiary użytkowej przestrzeni okna i bok świata. } @EN{  }
+/// @name @PL{ Rozmiary użytkowej przestrzeni okna i bok świata. } @EN{ Dimensions of usable window space and side of the world. }
 /// @{
 int       SCR_WIDTH=750;
 int      SCR_HEIGHT=550;
 unsigned WorldWidth=100;
 /// @}
 
-/// @name @PL{ Parametry Modelu. } @EN{  }
+/// @name @PL{ Parametry Modelu. } @EN{ Model Parameters. }
 /// @{
 double Fill=1;				///< @brief @PL{ 0.001 do 1 - początkowe wypełnienie przestrzeni agentów (wykonywane przez losowe usuwanie!!!). }
-                            ///<        @EN{  }
-double Majority=0.050;		///< @brief @PL{ Jaka część społeczeństwa będzie początkowo wyznawać "czarny" pogląd. } @EN{  }
-double Minority=0.025;		///< @brief @PL{ Jaka część społeczeństwa będzie początkowo wyznawać "biały" pogląd. } @EN{  }
-double SelfWeight=9;		///< @brief @PL{ Poprzednie opinie ważą 9:1. } @EN{  }
-double NeedForClosure=1;	///< @brief @PL{ Intensywność poszukiwań i potęga siły. } @EN{  }
+                            ///<         @EN{ 0.001 to 1 - initial filling of agent space (performed by random removal!!!). }
+double Majority=0.050;		///< @brief @PL{ Jaka część społeczeństwa będzie początkowo wyznawać "czarny" pogląd. } @EN{ What proportion of society will initially hold the "black" view? }
+double Minority=0.025;		///< @brief @PL{ Jaka część społeczeństwa będzie początkowo wyznawać "biały" pogląd. } @EN{ What proportion of society will initially hold the "white" view? }
+double SelfWeight=9;		///< @brief @PL{ Waga własnej opinii. Zebrane opinie ważą 9:1. } @EN{ The weight of your own opinion. Collected opinions weigh 9:1 }
+double NeedForClosure=1;	///< @brief @PL{ Intensywność poszukiwań i potęga siły(?). } @EN{ The intensity of the search and the power of the force(?). }
 double MigrationProb=0;		///< @brief @PL{ Prawdopodobieństwo migracji, jeśli presja otoczenia wskazuje na zmianę poglądów. }
-                            ///<        @EN{  }
-short  HowManyToDraw=1;		///< @brief @PL{ Ilu wybierać losowo do rozmowy. } @EN{  }
-short  MaximalPower=100;	///< @brief @PL{ Największa siła. } @EN{  }
-int    NoisePercent=0;		///< @brief @PL{ Szum informacyjny przy zbieraniu danych. } @EN{  }
-short  Threshold=100;		///< @brief @PL{ Jakiego wpływu zmiana "poglądu" się fiksuje. } @EN{  }
-double MutationProb=0;		///< @brief @PL{ Prawdopodobieństwo spontanicznej zmiany. } @EN{  }
+                            ///<         @EN{ Likelihood of migration if peer pressure indicates a change of mind. }
+short  HowManyToDraw=1;		///< @brief @PL{ Ilu wybierać losowo do rozmowy. } @EN{ How many to choose randomly for conversation. }
+short  MaximalPower=100;	///< @brief @PL{ Największa siła. } @EN{ The greatest strength. }
+int    NoisePercent=0;		///< @brief @PL{ Szum informacyjny przy zbieraniu danych. } @EN{ Information noise when collecting data. }
+short  Threshold=100;		///< @brief @PL{ Wobec jakiego wpływu zmiana "poglądu" się fiksuje. } @EN{ Against what influence does the change of "view" become fixed. }
+double MutationProb=0;		///< @brief @PL{ Prawdopodobieństwo spontanicznej zmiany. } @EN{ Likelihood of spontaneous change. }
 bool   AsyncUpdate=false;	///< @brief @PL{ Jak `false` to synchroniczna? } @EN{ `false` means sync? }
 /// @}
 
-/// @name @PL{  } @EN{  }
-/// @details @EN{ Nieobiektowo przekazywane do metody inicjalizacji źródeł. } @PL{  }
+/// @name @PL{ Parametry sterujące obliczaniem statystyk. } @EN{ Parameters controlling the calculation of statistics. }
+/// @details @PL{ Nieobiektowo przekazywane do metody inicjalizacji źródeł. } @EN{ Non-objectively passed to the source initialization method. }
 /// @{
-unsigned internal_log=7000;				///< @brief @PL{ Długość wewnętrznych logów statystyk. } @EN{  }
-unsigned spatial_correlation_mode=50;	///<  @brief @PL{ Gęstość próbkowania korelacji przestrzennej. } @EN{  }
+unsigned internal_log=7000;				///< @brief @PL{ Długość wewnętrznych logów statystyk. } @EN{ Length of internal statistics logs. }
+unsigned spatial_correlation_mode=50;	///<  @brief @PL{ Gęstość próbkowania korelacji przestrzennej. } @EN{ Spatial correlation sampling density. }
 /// @}
 
-/// @name @PL{ Parametry aplikacji. } @EN{  }
+/// @name @PL{ Parametry aplikacji — techniczna obsługa symulacji. } @EN{ Application parameters — technical support for simulation. }
 /// @{
 char LogName[512]="need4clos.log\0-------------------+--";
 char HistName[512]="\0--+---------need4clos.otx----------";
@@ -87,7 +87,7 @@ int  Replay=0;
 int	 AUTO_START=0;
 /// @}
 
-/// @brief @PL{  } @EN{  }
+/// @brief @PL{ Analiza parametrów wywołania. } @EN{ Analysis of call parameters. }
 int parse_options(const int argc,const char* argv[])
 {
 for(int i=1;i<argc;i++)

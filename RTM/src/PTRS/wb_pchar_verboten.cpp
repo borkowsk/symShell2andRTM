@@ -1,8 +1,8 @@
 /** @file
  *  @brief
- *   @PL{  }
- *   @EN{ Verboten character that must be enclosed when printing 'wbrtm::wb_pchar' }
- *  @date 2026-05-19 (last modification)
+ *   @PL{ Znaki zabronione, które należy uwzględnić przy drukowaniu 'wbrtm::wb_pchar'. }
+ *   @EN{ Verboten characters that must be escaped when printing 'wbrtm::wb_pchar'. }
+ *  @date 2026-05-30 (last modification)
  *        ==========================================================================
  *  \author borkowsk
  */

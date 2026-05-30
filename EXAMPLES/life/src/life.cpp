@@ -1,8 +1,8 @@
 /// @file
 /// @brief
-///  @EN{ Variations on Conway's Life - Main Program. }
+///  @EN{ Variations on Conway's Life — main Program. }
 ///  @PL{ Wariacje na temat life Conway-a — program główny. }
-/// @date 2026-05-29 (modified)
+/// @date 2026-05-30 (modified)
 ///       =========================================================
 /// @details ....
 //======================================================================================================================
@@ -31,12 +31,12 @@ unsigned short WorldWidth=50;  ///< @brief @PL{ Bok świata. } @EN{ Side of the 
 
 constexpr bool SYNCHRONOUSLY=true;
 
-/// @name @PL{ Parametry modelu. } @EN{  }
+/// @name @PL{ Parametry modelu. } @EN{ Model parametrów. }
 /// @{
 const short NofCategories=2;  ///< @brief @PL{ Zawsze 2. W Life Conway-a nie może być więcej. } @EN{ For Conways Life always 2. }
 double          MutationP=0;  ///< @brief @PL{ Ewentualne losowe zmiany stanu. } @EN{ Possible random state changes. }
 short       NeighborhoodR=1;  ///< @brief @PL{ Promień sąsiedztwa (1 oznacza 3 × 3 - 1) } @EN{ Neighborhood radius. }
-short        NeighDensity=-1; ///< @brief @PL{ Gdy -1 to wszyscy sąsiedzi — nielosowo. Gdy 8. to losowo!!! }
+short       NeighDensity=-1;  ///< @brief @PL{ Gdy -1 to wszyscy sąsiedzi — nielosowo. Gdy 8. to losowo!!! }
                               ///<        @EN{ When -1, all neighbors — not random. When 8, then random!!! }
 bool           UpdateType=SYNCHRONOUSLY; ///< @brief @PL{ Symulacja synchroniczna (chyba żeby nie, wtedy Monte Carlo). }
                                          ///<       @EN{ Synchronous simulation (unless, of course, Monte Carlo then). }
@@ -48,10 +48,10 @@ char  LogName[512]="rand_life.log\0-------------------+--";
 char HistName[512]="\0--+---------rand_life.otx----------";
 char MapLName[512]="\0--+---------rand_life.gif----------";
 
-unsigned iMaxIterations=0xffffffff; ///< @brief @PL{  } @EN{  }
+unsigned iMaxIterations=0xffffffff; ///< @brief @PL{ Maksymalna liczba kroków pojedynczej symulacji. } @EN{ Maximum number of steps for a single simulation. }
 unsigned iViewRatio=1;      ///< @brief @PL{ Częstość wizualizacji względem symulacji. } @EN{ Visualization rate vs. simulation. }
 unsigned iLogRatio=1;       ///< @brief @PL{ Częstość zapisu do logu. } @EN{ Log writing frequency. }
-unsigned internal_log=7000; ///< @PL{ Długość historii. Nieobiektowo przekazywane do metody inicjalizacji źródeł. } @EN{  }
+unsigned internal_log=7000; ///< @PL{ Długość historii. @note Nieobiektowo przekazywane do metody inicjalizacji źródeł. } @EN{ History length. @note Non-object passed to the sources initialization method. }
 
 int  AUTO_EXIT=0;
 int	 AUTO_START=0;

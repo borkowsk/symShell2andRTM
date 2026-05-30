@@ -1,8 +1,8 @@
 /** @file
  *  @brief
- *    @PL{  }
- *    @EN{ Implementation of more "sophisticated" methods for 'wbrtm::wb_pchar' }
- *  @date 2026-05-19 (last modification)
+ *    @PL{ Implementacja bardziej „wyrafinowanych” metod dla 'wbrtm::wb_pchar'. }
+ *    @EN{ Implementation of more "sophisticated" methods for 'wbrtm::wb_pchar'. }
+ *  @date 2026-05-30 (last modification)
  *        =======================================================================
  *  \author borkowsk
  */

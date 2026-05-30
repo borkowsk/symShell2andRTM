@@ -1,7 +1,7 @@
 /// @file
 /// @brief **Definition of the base type and templates specialization of simulation layers ** /<br>
 ///         _Definicja bazy i szablonów warstw symulacji._
-/// @date 2026-05-29 (modified)
+/// @date 2026-05-30 (modified)
 // ********************************************************************************************************************
 #ifndef SYMSHELL2_LAYER_HPP_INCLUDED_
 #define SYMSHELL2_LAYER_HPP_INCLUDED_
@@ -675,7 +675,7 @@ public:
     //friend ostream& operator << (ostream& o, agent a)
     //friend istream& operator >> (ostream& i, agent a)
 
-    /// @brief @PL{Przydział do kategorii.} @EN{Assignment to a category.}
+    /// @brief @PL{ Przydział do kategorii. } @EN{ Assignment to a category. }
     virtual unsigned long classify()=0;
 };
 

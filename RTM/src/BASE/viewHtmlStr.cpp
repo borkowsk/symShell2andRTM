@@ -1,8 +1,8 @@
 /// @file
 /// @brief
-///  @PL{  }
-///  @EN{ Call HTML viewer - string version }
-/// @date 2026-05-19 (modified)
+///  @PL{ Wywołanie przeglądarki HTML — wersja dla parametru typu 'string'. }
+///  @EN{ Call HTML viewer — 'string' version. }
+/// @date 2026-05-30 (modified)
 ///       =================================================================
 ///
 

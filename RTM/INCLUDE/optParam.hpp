@@ -1,8 +1,8 @@
 /// \file
-/// \brief
+/// @brief
 ///        @PL{ Generyczna obsługa parametrów wywołania programu. }
 ///        @EN{ Generic handling of program call parameters. }
-/// @date 2026-05-19 (last modification)
+/// @date 2026-05-30 (last modification)
 ///       ================================================================
 /// \details
 ///     Obsługiwane są typy standardowe numeryczne oraz

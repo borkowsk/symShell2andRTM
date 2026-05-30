@@ -2,11 +2,11 @@
 /// @brief
 ///     @EN{ Implementation of the type 'kWorld'.	Virtual Input method. }
 ///     @PL{ Implementacja typu „kWorld”. Metoda wirtualnego wejścia. }
-/// @date 2026-05-29 (modified)
+/// @date 2026-05-30 (modified)
 ///       =========================================================
 /// @details
-///     @EN{ Old example for SymShell implementing a Kruglanski's like model. } @PL{ .... }
-///     @EN{ Its is rather simply implementation. You can replace it if you need. } @PL{ .... }
+///     @EN{ Old example for SymShell implementing a Kruglanski's like model. } @PL{ Stary przykład implementacji w SymShell modelu podobnego do modelu Kruglańskiego. }
+///     @EN{ Its is rather simply implementation. You can replace it if you need. } @PL{ To dość prosta implementacja. Możesz ją zmienić, jeśli zajdzie taka potrzeba. }
 //======================================================================================================================
 
 #include "kWorld.h"

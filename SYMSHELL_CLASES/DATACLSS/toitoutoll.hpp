@@ -1,7 +1,7 @@
 /// @file
 /// @brief **Templates of functions that convert various numeric types with saturation** /<br>
 ///         _Szablony funkcji konwertujących z wysyceniem różne typy liczbowe._
-/// @date 2026-05-29 (modified)
+/// @date 2026-05-30 (modified)
 ///       =====================================================================================
 /// @details
 ///      Created by borkowsk on 13.05.26.
@@ -20,7 +20,7 @@ namespace sym2
     using namespace std;
 
     /// @brief @PL{ Wysycająca konwersja na `short int`. @note Nie z `long double`! }
-    ///        @EN{  }
+    ///        @EN{ Saturating conversion to `short int`. @note Not with `long double`! }
     /// @details Używa `long long` jako wspólnej reprezentacji wszystkich liczb całkowitych, co jest kosztowne.
     template<class number>
     inline
@@ -33,7 +33,7 @@ namespace sym2
     }
 
     /// @brief @PL{ Wysycająca konwersja na `int`. @note Nie z `long double`! }
-    ///        @EN{  }
+    ///        @EN{ Saturating conversion to `int`. @note Not with `long double`! }
     /// @details Używa `long long` jako wspólnej reprezentacji wszystkich liczb całkowitych, co jest kosztowne.
     template<class number>
     inline
@@ -46,7 +46,7 @@ namespace sym2
     }
 
     /// @brief @PL{ Wysycająca konwersja na `long`. @note Nie z `long double`! }
-    ///        @EN{  }
+    ///        @EN{ Saturating conversion to `long`. @note Not with `long double`! }
     /// @details Używa `long long` jako wspólnej reprezentacji wszystkich liczb całkowitych, co jest kosztowne.
     ///          A i tak nie działa dla `double`.
     template<class number>
@@ -60,7 +60,7 @@ namespace sym2
     }
 
     /// @brief @PL{ Specjalizacja: Wysycająca konwersja `unsigned int` na `short int`. }
-    ///        @EN{  }
+    ///        @EN{ Specialization: Saturating conversion of `unsigned int` to `short int`. }
     inline short int tos(const unsigned &p)
     {
         constexpr unsigned high = SHRT_MAX;
@@ -71,7 +71,7 @@ namespace sym2
     }
 
     /// @brief @PL{ Specjalizacja: Wysycająca konwersja `unsigned int` na `int`. }
-    ///        @EN{  }
+    ///        @EN{ Specialization: Saturating conversion of `unsigned int` to `int`. }
     inline int toi(const unsigned &p)
     {
         constexpr unsigned high = INT_MAX;
@@ -82,7 +82,7 @@ namespace sym2
     }
 
     /// @brief @PL{ Specjalizacja: Wysycająca konwersja `unsigned long` na `int`. }
-    ///        @EN{  }
+    ///        @EN{ Specialization: Saturating conversion of `unsigned long` to `int`. }
     inline int toi(const unsigned long &p)
     {
         constexpr unsigned long high = INT_MAX;
@@ -93,7 +93,7 @@ namespace sym2
     }
 
     /// @brief @PL{ Specjalizacja: Wysycająca konwersja `int` na `short int`. }
-    ///        @EN{  }
+    ///        @EN{ Specialization: Saturating conversion of `int` to `short int`. }
     inline short int tos(const int &p)
     {
         constexpr int low = numeric_limits<short int>::min();
@@ -102,7 +102,7 @@ namespace sym2
     }
 
     /// @brief @PL{ Specjalizacja: Wysycająca konwersja `long` na `int`. }
-    ///        @EN{  }
+    ///        @EN{ Specialization: Saturating `long` to `int` conversion. }
     inline int toi(const long &p)
     {
         constexpr long low = numeric_limits<int>::min();
@@ -111,7 +111,7 @@ namespace sym2
     }
 
     /// @brief @PL{ Specjalizacja: Wysycająca konwersja `double` na `short int`. }
-    ///        @EN{  }
+    ///        @EN{ Specialization: Saturating `double` to `short int` conversion. }
     inline short int tos(const double &p)
     {
         // Definiujemy limity dla `int`
@@ -121,7 +121,7 @@ namespace sym2
     }
 
     /// @brief @PL{ Specjalizacja: Wysycająca konwersja `double` na `int`. }
-    ///        @EN{  }
+    ///        @EN{ Specialization: Saturating `double` to `int` conversion. }
     inline int toi(const double &p)
     {
         // Definiujemy limity dla `int`
@@ -131,7 +131,7 @@ namespace sym2
     }
 
     /// @brief @PL{ Wysycająca konwersja `double` na `int` z własną nazwą. }
-    ///        @EN{  }
+    ///        @EN{ Saturating conversion of `double` to `int` with its own name. }
     inline int dtoi(const double &p)
     {
         // Definiujemy limity dla `int`
@@ -141,7 +141,7 @@ namespace sym2
     }
 
     /// @brief @PL{ Wysycająca konwersja z `double` na `unsigned`. }
-    ///        @EN{  }
+    ///        @EN{ Saturating conversion from `double` to `unsigned`. }
     /// @details Metoda bardziej ogólna.
     inline unsigned int dtou(const double &p)
     {
@@ -157,7 +157,7 @@ namespace sym2
     }
 
     /// @brief @PL{ Specjalizacja konwersji wysycającej z `double` na `long`. }
-    ///        @EN{  }
+    ///        @EN{ Specialization of the saturating conversion from `double` to `long`. }
     inline long tol(const double &v)
     {
         constexpr double low = static_cast<double>(numeric_limits<long>::min());
@@ -170,7 +170,7 @@ namespace sym2
     }
 
     /// @brief @PL{ "Bezpieczna" konwersja `double` na `long long`. }
-    ///        @EN{  }
+    ///        @EN{ "Safe" conversion of `double` to `long long`. }
     inline long long dtoll(const double &p)
     {
         constexpr double low = static_cast<double>(numeric_limits<long long>::min());

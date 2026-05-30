@@ -2,7 +2,7 @@
 /// @brief
 ///  @EN{ Attitude change simulation - "k-attitudes". Main file. }
 ///  @PL{ Symulacja zmiany poglądów - "k-attitudes". Plik główny. }
-/// @date 2026-05-29 (modified)
+/// @date 2026-05-30 (modified)
 ///       =========================================================
 /// @details ("kattitudes" old example for SymShell)
 /// @if POLISH
@@ -435,7 +435,7 @@ int parse_options(const int argc, const char *argv[])
 
 
 /** @brief @PL{ OGÓLNA FUNKCJA MAIN. } @EN{ GENERAL MAIN FUNCTION. }  */
-/* *********************************************************************************************** */
+/* ****************************************************************** */
 
 int main(const int argc,const char* argv[])
 {

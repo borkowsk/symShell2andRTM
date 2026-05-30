@@ -1,7 +1,7 @@
 /// @file
 /// @brief __Different types of single-source data filters.__ /<br>
 ///         _Różne klasy jednoźródłowych filtrów danych._
-/// @date 2026-05-20 (modified)
+/// @date 2026-05-30 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_FILTERS_SOUR_HPP_INCLUDED_
@@ -368,7 +368,7 @@ public:
 typedef GT_filter<data_source_base> generic_GT_filter;
 //--------------------------------------------------------------------------
 
-/// @brief @EN{ GreaterEqual Filter Template.. }
+/// @brief @EN{ GreaterEqual Filter Template. }
 ///        @PL{ Szablon filtru "Equal or more" ("Większy lub równy"). }
 /// @details ...
 template<class SOURCE_TYPE>

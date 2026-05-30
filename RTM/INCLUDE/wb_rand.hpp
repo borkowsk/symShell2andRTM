@@ -1,8 +1,8 @@
 /** \file wb_rand.hpp
- *  \brief
- *       @PL{  }
+ *  @brief
+ *       @PL{ PODSTAWOWE KLASY GENERATORÓW LICZB PSEUDOLOSOWYCH. }
  *       @EN{ BASIC CLASSES OF PSEUDORANDOM NUMBER GENERATORS. }
- *  @date 2026-05-19 (last modification)
+ *  @date 2026-05-30 (last modification)
  *        ======================================================
  *  \details
  *   Contents:

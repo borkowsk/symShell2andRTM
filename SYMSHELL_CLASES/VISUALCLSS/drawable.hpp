@@ -1,7 +1,7 @@
 /// @file
 /// @brief **BASIC INTERFACE DECLARATIONS FOR SCREEN AREAS** /<br>
 ///         _DEKLARACJE PODSTAWOWEGO "SPRZĘGU" DLA OBSZARÓW EKRANU._
-/// @date 2026-05-20 (modified)
+/// @date 2026-05-30 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_DRAWABLE_HPP_INCLUDED_
@@ -44,8 +44,8 @@ public:
     friend class drawable_base;
 
 private:
-    xy_info x1,y1; ///< @EN{ upper-left corner. }
-    xy_info x2,y2; ///< @EN{ lower-right corner. }
+    xy_info x1,y1; ///< @EN{ upper-left corner. } @PL{ lewy górny róg. }
+    xy_info x2,y2; ///< @EN{ lower-right corner. } @PL{ prawy dolny róg. }
 
 public:
     /// Default constructor.

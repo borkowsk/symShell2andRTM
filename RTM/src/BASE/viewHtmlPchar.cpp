@@ -1,8 +1,8 @@
 /// @file
 /// @brief
-///  @PL{  }
-///  @EN{ Call HTML viewer }
-/// @date 2026-05-19 (modified)
+///  @PL{ Wywołanie przeglądarki HTML. }
+///  @EN{ Call HTML viewer. }
+/// @date 2026-05-30 (modified)
 ///       =================================================================
 ///
 

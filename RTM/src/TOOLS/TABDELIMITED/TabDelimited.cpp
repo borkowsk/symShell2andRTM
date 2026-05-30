@@ -1,8 +1,8 @@
 /** @file
  *  @brief
- *  @PL{  }
- *  @EN{ Implementation of wbrtm::TabDelimited class }
- *  @date 2026-05-19 (modified)
+ *  @PL{ Implementacja klasy wbrtm::TabDelimited. }
+ *  @EN{ Implementation of wbrtm::TabDelimited class. }
+ *  @date 2026-05-30 (modified)
  *        ============================================
  *  \author borkowsk
  */

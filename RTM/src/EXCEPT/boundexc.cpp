@@ -1,8 +1,8 @@
 /** @file
  *  @brief
- *  @PL{  }
- *  @EN{ Print functions for exceptions for wbrtm::bounded }
- *  @date 2026-05-19 (last modification)
+ *  @PL{ Funkcje drukujące dla wyjątków dla wbrtm::bounded. }
+ *  @EN{ Print functions for exceptions for wbrtm::bounded. }
+ *  @date 2026-05-30 (last modification)
  *        =================================================================
  *  \author borkowsk
  */

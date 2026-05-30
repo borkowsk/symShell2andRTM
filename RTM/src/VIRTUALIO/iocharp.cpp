@@ -1,8 +1,8 @@
 /// @file
 /// @brief
-/// @PL{ Implementacja wejścia wyjścia dla `char*` }
-/// @EN{  }
-/// @date 2026-05-19 (modified)
+/// @PL{ Implementacja wejścia wyjścia dla `char*`. }
+/// @EN{ Input output implementation for `char*`. }
+/// @date 2026-05-30 (modified)
 //-----------------------------------------------------------------------------
 #include <cassert>
 #include <ctype.h>

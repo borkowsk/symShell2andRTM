@@ -1,8 +1,8 @@
 /// @file
 /// @brief
 /// @PL{ IMPLEMENTACJA TYPU PODSTAWOWEGO DLA OBIEKTÓW Z WIRTUALNYMI METODAMI. }
-/// @EN{  }
-/// @date 2026-05-19 (modified)
+/// @EN{ BASIC TYPE IMPLEMENTATION FOR OBJECTS WITH VIRTUAL METHODS. }
+/// @date 2026-05-30 (modified)
 ///       =================================================================
 ///
 #include <cassert>

@@ -1,8 +1,8 @@
 /** @file
-*  \brief
+*  @brief
 *          @PL{ Typ bazowy do tworzenia tablic asocjacyjnych. }
 *          @EN{ Base type for creating associative arrays. }
-*  @date 2026-05-19 (last modification)
+*  @date 2026-05-30 (last modification)
 *        ====================================================
 *  \details Obsolete and not improved part of the wb_rtm library.
 *           It was established before 2000.

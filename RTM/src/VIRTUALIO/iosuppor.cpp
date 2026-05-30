@@ -1,8 +1,8 @@
 /// @file
 /// @brief
-/// @PL{ IMPLEMENTACJA WYJŚCIA?WYJŚCIA DLA OBIEKTÓW HETEROGENICZNYCH. }
-/// @EN{  }
-/// @date 2026-05-19 (modified)
+/// @PL{ IMPLEMENTACJA WYJŚCIA/WYJŚCIA DLA OBIEKTÓW HETEROGENICZNYCH. }
+/// @EN{ I/O IMPLEMENTATION FOR HETEROGENEOUS OBJECTS. }
+/// @date 2026-05-30 (modified)
 ///       =================================================================
 ///
 #include "vobject.hpp"

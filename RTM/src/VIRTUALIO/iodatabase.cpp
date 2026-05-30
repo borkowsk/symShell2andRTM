@@ -1,8 +1,8 @@
 /// @file
 /// @brief
 /// @PL{ Bardzo prosta implementacja bazy klas inteligentnego I/O w postaci listy liniowej. }
-/// @EN{  }
-/// @date 2026-05-19 (modified)
+/// @EN{ A very simple implementation of the intelligent I/O class base in the form of a linear list. }
+/// @date 2026-05-30 (modified)
 ///       ===================================================================================
 #include "iosuppor.hpp"
 

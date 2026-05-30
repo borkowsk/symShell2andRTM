@@ -1,8 +1,8 @@
 /** \file
- *  \brief
+ *  @brief
  *       @PL{ Zaawansowane logowanie aplikacji, wraz ze stosem (opcjonalnie). }
  *       @EN{ Advanced application logging, including stack (optional). }
- *  @date 2026-05-19 (last modification)
+ *  @date 2026-05-30 (last modification)
  *        ----------------------------------------------------------------------
  *  \author Wojciech Borkowski @ Institut for Social Studies, University of Warsaw
  *

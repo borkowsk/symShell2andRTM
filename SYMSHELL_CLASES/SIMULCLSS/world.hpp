@@ -1,6 +1,6 @@
 /// @file
 /// @brief **Interface for the whole world** /<br> _Interfejs dla klasy reprezentującej cały świat._
-/// @date 2026-05-21 (modified)
+/// @date 2026-05-30 (modified)
 // ********************************************************************************************************************
 //
 #ifndef  SYMSHELL2_WORLD_HPP_INCLUDED_
@@ -36,7 +36,7 @@ class world
     /// @PL{ "Uchwyt" do aktualnego manager danych. } @EN{ "Handle" to the current data manager. }
     sym2::visual::main_area_manager*		AreaManager;
 
-    /// @PL{ Data/Czas aktualnego kroku w wersji tekstowej. } @EN{ Date/Time of the current step in text version. }
+    /// @PL{ Data/Czas aktualnego kroku w wersji tekstowej. } @EN{ Date/Time of the current step in a text version. }
     wb_pchar								TimeStamp;
 
 protected:
@@ -113,7 +113,7 @@ public:
     virtual void		simulate_one_step()=0;
 
     /// @brief  @IN{WYMAGANA|REQUIRED}: @EN{ Derived types action for world initialization. }
-    ///     @PL{ Akcja inicjalizacji świata - do zaimplementowania dla typów pochodnych. }
+    ///     @PL{ Akcja inicjalizacji świata — do zaimplementowania dla typów pochodnych. }
     virtual void		initialize_layers()=0;
 
     /// @brief  @IN{WYMAGANA|REQUIRED}: @EN{ Derived types action after reading simulation state from an image file. }
@@ -167,7 +167,7 @@ public:
     void			set_log_ratio(unsigned ratio){LogRatio=ratio;}
 
     /// @brief @PL{ Ustawia `InputRatio`, czyli co ile kroków symulacji sprawdzać wejście. }
-    ///        @EN{ Sets the `InputRatio`, i.e. after how many simulation steps to check the input. }
+    ///        @EN{ Sets the `InputRatio`, i.e., after how many simulation steps to check the input. }
     void			set_input_ratio(unsigned ratio){InputRatio=ratio;}
 
     /// @brief @PL{ Aktualny zarządca ekranu podłączony do tego świata. } @EN{ Current screen manager connected to this world. }

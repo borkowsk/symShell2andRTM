@@ -1,8 +1,8 @@
 /// @file
 /// @brief
 ///  @PL{ Zmienne globalne generatorów liczb pseudolosowych. }
-///  @EN{  }
-/// @date 2026-05-19 (modified)
+///  @EN{ Global variables of pseudorandom number generators. }
+/// @date 2026-05-30 (modified)
 ///       =================================================================
 ///
 #include "wb_rand.hpp"

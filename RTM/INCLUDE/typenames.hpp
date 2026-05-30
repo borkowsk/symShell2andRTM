@@ -1,9 +1,9 @@
 /**
 * @file
-* \brief
+* @brief
 *       @PL{ Jak przekonwertować dowolny typ na ciąg znaków informujący, czym jest ten typ? }
 *       @EN{ How do I convert any type to a string that says what this type is? }
-* @date 2026-05-19 (last modification)
+* @date 2026-05-30 (last modification)
 *          -----------------------------------------------------
 *
 * \details  While playing with templates in C++ I encountered a problem converting typename T to string.

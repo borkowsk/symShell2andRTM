@@ -1,8 +1,8 @@
 /// @file
 /// @brief
-///     @EN{ Implementation of the life_world class - virtual input method. }
-///     @PL{  }
-/// @date 2026-05-29 (modified)
+///     @EN{ Implementation of the 'life_world' class - virtual input method. }
+///     @PL{ Implementacja klasy 'life_world' - wirtualna metoda wejścia. }
+/// @date 2026-05-30 (modified)
 /// =========================================================
 /// @details
 /// Its is rather simply implementation. You can replace it if you need.

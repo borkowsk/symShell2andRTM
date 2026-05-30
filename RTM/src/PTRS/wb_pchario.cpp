@@ -1,8 +1,8 @@
 /** @file
  *  @brief
- *   @PL{  }
+ *   @PL{ Specjalna implementacja wejścia/wyjścia dla 'wbrtm::wb_sptr<char>' i 'wbrtm::wb_pchar'. }
  *   @EN{ Special implementation of I/O for 'wbrtm::wb_sptr<char>' and  'wbrtm::wb_pchar'. }
- *  @date 2026-05-19 (last modification)
+ *  @date 2026-05-30 (last modification)
  *        =================================================================
  *  \author borkowsk
  */

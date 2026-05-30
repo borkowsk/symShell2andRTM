@@ -1,8 +1,8 @@
 /// @file
 /// @brief
-///  @PL{ Przechwytywanie błędów programowych WBRTM i inne sztuczki }
-///  @EN{  }
-/// @date 2026-05-19 (modified)
+///  @PL{ Przechwytywanie błędów programowych WBRTM i inne sztuczki. Implementacja. }
+///  @EN{ WBRTM Software Error Capture and Other Tricks. Implementation. }
+/// @date 2026-05-30 (modified)
 ///       =================================================================
 /// @details
 ///     Stare więc nie wiadomo czy bezpieczne.

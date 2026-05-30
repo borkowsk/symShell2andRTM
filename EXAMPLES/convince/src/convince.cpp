@@ -2,7 +2,7 @@
 /// @brief
 ///  @EN{ A fairly simple simulation of a change of opinion implementing Professor D. Stauffer's model. }
 ///  @PL{ Dość prosta symulacja zmiany opinii wykorzystująca model profesora D. Stauffer-a. }
-/// @date 2026-05-29 (modified)
+/// @date 2026-05-30 (modified)
 ///       =========================================================
 /// @details
 ///       (Obtained by simplifying the LANGUAGES program)
@@ -24,9 +24,9 @@ const char* WINDOW_HEADER="CONVINCE ver. 0.01d";
 
 using namespace sym2;
 
-/// @name @PL{ Wymiary okna i świata. } @EN{  }
+/// @name @PL{ Wymiary okna i świata. } @EN{ Dimensions of the window and the world. }
 /// @details @PL{ Rozmiar świata musi być wyraźnie mniejszy od wymiaru okna, bo inaczej niewiele się wyświetli. }
-///          @EN{  }
+///          @EN{ The world size must be significantly smaller than the window size, otherwise not much will be displayed. }
 /// @{
 unsigned	ScreenWidth=750;
 unsigned	ScreenHeight=550;
@@ -48,7 +48,7 @@ int	     MaximumStrength=1;  //!< @brief @EN{ What is the agent's greatest stren
 int      MinimalStrength=1;	 //!< @brief @EN{ The minimum force can't possibly be 0! } @PL{ Minimalna siła nie może wynosić 0. }
 /// @}
 
-/// @name @PL{ Parametry obsługi symulacji. } @EN{  }
+/// @name @PL{ Parametry obsługi symulacji. } @EN{ Simulation support parameters. }
 /// @{
 char	LogName[512]="attitude.log\0-------------------+--";
 char	HistName[512]="\0--+---------convinces.otx----------";
@@ -57,7 +57,7 @@ char	MapPName[512]="\0--+---------powers.gif------------";
 char	MaskName[512]="\0--+---------mask.gif--------------";
 
 unsigned	InternalLogLen=7000;	//!< @brief @EN{ Length of internal history logs. NOTE! }
-                                    //!<        @EN{ Not Object-wise passed to the source initialization method. }
+                                  //!<        @EN{ Not Object-wise passed to the source initialization method. }
 unsigned	LogWriteRatio=1;		//!< @brief @EN{ After how many simulation steps will a log be saved? }
 unsigned	ScrViewRatio=1;			//!< @brief @EN{ After how many simulation steps is the visualization performed? }
 unsigned	MaxIterations=0xffffffff;
@@ -67,7 +67,7 @@ int	AUTO_END=0;			//!< Technically very... ;-)
 int	Replay=0;			//!< Playback from a file instead of simulation?
 /// @}
 
-/// @brief @PL{ Czytanie parametrów z linii wywołania programu. } @EN{  }
+/// @brief @PL{ Czytanie parametrów z linii wywołania programu. } @EN{ Reading parameters from the program call line. }
 int parse_options(const int argc,const char* argv[])
 {
     for(int i=1;i<argc;i++)

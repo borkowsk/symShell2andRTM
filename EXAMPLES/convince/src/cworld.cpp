@@ -2,7 +2,7 @@
 /// @brief
 /// @EN{ Implementation of "the world of the convinced" (D. Stauffer idea). }
 /// @PL{ Implementacja "świata tych przekonanych" (idea D. Stauffer-a). }
-/// @date 2026-05-29 (modified)
+/// @date 2026-05-30 (modified)
 ///       =================================================================
 /// @details ...
 //======================================================================================================================
@@ -85,7 +85,7 @@ double  convAgent::NewInfectProb=0.01;	//Probability of "infection" from a pair 
 double  convAgent::ReverseProb=1;	    //Probability of reversal of views to 0 - no idea for entertainment.
 double  convAgent::SupportLevel=0.5;    //The power of support when you have some companions.
 
-istream &operator>>(istream &i, convAgent &a)        //!< @brief @EN{ Deserialization. }
+istream &operator>>(istream &i, convAgent &a)        //!< @brief @EN{ Deserialization. } @PL{ Deserializacja. }
 {
     char pom;
     i>>pom;		//ignoring `{`
@@ -94,7 +94,7 @@ istream &operator>>(istream &i, convAgent &a)        //!< @brief @EN{ Deserializ
     return i;
 }
 
-ostream &operator<<(ostream &o, const convAgent &a)    //!< @brief @EN{ Serialization. }
+ostream &operator<<(ostream &o, const convAgent &a)    //!< @brief @EN{ Serialization. } @PL{ Serializacja. }
 {
     o<<'{';
     o<<' '<<a.Power<<' '<<a.First<<' '<<a.Second<<' ';

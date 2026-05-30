@@ -1,8 +1,8 @@
 /// @file
 /// @brief
-///  @PL{  }
-///  @EN{ wb_smartlog.cpp: implementation of the wb_smartlog class. }
-/// @date 2026-05-19 (modified)
+///  @PL{ Implementacja klasy wb_smartlog. }
+///  @EN{ Implementation of the wb_smartlog class. }
+/// @date 2026-05-30 (modified)
 ///       =====================================================================
 
 #include <cerrno>

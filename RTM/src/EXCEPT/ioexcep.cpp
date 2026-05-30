@@ -1,8 +1,8 @@
 /** @file
  *  @brief
- *   @PL{  }
+ *   @PL{ Wykrywanie błędów 'wbrtm' i inne sztuczki. }
  *   @EN{ Catching 'wbrtm' errors and other tricks. }
- *  @date 2026-05-19 (last modification)
+ *  @date 2026-05-30 (last modification)
  *        =================================================================
  *  \author borkowsk
  *  \details

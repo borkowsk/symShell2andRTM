@@ -1,8 +1,8 @@
 /** @file
-*  \brief
+*  @brief
 *        @PL{ Tablice dynamiczne — niektóre rodzaje z możliwością zmiany rozmiaru. }
 *        @EN{ Dynamic arrays — some kinds resizable. }
-*  @date 2026-05-19 (last modification)
+*  @date 2026-05-30 (last modification)
 *        ===========================================
 *  \details Obsolete and not improved part of the wb_rtm library.
 *           It was established before 2000.
