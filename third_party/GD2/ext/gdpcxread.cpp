@@ -1,5 +1,6 @@
 // ///////////////PCX LOAD FOR GD//////////////////////
 //extern "C" gdImagePtr gdImageCreateFromPcx(FILE *fd);
+// @date 2026-06-01 (modified)
 // ////////////////////////////////////////////////////
 /*
 Developed by Wojciech Borkowski based on :
@@ -15,10 +16,10 @@ Developed by Wojciech Borkowski based on :
 **    http://shd.home.ml.org
 **
 * ***************************************************************************/
-/* #define PLOT_DEBUG  - for detailed load trace on screen */
+/* #define PLOT_DEBUG - for detailed load trace on screen */
 
 //#include <dos.h>
-#include <cstdio>
+//#include <cstdio>
 #include <cstring>
 #include <csetjmp>
 #include <cassert>
@@ -100,7 +101,7 @@ static void _Load8bitPCX(FILE *PCXFile,gdImagePtr Image)
      /*If there is no palette, don't display*/
 	   raiseError(0,"Palette not present!");
    }
-	else fread (&Palette, 768, 1, PCXFile);//Tu czytamy palete, ale ustawiamy na koncu jak wiadomo co jest uzyte!
+	else fread (&Palette, 768, 1, PCXFile); //Tu czytamy palete, ale ustawiamy na koncu jak wiadomo co jest uzyte!
 
  /*Go back to start of graphic data*/
    fseek (PCXFile, 128, SEEK_SET);
@@ -271,7 +272,7 @@ static void _Load1bitPCX(FILE *PCXFile,gdImagePtr Image)
 
 
 gdImagePtr gdImageCreateFromPcx(FILE *PCXFile)
-//This loads in the actual PCX-file displaing it for debugging purpose.
+//This loads in the actual PCX-file displaying it for debugging purpose.
 {
    gdImagePtr Image=NULL; //Image handle
 #if 0 //ndef NDEBUG
@@ -286,7 +287,7 @@ gdImagePtr gdImageCreateFromPcx(FILE *PCXFile)
    fread (&Header, 128, 1, PCXFile);
    /*Check to see whether we can display it*/
    if (Header.Version != 5) {
-     /*If other version than 5 don't LOAD*/
+     /*If another version than 5 doesn't LOAD*/
 	 raiseError(0,"Can't load PCX other then version 5");
    }
 /*
