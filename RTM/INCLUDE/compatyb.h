@@ -1,18 +1,22 @@
 /** @file
  * @brief
  *        @PL{ Plik definiujący zastępcze funkcje "C" (strlwr,strupr,sticmp). }
- *        @EN{  }
- * @date 2026-05-19 (last modification)
+ *        @EN{ File defining "C" replacement functions (strlwr,strupr,sticmp). }
+ * @date 2026-06-01 (last modification)
  *       =======================================================================
  * @details
+ * @if POLISH
  *    Funkcji tych  brak w poszczególnych lub większości kompilatorów.
  *    Prawdopodobnie pochodzą z rozszerzeń Borland C++ albo MSVC
- *
+ * @elseif ENGLISH
+ *    These functions are missing from some or most compilers.
+ *    They likely come from Borland C++ or MSVC extensions.
+ * @endif
  * @note Cała biblioteka WB_RTM to jest nieco odremontowane muzeum kodu z wieku XX.!!!
  * ********************************************************************************************************************
  */
-#ifndef _COMPATYB_H_INCLUDED_
-#define _COMPATYB_H_INCLUDED_
+#ifndef COMPATIBILITY_H_INCLUDED_
+#define COMPATIBILITY_H_INCLUDED_
 
 #ifdef __cplusplus
 #include <cstdio>
@@ -44,20 +48,22 @@ extern "C" {
 #endif
     //Zdefiniowana w osobnym pliku z rozszerzeniem .c !!!
     wb_unused_attr
-        /// \brief Porównanie stringów char* ignorujące wielkość liter.
+        /// \brief @PL{ Porównanie stringów char* ignorujące wielkość liter. } @EN{  }
         int stricmp(const char* s1, const char* s2);
 
     wb_unused_attr
-        /// \brief Przekształcenie łańcucha char* na wersję małoliterową "in place".
+        /// \brief @PL{ Przekształcenie łańcucha char* na wersję małoliterową "in place". } @EN{  }
         const char* strlwr(char* what);
 
     wb_unused_attr
-        /// \brief Przekształcenie łańcucha char* na wersję WIELKOLITEROWĄ "in place".
+        /// \brief @PL{ Przekształcenie łańcucha char* na wersję WIELKOLITEROWĄ "in place". } @EN{  }
         const char* strupr(char* what);
 
     wb_unused_attr inline
-        /// \brief Konwersja funkcyjna liczby całkowitej na string.
-        ///	\details Funkcja nie jest częścią standardu C, ale jest powszechna w systemach Windows/MSVC
+        /// \brief @PL{ Konwersja funkcyjna liczby całkowitej na string. } @EN{  }
+        ///	\details
+        ///     @PL{ Funkcja nie jest częścią standardu C, ale jest powszechna w systemach Windows/MSVC }
+        ///     @EN{  }
         const char* ltoa(long value, char* str, int radix)
         {
             if (radix == 10) {
@@ -72,8 +78,10 @@ extern "C" {
         }
 
     wb_unused_attr inline
-        /// \brief Konwersja funkcyjna liczby zmiennoprzecinkowej na string.
-        ///	\details Funkcja nie jest częścią standardu C, ale jest użyteczna.
+        /// \brief  @PL{ Konwersja funkcyjna liczby zmiennoprzecinkowej na string. } @EN{  }
+        ///	\details
+        ///     @PL{ Funkcja nie jest częścią standardu C, ale jest użyteczna. }
+        ///     @EN{  }
         const char* dtoa(double value, char* str)
         {
             sprintf(str, "%g", value);

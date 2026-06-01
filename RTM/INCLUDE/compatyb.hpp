@@ -1,13 +1,13 @@
 /**  \file
  *   @brief
  *   @PL{ Definicje funkcji ‘eat_blanks’ i ‘eat_chars’, w sposób zależny od platform kompilacji. }
- *   @EN{  Definitions of the 'eat_blanks' and 'eat_chars' functions, depending on the build platforms. }
-* @date 2026-05-19 (last modification)
-*       ********************************************************************************************
+ *   @EN{ Definitions of the 'eat_blanks' and 'eat_chars' functions, depending on the build platforms. }
+* @date 2026-06-01 (last modification)
+*       ************************************************************************************************
 *  @note Cała biblioteka WB_RTM to jest nieco odremontowane muzeum kodu z wieku XX.!!!
 */
-#ifndef _COMPATYB_HPP_INCLUDED_
-#define _COMPATYB_HPP_INCLUDED_
+#ifndef COMPATIBILITY_HPP_INCLUDED_
+#define COMPATIBILITY_HPP_INCLUDED_
 
 #include "compatyb.h"
 #include <cstdio>
@@ -110,41 +110,40 @@ namespace wbrtm {
 
 inline int eat_blanks(std::istream& file) //nakładka na istream::eatwhite w MSVC++
 {
-	return eat_chars(file," \t\r\n");
+    return eat_chars(file," \t\r\n");
 }
 
 inline int eat_blanks_2(istream& file) //nakładka na istream::eatwhite w starym MSVC++
 {
-	file.eatwhite();
+    file.eatwhite();
 
-	if(!file.eof())
-	{
-		return 0;
-	}
-	else
-	{
-		return EOF;
-	}
+    if(!file.eof())
+    {
+        return 0;
+    }
+    else
+    {
+        return EOF;
+    }
 }
 
 } //namespace wbrtm
-
-#else /* end of Borland-Embarcadero part */
-/* others compilers part */
+/* end of Borland-Embarcadero part */
+#else /* others compilers part */
 
 namespace wbrtm {
 
     inline int eat_chars(std::istream& file, const char* charset) //Zjada znaki, jeśli są w charset
     {
-        int znak = 0;
+        int curr_char = 0;
 
-        while ((znak = file.get()) != EOF
-            && ::strchr(charset, znak) != NULL) //Koniec, gdy pierwszy nie zawarty w zbiorze
+        while ((curr_char = file.get()) != EOF
+            && ::strchr(charset, curr_char) != NULL) //Koniec, gdy pierwszy niezawarty w zbiorze
             ;
 
-        if (znak != EOF)
+        if (curr_char != EOF)
         {
-            file.putback(znak);
+            file.putback(curr_char);
             return 0;
         }
         else
@@ -158,7 +157,7 @@ namespace wbrtm {
 
 } //namespace wbrtm
 
-#endif /* end of other compilers part */
+#endif /* others compilers part */
 
 /* ******************************************************************/
 /*                      WBRTM  version 2026                         */
@@ -171,6 +170,6 @@ namespace wbrtm {
 /*                                                                  */
 /*                               (Don't change or remove this note) */
 /* ******************************************************************/
-#endif
+#endif // COMPATIBILITY_HPP_INCLUDED_
 
 
