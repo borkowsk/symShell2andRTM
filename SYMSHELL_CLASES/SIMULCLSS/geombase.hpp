@@ -1,7 +1,7 @@
 /// @file
 /// @brief **GEOMETRY — THE WAY OF ORGANIZING AGENTS OR DATA IN A LAYER.GEOMETRIA** /<br>
 ///         _GEOMETRIA — SPOSÓB ORGANIZACJI AGENTÓW LUB DANYCH W WARSTWIE._
-/// @date 2026-05-20 (modified)
+/// @date 2026-06-01 (modified)
 // *********************************************************************************************************************
 //
 #ifndef SYMSHELL2_GEOM_BASE_HPP_INCLUDED_
@@ -307,7 +307,7 @@ inline
 double      geometry_base::get_max_distance() const
 //Informacja o maksymalnej możliwej odległości. Potrzebna np. dla "Spatial correlation".
 {
-#ifdef _NDEBUG
+#ifdef NDEBUG
     return 0;
 #else
     assert("Pure virtual method 'geometry_base::get_max_distance() const' used."==0);
@@ -318,7 +318,7 @@ inline
 double     geometry_base::get_distance(size_t first,size_t second) const
 //Informacja o odległości dwóch obiektów o określonych indeksach.
 {
-#ifdef _NDEBUG
+#ifdef NDEBUG
     return 0;
 #else
     assert("Pure virtual method 'geometry_base::get_distance() const' used."==0);
