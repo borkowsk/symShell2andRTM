@@ -2,7 +2,7 @@
 /// @brief
 ///        @PL{ Proste szablony inteligentnych wskaźników oraz tablic dynamicznych. }
 ///        @EN{ Simple templates for smart indicators and dynamic arrays. }
-/// @date 2026-05-30 (last modification)
+/// @date 2026-06-01 (last modification)
 ///        ===================================================================
 ///
 /// \details
@@ -581,8 +581,8 @@ public:
     if(ptr==NULL || index>=size)
     {   //When DEBUG! Poniżej postaw breakpoint!
         cerr<<"Invalid use of wb_dynarray "<<this<<" tabptr:"<<ptr<<"index:"<<index<<" size:"<<size<<endl;
-                                                                                                        assert(ptr!=NULL);
-                                                                                                        assert(index<size);
+                                                                                                     assert(ptr!=NULL);
+                                                                                                     assert(index<size);
     }
 #endif
     return ptr[index];
@@ -621,13 +621,13 @@ public:
     ///        jakąś inną operację albo od razu przekazać jako parametr funkcji.
     wb_dynarray& set_dynamic_ptr_val(T* iptr,size_t isiz)
     {
-    dispose();
-    ptr=iptr;
-    if(ptr!=NULL)
-        size=isiz;
+        dispose();
+        ptr=iptr;
+        if(ptr!=NULL)
+            size=isiz;
         else
-        size=0;
-    return *this;
+            size=0;
+        return *this;
     }
 
     /// \brief Daje bezpośredni dostęp do wewnętrznego wektora.
@@ -655,14 +655,7 @@ public:
     }
 
     ///\brief Wypełnia tablicę zadanym elementem/wartością
-    void fill(const T& Val)
-    {
-        size_t i,H=get_size();
-        for(i=0;i<H;i++) //Po elementach
-        {
-            (*this)[i]=Val; //Wypełnij ten element
-        }
-    }
+    void fill(const T& Val);
 
     /// \brief Przesuniecie pojedynczego elementu tablicy na koniec
     void shift_left(size_t index)
@@ -670,7 +663,7 @@ public:
         if(index>=size-1) return; //Wyjątkowo nic nie trzeba robić
         char bufor[sizeof(T)];                                                                        assert(ptr!=NULL);
                                                                                                       assert(index<size);
-        memcpy(bufor,ptr+index,sizeof(T));/* przemieszczamy memcpy, żeby nie używać przypisania */
+        memcpy(bufor,ptr+index,sizeof(T)); /* przemieszczamy memcpy, żeby nie używać przypisania */
 
         size_t ile=size-index-1;
         memcpy(ptr+index,ptr+(index+1),sizeof(T)*ile);
@@ -864,17 +857,86 @@ template<class T>
     istream& operator>>(istream&,wb_dynmatrix<T>&); ///< Czy to gdzieś jest zaimplementowane?
 
 /// \brief Implementacja zapisu łańcucha znaków na strumienie ze sprawdzaniem, czy trzeba w \"
-void escaped_pchar_write(std::ostream& s,const char* p,char enclos='\"');
+void escaped_pchar_write(ostream& s,const char* p,char enclos='\"');
 
 inline void write(ostream& o,const char* p)
 {
-        void escaped_pchar_write(std::ostream& s,const char* p,char enclos='\"'); //wbrtm:: ?
+        void escaped_pchar_write(ostream& s,const char* p,char enclos='\"'); //wbrtm:: ?
         escaped_pchar_write(o,p);
 }
 
 #endif //HIDE_WB_PTR_IO
 
 } //namespace wbrtm
+
+// IMPLEMENTACJA fill(...) KORZYSTAJĄCA Z MOŻLIWOŚCI SPECJALIZACJI DLA TYPÓW Z KONSTRUKTORAMI I BEZ.
+// =================================================================================================
+#if __cplusplus >= 201103L
+
+#include <type_traits>
+#include <algorithm>
+#include <cstring>
+
+namespace detail {
+
+    // Główny szablon pomocnika - domyślnie dla typów złożonych (klasowych)
+    template<typename T, typename Enable = void>
+    struct wb_filler {
+        static void fill(T* ptr, size_t size, const T& val) {
+            for(size_t i = 0; i < size; i++) {
+                ptr[i] = val;
+            }
+        }
+    };
+
+    // Specjalizacja pomocnika dla typów trywialnie kopiowalnych (skalary, inty itp.)
+    template<typename T>
+    struct wb_filler<T, typename std::enable_if<std::is_trivially_copyable<T>::value>::type> {
+        static void fill(T* ptr, size_t size, const T& val) {
+            if (sizeof(T) == 1) {
+                std::memset(ptr, *reinterpret_cast<const unsigned char*>(&val), size);
+            } else {
+                std::fill(ptr, ptr + size, val);
+            }
+        }
+    };
+} // namespace detail
+
+// Główna implementacja metody fill poza szablonem klasą wb_dynarray
+template<class T>
+void wbrtm::wb_dynarray<T>::fill(const T &Val)
+{
+    size_t H = this->get_size();
+    if (H == 0) return;
+
+    // Wywołanie odpowiedniego pomocnika
+    detail::wb_filler<T>::fill(this->ptr, H, Val);
+}
+
+#else
+
+// Bezpieczny fallback dla C++98 (stary kompilator)
+template<class T>
+void wbrtm::wb_dynarray<T>::fill(const T &Val)
+{
+    size_t H = this->get_size();
+    for(size_t i = 0; i < H; i++) {
+        (this->ptr)[i] = Val;
+    }
+}
+
+#endif
+// // Wypełnia tablicę dynamiczną zadanym elementem/wartością.
+//    template<class T>
+//    void wbrtm::wb_dynarray<T>::fill(const T &Val)
+//    {
+//        size_t H=this->get_size();
+//        for(size_t i=0;i<H;i++) //Pętla po poszczególnych elementach.
+//        {
+//            (this->ptr)[i]=Val; //Wypełnij ten element - dostęp na skróty.
+//        }
+//    }
+
 
 /// Z przestrzeni nazw języka C
 extern "C"
