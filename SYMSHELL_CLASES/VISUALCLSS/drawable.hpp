@@ -1,7 +1,7 @@
 /// @file
 /// @brief **BASIC INTERFACE DECLARATIONS FOR SCREEN AREAS** /<br>
 ///         _DEKLARACJE PODSTAWOWEGO "SPRZĘGU" DLA OBSZARÓW EKRANU._
-/// @date 2026-05-30 (modified)
+/// @date 2026-06-02 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_DRAWABLE_HPP_INCLUDED_
@@ -63,7 +63,14 @@ public:
     /// Sets all fields.
     void set(xy_info ix1, xy_info  iy1, xy_info  ix2, xy_info  iy2)
     {
-        assert(ix1<=ix2 && iy1<=iy2);
+        if(ix1>ix2)
+        {
+            cerr<<"Invalid area x1:"<<ix1<<"> x2:"<<ix2<<endl;
+        }
+        if(iy1>iy2)
+        {
+            cerr<<"Invalid area y1:"<<iy1<<"> y2:"<<iy2<<endl;
+        }
         x1=xy_info(ix1); x2=xy_info(ix2);
         y1=xy_info(iy1); y2=xy_info(iy2);
     }
