@@ -1,19 +1,18 @@
 /** \file
  *  \brief
  *         @PL{  }
- *         @EN{ I/O definitions for wbrtm:: smart pointers. }
- *  @date 2026-05-19 (last modification)
+ *         @EN{ I/O operators definitions for wbrtm:: smart pointers. }
+ *  @date 2026-06-03 (last modification)
  *        ---------------------------------------------------
  *  \details ... ...
  *           ... ...
  *  \author    borkowsk
  *  \copyright Wojciech Borkowski @ Institut for Social Studies, University of Warsaw
  *  \note Like many others wbrtm files created around year 1996.
- *  \ingroup DYNMEMORY
  */
 
-#ifndef _WB_PTRIO_H_
-#define _WB_PTRIO_H_
+#ifndef WBRTM_PTRIO_H_INCLUDED_
+#define WBRTM_PTRIO_H_INCLUDED_
 
 #include "wb_ptr.hpp"
 
@@ -26,11 +25,11 @@ namespace wbrtm { //WOJCIECH BORKOWSKI RUN TIME LIBRARY
 template<class T>
 ostream& operator << (ostream& ss,const wb_sptr<T>& pp)
 {
-	if(int(pp))
-		ss<<*pp;
-	else
-		ss<<'@';
-	return ss;
+    if(int(pp))
+        ss<<*pp;
+    else
+        ss<<'@';
+    return ss;
 }
 
 template<class T>
@@ -55,56 +54,56 @@ istream& operator>>(istream& s,wb_sptr<T>& p)
 template<class T>
 ostream& operator<<(ostream& s,const wb_dynarray<T>& p)
 {
-	s<<'{'<<' ';
-	s<<p.get_size()<<' ';
-	for(size_t i=0;i<p.get_size();i++)
-		s<<p[i]<<' ';
-	s<<'}'<<endl;
-	return s;
+    s<<'{'<<' ';
+    s<<p.get_size()<<' ';
+    for(size_t i=0;i<p.get_size();i++)
+        s<<p[i]<<' ';
+    s<<'}'<<endl;
+    return s;
 }
 
 template<class T>
 istream& operator >> (istream& s, wb_dynarray<T>& p)
 {
-	char cpom;
-	size_t i;
+    char cpom;
+    size_t i;
 
-	//Wczytanie klamry otwierajacej
-	s>>cpom;
-	assert(cpom=='{');//if(pom!='{') goto ERROR;
+    //Wczytanie klamry otwierającej
+    s>>cpom;
+    assert(cpom=='{');//if(pom!='{') goto ERROR;
 
-	{
-	//Wczytanie rozmiaru i alokacja
-	size_t size;
-	s>>size;
-	p.alloc(size);
-	//Wczytanie calej tablicy
-	for(i=0;i<size;i++)
-		s>>p[i];
-	
-	//Wczytanie zamykajacej klamry
-	s>>cpom;
-	assert(cpom=='}');//if(pom!='}') goto ERROR;
-	}
+    {
+    //Wczytanie rozmiaru i alokacja
+    size_t size;
+    s>>size;
+    p.alloc(size);
+    //Wczytanie całej tablicy
+    for(i=0;i<size;i++)
+        s>>p[i];
 
-	return s;
+    //Wczytanie zamykającej klamry
+    s>>cpom;
+    assert(cpom=='}');//if(pom!='}') goto ERROR;
+    }
+
+    return s;
 }
 
 template<class T>
 ostream& operator<<(ostream& s,const wb_dynmatrix<T>& p)
 {
-	return wb_dynarray<wb_dynarray<T> >::operator << (s,p);
+    return wb_dynarray<wb_dynarray<T> >::operator << (s,p);
 }
 
 template<class T>
 istream& operator>>(istream& s,wb_dynmatrix<T>& p)
 {
-	return wb_dynarray<wb_dynarray<T> >::operator >> (s,p);
+    return wb_dynarray<wb_dynarray<T> >::operator >> (s,p);
 }
 
-#endif
-} //namespace
+} //namespace wbrtm
 
+#endif
 /* ******************************************************************/
 /*                WBRTM  version 2022 for GuestXR                   */
 /* ******************************************************************/

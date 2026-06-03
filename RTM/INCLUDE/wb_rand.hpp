@@ -2,7 +2,7 @@
  *  @brief
  *       @PL{ PODSTAWOWE KLASY GENERATORÓW LICZB PSEUDOLOSOWYCH. }
  *       @EN{ BASIC CLASSES OF PSEUDORANDOM NUMBER GENERATORS. }
- *  @date 2026-05-30 (last modification)
+ *  @date 2026-06-03 (last modification)
  *        ======================================================
  *  \details
  *   Contents:
@@ -50,8 +50,7 @@ extern "C"
     void    srandg(short s);    /**< Seed setting for generator. \param s - value for seed. */
 }
 
-///\namespace wbrtm \brief WOJCIECH BORKOWSKI RUN TIME LIBRARY
-namespace wbrtm {
+namespace wbrtm { //WOJCIECH BORKOWSKI RUN TIME LIBRARY
 
     /// \brief Random number generator class interface.
     class RandomGenerator

@@ -2,7 +2,7 @@
 *	\brief
 *       @PL{ OBSŁUGA KLONOWANIA DLA DOWOLNYCH OBIEKTÓW C++. }
 *       @EN{ CLONING SUPPORT FOR ANY C++ OBJECTS. }
-*   @date 2026-05-19 (last modification)
+*   @date 2026-06-03 (last modification)
 *          --------------------------------------
 *
 * \details
@@ -16,37 +16,36 @@
  *        Cała biblioteka WB_RTM to jest nieco odremontowane muzeum kodu z wieku XX.
 * \author borkowsk
 */
-
-#ifndef _WB_CLONE_HPP_
-#define _WB_CLONE_HPP_
+#ifndef WBRTM_CLONE_HPP_INCLUDED_
+#define WBRTM_CLONE_HPP_INCLUDED_
 
 #ifndef __cplusplus
 #error C++ required
 #endif
 
-#include <string.h>
+#include <cstring>
 
-/// \brief WOJCIECH BORKOWSKI RUN TIME LIBRARY
-namespace wbrtm {
+namespace wbrtm { //WOJCIECH BORKOWSKI RUN TIME LIBRARY
 
-/// \brief Kopiuje stały łańcuch znaków na stertę
-/// \note  Jeśli dostaje, NULL zwraca NULL!
-/// \return Zwraca kopię łańcucha albo NULL, jeśli nie może jej wykonać.
+/// \brief @PL{ Kopiuje stały łańcuch znaków na stertę. } @EN{ .... }
+/// \note  @PL{ Jeśli dostaje, NULL zwraca NULL! } @EN{ .... }
+/// \return @PL{ Zwraca kopię łańcucha albo NULL, jeśli nie można jej wykonać. }
+///         @EN{ .... }
 inline char* clone_str(const char *const p)
 {
     if (p == NULL) return NULL; //DALSZE DZIAŁANIA SĄ BEZ SENSU!
 
     size_t size = ::strlen(p) + 1;
     char*  out = new char[ size ];
+    //if(out==NULL) return NULL; // TO JUŻ NIE MOŻE SIĘ ZDARZAĆ!
 
-    if(out!=NULL)
     #ifdef _MSC_VER
-	  ::strcpy_s(out,size,p);
+       ::strcpy_s(out,size,p);
     #else
-        ::strcpy(out,p);
+       ::strcpy(out,p);
     #endif
 
-    return out; //TU TEŻ MOŻE BYĆ `NULL` jeśli `new` tak zwróciło!
+    return out;
 }
 
 /// \brief   Klonowanie łańcucha znaków zgodne z szablonem funkcyjnym clone()
@@ -63,11 +62,11 @@ inline char* clone(char* p)
     return clone_str(p);
 }
 
-/// \brief   Funkcja szablonu klonowania obiektu na stertę,
-/// \return  NULL, jeśli nie może zaalokować!
+/// \brief @PL{ Funkcja szablonu klonowania obiektu na stertę. } @EN{ .... }
+/// \return @PL{ NULL, jeśli nie może zaalokować! } @EN{ .... }
 template<class T>
 #ifndef __BORLANDC__
-inline 			//W Borlandzie `4.X` powoduje pad :-D — a to ci stara historia!
+inline 			//W Borlandzie "4.X" powoduje pad. Och  — a to ci stara historia!
 #else
 static
 #endif
@@ -76,24 +75,24 @@ T* clone(const T* p)
     return (p!=NULL?new T(*p):NULL);
 }
 
-///	\brief CLASS alternative (FIXING TYPE) of cloning template
+///	\brief @PL{ ... } @EN{ CLASS alternative (FIXING TYPE) of cloning template. }
 template<class T>
 class Clone
 {
     T* ptr;
 public:
-    Clone(const T* par){ ptr=new T(*par);}
-    operator T* () {return ptr;}
+    explicit Clone(const T* par){ ptr=new T(*par);}
+    explicit operator T* () {return ptr;}
 };
 
-///	\brief "char" specialization of CLASS alternative of cloning template
+///	\brief @PL{ ... } @EN{ "char" specialization of CLASS alternative for cloning template. }
 template<>
 class Clone<char>
 {
     char* ptr;
 public:
-    Clone(const char *const par){ ptr=clone_str(par);}
-    operator char* () {return ptr;}
+    explicit Clone(const char *const par){ ptr=clone_str(par);}
+    explicit operator char* () {return ptr;}
 };
 
 } //namespace
@@ -101,7 +100,7 @@ public:
 /* ******************************************************************/
 /*                      WBRTM  version 2026                         */
 /* ******************************************************************/
-/*           THIS CODE IS DESIGNED & COPYRIGHT  BY:                 */
+/*           THIS CODE IS DESIGNED & COPYRIGHT BY:                  */
 /*            W O J C I E C H   B O R K O W S K I                   */
 /*    Instytut Studiów Społecznych Uniwersytetu Warszawskiego       */
 /*    WWW: https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI  */

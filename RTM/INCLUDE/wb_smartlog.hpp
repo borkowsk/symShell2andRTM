@@ -2,7 +2,7 @@
  *  @brief
  *       @PL{ Zaawansowane logowanie aplikacji, wraz ze stosem (opcjonalnie). }
  *       @EN{ Advanced application logging, including stack (optional). }
- *  @date 2026-05-30 (last modification)
+ *  @date 2026-06-03 (last modification)
  *        ----------------------------------------------------------------------
  *  \author Wojciech Borkowski @ Institut for Social Studies, University of Warsaw
  *
@@ -18,7 +18,6 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-
 #include <iostream>
 
 #include "wb_ptr.hpp" //class wb_pchar
@@ -26,119 +25,120 @@
 
 namespace wbrtm { //WOJCIECH BORKOWSKI RUN TIME LIBRARY
 
-/// \brief Klasa zaawansowanego logowania aplikacji
-class wb_smartlog  
+/// \brief @PL{ Klasa "zaawansowanego" logowania aplikacji. } @EN{ ... }
+class wb_smartlog
 {
 public:
-    /// \brief Konstruktor pozwalający na podanie nazwy pliku.
-	wb_smartlog(const char* logname=NULL);
+    /// \brief PL{ Konstruktor pozwalający na podanie nazwy pliku. } @EN{ ... }
+    wb_smartlog(const char* logname=NULL);
 
     /// \brief Zmiana nazwy pliku logu.
     /// O ile nie wykonano już pierwszego zapisu do pliku logu
-	bool SetName(const char* logname);
+    bool SetName(const char* logname);
 
     /// \brief Wirtualny destruktor konieczny, bo są metody wirtualne.
-	virtual ~wb_smartlog();
-	
-	virtual double GetTime();	 ///< Daje czas w postaci zegara procesora (sek. od rozpoczęcia procesu)
+    virtual ~wb_smartlog();
 
-	virtual	int	CurrCallLevel(); ///< Daje aktualny poziom wywołania — ze śledzenia przez `block` markery.
+    virtual double GetTime();	 ///< Daje czas w postaci zegara procesora (sek. od rozpoczęcia procesu)
+
+    virtual	int	CurrCallLevel(); ///< Daje aktualny poziom wywołania — ze śledzenia przez `Block_checker`-y.
 
     virtual const char* MyName();
 
-	ostream& MyStream();
+    ostream& MyStream();
 
     /// \brief Sprawdzenie aktualnego poziomu logowania
-	bool ifTlog(int level) { return level<=log_level; }
+    bool ifTlog(int level) { return level<=log_level; }
 
-	/// \brief Informuje czy wywołać zapis. DO UŻYCIA POPRZEZ MAKRO!!!
-	bool IfMessage(int level,const char* file,int line=0)
-	{
-		if(level<=log_level)
-		{
-			{
-			const char* rfile=strrchr(file,SLASH_FOR_LOG);
-			if(rfile!=NULL)
-				file=rfile;
-			}
+    /// \brief Informuje czy wywołać zapis. DO UŻYCIA POPRZEZ MAKRO!!!
+    bool IfMessage(int level,const char* file,int line=0)
+    {
+        if(level<=log_level)
+        {
+            {
+            const char* rfile=strrchr(file,SLASH_FOR_LOG);
+            if(rfile!=NULL)
+                file=rfile;
+            }
 
-			ostream& pom=MyStream();
-			pom<<endl<<GetTime();
-			if(use_fname && filename.OK())
-				pom<<'\t'<<file<<":"<<line<<"; "; //Zapis nazwy pliku wywołującego LOG
-			pom<<'\t'<<level<<". ";
-			for(int i=0;i<level;i++)pom<<SEPAR; //Wcięcie
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
+            ostream& pom=MyStream();
+            pom<<endl<<GetTime();
+            if(use_fname && filename.OK())
+                pom<<'\t'<<file<<":"<<line<<"; "; //Zapis nazwy pliku wywołującego LOG
+            pom<<'\t'<<level<<". ";
+            for(int i=0;i<level;i++)pom<<SEPAR; //Wcięcie
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
-	/// \brief Interface do zmiany poziomu "logowania"
-	/// \note Do używania poprzez MAKRO: `LOCAL_CHANGE_LOG_LEVEL`
-	class Lock:public przechwytywacz<int,int>
-	{
-	public:
-		Lock(int val):
-			przechwytywacz<int,int>(wb_smartlog::log_level,val){}
-		~Lock(){}
-	};
+    /// \brief @PL{ Interface do zmiany poziomu "logowania".
+    /// \note @PL{ Do używania poprzez MAKRO: `LOCAL_CHANGE_LOG_LEVEL`. } @EN{ ... }
+    class Lock:public interceptor<int,int>
+    {
+    public:
+        explicit Lock(int val)
+        : interceptor<int,int>(wb_smartlog::log_level, val){}
+        ~Lock() = default;
+    };
 
-    /// ???
-	class Block_checker
-	{
-		wb_smartlog& MyLog;
-        int MyLevel;
+    /// \brief @PL{ Marker wchodzenia wychodzenia z bloku kodu. } @EN{ ... }
+    class Block_checker
+    {
+        wb_smartlog&    MyLog;
+        int           MyLevel;
         const char* BlockName;
-        const char* Name;
-        int Line;
-	public:
-		Block_checker(wb_smartlog& mylog,int mylevel,const char* blockname,const char* name,int line):
-		  MyLog(mylog),BlockName(blockname),Name(name),Line(line),MyLevel(mylevel)
-		  {
-			  if(mylog.IfMessage(mylevel,name,line) )
-			  {
-				  ostream& o=mylog.MyStream();
-				  o<<"ENTER BLOCK("<<wb_smartlog::call_level<<")";
-				  for(int i=0;i<wb_smartlog::call_level;i++)o<<SEPAR; //Wcięcie
-				  o<<": "<< blockname <<flush; 
-			  }
-			  wb_smartlog::call_level++;
-		  }
-		  
-		  ~Block_checker()
-		  {
-			  wb_smartlog::call_level--;
-			  if(MyLog.IfMessage(MyLevel,Name,Line) )
-			  {
-				  ostream& o=MyLog.MyStream();
-				  o<<"LEAVE BLOCK("<<wb_smartlog::call_level<<")";
-				  for(int i=0;i<wb_smartlog::call_level;i++)o<<SEPAR; //Wcięcie
-				  o<<": "<< BlockName <<flush; 
-			  }
-		  }
-	};
+        const char*      Name;
+        int              Line;
+
+    public:
+        Block_checker(wb_smartlog& mylog, int my_level, const char* block_name, const char* name, int line)
+        : MyLog(mylog), BlockName(block_name), Name(name), Line(line), MyLevel(my_level)
+          {
+              if(mylog.IfMessage(my_level, name, line) )
+              {
+                  ostream& o=mylog.MyStream();
+                  o<<"ENTER BLOCK("<<wb_smartlog::call_level<<")";
+                  for(int i=0;i<wb_smartlog::call_level;i++)o<<SEPAR; //Wcięcie
+                  o << ": " << block_name << flush;
+              }
+              wb_smartlog::call_level++;
+          }
+
+          ~Block_checker()
+          {
+              wb_smartlog::call_level--;
+              if(MyLog.IfMessage(MyLevel,Name,Line) )
+              {
+                  ostream& o=MyLog.MyStream();
+                  o<<"LEAVE BLOCK("<<wb_smartlog::call_level<<")";
+                  for(int i=0;i<wb_smartlog::call_level;i++)o<<SEPAR; //Wcięcie
+                  o<<": "<< BlockName <<flush;
+              }
+          }
+    };
 
 private:
-	wb_pchar filename;		///< Do zapamiętania pliku
-	ostream* ptrToMyStream;	///< Strumień do wypluwania komunikatów logu
+    wb_pchar filename;		///< Do zapamiętania pliku.
+    ostream* ptrToMyStream;	///< Strumień do wypluwania komunikatów logu.
 
-	bool	Connect();		///< Wiąże log ze strumieniem
-	bool	Disconnect();	///< Odwiązuje log od strumienia
+    bool	Connect();		///< Wiąże log ze strumieniem.
+    bool	Disconnect();	///< Odwiązuje log od strumienia.
 
-	//DONT USE DIRECTLY!!!
-	static const char*  SEPAR;  ///< Czym robić wcięcia itp
-	static const char	SLASH_FOR_LOG; ///< Co separuje nazwy w strukturze katalogów
-	static int		use_fname;  ///< Czy zapisywać nazwę z __FILE__ (tylko do logu plikowego)
-	static int		call_level; ///< Głębokość wywołań funkcji, liczona przez `block_checker`-y
+    //DONT USE DIRECTLY!!!
+    static const char*          SEPAR;  ///< Czym robić wcięcia itp.
+    static const char	SLASH_FOR_LOG;  ///< Co separuje nazwy w strukturze katalogów.
+    static int		        use_fname;  ///< Czy zapisywać nazwę z __FILE__ (tylko do logu plikowego).
+    static int		       call_level;  ///< Głębokość wywołań funkcji, liczona przez `block_checker`-y.
 
 public:
     static const char* Sep() { return SEPAR; } ///< Odczyt separatora używanego do wcięć
 
-	static int		log_level; // To musi być public ze względu na Lock
-                               // no i sterowanie z menu aplikacji i z parametrów !!!
+    static int		log_level; ///< To musi być public ze względu na Lock.
+                               ///< A także sterowanie z menu aplikacji i z parametrów !!!
 
     friend class Lock;
     friend class Block_checker;
@@ -157,7 +157,7 @@ extern  wbrtm::wb_smartlog TheApplicationLog; //Domyślny log aplikacji, domyśl
 #define MARK_LOCAL_BLOCK( _l_ , _p_ ) wbrtm::wb_smartlog::Block_checker ThisBlock( TheApplicationLog ,(_l_), _p_ , __FILE__ , __LINE__ )
 
 #define ALOG( ALOG_OBJECT_ , ALOG_LEVEL_ , ALOG_MESSAGE_ ) { if((ALOG_OBJECT_).IfMessage((ALOG_LEVEL_),__FILE__,__LINE__) )\
-																{(ALOG_OBJECT_).MyStream()<<(ALOG_OBJECT_).Sep()  ALOG_MESSAGE_ <<flush; }}
+                                                                {(ALOG_OBJECT_).MyStream()<<(ALOG_OBJECT_).Sep()  ALOG_MESSAGE_ <<flush; }}
 
 #define IFALOG( ALOG_OBJECT_ , ALOG_LEVEL_ )		((ALOG_OBJECT_).IfMessage( (ALOG_LEVEL_) ,(__FILE__) , (__LINE__) ))
 

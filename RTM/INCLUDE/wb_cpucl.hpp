@@ -2,34 +2,34 @@
 /// \brief
 ///        @PL{ Klasa stopera liczącego czas CPU. }
 ///        @EN{ A stopwatch class that counts CPU time. }
-/// @date 2026-05-19 (last modification)
+/// @date 2026-06-03 (last modification)
 ///     ------------------------------------
 ///
-/// \details liczy od momentu utworzenia lub wywołania reset() do chwili pobrania
-///          wartości za pomocą "operator double()"
+/// \details liczy od momentu utworzenia lub wywołania `reset`
+///          do chwili pobrania wartości za pomocą `operator double`
 ///
 /// \author borkowsk
 /// \note   Like many others wbrtm files created around year 1996.
 ///         Cała biblioteka WB_RTM to jest nieco odremontowane muzeum kodu z wieku XX.
 /// @ingroup OBSOLETE
 
-#ifndef __CPU_CLOCK_HPP_
-#define __CPU_CLOCK_HPP_
+#ifndef CPU_CLOCK_HPP_INCLUDED_
+#define CPU_CLOCK_HPP_INCLUDED_
 
 #include <ctime>
 #include <iostream>
 
-/// \brief Stoper \warning NOT TESTED WELL IN NEW PLATFORMS!
+/// \brief @PL{ Stoper. } @EN{ Stopwatch. } \warning NOT TESTED WELL IN NEW PLATFORMS!
 class wb_cpu_clock
 {
     clock_t begin_val;
 
-    public:
+public:
     wb_cpu_clock() { begin_val=clock(); }
 
     void reset() { begin_val=clock(); }
 
-    operator double() const
+    explicit operator double() const
     {
         return (double( clock() ) - double( begin_val ))/
                 CLOCKS_PER_SEC;
@@ -53,24 +53,24 @@ ostream& operator << (ostream& o, const wb_cpu_clock& c)
 
 void PrettyPrint(ostream& o) const
 {
-	double pom=double(*this);
-	double pmm=0;
-	if(pom>3600)
-	{
-		pmm=trunc(pom/3600);
-		o<<pmm<<"h ";
-		pom-=pmm*3600;
-	}
-	if(pom>60)
-	{
-		pmm=trunc(pom/60);
-		o<<pmm<<"m ";
-		pom-=pmm*60;
-	}
-	o<<pom<<"s ";
-	
-	//if(pom!=double(*this))
-	//	o<<"DEBUG["<<double(*this)<<"s]";
+    double pom=double(*this);
+    double pmm=0;
+    if(pom>3600)
+    {
+        pmm=trunc(pom/3600);
+        o<<pmm<<"h ";
+        pom-=pmm*3600;
+    }
+    if(pom>60)
+    {
+        pmm=trunc(pom/60);
+        o<<pmm<<"m ";
+        pom-=pmm*60;
+    }
+    o<<pom<<"s ";
+
+    //if(pom!=double(*this))
+    //	o<<"DEBUG["<<double(*this)<<"s]";
 }
 
 };
@@ -112,6 +112,6 @@ typedef wb_cpu_clock cticker; ///< ready to use timer starting before main()
 /*                                                                  */
 /*                               (Don't change or remove this note) */
 /* ******************************************************************/
-#endif //__CPU_CLOCK_HPP_
+#endif //CPU_CLOCK_HPP_INCLUDED_
 
 

@@ -2,7 +2,7 @@
  *  \brief
  *       @PL{ Szablony wejścia i wyjścia obiektów `wbrtm::wb_pchar`. }
  *       @EN{ Templates for input and output of `wbrtm::wb_pchar` objects. }
- *  @date 2026-05-19 (last modification)
+ *  @date 2026-06-03 (last modification)
  *         ---------------------------------------------------------
  *  \author Wojciech Borkowski @ Institut for Social Studies, University of Warsaw
  *  \details ...
@@ -32,74 +32,73 @@ extern const char* WB_PCHAR_VERBOTEN_CHARS; //=" \t\n\r\'\"\0\01\02\03\04\05\06\
 /// \return NULL, jeśli błąd — np. brak pamięci lub brak znaku zamknięcia.
 template<class Caller>
 char* ReadEnclosedString(istream& file, const Caller& caller, char delimiter)
-{
-const int MINLEN=6;
-int  znak;
-size_t jednostek=1; // Ile jednostek alokacji już jest
-size_t licznik=0;   // Ile znaków wczytano?
-                                                                                                    assert(&file!=NULL);
-if(!file.good())
-{
-	if(caller.Raise(ExcpIO(NULL, file.tellg(), "Invalid stream")) == 1)
-		return NULL;
-}
+{                                                                                                // assert(&file!=NULL); //E tam?
+    const int MIN_LEN=6;
+    int       curr_char;
+    size_t  jednostek=1; ///< Ile jednostek alokacji już jest?
+    size_t    licznik=0; ///< Ile znaków wczytano?
 
-eat_blanks(file);
-
-znak=file.get(); //Powinien być delimiter
-if(znak!=delimiter)
-{
-	if(caller.Raise(ExcpIO(NULL, file.tellg(), "First delimiter not find")) == 1)
-		return NULL;
-}
-
-char* pom=new char[MINLEN+1]; // Bufor na znaki
-if(pom==NULL) goto BRAK_PAMIECI;
-
-while((znak=file.get())!=delimiter)
-{
-	if(znak==EOF ) //(Niespodziewany) koniec łańcucha
-	   if(caller.Raise(ExcpIO(NULL, file.tellg(), "Unexpected end of file")) == 1)
-		{
-			delete[] pom;
-			return NULL;
-		}
-
-	if(znak=='\\' && (znak=file.get())==EOF ) //Żeby móc użyć znaku "delimitera"
-	   if(caller.Raise(ExcpIO(NULL, file.tellg(), "Syntax error or EOF")) == 1)
-	   {
-			delete[] pom;
-			return NULL;
-	   }
-
-	JEST_MIEJSCE:
-	if( (licznik+1)<(jednostek*MINLEN) )
+    if(!file.good())
     {
-		pom[licznik]=znak;
-		licznik++;
+        if(caller.Raise(ExcpIO(NULL, file.tellg(), "Invalid stream!")) == 1)
+            return NULL;
     }
-    else
+
+    eat_blanks(file);
+
+    curr_char=file.get(); //Powinien być delimiter
+    if(curr_char != delimiter)
     {
-		jednostek*=2;
-		char* pom2=new char[jednostek*MINLEN+1];
-		if(pom2==NULL) goto BRAK_PAMIECI;
-		memcpy(pom2,pom,licznik);
-		delete[] pom;
-		pom=pom2;
-	
-		goto JEST_MIEJSCE;
+        if(caller.Raise(ExcpIO(NULL, file.tellg(), "First delimiter did not find!")) == 1)
+            return NULL;
     }
-}
-                                                                                                         assert(MINLEN>=1);
-pom[licznik]='\0'; //Zakończenie łańcucha
 
-return pom; //Już gotowy
+    char* pom=new char[MIN_LEN + 1]; // Bufor na znaki
+    if(pom==NULL) goto OUT_OF_MEMORY;
 
-BRAK_PAMIECI: //???
-if(pom!=NULL)
-	delete[] pom; // Żeby pamięć nie wyciekała
-caller.Raise(OutOfMemoryExcp(jednostek * MINLEN + 1, __FILE__, __LINE__));
-return NULL; // Może coś być już wczytane, ale bufor zwolniono
+    while((curr_char=file.get()) != delimiter)
+    {
+        if(curr_char == EOF ) //(Niespodziewany) koniec łańcucha
+           if(caller.Raise(ExcpIO(NULL, file.tellg(), "Unexpected file end!")) == 1)
+            {
+                delete[] pom;
+                return NULL;
+            }
+
+        if(curr_char == '\\' && (curr_char=file.get()) == EOF ) //Żeby móc użyć znaku "delimitera"
+           if(caller.Raise(ExcpIO(NULL, file.tellg(), "Syntax error or unexpected EOF!")) == 1)
+           {
+                delete[] pom;
+                return NULL;
+           }
+
+        JEST_MIEJSCE:
+        if( (licznik+1)<(jednostek * MIN_LEN) )
+        {
+            pom[licznik]=curr_char;
+            licznik++;
+        }
+        else
+        {
+            jednostek*=2;
+            char* pom2=new char[jednostek * MIN_LEN + 1];
+            if(pom2==NULL) goto OUT_OF_MEMORY;
+            memcpy(pom2,pom,licznik);
+            delete[] pom;
+            pom=pom2;
+
+            goto JEST_MIEJSCE;
+        }
+    }                                                                                              assert(MIN_LEN >= 1);
+    pom[licznik]='\0'; //Zakończenie łańcucha
+
+    return pom; //Już gotowy
+
+OUT_OF_MEMORY: // To już nie zdarza się!!!???
+    if(pom!=NULL)
+        delete[] pom; // Żeby pamięć nie wyciekała
+    caller.Raise(OutOfMemoryExcp(jednostek * MIN_LEN + 1, __FILE__, __LINE__));
+    return NULL; // Może coś być już wczytane, ale bufor zwolniono
 }
 
 /// \brief Zapisuje łańcuch w cudzysłowie lub czymś zamiast niego.
@@ -107,22 +106,24 @@ return NULL; // Może coś być już wczytane, ale bufor zwolniono
 template<class Caller>
 int WriteEnclosedString(ostream& file, const char* str, const Caller& caller, char delimiter)
 {
-file.put(delimiter);
-while(*str!='\0')
-	{
-	if(file.bad())
-		if(caller.Raise( ExcpIO(NULL, file.tellp() , "string write") ) == 1)
-			return -1;
-	if(*str==delimiter || *str=='\\')
-		file.put('\\');
-	file.put(*str);
-	str++;
-	}
-file.put(delimiter);
-if(file.bad())
-	if(caller.Raise(ExcpIO(NULL, file.tellp(), "string write")) == 1)
-			return -1;
-return 0;
+    file.put(delimiter);
+    while(*str!='\0')
+        {
+        if(file.bad())
+            if(caller.Raise( ExcpIO(NULL, file.tellp() , "string write") ) == 1)
+                return -1;
+        if(*str==delimiter || *str=='\\')
+            file.put('\\');
+        file.put(*str);
+        str++;
+        }
+
+    file.put(delimiter);
+    if(file.bad())
+        if(caller.Raise(ExcpIO(NULL, file.tellp(), "string write")) == 1)
+                return -1;
+
+    return 0;
 }
 
 } //namespace

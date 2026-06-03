@@ -2,7 +2,7 @@
 /// \brief
 ///        @PL{ Limity dla skalarów w "wbrtm". }
 ///        @EN{ LIMITS FOR SCALAR TYPES in `wbrtm` }
-/// @date 2026-05-19 (last modification)
+/// @date 2026-06-03 (last modification)
 ///       -----------------------------------------
 ///
 /// \author borkowsk
@@ -14,8 +14,8 @@
 //#warning  "This code is OBSOLETE and not tested in C++11 standard"
 //#endif
 
-#include <float.h>
-#include <limits.h>
+#include <cfloat>
+#include <climits>
 
 /**
  * @defgroup TypesService Informacja o typach i nazewnictwo
@@ -23,16 +23,15 @@
  */
 /// @{
 
-namespace wbrtm { // Przestrzeń nazw biblioteki WBRTM
+namespace wbrtm { //WOJCIECH BORKOWSKI RUN TIME LIBRARY
 
-    /// Klasa do sprawdzania minimum i maksimum dla wszystkich typów skalarnych.
+    /// @brief @PL{ Klasa do sprawdzania minimum i maksimum dla wszystkich typów skalarnych. }
+    ///        @EN{....}
     /// \details Szablon klas implementujących limity dla skalarów
     ///          z możliwością dodania własnych specjalizacji.
     ///          Pomysł z czasów, gdy nie było tego jeszcze w standardzie C++
-    ///          W przypadku konfliktu specjalizacji  zdefiniuj
-    ///          ADD_OWN_SPECIALISATION_TO_WB_LIMITS_H przed włączeniem
-    ///          tego pliku.
-    /// @note Teraz są w przestrzeni nazw 'wbrtm::'.
+    ///          W przypadku konfliktu specjalizacji zdefiniuj
+    ///          ADD_OWN_SPECIALISATION_TO_WB_LIMITS_H przed włączeniem tego pliku.
     template<class Scalar>
     class limit {
     public:
@@ -40,7 +39,7 @@ namespace wbrtm { // Przestrzeń nazw biblioteki WBRTM
         constexpr static Scalar Min();
     };
 
-    /// @name SPECJALIZACJE DLA MAKSIMÓW.
+    /// @name @PL{ SPECJALIZACJE DLA MAKSIMÓW. } @EN{....}
     /// @{
     template<>
     constexpr inline double limit<double>::Max() { return DBL_MAX; }
@@ -82,7 +81,7 @@ namespace wbrtm { // Przestrzeń nazw biblioteki WBRTM
     constexpr inline bool limit<bool>::Max() { return true; }
     /// @}
 
-    /// @name SPECJALIZACJE DLA MINIMÓW
+    /// @name @PL{ SPECJALIZACJE DLA MINIMÓW. } @EN{....}
     /// @{
     template<>
     constexpr inline double limit<double>::Min() { return -DBL_MAX; }
@@ -134,11 +133,13 @@ namespace wbrtm { // Przestrzeń nazw biblioteki WBRTM
 
 #endif
 
-    /// Klasa do tworzenia sensownego "missing values".
+    /// @brief @PL{ Klasa do tworzenia sensownego "missing values" dla każdego typu skalarnego. }
+    ///        @EN{....}
     template<class Scalar>
     class default_missing
     {
         Scalar miss;
+
     public:
         default_missing();
 

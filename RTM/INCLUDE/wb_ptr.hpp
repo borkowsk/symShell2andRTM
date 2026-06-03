@@ -2,7 +2,7 @@
 /// @brief
 ///        @PL{ Proste szablony inteligentnych wskaźników oraz tablic dynamicznych. }
 ///        @EN{ Simple templates for smart indicators and dynamic arrays. }
-/// @date 2026-06-01 (last modification)
+/// @date 2026-06-03 (last modification)
 ///        ===================================================================
 ///
 /// \details
@@ -877,9 +877,9 @@ inline void write(ostream& o,const char* p)
 #include <algorithm>
 #include <cstring>
 
-namespace detail {
+namespace wbrtm { namespace details {
 
-    // Główny szablon pomocnika - domyślnie dla typów złożonych (klasowych)
+    /// Główny szablon pomocnika — domyślnie dla typów złożonych (klasowych).
     template<typename T, typename Enable = void>
     struct wb_filler {
         static void fill(T* ptr, size_t size, const T& val) {
@@ -889,7 +889,7 @@ namespace detail {
         }
     };
 
-    // Specjalizacja pomocnika dla typów trywialnie kopiowalnych (skalary, inty itp.)
+    /// Specjalizacja pomocnika dla typów trywialnie kopiowalnych (skalary, int-y itp.).
     template<typename T>
     struct wb_filler<T, typename std::enable_if<std::is_trivially_copyable<T>::value>::type> {
         static void fill(T* ptr, size_t size, const T& val) {
@@ -900,7 +900,8 @@ namespace detail {
             }
         }
     };
-} // namespace detail
+
+}} // namespace wbrtm::detail
 
 // Główna implementacja metody fill poza szablonem klasą wb_dynarray
 template<class T>
@@ -910,11 +911,10 @@ void wbrtm::wb_dynarray<T>::fill(const T &Val)
     if (H == 0) return;
 
     // Wywołanie odpowiedniego pomocnika
-    detail::wb_filler<T>::fill(this->ptr, H, Val);
+    wbrtm::details::wb_filler<T>::fill(this->ptr, H, Val);
 }
 
 #else
-
 // Bezpieczny fallback dla C++98 (stary kompilator)
 template<class T>
 void wbrtm::wb_dynarray<T>::fill(const T &Val)
@@ -925,23 +925,24 @@ void wbrtm::wb_dynarray<T>::fill(const T &Val)
     }
 }
 
+ // Wypełnia tablicę dynamiczną zadanym elementem/wartością.
+    template<class T>
+    void wbrtm::wb_dynarray<T>::fill(const T &Val)
+    {
+        size_t H=this->get_size();
+        for(size_t i=0;i<H;i++) //Pętla po poszczególnych elementach.
+        {
+            (this->ptr)[i]=Val; //Wypełnij ten element - dostęp na skróty.
+        }
+    }
 #endif
-// // Wypełnia tablicę dynamiczną zadanym elementem/wartością.
-//    template<class T>
-//    void wbrtm::wb_dynarray<T>::fill(const T &Val)
-//    {
-//        size_t H=this->get_size();
-//        for(size_t i=0;i<H;i++) //Pętla po poszczególnych elementach.
-//        {
-//            (this->ptr)[i]=Val; //Wypełnij ten element - dostęp na skróty.
-//        }
-//    }
+
 
 
 /// Z przestrzeni nazw języka C
 extern "C"
 {
-extern int WB_error_enter_before_clean; ///< Sterowanie reakcją na kończące błędy
+    extern int WB_error_enter_before_clean; ///< Sterowanie reakcją na kończące błędy
 }
 ///@}
 

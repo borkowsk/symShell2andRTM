@@ -2,7 +2,7 @@
  * @brief
  *       @PL{ Szablon zamiany dwóch wartości tego samego typu niezależnie od typu. }
  *       @EN{ A template for swapping two values of the same type regardless of type. }
- * @date 2026-05-30 (last modification)
+ * @date 2026-06-03 (last modification)
  *       ======================================================================
  * Created by borkowsk on 06.01.26.
  * @note   Jeśli używasz biblioteki `SymShellLight` razem z pełną wersją WB_RTM to upewnij się, czy ten plik i jego
@@ -78,10 +78,10 @@ void wb_strong_swap(T& a, T& b) {
 /// @}
 
 /* ****************************************************************** */
-/*               WB_RTM for SymShell  version 2026                    */
+/*                     WB_RTM version 2026                            */
 /* ****************************************************************** */
 /*            THIS CODE IS DESIGNED & COPYRIGHT BY:                   */
-/*             W O J C I E C H   B O R K O W S K I                    */
+/*            W O J C I E C H    B O R K O W S K I                    */
 /*     Instytut Studiów Społecznych Uniwersytetu Warszawskiego        */
 /*     WWW: https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI   */
 /*     GITHUB: https://github.com/borkowsk                            */
