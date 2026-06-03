@@ -1,7 +1,7 @@
 /// @file
 /// @brief  **A helper type that manages the name of a data series object and more** /<br>
 ///          _Klasa pomocnicza zarządzająca nazwą obiektu serii danych i nie tylko._
-/// @date 2026-05-19 (modified)
+/// @date 2026-06-03 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_TITLE_UTIL_HPP_INCLUDED_
@@ -25,10 +25,10 @@ namespace sym2
     //--------------
     {
     protected:
-        char *title; ///< Pointer to the title/name content.<br> Wskaźnik do treści tytułu/nazwy.
+        char *title; ///< @EN{ Pointer to the title/name content. } @PL{ Wskaźnik do treści tytułu/nazwy. }
 
     public:
-        /// Sole constructor.
+        /// \EN{ Sole constructor. } \PL{ Jedyny konstruktor. }
         explicit title_util(const char *i_tit = NULL)
         {
             if(i_tit != NULL)
@@ -37,14 +37,14 @@ namespace sym2
                 title = NULL;
         }
 
-        /// Virtual destructor.
+        /// \EN{ Virtual destructor. } \PL{ Wirtualny destruktor. }
         virtual ~title_util()
         {
             //if(title)
             delete title; //Deleting NULL pointer has no effect.
         }
 
-        /// \EN{ Title/name change. <br>} \PL{ Zmiana tytułu/nazwy. }
+        /// \EN{ Title/name change. } \PL{ Zmiana tytułu/nazwy. }
         void set_title(const char *i_tit)
         {
             //if(title)
@@ -56,7 +56,8 @@ namespace sym2
                 title = NULL;
         }
 
-        /// \EN{ Current title without checking for NULL. <br>} \PL{ Aktualny tytuł bez sprawdzania, czy nie NULL. }
+        /// \EN{ Current title without checking for NULL. }
+        /// \PL{ Aktualny tytuł bez sprawdzania, czy nie NULL. }
         virtual
         const char *get_title()
         {
@@ -70,7 +71,8 @@ namespace sym2
     //        return title;    //Zwraca nazwę albo NULL
     //    }
 
-        /// \EN{ Returns title/name or empty string. Never NULL.<br>} \PL{ Zwraca tytuł/nazwę albo pusty łańcuch. Nigdy NULL. }
+        /// \EN{ Returns title/name or empty string. Never NULL. }
+        /// \PL{ Zwraca tytuł/nazwę albo pusty łańcuch. Nigdy NULL.  }
         const char *name()
         {
             return title != NULL?title:"";

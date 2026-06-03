@@ -1,7 +1,7 @@
 /// @file
 /// @brief **Different types of dual-source data filters** /<br>
 ///         _Różne klasy dwuźródłowych filtrów danych._
-/// @date 2026-05-30 (modified)
+/// @date 2026-06-03 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_BI_FILTER_SOUR_HPP_INCLUDED_
@@ -21,7 +21,7 @@ namespace sym2 { namespace data {
 /// @brief @EN{ A simple class that SUMs two sources without using a cache. }
 ///        @PL{ Prosta klasa SUMUJĄCA dwa źródła bez użycia cache'a. }
 /// @details ...
-class summ_source : public bi_filter_source_base
+class sum_source : public bi_filter_source_base
 //----------------------------------------------------
 {
 public:
@@ -29,9 +29,9 @@ public:
     /// \param ini1 pierwsza źródłowa seria danych.
     /// \param ini2 druga źródłowa seria danych.
     /// \param format to sposób utworzenia nazwy tej seri z nazw serii źródłowych.
-    explicit summ_source( data_source_base *ini1 = NULL,
-                          data_source_base *ini2 = NULL,
-                          const char *format = "SUMM(%s , %s)")
+    explicit sum_source(data_source_base *ini1 = NULL,
+                        data_source_base *ini2 = NULL,
+                        const char *format = "SUMM(%s , %s)")
     : bi_filter_source_base(ini1, ini2, format)
     {}
 
@@ -40,9 +40,9 @@ public:
 //--------------------------------------------------------------------
 
     /// Reimplementacja decyzji o wartości minimalnej i maksymalnej.
-    void _bounds(double &min1, double &max1,
-                         double &min2, double &max2,
-                         double &min, double &max) override
+    void _bounds( double &min1, double &max1,
+                  double &min2, double &max2,
+                  double &min, double &max) override
     {
         //jeśli jest ustawione to zostawiamy
         if(y_min < y_max)
@@ -70,9 +70,15 @@ public:
 
 };
 
-/// @brief @EN{ A class that returns values from the second source, if the first one, treated as a condition, returns the "not-missing" value. }
-///        @PL{ Klasa zwracająca wartości z drugiego źródła, jeśli pierwsze, traktowane jako warunek zwraca wartość "nie-missing". }
-/// @details ...
+/// @brief @EN{ Filter that returns values from the second source, if the first one, treated as a condition, returns the "not-missing" value. }
+///        @PL{ Filtr zwracający wartości z drugiego źródła, jeśli pierwsze, traktowane jako warunek zwraca wartość "nie-missing". }
+/// @details @if POLISH
+///     Zazwyczaj pierwsze źródło jest potomkiem `threshold_filter_base`, np. `EQ_filter`,
+///     które w przypadku nie spełnienia warunku zwracają właśnie missing value.
+/// @elseif ENGLISH
+///     Typically, the first source is a descendant of `threshold_filter_base`, e.g. `EQ_filter`,
+///     which returns the missing value if the condition is not met.
+/// @endif
 class if_then_source : public bi_filter_source_base
 //---------------------------------------------------
 {
@@ -95,9 +101,9 @@ public:
 //--------------------------------------------------------------------
 
     /// Reimplementacja decyzji o wartości minimalnej i maksymalnej
-    void _bounds(double &min1, double &max1,
-                         double &min2, double &max2,
-                         double &min, double &max) override
+    void _bounds( double &min1, double &max1,
+                  double &min2, double &max2,
+                  double &min, double &max) override
     {
         //jeśli jest ustawione to zostawiamy
         if(y_min < y_max)
