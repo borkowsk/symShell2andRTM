@@ -1,7 +1,7 @@
 /// @file
 /// @brief **Implementation of the world type** /<br>
 ///        _Implementacja rozwiązań klasy reprezentującej świat._
-/// @date 2026-05-20 (modified)
+/// @date 2026-06-03 (modified)
 //======================================================================================================================
 
 #include "world.hpp"
@@ -34,7 +34,7 @@ int	sym2::shell::world::set_history_stream(const char* name)
 void sym2::shell::world::make_default_visualisation()
 //Tworzenie obowiązkowego lufcika na informacje tekstowe.
 {
-    if(!HasAreaMenager()) {//SKORO NIE MA MANAGERA, TO NIE MA CO ROBIĆ, ALE TO JEST BŁĄD! TODO Menager!!!
+    if(!HasAreaManager()) {//SKORO NIE MA MANAGERA, TO NIE MA CO ROBIĆ, ALE TO JEST BŁĄD! TODO Menager!!!
         cerr<<"Visualization manager not connected - default graphs could not be created."<<endl;
         goto ERROR;
     }

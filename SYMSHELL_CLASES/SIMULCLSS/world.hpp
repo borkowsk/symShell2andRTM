@@ -1,6 +1,6 @@
 /// @file
 /// @brief **Interface for the whole world** /<br> _Interfejs dla klasy reprezentującej cały świat._
-/// @date 2026-05-30 (modified)
+/// @date 2026-06-03 (modified)
 // ********************************************************************************************************************
 //
 #ifndef  SYMSHELL2_WORLD_HPP_INCLUDED_
@@ -174,7 +174,7 @@ public:
     sym2::visual::area_manager&	MyAreaManager();
 
     /// @brief @PL{ Sprawdzenie, czy ma już podłączonego zarządcę okien. } @EN{ Checking if it already has a window manager connected. }
-    int 			HasAreaMenager() { return AreaManager!=nullptr; }
+    int 			HasAreaManager() { return AreaManager != nullptr; }
 
     /// @brief @PL{ Jak trzeba KONIECZNIE coś dopisać do logu. } @EN{ If necessary, MUST add something to the log. }
     ostream&		MyLogStream();
