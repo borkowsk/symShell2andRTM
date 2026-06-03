@@ -2,7 +2,7 @@
 /// @brief
 ///  @EN{ NETWORKED CONFLICT SIMULATION, BOCA 2005 (main file). }
 ///  @PL{ SIECIOWA SYMULACJA KONFLIKTÓW, BOCA 2005 (plik główny). }
-/// @date 2026-05-29 (modified)
+/// @date 2026-06-03 (modified)
 ///       =========================================================
 /// @details UZUPEŁNIONY 10-11.2005, 9-2010, 02-2014, 04-2026
 //-=====================================================================================================================
@@ -746,7 +746,7 @@ void NetworkWorld::make_basic_sources()
 }
 
 void NetworkWorld::make_default_visualisation()
-{                                                                                        assert(this->HasAreaMenager());
+{                                                                                        assert(this->HasAreaManager());
     world::make_default_visualisation();
 
     this->OutArea->set(0,0,250,250); //Pod-obiekt lufcika tekstowego stworzony linię wyżej w `world::make_default_visualisation()`.
