@@ -1,7 +1,7 @@
 /// @file
 /// @brief **BASIC INTERFACE DECLARATIONS FOR SCREEN AREAS** /<br>
 ///         _DEKLARACJE PODSTAWOWEGO "SPRZĘGU" DLA OBSZARÓW EKRANU._
-/// @date 2026-06-02 (modified)
+/// @date 2026-06-03 (modified)
 // ********************************************************************************************************************
 //
 #ifndef SYMSHELL2_DRAWABLE_HPP_INCLUDED_
@@ -48,15 +48,15 @@ private:
     xy_info x2,y2; ///< @EN{ lower-right corner. } @PL{ prawy dolny róg. }
 
 public:
-    /// Default constructor.
+    /// @EN{ Default constructor. } @PL{ Konstruktor domyślny. }
     gps_area()
         { set(0,0,0,0); }
 
-    /// Regular constructor.
+    /// @EN{ Regular constructor. } @PL{ Konstruktor zwyczajny. }
     gps_area(xy_info ix1, xy_info iy1, xy_info ix2, xy_info iy2)
         { set(ix1,iy1,ix2,iy2); }
 
-    /// Copy constructor.
+    /// @EN{ Copy constructor. } @PL{ Konstruktor kopiujący. }
     gps_area(const gps_area& p)
         { load(p); }
 
@@ -116,12 +116,14 @@ public:
     /// Performs the transformation given in the table on this area.
     void transform(const float in_tab[6]);
 
-    /// Checks whether the given point lies within the area.
+    /// @brief @EN{ Checks whether the given point lies within the area. }
+    ///        @PL{ ... }
     /// @return 1 if point is inside area, but is not embedded action,
     ///         but 0, if point is NOT inside area
     int  is_inside(xy_info  x, xy_info  y) const;
 
-    /// Checks whether two areas overlap.
+    /// @brief @EN{ Checks whether two areas overlap. }
+    ///        @PL{ ... }
     int  is_overlapped(const gps_area& t) const;
 };
 
@@ -131,20 +133,26 @@ public:
 class drawable_base:public gps_area,public sym2::title_util
 //------------------------------------------------------------
 {
-    int     frame_width; ///< Szerokość ramki obszaru.
-    wb_color  frame_col; ///< Kolor ramki. Jeśli `== default_transparent` to ramka wyłączona.
-    wb_color    tit_bck; ///< Kolor tła tytułu — jeśli `default_color` to domyślny.
-    wb_color    tit_col; ///< Kolor tytułu — jeśli `default_color` to domyślny.
-    wb_color background; ///< Kolor tła. Jeśli `== default_transparent` to tło przezroczyste.
-                         ///< Wtedy w metodzie `replot` można nakładać obszary.
+protected:
+    /// @name @PL{ Atrybuty wyświetlania obszaru. } @EN{ ... }
+    /// @details @PL{ Bezpośrednie modyfikowanie nie jest zalecane nawet w klasach potomnych. }
+    ///          @EN{ ... }
+    /// @{
+    int     frame_width; ///< @PL{ Szerokość ramki obszaru. } @EN{ ... }
+    wb_color background; ///< @PL{ Kolor tła. Jeśli `== default_transparent` to tło przezroczyste. } @EN{ ... }
+                         ///< @PL{ Wtedy w metodzie `replot` można nakładać obszary. } @EN{ ... }
+    wb_color  frame_col; ///< @PL{ Kolor ramki. Jeśli `== default_transparent` to ramka wyłączona. } @EN{ ... }
+    wb_color    tit_bck; ///< @PL{ Kolor tła tytułu — jeśli `default_color` to domyślny. } @EN{ ... }
+    wb_color    tit_col; ///< @PL{ Kolor tytułu — jeśli `default_color` to domyślny. } @EN{ ... }
+    /// @}
 public:
-    /// CONSTRUCTOR.
+    /// @EN{ CONSTRUCTOR. } @PL{ .... }
     drawable_base(int ix1,int iy1,int ix2,int iy2,wb_color ibkg=default_half_gray,wb_color ifr=default_white)
     : gps_area(ix1,iy1,ix2,iy2), background(ibkg), frame_width(def_frame_width), frame_col(ifr),
       title_util(NULL), tit_bck(ibkg), tit_col(default_transparent)
     {}
 
-    /// Destructor. Need to free up title memory.
+    /// @EN{ Destructor. Need to free up title memory. } @PL{ ... }
     ~drawable_base() override{ set_title(NULL);}
 
 // ACCESSORS:
