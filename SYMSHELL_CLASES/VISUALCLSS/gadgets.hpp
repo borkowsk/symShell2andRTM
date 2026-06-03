@@ -1,7 +1,7 @@
 /// @file
 /// @brief **GADGETS, I.E. AUXILIARY TYPES OF WINDOW AREAS** /<br>
 ///         _GADŻETY CZYLI POMOCNICZE TYPY OBSZARÓW OKNA._
-/// @date 2026-05-20 (modified)
+/// @date 2026-06-03 (modified)
 ///     Służą głównie jako typy bazowe dla klas specjalizowanych, wykonujących
 ///     jakieś akcje w metodzie `_on_click` i ewentualnie podobnych.
 // ********************************************************************************************************************
@@ -146,7 +146,7 @@ public:
             ):
         sensitive_area(ix1, iy1, ix2, iy2, i_color, i_background, i_frame),
         mode(i_mode)
-        {}
+        { this->set_title("arrow_button"); tit_col= default_transparent; tit_bck=default_transparent; }
 
     /// @EN{ Drawing — reimplementation of the required virtual function. }
     /// @PL{ Rysowanie — reimplementacja wymaganej funkcji wirtualnej. }
