@@ -1,7 +1,7 @@
 /// @file
 /// @brief **IMPLEMENTATION OF BASIC GRAPH CLASSES** /<br>
 ///         _IMPLEMENTACJA PODSTAWOWYCH KLAS GRAFÓW._
-/// @date 2026-05-20 (modified)
+/// @date 2026-06-02 (modified)
 //==========================================================================================
 
 //#include <cstdarg>
@@ -114,7 +114,7 @@ int  gps_area::translate(int& x,int& y) const
 
 void gps_area::get_transform_to(const gps_area& t,float tab[6]) const
 {   //xy_info pom jest teraz typu `double`, więc rzuty na `double` są zbędne.
-    #warning "Many narrowing conversions from double to float, but don`t worry."
+    //#warning "Many narrowing conversions from double to float, but don`t worry."
     tab[0]=float((t.x2+t.x1)/2-(x2+x1)/2); //px
     tab[1]=float((t.y2+t.y1)/2-(y2+y1)/2); //py
     tab[2]=float((t.x2-t.x1)/(x2-x1)); //kx
@@ -134,7 +134,7 @@ void gps_area::transform(const float tab[6])
 int  gps_area::is_overlapped(const gps_area& t) const
 {
     if(is_inside(t.x1,t.y1) ||
-                t.is_inside(x1,y1) ||
+                 t.is_inside(x1,y1) ||
        is_inside(t.x2,t.y2) ||
                 t.is_inside(x2,y2) ||
        is_inside(t.x1,t.y2) ||
@@ -168,7 +168,7 @@ int drawable_base::get_start_y()
     return ret;
 }
 
-int drawable_base::get_width ()
+int drawable_base::get_width()
 //Szerokość obszaru użytkowego
 {
     int ret=int(x2-x1);
@@ -228,8 +228,8 @@ void drawable_base::replot(int need_flush)
     if(enough_left && title && (tit_col != default_transparent || tit_bck != default_transparent))
     {
         int sw=0; //Current string width
-        unsigned col1=(tit_col != default_transparent?tit_col:get_frame());
-        unsigned col2=(tit_bck != default_transparent?tit_bck:get_background());
+        unsigned col1=(tit_col != default_transparent ? tit_col:get_frame());
+        unsigned col2=(tit_bck != default_transparent ? tit_bck:get_background());
         if(col1==default_transparent)
             col1=default_black;
 
@@ -274,8 +274,7 @@ void drawable_base::replot(int need_flush)
     }
 
     if(need_flush)
-            flush_plot();
-
+        flush_plot();
 }
 
 void drawable_base::_replot()
@@ -487,7 +486,7 @@ data_source_base* carpet_graph::get_series(size_t index)
 }
 
 void carpet_graph::_replot()
-// Rysuje właściwy wykres a pod nim ewentualnie legendę.
+// Rysuje właściwy wykres, a pod nim ewentualnie legendę.
 {
     unsigned CO_ILE_KOMOREK=1;
     int x1= get_start_x();
@@ -520,7 +519,7 @@ void carpet_graph::_replot()
     if(!direct_color)
         mm.set(min,max,c_range.end-c_range.start+0.999);
 
-    JESZCZE_RAZ_PRZELICZ:
+JESZCZE_RAZ_PRZELICZ:
     //R y s o w a n i e  l e g e n d y
     if(t_colors.start != get_background() &&
        char_height('X') < get_height())
@@ -558,7 +557,7 @@ void carpet_graph::_replot()
         }
 
     //Rysowanie kwadracików
-    KWADRACIKI:                                                             assert(x2>x1);
+KWADRACIKI:                                                                 assert(x2>x1);
                                                                             assert(y2>y1);
     while(!( A/CO_ILE_KOMOREK <= (x2-x1+1) && B/CO_ILE_KOMOREK <= (y2-y1+1)))
     {
@@ -567,7 +566,7 @@ void carpet_graph::_replot()
     }
 
     //RYSOWANIE
-        {
+    {
                                                                             assert(c_range.end-c_range.start>=1);
         size_t i,j; //Indeksy po wierszach i kolumnach
         int width=x2-x1+1; //Już moga być inne
@@ -688,10 +687,10 @@ void carpet_graph::_replot()
               }
             }
         MyGeometry->destroy_iterator(h);
-        }
+    }
 
     return;
-    NIE_DA_SIE:
+NIE_DA_SIE:
     print_width(x1,(y1+y2)/2,x2-x1, t_colors.start, get_background(), "%@CInvalid colors found.");
     print_width(x1,toi((y1+y2)/2+char_height('X')),x2-x1, t_colors.start, get_background(), "%@CProbably min or max not properly set.");
 }
@@ -981,12 +980,13 @@ manhattan_graph::manhattan_graph(int ix1, int iy1, int ix2, int iy2, //Położen
                                  int zero_mod,        // tryb wyświetlania
                                  double H_offs,       // Ułamek szerokości przeznaczony na perspektywę
                                  double V_offs        // Ułamek wysokości  przeznaczony na perspektywę
-) :
-        graph(ix1, iy1, ix2, iy2), AA(iA), BB(iB),
-        datas(i_datas), d_menage(menage_d),
-        colors(i_colors), c_menage(menage_c),
-        mode(zero_mod), c_offset(0), wire(get_background()),
-        h_offs(H_offs), v_offs(V_offs)
+                                )
+    :
+    graph(ix1, iy1, ix2, iy2), AA(iA), BB(iB),
+    datas(i_datas), d_menage(menage_d),
+    colors(i_colors), c_menage(menage_c),
+    mode(zero_mod), c_offset(0), wire(get_background()),
+    h_offs(H_offs), v_offs(V_offs)
 {
     assert(datas != nullptr);
     assert(AA != 0);
@@ -1001,12 +1001,13 @@ manhattan_graph::manhattan_graph(int ix1, int iy1, int ix2, int iy2, //Położen
                                  int zero_mod,         // tryb wyświetlania
                                  double H_offs,        // Ułamek szerokości przeznaczony na perspektywę
                                  double V_offs         // Ułamek wysokości  przeznaczony na perspektywę
-) :
-        graph(ix1, iy1, ix2, iy2), AA(1), BB(1),
-        datas(i_datas), d_menage(menage_d),
-        colors(i_colors), c_menage(menage_c),
-        mode(zero_mod), c_offset(0), wire(get_background()),
-        h_offs(H_offs), v_offs(V_offs)
+                                )
+    :
+    graph(ix1, iy1, ix2, iy2), AA(1), BB(1),
+    datas(i_datas), d_menage(menage_d),
+    colors(i_colors), c_menage(menage_c),
+    mode(zero_mod), c_offset(0), wire(get_background()),
+    h_offs(H_offs), v_offs(V_offs)
 {
     assert(datas != nullptr);
     assert(AA != 0);
@@ -1105,6 +1106,7 @@ data_source_base *manhattan_graph::get_series(size_t index)
 
 void manhattan_graph::_replot() // Rysuje właściwy wykres a pod nim ewentualnie legendę
 {
+    int zero=0;
     int x1 = get_start_x();
     int y1 = get_start_y();
     int x2 = x1 + get_width() - 1; //-1, bo width obejmuje pierwszy piksel
@@ -1206,6 +1208,8 @@ void manhattan_graph::_replot() // Rysuje właściwy wykres a pod nim ewentualni
     {
         y1 += toi(char_height('0'));
         y2 -= toi(char_height('0'));
+        if(y1>y2)
+            goto NOT_ENOUGH_HEIGH; //TODO W innych grafach!!!
     }
     flaga = 0;
 
@@ -1231,6 +1235,7 @@ void manhattan_graph::_replot() // Rysuje właściwy wykres a pod nim ewentualni
     }
 
 //Rysowanie właściwych słupków
+    {
     int zero = y2;
     if(min < 0 && max > 0)
     {
@@ -1297,11 +1302,11 @@ void manhattan_graph::_replot() // Rysuje właściwy wykres a pod nim ewentualni
             }
         MyGeometry->destroy_iterator(h);
         if(color_geom) color_geom->destroy_iterator(c);
-    } else
-    {
-        printc(x1, (y1 + y2) / 2, t_colors.start, get_background(), "Too small area");
+    } else goto NOT_ENOUGH_HEIGH;
     }
-
+    return;
+NOT_ENOUGH_HEIGH:
+        printc(x1, (y1 + y2) / 2, t_colors.start, get_background(), "Too small area");
 }
 
 // reals[] zawiera  wysokość słupka i wartość ustalająca kolor albo -1
@@ -2485,6 +2490,8 @@ void scatter_graph::_replot()
     {
         y1 += toi(char_height('0'));
         y2 -= toi(char_height('0'));
+        if(y1>=y2) //ZA NISKO!
+            goto ZA_NISKO;
     }
 
 
@@ -2511,10 +2518,10 @@ void scatter_graph::_replot()
         x1 += 3;
     }
 
-//Rysowanie punktów
+    //Rysowanie punktów
     num = min_(min_((size_t) num_X, num_Y), min_((size_t) num_size, num_color)); //cast for gcc
 
-    graph_core.set(x1, y1, x2, y2); //Zapamiętanie gdzie lezy właściwy obszar rysowania
+    graph_core.set(x1, y1, x2, y2); //Zapamiętanie gdzie leży właściwy obszar rysowania
 
     if(num > 0 && x2 - x1 > 10 && y2 - y1 > 10)
     {
@@ -2558,6 +2565,7 @@ void scatter_graph::_replot()
         }
     } else
     {
+        ZA_NISKO:
         print_width(x1, (y1 + y2) / 2, x2 - x1, t_colors.start, get_background(), "%@CInvalid data or too small area");
     }
 }
