@@ -1,7 +1,7 @@
 /// @file
 /// @brief **IMPLEMENTATION OF BASIC GRAPH CLASSES** /<br>
 ///         _IMPLEMENTACJA PODSTAWOWYCH KLAS GRAFÓW._
-/// @date 2026-06-02 (modified)
+/// @date 2026-06-03 (modified)
 //==========================================================================================
 
 //#include <cstdarg>
@@ -195,7 +195,6 @@ int drawable_base::get_height()
     return ret;
 }
 
-
 void drawable_base::flush()
 {
     flush_plot();
@@ -214,19 +213,19 @@ void drawable_base::clear(int need_flush)
 //Rysuje ramkę, może tytuł i wirtualnie zawartość
 void drawable_base::replot(int need_flush)
 {
-    if(x1==x2 && y1==y2) return; //Uśpiony obszar o zerowym rozmiarze
+    if(x1==x2 && y1==y2) return; //Uśpiony obszar o zerowym rozmiarze.
 
     int tx=int(x1);
     int ty=int(y1);
     int tw=int(x2-x1);
-    int enough_left= (y2 - y1) > char_height('X'); //Czy jest miejsce na tytuł i/albo resztę
+    int high_enough= (y2 - y1) >= (char_height('X') + (2 * frame_width)); //Czy jest miejsce co najmniej na tytuł i/albo resztę
 
     //Czyszczenie tłem lufcika, jeśli jest ustawione
     if(get_background() != default_transparent)
         fill_rect(dtoi(x1), dtoi(y1), dtoi(x2+1), dtoi(y2+1), get_background());
 
-    if(enough_left && title && (tit_col != default_transparent || tit_bck != default_transparent))
-    {
+    if(high_enough && title && (tit_col != default_transparent || tit_bck != default_transparent))
+    { // TEN BLOK TYLKO WTEDY GDY ISTNIEJE WIDOCZNY TYTUŁ OBSZARU.
         int sw=0; //Current string width
         unsigned col1=(tit_col != default_transparent ? tit_col:get_frame());
         unsigned col2=(tit_bck != default_transparent ? tit_bck:get_background());
@@ -234,6 +233,7 @@ void drawable_base::replot(int need_flush)
             col1=default_black;
 
         char*  pom=clone_str(title);
+
         size_t len=strlen(pom);
         if(len==0)	goto REZYGNACJA;
 
@@ -253,16 +253,23 @@ void drawable_base::replot(int need_flush)
         printc(tx+(tw/2-sw/2),ty,col1,col2,"%s",pom);
 
         // czy jest jeszcze miejsce na cokolwiek poza tytułem
-        enough_left= (y2 - y1) > char_height('X') * 2 + frame_width; //Na frame asekurancko
+        high_enough= (y2 - y1) > char_height('X') * 2 + frame_width; //Na frame asekurancko.
 
-        REZYGNACJA:
+   REZYGNACJA:
         delete pom;
     }
 
-    if(x2-x1>(2*frame_width) && enough_left)
+    if((x2-x1>(2*frame_width)) && high_enough) //Nie robi _replot dla zbyt wąskich obszarów. Mają tylko tytuł.
     {
         //assert(this->CurrConfig!=nullptr);
-        _replot(); //Nie odrysowuje idiotycznie wąskich obszarów (?)
+        _replot();
+        if(strlen(this->name())==0) //Zupełnie legalnie podobszary, np. typu "arrow_button" mogą nie mieć nazw, ale lepiej, żeby miały.
+           cerr<<"Noname area detected... Set breakpoint at line "<<__LINE__<<" in "<<__FILE__<<endl; //PLACE FOR A BREAKPOINT?
+    }
+    else
+    {
+        // O WIELE ZA MAŁY OBSZAR, ŻEBY BYŁO COŚ WIĘCEJ NIŻ TYTUŁ. ALE TO PRZECIEŻ NIC SZCZEGÓLNEGO...
+        //cerr<<'\"'<<this->name()<<"\" is a tiny area! "<<x2-x1<<"x"<<y2-y1<<endl; //PLACE FOR A BREAKPOINT?
     }
 
     if(get_frame() != default_transparent && frame_width > 0)
@@ -508,7 +515,7 @@ void carpet_graph::_replot()
 
     if((A<=1 && B<=1)||(min>=max))
         {
-        print_width(x1,(y1+y2)/2,x2-x1, t_colors.start, get_background(), "%@CInvalid data");
+        print_width(x1,(y1+y2)/2,x2-x1,  get_background(),t_colors.start, "%@CInvalid data");
         return;
         }
 
@@ -557,8 +564,8 @@ JESZCZE_RAZ_PRZELICZ:
         }
 
     //Rysowanie kwadracików
-KWADRACIKI:                                                                 assert(x2>x1);
-                                                                            assert(y2>y1);
+KWADRACIKI:                                                                                               assert(x2>x1);
+                                                                                                          assert(y2>y1);
     while(!( A/CO_ILE_KOMOREK <= (x2-x1+1) && B/CO_ILE_KOMOREK <= (y2-y1+1)))
     {
        CO_ILE_KOMOREK++;
@@ -567,42 +574,43 @@ KWADRACIKI:                                                                 asse
 
     //RYSOWANIE
     {
-                                                                            assert(c_range.end-c_range.start>=1);
+                                                                                   assert(c_range.end-c_range.start>=1);
         size_t i,j; //Indeksy po wierszach i kolumnach
         int width=x2-x1+1; //Już moga być inne
         int height=y2-y1+1; //Niż dla całego obszaru
 
-        int gruboscA,gruboscB;
+        int thicknessA,thicknessB;
         if(CO_ILE_KOMOREK==1)
         {
-            gruboscA=toi(width/A);
-            gruboscB=toi(height/B);
+            thicknessA=toi(width / A);
+            thicknessB=toi(height / B);
         }
-        else gruboscA=gruboscB=1;
+        else thicknessA=thicknessB=1;
 
         //Musi być kwadratowo, bo inaczej jest nieładnie
-        if(gruboscA>1 && gruboscB>1)
+        if(thicknessA > 1 && thicknessB > 1)
             {
-            if(gruboscA>gruboscB)
-                gruboscA=gruboscB;
+            if(thicknessA > thicknessB)
+                thicknessA=thicknessB;
             else
-                gruboscB=gruboscA;
+                thicknessB=thicknessA;
             }
         else
             {
-            gruboscA=gruboscB=1; //Pikselami będzie !!!
+                thicknessA= thicknessB=1; //Pikselami będzie !!!
             }
 
-        int offsetA=toi(width -gruboscA*(A/CO_ILE_KOMOREK))/2;
-        int offsetB=toi(height-gruboscB*(B/CO_ILE_KOMOREK))/2;
+        int offsetA= toi(width - thicknessA * (A / CO_ILE_KOMOREK)) / 2;
+        int offsetB= toi(height - thicknessB * (B / CO_ILE_KOMOREK)) / 2;
 
         //Rysowanie
-        const rectangle_geometry* MyGeomRect=dynamic_cast<const rectangle_geometry*>(MyGeometry);           assert(MyGeomRect!=nullptr); //Musi taka być!
+        const rectangle_geometry* MyGeomRect=                                                           //Musi taka być!
+                             dynamic_cast<const rectangle_geometry*>(MyGeometry);           assert(MyGeomRect!=nullptr);
     //    long index=MyGeomRect->get(0,0); //Zerowa komórka
 
-        data_source_base::iterator_h h=MyGeometry->make_view_iterator();                                     assert(h != nullptr);
-        wb_color back= get_background(); //Dla sprawdzania, kiedy kolor kwadratu taki jak kolor tla.
-        if(gruboscA==1) //starczy jedna sprawdzić, bo kwadrat
+        data_source_base::iterator_h h=MyGeometry->make_view_iterator();                           assert(h != nullptr);
+        wb_color back= get_background(); //Dla sprawdzania, kiedy kolor kwadratu taki jak kolor tła.
+        if(thicknessA == 1) //starczy jedna sprawdzić, bo kwadrat.
             {
             //Pikselami panowie!!!
             for(j=0;j<B;j+=CO_ILE_KOMOREK)
@@ -659,16 +667,16 @@ KWADRACIKI:                                                                 asse
                     if(color > c_range.end) //reverted/simplified expression.
                         goto NIE_DA_SIE;
 
-                    if(color==back && gruboscA>3)
+                    if(color==back && thicknessA > 3)
                     {
-                      rect(toi(offsetA+x1+i*gruboscA),toi(offsetB+y1+j*gruboscB),
-                           toi(offsetA+x1+(i+1)*gruboscA-1),toi(offsetB+y1+(j+1)*gruboscB-1),
+                      rect(toi(offsetA+x1+ i * thicknessA), toi(offsetB + y1 + j * thicknessB),
+                           toi(offsetA + x1 + (i+1) * thicknessA - 1), toi(offsetB + y1 + (j + 1) * thicknessB - 1),
                            255!=back?255:0);
                     }
                     else
                     {
-                      fill_rect(toi(offsetA+x1+i*gruboscA),toi(offsetB+y1+j*gruboscB),
-                                toi(offsetA+x1+(i+1)*gruboscA),toi(offsetB+y1+(j+1)*gruboscB),
+                      fill_rect(toi(offsetA+x1+ i * thicknessA), toi(offsetB + y1 + j * thicknessB),
+                                toi(offsetA+x1+ (i+1) * thicknessA), toi(offsetB + y1 + (j + 1) * thicknessB),
                                 color);
                     }
                   }
@@ -681,8 +689,8 @@ KWADRACIKI:                                                                 asse
                         unsigned Blu=(C & 0xff0000) >> 16;
                         set_pen_rgb(Red, Gre, Blu, 1, SSH_SOLID_PUT);
                         set_brush_rgb(Red, Gre, Blu);
-                        fill_rect_d(toi(offsetA+x1+i*gruboscA),toi(offsetB+y1+j*gruboscB),
-                                    toi(offsetA+x1+(i+1)*gruboscA),toi(offsetB+y1+(j+1)*gruboscB));
+                        fill_rect_d(toi(offsetA+x1+ i * thicknessA), toi(offsetB + y1 + j * thicknessB),
+                                    toi(offsetA+x1+ (i+1) * thicknessA), toi(offsetB + y1 + (j + 1) * thicknessB));
                   }
               }
             }
@@ -787,17 +795,17 @@ void bars_graph::_replot() // Rysuje właściwy wykres a pod nim ewentualnie leg
 {
     int x1 = get_start_x();
     int y1 = get_start_y();
-    int x2 = x1 + get_width() - 1; //-1, bo width obejmuje pierwszy piksel
+    int x2 = x1 + get_width() - 1; //-1, bo width obejmuje pierwszy piksel (?).
     int y2 = y1 + get_height() - 1;
-    double min, max, minc, maxc;
-    double miss, missc;
+    double min, max, minc, max_c;
+    double miss, miss_c;
     size_t num_height,num_color; ///< Faktycznie może być tak dużo danych, że potrzeba size_t?
     unsigned height;
     int flaga = 0;
 
     //Legenda wtedy, jeśli jest potrzebna
     if(t_colors.start != get_background() || (t_colors.end != get_background() && colors))
-        height = (y2 - y1) - 2 * char_height('0'); //będzie legenda
+        height = (y2 - y1) - 2 * char_height('0'); //będzie legenda.
     else
         height = y2 - y1; //Nie będzie legendy
 
@@ -806,16 +814,16 @@ void bars_graph::_replot() // Rysuje właściwy wykres a pod nim ewentualnie leg
 
     miss = datas->get_missing();
     if(mode == 1)
-        if(min > 0) min = 0; // Słupki co najmniej od zera
+        if(min > 0) min = 0; // Słupki co najmniej od zera.
     s_data.set(min, max, height + 0.999);
 
     //Do skalowania kolorów
     if(colors != nullptr)
     {//Jeśli jest seria
-        colors->bounds(num_color, minc, maxc);
+        colors->bounds(num_color, minc, max_c);
         assert(num_height <= num_color);
-        s_colo.set(minc, maxc, c_range.end - c_range.start + 0.999);
-        missc = colors->get_missing();
+        s_colo.set(minc, max_c, c_range.end - c_range.start + 0.999);
+        miss_c = colors->get_missing();
     } else
     {   //Nie ma serii dla kolorów, więc kolory arbitralne
         s_colo.set(0, toi(num_height - 1), c_range.end - c_range.start + 0.9999);
@@ -845,7 +853,7 @@ void bars_graph::_replot() // Rysuje właściwy wykres a pod nim ewentualnie leg
 
         print_width(x2 - (x2 - x1) / 3, toi(y2 - char_height('0')), (x2 - x1) / 3,
                     c_range.end, c_range.end != get_background()?get_background():c_range.start,
-                    "%@R%g", maxc);
+                    "%@R%g", max_c);
 
         flaga = 1;
     }
@@ -855,6 +863,8 @@ void bars_graph::_replot() // Rysuje właściwy wykres a pod nim ewentualnie leg
     {
         y1 += toi(char_height('0'));
         y2 -= toi(char_height('0'));
+        if(y1>y2) //Zrobiło się za małe.
+            return;
     }
     flaga = 0;
 
@@ -900,7 +910,7 @@ void bars_graph::_replot() // Rysuje właściwy wykres a pod nim ewentualnie leg
             if(colors)
             {
                 r[1] = test = colors->get(c);
-                if(test == missc)
+                if(test == miss_c)
                     continue; //nie rysuj
             } else
                 r[1] = i; //Arbitralny przydział kolejnych kolorów
@@ -1133,12 +1143,12 @@ void manhattan_graph::_replot() // Rysuje właściwy wykres a pod nim ewentualni
     if(t_colors.end != get_background() && colors != nullptr)
         width -= 5;
 
-//Danina wysokości i szerokości na perspektywę
+   //Danina wysokości i szerokości na perspektywę
     anty_width = size_t(width * h_offs);
     width = size_t(width * (1 - h_offs));
     height = size_t(height * (1 - v_offs));
 
-//Danina na podzielność przez A i B
+    //Danina na podzielność przez A i B
     if(A <= 1 || B <= 1) //Nie ma danych
     {
         print_width(x1, (y1 + y2) / 2, x2 - x1, t_colors.start, get_background(), "%@CInvalid data");
@@ -1148,10 +1158,10 @@ void manhattan_graph::_replot() // Rysuje właściwy wykres a pod nim ewentualni
     anty_width += width % A; //Z szerokości coś wpada do antyszerokości
     width -= width % A; //W szerokości musi się mieścić A kolumn
 
-//już wiadomo,jeśli się nie zmieści
+   //już wiadomo,jeśli się nie zmieści
     if(width == 0 || anty_width / B * B == 0) //W antyszerokości musi bys co najmniej po 1 piksel na wiersz
     {
-        print_width(x1, (y1 + y2) / 2, x2 - x1, t_colors.start, get_background(), "%@CTo small area for %ux%u graph", A,
+        print_width(x1,y1,x2 - x1, t_colors.start, get_background(), "%@CToo small area for %ux%u graph", A,
                     B);
         return;
     }
@@ -1208,8 +1218,8 @@ void manhattan_graph::_replot() // Rysuje właściwy wykres a pod nim ewentualni
     {
         y1 += toi(char_height('0'));
         y2 -= toi(char_height('0'));
-        if(y1>y2)
-            goto NOT_ENOUGH_HEIGH; //TODO W innych grafach!!!
+        if(y1>y2) return;
+            //goto NOT_ENOUGH_HEIGH; //TODO W jeszcze innych grafach!!!
     }
     flaga = 0;
 
@@ -2320,6 +2330,12 @@ void scatter_graph::_replot()
 
     num = num_X = num_Y = num_color = num_size = 0; //Abrakadabra
 
+    if((y2-y1-2*frame_width) < 1.2 * char_height('X')) //Za małe tak czy siak...
+    {
+        print_width(x1,y1,x2 - x1, t_colors.start, get_background(), "%@CToo small area");
+        return;
+    }
+
 //Miejsce na legendę, wtedy gdy jest potrzebna
     unsigned height, width;
     if((t_colors.start != default_transparent && t_colors.start != get_background()) ||
@@ -2490,8 +2506,8 @@ void scatter_graph::_replot()
     {
         y1 += toi(char_height('0'));
         y2 -= toi(char_height('0'));
-        if(y1>=y2) //ZA NISKO!
-            goto ZA_NISKO;
+        if(y1>=y2) return; //ZA NISKO!
+           // goto ZA_NISKO;
     }
 
 
