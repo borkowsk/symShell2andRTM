@@ -17,6 +17,7 @@
 #define WB_BITS_H_INCLUDED_
 
 #include <climits>
+#include <cstdint>
 
 #ifndef BITS_PER_BYTE //Jakby taki komentarz :-)
 #define BITS_PER_BYTE (CHAR_BIT)  //!!!
