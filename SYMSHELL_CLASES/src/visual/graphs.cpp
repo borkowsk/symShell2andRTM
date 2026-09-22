@@ -256,7 +256,7 @@ void drawable_base::replot(int need_flush)
         high_enough= (y2 - y1) > char_height('X') * 2 + frame_width; //Na frame asekurancko.
 
    REZYGNACJA:
-        delete pom;
+        delete [] pom;
     }
 
     if((x2-x1>(2*frame_width)) && high_enough) //Nie robi _replot dla zbyt wąskich obszarów. Mają tylko tytuł.
