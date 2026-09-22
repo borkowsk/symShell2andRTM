@@ -45,7 +45,7 @@ public:
     array_constsize(const array_base<T>& a):array_base<T>(a){}
     array_constsize(size_t N=1):array_base<T>(N) //1, żeby był jakiś bezparametrowy
     { // Alloc array of N items
-                                                assert(N>0);
+                                                                assert(N>0);
           NewMaxIndex(N-1); // save an index for iterators & High function
     }
     ~array_constsize(){}                  // destroy `array`
