@@ -320,12 +320,12 @@ public:
 
     /// @name Implementacja wejścia/wyjścia. Zwracają 1, jeśli sukces!
     /// @{
-    int		implement_output(ostream& o) const
+    int		implement_output(ostream& o) const override
     {
         o<<table<<' '<<cleaner; return 1;
     }
 
-    int		implement_input(istream& i)
+    int		implement_input(istream& i) override
     {
         i>>table;
         i>>cleaner;
@@ -1040,7 +1040,7 @@ public:
 
     /// @name Implementacja wejścia/wyjścia. Zwracają 1, jeśli sukces!
     /// @{
-    int		implement_input(istream& i)
+    int		implement_input(istream& i) override
     {
         i>>table;
         i>>cleaner;
@@ -1050,7 +1050,7 @@ public:
         return 1;
     }
 
-    int		implement_output(ostream& o) const
+    int		implement_output(ostream& o) const override
     {
         o<<table;
         o<<' '<<cleaner;
