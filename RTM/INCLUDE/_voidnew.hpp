@@ -13,10 +13,10 @@
 inline void* operator new (size_t,void* p) 	{ return p; } //Placement new - need to be global?
 
 //Exception handling required plecement delete for each plecement new.
-//but I am not shure that this solution will work properly.
+//but I am not sure that this solution will work properly.
 //It is not tested with exception handling. It is possible that 
 //this delete may sometimes cause double calling of destructors
-//of some objects, for example items covered in array_of_class<...>
+//of some objects, for example, items covered in array_of_class<...>
 inline void operator delete(void *pMem,void* p)//Placement delete
 {
 	//Nothing to do!!!

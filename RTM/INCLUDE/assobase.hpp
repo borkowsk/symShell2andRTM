@@ -31,7 +31,7 @@
 
 namespace wbrtm { //WOJCIECH BORKOWSKI RUN TIME LIBRARY
 
-/// \brief Obsolete class
+/// \brief Obsolete item class for obsolete assoc tab class.
 class assoitem
 {
 public:

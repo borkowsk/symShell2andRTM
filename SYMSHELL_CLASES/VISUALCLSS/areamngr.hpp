@@ -23,7 +23,7 @@ namespace sym2 { namespace visual
     /// @details
     ///     Dobrze, żeby można było zestawiać zarządców w hierarchie.
     class area_manager_base : public drawable_base
-    //------------------------------------------
+    //--------------------------------------------
     {
         int cont_actions;    ///< Flaga kontynuacji. Gdy 0 to wypada z pętli, kiedy może.
 

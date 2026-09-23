@@ -9,7 +9,7 @@
 
 /**
  * @defgroup OBSOLETE Zbyt stare fragmenty biblioteki jeszcze nie w pełni przystosowane do C++11
- * \brief    Niektóre powoli są przystosowywane
+ * \brief    Niektóre powoli są przystosowywane, inne przestają być potrzebne.
  */
 #ifndef LIBRARIESTESTS__OBSOLETE_H
 #define LIBRARIESTESTS__OBSOLETE_H

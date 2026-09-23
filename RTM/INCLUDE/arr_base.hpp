@@ -27,7 +27,7 @@
 
 namespace wbrtm { //WOJCIECH BORKOWSKI RUN TIME LIBRARY
 
-/// \brief Obsolete class
+/// \brief Obsolete base for arrays class
 template<class T>
 class array_base:public key_container<size_t,T>,public int_key_container_base
 {

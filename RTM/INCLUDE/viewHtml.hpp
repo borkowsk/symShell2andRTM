@@ -9,12 +9,23 @@
 #define WB_RTM_VIEW_HTML_HPP_INCLUDED_
 #include <string>
 
-/// @name Odpalanie pliku w przeglądarce WWW albo w ogóle w  viewerze/edytorze domyślnym w danym systemie.
+/// @name Odpalanie pliku w przeglądarce WWW albo w ogóle w viewerze/edytorze domyślnym w danym systemie.
 /// @details tak naprawdę to wszystkiego, co może wyświetlić przeglądarka
 /// @{
 bool ViewHtml(std::string URL);
 int  ViewHtml(const char* URL);
+inline bool view_html(std::string URL) { return ViewHtml(URL); }
+inline int  view_html(const char* URL) { return ViewHtml((const char*)URL); }
 /// @}
+
+/// @brief Funkcja rozwija w stringu zmienne systemowe i '~' jako równoważnik $HOME.
+/// @param input_path - string wejściowy, najprawdopodobniej jakaś ścieżka.
+/// @note Implementacja w pliku "expand_enviroment_variables.cpp"
+std::string expand_environment_variables(const std::string& input_path);
+
+/// @brief Funkcja udostępnia `expand_environment_variables` dla składni wielbłądowej.
+inline std::string ExpandEnvironmentVariables(const std::string& input_path)
+{ return expand_environment_variables(input_path); }
 
 /* ******************************************************************/
 /*                      WBRTM  version 2026                         */

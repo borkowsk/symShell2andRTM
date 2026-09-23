@@ -119,6 +119,8 @@ main_area_manager::main_area_manager( size_t size, //Konstruktor dający zarząd
         abort();
     }
 
+    title_util::set_title("main_area_manager singleton"); //Ten tytuł się nie wyświetla, ale przydaje w debugingu.
+
     counter++;
 }
 
