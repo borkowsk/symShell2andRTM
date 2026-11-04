@@ -1,7 +1,7 @@
 /// @file
 /// @brief **A screen or window area manager, implemented directly based on SYMSHELL functions.** /<br>
 ///         _Zarządca obszarów ekranu lub okna, zaimplementowany bezpośrednio na bazie funkcji SYMSHELL-a._
-/// @date 2026-05-21 (last modification)
+/// @date 2026-11-04 (last modification)
 //======================================================================================================================
 //  Do obsługi całego ekranu/okna SYMSHELL-a.
 
@@ -446,8 +446,8 @@ while((!background_enabled()) || input_ready())
 
         //Reakcja na zmianę rozmiarów okna
         //gps_area old_area(static_cast<gps_area&>(*this)); //Kopia potrzebna do późniejszych przeliczeń.
-        gps_area new_area(0,0,max((ssh_natural)0,::screen_width()-1),
-                              max((ssh_natural)0,::screen_height()-1));
+        gps_area new_area(0,0,max(0,::screen_width()-1),
+                              max(0,::screen_height()-1));
         this->load(new_area);
 
         //Powinno być jeszcze przeliczenie aktualnych
