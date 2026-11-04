@@ -3,7 +3,7 @@
 * @brief
 *      @EN{ CLASS FOR OPERATING ON TABLES from TAB-DELIMITED files. }
 *      @PL{ KLASA DO OPEROWANIU NA TABLICACH z plików TAB-DELIMITED. }
-* @date 2026-05-30 (last modification)
+* @date 2026-11-04 (last modification)
 *        -------------------------------------------------------------
 * \details
 *          Contents:
@@ -34,13 +34,14 @@ namespace wbrtm {
         std::string *Tresc;     ///< Właściwa treść w postaci wektora "zawijanego" długością wiersza
 
     protected:
-        std::string NazwaPliku; ///< Nazwa pliku, jak trzeba zapisać albo podać na ekran
-        char Delimiter;         ///< Znak delimitujący — domyślnie '\t' - i tylko to przetestowane ("ogranicznik"?)
-        unsigned Wiersz;        ///< Długość wiersza
-        unsigned Rozmiar;       ///< Ile w ogóle komórek?
+        std::string NazwaPliku;  ///< Nazwa pliku, jak trzeba zapisać albo podać na ekran
+        char         Delimiter;  ///< Znak delimitujący — domyślnie '\t' - i tylko to przetestowane ("ogranicznik"?)
 
-        void pomin_puste(std::istream &str); ///< Własna funkcja do usuwania śmieci — ciągów białych znaków.
-        void wczytaj_do_delim(std::istream &str, std::string &buf); ///< Funkcja pobierania znaków aż do ogranicznika (delimiter).
+        size_t          Wiersz;  ///< Długość wiersza
+        size_t         Rozmiar;  ///< Ile w ogóle komórek?
+
+        static void pomijaj_puste(std::istream &str); ///< Własna funkcja do usuwania śmieci — ciągów białych znaków.
+        void wczytaj_do_delim(std::istream &str, std::string &buf) const; ///< Funkcja pobierania znaków aż do ogranicznika (delimiter).
 
         ///\brief Metoda tnie 'buf' na ogranicznikach i fragmenty umieszcza w kolejnych komórkach.
         bool parse_string(const std::string &buf, unsigned w, unsigned &k);
@@ -55,12 +56,12 @@ namespace wbrtm {
 
         /// \brief   Konstruktor z podaniem rozmiaru.
         /// \note   Tworzy od razu tabele o określonym rozmiarze i pustych komórkach.
-        TabelaTabDelimited(int w, int k) :
+        TabelaTabDelimited(long int w,long int k) :
                 NazwaPliku("<TabelaTabDelimited>"), Delimiter('\t'), Tresc(nullptr), Wiersz(0), Rozmiar(0),
                 Opisowo(1) { UstalRozmiar(w, k); }
 
         /// \brief Decyzja ustalająca rozmiary tabeli. \note Nie zachowuje poprzedniej zawartości!
-        void UstalRozmiar(int w, int k);
+        void UstalRozmiar(long int w,long int k);
 
         /// \brief Wczytywanie z pliku. \note Można podać spodziewany rozmiar, wtedy nie musi dwa razy czytać.
         bool WczytajZPliku(const char *_Nazwa, char Delimiter = '\t', unsigned spW = -1,
@@ -78,20 +79,19 @@ namespace wbrtm {
                          unsigned endk = -1,   ///< Końcowa kolumna albo do końca.
                          unsigned celw = 0,    ///< Pierwsza komórka docelowa — numer wiersza.
                          unsigned celk = 0     ///< Pierwsza komórka docelowa — numer kolumny.
-        );
+                        );
 
         /// \brief Szuka komórki równej tekstowi "Czego". Zwraca 'true' jak znajdzie.
-        bool Znajdz(const char *Czego, unsigned &pozw,
-                    unsigned pozk) const;
+        bool Znajdz(const char *Czego, unsigned &pozw,unsigned pozk) const;
 
         // Akcesory — dostęp do atrybutów obiektu
         //========================================================================
 
         /// \brief Pełny dostęp do zawartości komórki
-        std::string &operator()(int w, int k);
+        std::string &operator()(long int w,long int k);
 
         /// \brief Dostęp do nie zmienialnej treści komórki
-        const char *operator()(int w, int k) const;
+        const char *operator()(long int w,long int k) const;
 
         /// \brief Zmiana domyślnego ogranicznika (delimiter).
         char ZmienDelimiter(char nowy)
@@ -105,10 +105,10 @@ namespace wbrtm {
         char JakiDelimiter() const { return Delimiter; }
 
         /// \brief Ile wierszy
-        unsigned IleWierszy() const { if (Wiersz != 0) return Rozmiar / Wiersz; else return 0; }
+        size_t IleWierszy() const { if (Wiersz != 0) return Rozmiar / Wiersz; else return 0; }
 
         /// \brief Ile kolumn.
-        unsigned IleKolumn() const { return Wiersz; }
+        size_t IleKolumn() const { return Wiersz; }
 
         /// \brief Zmiana nazwy tabeli (?)
         std::string ZmienNazwe(const char *nowa);
