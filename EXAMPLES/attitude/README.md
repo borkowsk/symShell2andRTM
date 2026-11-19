@@ -4,6 +4,11 @@
 
 To przykład badawczy oparty na bibliotece SymShell/RTM, a nie samodzielny pakiet z niezależnym silnikiem graficznym. Starszy opis modelu i eksperymentów znajduje się w [`DOCS/attitude_dps.pdf`](DOCS/attitude_dps.pdf) (dostępna jest też wersja [HTML](DOCS/attitude_dps.htm)).
 
+## Model użyto w następujących publikacjach
+* 2009: [Wpływ społeczny - alternatywny model rozprzestrzeniania się memów](https://www.researchgate.net/publication/299283580_Wplyw_spoleczny_-_alternatywny_model_rozprzestrzeniania_sie_memow)
+* 2009b: [Wpływ społeczny jako model rozprzestrzeniania się memów](https://www.researchgate.net/publication/299282906_Wplyw_spoleczny_jako_model_rozprzestrzeniania_sie_memow)
+* 2005: [Wpływ społeczny jako model rozprzestrzeniania się memów (paper)](https://www.researchgate.net/publication/260059435_Wplyw_spoleczny_jako_model_rozprzestrzeniania_sie_memow)
+
 ## Jak działa model
 
 - **Przestrzeń:** kwadratowa siatka `WIDTH × WIDTH`, domyślnie `50 × 50`, z geometrią torusa. Każda komórka może zawierać agenta albo pozostać pusta; maska wejściowa pozwala wyłączać agentów.
