@@ -84,3 +84,6 @@ Without `AUTO`, the program waits for the interface before starting. `AUTO=N` ru
 ## Limitations
 
 The results depend on random initialization and Monte Carlo order. The current model defaults to two opinion categories, and power is visualized and serialized but is not directly used in the current update formula. The default text log name is inherited from the older example, so `LOGF=convince.log` is recommended.
+
+### @date 2026-11-19 (last modification)
+
